@@ -3,13 +3,13 @@
 > **GPU-accelerated, QML-driven UI framework for PySide.**  
 > *The blazing fast twin of PySide-Quasar. Built for smooth animations and modern desktop apps.*
 
-**English** | [简体中文](README_zh.md)
+**English** | [简体中文](https://github.com/eagleye-china/PySide-Nova/blob/main/README_zh.md)
 
 [![PyPI version](https://img.shields.io/badge/pypi-coming_soon-orange)](https://pypi.org/project/pyside-nova/)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)](https://pypi.org/project/pyside-nova/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-**PySide-Nova** is a next-generation enterprise UI framework that bridges the raw speed of **QML (Qt Quick)** with the robustness of **Python**. 
+**PySide-Nova** is a next-generation enterprise UI framework that bridges the raw speed of **QML (Qt Quick)** with the robustness of **Python**.
 
 While our sibling project **[PySide-Quasar](https://github.com/eagleye-china/PySide-Quasar)** focuses on pixel-perfect `QPainter` rendering for high-density industrial forms, **PySide-Nova** focuses on **GPU hardware acceleration, smooth 60fps animations, and responsive layouts**.
 
@@ -24,3 +24,14 @@ While our sibling project **[PySide-Quasar](https://github.com/eagleye-china/PyS
 
 ```bash
 pip install pyside-nova
+```
+
+## 📐 Architecture
+
+```text
+pyside-nova/
+├── src/pyside_nova/
+│   ├── core/        # Python backend (Theme, i18n, App store)
+│   ├── python/      # Python wrappers exposed to QML
+│   └── qml/         # Pure QML components (NovaButton, NovaCard)
+```
