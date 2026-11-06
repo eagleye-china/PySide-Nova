@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyside-nova"
+version = "0.0.1"
+description = "GPU-accelerated, QML-driven UI framework for PySide."
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "eagleye-china" }]
+dependencies = ["PySide6>=6.6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

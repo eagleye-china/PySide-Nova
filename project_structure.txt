@@ -1,0 +1,8 @@
+pyside-nova/
+├── src_pyside_nova/
+│   ├── core/
+│   ├── components
+│   ├── python/
+│   └── __init__.py
+├── examples/
+└── pyproject.toml
