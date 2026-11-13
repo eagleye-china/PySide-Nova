@@ -15,7 +15,8 @@ Rectangle {
     property string size: "md"
     property bool primary: true
     property bool flat: false
-    property bool enabled: true
+
+    // ✅ 删除了自定义的 enabled，直接继承基类原生 enabled
 
     implicitWidth: btnText.implicitWidth + Units.px(32)
     implicitHeight: Units.px(Theme.buttonHeight(size))
@@ -33,7 +34,9 @@ Rectangle {
     opacity: enabled ? 1.0 : 0.6
 
     Behavior on color {
-        ColorAnimation { duration: Theme.durationFast }
+        ColorAnimation {
+            duration: Theme.durationFast
+        }
     }
 
     Text {
@@ -53,7 +56,7 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
-        enabled: root.enabled
+        // 原生 enabled 会自动拦截这里的点击
         cursorShape: root.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
         onClicked: root.clicked()
     }
