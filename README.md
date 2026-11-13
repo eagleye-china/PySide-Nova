@@ -1,26 +1,28 @@
-# PySide Nova
+# PySide Nova ⚛️
 
-[![PyPI](https://img.shields.io/pypi/v/pyside-nova)](https://pypi.org/project/pyside-nova/)
+[![PyPI](https://img.shields.io/pypi/v/pyside-nova?color=blue&label=PyPI)](https://pypi.org/project/pyside-nova/)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-green)](https://www.qt.io/)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/eagleye-china/PySide-Nova/blob/main/LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/PySide-Nova?style=social)](https://github.com/eagleye-china/PySide-Nova)
 
-**Nova** 是面向 **PySide6 + Qt Quick(QML)** 的企业级组件库。
+**English** | [简体中文](https://github.com/eagleye-china/PySide-Nova/blob/main/README_zh.md)
 
-与姊妹库 [pyside-quasar](https://github.com/eagleye-china/pyside-quasar)（PySide6 **Widgets** 版）
-共享同一套设计规范与属性契约 —— **一套属性，两套渲染底座**。
+**Nova** is an enterprise-grade UI component library built for **PySide6 + Qt Quick (QML)**.
 
-面向工业 HMI、触摸屏、监控大屏与嵌入式面板：GPU 渲染、MVVM 友好、高 DPI 安全、
-键盘 / 触摸 / 鼠标三模交互、统一的明暗主题与焦点环。
+It serves as the sister project to [pyside-quasar](https://github.com/eagleye-china/pyside-quasar) (the PySide6 **Widgets** version). Both libraries share the same design specifications and property contracts — **One Set of Properties, Two Rendering Backends**.
+
+**Nova** is specifically designed for Industrial HMI, touch screens, monitoring dashboards, and embedded panels. It features GPU hardware rendering, MVVM-friendly architecture, High-DPI safety, tri-modal interaction (keyboard/touch/mouse), and a unified light/dark theme with focus ring systems.
 
 ---
 
-## 安装
+## 📦 Installation
 
 ```bash
 pip install pyside-nova
 ```
 
-开发态：
+For development installation:
 
 ```bash
 git clone <repo>
@@ -30,8 +32,9 @@ pip install -e ".[dev]"
 
 ---
 
-## 快速开始
+## 🚀 Quick Start
 
+### Python Side
 ```python
 import sys
 from pathlib import Path
@@ -44,19 +47,20 @@ from pyside_nova import install_qml_import_path, theme_manager
 app = QGuiApplication(sys.argv)
 engine = QQmlApplicationEngine()
 
-install_qml_import_path(engine)                       # ① 注册 QML 导入路径
+install_qml_import_path(engine)                       # ① Register QML import path
 
 tm = theme_manager()
-engine.rootContext().setContextProperty("novaTheme", tm)   # ② 注入主题管理器（可选）
+engine.rootContext().setContextProperty("novaTheme", tm)   # ② Inject theme manager (optional)
 
 engine.load(Path(__file__).with_name("main.qml"))
 if not engine.rootObjects():
     sys.exit(1)
 
-tm.attach_engine(engine)                               # ③ load 之后绑定主题单例
+tm.attach_engine(engine)                               # ③ Attach theme singleton after load
 sys.exit(app.exec())
 ```
 
+### QML Side
 ```qml
 import QtQuick
 import Nova 1.0
@@ -68,76 +72,79 @@ Window {
 
     NovaButton {
         anchors.centerIn: parent
-        label: "启动"
+        label: "Start"
         color: "positive"
         onClicked: console.log("started")
     }
 }
 ```
 
-> ⚠️ 忘记调用 `install_qml_import_path()` 是最高频的踩坑点：QML 会报 `module "Nova" is not installed`。
+> ⚠️ **High-frequency pitfall warning**: Forgetting to call `install_qml_import_path()` is the most common mistake. If omitted, the QML engine will throw `module "Nova" is not installed`.
 
 ---
 
-## 属性契约（两库共用）
+## 📐 Property Contract (Shared)
 
-| 属性 | 取值 |
-|---|---|
+To ensure absolute consistency between Widgets and QML, Nova strictly adheres to the following property specifications:
+
+| Property | Allowed Values / Types |
+| :--- | :--- |
 | `color` | `primary` `secondary` `positive` `negative` `warning` `info` `dark` `white` |
 | `variant` | `filled` `outlined` `flat` `text` `push` |
-| `size` | `xs` `sm` `md` `lg` `xl` 或整数像素 |
+| `size` | `xs` `sm` `md` `lg` `xl` or integer pixels |
 | `rounded` / `elevated` / `dense` | `bool` |
 | `loading` / `disabled` | `bool` |
 | `label` / `icon` / `iconRight` | `string` / `url` |
 
-命名一旦发布**不再改动**，新增语义只允许追加，不允许改名或建同义别名。
+*Note: Naming will **never be changed** once published. Future semantics may only be appended, and aliases are strictly forbidden.*
 
 ---
 
-## 目录速览
+## 📂 Directory Overview
 
-```
+```text
 src/pyside_nova/
 ├── __init__.py            # install_qml_import_path() / theme_manager()
 ├── theme/
-│   ├── tokens.py          # ⭐ 设计 token 唯一真源
-│   └── manager.py         # NovaThemeManager：明暗切换
+│   ├── tokens.py          # ⭐ Single Source of Truth for design tokens
+│   └── manager.py         # NovaThemeManager: Light/Dark switch logic
 ├── core/
-│   ├── bridge.py          # NovaBridgeBase：异常兜底的桥基类
-│   └── worker.py          # BaseWorker / ThreadRunner：工控线程基座
+│   ├── bridge.py          # NovaBridgeBase: Exception-safe bridge base
+│   └── worker.py          # BaseWorker / ThreadRunner: Async thread base for HMI
 └── qml/Nova/
-    ├── qmldir             # QML 模块声明（新增组件必须在此登记）
-    ├── Theme.qml          # ⚠️ 生成物，由 tools/gen_theme.py 产出
-    ├── Units.qml          # dp 单位入口
+    ├── qmldir             # QML module declaration (Must register new components here)
+    ├── Theme.qml          # ⚠️ Auto-generated by tools/gen_theme.py
+    ├── Units.qml          # dp unit conversion entry
     └── NovaButton.qml
 ```
 
-**改颜色 / 改间距的唯一姿势**：编辑 `theme/tokens.py` → 运行 `python tools/gen_theme.py` → 提交两个文件。
-禁止手改 `Theme.qml`（CI 会用 `--check` 校验一致性）。
+> 💡 **The only correct way to change colors/spacing**:
+> Edit `theme/tokens.py` -> Run `python tools/gen_theme.py` -> Commit both files.
+> **Strictly forbidden to manually edit `Theme.qml`** (CI will verify consistency using `--check`).
 
 ---
 
-## 开发命令
+## 🛠️ Development Commands
 
 ```bash
-ruff format src tests examples tools      # 格式化
-ruff check src tests examples tools       # 静态检查
-python tools/gen_theme.py                 # 生成 Theme.qml
-python tools/gen_theme.py --check         # 校验生成物是否最新
-pyside6-qmllint -I src/pyside_nova/qml src/pyside_nova/qml/Nova/*.qml
-pytest -v                                 # 单元测试
-python examples/01_minimal/main.py        # 最小示例
-python -m build && twine check dist/*     # 打包校验
+ruff format src tests examples tools      # Format code
+ruff check src tests examples tools       # Static type checking
+python tools/gen_theme.py                 # Generate Theme.qml
+python tools/gen_theme.py --check         # Verify generated files are up-to-date
+pyside6-qmllint -I src/pyside_nova/qml src/pyside_nova/qml/Nova/*.qml # QML syntax check
+pytest -v                                 # Run unit tests
+python examples/01_minimal/main.py        # Run minimal demo
+python -m build && twine check dist/*     # Build and verify package
 ```
 
 ---
 
-## 版本策略
+## 📌 Versioning Strategy
 
-- 独立 SemVer，与 `pyside-quasar` **不强制对齐**，只保证同一份设计 token；
-- 最低 Qt：PySide6 ≥ 6.5 LTS（主测 6.8 LTS）；
-- 新增组件只能在 v1.0 之后追加，不删减已发布属性。
+- Follows independent SemVer. **Not strictly aligned** with `pyside-quasar` version numbers, but guarantees the same design tokens;
+- Minimum support: PySide6 ≥ 6.5 LTS (Mainly tested on 6.8 LTS);
+- New components can only be appended after v1.0. Published properties will never be removed.
 
-## License
+## 📜 License
 
-MIT
+MIT License. Commercial use and modifications allowed.

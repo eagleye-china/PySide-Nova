@@ -2,8 +2,10 @@ line-length = 120
 target-version = "py310"
 
 [lint]
-select = ["E", "W", "F", "I", "B", "UP", "SIM"]
-ignore = ["E501"]
+# ✅ 加入了 "N" (pep8-naming)
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "N"]
+# ✅ 忽略 E501 (长行限制，由 line-length 接管) 和 N802 (Qt 强制命名)
+ignore = ["E501", "N802"]
 
 [lint.per-file-ignores]
 "tools/*.py" = ["E402"]

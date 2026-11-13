@@ -1,3 +1,5 @@
+// src/pyside_nova/qml/Nova/Theme.qml
+
 pragma Singleton
 import QtQuick
 
@@ -20,9 +22,13 @@ QtObject {
     readonly property color info: mode === "dark" ? "#4DD0E1" : "#31CCEC"
     readonly property color dark: mode === "dark" ? "#121212" : "#1D1D1D"
     readonly property color white: mode === "dark" ? "#FFFFFF" : "#FFFFFF"
+
+    // 背景与表面
     readonly property color background: mode === "dark" ? "#121212" : "#F5F7FA"
     readonly property color surface: mode === "dark" ? "#1E1E1E" : "#FFFFFF"
     readonly property color border: mode === "dark" ? "#333333" : "#DDE3EA"
+
+    // 文字与状态
     readonly property color text_primary: mode === "dark" ? "#E6E6E6" : "#1C1C1C"
     readonly property color text_secondary: mode === "dark" ? "#A0A6B1" : "#6B7280"
     readonly property color hover: mode === "dark" ? "#2A2F37" : "#E8F0FE"
@@ -75,7 +81,7 @@ QtObject {
     readonly property int durationFast: 150
     readonly property int durationBase: 250
 
-    readonly property var _buttonHeights: ({ "xs": 20, "sm": 26, "md": 32, "lg": 40, "xl": 48 })
+    readonly property var _buttonHeights: ({"xs": 20, "sm": 26, "md": 32, "lg": 40, "xl": 48})
 
     readonly property var _fontSizes: ({
         "xs": fontXs,

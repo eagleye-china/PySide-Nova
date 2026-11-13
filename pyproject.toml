@@ -4,43 +4,89 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyside-nova"
-version = "0.1.0a"
-description = "Nova: enterprise Qt Quick(QML) component library for PySide6 - same design spec as pyside-quasar, built for HMI and touch screens."
+version = "0.2.0"
+description = "Nova: Enterprise Qt Quick (QML) component library for PySide6 - same design spec as pyside-quasar, built for HMI and touch screens."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "eagleye-china" }]
 keywords = ["pyside6", "qml", "qtquick", "qt", "gui", "components", "material", "hmi", "quasar"]
+
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "Framework :: PySide6",
+    "Development Status :: 3 - Alpha",
+    "Environment :: MacOS X",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: User Interfaces",
-    "Operating System :: OS Independent",
+    "Topic :: Desktop Environment",
+    "Typing :: Typed",
 ]
+
 dependencies = ["PySide6>=6.5"]
 
 [project.urls]
 Homepage = "https://github.com/eagleye-china/pyside-nova"
 Documentation = "https://eagleye-china.github.io/pyside-nova/"
+Repository = "https://github.com/eagleye-china/pyside-nova"
 Changelog = "https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md"
 "Bug Tracker" = "https://github.com/eagleye-china/pyside-nova/issues"
 
 [project.optional-dependencies]
-dev = ["pytest>=7", "pytest-qt>=4", "ruff>=0.5", "build>=1", "twine>=5"]
+dev = [
+    "pytest>=7",
+    "pytest-qt>=4",
+    "pytest-cov>=4.1",
+    "ruff>=0.5",
+    "mypy>=1.5",
+    "build>=1",
+    "twine>=5",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
+# ✅ 资源打包，重点：递归匹配，防止svg/ttf漏打包
 [tool.setuptools.package-data]
 pyside_nova = [
     "py.typed",
     "qml/Nova/qmldir",
-    "qml/Nova/*.qml",
-    "assets/icons/*.svg",
+    "qml/Nova/**/*.qml",
+    "assets/icons/**/*.svg",
+    "assets/fonts/**/*.ttf",
 ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+ignore = ["N802"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
-markers = ["gui: 需要 QGuiApplication / 无头显示环境的 GUI 测试"]
+addopts = "-ra --strict-markers --strict-config --cov=src/pyside_nova"
+qt_api = "pyside6"
+markers = [
+    "gui: 需要 QGuiApplication / 无头显示环境的 GUI 测试",
+    "visual: 视觉快照测试",
+]
+
+[tool.coverage.run]
+source = ["src/pyside_nova"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true

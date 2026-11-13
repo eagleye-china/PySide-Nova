@@ -1,0 +1,22 @@
+pyside-nova/
+├── src/
+│   └── pyside_nova/
+│       ├── __init__.py
+│       ├── py.typed
+│       ├── bridge/                # Python-QML桥接后端
+│       └── qml/
+│           └── Nova/
+│               ├── Theme.qml
+│               ├── Nova.qml        # 库总入口，import Nova 统一导出
+│               ├── primitives/     # 原子组件（本周重点）
+│               ├── layout/
+│               └── utils/
+├── tools/
+│   └── gen_theme.py
+├── examples/
+│   └── nova_gallery/
+├── tests/
+│   └── qml/
+├── pyproject.toml
+├── ruff.toml
+└── README.md
