@@ -21,7 +21,6 @@ from importlib.metadata import version as _dist_version
 from pathlib import Path
 from typing import Any
 
-
 try:
     __version__ = _dist_version("pyside-nova")
 except PackageNotFoundError:

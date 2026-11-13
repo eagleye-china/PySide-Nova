@@ -4,21 +4,22 @@ from PySide6.QtCore import QObject, Property, Signal, QSettings
 
 
 class ThemeManager(QObject):
-    modeChanged = Signal()
+    modeChanged = Signal(str)
 
     def __init__(self):
         super().__init__()
-        # 使用 QSettings 把配置保存在系统注册表（Windows）或 ~/.config（Linux）
         self._settings = QSettings("NovaFramework", "NovaApp")
-        self._mode = self._settings.value("theme_mode", "light")
+        self._mode = str(self._settings.value("theme_mode", "light"))
+        print(f"🌓 [Python] 初始化主题模式: {self._mode}")
 
-    @Property(str, notify=modeChanged)
-    def mode(self):
+    def _get_mode(self):
         return self._mode
 
-    @mode.setter
-    def mode(self, value):
+    def _set_mode(self, value):
         if self._mode != value:
             self._mode = value
             self._settings.setValue("theme_mode", value)
-            self.modeChanged.emit()
+            print(f"✅ [Python] 收到切换指令，新主题: {value}")
+            self.modeChanged.emit(self._mode)
+
+    mode = Property(str, _get_mode, _set_mode, notify=modeChanged)

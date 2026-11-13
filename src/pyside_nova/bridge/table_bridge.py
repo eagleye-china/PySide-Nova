@@ -1,11 +1,12 @@
 # src/pyside_nova/bridge/table_bridge.py
 
 import random
-from PySide6.QtCore import QObject, Property, Signal
+
+from PySide6.QtCore import Property, QObject, Signal
 
 
 class TableBridge(QObject):
-    rowsChanged = Signal()
+    rowsChanged = Signal()  # noqa: N815
 
     def __init__(self):
         super().__init__()

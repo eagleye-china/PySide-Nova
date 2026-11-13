@@ -36,7 +36,7 @@ _MODES = ("light", "dark")
 class NovaThemeManager(QObject):
     """主题管理器单例。"""
 
-    modeChanged = Signal(str)
+    modeChanged = Signal(str)  # noqa: N815
 
     _instance: NovaThemeManager | None = None
 

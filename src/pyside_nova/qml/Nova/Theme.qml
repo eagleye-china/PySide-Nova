@@ -6,11 +6,10 @@ import QtQuick
 QtObject {
     id: root
 
-    // ✅ 核心修复：将主题源头直接绑定到 Python 端的 ThemeManager
-    // 当 Python 端的 mode 改变时，这里会自动触发全 UI 更新
-    property string mode: ThemeManager.mode
+    // 维护当前的主题状态
+    property string mode: "light"
 
-    // ── 语义颜色
+    // ── 语义颜色（明暗二选一，切换 mode 自动重算）
     readonly property color primary: mode === "dark" ? "#64B5F6" : "#1976D2"
     readonly property color secondary: mode === "dark" ? "#4DB6AC" : "#26A69A"
     readonly property color positive: mode === "dark" ? "#3DD68C" : "#21BA45"
@@ -18,7 +17,7 @@ QtObject {
     readonly property color warning: mode === "dark" ? "#FFD54F" : "#F2C037"
     readonly property color info: mode === "dark" ? "#4DD0E1" : "#31CCEC"
     readonly property color dark: mode === "dark" ? "#121212" : "#1D1D1D"
-    readonly property color white: mode === "dark" ? "#FFFFFF" : "#FFFFFF"
+    readonly property color white: "#FFFFFF"
     readonly property color background: mode === "dark" ? "#121212" : "#F5F7FA"
     readonly property color surface: mode === "dark" ? "#1E1E1E" : "#FFFFFF"
     readonly property color border: mode === "dark" ? "#333333" : "#DDE3EA"
@@ -27,13 +26,15 @@ QtObject {
     readonly property color hover: mode === "dark" ? "#2A2F37" : "#E8F0FE"
     readonly property color pressed: mode === "dark" ? "#353B45" : "#D2E3FC"
     readonly property color disabled: mode === "dark" ? "#4A4F57" : "#BDBDBD"
-    readonly property color focus: mode === "dark" ? "#64B5F6" : "#1976D2"
+    readonly property color focusColor: mode === "dark" ? "#64B5F6" : "#1976D2" // ✅ 修复点：将 focus 改为 focusColor
+
+    // （注意：因为改名了，记得在你的 NovaButton, NovaInput 里，把用到 Theme.focus 的地方都改成 Theme.focusColor）
 
     readonly property var _colors: ({
         "primary": primary, "secondary": secondary, "positive": positive, "negative": negative,
         "warning": warning, "info": info, "dark": dark, "white": white, "background": background,
         "surface": surface, "border": border, "text_primary": text_primary, "text_secondary": text_secondary,
-        "hover": hover, "pressed": pressed, "disabled": disabled, "focus": focus
+        "hover": hover, "pressed": pressed, "disabled": disabled, "focusColor": focusColor
     })
 
     readonly property int spaceXs: 4

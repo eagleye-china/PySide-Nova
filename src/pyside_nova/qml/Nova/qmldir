@@ -6,3 +6,9 @@ NovaCard 1.0 NovaCard.qml
 NovaInput 1.0 NovaInput.qml
 NovaLayout 1.0 NovaLayout.qml
 NovaTable 1.0 NovaTable.qml
+NovaTree 1.0 NovaTree.qml
+NovaChatMessage 1.0 NovaChatMessage.qml
+NovaFab 1.0 NovaFab.qml
+NovaFabAction 1.0 NovaFabAction.qml
+NovaChat 1.0 NovaChat.qml
+NovaCardActions 1.0 NovaCardActions.qml

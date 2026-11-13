@@ -1,0 +1,164 @@
+// src/pyside_nova/qml/Nova/NovaButton.qml
+
+import QtQuick
+import QtQuick.Controls.Basic
+
+/**
+ * @created 2026-11-13 17:35:58
+ * @updated 2026-11-13 20:15:00
+ * @author  eagleye-china & 小诺 (AI Architect)
+ * @module  Nova 1.0
+ */
+Item {
+    id: root
+
+    // ── 契约属性 (兼容旧版 + 兼容新 AI 扩展) ──
+    property bool primary: true              // ✅ 恢复旧版属性
+    property bool flat: false                // ✅ 恢复旧版属性
+
+    property string variant: flat ? "flat" : (primary ? "filled" : "outlined")
+    property string color: primary ? "primary" : "surface"
+
+    property bool loading: false
+    property bool dense: false
+    property bool rounded: false
+    property string size: "md"
+
+    property alias text: label.text
+    property alias font: label.font
+
+    signal clicked()
+
+    // ── 核心修复 1：保留 AI 发现的状态隔离 ──
+    readonly property bool _interactive: !root.loading && root.enabled
+
+    // 使用一个隐藏的 MouseArea 来追踪状态，避免 disabled 时残留 Hover
+    readonly property bool _hovered: ma.containsMouse && _interactive
+    readonly property bool _pressed: ma.pressed && _interactive
+
+    // 尺寸
+    readonly property real _height: Units.px(Theme.buttonHeight(size) * (dense ? 0.8 : 1.0))
+    readonly property real _radius: rounded ? Units.px(Theme.radiusPill) : Units.px(Theme.radiusSm)
+    readonly property real _hPad: Units.px(dense ? Theme.spaceSm : Theme.spaceMd)
+
+    implicitWidth: Math.max(_height, label.implicitWidth + _hPad * 2)
+    implicitHeight: _height
+
+    // 主题色
+    readonly property color _baseColor: color === "surface" ? Theme.surface : Theme.colorOf(color)
+    readonly property color _textColor: Theme.contrast(_baseColor)
+
+    // ── 核心修复 2：背景色和边框色独立 ──
+    property color _bgColor: {
+        if (!_interactive) return Theme.disabled
+        if (_pressed) return Qt.darker(_baseColor, 1.15)
+        if (_hovered) return Qt.lighter(_baseColor, 1.08)
+        return _baseColor
+    }
+
+    // ✅ 修复宪法违规：抽离出 borderColor 并使用 Behavior
+    property color _borderColor: variant === "outlined" ? (_interactive ? _baseColor : Theme.disabled) : "transparent"
+
+    Behavior on _bgColor {
+        ColorAnimation {
+            duration: Theme.durationFast
+        }
+    }
+    Behavior on _borderColor {
+        ColorAnimation {
+            duration: Theme.durationFast
+        }
+    }
+
+    // ── 背景 ──
+    Rectangle {
+        anchors.fill: parent
+        radius: root._radius
+        color: root.flat ? "transparent" : root._bgColor
+        border.width: root.variant === "outlined" ? Units.px(1) : 0
+        border.color: root._borderColor
+
+        // 焦点描边
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: -Units.px(2)
+            radius: parent.radius + Units.px(2)
+            color: "transparent"
+            border.width: Units.px(2)
+            border.color: Theme.focus
+            visible: root.activeFocus && root._interactive
+            opacity: 0.6
+        }
+    }
+
+    // ── 文本 ──
+    Text {
+        id: label
+        anchors.centerIn: parent
+        color: {
+            if (!root._interactive) return Theme.text_secondary;
+            if (root.flat) return root._baseColor;
+            return root._textColor;
+        }
+        font.pixelSize: Units.px(Theme.fontSizeFor(root.size))
+        font.bold: true
+        verticalAlignment: Text.AlignVCenter
+        Behavior on color {
+            ColorAnimation {
+                duration: Theme.durationFast
+            }
+        }
+    }
+
+    // ── Loading 转圈 ──
+    Item {
+        id: spinner
+        anchors.centerIn: parent
+        width: Units.px(16)
+        height: width
+        visible: root.loading
+
+        Repeater {
+            model: 8
+            Rectangle {
+                width: Units.px(2); height: Units.px(4); radius: width / 2
+                color: root._textColor
+                opacity: 0.25 + 0.75 * ((index + 1) / 8)
+                anchors.horizontalCenter: spinner.horizontalCenter
+                anchors.top: spinner.top
+                transform: Rotation {
+                    origin.x: spinner.width / 2; origin.y: spinner.height / 2; angle: index * 45
+                }
+            }
+        }
+        RotationAnimation on rotation {
+            from: 0;
+            to: 360; duration: 800; loops: Animation.Infinite; running: root.loading
+        }
+    }
+
+    // ── 交互 ──
+    MouseArea {
+        id: ma
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: root._interactive ? Qt.PointingHandCursor : Qt.ArrowCursor
+        enabled: root._interactive
+        onClicked: root.clicked()
+    }
+
+    // ── 键盘与无障碍 (保留 AI 的优秀产出) ──
+    activeFocusOnTab: !root.loading && root.enabled
+    Keys.onPressed: function (event) {
+        if (!root._interactive) return
+        if (event.key === Qt.Key_Space || event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+            root.clicked()
+            event.accepted = true
+        }
+    }
+
+    Accessible.role: Accessible.Button
+    Accessible.name: root.text
+    Accessible.pressed: ma.pressed
+    Accessible.focusable: root._interactive
+}
