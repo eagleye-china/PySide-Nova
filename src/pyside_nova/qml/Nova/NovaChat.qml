@@ -7,6 +7,8 @@ import QtQuick.Layouts
 Rectangle {
     id: root
 
+    signal themeToggleRequested()
+
     property string title: "NovaChat"
     property string userName: "User"
     property string userAvatar: "👨‍💻"
@@ -17,6 +19,11 @@ Rectangle {
 
     color: Theme.background
 
+    // ✅ 必须有这个模型，否则别名会报错
+    ListModel {
+        id: chatModel
+    }
+
     function addUserMessage(text) {
         let timeStr = Qt.formatTime(new Date(), "hh:mm");
         chatModel.append({
@@ -25,8 +32,7 @@ Rectangle {
             avatar: root.userAvatar,
             text: text,
             stamp: timeStr,
-            isTyping: false,
-            isSystem: false
+            isTyping: false
         });
         scrollToBottom();
     }
@@ -39,28 +45,9 @@ Rectangle {
             avatar: root.aiAvatar,
             text: text,
             stamp: timeStr,
-            isTyping: enableTyping,
-            isSystem: false
+            isTyping: enableTyping
         });
         scrollToBottom();
-    }
-
-    function addSystemMessage(text) {
-        let timeStr = Qt.formatTime(new Date(), "hh:mm");
-        chatModel.append({
-            sent: false,
-            name: "⚙️ 系统工具",
-            avatar: "🛠️",
-            text: text,
-            stamp: timeStr,
-            isTyping: false,
-            isSystem: true
-        });
-        scrollToBottom();
-    }
-
-    function clearChat() {
-        chatModel.clear();
     }
 
     function scrollToBottom() {
@@ -69,11 +56,7 @@ Rectangle {
 
     signal messageSent(string text)
 
-    ListModel {
-        id: chatModel
-    }
-
-    // ── 1. 顶部 Header ──
+    // ── 顶部 Header ──
     Rectangle {
         id: header
         anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right
@@ -83,38 +66,42 @@ Rectangle {
             anchors.centerIn: parent; text: root.title; color: Theme.text_primary; font.pixelSize: Units.px(18); font.bold: true
         }
 
-        NovaButton {
+        // ✅ 物理防弹按钮：原生 Rectangle + MouseArea
+        Rectangle {
+            width: Units.px(80); height: Units.px(36)
             anchors.right: parent.right; anchors.rightMargin: Units.px(16); anchors.verticalCenter: parent.verticalCenter
-            text: "🌓 切换"
-            onClicked: {
-                let nextMode = (Theme.mode === "light" ? "dark" : "light");
-                Theme.mode = nextMode;
-                ThemeManager.mode = nextMode;
+            color: btnMouse.pressed ? Qt.darker(Theme.primary, 1.2) : (btnMouse.containsMouse ? Qt.lighter(Theme.primary, 1.1) : Theme.primary)
+            radius: Theme.radiusSm
+
+            Text {
+                anchors.centerIn: parent; text: "🌓 切换"; color: "white"; font.bold: true
+            }
+
+            MouseArea {
+                id: btnMouse; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    console.log("🚀 [NovaChat] 原生切换按钮被点击！");
+                    root.themeToggleRequested()
+                }
             }
         }
     }
 
-    // ── 2. 消息列表 ──
+    // ── 消息列表 ──
     ListView {
         id: chatListView
         anchors.top: header.bottom; anchors.bottom: inputArea.top; anchors.left: parent.left; anchors.right: parent.right
         clip: true; model: chatModel; spacing: Units.px(12); topMargin: Units.px(16); bottomMargin: Units.px(16); z: 1
 
-        property bool isFarFromBottom: (contentHeight - height - contentY) > 200
-        onContentYChanged: isFarFromBottom = (contentHeight - height - contentY) > 200
-        onContentHeightChanged: isFarFromBottom = (contentHeight - height - contentY) > 200
-
         delegate: NovaChatMessage {
             width: chatListView.width
             sent: model.sent; name: model.name; avatar: model.avatar; text: model.text; stamp: model.stamp; isTyping: model.isTyping
-            isSystem: model.isSystem ? true : false
-            onTypingProgress: { if (!chatListView.isFarFromBottom) chatListView.positionViewAtEnd(); }
-            onImplicitHeightChanged: { if (!chatListView.isFarFromBottom) chatListView.positionViewAtEnd(); }
+            onTypingProgress: chatListView.positionViewAtEnd()
         }
         onCountChanged: scrollToBottom()
     }
 
-    // ── 3. 底部输入区 ──
+    // ── 底部输入区 ──
     Rectangle {
         id: inputArea
         anchors.bottom: parent.bottom; anchors.left: parent.left; anchors.right: parent.right
@@ -138,8 +125,7 @@ Rectangle {
                         id: inputText
                         placeholderText: "输入你想说的话... (Enter 发送)"
                         placeholderTextColor: Theme.text_secondary
-                        color: Theme.text_primary; font.pixelSize: Units.px(14); wrapMode: TextArea.Wrap; background: null; selectByMouse: true
-
+                        color: Theme.text_primary; font.pixelSize: Units.px(14); wrapMode: TextArea.Wrap; background: null
                         Keys.onPressed: (event) => {
                             if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                                 if (!event.modifiers) {
@@ -148,145 +134,30 @@ Rectangle {
                                 }
                             }
                         }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            acceptedButtons: Qt.RightButton
-                            propagateComposedEvents: true
-                            onClicked: (mouse) => {
-                                inputContextMenu.popup();
-                                mouse.accepted = true;
-                            }
-                        }
                     }
                 }
 
                 RowLayout {
-                    Layout.fillWidth: true; spacing: Units.px(8); z: 20
-
-                    NovaButton {
-                        text: "😀"; flat: true; implicitWidth: Units.px(40); implicitHeight: Units.px(32)
-                        onClicked: emojiPanel.visible = !emojiPanel.visible
-                    }
-                    NovaButton {
-                        text: "📁"; flat: true; implicitWidth: Units.px(40); implicitHeight: Units.px(32)
-                        onClicked: filePanel.visible = !filePanel.visible
-                    }
-
+                    Layout.fillWidth: true; spacing: Units.px(8)
                     Item {
                         Layout.fillWidth: true
                     }
 
-                    NovaButton {
-                        text: root.isAiThinking ? "思考中..." : "发送"
-                        primary: true; Layout.preferredHeight: Units.px(32)
-                        enabled: inputText.text.trim().length > 0 && !root.isAiThinking
-                        onClicked: triggerSend()
+                    // 发送按钮
+                    Rectangle {
+                        width: Units.px(64); height: Units.px(32); radius: Theme.radiusSm
+                        color: root.isAiThinking ? Theme.disabled : Theme.primary
+                        Text {
+                            anchors.centerIn: parent; text: root.isAiThinking ? "思考中..." : "发送"; color: "white"
+                        }
+                        MouseArea {
+                            anchors.fill: parent; cursorShape: root.isAiThinking ? Qt.ArrowCursor : Qt.PointingHandCursor
+                            enabled: !root.isAiThinking && inputText.text.trim().length > 0
+                            onClicked: triggerSend()
+                        }
                     }
                 }
             }
-        }
-    }
-
-    // ── 4. 弹出面板（恢复！） ──
-    Rectangle {
-        id: emojiPanel
-        visible: false
-        width: Units.px(280); height: Units.px(120)
-        anchors.bottom: inputArea.top; anchors.left: parent.left; anchors.leftMargin: Units.px(16); anchors.bottomMargin: Units.px(10)
-        color: Theme.surface; border.color: Theme.border; radius: Theme.radiusMd; z: 100
-
-        Grid {
-            anchors.centerIn: parent; columns: 6; spacing: Units.px(12)
-            Repeater {
-                model: ["😀", "😂", "🤣", "😊", "😍", "🤔", "😎", "😭", "😡", "👍", "🙏", "❤️"]
-                delegate: Text {
-                    text: modelData; font.pixelSize: Units.px(24)
-                    MouseArea {
-                        anchors.fill: parent; cursorShape: Qt.PointingHandCursor
-                        onClicked: { inputText.text += modelData; emojiPanel.visible = false; }
-                    }
-                }
-            }
-        }
-    }
-
-    Rectangle {
-        id: filePanel
-        visible: false
-        width: Units.px(160); height: Units.px(100)
-        anchors.bottom: inputArea.top; anchors.left: parent.left; anchors.leftMargin: Units.px(56); anchors.bottomMargin: Units.px(10)
-        color: Theme.surface; border.color: Theme.border; radius: Theme.radiusMd; z: 100
-
-        Column {
-            anchors.fill: parent
-            Rectangle {
-                width: parent.width; height: Units.px(40); color: fileM1.containsMouse ? Theme.hover : "transparent"
-                Text {
-                    anchors.centerIn: parent; text: "📄 发送文件"; color: Theme.text_primary; font.pixelSize: Units.px(14)
-                }
-                MouseArea {
-                    id:
-                        fileM1; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: filePanel.visible = false
-                }
-            }
-            Rectangle {
-                width: parent.width; height: Units.px(40); color: fileM2.containsMouse ? Theme.hover : "transparent"
-                Text {
-                    anchors.centerIn: parent; text: "🖼️ 发送图片"; color: Theme.text_primary; font.pixelSize: Units.px(14)
-                }
-                MouseArea {
-                    id:
-                        fileM2; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: filePanel.visible = false
-                }
-            }
-        }
-    }
-
-    // ── 5. 右键菜单（恢复！） ──
-    Menu {
-        id: inputContextMenu
-        background: Rectangle {
-            implicitWidth: Units.px(140); color: Theme.surface; border.color: Theme.border; radius: Theme.radiusSm
-        }
-        delegate: MenuItem {
-            id: menuItem; implicitHeight: Units.px(32)
-            contentItem: Text {
-                text: menuItem.text; font.pixelSize: Units.px(13); color: menuItem.enabled ? Theme.text_primary : Theme.text_secondary; verticalAlignment: Text.AlignVCenter; leftPadding: Units.px(12)
-            }
-            background: Rectangle {
-                color: menuItem.highlighted ? Theme.hover : "transparent"; radius: Theme.radiusSm; anchors.margins: Units.px(2)
-            }
-        }
-        MenuItem {
-            text: "↩️ 撤销"; enabled: inputText.canUndo; onTriggered: inputText.undo()
-        }
-        MenuItem {
-            text: "📋 复制"; enabled: inputText.selectedText !== ""; onTriggered: inputText.copy()
-        }
-        MenuItem {
-            text: "📥 粘贴"; enabled: inputText.canPaste; onTriggered: inputText.paste()
-        }
-    }
-
-    // ── 6. 悬浮回到底部按钮（恢复！） ──
-    NovaFab {
-        id: mainFabController
-        anchors.right: inputArea.right; anchors.bottom: inputArea.top; anchors.margins: Units.px(24)
-        icon: "＋"; expanded: false
-        opacity: (chatListView.isFarFromBottom || expanded) ? 1 : 0
-        visible: opacity > 0
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 200
-            }
-        }
-
-        NovaFabAction {
-            icon: "⬇"; label: "回到底部"; onTriggered: { scrollToBottom(); mainFabController.expanded = false; }
-        }
-        NovaFabAction {
-            icon: "🗑"; label: "清空聊天"; onTriggered: { clearChat(); mainFabController.expanded = false; }
         }
     }
 

@@ -7,7 +7,7 @@ QtObject {
     id: root
 
     // 维护当前的主题状态
-    property string mode: "light"
+    property string mode: "dark"
 
     // ── 语义颜色（明暗二选一，切换 mode 自动重算）
     readonly property color primary: mode === "dark" ? "#64B5F6" : "#1976D2"
