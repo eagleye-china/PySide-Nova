@@ -1,8 +1,7 @@
-# examples/01_minimal/main.py (完整替换)
+# examples/01_minimal/main.py
 
 import sys
 from pathlib import Path
-
 from PySide6.QtCore import QUrl
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
@@ -12,18 +11,16 @@ project_root = current_dir.parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
 from pyside_nova.bridge.theme_manager import ThemeManager
-from pyside_nova.bridge.chat_bridge import ChatBridge  # ✅ 导入 ChatBridge
+from pyside_nova.bridge.chat_bridge import ChatBridge
 
 
 def main() -> int:
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
 
-    # 注册实例
     theme_manager = ThemeManager()
     chat_bridge = ChatBridge()
 
-    # 防止被 GC 回收
     theme_manager.setParent(app)
     chat_bridge.setParent(app)
 

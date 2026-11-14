@@ -4,9 +4,8 @@ import datetime
 import json
 import os
 import shutil
-
+from PySide6.QtCore import QObject, QThread, Signal, Slot, QSettings, Property
 from openai import OpenAI
-from PySide6.QtCore import QObject, QThread, QSettings, Signal, Slot
 
 SYSTEM_PROMPT_TEMPLATE = """
 你是 PySide-Nova 框架的首席 AI 架构师。PySide-Nova 是一个基于 PySide6 + QML 的企业级 UI 组件库，专为工业 HMI、大屏和数据密集型应用设计。
@@ -21,7 +20,7 @@ class ChatWorker(QThread):
     finished_signal = Signal()
     error_signal = Signal(str)
 
-    def __init__(self, messages, project_root="."):
+    def __init__(self, messages, project_root):
         super().__init__()
         self.messages = messages
         self.project_root = project_root
@@ -29,9 +28,9 @@ class ChatWorker(QThread):
 
         # 从 QSettings 读取配置
         settings = QSettings("NovaFramework", "NovaOrbit")
-        self.api_key = settings.value("api_key", "sk-7614008b561344ea980b3164712c44c1")
-        self.base_url = settings.value("base_url", "https://api.deepseek.com")
-        self.model = settings.value("model", "deepseek-chat")
+        self.api_key = str(settings.value("api_key", ""))
+        self.base_url = str(settings.value("base_url", "https://api.deepseek.com"))
+        self.model = str(settings.value("model", "deepseek-chat"))
 
         self.tools = [
             {
@@ -80,7 +79,7 @@ class ChatWorker(QThread):
         if not os.path.exists(full_path):
             return f"错误: 文件 {file_path} 不存在。"
         try:
-            with open(full_path, encoding="utf-8") as f:
+            with open(full_path, "r", encoding="utf-8") as f:
                 return f.read()
         except Exception as e:
             return f"读取失败: {str(e)}"
@@ -97,15 +96,21 @@ class ChatWorker(QThread):
             os.makedirs(os.path.dirname(full_path), exist_ok=True)
 
             if os.path.exists(full_path):
-                shutil.copy2(full_path, full_path + ".bak")
+                bak_path = full_path + ".bak"
+                shutil.copy2(full_path, bak_path)
                 self.action_log.emit(f"⚠️ 已备份旧文件: {file_path}.bak")
 
             with open(full_path, "w", encoding="utf-8") as f:
                 f.write(code)
             results.append(file_path)
-        return f"成功写入文件: {', '.join(results)}"
+
+        return f"成功批量写入 {len(results)} 个文件: {', '.join(results)}"
 
     def run(self):
+        if not self.api_key:
+            self.error_signal.emit("未配置 API Key，请前往环境变量或配置文件设置。")
+            return
+
         try:
             client = OpenAI(api_key=self.api_key, base_url=self.base_url)
             now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -115,6 +120,7 @@ class ChatWorker(QThread):
             write_count = 0
 
             while self._is_running:
+                # 🚀 保持流式输出
                 response = client.chat.completions.create(
                     model=self.model,
                     messages=final_messages,
@@ -127,33 +133,27 @@ class ChatWorker(QThread):
                 full_content = ""
 
                 for chunk in response:
-                    if not self._is_running:
-                        break
+                    if not self._is_running: break
                     delta = chunk.choices[0].delta
 
-                    # 流式文本
                     if delta.content:
                         full_content += delta.content
                         self.chunk_received.emit(delta.content)
 
-                    # 流式工具调用（拼接碎片）
                     if delta.tool_calls:
                         has_tool_calls = True
                         for tc in delta.tool_calls:
                             idx = tc.index
                             if idx not in tool_calls_buffer:
-                                tool_calls_buffer[idx] = {
-                                    "id": tc.id, "type": "function", "function": {"name": "", "arguments": ""}
-                                }
+                                tool_calls_buffer[idx] = {"id": tc.id, "type": "function",
+                                                          "function": {"name": "", "arguments": ""}}
                             if tc.function.name:
                                 tool_calls_buffer[idx]["function"]["name"] += tc.function.name
                             if tc.function.arguments:
                                 tool_calls_buffer[idx]["function"]["arguments"] += tc.function.arguments
 
-                if not self._is_running:
-                    break
+                if not self._is_running: break
 
-                # 如果有工具调用
                 if has_tool_calls:
                     assistant_msg = {"role": "assistant", "content": full_content or ""}
                     assistant_msg["tool_calls"] = list(tool_calls_buffer.values())
@@ -170,7 +170,6 @@ class ChatWorker(QThread):
                             if name == "read_file":
                                 self.action_log.emit(f"📖 正在读取: {args.get('file_path')}")
                                 tool_content = self._read_file(args.get("file_path", ""))
-
                             elif name == "write_multiple_files":
                                 write_count += 1
                                 if write_count > 2:
@@ -178,12 +177,10 @@ class ChatWorker(QThread):
                                     self.chunk_received.emit("\n\n**【系统强制介入】** AI 反复写文件死循环，已中断。")
                                     self.finished_signal.emit()
                                     return
-
                                 files = args.get("files", [])
                                 names = [f.get("file_path") for f in files]
                                 self.action_log.emit(f"🛠️ 写入文件: {', '.join(names)}")
                                 tool_content = self._write_files(files)
-
                         except Exception as e:
                             tool_content = f"工具异常: {e}"
 
@@ -191,7 +188,7 @@ class ChatWorker(QThread):
                         self.messages.append(tool_msg)
                         final_messages.append(tool_msg)
 
-                    self.action_log.emit("⏳ 正在请求下一步...")
+                    self.action_log.emit("⏳ 工具执行完毕，正在请求 AI 进行下一步思考...")
                     continue
 
                 if full_content:
@@ -204,16 +201,29 @@ class ChatWorker(QThread):
                 self.error_signal.emit(str(e))
 
 
+# 找到文件最下面的 ChatBridge 类，替换为：
 class ChatBridge(QObject):
     chunkReceived = Signal(str)  # noqa: N815
     actionLogged = Signal(str)  # noqa: N815
     replyFinished = Signal()  # noqa: N815
     replyError = Signal(str)  # noqa: N815
+    apiKeySaved = Signal()  # ✅ 新增：通知 QML Key 已保存
 
     def __init__(self):
         super().__init__()
         self.history = []
         self.worker = None
+        self._settings = QSettings("NovaFramework", "NovaOrbit")
+
+    @Property(bool, notify=apiKeySaved)
+    def hasApiKey(self):
+        return len(str(self._settings.value("api_key", ""))) > 0
+
+    @Slot(str)
+    def saveApiKey(self, key):
+        self._settings.setValue("api_key", key)
+        self.apiKeySaved.emit()
+        print(f"✅ [Python] API Key 已保存至注册表")
 
     @Slot(str)
     def sendMessage(self, text: str):
@@ -222,8 +232,8 @@ class ChatBridge(QObject):
 
         self.history.append({"role": "user", "content": text})
 
-        # 传入项目根目录，让 AI 能够修改文件
-        project_root = r"D:\MyProjects\PyCharm\Project_Nova\pyside-nova"
+        from pathlib import Path
+        project_root = str(Path(__file__).resolve().parent.parent.parent)
 
         self.worker = ChatWorker(self.history, project_root)
         self.worker.chunk_received.connect(self.chunkReceived)

@@ -13,20 +13,22 @@ Item {
     property string stamp: ""
     property string label: ""
     property bool isTyping: false
+    property bool isSystem: false
 
     property real maxBubbleRatio: 0.75
-    property color bubbleColor: sent ? Theme.primary : Theme.surface
-    property color bubbleTextColor: sent ? Theme.white : Theme.text_primary
-    property color nameColor: Theme.text_secondary
+
+    // 🎨 极客绿颜色
+    property color bubbleColor: isSystem ? "#0E1B12" : (sent ? Theme.primary : Theme.surface)
+    property color bubbleTextColor: isSystem ? "#4CAF50" : (sent ? Theme.white : Theme.text_primary)
+    property color nameColor: isSystem ? "#81C784" : Theme.text_secondary
     property color stampColor: Theme.text_secondary
-    property color labelColor: Theme.text_secondary
 
     readonly property real avatarSize: Units.px(36)
     readonly property real gap: Units.px(8)
     readonly property real maxBubbleWidth: root.width * maxBubbleRatio
     readonly property bool isImageAvatar: avatar.startsWith("http") || avatar.startsWith("file:") || avatar.startsWith("qrc:")
 
-    implicitHeight: contentLayout.implicitHeight + (labelText.visible ? labelText.height + Units.px(12) : Units.px(12))
+    implicitHeight: contentLayout.implicitHeight + Units.px(16)
     implicitWidth: parent ? parent.width : 400
     width: parent ? parent.width : 400
 
@@ -44,30 +46,14 @@ Item {
         }
     }
 
-    function startTyping() {
-        _visibleLength = 0;
-        isTyping = true;
-    }
-
     signal typingProgress()
-
-    Text {
-        id: labelText
-        anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: root.label
-        color: root.labelColor
-        font.pixelSize: Units.px(12)
-        font.bold: true
-        visible: root.label !== ""
-    }
 
     RowLayout {
         id: contentLayout
-        anchors.top: labelText.visible ? labelText.bottom : parent.top
+        anchors.top: parent.top
+        anchors.topMargin: Units.px(8)
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.topMargin: labelText.visible ? Units.px(8) : 0
         spacing: root.gap
 
         // 左侧头像
@@ -80,9 +66,8 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: width / 2
-                color: Theme.mode === "dark" ? "#333" : "#E0E0E0"
+                color: root.isSystem ? "#1B5E20" : (Theme.mode === "dark" ? "#333" : "#E0E0E0")
                 clip: true
-
                 Image {
                     anchors.fill: parent
                     source: root.isImageAvatar ? root.avatar : ""
@@ -99,8 +84,7 @@ Item {
         }
 
         Item {
-            Layout.fillWidth: true
-            visible: root.sent
+            Layout.fillWidth: true; visible: root.sent
         }
 
         Column {
@@ -119,26 +103,25 @@ Item {
             Rectangle {
                 id: bubble
                 visible: root.text !== "" || root.isTyping
-                width: bubbleText.width + Units.px(24)
+
+                // ✅ 宽度直接由文字隐形宽度撑开，不超出最大限制
+                width: Math.min(bubbleText.implicitWidth + Units.px(24), root.maxBubbleWidth)
                 height: bubbleText.implicitHeight + Units.px(16)
+
                 radius: Theme.radiusMd
                 color: root.bubbleColor
+                border.color: root.isSystem ? "#2E7D32" : "transparent"
+                border.width: root.isSystem ? 1 : 0
 
                 Text {
                     id: bubbleText
-                    anchors.centerIn: parent // ✅ 用居中代替 fill，防止计算死锁
-                    width: Math.min(implicitWidth, root.maxBubbleWidth - Units.px(24))
+                    anchors.fill: parent
                     anchors.margins: Units.px(12)
                     text: root._displayText
+                    textFormat: Text.PlainText
                     color: root.bubbleTextColor
                     font.pixelSize: Units.px(14)
-                    wrapMode: Text.Wrap
-
-                    // ✅ 核心升级：开启 Markdown 渲染！
-                    textFormat: Text.MarkdownText
-
-                    // 让链接颜色跟随主题
-                    linkColor: root.sent ? Theme.white : Theme.primary
+                    wrapMode: Text.WrapAnywhere
                 }
             }
 
@@ -155,8 +138,7 @@ Item {
         }
 
         Item {
-            Layout.fillWidth: true
-            visible: !root.sent
+            Layout.fillWidth: true; visible: !root.sent
         }
 
         // 右侧头像
@@ -171,7 +153,6 @@ Item {
                 radius: width / 2
                 color: Theme.mode === "dark" ? "#333" : "#E0E0E0"
                 clip: true
-
                 Image {
                     anchors.fill: parent
                     source: root.isImageAvatar ? root.avatar : ""
