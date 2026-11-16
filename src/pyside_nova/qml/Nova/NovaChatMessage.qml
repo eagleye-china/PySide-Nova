@@ -1,11 +1,9 @@
 // src/pyside_nova/qml/Nova/NovaChatMessage.qml
-
 import QtQuick
 import QtQuick.Layouts
 
 Item {
     id: root
-
     property bool sent: false
     property string text: ""
     property string name: ""
@@ -14,56 +12,27 @@ Item {
     property bool isTyping: false
     property bool isSystem: false
 
-    property real maxBubbleRatio: 0.75
     property color bubbleColor: isSystem ? "#0E1B12" : (sent ? Theme.primary : Theme.surface)
     property color bubbleTextColor: isSystem ? "#4CAF50" : (sent ? Theme.white : Theme.text_primary)
-    property color nameColor: isSystem ? "#81C784" : Theme.text_secondary
-    property color stampColor: Theme.text_secondary
 
-    readonly property real avatarSize: Units.px(36)
-    readonly property real gap: Units.px(8)
-    readonly property real maxBubbleWidth: root.width * maxBubbleRatio
+    signal copyCodeRequested(string base64Code)
 
-    implicitHeight: contentLayout.implicitHeight + Units.px(16)
-    implicitWidth: parent ? parent.width : 400
+    implicitHeight: layout.implicitHeight + 16
     width: parent ? parent.width : 400
 
-    property int _visibleLength: isTyping ? 0 : text.length
-    property string _displayText: isTyping ? text.substring(0, _visibleLength) : text
-
-    Timer {
-        id: typingTimer
-        interval: 25
-        repeat: true
-        running: root.isTyping && root._visibleLength < root.text.length
-        onTriggered: {
-            root._visibleLength++;
-            root.typingProgress();
-        }
-    }
-
-    signal typingProgress()
-
     RowLayout {
-        id: contentLayout
-        anchors.top: parent.top
-        anchors.topMargin: Units.px(8)
-        anchors.left: parent.left
-        anchors.right: parent.right
-        spacing: root.gap
+        id: layout
+        anchors.top: parent.top; anchors.topMargin: 8
+        anchors.left: parent.left; anchors.right: parent.right
+        spacing: 8
 
-        // 左侧头像
         Item {
-            Layout.preferredWidth: root.avatarSize
-            Layout.preferredHeight: root.avatarSize
-            Layout.alignment: Qt.AlignTop
+            Layout.preferredWidth: 36; Layout.preferredHeight: 36
             visible: !root.sent && root.avatar !== ""
             Rectangle {
-                anchors.fill: parent; radius: width / 2
-                color: root.isSystem ? "#1B5E20" : (Theme.mode === "dark" ? "#333" : "#E0E0E0")
-                clip: true
+                anchors.fill: parent; radius: 18; color: "#333"
                 Text {
-                    anchors.centerIn: parent; text: root.avatar; font.pixelSize: Units.px(20)
+                    anchors.centerIn: parent; text: root.avatar; font.pixelSize: 20
                 }
             }
         }
@@ -73,57 +42,58 @@ Item {
         }
 
         Column {
-            Layout.maximumWidth: root.maxBubbleWidth
-            spacing: Units.px(4)
+            Layout.maximumWidth: root.width * 0.85
+            spacing: 4
 
             Text {
-                text: root.name; color: root.nameColor; font.pixelSize: Units.px(12)
-                visible: !root.sent && root.name !== ""; leftPadding: Units.px(4)
+                text: root.name; color: "#888"; font.pixelSize: 12; visible: !root.sent
             }
 
             Rectangle {
                 id: bubble
-                visible: root.text !== "" || root.isTyping
-                width: Math.min(bubbleText.implicitWidth + Units.px(24), root.maxBubbleWidth)
-                height: bubbleText.implicitHeight + Units.px(16)
-                radius: Theme.radiusMd; color: root.bubbleColor
-                border.color: root.isSystem ? "#2E7D32" : "transparent"; border.width: root.isSystem ? 1 : 0
+                width: messageText.width + 24
+                height: messageText.height + 16
+                radius: 8; color: root.bubbleColor
+                border.color: root.isSystem ? "#2E7D32" : "transparent"
+                border.width: root.isSystem ? 1 : 0
 
-                Text {
-                    id: bubbleText
-                    anchors.centerIn: parent
-                    width: Math.min(implicitWidth, root.maxBubbleWidth - Units.px(24))
-                    text: root._displayText
+                TextEdit {
+                    id: messageText
+                    x: 12; y: 8
+                    width: Math.min(implicitWidth, root.width * 0.85 - 24)
+                    text: root.text
                     color: root.bubbleTextColor
-                    font.pixelSize: Units.px(14)
-                    wrapMode: Text.WrapAnywhere
+                    font.pixelSize: 14
+                    wrapMode: TextEdit.WrapAnywhere
+                    textFormat: TextEdit.RichText
+                    readOnly: true
+                    selectByMouse: true
+                    cursorDelegate: Item {
+                        width: 0; height: 0
+                    }
 
-                    // 🚨 放弃纯文本，改为 RichText（如果包含表格，会自动渲染成带边框和底色的富文本）
-                    textFormat: Text.RichText
+                    onHoveredLinkChanged: {
+                        if (hoveredLink !== "") {
+                            cursorShape = Qt.PointingHandCursor
+                        } else {
+                            cursorShape = Qt.IBeamCursor
+                        }
+                    }
+
+                    onLinkActivated: (link) => {
+                        if (link.startsWith("copy:")) {
+                            root.copyCodeRequested(link.substring(5))
+                        } else {
+                            Qt.openUrlExternally(link)
+                        }
+                    }
                 }
-            }
-
-            Text {
-                text: root.stamp; color: root.stampColor; font.pixelSize: Units.px(11)
-                visible: root.stamp !== ""; width: parent.width
-                horizontalAlignment: root.sent ? Text.AlignRight : Text.AlignLeft
+                // ❌ 彻底删除了这里曾经的“复制全部”悬浮按钮
             }
         }
 
         Item {
             Layout.fillWidth: true; visible: !root.sent
-        }
-
-        // 右侧头像
-        Item {
-            Layout.preferredWidth: root.avatarSize; Layout.preferredHeight: root.avatarSize; Layout.alignment: Qt.AlignTop
-            visible: root.sent && root.avatar !== ""
-            Rectangle {
-                anchors.fill: parent; radius: width / 2; color: Theme.mode === "dark" ? "#333" : "#E0E0E0"; clip: true
-                Text {
-                    anchors.centerIn: parent; text: root.avatar; font.pixelSize: Units.px(20)
-                }
-            }
         }
     }
 }

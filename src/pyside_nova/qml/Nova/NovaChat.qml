@@ -1,5 +1,4 @@
 // src/pyside_nova/qml/Nova/NovaChat.qml
-
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
@@ -8,6 +7,10 @@ Rectangle {
     id: root
 
     signal themeToggleRequested()
+
+    signal messageSent(string text)
+
+    signal copyCodeRequested(string base64Code) // 根节点声明
 
     property string title: "NovaChat"
     property string userName: "User"
@@ -19,7 +22,6 @@ Rectangle {
 
     color: Theme.background
 
-    // ✅ 必须有这个模型，否则别名会报错
     ListModel {
         id: chatModel
     }
@@ -50,13 +52,24 @@ Rectangle {
         scrollToBottom();
     }
 
+    function addSystemMessage(text) {
+        let timeStr = Qt.formatTime(new Date(), "hh:mm");
+        chatModel.append({
+            sent: false,
+            name: "⚙️ 系统工具",
+            avatar: "🛠️",
+            text: text,
+            stamp: timeStr,
+            isTyping: false,
+            isSystem: true
+        });
+        scrollToBottom();
+    }
+
     function scrollToBottom() {
         Qt.callLater(chatListView.positionViewAtEnd);
     }
 
-    signal messageSent(string text)
-
-    // ── 顶部 Header ──
     Rectangle {
         id: header
         anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right
@@ -66,7 +79,6 @@ Rectangle {
             anchors.centerIn: parent; text: root.title; color: Theme.text_primary; font.pixelSize: Units.px(18); font.bold: true
         }
 
-        // ✅ 物理防弹按钮：原生 Rectangle + MouseArea
         Rectangle {
             width: Units.px(80); height: Units.px(36)
             anchors.right: parent.right; anchors.rightMargin: Units.px(16); anchors.verticalCenter: parent.verticalCenter
@@ -76,18 +88,13 @@ Rectangle {
             Text {
                 anchors.centerIn: parent; text: "🌓 切换"; color: "white"; font.bold: true
             }
-
             MouseArea {
                 id: btnMouse; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    console.log("🚀 [NovaChat] 原生切换按钮被点击！");
-                    root.themeToggleRequested()
-                }
+                onClicked: root.themeToggleRequested()
             }
         }
     }
 
-    // ── 消息列表 ──
     ListView {
         id: chatListView
         anchors.top: header.bottom; anchors.bottom: inputArea.top; anchors.left: parent.left; anchors.right: parent.right
@@ -96,12 +103,14 @@ Rectangle {
         delegate: NovaChatMessage {
             width: chatListView.width
             sent: model.sent; name: model.name; avatar: model.avatar; text: model.text; stamp: model.stamp; isTyping: model.isTyping
-            onTypingProgress: chatListView.positionViewAtEnd()
+            isSystem: model.isSystem ? true : false
+            onCopyCodeRequested: (base64Code) => {
+                root.copyCodeRequested(base64Code)
+            }
         }
         onCountChanged: scrollToBottom()
     }
 
-    // ── 底部输入区 ──
     Rectangle {
         id: inputArea
         anchors.bottom: parent.bottom; anchors.left: parent.left; anchors.right: parent.right
@@ -142,8 +151,6 @@ Rectangle {
                     Item {
                         Layout.fillWidth: true
                     }
-
-                    // 发送按钮
                     Rectangle {
                         width: Units.px(64); height: Units.px(32); radius: Theme.radiusSm
                         color: root.isAiThinking ? Theme.disabled : Theme.primary
