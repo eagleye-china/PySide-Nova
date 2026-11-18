@@ -1,10 +1,8 @@
-// src/pyside_nova/qml/Nova/NovaCardActions.qml
-
 import QtQuick
 import QtQuick.Layouts
 
 /**
- * @created 2026-11-13 21:00:00
+ * @created 2026-11-18 10:30:00
  * @author  eagleye-china & 小诺 (AI Architect)
  * @module  Nova 1.0
  */
@@ -13,12 +11,17 @@ Rectangle {
 
     property string align: "right"
     property bool bordered: true
+    property string utilityClasses: ""
 
-    // ✅ 核心修复：移除了 implicitWidth 的父级计算，只计算高度
+    readonly property color _utilBg: NovaUtilityCore.bgColorOf(utilityClasses)
+    readonly property color _utilText: NovaUtilityCore.textColorOf(utilityClasses)
+
+    default property alias defaultSlotContent: defaultSlot.children
+    property alias contentData: defaultSlot.children
+
     implicitHeight: layout.implicitHeight + Units.px(16)
-    color: "transparent"
+    color: _utilBg !== "transparent" ? _utilBg : "transparent"
 
-    // 顶部分割线
     Rectangle {
         visible: root.bordered
         anchors.top: parent.top
@@ -37,26 +40,21 @@ Rectangle {
         anchors.right: parent.right
         spacing: Units.px(8)
 
-        // 左侧弹簧
         Item {
             Layout.fillWidth: true
             visible: root.align === "right" || root.align === "center"
         }
 
-        // 承载外部按钮的容器
-        Row {
-            id: innerRow
+        Item {
+            id: defaultSlot
             Layout.alignment: Qt.AlignVCenter
-            spacing: Units.px(8)
+            implicitWidth: childrenRect.width
+            implicitHeight: childrenRect.height
         }
 
-        // 右侧弹簧
         Item {
             Layout.fillWidth: true
             visible: root.align === "left" || root.align === "center"
         }
     }
-
-    // ✅ 把 alias 放在最后
-    default property alias contentData: innerRow.data
 }

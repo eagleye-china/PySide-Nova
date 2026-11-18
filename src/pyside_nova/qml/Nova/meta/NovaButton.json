@@ -1,0 +1,47 @@
+{
+  "component": "NovaButton",
+  "slots": [
+    {
+      "name": "default",
+      "alias": "defaultSlotContent",
+      "scoped": false,
+      "overrideType": "position-level",
+      "overrides": ["label"],
+      "description": "主体自定义内容"
+    },
+    {
+      "name": "prepend",
+      "alias": "prependSlotContent",
+      "scoped": false,
+      "overrideType": "position-level",
+      "overrides": ["icon"],
+      "description": "前置元件"
+    },
+    {
+      "name": "append",
+      "alias": "appendSlotContent",
+      "scoped": false,
+      "overrideType": "position-level",
+      "overrides": ["iconRight"],
+      "description": "后置元件"
+    },
+    {
+      "name": "loading",
+      "alias": "loadingSlotContent",
+      "scoped": false,
+      "overrideType": "state-level",
+      "overrides": ["default", "prepend", "append"],
+      "description": "加载态完全替换内容，不参与位置级仲裁"
+    }
+  ],
+  "utilityClasses": {
+    "validValues": [
+      "bg-primary", "bg-secondary", "bg-positive", "bg-negative", "bg-warning",
+      "bg-info", "bg-dark", "bg-white", "bg-background", "bg-surface",
+      "text-white", "text-primary", "text-secondary", "text-positive",
+      "text-negative", "text-warning", "text-dark", "text-muted", "text-disabled",
+      "elevation-1", "elevation-2", "elevation-3", "elevation-4", "elevation-5",
+      "rounded-none", "rounded-sm", "rounded-md", "rounded-lg", "rounded-pill"
+    ]
+  }
+}

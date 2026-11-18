@@ -1,62 +1,73 @@
-// src/pyside_nova/qml/Nova/NovaLayout.qml
-
 import QtQuick
 
 /**
- * @created 2026-11-13 10:53:29
+ * @created 2026-11-18 10:30:00
  * @author  eagleye-china & 小诺 (AI Architect)
  * @module  Nova 1.0
  */
-Item {
+Rectangle {
     id: root
 
-    property bool horizontal: true
-    property real spacing: Theme.spaceSm
-    property bool wrap: false
-    property string justify: "start"
-    property string align: "start"
+    property bool showHeader: true
+    property bool showFooter: true
+    property bool showLeftDrawer: false
+    property bool showRightDrawer: false
 
-    default property alias contentData: flowEngine.data
+    property int headerHeight: Units.px(60)
+    property int footerHeight: Units.px(40)
+    property int leftDrawerWidth: Units.px(240)
+    property int rightDrawerWidth: Units.px(240)
+    property string utilityClasses: ""
 
-    implicitWidth: flowEngine.childrenRect.width
-    implicitHeight: flowEngine.childrenRect.height
+    readonly property color _utilBg: NovaUtilityCore.bgColorOf(utilityClasses)
 
-    Flow {
-        id: flowEngine
-        flow: root.horizontal ? Flow.LeftToRight : Flow.TopToBottom
-        spacing: Units.px(root.spacing)
+    color: _utilBg !== "transparent" ? _utilBg : Theme.background
 
-        width: root.wrap ? root.width : 999999
-        height: root.wrap ? root.height : 999999
+    default property alias defaultSlotContent: pageContainer.children
+    property alias pageContent: pageContainer.children
 
-        x: {
-            if (root.wrap) return 0;
-            const contentWidth = childrenRect.width;
-            const rootWidth = root.width > 0 ? root.width : contentWidth;
-            if (root.horizontal) {
-                if (root.justify === "center" || root.justify === "space-around") return (rootWidth - contentWidth) / 2;
-                if (root.justify === "end") return rootWidth - contentWidth;
-                return 0;
-            } else {
-                if (root.align === "center") return (rootWidth - contentWidth) / 2;
-                if (root.align === "end") return rootWidth - contentWidth;
-                return 0;
-            }
-        }
+    property alias title: header.title
+    property alias headerLeftContent: header.prependSlotContent
+    property alias headerCenterContent: header.defaultSlotContent
+    property alias headerRightContent: header.appendSlotContent
+    property alias footerContent: footer.defaultSlotContent
+    
+    property alias leftDrawerContent: leftDrawer.defaultSlotContent
+    property alias rightDrawerContent: rightDrawer.defaultSlotContent
 
-        y: {
-            if (root.wrap) return 0;
-            const contentHeight = childrenRect.height;
-            const rootHeight = root.height > 0 ? root.height : contentHeight;
-            if (root.horizontal) {
-                if (root.align === "center") return (rootHeight - contentHeight) / 2;
-                if (root.align === "end") return rootHeight - contentHeight;
-                return 0;
-            } else {
-                if (root.justify === "center" || root.justify === "space-around") return (rootHeight - contentHeight) / 2;
-                if (root.justify === "end") return rootHeight - contentHeight;
-                return 0;
-            }
-        }
+    NovaHeader {
+        id: header
+        anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right
+        height: root.showHeader ? root.headerHeight : 0
+        visible: root.showHeader
+        z: 10
+    }
+
+    NovaFooter {
+        id: footer
+        anchors.bottom: parent.bottom; anchors.left: parent.left; anchors.right: parent.right
+        height: root.showFooter ? root.footerHeight : 0
+        visible: root.showFooter
+        z: 10
+    }
+
+    NovaDrawer {
+        id: leftDrawer
+        anchors.top: header.bottom; anchors.bottom: footer.top; anchors.left: parent.left
+        width: root.showLeftDrawer ? root.leftDrawerWidth : 0
+        visible: root.showLeftDrawer
+    }
+
+    NovaDrawer {
+        id: rightDrawer
+        anchors.top: header.bottom; anchors.bottom: footer.top; anchors.right: parent.right
+        width: root.showRightDrawer ? root.rightDrawerWidth : 0
+        visible: root.showRightDrawer
+    }
+
+    Item {
+        id: pageContainer
+        anchors.top: header.bottom; anchors.bottom: footer.top
+        anchors.left: leftDrawer.right; anchors.right: rightDrawer.left
     }
 }

@@ -1,14 +1,17 @@
 module Nova
 singleton Theme 1.0 Theme.qml
 singleton Units 1.0 Units.qml
+singleton NovaUtilityCore 1.0 NovaUtilityCore.qml
+NovaUtility 1.0 NovaUtility.qml
+NovaDrawer 1.0 NovaDrawer.qml
 NovaButton 1.0 NovaButton.qml
-NovaCard 1.0 NovaCard.qml
-NovaInput 1.0 NovaInput.qml
+NovaHeader 1.0 NovaHeader.qml
+NovaFooter 1.0 NovaFooter.qml
 NovaLayout 1.0 NovaLayout.qml
-NovaTable 1.0 NovaTable.qml
-NovaTree 1.0 NovaTree.qml
-NovaChatMessage 1.0 NovaChatMessage.qml
-NovaFab 1.0 NovaFab.qml
-NovaFabAction 1.0 NovaFabAction.qml
-NovaChat 1.0 NovaChat.qml
-NovaCardActions 1.0 NovaCardActions.qml
+NovaPage 1.0 NovaPage.qml
+NovaHeader 1.0 NovaHeader.qml
+NovaItem 1.0 NovaItem.qml
+NovaItem 1.0 NovaItem.qml
+NovaList 1.0 NovaList.qml
+NovaSeparator 1.0 NovaSeparator.qml
+NovaAvatar 1.0 NovaAvatar.qml

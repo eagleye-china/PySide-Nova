@@ -1,7 +1,10 @@
-// src/pyside_nova/qml/Nova/NovaFab.qml
-
 import QtQuick
 
+/**
+ * @created 2026-11-18 10:30:00
+ * @author  eagleye-china & 小诺 (AI Architect)
+ * @module  Nova 1.0
+ */
 Item {
     id: root
 
@@ -10,9 +13,15 @@ Item {
     property color bgColor: Theme.primary
     property color textColor: Theme.white
     property bool expanded: false
+    property string utilityClasses: ""
 
-    default property alias contentData: menuColumn.data
-    readonly property bool hasActions: menuColumn.children.length > 0
+    readonly property color _utilBg: NovaUtilityCore.bgColorOf(utilityClasses)
+    readonly property color _utilText: NovaUtilityCore.textColorOf(utilityClasses)
+
+    default property alias defaultSlotContent: menuColumn.children
+    property alias contentData: menuColumn.children
+
+    readonly property bool hasActions: defaultSlotContent.length > 0
     readonly property real fabSize: Units.px(56)
 
     width: fabSize
@@ -27,11 +36,7 @@ Item {
 
         opacity: root.expanded ? 1 : 0
         visible: opacity > 0
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 200
-            }
-        }
+        Behavior on opacity { NumberAnimation { duration: 200 } }
     }
 
     Rectangle {
@@ -41,7 +46,7 @@ Item {
         width: root.fabSize
         height: root.fabSize
         radius: width / 2
-        color: root.bgColor
+        color: root._utilBg !== "transparent" ? root._utilBg : root.bgColor
         border.color: Qt.rgba(0, 0, 0, 0.1)
         border.width: 1
 
@@ -56,26 +61,19 @@ Item {
         Text {
             anchors.centerIn: parent
             text: root.icon !== "" ? root.icon : root.text
-            color: root.textColor
+            color: root._utilText !== "transparent" ? root._utilText : root.textColor
             font.pixelSize: root.icon !== "" ? Units.px(24) : Units.px(28)
             font.bold: true
             rotation: (root.hasActions && root.expanded) ? 45 : 0
-            Behavior on rotation {
-                NumberAnimation {
-                    duration: 200
-                }
-            }
+            Behavior on rotation { NumberAnimation { duration: 200 } }
         }
 
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                if (root.hasActions) {
-                    root.expanded = !root.expanded;
-                } else {
-                    root.clicked();
-                }
+                if (root.hasActions) root.expanded = !root.expanded;
+                else root.clicked();
             }
         }
     }
