@@ -9,6 +9,9 @@ Item {
     property bool overlay: false
     property bool bordered: true
     property bool elevated: false
+    
+    // 🌟 新增：控制完全隐藏（滑出屏幕）
+    property bool hidden: false
 
     property string side: "left"
     property int expandedWidth: Units.px(240)
@@ -20,17 +23,23 @@ Item {
     readonly property color _utilText: NovaUtilityCore.textColorOf(utilityClasses)
     readonly property int _utilElevation: NovaUtilityCore.elevationOf(utilityClasses)
 
-    function show() { if (!opened) opened = true; }
-    function hide() { if (opened) opened = false; }
+    function show() { if (!opened) opened = true; hidden = false; }
+    function hide() { if (opened) opened = false; hidden = true; }
     function toggle() { opened = !opened; }
 
     readonly property bool _isResponsiveOverlay: overlay || (parent !== null && parent.width < breakpoint)
     readonly property real _currentWidth: (mini && !_isResponsiveOverlay) ? miniWidth : expandedWidth
 
+    HoverHandler { id: hoverHandler }
+    property bool hovered: hoverHandler.hovered
+
     width: _currentWidth
-    visible: (permanent && !_isResponsiveOverlay) ? true : (opened || x > -_currentWidth)
+    
+    // 🌟 如果 hidden 为 true，直接不显示（不占点击空间），并依靠 x 滑出
+    visible: !hidden && ((permanent && !_isResponsiveOverlay) ? true : (opened || x > -_currentWidth))
     
     x: {
+        if (hidden) return -_currentWidth; // 完全滑出屏幕外
         if (permanent && !_isResponsiveOverlay) return 0;
         if (_isResponsiveOverlay) {
             var pWidth = (parent !== null) ? parent.width : 1000;
@@ -52,7 +61,6 @@ Item {
         id: bg
         anchors.fill: parent
         color: _utilBg !== "transparent" ? _utilBg : Theme.surface
-        // 🌟 优化边框逻辑：去掉四周边框，只在靠内的一侧画线 (更符合 Quasar 规范)
         Rectangle {
             visible: root.bordered
             width: 1
@@ -67,9 +75,9 @@ Item {
         id: defaultSlot
         anchors.fill: parent
         visible: !root.mini || root.miniSlotContent.length === 0
-        // 🌟 优化：移除默认的 margins，交给业务层用 Flickable/padding 控制
         implicitWidth: childrenRect.width
         implicitHeight: childrenRect.height
+        clip: true 
     }
 
     Item {

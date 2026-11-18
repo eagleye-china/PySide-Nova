@@ -13,5 +13,6 @@ NovaHeader 1.0 NovaHeader.qml
 NovaItem 1.0 NovaItem.qml
 NovaItem 1.0 NovaItem.qml
 NovaList 1.0 NovaList.qml
+NovaIcon 1.0 NovaIcon.qml
 NovaSeparator 1.0 NovaSeparator.qml
 NovaAvatar 1.0 NovaAvatar.qml

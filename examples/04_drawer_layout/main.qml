@@ -7,7 +7,7 @@ Window {
     width: 1000
     height: 600
     visible: true
-    title: "NovaDrawer Header Picture Test"
+    title: "NovaDrawer Overlay Mode Test"
     color: "#121212"
 
     Rectangle {
@@ -20,6 +20,9 @@ Window {
         border.width: 1
         clip: true
 
+        // ==========================================
+        // 1. 顶部 Header
+        // ==========================================
         NovaHeader {
             id: header
             anchors.top: parent.top
@@ -28,21 +31,26 @@ Window {
             height: 56
             z: 10
             color: "#00838F" 
-            
             title: "Header"
             
-            appendSlotContent: [
+            prependSlotContent: [
                 NovaButton {
-                    label: "☰"
                     variant: "text"
+                    icon: "menu"
+                    textColor: "white"
                     width: 40
                     height: 40
                     anchors.verticalCenter: parent.verticalCenter
-                    onClicked: leftDrawer.toggle()
+                    onClicked: {
+                        leftDrawer.toggle()
+                    }
                 }
             ]
         }
 
+        // ==========================================
+        // 2. 主内容区
+        // ==========================================
         NovaPage {
             id: pageContainer
             anchors.top: header.bottom
@@ -51,7 +59,7 @@ Window {
             anchors.right: parent.right
             padding: 16
             scrollable: true
-            z: 1 
+            z: 1
 
             Column {
                 width: parent.width
@@ -67,104 +75,72 @@ Window {
                     }
                 }
             }
+        }
 
-            states: [
-                State {
-                    name: "drawerOpen"
-                    when: layoutRoot.width >= 400
-                    PropertyChanges { target: pageContainer; anchors.leftMargin: 200 }
-                },
-                State {
-                    name: "drawerClosed"
-                    when: layoutRoot.width < 400
-                    PropertyChanges { target: pageContainer; anchors.leftMargin: 0 }
-                }
-            ]
-            transitions: Transition {
-                NumberAnimation { properties: "anchors.leftMargin"; duration: 250; easing.type: Easing.InOutQuad }
+        // ==========================================
+        // 3. 遮罩层 (Scrim)
+        // ==========================================
+        Rectangle {
+            id: scrim
+            anchors.fill: parent
+            anchors.topMargin: header.height
+            color: "#000000"
+            opacity: leftDrawer.opened ? 0.4 : 0
+            visible: opacity > 0
+            z: 15
+            
+            Behavior on opacity { NumberAnimation { duration: 250 } }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: leftDrawer.hide()
             }
         }
 
+        // ==========================================
+        // 4. 抽屉 (Overlay 悬浮模式)
+        // ==========================================
         NovaDrawer {
             id: leftDrawer
             side: "left"
-            permanent: layoutRoot.width >= 400 
-            breakpoint: 400
+            overlay: true      
+            permanent: false   
+            opened: false      
             expandedWidth: 200
+            breakpoint: 500
+            
+            // 🌟 核心修复：删掉 anchors.left，让底层自己控制 x 坐标实现滑动动画
             anchors.top: header.bottom
             anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            z: 20 
+            z: 20
 
-            utilityClasses: "bg-background" 
+            utilityClasses: "bg-grey-9" 
             bordered: true 
 
-            Item {
-                id: profileHeader
-                width: parent.width
-                height: 150
-                clip: true 
-
-                Image {
-                    anchors.fill: parent
-                    source: "https://cdn.quasar.dev/img/material.png"
-                    fillMode: Image.PreserveAspectCrop
-                    asynchronous: true
-                }
-
-                Rectangle {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    height: 80
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: "transparent" }
-                        GradientStop { position: 1.0; color: "#000000" }
-                    }
-                    opacity: 0.8
-                }
-
-                NovaAvatar {
-                    size: Units.px(56)
-                    anchors.left: parent.left
-                    anchors.leftMargin: Units.px(16)
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: Units.px(36)
-                    source: "https://cdn.quasar.dev/img/boy-avatar.png"
-                    text: "R" 
-                }
-
-                Column {
-                    anchors.left: parent.left
-                    anchors.leftMargin: Units.px(16)
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: Units.px(12)
-                    spacing: Units.px(2)
-
-                    Text {
-                        text: "Razvan Stoenescu"
-                        color: "white"
-                        font.pixelSize: Units.px(15)
-                        font.bold: true
-                    }
-                    Text {
-                        text: "@rstoenescu"
-                        color: "#b0b0b0"
-                        font.pixelSize: Units.px(13)
-                    }
-                }
+            // 阻止点击穿透到遮罩层
+            MouseArea {
+                anchors.fill: parent
+                z: -1
             }
 
             NovaList {
-                anchors.top: profileHeader.bottom
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
+                anchors.fill: parent
+                anchors.topMargin: Units.px(8)
+                z: 1
 
-                NovaItem { icon: "📥"; label: "Inbox"; clickable: true; onClicked: console.log("Clicked Inbox") }
-                NovaItem { icon: "⭐"; label: "Star"; clickable: true; active: true; onClicked: console.log("Clicked Star") }
-                NovaItem { icon: "✈️"; label: "Send"; clickable: true; onClicked: console.log("Clicked Send") }
-                NovaItem { icon: "📝"; label: "Drafts"; clickable: true; onClicked: console.log("Clicked Drafts") }
+                NovaItem { icon: "inbox"; label: "Inbox"; clickable: true }
+                NovaItem { icon: "star"; label: "Star"; clickable: true; active: true }
+                NovaItem { icon: "send"; label: "Send"; clickable: true }
+                NovaItem { icon: "drafts"; label: "Drafts"; clickable: true }
+                NovaItem { icon: "delete"; label: "Spam"; clickable: true }
+                
+                Rectangle {
+                    width: parent.width
+                    height: 1
+                    color: Theme.border
+                }
+
+                NovaItem { icon: "settings"; label: "Settings"; clickable: true }
             }
         }
     }
