@@ -20,6 +20,7 @@
 - **Baseline**: Windows 11 / macOS / Linux · Python 3.10–3.13 · PySide6 ≥ 6.8 (verified on **6.12.0**)
 - **Target**: **Quasar `2.26.0`** (verified against official releases) · Status: `0.3.0` — slots, parity audit + Constitution · Freeze: `1.0.0-flagship` LTS
 - **Constitution**: [docs/CONSTITUTION.md](docs/CONSTITUTION.md) — iterated with every delivery
+- **Ecosystem Parity White Paper**: [docs/ECOSYSTEM_PARITY.md](docs/ECOSYSTEM_PARITY.md) — 7-layer maturity, 12 P0 gaps, 24 release gates
 
 ## Why pyside-nova
 

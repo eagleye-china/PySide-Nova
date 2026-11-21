@@ -19,6 +19,7 @@
 - **基线环境**：Windows 11 / macOS / Linux · Python 3.10–3.13 · PySide6 ≥ 6.8（已在 **6.12.0** 实测）
 - **对标基线**：**Quasar `2.26.0`**（已核实官方 releases）· 当前状态 `0.3.0`（槽机制 + 全量对标审计 + 架构宪法）· 目标 `1.0.0-flagship` LTS 封版
 - **架构宪法**：[docs/CONSTITUTION.md](docs/CONSTITUTION.md) —— 每次交付随版本迭代更新
+- **生态对标白皮书**：[docs/ECOSYSTEM_PARITY.md](docs/ECOSYSTEM_PARITY.md) —— 七层模型成熟度、12 项 P0 空白、24 条封版验收
 
 ## 为什么选 pyside-nova
 

@@ -10,7 +10,7 @@
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.26.0**，目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-### 当前状态（0.3.4 · M0 完成，M1 未动工）
+### 当前状态（0.4.0 · M0 完成，M1 生态骨架待动工）
 
 - **12 个组件已交付**：NovaTheme / NovaScreen / NovaBtn / NovaCard·Section·Actions /
   NovaChip / NovaAvatar / NovaIcon / NovaBadge / NovaRipple / NovaSpace / NovaSeparator
@@ -41,17 +41,19 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 4. qmldir 不支持 `//` 注释
 5. 单例属性不可对象体内声明式绑定（会解析成 attached）
 
-### 下一步（M1 攻坚，未开工）
+### 下一步（M1 生态骨架，按 ECOSYSTEM_PARITY.md 执行）
 
-- **M1 首战 `NovaLayout`**（header/footer/drawer/page 集成布局，QML 完全没有）：
-  按宪法 + PARITY.md 逐项对照 QLayout/QHeader/QFooter/QDrawer/QPage 建审计节
-- M1 队列：NovaTable / NovaField / NovaInput / NovaForm / NovaSelect / NovaDate /
-  NovaNotify / NovaDialog / NovaStepper / NovaCarousel / NovaTree …
-  （完整清单见 `docs/ROADMAP.md`）
-- 同期可做：PARITY.md 中现有组件的 ❌/🚧 项按里程碑消化
+- **Sprint 1（先做）L1 布局**：NovaLayout / NovaHeader / NovaFooter / NovaDrawer / NovaPage
+  + NovaRow / NovaCol / NovaVisible（12 栅格 × 5 断点、gutter、断点显隐）
+  → 验收：6 种经典布局示例（后台/看板/表单/详情/登录/空态）
+- **Sprint 2 L4 服务**：NovaNotify / NovaDialog / NovaLoading / NovaStorage / NovaApp / NovaPlatform
+- **Sprint 3 L3 行为**：NovaClosePopup / NovaIntersection / NovaTouchPan·Swipe·Hold / NovaScrollObserver
+- **Sprint 4 L0/L5**：图标 provider 注册表 + 6 套图标集 + Nova.utils + 动效令牌 + 9 级排版
+- 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`（12 项 P0 空白 + 24 条封版验收）
 
 ### 最近一次交付
 
+- 0.4.0：生态对标白皮书（七层模型 + 12 项 P0 空白 + 24 条封版验收）+ 宪法第 10 章 + M1 范围重排
 - 0.3.4：PROMPT 单文件自包含（快照全文内联 + 内容指纹校验），告别"翻 4 个文件"
 - 0.3.3：交付包完整性加固（ZIP 含 PROMPT + .git 历史 + BUILD_INFO + SHA256）
 - 0.3.2：快照/提示词双模板 + gen_prompt.py 生成器
@@ -89,8 +91,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：0.3.4（2026-11-21）
-- 内容指纹：`8d0f30d435f0`
-- git HEAD：3da1cf4
-- 生成时间：2026-11-21 17:04（星期六）
+- 快照版本：0.4.0（2026-11-21）
+- 内容指纹：`573db8b94445`
+- git HEAD：0c0539d
+- 生成时间：2026-11-21 20:59（星期六）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

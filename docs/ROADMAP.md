@@ -4,6 +4,20 @@
 > 逐项比对后的差距清单。QML 已有 40+ 基础控件（Button/CheckBox/ComboBox/Slider/Menu/
 > Drawer/SplitView/TableView 等）直接复用，**Quasar 有而 QML 缺失共 68 项**，分 P0/P1/P2。
 
+## 生态层交付顺序（0.4.0 修订，详见 ECOSYSTEM_PARITY.md）
+
+原路线图按"组件清单"排期，现按**生态七层**重排优先级：
+
+1. **L1 布局骨架（M1 Sprint 1）**：NovaLayout / NovaHeader / NovaFooter / NovaDrawer / NovaPage
+   + NovaRow / NovaCol / NovaVisible —— 所有页面示例的前提
+2. **L4 服务层（M1 Sprint 2）**：NovaNotify / NovaDialog / NovaLoading / NovaStorage / NovaApp / NovaPlatform
+3. **L3 行为层（M1 Sprint 3）**：NovaClosePopup / NovaIntersection / NovaTouchPan·Swipe·Hold / NovaScrollObserver
+4. **L0/L5 基础层（M1 Sprint 4）**：图标 provider 注册表 + 6 套图标集 + Nova.utils + 动效令牌 + 9 级排版
+5. **L2 组件纵深（M2）**：表单体系 → 数据体系 → 反馈体系
+6. **L6 非功能与封版（M3）**：a11y / i18n+RTL / 性能基线 / 文档站 / 应用打包器
+
+> 原则：**先骨架、再服务、后组件**。骨架决定示例形态，后改成本极高。
+
 ## 里程碑
 
 | 里程碑 | 周期 | 范围 |
