@@ -2,7 +2,7 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.4.0 · 2026-11-21）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.4.1 · 2026-11-21）
 
 ## 一句话定位
 
@@ -18,6 +18,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - **接续方式**：粘贴 `PROMPT.md`（自包含，快照已内联）；快照改动后须重跑 `gen_prompt.py`
 
 ## 必读文件（按需深读，非预读）
+
+0. `docs/MASTER_PLAN.md` —— **全生态六期总规划**（排期与验收以它为准）
 
 1. `docs/CONSTITUTION.md` —— 架构宪法（十章程则 + 迭代记录表）
 2. `docs/PARITY.md` —— 全量对标审计（逐属性/事件/槽/model）
@@ -40,7 +42,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 4. qmldir 不支持 `//` 注释
 5. 单例属性不可对象体内声明式绑定（会解析成 attached）
 
-## 下一步（M1 生态骨架，按 ECOSYSTEM_PARITY.md 执行）
+## 下一步（一期 Sprint 1 L1 布局，总规划见 MASTER_PLAN.md）
 
 - **Sprint 1（先做）L1 布局**：NovaLayout / NovaHeader / NovaFooter / NovaDrawer / NovaPage
   + NovaRow / NovaCol / NovaVisible（12 栅格 × 5 断点、gutter、断点显隐）
@@ -52,6 +54,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 最近一次交付
 
+- 0.4.1：**全生态开发总规划**（六期战略 + 全量对账表 + 冒烟测试七条纪律）
 - 0.4.0：生态对标白皮书（七层模型 + 12 项 P0 空白 + 24 条封版验收）+ 宪法第 10 章 + M1 范围重排
 - 0.3.4：PROMPT 单文件自包含（快照全文内联 + 内容指纹校验），告别"翻 4 个文件"
 - 0.3.3：交付包完整性加固（ZIP 含 PROMPT + .git 历史 + BUILD_INFO + SHA256）
