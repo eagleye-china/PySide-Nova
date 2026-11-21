@@ -1,7 +1,7 @@
 # 项目交接快照 — Session Handoff
 
 > 用途：任何新会话（或人类协作者）只需读本文件 + 宪法即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.3.1 · 2026-11-21）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.3.2 · 2026-11-21）
 
 ## 一句话定位
 
@@ -28,7 +28,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - 命名红线：基调色 `tint`；禁 `on*` 属性；主题模式 `isDark` / `setDark()` / `toggleDark()`；品牌色 `dark`（$dark 1:1）
 - 槽机制：默认槽 `default property alias`、命名槽组合子组件、作用域槽 `Component delegate`
 - 断点接入唯一方式：`Component.onCompleted: NovaScreen.source = window`
-- 交付纪律：升版 → CHANGELOG → 宪法记录表 → 本文件 → `python scripts/local_deploy.py --zip`
+- 交付纪律：升版 → CHANGELOG → 宪法记录表 → 本文件 → `python scripts/gen_prompt.py` 刷新 PROMPT.md → `python scripts/local_deploy.py --zip`
 
 ## 已知坑位（Qt 6.12 实战沉淀）
 
@@ -46,6 +46,10 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   NovaNotify / NovaDialog / NovaStepper / NovaCarousel / NovaTree …
   （完整清单见 `docs/ROADMAP.md`）
 - 同期可做：PARITY.md 中现有组件的 ❌/🚧 项按里程碑消化
+
+## 最近一次交付
+
+- 0.3.2：交接快照/提示词双模板 + gen_prompt.py 实时生成器（无代码行为变更）
 
 ## 交付物通道
 
