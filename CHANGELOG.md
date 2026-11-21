@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.3.3] - 2026-11-21
+
+### Fixed（交付包完整性加固）
+
+- 发布 ZIP 补齐 `PROMPT.md`（此前漏打，接续提示词不在包内）
+- 发布 ZIP 默认纳入完整 `.git` 历史（此前遗漏，异地灾备承诺未兑现）
+- 新增 `BUILD_INFO.txt` 构建清单（版本/构建时间/git HEAD/文件总数/校验方式）
+- 新增旁路 `*.sha256` 校验文件：下载后可核对指纹，杜绝传输截断导致的“包变小”误判
+- 新增 `--bundle`：ZIP 内附加 `icons/` 离线图标全量包（约 30MB，完全离线部署）
+- 新增 `--no-git`：按需剔除 git 历史以减小体积
+
 ## [0.3.2] - 2026-11-21
 
 ### Added（跨会话永续开发闭环）
