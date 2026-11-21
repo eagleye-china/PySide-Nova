@@ -94,6 +94,9 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 1. SemVer：破坏性 API 变更必须升 major 并在 CHANGELOG 标注 ⚠ Breaking
 2. 每次交付：`__about__.py` 升版 → CHANGELOG 更新 → **本宪法迭代记录表新增一行** → 重新生成发布 ZIP
 3. 封版（M3）后：公共 API 冻结，仅允许 bug 修复 / 72h 安全热修 / 性能优化；废弃 API 走两版本周期
+4. **跨会话接续**：`docs/SESSION_HANDOFF.md` 为项目状态唯一事实源；`scripts/gen_prompt.py`
+   将其**全文内联**生成自包含 `PROMPT.md`（新会话只需粘贴该单文件）。
+   快照任何改动后必须重跑生成器，`gen_prompt.py --check` 以内容指纹判定过期（可入 CI）
 
 ## 迭代记录表（每次交付必须更新）
 
@@ -106,3 +109,4 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 | 0.3.1 | 2026-11-21 | 基础夯实轮：测试护栏补齐（Dark API + demo 加载，合计 32 项）、GitHub Issue/PR 模板入宪第 8 章交付清单、dependabot 巡检、SESSION_HANDOFF.md 交接快照 + git 全量首提交 |
 | 0.3.2 | 2026-11-21 | 跨会话永续闭环：交接快照模板 + 提示词模板 + gen_prompt.py 实时生成器（--check 同步校验），第 9 章交付纪律升级为六步 |
 | 0.3.3 | 2026-11-21 | 交付包完整性加固：ZIP 补 PROMPT.md + 完整 .git 历史 + BUILD_INFO 清单 + SHA256 校验文件；新增 --bundle 离线图标全量包 |
+| 0.3.4 | 2026-11-21 | 接续方式精简为**单文件**：PROMPT.md 内联快照全文 + 内容指纹校验，取消“预读 4 文件”要求（改为按需深读），第 9 章新增第 4 条跨会话接续条款 |

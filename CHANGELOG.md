@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.3.4] - 2026-11-21
+
+### Changed（接续方式精简为单文件）
+
+- `PROMPT.md` 改为**自包含**：交接快照全文内联，新会话只需粘贴这一个文件，
+  不再要求预先翻 `SESSION_HANDOFF / CONSTITUTION / PARITY / CHANGELOG`
+- 宪法/PARITY/CHANGELOG/ROADMAP 改为"**按需深读**"表格（涉及对应主题时再打开）
+- `gen_prompt.py` 升级：快照正文自动内联（H2→H3 嵌套、剥离引用块），
+  输出**内容指纹**（SHA256 前 12 位）；`--check` 由"版本号比对"升级为"指纹比对"
+- 宪法第 9 章新增第 4 条：SESSION_HANDOFF 为唯一事实源，PROMPT.md 为其单文件投影
+- SESSION_HANDOFF 陈旧状态修正（0.3.1 → 0.3.4）并清理重复条目
+
 ## [0.3.3] - 2026-11-21
 
 ### Fixed（交付包完整性加固）

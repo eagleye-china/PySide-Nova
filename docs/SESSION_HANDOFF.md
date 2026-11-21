@@ -1,25 +1,27 @@
 # 项目交接快照 — Session Handoff
 
-> 用途：任何新会话（或人类协作者）只需读本文件 + 宪法即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.3.3 · 2026-11-21）
+> 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
+> `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.3.4 · 2026-11-21）
 
 ## 一句话定位
 
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.26.0**，目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-## 当前状态（0.3.1 · M0 完成，M1 未动工）
+## 当前状态（0.3.4 · M0 完成，M1 未动工）
 
 - **12 个组件已交付**：NovaTheme / NovaScreen / NovaBtn / NovaCard·Section·Actions /
   NovaChip / NovaAvatar / NovaIcon / NovaBadge / NovaRipple / NovaSpace / NovaSeparator
 - **测试 32 项全绿**（组件解析/槽/断点语义/Dark API/demo+画廊完整加载）
 - **环境约定**：用户 Dell Win11 · PySide6 6.12.0 · 单人开发 · PyPI + GitHub
+- **接续方式**：粘贴 `PROMPT.md`（自包含，快照已内联）；快照改动后须重跑 `gen_prompt.py`
 
-## 必读文件（优先级顺序）
+## 必读文件（按需深读，非预读）
 
 1. `docs/CONSTITUTION.md` —— 架构宪法（九章程则 + 迭代记录表）
 2. `docs/PARITY.md` —— 全量对标审计（逐属性/事件/槽/model）
-3. `CHANGELOG.md` —— 版本史（含 Qt 6.12 四大坑位沉淀）
+3. `CHANGELOG.md` —— 版本史（含 Qt 6.12 坑位沉淀）
 4. `CONTRIBUTING.md` —— 宪法落地细则
 
 ## 不可违反的约定（速查）
@@ -28,7 +30,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - 命名红线：基调色 `tint`；禁 `on*` 属性；主题模式 `isDark` / `setDark()` / `toggleDark()`；品牌色 `dark`（$dark 1:1）
 - 槽机制：默认槽 `default property alias`、命名槽组合子组件、作用域槽 `Component delegate`
 - 断点接入唯一方式：`Component.onCompleted: NovaScreen.source = window`
-- 交付纪律：升版 → CHANGELOG → 宪法记录表 → 本文件 → `python scripts/gen_prompt.py` 刷新 PROMPT.md → `python scripts/local_deploy.py --zip`
+- 交付纪律：升版 → CHANGELOG → 宪法记录表 → 本文件 → `gen_prompt.py` 刷新 PROMPT → `local_deploy.py --zip`
 
 ## 已知坑位（Qt 6.12 实战沉淀）
 
@@ -49,10 +51,9 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 最近一次交付
 
-- 0.3.3：交付包完整性加固（ZIP 含 PROMPT.md + .git 历史 + BUILD_INFO + SHA256 校验）
-
-
-- 0.3.2：交接快照/提示词双模板 + gen_prompt.py 实时生成器（无代码行为变更）
+- 0.3.4：PROMPT 单文件自包含（快照全文内联 + 内容指纹校验），告别"翻 4 个文件"
+- 0.3.3：交付包完整性加固（ZIP 含 PROMPT + .git 历史 + BUILD_INFO + SHA256）
+- 0.3.2：快照/提示词双模板 + gen_prompt.py 生成器
 
 ## 交付物通道
 
