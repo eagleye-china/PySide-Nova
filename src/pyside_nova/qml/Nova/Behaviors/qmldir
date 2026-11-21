@@ -1,0 +1,4 @@
+# src/pyside_nova/qml/Nova/Behaviors/qmldir
+# Nova.Behaviors 模块导出清单（公共 API 面）：可挂载行为层
+module Nova.Behaviors
+NovaRipple 1.0 NovaRipple.qml

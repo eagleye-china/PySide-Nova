@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        python: ["3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Smoke tests
+        run: pytest -q
+      - name: Build wheel
+        run: python -m build
+        if: matrix.os == 'windows-latest' && matrix.python == '3.12'
+
+  qmllint:
+    runs-on: ubuntu-latest
+    continue-on-error: true   # 静态检查先做参考，不阻断 M0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e .
+      - name: qmllint
+        run: pyside6-qmllint $(find src/pyside_nova/qml -name '*.qml')

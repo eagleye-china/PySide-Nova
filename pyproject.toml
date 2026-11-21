@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyside-nova"
+dynamic = ["version"]
+description = "Enterprise-grade QML component library for PySide6 — the Quasar of the Qt Quick world."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "pyside-nova contributors" }]
+requires-python = ">=3.10"
+dependencies = ["PySide6>=6.8"]
+keywords = ["PySide6", "QML", "Qt", "UI", "components", "quasar", "design-system"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows :: Windows 10",
+    "Operating System :: Microsoft :: Windows :: Windows 11",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: User Interfaces",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "build"]
+
+[project.urls]
+Homepage = "https://github.com/your-name/pyside-nova"
+Repository = "https://github.com/your-name/pyside-nova"
+Changelog = "https://github.com/your-name/pyside-nova/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "src/pyside_nova/__about__.py"
+
+[tool.hatch.build.targets.wheel]
+# wheel 内完整包含 QML 资源（qmldir + .qml），pip 安装即用
+packages = ["src/pyside_nova"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/pyside_nova",
+    "tests",
+    "examples",
+    "scripts",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

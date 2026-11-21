@@ -1,0 +1,5 @@
+# src/pyside_nova/qml/Nova/Services/qmldir
+# Nova.Services 模块导出清单（公共 API 面）：NovaTheme / NovaScreen 全局单例
+module Nova.Services
+singleton NovaScreen 1.0 NovaScreen.qml
+singleton NovaTheme 1.0 NovaTheme.qml

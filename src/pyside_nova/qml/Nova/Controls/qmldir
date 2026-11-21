@@ -1,0 +1,13 @@
+# src/pyside_nova/qml/Nova/Controls/qmldir
+# Nova.Controls 模块导出清单（公共 API 面）：可视化组件层
+module Nova.Controls
+NovaAvatar 1.0 NovaAvatar.qml
+NovaBadge 1.0 NovaBadge.qml
+NovaBtn 1.0 NovaBtn.qml
+NovaCard 1.0 NovaCard.qml
+NovaCardActions 1.0 NovaCardActions.qml
+NovaCardSection 1.0 NovaCardSection.qml
+NovaChip 1.0 NovaChip.qml
+NovaIcon 1.0 NovaIcon.qml
+NovaSeparator 1.0 NovaSeparator.qml
+NovaSpace 1.0 NovaSpace.qml

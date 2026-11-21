@@ -1,0 +1,103 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+Format based on [Keep a Changelog](https://keepachangelog.com/).
+
+## [0.3.1] - 2026-11-21
+
+### Added（基础夯实轮 —— 磨刀不误砍柴工）
+
+- 测试护栏补齐：Dark 插件 API 测试（`isDark` / `setDark` / `toggleDark` 翻转 / `dark` 品牌色令牌）、
+  demo 完整加载测试（此前仅画廊有护栏）；合计 32 项，全绿
+- GitHub 基建：Issue 模板（Bug/Feat，要求附 Quasar 对标 API 与明暗主题复现说明）、
+  PR 模板（宪法第 8/9 章交付检查清单）、dependabot 依赖巡检（actions + pip 周检）
+- 文档测试计数全量同步（25 → 32）
+
+## [0.3.0] - 2026-11-21
+
+### Changed ⚠ Breaking（0.x 期重构，趁早降本）
+
+- **命名冲突重构**（宪法迭代 0.3.0）：明暗模式 `NovaTheme.dark` → **`NovaTheme.isDark`**
+  （1:1 对标 `$q.dark.isActive`），品牌色 **`darkColor` → `dark`**（1:1 对标 Quasar `$dark`），
+  并新增 `setDark(value)`（对标 `$q.dark.set()`）；`toggleDark()` 不变（对标 `$q.dark.toggle()`）
+- 迁移：`NovaTheme.dark = true` → `NovaTheme.setDark(true)`；读取用 `NovaTheme.isDark`
+
+### Added
+
+- **全量对标审计机制（宪法 3.5 条）**：`docs/PARITY.md` —— 已交付组件逐属性/事件/槽/model
+  对照 Quasar 2.26.0 列明 ✅/🚧/⛔/❌ 状态与目标里程碑；v-model → QML 可写属性+变更信号映射约定；
+  封版前 ✅ 占比门禁（P0 ≥90%、全库 ≥85%）
+- 新增测试：`isDark` / `setDark` / `dark` 品牌色（合计 30 项，全绿）
+
+## [0.2.1] - 2026-11-21
+
+### Added
+
+- **《架构宪法》`docs/CONSTITUTION.md`**：九章最高工程准则（工程结构 / 头注释 / Quasar 化 /
+  槽机制 / 设计令牌 / 断点 / 图标 / 质量门禁 / 版本纪律）+ 迭代记录表，每次交付随版本更新
+- **槽机制入宪（宪法第 4 章）**：Quasar 默认槽 → QML `default property alias`、
+  命名槽 → 具名 alias / 组合子组件、作用域槽 → `property Component delegate`
+- `NovaTheme.darkColor`（`#1D1D1D`）：补齐 Quasar 8 大品牌变量最后一项（本库 `dark` 已被明暗模式布尔占用，故映射命名 `darkColor`）
+
+### Changed
+
+- ⚠ 对标基线核实并锁定 **Quasar 2.26.0**（此前记录的 2.2x 版本号已过时，随宪法迭代复核）
+- **5 个组件重构补齐默认槽**（Quasar 对应组件均有默认槽）：`NovaBtn` / `NovaChip` /
+  `NovaAvatar` / `NovaIcon` / `NovaBadge` 新增 `default property alias`，
+  默认子项挂载到覆盖层宿主，NovaBadge 角标吸附行为不受影响
+- 新增 5 项槽机制冒烟测试（合计 30 项，全绿）
+
+## [0.2.0] - 2026-11-21
+
+### Changed ⚠ Breaking
+
+- **包结构规范化（src 布局终版）**：Python 包 `nova` → `pyside_nova`，
+  QML 模块 URI `nova.services/controls/behaviors` → `Nova.Services/Controls/Behaviors`
+  - `from nova import init_nova` → `from pyside_nova import init_nova`
+  - `import nova.controls` → `import Nova.Controls`
+- 工程约定落盘：所有 `.py` / `.qml` 文件以两行头注释开头——
+  第 1 行从 `src/` 开始的完整文件子路径（`src/pyside_nova/…`），第 2 行组件/文件说明（直接沉淀为 API 文档素材）
+- ⚠ 已知坑（沉淀为规范）：`qmldir` 文件仅支持 `#` 注释，`//` 会破坏模块解析
+
+### Added
+
+- **一键打包部署升级**：`scripts/local_deploy.py --zip` 生成发布 ZIP 包
+  （`dist/pyside-nova-<版本>-release.zip`：完整源码树 + 构建 wheel，zip 内根目录 `pyside-nova/`）
+
+- **组件画廊（Gallery）**：`examples/gallery/` —— 侧边导航 + 8 个页面，
+  全部 12 个组件实机展示（按钮形态/尺寸/状态、卡片三件套、标签、头像、徽标波纹、
+  图标双通道、主题令牌色板、断点实时监控），顶部一键明暗切换
+- **完整旗舰版文档集**：README.md（英文）/ README_zh.md（中文）/
+  CHANGELOG / CONTRIBUTING / SECURITY / CODE_OF_CONDUCT /
+  docs/ARCHITECTURE.md / docs/DESIGN_TOKENS.md / docs/COMPONENTS.md / docs/ROADMAP.md
+- 新增测试：组件画廊完整加载测试（合计 25 项，全绿）
+
+## [0.1.0] - 2026-11-21
+
+### Added — M0 基建 · 第一批组件（12 个）
+
+- `NovaTheme`：设计令牌单例（品牌色/语义色/表面色/几何/字阶/阴影），明暗双主题，运行时品牌换肤
+- `NovaBtn`：按钮（filled/outlined/flat、水波纹、loading、disable、键盘触发）
+- `NovaCard` / `NovaCardSection` / `NovaCardActions`：卡片系列（MultiEffect 阴影）
+- `NovaChip`：标签（filled/outlined/tinted、可选中、可移除）
+- `NovaAvatar`：头像（自动配色/emoji/图片）
+- `NovaBadge`：徽标（子项挂载，红点/数值/浮动）
+- `NovaSpace` / `NovaSeparator`：布局原语
+- `NovaIcon`：图标组件（对标 QIcon）——`icon="mdi:home"` 式 API，云端 CDN + 本地图标包双通道自动回落，封装 QML Image + MultiEffect 单色化着色；`NovaBtn.icon` 自动识别图标引用
+- `NovaScreen`：屏幕断点单例（对标 Quasar Screen 插件）——xs/sm/md/lg/xl（600/1024/1440/1920），is/lt/gt 语义 1:1 对标，阈值可定制
+- `NovaRipple`：水波纹行为（子项挂载）
+- Python 接入层 `init_nova(engine)`；wheel 内完整打包 QML 模块
+- 设计约定：组件基调色属性命名 `tint`（QML 中 `color` 与基类属性冲突）；`NovaBadge.attach`/`NovaRipple.attach` 语法规划于 M1 通过 PySide6 `QML_ATTACHED` 实现
+- 可运行演示 `examples/demo`；QML 冒烟测试；CI（Windows+Linux 矩阵）与 PyPI 可信发布流水线
+- 一键本地部署：`scripts/fetch_icons.py`（下载 MDI/Material 图标包离线可用）+ `scripts/local_deploy.py`（build→install→test）
+
+### Verified（Qt 6.12.0 关键坑位沉淀）
+
+1. `on*` 前缀属性命名与 QML 信号处理器命名规则冲突（如 `onPrimary`），会令整个模块加载失败
+   → 主题文本属性命名 `textOnPrimary` / `textColor` / `textMuted`
+2. 组件声明 `property color color` 与 Rectangle 基类 `color` 冲突导致重复赋值
+   → 基调色统一命名 `tint`
+3. 纯 QML（6.12）不支持自定义 attached property（`Xxx.attach` 语法）
+   → M1 经 PySide6 `QML_ATTACHED` 注册 Python 类型补齐，当前以子项挂载保持属性名一致
+4. 单例属性不能在对象体内声明式绑定（会被解析为 attached property）
+   → `NovaScreen.source = window` 须在 `Component.onCompleted` 中赋值
