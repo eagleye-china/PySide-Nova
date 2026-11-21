@@ -19,7 +19,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 必读文件（按需深读，非预读）
 
-1. `docs/CONSTITUTION.md` —— 架构宪法（九章程则 + 迭代记录表）
+1. `docs/CONSTITUTION.md` —— 架构宪法（十章程则 + 迭代记录表）
 2. `docs/PARITY.md` —— 全量对标审计（逐属性/事件/槽/model）
 3. `CHANGELOG.md` —— 版本史（含 Qt 6.12 坑位沉淀）
 4. `CONTRIBUTING.md` —— 宪法落地细则
