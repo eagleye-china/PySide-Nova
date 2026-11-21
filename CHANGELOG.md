@@ -12,6 +12,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - GitHub 基建：Issue 模板（Bug/Feat，要求附 Quasar 对标 API 与明暗主题复现说明）、
   PR 模板（宪法第 8/9 章交付检查清单）、dependabot 依赖巡检（actions + pip 周检）
 - 文档测试计数全量同步（25 → 32）
+- **防失忆保险**：`docs/SESSION_HANDOFF.md` 项目交接快照（新会话 1 分钟恢复全部上下文）；
+  git 仓库初始化 + 全量首提交（工程记忆落盘，不依赖任何会话）
 
 ## [0.3.0] - 2026-11-21
 
