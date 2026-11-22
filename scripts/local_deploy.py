@@ -107,10 +107,59 @@ def make_release_zip(wheel: Path, version: str, with_icons: bool, with_git: bool
     return out
 
 
+def _write_allinone_deploy_scripts(zf: zipfile.ZipFile) -> None:
+    """全量包外层一键部署脚本（bat/sh 双份）。"""
+    sh = """#!/usr/bin/env bash
+# 一键部署 pyside-nova（Linux/macOS）：安装依赖 → 装包 → 跑冒烟测试
+set -e
+cd "$(dirname "$0")/pyside-nova"
+pip3 install -q PySide6
+pip3 install --force-reinstall --no-deps -q dist/pyside_nova-*.whl
+python3 -m pytest tests -q
+echo "✅ pyside-nova 部署完成，可运行: python3 examples/gallery/main.py"
+"""
+    bat = """@echo off
+rem 一键部署 pyside-nova（Windows）：安装依赖 - 装包 - 跑冒烟测试
+cd /d %~dp0pyside-nova
+pip install PySide6
+pip install --force-reinstall --no-deps -q dist/pyside_nova-*.whl
+python -m pytest tests -q
+echo pyside-nova 部署完成，可运行: python examples\\gallery\\main.py
+pause
+"""
+    zf.writestr("一键部署.sh", sh)
+    zf.writestr("一键部署.bat", bat)
+
+
+def make_allinone_zip(version: str, index_doc: Path | None = None) -> Path:
+    """全量交付包：完整仓库树（含 .git/dist/BUILD_INFO/PROMPT）+ 部署脚本 + 总索引。
+
+    注意：--allinone 请在最终提交之后运行，确保包内 git 历史与仓库 HEAD 一致。
+    """
+    out = ROOT / "dist" / f"pyside-nova-v{version}-ALL-IN-ONE.zip"
+    skip = SKIP_PARTS | {"dist"}  # dist 由下方显式附带
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
+        # 仓库树（含 .git 历史，排除缓存与 dist——dist 只带 wheel）
+        for f in sorted(ROOT.rglob("*")):
+            if not f.is_file() or any(p in skip for p in f.parts):
+                continue
+            zf.write(f, f"pyside-nova/{f.relative_to(ROOT).as_posix()}")
+        for f in sorted((ROOT / "dist").glob("*.whl")):
+            zf.write(f, f"pyside-nova/dist/{f.name}")
+        _write_allinone_deploy_scripts(zf)
+        if index_doc and index_doc.exists():
+            zf.write(index_doc, index_doc.name)
+    (out.parent / f"{out.name}.sha256").write_text(
+        f"{_sha256(out)}  {out.name}\n", encoding="utf-8")
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--demo", action="store_true", help="部署完成后运行演示")
     ap.add_argument("--zip", action="store_true", help="生成发布 ZIP 包（源码 + wheel + git）")
+    ap.add_argument("--allinone", action="store_true",
+                    help="生成全量交付包 ALL-IN-ONE（仓库树含 .git + wheel + 部署脚本 + 总索引）")
     ap.add_argument("--bundle", action="store_true",
                     help="ZIP 内附加 icons/ 离线图标全量包（约 30MB，用于完全离线部署）")
     ap.add_argument("--no-git", action="store_true", help="ZIP 内不附 .git 历史（默认附带）")
@@ -151,6 +200,15 @@ def main() -> None:
               f"（{size_mb:.2f} MB）")
         print(f"   SHA256：{digest}")
         print(f"   校验文件：{zip_path.name}.sha256")
+
+    # 6. 全量交付包 ALL-IN-ONE（须在最终提交之后运行，git 历史才与 HEAD 同步）
+    if args.allinone:
+        from pyside_nova import __version__
+        index_doc = ROOT.parent / f"交付物总索引-v{__version__}.md"
+        aio = make_allinone_zip(__version__, index_doc if index_doc.exists() else None)
+        print(f"✅ 全量包：{aio.relative_to(ROOT).as_posix()} "
+              f"（{aio.stat().st_size / 1024 / 1024:.2f} MB）")
+        print(f"   SHA256：{_sha256(aio)}")
 
     if args.demo:
         run([sys.executable, "examples/demo/main.py"])
