@@ -12,13 +12,13 @@
 |---|---|---|---|---|---|
 | **L0 设计语言** | 令牌/主题/图标集/动效/排版 | 8 品牌色 + Dark + 14 套图标 + q-transition--* | **已交付（0.8.0）**：14 套图标集 + provider 注册表 + 八通道解析 + NovaMotion 15 预设 + 12 级字阶 + 高程 0~24 | **100%** | ≥95% |
 | **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **已交付（0.5.0）** | **100%** | 100% |
-| **L2 组件** | 120+ 组件 | 全 | **65 个**（0.13.0 导航体系 14：Tabs/Tab/TabPanel/TabPanels、Breadcrumbs/El、Stepper/Step/StepperNavigation、ExpansionItem、Toolbar/Title、Fab/FabAction） | **54%** | P0 100% / 全库 ≥90% |
+| **L2 组件** | 120+ 组件 | 全 | **81 个**（0.14.0 弹层与反馈 16：Menu、DialogShell、PopupProxy、Tooltip、BottomSheet、Spinner×8、Skeleton、InnerLoading、AjaxBar、Banner、Bar、NoSsr、PullToRefresh、ResizeObserver + LoadingBar 服务） | **68%** | P0 100% / 全库 ≥90% |
 | **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | **9 个**（Ripple + 0.7.0 一次收口 Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan·Swipe·Hold·Repeat；Morph/Mutation/Resize/DropZone 能力由 QML 原生信号承担，PARITY 留痕） | **100%** | 100% |
 | **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **7 个**（OverlayHost 基建 + Notify + Dialog + Loading + Storage + App + Platform，0.6.2 一次收口四件） | **44%** | 100%（QML 适用项） |
 | **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **已交付（0.8.0）**：NovaUtils（colors 12 + date 21 + format 6 + is 5 + debounce/throttle/frameDebounce/uid/extend/clone）；CSS 工具类由 QML 组件承担留痕 | **95%** | ≥90% |
 | **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | 70%（缺文档站、视觉回归、打包器） | **70%** | ≥95% |
 
-> **一句话诊断**：L1/L3/L0 满格、L5 95%（一期骨架完工）；L2 54%（四期开局：三期 24 件收口 + 四期 A 导航体系 14 件）；L4 44%（弹层体系于四期 B 补齐）。
+> **一句话诊断**：L1/L3/L0 满格、L5 95%（一期骨架完工）；L2 68%（四期收官：A 导航 14 件 + B 弹层反馈 16 件，弹层基建 OverlayHost/关闭原因上报全线贯通）；L4 44%。
 > 补组件只是"长得像"，补齐这几层才叫"用起来像"。
 
 ---

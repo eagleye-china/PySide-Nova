@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.14.0] - 2026-11-23
+
+### Added（四期 Sprint B · **弹层与反馈一次收口**：L2 54% → 68%，Controls 73 → 89、Services 10 → 11）
+
+- **NovaMenu**（对标 QMenu）：target 触发（左键/右键 contextMenu）、auto-close（动态挂接子项 clicked）、
+  persistent 锁 ESC+外部点击、fit/cover、anchor/self/offset 定位（clamp 宿主范围）、hover 契约、
+  show/hide/toggle/updatePosition/focus、进 NovaOverlayHost 弹层栈（ESC 逐层关闭口径）
+- **NovaDialogShell**（对标 QDialog 组件壳；Services 单例同名 → Nova 命名红线改名留痕）：声明式遮罩+卡片、
+  persistent/no-esc-dismiss/no-backdrop-dismiss、seamless/maximized/fullWidth/fullHeight、五向 position、
+  **关闭原因上报 dismissed(reason)**（ok/cancel/backdrop/escape/api，基线 2.28 真 parity）、
+  persistent 拒关 shake 动效（shake 事件）
+- **NovaPopupProxy**（对标 QPopupProxy）：断点路由（窗口宽/高较小者 < breakpoint → Dialog 形态，否则 Menu 形态）、
+  内容槽共享（reparent 迁移/归还）
+- **NovaTooltip**（对标 QTooltip）：悬停 target + delay/hideDelay、anchor/self/offset（默认 [14,14]）、
+  text 便捷属性或 default 槽、就地渲染 z 提升
+- **NovaBottomSheet**（对标 BottomSheet 插件组件壳）：actions 数组（列表/grid 网格）+ default 槽、
+  遮罩/ESC 关闭、actionPicked + **dismissed(reason) 关闭原因上报**
+- **NovaSpinner**（对标 QSpinner 系列）：variant 八变体 ring/ball/dots/hourglass/gears/grid/radio/comment，
+  Canvas 统一相位驱动（坑位 28 显式失效口径）
+- **NovaSkeleton**（对标 QSkeleton）：type（rect/text/circle/square/badge/tag）× animation（wave/bounce/fade/none）
+  × animationSpeed、size/width/height/square/bordered
+- **NovaInnerLoading**（对标 QInnerLoading）：showing、半透明蒙层 + Spinner、default 槽替换、label
+- **NovaAjaxBar**（对标 QAjaxBar）：start/increment/stop + **多进程计数**（N start 需 N stop）、
+  渐进模拟（越接近 progressCap 越慢）、stop 冲刺收尾、四向 position/reverse、started/stopped 事件
+- **NovaLoadingBar 服务单例**（对标 LoadingBar 插件）：命令式 start/increment/stop，懒创建 AjaxBar 挂
+  NovaOverlayHost（zTop 层），无窗口降级 no-op
+- **NovaBanner / NovaBar**（对标 QBanner/QBar）：三槽横幅（avatar/content/action、inline-actions/dense/rounded）、
+  顶栏（dense、primary 底色文字反转）
+- **NovaNoSsr**（对标 QNoSsr）：placeholder 文案/槽 → delay（默认下一帧）后切换内容
+- **NovaPullToRefresh**（对标 QPullToRefresh · side 四边对标 2.30）：top/bottom/left/right 四向拉动、
+  threshold 阈值、refresh 事件、refreshing 受控、trigger() 方法
+- **NovaResizeObserver**（对标 QResizeObserver）：target（默认声明父项）尺寸变化 debounce → resize(w,h)
+  （NovaScrollObserver 已于 Behaviors 0.7.0 交付——本轮发现规划核对口径：不重复交付）
+- 画廊第 21 页"弹层与反馈"（全类型实机演示 + 关闭原因实时展示）
+
+### Fixed
+
+- NovaMenu auto-close 初版 TapHandler 被子项 MouseArea 独占饿死 → 动态挂接子项 clicked 信号（坑位 35）
+
+### Changed
+
+- 类型总面：**117 个公共类型**（Controls 89 + Services 单例 11 + Design 3 + Behaviors 10 + 句柄动作 4）
+- 测试 271 → **308 项全绿**（29 冒烟 + 9 行为：菜单 auto-close/弹层栈逐层 ESC/关闭原因上报/persistent
+  shake/BottomSheet 动作回报/AjaxBar 多进程计数/PTR trigger 复位/观察器/BtnGroup 样式下发/服务降级 no-op）
+
 ## [0.13.0] - 2026-11-23
 
 ### Added（四期 Sprint A · **导航体系 14 类型一次收口**：L2 43% → 54%，Controls 59 → 73）

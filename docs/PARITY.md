@@ -706,3 +706,110 @@ M1/M2 排期在 ROADMAP 跟踪。
 
 > 测试口径：14 类型实例化冒烟 + 行为用例 7 个（NAV_ENV_QML 驱动代理），合计 0.13.0 新增 21 项（250 → 271）。
 > 坑位沉淀：33 QML Item 析构钩子是 `Component.onDestruction`（无 onDestroyed）；34 Text/Item 基元无 `background` 属性（Control 系 API），徽标底色手写包裹 Rectangle；布尔 `join` 产出小写 `true/false`（断言口径）。
+
+## §0.14 四期 Sprint B · 弹层与反馈 17 件（0.14.0，对标 Quasar 2.35.5 npm 原包 dist/api/*.json 逐项核对；基线 2.35.6 零漂移沿用）
+
+### NovaMenu ↔ QMenu（34 props + 6 events + 5 methods + 1 slot）
+
+| 类别 | 收口 | 留痕 |
+|---|---|---|
+| props | ✅ 15：target（缺省父项，绑定直读不写回）/ context-menu→contextMenu / auto-close→autoClose / persistent / no-esc-dismiss→noEscDismiss / hover 系（hover/hoverDelay/hoverHideDelay）/ fit / cover / anchor / self / offset / square / max-height→maxHeight / max-width→maxWidth | model-value 受控（坑位 22 只 emit）；transition-show/hide/duration ⛔（统一 fade 口径内建）；dark ⛔（NovaTheme 自动）；no-parent-event/touch-position ⛔（DOM 语义）；no-route-dismiss ⛔（无路由）；separate-close-popup ⛔（v-close-popup 指令语境）；no-refocus/no-focus ⛔（无障碍批次） |
+| events | ✅ 6：update:model-value→updateModelValue / before-show→beforeShow / show→shown / before-hide→beforeHide / hide→hidden / escape-key→escapeKey | — |
+| methods | ✅ 5：show / hide / toggle / updatePosition / focus | — |
+| slots | ✅ default（菜单项，NovaItem 口径） | — |
+
+- **portal 语义降级**：就地渲染 + z 提升（Nova 建议声明在页面根层）；外部点击捕获层覆盖宿主范围，
+  宿主交互控件事件不劫持（Nova 口径）。
+- **auto-close**：动态挂接子项 clicked（坑位 35：TapHandler 被子项 MouseArea 独占饿死）。
+- 进 NovaOverlayHost 弹层栈（registerPopup）→ closePopups(depth) 逐层 ESC 关闭口径成立。
+
+### NovaDialogShell ↔ QDialog（组件壳；17 props + 7 events + 5 methods + 1 slot）
+
+- ✅ model-value 受控 / persistent / no-esc-dismiss / no-backdrop-dismiss / seamless / maximized /
+  full-width / full-height / position（五向）/ square / transition（内建 scale+fade）
+- ✅ **关闭原因上报 dismissed(reason)**：ok / cancel / backdrop / escape / api（programmatic=api 别名，
+  基线 2.28 真 parity）；persistent 拒关 → shake 事件 + 动效（对标 QDialog shake）
+- ⛔ backdrop-filter（CSS 特性）、allow-focus-outside/no-refocus/no-focus ⛔（无障碍批次）
+- **命名红线**：Services 已有 NovaDialog 命令式单例，跨模块 import 歧义 → 组件壳名 NovaDialogShell。
+
+### NovaPopupProxy ↔ QPopupProxy（8 props + 5 methods）
+
+- ✅ breakpoint（窗口宽/高较小者判定，默认 450）→ Dialog 全屏形态 / Menu 定位形态二选一；
+  内容槽共享（reparent 迁移到当前形态容器，关闭归还）；target/contextMenu/persistent/cover/fit/position 转发。
+- ✅ 事件转发：updateModelValue/beforeShow/shown/beforeHide/hidden/escapeKey。
+
+### NovaTooltip ↔ QTooltip（13 props + 5 events + 4 methods + 1 slot）
+
+- ✅ target（缺省父项）/ delay / hide-delay / anchor（默认 bottom middle）/ self（默认 top middle）/
+  offset（默认 [14,14]）/ max-width / text（Nova 增强便捷属性）+ default 槽；updatePosition。
+- ⛔ transition-show/hide（统一 fade）；cursor-position ⛔（DOM 指针语义）；persistent ⛔（路由语境）。
+- 就地渲染口径（同 Menu，PARITY 降级留痕）。
+
+### NovaBottomSheet ↔ BottomSheet 插件（组件壳）
+
+- ✅ actions 数组（{label, icon, disable}）列表/grid 网格双布局 + default 槽；遮罩 + ESC 关闭；
+  actionPicked(index) 信号；**dismissed(reason) 关闭原因上报**（backdrop/escape/api/ok——对标 2.28 语义）；
+  modelValue 受控；show/hide/toggle。
+- 插件的 options.grid/cardStyle ⛔（CSS 语义）；QML 口径 actions 对象留 disable 通道。
+
+### NovaSpinner ↔ QSpinner 系列（17 组件 → 单类型 8 变体）
+
+- ✅ variant：ring（默认 mat）/ ball / dots / hourglass / gears / grid / radio / comment；
+  size / tint（color 命名红线）/ thickness（ring/radio 口径）。
+- Canvas 统一相位驱动（Timer → phase → requestPaint，坑位 28 显式失效口径）；
+  单类型收敛理由：QSpinner 17 个组件同 API（size/color/thickness），仅形状差异。
+
+### NovaSkeleton ↔ QSkeleton（11 props + 1 slot）
+
+- ✅ type（rect/text/circle/square/badge/tag）/ animation（wave 渐变横扫/bounce 脉冲/fade 呼吸/none）/
+  animation-speed / size / width→customWidth / height→customHeight / square（type 口径）/
+  bordered | dark ⛔、tag ⛔（HTML 元素）；default 槽 ⛔（内容语义=占位）。
+
+### NovaInnerLoading ↔ QInnerLoading（7 props + 1 slot）
+
+- ✅ showing / size / color→tint（命名红线）/ label + default 槽替换 Spinner；spinners（spinnerVariant
+  Nova 增强）；半透明蒙层（dark 增强开关）。
+
+### NovaAjaxBar ↔ QAjaxBar（6 props + 2 events + 3 methods）
+
+- ✅ position（top/bottom/left/right）/ size / color→tint / reverse / start / increment / stop /
+  start→started / stop→stopped。
+- **多进程计数**：N 次 start 需 N 次 stop（对标 hijack 语义）；渐进模拟：间隔 200→800ms 随进度拉长、
+  步长收窄，progressCap 90，stop 冲刺收尾。skip-hijack/hijack-filter ⛔（Ajax 拦截语境 N/A）。
+
+### NovaLoadingBar 服务 ↔ LoadingBar 插件
+
+- ✅ start(opts)/increment/stop 命令式；懒创建 NovaAjaxBar 挂 NovaOverlayHost（zTop 层）；
+  无窗口（NovaScreen.source 未设）降级 no-op 不炸。
+
+### NovaBanner ↔ QBanner（4 props + 3 slots）
+
+- ✅ inline-actions / dense / rounded + default/avatar/action 三槽。
+
+### NovaBar ↔ QBar（2 props + 1 slot）
+
+- ✅ dense + default 槽；tint 默认 primary、文字 textOnPrimary 反转（对标 $primary 背景）。
+
+### NovaNoSsr ↔ QNoSsr（2 props + 2 slots）
+
+- ✅ placeholder 文案 / placeholder 槽 + default 槽；语义落位"客户端就绪延迟渲染"（delay，默认下一帧）。
+- tag ⛔（HTML 元素）。
+
+### NovaPullToRefresh ↔ QPullToRefresh（7 props + 1 event + 2 methods + 1 slot）
+
+- ✅ **side 四边拉动（top/bottom/left/right，对标 2.30）** / icon / disable / color→tint（命名红线）/
+  bg-color→bgColor / threshold（拉动阈值）；refresh 事件；trigger() 方法；refreshing 受控（宿主置 false
+  复位——事件驱动语义的受控映射）。
+- scroll-target ⛔（就地渲染口径无外部滚动目标）；no-mouse ⛔（QML 统一指针语义）；边缘起点判定简化为
+  整面生效（无 DOM touchstart 坐标，PARITY 留痕）。
+
+### NovaResizeObserver ↔ QResizeObserver（2 props + 1 event + 1 method）
+
+- ✅ debounce（默认 100）/ target（缺省声明父项）/ resize(w,h) / trigger()；绑定首帧只记录基线不触发。
+- **规划核对**：NovaScrollObserver 已于 Behaviors 0.7.0 交付（L3 行为层）——本期不重复交付，
+  规划"若 S3 未覆盖则此期补齐"口径关闭。
+
+> 测试口径：29 类型实例化冒烟 + 行为用例 9 个（POPUP_ENV_QML 驱动代理），合计 0.14.0 新增 38 项（271 → 308）。
+> 坑位沉淀：35 TapHandler 被子项 MouseArea 独占饿死——auto-close 类语义须动态挂接子项 clicked 信号；
+> 弹层组件必须 Component.onDestruction 注销弹层栈（跨测试泄漏级联）；QtObject 无默认属性不能挂
+> Timer/Connections（观察器根改 Item）；var 数组 in-place push 不写回（concat 口径三度复验）。

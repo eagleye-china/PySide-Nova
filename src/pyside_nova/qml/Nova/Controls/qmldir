@@ -75,3 +75,20 @@ NovaToolbar 1.0 NovaToolbar.qml
 NovaToolbarTitle 1.0 NovaToolbarTitle.qml
 NovaFab 1.0 NovaFab.qml
 NovaFabAction 1.0 NovaFabAction.qml
+# ── 四期 Sprint B · 弹层与反馈（0.14.0） ──
+NovaMenu 1.0 NovaMenu.qml
+NovaDialogShell 1.0 NovaDialogShell.qml
+NovaPopupProxy 1.0 NovaPopupProxy.qml
+NovaTooltip 1.0 NovaTooltip.qml
+NovaBottomSheet 1.0 NovaBottomSheet.qml
+NovaSpinner 1.0 NovaSpinner.qml
+NovaSkeleton 1.0 NovaSkeleton.qml
+NovaInnerLoading 1.0 NovaInnerLoading.qml
+NovaAjaxBar 1.0 NovaAjaxBar.qml
+NovaBanner 1.0 NovaBanner.qml
+NovaBar 1.0 NovaBar.qml
+NovaNoSsr 1.0 NovaNoSsr.qml
+NovaPullToRefresh 1.0 NovaPullToRefresh.qml
+NovaResizeObserver 1.0 NovaResizeObserver.qml
+NovaBtnDropdown 1.0 NovaBtnDropdown.qml
+NovaBtnGroup 1.0 NovaBtnGroup.qml

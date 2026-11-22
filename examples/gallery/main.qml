@@ -54,7 +54,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.13.0"
+                text: "Gallery 0.14.0"
                 outlined: true; dense: true
             }
         }
@@ -115,6 +115,7 @@ ApplicationWindow {
                     ListElement { label: "数据体系";            icon: "mdi:table-large" }
                     ListElement { label: "媒体体系";            icon: "mdi:image-multiple-outline" }
                     ListElement { label: "导航体系";            icon: "mdi:compass-outline" }
+                    ListElement { label: "弹层与反馈";          icon: "mdi:layers-triple-outline" }
                 }
 
                 delegate: Rectangle {
@@ -164,7 +165,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -356,7 +357,7 @@ ApplicationWindow {
         Item {
             GalleryPage {
                 title: "概览 Overview"
-                desc: "pyside-nova 已交付 100 个公共类型（Controls 73 + Services 10 + Design 3 + 句柄动作 4 + Behaviors 10）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
+                desc: "pyside-nova 已交付 117 个公共类型（Controls 89 + Services 10 + Design 3 + 句柄动作 4 + Behaviors 10）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
 
                 Row {
                     spacing: NovaTheme.spacingM
@@ -2854,6 +2855,252 @@ ApplicationWindow {
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }
+            }
+        }
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：弹层与反馈 · 四期 Sprint B（菜单/对话框/弹层路由/工具提示/底部面板/加载体系/横幅/观察器）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pagePopup
+        Item {
+            id: pp
+            // 弹层页受控状态
+            property bool menuOpen: false
+            property bool dlgOpen: false
+            property bool sheetOpen: false
+            property var dlgReasons: []
+            property var sheetPicks: []
+            property bool ptrRefreshing: false
+            property int ptrCount: 0
+            property int barWaiters: 0
+            property real barProgress: 0
+
+            GalleryPage {
+                title: "弹层与反馈 · 四期 Sprint B"
+                desc: "NovaMenu 菜单（auto-close/右键/hover 契约/anchor 定位）、NovaDialogShell 对话框（关闭原因上报 ok/cancel/backdrop/escape/api · persistent shake）、NovaPopupProxy 弹层路由（断点 Menu↔Dialog）、NovaTooltip 工具提示、NovaBottomSheet 底部动作面板（网格/列表）、NovaSpinner 八变体、NovaSkeleton 骨架屏、NovaAjaxBar/NovaLoadingBar 进度、NovaBanner/NovaBar、NovaPullToRefresh 四边拉动、双观察器。"
+
+                GalleryRow { label: "① NovaMenu：点击按钮开菜单 · auto-close 点任意项即关 · contextMenu 右键形态" }
+                NovaBtn {
+                    id: menuAnchor
+                    text: pp.menuOpen ? "关闭菜单" : "打开菜单"
+                    icon: "mdi:menu"
+                    onClicked: pp.menuOpen = !pp.menuOpen
+                }
+                Text { text: "（或在下方区域右键）"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                NovaMenu {
+                    width: 190
+                    modelValue: pp.menuOpen
+                    target: menuAnchor
+                    autoClose: true
+                    NovaItem { label: "打开文件"; icon: "mdi:folder-open-outline"; clickable: true }
+                    NovaItem { label: "保存副本"; icon: "mdi:content-save-outline"; clickable: true }
+                    NovaItem { label: "导出 PDF"; icon: "mdi:file-pdf-box"; clickable: true }
+                    NovaItem { label: "删除"; icon: "mdi:delete-outline"; clickable: true }
+                    onUpdateModelValue: (v) => pp.menuOpen = v
+                }
+                NovaMenu {
+                    width: 160
+                    contextMenu: true
+                    target: pp.parent
+                    NovaItem { label: "右键菜单项 A"; clickable: true }
+                    NovaItem { label: "右键菜单项 B"; clickable: true }
+                }
+
+                GalleryRow { label: "② NovaDialogShell：关闭原因上报（persistent 锁闭 → shake 吸引注意）" }
+                NovaBtn {
+                    text: "打开对话框"
+                    icon: "mdi:card-text-outline"
+                    onClicked: pp.dlgOpen = true
+                }
+                Text {
+                    text: pp.dlgReasons.length > 0 ? "最近关闭原因：" + pp.dlgReasons[pp.dlgReasons.length - 1] : "尚未关闭过"
+                    color: NovaTheme.textMuted
+                    font.pixelSize: NovaTheme.fontS
+                }
+                NovaDialogShell {
+                    anchors.fill: pp
+                    modelValue: pp.dlgOpen
+                    onDismissed: (reason) => pp.dlgReasons = pp.dlgReasons.concat([reason])
+                    onUpdateModelValue: (v) => pp.dlgOpen = v
+
+                    Column {
+                        width: parent.width
+                        spacing: NovaTheme.spacingS
+                        Text { text: "保存更改？"; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontL; font.bold: true }
+                        Text { text: "未保存的修改将会丢失。persistent 模式下按 ESC / 点遮罩会 shake 而不关闭。"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS; wrapMode: Text.WordWrap; width: parent.width }
+                        Row {
+                            spacing: NovaTheme.spacingS
+                            layoutDirection: Qt.RightToLeft
+                            anchors.right: parent.right
+                            NovaBtn { text: "放弃"; variant: "flat"; onClicked: pp.dlgOpen = false }
+                            NovaBtn { text: "保存"; onClicked: pp.dlgOpen = false }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "③ NovaBottomSheet：底部动作面板（列表 / 网格）+ 动作回报" }
+                NovaBtn {
+                    text: "打开动作面板"
+                    icon: "mdi:arrow-up-bold-box-outline"
+                    onClicked: pp.sheetOpen = true
+                }
+                Text {
+                    text: pp.sheetPicks.length > 0 ? "已选动作：" + pp.sheetPicks[pp.sheetPicks.length - 1] : "尚未选择"
+                    color: NovaTheme.textMuted
+                    font.pixelSize: NovaTheme.fontS
+                }
+                NovaBottomSheet {
+                    anchors.fill: pp
+                    modelValue: pp.sheetOpen
+                    actions: [
+                        { label: "拍照上传", icon: "mdi:camera-outline" },
+                        { label: "从相册选择", icon: "mdi:image-multiple-outline" },
+                        { label: "云端文件", icon: "mdi:cloud-upload-outline" },
+                        { label: "取消", icon: "mdi:close", disable: false }
+                    ]
+                    onActionPicked: (idx) => pp.sheetPicks = pp.sheetPicks.concat(["#" + idx])
+                    onUpdateModelValue: (v) => pp.sheetOpen = v
+                }
+
+                GalleryRow { label: "④ NovaTooltip：悬停显示（anchor/self/offset 可调）" }
+                NovaBtn {
+                    text: "悬停我"
+                    variant: "outline"
+                    NovaTooltip { text: "这是工具提示：anchor bottom middle"; delay: 120 }
+                }
+
+                GalleryRow { label: "⑤ 加载体系：NovaSpinner 八变体 × NovaSkeleton × NovaInnerLoading" }
+                Flow {
+                    width: parent.width
+                    spacing: NovaTheme.spacingL
+                    Repeater {
+                        model: [
+                            { v: "ring", n: "ring" }, { v: "ball", n: "ball" }, { v: "dots", n: "dots" },
+                            { v: "hourglass", n: "hourglass" }, { v: "gears", n: "gears" }, { v: "grid", n: "grid" },
+                            { v: "radio", n: "radio" }, { v: "comment", n: "comment" }
+                        ]
+                        delegate: Column {
+                            spacing: 4
+                            NovaSpinner { variant: modelData.v; size: 34; anchors.horizontalCenter: parent.horizontalCenter }
+                            Text { text: modelData.n; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS; anchors.horizontalCenter: parent.horizontalCenter }
+                        }
+                    }
+                }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    NovaSkeleton { type: "rect"; width: 180; height: 64 }
+                    NovaSkeleton { type: "circle"; size: 64 }
+                    Column {
+                        spacing: 8
+                        NovaSkeleton { type: "text"; width: 160 }
+                        NovaSkeleton { type: "text"; width: 120 }
+                        NovaSkeleton { type: "text"; width: 90 }
+                    }
+                }
+                Rectangle {
+                    width: parent.width
+                    height: 80
+                    radius: NovaTheme.radiusS
+                    color: NovaTheme.surfaceAlt
+                    border.width: 1
+                    border.color: NovaTheme.outline
+                    NovaInnerLoading { anchors.fill: parent; showing: true; label: "正在加载" }
+                }
+
+                GalleryRow { label: "⑥ NovaAjaxBar：start/increment/stop 命令式进度（多进程计数）" }
+                Row {
+                    spacing: NovaTheme.spacingS
+                    NovaBtn { text: "start"; variant: "flat"; onClicked: { ajaxBar.start(); pp.barWaiters++ } }
+                    NovaBtn { text: "increment"; variant: "flat"; onClicked: ajaxBar.increment() }
+                    NovaBtn { text: "stop"; variant: "flat"; onClicked: { ajaxBar.stop(); pp.barWaiters = Math.max(0, pp.barWaiters - 1) } }
+                    Text { text: "等待进程：" + pp.barWaiters; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS; anchors.verticalCenter: parent.verticalCenter }
+                }
+                NovaAjaxBar { id: ajaxBar; width: parent.width; height: 3; position: "top" }
+                NovaBtn {
+                    text: "NovaLoadingBar 服务（命令式顶部进度 2 秒）"
+                    variant: "flat"
+                    onClicked: {
+                        NovaLoadingBar.start()
+                        svcTimer.restart()
+                    }
+                }
+                Timer {
+                    id: svcTimer
+                    interval: 2000
+                    onTriggered: NovaLoadingBar.stop()
+                }
+
+                GalleryRow { label: "⑦ NovaBanner / NovaBar：横幅与顶栏" }
+                NovaBanner {
+                    width: parent.width
+                    rounded: true
+                    Rectangle { width: 36; height: 36; radius: 18; color: NovaTheme.primary }
+                    Column {
+                        width: parent.width - 200
+                        Text { text: "v0.14.0 已发布"; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontM; font.weight: Font.Medium }
+                        Text { text: "弹层与反馈体系 18 个新类型上线，含关闭原因上报与四边拉动刷新。"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                    }
+                    NovaBtn { text: "查看"; variant: "flat" }
+                    NovaBtn { text: "关闭"; variant: "flat" }
+                }
+                NovaBar {
+                    width: parent.width
+                    Text { text: "NovaBar 顶栏"; color: NovaTheme.textOnPrimary; font.pixelSize: NovaTheme.fontM }
+                    Item { width: 8; height: 1 }
+                    NovaIcon { icon: "mdi:magnify"; color: NovaTheme.textOnPrimary; size: 18 }
+                    NovaIcon { icon: "mdi:dots-vertical"; color: NovaTheme.textOnPrimary; size: 18 }
+                }
+
+                GalleryRow { label: "⑧ NovaPullToRefresh：四边拉动（演示 top 边向下拉触发）+ 双观察器" }
+                Rectangle {
+                    width: parent.width
+                    height: 160
+                    radius: NovaTheme.radiusS
+                    border.width: 1
+                    border.color: NovaTheme.outline
+                    clip: true
+                    NovaPullToRefresh {
+                        anchors.fill: parent
+                        refreshing: pp.ptrRefreshing
+                        onRefresh: {
+                            pp.ptrCount++
+                            ptrTimer.restart()
+                        }
+                        Rectangle {
+                            anchors.fill: parent
+                            color: NovaTheme.surfaceAlt
+                            Column {
+                                anchors.centerIn: parent
+                                spacing: 4
+                                Text { text: "在此区域按住向下拉"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                                Text { text: "已刷新 " + pp.ptrCount + " 次"; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontM; font.bold: true }
+                            }
+                        }
+                    }
+                    Timer {
+                        id: ptrTimer
+                        interval: 1200
+                        onTriggered: pp.ptrRefreshing = false
+                    }
+                }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    Column {
+                        spacing: 4
+                        Text { text: "NovaResizeObserver"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                        Text { text: "宿主宽度：" + obsRoot.width + "px"; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontM }
+                    }
+                }
+            }
+
+            // ResizeObserver 观测宿主
+            NovaResizeObserver {
+                id: obsRoot
+                target: pp
+                onResize: (w, h) => { /* 宿主尺寸变化（演示绑定读取） */ }
             }
         }
     }

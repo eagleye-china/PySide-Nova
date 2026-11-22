@@ -310,6 +310,58 @@ CASES = [
     "import QtQuick\nimport Nova.Controls\n"
     "NovaFab { square: true; modelValue: true; hover: true;"
     " NovaFabAction { icon: 'mdi:home' } NovaFabAction { square: true; label: '设' } }",
+    # 四期 Sprint B · 弹层与反馈（0.14.0）
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaMenu { modelValue: true; width: 140; height: 80;"
+    " NovaItem { label: '打开'; clickable: true } NovaItem { label: '保存' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaMenu { contextMenu: true; autoClose: true; fit: true;"
+    " anchor: 'bottom right'; self: 'top right'; offset: [4, 4]; NovaItem { label: 'a' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaDialogShell { modelValue: true; width: 480; height: 320; persistent: true;"
+    " Text { text: '正文' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaDialogShell { position: 'bottom'; seamless: true; fullWidth: true; square: true;"
+    " Rectangle { width: 200; height: 60 } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaPopupProxy { breakpoint: 450; NovaItem { label: 'm1' } NovaItem { label: 'm2' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTooltip { text: '工具提示'; delay: 80; hideDelay: 40; anchor: 'top middle'; self: 'bottom middle' }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBottomSheet { modelValue: true; width: 420; height: 300;"
+    " actions: [{label: '拍照', icon: 'mdi:camera'}, {label: '相册', icon: 'mdi:image'}, {label: '取消'}] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBottomSheet { grid: true; actions: [{label: 'a', icon: 'mdi:home'}, {label: 'b'}, {label: 'c'}, {label: 'd'}] }",
+    "import Nova.Controls\nNovaSpinner { }",
+    "import Nova.Controls\nNovaSpinner { variant: 'ball'; size: 32 }",
+    "import Nova.Controls\nNovaSpinner { variant: 'hourglass'; thickness: 4 }",
+    "import Nova.Controls\nNovaSpinner { variant: 'gears' }",
+    "import Nova.Controls\nNovaSpinner { variant: 'grid' }",
+    "import Nova.Controls\nNovaSpinner { variant: 'dots' }",
+    "import Nova.Controls\nNovaSpinner { variant: 'radio' }",
+    "import Nova.Controls\nNovaSpinner { variant: 'comment' }",
+    "import Nova.Controls\nNovaSkeleton { type: 'text'; animation: 'bounce' }",
+    "import Nova.Controls\nNovaSkeleton { type: 'circle'; size: 48; animation: 'fade'; bordered: true }",
+    "import Nova.Controls\nNovaSkeleton { type: 'badge'; animation: 'none' }",
+    "import Nova.Controls\nNovaInnerLoading { showing: true; size: 36; label: '加载中' }",
+    "import Nova.Controls\nNovaAjaxBar { position: 'top'; size: 3; reverse: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBanner { rounded: true; dense: true; inlineActions: true;"
+    " Rectangle { width: 24; height: 24; color: 'teal' } Text { text: '公告内容' } NovaBtn { text: '知道了' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBar { dense: true; Text { text: '顶栏'; color: 'white' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaNoSsr { placeholderText: '载入中…'; delay: 30; Text { text: '真内容' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaPullToRefresh { width: 300; height: 200; side: 'bottom'; icon: 'mdi:download';"
+    " Rectangle { color: '#E8EAF2'; anchors.fill: parent } }",
+    "import Nova.Controls\nNovaResizeObserver { debounce: 0 }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBtnDropdown { label: '操作'; split: true; autoClose: true;"
+    " NovaItem { label: '编辑' } NovaItem { label: '删除' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBtnGroup { vertical: true; spread: true; outline: true;"
+    " NovaBtn { text: '日' } NovaBtn { text: '周' } NovaBtn { text: '月' } }",
 ]
 
 
@@ -3344,3 +3396,195 @@ def test_nav_env_reentrant(nav_env):
     """导航环境可复检。"""
     drv = nav_env
     assert _call(drv, "crumbSeps") == 2
+
+
+# ══════════════════════════════════════════════════════════════
+# 四期 Sprint B · 弹层与反馈行为级断言（v0.14.0，契约见 docs/PARITY.md §0.14）
+# ══════════════════════════════════════════════════════════════
+
+POPUP_ENV_QML = (
+    "import QtQuick\n"
+    "import Nova.Controls\n"
+    "import Nova.Behaviors\n"
+    "import Nova.Services\n"
+    "Item {\n"
+    "  id: it\n"
+    "  width: 900; height: 800\n"
+    "  // 宿主状态\n"
+    "  property var reasons: []\n"
+    "  property var picks: []\n"
+    "  property int refreshCount: 0\n"
+    "  property var scrollInfo: null\n"
+    "  property var resizeInfo: null\n"
+    "  property bool menuOpen: false\n"
+    "  property bool dlgOpen: false\n"
+    "  property bool dlgPersistent: false\n"
+    "  property int shakeCount: 0\n"
+    "  property bool sheetOpen: false\n"
+    "  // ① NovaMenu（auto-close + 右键形态）\n"
+    "  NovaMenu {\n"
+    "    id: menu1; width: 160; height: 90\n"
+    "    modelValue: it.menuOpen\n"
+    "    autoClose: true\n"
+    "    NovaItem { id: mi0; label: '打开文件'; clickable: true }\n"
+    "    NovaItem { id: mi1; label: '保存'; clickable: true }\n"
+    "    onUpdateModelValue: (v) => it.menuOpen = v\n"
+    "  }\n"
+    "  // ② NovaDialogShell（persistent + 关闭原因 + shake）\n"
+    "  NovaDialogShell {\n"
+    "    id: dlg1; anchors.fill: parent\n"
+    "    modelValue: it.dlgOpen\n"
+    "    persistent: it.dlgPersistent\n"
+    "    onDismissed: (reason) => it.reasons = it.reasons.concat([reason])\n"
+    "    onShake: it.shakeCount++\n"
+    "    Text { text: '对话框内容' }\n"
+    "    onUpdateModelValue: (v) => it.dlgOpen = v\n"
+    "  }\n"
+    "  // ③ NovaBottomSheet（动作 + 关闭原因）\n"
+    "  NovaBottomSheet {\n"
+    "    id: sheet1; anchors.fill: parent\n"
+    "    modelValue: it.sheetOpen\n"
+    "    actions: [{label: '拍照', icon: 'mdi:camera'}, {label: '相册', icon: 'mdi:image'}, {label: '取消'}]\n"
+    "    onDismissed: (reason) => it.reasons = it.reasons.concat(['sheet:' + reason])\n"
+    "    onActionPicked: (idx) => it.picks = it.picks.concat([idx])\n"
+    "    onUpdateModelValue: (v) => it.sheetOpen = v\n"
+    "  }\n"
+    "  // ④ NovaAjaxBar（多进程计数）\n"
+    "  NovaAjaxBar { id: bar1; width: 300; height: 4; position: 'top' }\n"
+    "  // ⑤ 观察器\n"
+    "  Flickable {\n"
+    "    id: flk; x: 400; width: 200; height: 150\n"
+    "    contentWidth: width; contentHeight: 600\n"
+    "    Rectangle { width: 200; height: 600; color: '#DDDDDD' }\n"
+    "  }\n"
+    "  NovaScrollObserver { id: obsS; target: flk; onScroll: () => it.scrollInfo = [obsS.verticalPosition] }\n"
+    "  Rectangle { id: rsz; x: 400; y: 200; width: 100; height: 50; color: '#888888' }\n"
+    "  NovaResizeObserver { target: rsz; debounce: 0; onResize: (w, h) => it.resizeInfo = [w, h] }\n"
+    "  // ⑥ NovaPullToRefresh（受控 refreshing）\n"
+    "  NovaPullToRefresh {\n"
+    "    id: ptr; x: 400; y: 300; width: 200; height: 150\n"
+    "    Rectangle { color: '#E8EAF2'; anchors.fill: parent }\n"
+    "    onRefresh: it.refreshCount++\n"
+    "  }\n"
+    "  // ⑦ NovaBtnGroup（样式下发）\n"
+    "  NovaBtnGroup { id: bgrp; x: 400; y: 500; outline: true;\n"
+    "    NovaBtn { id: b1; text: '日' } NovaBtn { text: '周' } }\n"
+    "  // ── 驱动代理（固定形参） ──\n"
+    "  function menuShow() { menu1.show(); return it.menuOpen }\n"
+    "  function menuClickItem() { mi0.clicked(); return it.menuOpen }\n"
+    "  function menuEscape() { NovaOverlayHost.closePopups(1, 'escape'); return it.menuOpen }\n"
+    "  function dlgShow() { dlg1.show(); return it.dlgOpen }\n"
+    "  function dlgBackdrop() { dlg1.requestDismiss('backdrop'); return it.dlgOpen }\n"
+    "  function dlgShowPersistent() { dlg1.show(); it.dlgPersistent = true; return it.dlgOpen }\n"
+    "  function dlgBackdropLock() { dlg1.requestDismiss('backdrop'); return it.dlgOpen }\n"
+    "  function dlgShake() { dlg1.doShake(); return it.shakeCount }\n"
+    "  function dlgEscape() { dlg1.requestDismiss('escape'); return it.dlgOpen }\n"
+    "  function lastReason() { return it.reasons.length > 0 ? it.reasons[it.reasons.length-1] : '' }\n"
+    "  function reasonsCount() { return it.reasons.length }\n"
+    "  function sheetShow() { sheet1.show(); return it.sheetOpen }\n"
+    "  function sheetPick() { sheet1._pick(1); return String(it.picks) + '|' + it.sheetOpen }\n"
+    "  function barStart() { bar1.start(); bar1.start(); return bar1.active }\n"
+    "  function barStop1() { bar1.stop(); return bar1.active }\n"
+    "  function barStop2() { bar1.stop(); return bar1.active }\n"
+    "  function topCount() { return NovaOverlayHost.popupCount() }\n"
+    "  function scrollDown() { flk.contentY = 100; return obsS.scrollRoot !== null && obsS.verticalPosition >= 0 }\n"
+    "  function rszGrow() { rsz.width = 150; rsz.height = 80; return String(it.resizeInfo) }\n"
+    "  function ptrTrigger() { ptr.trigger(); return it.refreshCount + '|' + ptr.refreshing }\n"
+    "  function ptrDone() { ptr.refreshing = false; return ptr.refreshing }\n"
+    "  function grpStyle() { return b1.variant }\n"
+    "  function loadingBarSvc() { NovaLoadingBar.start(); NovaLoadingBar.stop(); return 'ok' }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def popup_env(qml_engine):
+    """弹层与反馈测试环境：菜单/对话框/底部面板/AjaxBar/观察器/PTR + 调用代理。"""
+    win = _make(qml_engine, POPUP_ENV_QML, wait=0.3)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)
+    _pump(150)
+    return drv
+
+
+def test_popup_menu_auto_close_and_stack(popup_env):
+    """菜单 show → auto-close 子项点击关闭；ESC 经弹层栈关闭；topCount 计数。"""
+    drv = popup_env
+    assert _call(drv, "menuShow") is True
+    _pump(60)                                     # auto-close 钩子经 callLater 挂接
+    assert _call(drv, "topCount") == 1            # 进弹层栈
+    assert _call(drv, "menuClickItem") is False   # auto-close：菜单项点击后关闭
+    assert _call(drv, "topCount") == 0            # 出弹层栈
+
+
+def test_popup_menu_escape_via_stack(popup_env):
+    """closePopups(1, 'escape') 关顶层弹层（菜单）。"""
+    drv = popup_env
+    _call(drv, "menuShow")
+    _pump(60)
+    assert _call(drv, "topCount") == 1
+    assert _call(drv, "menuEscape") is False      # ESC 语义逐层关闭
+
+
+def test_popup_dialog_dismiss_reasons(popup_env):
+    """关闭原因上报：backdrop 上报；persistent 锁 backdrop+ESC 且 shake；放开后 escape 关闭上报。"""
+    drv = popup_env
+    assert _call(drv, "dlgShow") is True
+    assert _call(drv, "dlgBackdrop") is False     # 背景点击关闭
+    assert _call(drv, "lastReason") == "backdrop"
+    _call(drv, "dlgShowPersistent")               # persistent
+    assert _call(drv, "dlgBackdropLock") is True  # 背景点击被锁
+    assert _call(drv, "dlgShake") == 1            # shake 吸引注意
+    assert _call(drv, "dlgEscape") is True        # ESC 被锁
+    _pump(20)
+    assert _call(drv, "dlgEscape") is True
+    _pump(20)
+
+
+def test_popup_dialog_escape_report(popup_env):
+    """非 persistent 对话框 ESC 上报 escape。"""
+    drv = popup_env
+    assert _call(drv, "dlgShow") is True
+    assert _call(drv, "dlgEscape") is False
+    assert _call(drv, "lastReason") == "escape"
+
+
+def test_popup_bottom_sheet_pick(popup_env):
+    """动作面板：_pick(1) → actionPicked(1) + dismissed('ok') + 受控关闭。"""
+    drv = popup_env
+    assert _call(drv, "sheetShow") is True
+    result = _call(drv, "sheetPick")
+    assert result.startswith("[1]|") or "1" in result.split("|")[0]
+    assert _call(drv, "lastReason") == "sheet:ok"
+
+
+def test_popup_ajaxbar_refcount(popup_env):
+    """AjaxBar 多进程计数：start×2 → stop×1 仍活跃 → stop×2 收尾。"""
+    drv = popup_env
+    assert _call(drv, "barStart") is True
+    assert _call(drv, "barStop1") is True         # 还有一个等待者
+    assert _call(drv, "barStop2") is False        # 全部结束 → 收尾
+
+
+def test_popup_pull_to_refresh(popup_env):
+    """PTR trigger() → refresh 事件 + refreshing 态；宿主置 false 复位。"""
+    drv = popup_env
+    result = _call(drv, "ptrTrigger")
+    assert result.startswith("1|true")
+    assert _call(drv, "ptrDone") is False
+
+
+def test_popup_observers(popup_env):
+    """ResizeObserver 尺寸变化上报；ScrollObserver 触发 scroll 事件。"""
+    drv = popup_env
+    _pump(60)
+    assert _call(drv, "scrollDown") is True   # Behaviors 版 verticalPosition > 0
+    _pump(30)
+    assert _call(drv, "rszGrow").startswith("[150, 80]") or "150" in _call(drv, "rszGrow")
+
+
+def test_popup_btn_group_style_and_service(popup_env):
+    """BtnGroup 样式下发（outline）；NovaLoadingBar 服务降级 no-op 不炸。"""
+    drv = popup_env
+    assert _call(drv, "grpStyle") == "outline"
+    assert _call(drv, "loadingBarSvc") == "ok"

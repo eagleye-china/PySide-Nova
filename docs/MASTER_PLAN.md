@@ -173,7 +173,7 @@
 | `NovaToolbar` | QToolbar(+Title) | 工具栏 |
 | `NovaFab` / `NovaFabAction` | QFab/QFabAction | 悬浮按钮组（展开方向/持久展开/**stagger 级联动画**、hover 打开契约） |
 
-### Sprint B · 弹层与反馈（v0.14.0）
+### Sprint B · 弹层与反馈（v0.14.0）✅ 2026-11-23 收口
 
 | 交付物 | 对标 | 关键能力 |
 |---|---|---|

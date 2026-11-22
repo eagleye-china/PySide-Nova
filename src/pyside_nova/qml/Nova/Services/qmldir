@@ -19,3 +19,4 @@ NovaLoadingHandle 1.0 NovaLoadingHandle.qml
 internal NovaNotificationItem NovaNotificationItem.qml
 internal NovaDialogCard NovaDialogCard.qml
 internal NovaLoadingOverlay NovaLoadingOverlay.qml
+singleton NovaLoadingBar 1.0 NovaLoadingBar.qml
