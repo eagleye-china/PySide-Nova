@@ -1,4 +1,14 @@
 # src/pyside_nova/qml/Nova/Behaviors/qmldir
-# Nova.Behaviors 模块导出清单（公共 API 面）：可挂载行为层
+# Nova.Behaviors 模块导出清单（公共 API 面）：可挂载行为层（对标 Quasar L3 指令）
+# 0.7.0：新增 8 件 —— Intersection / ScrollObserver / ScrollFire / ClosePopup / TouchPan·Swipe·Hold·Repeat
 module Nova.Behaviors
 NovaRipple 1.0 NovaRipple.qml
+NovaIntersection 1.0 NovaIntersection.qml
+NovaScrollObserver 1.0 NovaScrollObserver.qml
+NovaScrollFire 1.0 NovaScrollFire.qml
+NovaClosePopup 1.0 NovaClosePopup.qml
+NovaTouchPan 1.0 NovaTouchPan.qml
+NovaTouchSwipe 1.0 NovaTouchSwipe.qml
+NovaTouchHold 1.0 NovaTouchHold.qml
+NovaTouchRepeat 1.0 NovaTouchRepeat.qml
+internal NovaTouchCore NovaTouchCore.qml

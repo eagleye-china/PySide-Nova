@@ -6,9 +6,10 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import pytest
-from PySide6.QtCore import QEventLoop, QTimer, QUrl
+from PySide6.QtCore import QEventLoop, QPoint, QTimer, QUrl, Qt
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlComponent, QQmlEngine
+from PySide6.QtTest import QTest
 
 from pyside_nova import init_nova
 
@@ -101,6 +102,24 @@ CASES = [
     "import QtQuick\nimport Nova.Services\n"
     "QtObject { property var h: null;"
     " Component.onCompleted: h = NovaNotify.show('hi') }",
+    # ── L3 行为层（v0.7.0）：九个指令行为 + 共享观察池 ──
+    "import QtQuick\nimport Nova.Behaviors\nNovaIntersection { }",
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "NovaIntersection { threshold: [0, 0.5, 1]; once: true }",
+    "import QtQuick\nimport Nova.Behaviors\nNovaScrollObserver { }",
+    "import QtQuick\nimport Nova.Behaviors\nNovaScrollFire { threshold: 0.5 }",
+    "import QtQuick\nimport Nova.Behaviors\nNovaClosePopup { depth: -1 }",
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "NovaTouchPan { horizontal: true; directions: ['left', 'right'] }",
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "NovaTouchSwipe { directions: ['up']; minVelocity: 0.08 }",
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "NovaTouchHold { duration: 500; touchSensitivity: 4 }",
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "NovaTouchRepeat { delays: '0:400'; keyRepeat: true }",
+    "import QtQuick\nimport Nova.Services\n"
+    "QtObject { property int n: NovaIntersectionPool.count;"
+    " property int p: NovaIntersectionPool.pollInterval }",
 ]
 
 
@@ -1073,3 +1092,349 @@ def test_app_without_window(qml_engine):
     assert obj.property("r") is False
     assert obj.property("t") == ""
     obj.deleteLater()
+
+
+# ══════════════════════════════════════════════════════════════
+# L3 行为层（v0.7.0）：Intersection / Scroll / ClosePopup / Touch 四件套
+# ══════════════════════════════════════════════════════════════
+
+# 单窗口装全部行为：各行为占不同矩形区域（MouseArea 不能叠在同一目标上——
+# 这是 QML 指针模型的固有约束，不是实现缺陷），驱动函数统一由窗口持有。
+BEHAVIOR_ENV_QML = (
+    "import QtQuick\nimport QtQuick.Window\nimport Nova.Behaviors\nimport Nova.Services\n"
+    "Window { id: win; width: 420; height: 640; visible: true; color: '#f4f4f4'\n"
+    "  Component.onCompleted: NovaScreen.source = win\n"
+    "  property int panCount: 0\n"
+    "  property string panDir: ''\n"
+    "  property bool panFirst: false\n"
+    "  property bool panFinal: false\n"
+    "  property real panOffsetX: 0\n"
+    "  property int swipeCount: 0\n"
+    "  property string swipeDir: ''\n"
+    "  property real swipeVelocity: 0\n"
+    "  property int holdCount: 0\n"
+    "  property int holdDuration: 0\n"
+    "  property int repCount: 0\n"
+    "  property int interEnter: 0\n"
+    "  property int interExit: 0\n"
+    "  property int onceCount: 0\n"
+    "  property int fireCount: 0\n"
+    "  property real scrollV: -1\n"
+    "  property bool scrollAtBottom: false\n"
+    "  property string scrollDir: ''\n"
+    "  function moveInter(y) { interBox.y = y }\n"
+    "  function scrollTo(v) { flick.contentY = v }\n"
+    "  function interRatioNow() { return inter.intersectionRatio }\n"
+    "  function interVisible() { return inter.isIntersecting }\n"
+    "  function rearmOnce() { onceBeh.rearm() }\n"
+    "  function pauseOnce() { onceBeh.enabled = false }\n"
+    "  function resumeOnce() { onceBeh.enabled = true }\n"
+    "  function stopInter() { inter.stop() }\n"
+    "  function poolCount() { return NovaIntersectionPool.count }\n"
+    "  Rectangle { id: panBox; x: 0; y: 0; width: 200; height: 120; color: '#c8e6c9'\n"
+    "    NovaTouchPan { onPan: (d) => { win.panCount++; win.panDir = d.direction;\n"
+    "      if (d.isFirst) win.panFirst = true; if (d.isFinal) win.panFinal = true;\n"
+    "      win.panOffsetX = d.offset.x } } }\n"
+    "  Rectangle { id: swipeBox; x: 0; y: 130; width: 200; height: 120; color: '#bbdefb'\n"
+    "    NovaTouchSwipe { directions: ['right']\n"
+    "      onSwipe: (d) => { win.swipeCount++; win.swipeDir = d.direction;\n"
+    "        win.swipeVelocity = d.velocity } } }\n"
+    "  Rectangle { id: holdBox; x: 0; y: 260; width: 200; height: 120; color: '#ffe0b2'\n"
+    "    NovaTouchHold { duration: 250\n"
+    "      onHold: (d) => { win.holdCount++; win.holdDuration = d.duration } } }\n"
+    "  Rectangle { id: repBox; x: 200; y: 0; width: 220; height: 120; color: '#f8bbd0'\n"
+    "    NovaTouchRepeat { delays: '0:150:100'\n"
+    "      onRepeat: (d) => win.repCount = d.repeatCount } }\n"
+    "  Rectangle { id: interBox; x: 200; y: 130; width: 220; height: 120; color: '#d1c4e9'\n"
+    "    NovaIntersection { id: inter; threshold: [0, 0.5]\n"
+    "      onEntered: (e) => win.interEnter++\n"
+    "      onExited: (e) => win.interExit++ }\n"
+    "    NovaIntersection { id: onceBeh; once: true; threshold: 0.3\n"
+    "      onEntered: (e) => win.onceCount++ }\n"
+    "    NovaScrollFire { threshold: 0.6; onFire: (i) => win.fireCount++ } }\n"
+    "  Flickable { id: flick; x: 0; y: 400; width: 420; height: 220\n"
+    "    contentWidth: 420; contentHeight: 1000; clip: true\n"
+    "    NovaScrollObserver { onScroll: (d) => { win.scrollV = d.vertical;\n"
+    "      win.scrollAtBottom = d.atBottom; win.scrollDir = d.direction } } }\n"
+    "}"
+)
+
+# 通用驱动代理：PySide 把 QML Window 包装成 QWindow（metaobject 里没有 QML 函数），
+# 所以行为一律经 QML 侧代理调用；代理同时强引用窗口，避免 JS GC 回收无父窗口。
+BEHAVIOR_DRIVER_QML = (
+    "import QtQuick\n"
+    "QtObject {\n"
+    "  property var w: null\n"
+    "  function keep(x) { w = x }\n"
+    "  function call0(name) {\n"
+    "    var fn = w ? w[name] : null\n"
+    "    return typeof fn === 'function' ? fn.call(w) : null\n"
+    "  }\n"
+    "  function call1(name, a) {\n"
+    "    var fn = w ? w[name] : null\n"
+    "    return typeof fn === 'function' ? fn.call(w, a) : null\n"
+    "  }\n"
+    "  function call2(name, a, b) {\n"
+    "    var fn = w ? w[name] : null\n"
+    "    return typeof fn === 'function' ? fn.call(w, a, b) : null\n"
+    "  }\n"
+    "  function val(name) { return w ? w[name] : undefined }\n"
+    "}"
+)
+
+
+def _call(drv, name, *args):
+    """QML 函数按固定形参暴露（Qt 6 不支持可选参数），按实参个数分派。"""
+    if len(args) == 0:
+        return drv.call0(name)
+    if len(args) == 1:
+        return drv.call1(name, args[0])
+    return drv.call2(name, args[0], args[1])
+
+
+@pytest.fixture()
+def behavior_env(qml_engine):
+    """L3 行为测试环境：可见窗口（QTest 投递鼠标事件要求 visible=true）+ 调用代理。"""
+    win = _make(qml_engine, BEHAVIOR_ENV_QML, wait=0.12)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)      # 直接在 QML 侧持有窗口：JS GC 不认 Python 引用
+    _pump(80)
+    return drv
+
+
+def test_intersection_enter_exit_and_ratio(behavior_env):
+    """初始可见 → entered 一次、比例 1.0；移出视口 → 比例 0、exited；移回 → 再次 entered。"""
+    drv = behavior_env
+    assert drv.val("interEnter") == 1
+    assert abs(_call(drv, "interRatioNow") - 1.0) < 0.01
+
+    _call(drv, "moveInter", 800)              # 整个移出窗口
+    _pump(120)
+    assert _call(drv, "interRatioNow") == 0.0
+    assert drv.val("interExit") == 1
+    assert _call(drv, "interVisible") is False
+
+    _call(drv, "moveInter", 130)
+    _pump(120)
+    assert drv.val("interEnter") == 2
+    assert _call(drv, "interVisible") is True
+
+
+def test_intersection_ratio_partial(behavior_env):
+    """部分可见时比例精确：box 露出 60px / 高 120px → 0.5 左右。"""
+    drv = behavior_env
+    _call(drv, "moveInter", 580)              # 窗口高 640，box 580..700 → 可见 60
+    _pump(120)
+    ratio = _call(drv, "interRatioNow")
+    assert 0.45 < ratio < 0.55, ratio
+    assert _call(drv, "interVisible") is True
+
+
+def test_intersection_once_and_rearm(behavior_env):
+    """once:true 触发一次后解除观察；关掉再打开（rearm）可再次触发。"""
+    drv = behavior_env
+    assert drv.val("onceCount") == 1
+
+    _call(drv, "moveInter", 900)              # 移出，once 已退休，不重复
+    _pump(120)
+    _call(drv, "moveInter", 130)
+    _pump(120)
+    assert drv.val("onceCount") == 1
+
+    _call(drv, "pauseOnce")                 # 禁用 → 移出池
+    _pump(60)
+    _call(drv, "resumeOnce")                # 重新打开 = 再武装（基线"重新赋值"等价语义）
+    _pump(120)
+    assert drv.val("onceCount") == 2
+
+
+def test_intersection_stop_releases_subscription(behavior_env):
+    """stop() 显式停止后不再回调（对标 handler 返回 false），池里少一个订阅者。"""
+    drv = behavior_env
+    before = _call(drv, "poolCount")
+    _call(drv, "stopInter")
+    _pump(80)
+    assert _call(drv, "poolCount") < before
+    _call(drv, "moveInter", 900)
+    _pump(120)
+    _call(drv, "moveInter", 130)
+    _pump(120)
+    assert _call(drv, "interRatioNow") == 1.0   # 状态仍可读，但不再发信号
+    assert drv.val("interEnter") == 1
+
+
+def test_scroll_observer_positions(behavior_env):
+    """Flickable 滚动 → onScroll 给出 vertical / 方向 / atBottom。"""
+    drv = behavior_env
+    _call(drv, "scrollTo", 300)
+    _pump(120)
+    assert abs(drv.val("scrollV") - 300) < 0.01
+    assert drv.val("scrollAtBottom") is False
+    assert drv.val("scrollDir") == "down"
+
+    _call(drv, "scrollTo", 780)               # contentHeight 1000 - height 220 = 780
+    _pump(120)
+    assert drv.val("scrollAtBottom") is True
+
+
+def test_scroll_fire_once_and_threshold(behavior_env):
+    """ScrollFire 进入视口即触发一次（v2.30 语义：不滚动也会触发），之后不再重复。"""
+    drv = behavior_env
+    assert drv.val("fireCount") == 1
+    _call(drv, "moveInter", 900)
+    _pump(120)
+    _call(drv, "moveInter", 130)
+    _pump(120)
+    assert drv.val("fireCount") == 1
+
+
+def test_touch_pan_details(behavior_env):
+    """拖动：方向、首末帧、带符号 offset 齐全。"""
+    drv = behavior_env
+    win = drv.property("w")
+    QTest.mousePress(win, Qt.LeftButton, Qt.NoModifier, QPoint(40, 40))
+    _pump(30)
+    QTest.mouseMove(win, QPoint(90, 44), 20)
+    _pump(20)
+    QTest.mouseMove(win, QPoint(150, 48), 20)
+    _pump(20)
+    QTest.mouseRelease(win, Qt.LeftButton, Qt.NoModifier, QPoint(150, 48))
+    _pump(80)
+
+    assert drv.val("panCount") >= 2
+    assert drv.val("panDir") == "right"
+    assert drv.val("panFirst") is True
+    assert drv.val("panFinal") is True
+    assert drv.val("panOffsetX") > 80
+
+
+def test_touch_swipe_direction_filter(behavior_env):
+    """右滑命中（directions:['right']），左滑被过滤。"""
+    drv = behavior_env
+    win = drv.property("w")
+    QTest.mousePress(win, Qt.LeftButton, Qt.NoModifier, QPoint(40, 190))
+    QTest.mouseMove(win, QPoint(180, 190), 10)
+    _pump(30)
+    QTest.mouseRelease(win, Qt.LeftButton, Qt.NoModifier, QPoint(180, 190))
+    _pump(60)
+    assert drv.val("swipeCount") == 1
+    assert drv.val("swipeDir") == "right"
+    assert drv.val("swipeVelocity") > 0.06
+
+    QTest.mousePress(win, Qt.LeftButton, Qt.NoModifier, QPoint(180, 190))
+    QTest.mouseMove(win, QPoint(60, 190), 10)
+    _pump(30)
+    QTest.mouseRelease(win, Qt.LeftButton, Qt.NoModifier, QPoint(60, 190))
+    _pump(60)
+    assert drv.val("swipeCount") == 1       # 左滑不在白名单，不触发
+
+
+def test_touch_hold_timing(behavior_env):
+    """按住 250ms 触发一次；提前松手不触发；触发后松手不重复。"""
+    drv = behavior_env
+    win = drv.property("w")
+    QTest.mousePress(win, Qt.LeftButton, Qt.NoModifier, QPoint(40, 320))
+    _pump(400)
+    assert drv.val("holdCount") == 1
+    assert drv.val("holdDuration") == 250
+    QTest.mouseRelease(win, Qt.LeftButton, Qt.NoModifier, QPoint(40, 320))
+    _pump(80)
+    assert drv.val("holdCount") == 1
+
+
+def test_touch_repeat_sequence(behavior_env):
+    """按住连发：首帧立即 + 之后按 150/100 节奏；松手即停。"""
+    drv = behavior_env
+    win = drv.property("w")
+    QTest.mousePress(win, Qt.LeftButton, Qt.NoModifier, QPoint(250, 40))
+    _pump(90)
+    first = drv.val("repCount")
+    assert first >= 1
+    _pump(420)
+    grown = drv.val("repCount")
+    assert grown > first
+
+    QTest.mouseRelease(win, Qt.LeftButton, Qt.NoModifier, QPoint(250, 40))
+    _pump(80)
+    stopped = drv.val("repCount")
+    _pump(300)
+    assert drv.val("repCount") == stopped   # 松手后不再增长
+
+
+# ── ClosePopup：弹层栈按层关闭 ──────────────────────────────
+CLOSE_POPUP_QML = (
+    "import QtQuick\nimport QtQuick.Window\nimport Nova.Controls\nimport Nova.Behaviors\n"
+    "import Nova.Services\n"
+    "Window { id: win; width: 420; height: 400; visible: true\n"
+    "  Component.onCompleted: NovaScreen.source = win\n"
+    "  property int closedCount: 0\n"
+    "  NovaBtn { id: btn; x: 20; y: 20; text: '关闭'\n"
+    "    NovaClosePopup { id: cp; onClosed: (n) => win.closedCount = n } }\n"
+    "  function open(n) { NovaDialog.hideAll('api');\n"
+    "    for (var i = 0; i < n; i++) NovaDialog.show({ title: 'T' + i, message: 'm' }) }\n"
+    "  function cnt() { return NovaDialog.count() }\n"
+    "  function stack() { return NovaOverlayHost.popupCount() }\n"
+    "  function clickBtn() { btn.clicked() }\n"
+    "  function setDepth(d) { cp.depth = d }\n"
+    "  function trigger() { return cp.trigger() }\n"
+    "  function clearAll() { NovaDialog.hideAll('api') }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def close_popup_env(qml_engine):
+    win = _make(qml_engine, CLOSE_POPUP_QML, wait=0.05)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)      # 直接在 QML 侧持有窗口：JS GC 不认 Python 引用
+    _call(drv, "clearAll")
+    _pump(80)
+    yield drv
+    _call(drv, "clearAll")
+    _pump(80)
+
+
+def test_dialog_enters_popup_stack(close_popup_env):
+    """Dialog 打开进栈、关闭出栈（NovaClosePopup 才有"层"可数）。"""
+    drv = close_popup_env
+    _call(drv, "open", 2)
+    _pump(80)
+    assert _call(drv, "cnt") == 2
+    assert _call(drv, "stack") == 2
+
+    _call(drv, "clearAll")
+    _pump(450)                              # 关闭动画 180+160ms，等它真的销毁出栈
+    assert _call(drv, "cnt") == 0
+    assert _call(drv, "stack") == 0
+
+
+def test_close_popup_clicked_bridge(close_popup_env):
+    """宿主 clicked 桥接：点一下关最上层；depth=0 禁用；depth<0 全关。"""
+    drv = close_popup_env
+    _call(drv, "open", 2)
+    _pump(80)
+
+    _call(drv, "clickBtn")                    # depth 默认 1
+    _pump(300)
+    assert _call(drv, "cnt") == 1
+    assert drv.val("closedCount") == 1
+
+    _call(drv, "setDepth", 0)                 # 禁用语义
+    _call(drv, "clickBtn")
+    _pump(120)
+    assert _call(drv, "cnt") == 1
+
+    _call(drv, "setDepth", -1)                # 整链
+    _call(drv, "clickBtn")
+    _pump(450)
+    assert _call(drv, "cnt") == 0
+
+
+def test_close_popup_trigger_returns_count(close_popup_env):
+    """trigger() 返回实际关闭层数（可用于埋点/日志）。"""
+    drv = close_popup_env
+    _call(drv, "open", 3)
+    _pump(80)
+    assert _call(drv, "trigger") == 1
+    _pump(300)
+    assert _call(drv, "cnt") == 2

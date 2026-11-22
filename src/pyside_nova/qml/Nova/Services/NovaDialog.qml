@@ -114,6 +114,12 @@ QtObject {
         }
         item.anchors.fill = item.parent
 
+        // 进弹层栈：NovaClosePopup / closePopups(depth) 按层关闭时能找到我。
+        // 关闭动作走卡片自己的 requestDismiss（原因默认 api），宿主不直接改卡片状态。
+        NovaOverlayHost.registerPopup(item, function(reason) {
+            item.requestDismiss(reason === undefined ? "api" : reason)
+        })
+
         var h = api.handleComp.createObject(api)
         h.item = item
         item._handle = h
@@ -154,6 +160,7 @@ QtObject {
 
     // 卡片销毁回调（NovaDialogCard.Component.onDestruction 调用），防止列表悬挂
     function _forget(item) {
+        NovaOverlayHost.unregisterPopup(item)     // 出弹层栈，防 closePopups 命中已销毁项
         var idx = api._dialogs.indexOf(item)
         if (idx !== -1)
             api._dialogs.splice(idx, 1)

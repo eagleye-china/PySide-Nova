@@ -1,5 +1,5 @@
 // examples/gallery/main.qml
-// pyside-nova 组件画廊：侧边导航 + 12 页面覆盖全部组件与服务，明暗一键切换、断点实时监控
+// pyside-nova 组件画廊：侧边导航 + 13 页面覆盖组件/服务/行为三层，明暗一键切换、断点实时监控
 // pyside-nova 组件画廊：左侧导航 + 右侧页面，覆盖全部已交付组件
 pragma ComponentBehavior: Bound
 import QtQuick
@@ -53,7 +53,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.6.2"
+                text: "Gallery 0.7.0"
                 outlined: true; dense: true
             }
         }
@@ -105,6 +105,7 @@ ApplicationWindow {
                     ListElement { label: "NovaNotify 通知";    icon: "mdi:bell-ring-outline" }
                     ListElement { label: "NovaDialog 对话框";  icon: "mdi:message-text-outline" }
                     ListElement { label: "Loading / Storage";  icon: "mdi:progress-clock" }
+                    ListElement { label: "L3 行为指令";        icon: "mdi:gesture-swipe" }
                     ListElement { label: "Theme / Screen";     icon: "mdi:palette-outline" }
                 }
 
@@ -154,7 +155,7 @@ ApplicationWindow {
         anchors { top: header.bottom; left: sidebar.right; right: parent.right; bottom: parent.bottom }
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
-                          pageServices, pageTheme][nav.currentIndex]
+                          pageServices, pageBehaviors, pageTheme][nav.currentIndex]
     }
 
     Rectangle { id: nav; property int currentIndex: 0; visible: false }
@@ -1097,6 +1098,303 @@ ApplicationWindow {
                     NovaChip { text: "hasTouch: " + NovaPlatform.hasTouch; outlined: true; dense: true }
                     NovaChip { text: "isWindows: " + NovaPlatform.isWindows; outlined: true; dense: true }
                 }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：L3 行为（九个指令行为，v0.7.0）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageBehaviors
+        Item {
+            id: behPage
+
+            property int interEnters: 0
+            property int interExits: 0
+            property real interRatio: -1
+            property int fires: 0
+            property string scrollInfo: "还没滚动"
+            property string panInfo: "试着在绿框里拖动"
+            property string swipeInfo: "试着左右快速划一下"
+            property int holdCount: 0
+            property int repCount: 0
+            property bool holdActive: false
+            property real dragX: 16
+            property int closeCount: 0
+
+            function resetAll() {
+                behPage.interEnters = 0
+                behPage.interExits = 0
+                behPage.fires = 0
+                behPage.holdCount = 0
+                behPage.repCount = 0
+                behPage.closeCount = 0
+                behPage.panInfo = "试着在绿框里拖动"
+                behPage.swipeInfo = "试着左右快速划一下"
+            }
+
+            GalleryPage {
+                title: "L3 行为 · 指令九件（Ripple / Intersection / Scroll / ClosePopup / Touch×4）"
+                desc: "0.7.0 一次收口行为层：NovaIntersection（共享观察池 + 祖先裁剪 + once 再武装）、"
+                      + "NovaScrollObserver / NovaScrollFire（首入视口触发一次）、NovaClosePopup（弹层栈按层关闭）、"
+                      + "NovaTouchPan / Swipe / Hold / Repeat（方向阈值 + 长按 + 连发）。所有演示均为真实行为组件，不是截图。"
+
+                GalleryRow { label: "NovaIntersection + NovaScrollFire · 懒加载（滚动下方框体，方块变亮＝已触发）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaChip { text: "ratio " + (behPage.interRatio < 0 ? "—" : behPage.interRatio.toFixed(2)); filled: true; dense: true; tint: NovaTheme.primary }
+                    NovaChip { text: "进入 " + behPage.interEnters; outlined: true; dense: true }
+                    NovaChip { text: "离开 " + behPage.interExits; outlined: true; dense: true }
+                    NovaChip { text: "scroll-fire " + behPage.fires; outlined: true; dense: true }
+                    NovaBtn { text: "清零"; size: "sm"; variant: "flat"; onClicked: behPage.resetAll() }
+                }
+
+                Rectangle {
+                    width: parent ? parent.width : 400
+                    height: 170
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surfaceAlt
+                    border.color: NovaTheme.outline
+                    clip: true
+
+                    Flickable {
+                        id: lazyFlick
+                        anchors.fill: parent
+                        anchors.margins: 6
+                        contentWidth: width
+                        contentHeight: 520
+                        clip: true
+
+                        Column {
+                            spacing: 10
+
+                            Repeater {
+                                model: 3
+                                delegate: Rectangle {
+                                    id: lazyBox
+                                    required property int index
+                                    width: lazyFlick.width
+                                    height: 120
+                                    radius: NovaTheme.radiusS
+                                    color: lazyBox.loaded ? NovaTheme.primary : NovaTheme.surface
+                                    border.color: NovaTheme.outline
+
+                                    property bool loaded: false
+                                    property real ratio: 0
+
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: lazyBox.loaded
+                                              ? "第 " + (lazyBox.index + 1) + " 块 · 已触发加载"
+                                              : "第 " + (lazyBox.index + 1) + " 块 · 等待进入视口"
+                                        color: lazyBox.loaded ? "#FFFFFF" : NovaTheme.textMuted
+                                        font.pixelSize: NovaTheme.fontS
+                                    }
+
+                                    NovaScrollFire {
+                                        threshold: 0.35
+                                        onFire: (item) => {
+                                            item.loaded = true
+                                            behPage.fires++
+                                        }
+                                    }
+
+                                    NovaIntersection {
+                                        threshold: [0, 0.5, 1]
+                                        onIntersect: (entry) => {
+                                            lazyBox.ratio = entry.intersectionRatio
+                                            if (lazyBox.index === 0)
+                                                behPage.interRatio = entry.intersectionRatio
+                                        }
+                                        onEntered: (entry) => {
+                                            if (lazyBox.index === 0) behPage.interEnters++
+                                        }
+                                        onExited: (entry) => {
+                                            if (lazyBox.index === 0) behPage.interExits++
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        NovaScrollObserver {
+                            onScroll: (d) => behPage.scrollInfo = "y=" + Math.round(d.vertical)
+                                             + (d.atBottom ? " · 到底了" : (d.atTop ? " · 顶部" : ""))
+                        }
+                    }
+                }
+
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaChip { text: "滚动位置：" + behPage.scrollInfo; outlined: true; dense: true }
+                    NovaBtn {
+                        text: "回顶"; size: "sm"; variant: "flat"
+                        onClicked: lazyFlick.contentY = 0
+                    }
+                }
+
+                GalleryRow { label: "NovaTouchPan · 拖动（松手回弹，x 限制在框内）" }
+                Rectangle {
+                    width: parent ? parent.width : 400
+                    height: 110
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surfaceAlt
+                    border.color: NovaTheme.outline
+
+                    Rectangle {
+                        id: dragDot
+                        x: behPage.dragX
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 92; height: 62
+                        radius: NovaTheme.radiusM
+                        color: NovaTheme.secondary
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "拖我"
+                            color: "#FFFFFF"
+                            font.pixelSize: NovaTheme.fontS
+                        }
+
+                        NovaTouchPan {
+                            horizontal: true
+                            onPan: (d) => {
+                                if (d.isFirst)
+                                    behPage.panInfo = "拖动中 → " + d.direction
+                                if (!d.isFinal) {
+                                    var nx = dragDot.x + d.delta.x
+                                    var maxX = dragDot.parent.width - dragDot.width - 8
+                                    dragDot.x = Math.max(8, Math.min(maxX, nx))
+                                } else {
+                                    behPage.panInfo = "松手：" + d.direction + " · " + Math.round(d.distance.x) + "px"
+                                }
+                            }
+                        }
+                    }
+                }
+                NovaChip { text: behPage.panInfo; outlined: true; dense: true }
+
+                GalleryRow { label: "NovaTouchSwipe · 快速划动（阈值 0.06 px/ms）" }
+                Rectangle {
+                    width: parent ? parent.width : 400
+                    height: 90
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surfaceAlt
+                    border.color: NovaTheme.outline
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "← 左滑 / 右滑 / 上滑 / 下滑 →"
+                        color: NovaTheme.textMuted
+                        font.pixelSize: NovaTheme.fontS
+                    }
+
+                    NovaTouchSwipe {
+                        onSwipe: (d) => behPage.swipeInfo = "命中 " + d.direction
+                                           + " · v=" + d.velocity.toFixed(2)
+                                           + " px/ms · " + Math.round(Math.max(d.distance.x, d.distance.y)) + "px"
+                    }
+                }
+                NovaChip { text: behPage.swipeInfo; outlined: true; dense: true }
+
+                GalleryRow { label: "NovaTouchHold · 长按 600ms（位移超灵敏度即取消）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    Rectangle {
+                        width: 180; height: 76
+                        radius: NovaTheme.radiusM
+                        color: bahHold.pressed ? NovaTheme.primary : NovaTheme.surfaceAlt
+                        border.color: NovaTheme.outline
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "按住我不放"
+                            color: bahHold.pressed ? "#FFFFFF" : NovaTheme.textMuted
+                            font.pixelSize: NovaTheme.fontS
+                        }
+
+                        NovaTouchHold {
+                            id: bahHold
+                            duration: 600
+                            onHold: (d) => { behPage.holdCount++; behPage.holdActive = true }
+                            onCancel: behPage.holdActive = false
+                        }
+                    }
+                    NovaChip { text: "长按命中 " + behPage.holdCount + " 次"; filled: true; dense: true; tint: NovaTheme.primary }
+                    NovaChip { text: behPage.holdActive ? "已触发" : "待命"; outlined: true; dense: true }
+                }
+
+                GalleryRow { label: "NovaTouchRepeat · 按住连发（0 → 400 → 每 200ms）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    Rectangle {
+                        width: 140; height: 76
+                        radius: NovaTheme.radiusM
+                        color: bahRep.repeating ? NovaTheme.accent : NovaTheme.surfaceAlt
+                        border.color: NovaTheme.outline
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "按住连发"
+                            color: bahRep.repeating ? "#FFFFFF" : NovaTheme.textMuted
+                            font.pixelSize: NovaTheme.fontS
+                        }
+
+                        NovaTouchRepeat {
+                            id: bahRep
+                            delays: "0:400:200"
+                            onRepeat: (d) => behPage.repCount = d.repeatCount
+                        }
+                    }
+                    NovaChip { text: "已发 " + behPage.repCount + " 次"; filled: true; dense: true; tint: NovaTheme.accent }
+                }
+
+                GalleryRow { label: "NovaClosePopup · 弹层栈按层关闭（打开两个对话框试试）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn {
+                        text: "打开两层"; size: "sm"
+                        onClicked: {
+                            NovaDialog.show({ title: "第一层", message: "点下面的按钮关我" })
+                            NovaDialog.show({ title: "第二层", message: "点一次关一层，点「全关」清空" })
+                        }
+                    }
+                    NovaBtn {
+                        text: "全关"; size: "sm"; variant: "outlined"
+                        onClicked: NovaOverlayHost.closePopups(-1, "api")
+                    }
+                    NovaChip { text: "栈内 " + NovaOverlayHost.popupCount() + " 层"; outlined: true; dense: true }
+                }
+
+                GalleryRow { label: "NovaClosePopup · 在对话框内容里放关闭按钮（真实链路）" }
+                NovaBtn {
+                    text: "打开带关闭按钮的对话框"; size: "sm"; variant: "flat"
+                    onClicked: NovaDialog.show({
+                        title: "ClosePopup 实测",
+                        contentDelegate: closeContent
+                    })
+                }
+
+                Component {
+                    id: closeContent
+                    Item {
+                        implicitHeight: 96
+                        Text {
+                            anchors.centerIn: parent
+                            text: "这个按钮挂了 NovaClosePopup，点它关闭当前弹层"
+                            color: NovaTheme.textMuted
+                            font.pixelSize: NovaTheme.fontS
+                        }
+                        NovaBtn {
+                            anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }
+                            text: "关闭本层"; size: "sm"; variant: "outlined"
+                            NovaClosePopup { onClosed: (n) => behPage.closeCount += n }
+                        }
+                    }
+                }
+
+                NovaChip { text: "ClosePopup 关闭计数：" + behPage.closeCount; outlined: true; dense: true }
             }
         }
     }

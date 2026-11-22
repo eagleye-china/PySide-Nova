@@ -7,6 +7,7 @@ singleton NovaTheme 1.0 NovaTheme.qml
 singleton NovaOverlayHost 1.0 NovaOverlayHost.qml
 singleton NovaNotify 1.0 NovaNotify.qml
 singleton NovaDialog 1.0 NovaDialog.qml
+singleton NovaIntersectionPool 1.0 NovaIntersectionPool.qml
 singleton NovaLoading 1.0 NovaLoading.qml
 singleton NovaStorage 1.0 NovaStorage.qml
 singleton NovaApp 1.0 NovaApp.qml
