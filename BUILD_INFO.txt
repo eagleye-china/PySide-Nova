@@ -1,11 +1,11 @@
-pyside-nova 0.10.0 发布包构建清单
-构建时间：2026-11-23 00:13:35（星期一）
-git HEAD：44cce09
-文件总数：254（含本清单）
+pyside-nova 0.11.0 发布包构建清单
+构建时间：2026-11-23 00:49:06（星期一）
+git HEAD：36b2fcc
+文件总数：309（含本清单）
 是否含离线图标包：否
 是否含 git 历史：是
-pip 安装：pip install dist/pyside_nova-0.10.0-py3-none-any.whl
+pip 安装：pip install dist/pyside_nova-0.11.0-py3-none-any.whl
 
 校验方式（Windows PowerShell）：
-  Get-FileHash .\pyside-nova-0.10.0-release.zip -Algorithm SHA256
+  Get-FileHash .\pyside-nova-0.11.0-release.zip -Algorithm SHA256
   与同名 .sha256 文件内容比对一致即完整。
