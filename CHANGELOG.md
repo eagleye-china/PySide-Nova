@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.5.1] - 2026-11-22
+
+### Changed（NovaNotify 契约裁定落盘 —— 新会话 npm 源码级核对成果固化）
+
+- **D1 采纳**：NovaNotify 做 Nova 增强 `dismissed(reason)`（5 值
+  timeout/user/action/api/replaced），PARITY 标"增强"栏，**不入已对齐栏**
+- **D2 采纳**：`html` 不移植（QML 无 DOM 且基线该选项自带 XSS 面），改 `contentDelegate`
+- **D3 确认**：基线 `onDismiss` 撞 on\* 红线，改为信号 `dismissed`，无商量余地
+- **D6 采纳**：`NovaOverlayHost` 宿主抽件**提前至 Sprint 2**（overlay 层叠令牌 + 位置栈
+  9 位插入先跑通，避免 Sprint 3 Dialog 位置栈返工）
+- 归属修正：`关闭原因上报` 仅属 Dialog/BottomSheet（2.28）；**Notify 无关闭原因**
+  （npm 2.35.5 源码核实 `onDismiss()` 无参数），0.4.2 审计表补澄清注
+- 基线快照：npm 当日最新 2.35.6，其 Notify 与 2.35.5 逐字节相同，无需返工
+- 修正 MASTER_PLAN 笔误："NovaDialog 服务式 v0.6.0 已交付" → "服务式 API 于 Sprint 2 交付"
+- 方法论入册：**API 对账以 npm 包源码/dist API JSON 为准，不按文档页凭记忆写**
+  （文档页漏 `ignoreDefaults` 即为例证）
+
 ## [0.5.0] - 2026-11-22
 
 ### Added（一期 Sprint 1 · L1 布局系统 —— 生态七层 L1 从 0% 到 100%）

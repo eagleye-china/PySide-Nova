@@ -32,6 +32,7 @@ Quasar 无新增组件（组件对账 76 项不变），但生态层有 6 类增
 |---|---|---|
 | QMenu/QBtnDropdown/QFab/QSelect 统一 hover 契约（hover/hover-delay/hover-hide-delay） | 2.26~2.28 | 二期 NovaSelect、四期 NovaFab 验收补 hover 契约 |
 | Dialog/BottomSheet 插件关闭原因上报（cancel/backdrop/escape/programmatic） | 2.28 | NovaDialog / NovaBottomSheet DoD 增加关闭原因回调 |
+| ⚠ 归属澄清（0.5.1）：**Notify 无关闭原因**（npm 2.35.5 源码核实，`onDismiss()` 不接收参数）；NovaNotify 的 `dismissed(reason)` 属 **Nova 增强**，PARITY 标"增强"栏，不入已对齐 |
 | QFab stagger 级联动画；QPullToRefresh side 四边拉动；QTooltip cursor-position | 2.27/2.30 | 四期对应组件关键能力补充 |
 | useIntersection() composable + **共享 observer 池**（指令/组件/composable 三合一复用） | 2.30 | 一期 Sprint 3 NovaIntersection 实现要点：单例 observer 池 |
 | **AI-ready 文档 + @quasar/mcp server**（全新生态品类） | 2.33 | **L6 新增项：Nova 离线文档包 + Nova MCP server（五期交付）** |

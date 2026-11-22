@@ -48,7 +48,7 @@
 
 | 交付物 | 对标插件 | 关键能力 |
 |---|---|---|
-| `NovaNotify` | Notify | 队列、去重、超时、动作按钮、四角定位、同屏 ≤5 条 |
+| `NovaNotify` | Notify | 队列、去重、超时、动作按钮、四角定位、同屏 ≤5 条；**29 项配置逐项对账**（npm 2.35.5 源码核实）；`html` 不移植改 `contentDelegate`（QML 无 DOM + XSS 面）；信号 `dismissed`（on\* 红线），`dismissed(reason)` 5 值 timeout/user/action/api/replaced 为 **Nova 增强**（PARITY 标增强）；**NovaOverlayHost 抽件提前至 Sprint 2**（overlay 宿主 + 层叠令牌 + 位置栈 9 位插入，避免 Dialog 返工） |
 | `NovaDialog` | Dialog | 命令式 `ask()/confirm()`、ESC/遮罩策略、可嵌套、返回结果 |
 | `NovaLoading` | Loading | show/hide、引用计数（并发不互踩）、局部/全屏、超时保护 |
 | `NovaStorage` | LocalStorage/SessionStorage | QSettings 后端、命名空间、JSON 序列化 |
@@ -169,7 +169,7 @@
 | 交付物 | 对标 | 关键能力 |
 |---|---|---|
 | `NovaMenu` | QMenu | 菜单（auto-close/context-menu/触摸） |
-| `NovaDialog`（组件壳） | QDialog | 声明式对话框（服务式 v0.6.0 已交付）；**关闭原因上报**（cancel/backdrop/escape/programmatic，对标 2.28） |
+| `NovaDialog`（组件壳） | QDialog | 声明式对话框（服务式 API 于 Sprint 2 交付）；**关闭原因上报**（cancel/backdrop/escape/programmatic，对标 2.28） |
 | `NovaPopupProxy` | QPopupProxy | 弹层路由（Menu/Dialog 自适应） |
 | `NovaTooltip` | QTooltip | 工具提示（延迟/锚点/偏移） |
 | `NovaBtnDropdown` / `NovaBtnGroup` | 同名 | 下拉按钮 / 按钮组 |

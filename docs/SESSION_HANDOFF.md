@@ -2,7 +2,7 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.5.0 · 2026-11-22）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.5.1 · 2026-11-22）
 
 ## 一句话定位
 
@@ -47,7 +47,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 ## 下一步（一期 Sprint 2 L4 服务层，总规划见 MASTER_PLAN.md）
 
 - ~~Sprint 1 L1 布局~~ ✅ 0.5.0 完成（6 种经典布局示例全部入画廊）
-- **Sprint 2（先做）L4 服务**：NovaNotify / NovaDialog / NovaLoading / NovaStorage / NovaApp / NovaPlatform
+- **Sprint 2（先做）L4 服务**：NovaNotify / NovaDialog / NovaLoading / NovaStorage / NovaApp / NovaPlatform\n  · NovaNotify 契约已裁定（0.5.1）：29 项对账、dismissed 信号、contentDelegate 替代 html、NovaOverlayHost 先抽——新会话可直接铺 QML/qmldir/画廊页/冒烟测试
 - **Sprint 3 L3 行为**：NovaClosePopup / NovaIntersection / NovaTouchPan·Swipe·Hold / NovaScrollObserver
 - **Sprint 4 L0/L5**：图标 provider 注册表 + 6 套图标集 + Nova.utils + 动效令牌 + 9 级排版
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`（12 项 P0 空白 + 24 条封版验收）
