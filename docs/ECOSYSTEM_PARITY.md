@@ -14,7 +14,7 @@
 | **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **已交付（0.5.0）** | **100%** | 100% |
 | **L2 组件** | 120+ 组件 | 全 | 12 个（约 10%） | **10%** | P0 100% / 全库 ≥90% |
 | **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | 1 个（Ripple） | **11%** | 100% |
-| **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **1 个**（Notify ✅ 0.6.0） | **6%** | 100%（QML 适用项） |
+| **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **3 个**（OverlayHost 基建 + Notify 0.6.0 + Dialog 0.6.1） | **12%** | 100%（QML 适用项） |
 | **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **0** | **0%** | ≥90% |
 | **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | 70%（缺文档站、视觉回归、打包器） | **70%** | ≥95% |
 
@@ -160,7 +160,7 @@ L6 工程化     ← 构建、打包、文档、测试、发布、治理
 | 1 | **NovaLayout 五件套** | L1 | header/footer/drawer/page 组合可用；drawer 支持 mini/behavior/breakpoint；断点切换不闪烁 |
 | 2 | **NovaRow / NovaCol / NovaVisible** | L5/L1 | 12 栅格 × 5 断点；gutter；`above/below` 显隐；示例页覆盖 6 种经典布局 |
 | 3 | **NovaNotify** ✅（0.6.0） | L4 | 队列/去重/超时/动作按钮/9 位定位；同屏 ≤5 条（maxVisible）；Demo 可交互；29 项对账见 PARITY 审计节 |
-| 4 | **NovaDialog** | L4 | `confirm()/ask()` 回调式；ESC/遮罩关闭策略；可嵌套；返回选择结果 |
+| 4 | **NovaDialog** ✅（0.6.1） | L4 | 命令式 show + 链式句柄；27 项对账；五向定位；persistent/seamless/进度态；dismissed 五值 |
 | 5 | **NovaLoading** | L4 | 引用计数（并发不互相踩）；局部/全屏；超时保护 |
 | 6 | **NovaStorage + NovaApp + NovaPlatform** | L4 | 命名空间键值持久化；全屏/标题/可见性；平台判定 |
 | 7 | **NovaClosePopup / NovaIntersection** | L3 | 点击外部/ESC 关闭；进入视口触发一次+持续两种模式 |

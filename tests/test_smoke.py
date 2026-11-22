@@ -501,3 +501,177 @@ def test_notify_setdefaults_and_dark(notify_env):
     notify_env.show("d2", {"position": "top"})
     assert notify_env.cnt("top") == 1
     notify_env.dismissAll("top")
+
+
+# ════════════════════════════════════════════════════════════
+# L4 服务层：NovaDialog（27 项配置对账 · 关闭原因上报 · 句柄）
+# ════════════════════════════════════════════════════════════
+
+DIALOG_DRIVER_QML = (
+    "import QtQuick\nimport Nova.Services\n"
+    "QtObject {\n"
+    "  property string lastReason: ''\n"
+    "  property int okRuns: 0\n"
+    "  property int cancelRuns: 0\n"
+    "  property int cbHits: 0\n"
+    "  property var lastHandle: null\n"
+    "  function open(opts) {\n"
+    "    var h = NovaDialog.show(opts)\n"
+    "    if (h) {\n"
+    "      h.dismissed.connect(function(r) { lastReason = r })\n"
+    "      h.accepted.connect(function() { okRuns++ })\n"
+    "      h.rejected.connect(function() { cancelRuns++ })\n"
+    "    }\n"
+    "    lastHandle = h\n"
+    "    return h\n"
+    "  }\n"
+    "  function openCb() {\n"
+    "    return NovaDialog.show({\n"
+    "      title: 'cb',\n"
+    "      onOk: function() { cbHits += 10 },\n"
+    "      onCancel: function() { cbHits += 1 },\n"
+    "      onDismiss: function(r) { cbHits += 100 }\n"
+    "    })\n"
+    "  }\n"
+    "  function cnt() { return NovaDialog.count() }\n"
+    "  function hideAll(r) { NovaDialog.hideAll(r) }\n"
+    "  function setdefaults(o) { NovaDialog.setDefaults(o) }\n"
+    "  function clearDefaults() { NovaDialog._defaults = ({}) }\n"
+    "  function setdark(v) { NovaTheme.setDark(v) }\n"
+    "  function resetReason() { lastReason = '' }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def dialog_env(qml_engine):
+    """L4 对话框测试环境：源窗口 + 驱动对象；用例前后关闭全部对话框并清空默认值。"""
+    win = _make(qml_engine, NOTIFY_WINDOW_QML)
+    drv = _make(qml_engine, DIALOG_DRIVER_QML)
+    drv.hideAll("api")
+    drv.clearDefaults()
+    yield drv
+    drv.hideAll("api")
+    drv.clearDefaults()
+    drv.setdark(False)
+    _pump(250)
+
+
+def test_dialog_show_and_ok_reason(dialog_env):
+    """show → count 1 → ok() → accepted + dismissed('ok') → 句柄失效。"""
+    h = dialog_env.open({"title": "继续?", "message": "确认继续操作"})
+    assert dialog_env.cnt() == 1
+    assert h.property("valid") is True
+    item = h.property("item")
+    assert item.property("title") == "继续?"
+    assert item.property("message") == "确认继续操作"
+    assert item.property("position") == "standard"
+    assert item.property("focusTarget") == "ok"
+    h.ok()
+    assert dialog_env.property("lastReason") == "ok"
+    assert dialog_env.property("okRuns") == 1
+    assert h.property("valid") is False
+    assert dialog_env.cnt() == 0
+
+
+def test_dialog_cancel_reason(dialog_env):
+    """cancel() → rejected + dismissed('cancel')；API 关闭走 'api'。"""
+    h = dialog_env.open({"title": "x"})
+    h.cancel()
+    assert dialog_env.property("lastReason") == "cancel"
+    assert dialog_env.property("cancelRuns") == 1
+    h2 = dialog_env.open({"title": "y"})
+    h2.hide()
+    assert dialog_env.property("lastReason") == "api"
+    assert h2.property("valid") is False
+
+
+def test_dialog_persistent_blocks_backdrop_and_escape(dialog_env):
+    """persistent 同时锁 backdrop 与 ESC；api 仍可关闭（程序化兜底）。"""
+    h = dialog_env.open({"title": "p", "persistent": True})
+    item = h.property("item")
+    item.requestDismiss("backdrop")
+    item.requestDismiss("escape")
+    assert h.property("valid") is True
+    assert dialog_env.cnt() == 1
+    item.requestDismiss("api")
+    assert h.property("valid") is False
+    assert dialog_env.property("lastReason") == "api"
+
+
+def test_dialog_no_backdrop_and_esc_flags(dialog_env):
+    """noBackdropDismiss 只锁外点；noEscDismiss 只锁 ESC——两者互不串味。"""
+    h = dialog_env.open({"title": "a", "noBackdropDismiss": True})
+    item = h.property("item")
+    item.requestDismiss("backdrop")
+    assert h.property("valid") is True
+    item.requestDismiss("escape")
+    assert h.property("valid") is False
+    assert dialog_env.property("lastReason") == "escape"
+    h2 = dialog_env.open({"title": "b", "noEscDismiss": True})
+    it2 = h2.property("item")
+    it2.requestDismiss("escape")
+    assert h2.property("valid") is True
+    it2.requestDismiss("backdrop")
+    assert h2.property("valid") is False
+    assert dialog_env.property("lastReason") == "backdrop"
+
+
+def test_dialog_setdefaults_and_update(dialog_env):
+    """setDefaults 深合并（title 默认 + 逐项覆盖）；句柄 update 白名单生效。"""
+    dialog_env.setdefaults({"title": "默认标题", "ok": "确定"})
+    h = dialog_env.open({})
+    item = h.property("item")
+    assert item.property("title") == "默认标题"
+    assert item.property("okConfig").toVariant()["label"] == "确定"
+    h2 = dialog_env.open({"title": "覆盖"})
+    assert h2.property("item").property("title") == "覆盖"
+    assert h2.update({"title": "改后", "message": "新正文"}) is True
+    assert h2.property("item").property("title") == "改后"
+    assert h2.property("item").property("message") == "新正文"
+    h2.hide()
+    assert h2.update({"title": "失效"}) is False
+
+
+def test_dialog_positions_and_invalid(dialog_env):
+    """五向定位全部接受；非法位置拒绝（返回 null，不静默回落）。"""
+    for pos in ["standard", "top", "right", "bottom", "left"]:
+        h = dialog_env.open({"title": pos, "position": pos})
+        assert h is not None
+        assert h.property("item").property("position") == pos
+        h.hide()
+    assert dialog_env.open({"position": "middle"}) is None
+    assert dialog_env.property("lastHandle") is None
+
+
+def test_dialog_seamless_progress_dark(dialog_env):
+    """seamless 无遮罩；progress 转进度态；Dark 模式实例化（宪法第 5 章）。"""
+    h = dialog_env.open({"title": "s", "seamless": True})
+    item = h.property("item")
+    assert item.property("hasBackdrop") is False
+    h.hide()
+    h2 = dialog_env.open({"title": "p", "progress": {"message": "处理中"}})
+    it2 = h2.property("item")
+    assert it2.property("progress") is True
+    assert it2.property("progressMessage") == "处理中"
+    h2.hide()
+    dialog_env.setdark(True)
+    h3 = dialog_env.open({"title": "dark"})
+    assert h3.property("item").property("cardTint").isValid()
+    h3.hide()
+
+
+def test_dialog_callbacks_and_hideall(dialog_env):
+    """基线链式回调 onOk/onCancel/onDismiss 全部触发；hideAll 批量关闭。"""
+    h = dialog_env.openCb()
+    h.ok()
+    # onOk(10) + onDismiss(100)
+    assert dialog_env.property("cbHits") == 110
+    h2 = dialog_env.openCb()
+    h2.cancel()
+    assert dialog_env.property("cbHits") == 211     # +1 +100
+    dialog_env.open({"title": "a"})
+    dialog_env.open({"title": "b"})
+    assert dialog_env.cnt() == 2
+    dialog_env.hideAll("api")
+    assert dialog_env.cnt() == 0

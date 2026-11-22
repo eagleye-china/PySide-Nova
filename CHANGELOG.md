@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.6.1] - 2026-11-22
+
+### Added（一期 Sprint 2 · L4 服务层第二件：NovaDialog）
+
+- **NovaDialog 命令式对话框**（对标 Dialog 插件，npm 2.35.5 `dist/api/Dialog.json` 逐项核实 **27 项**）：
+  - `show(opts)` → 链式句柄 `NovaDialogHandle`：`hide()` / `update()` / `ok()` / `cancel()` / `valid`
+  - 三个信号：`accepted` / `rejected` / `dismissed(reason)`（reason 五值 ok/cancel/backdrop/escape/api）
+  - 五向定位 standard/top/right/bottom/left；非法值直接拒绝
+  - 关闭策略三档：`persistent` / `noEscDismiss` / `noBackdropDismiss`
+  - 形态：`seamless` / `maximized` / `fullWidth` / `fullHeight` / 进度态
+  - 按钮三态归一（true/false/string/对象）+ `stackButtons`
+  - `contentDelegate` 替代基线 `html`；`setDefaults()` 深合并；`count()`/`hideAll()` 内省
+- 画廊新增"NovaDialog 对话框"页：基础/危险/仅确定、persistent/seamless/全宽/最大化、
+  五向定位、进度态 + 句柄 update 收尾、自定义内容（TextField）
+- 冒烟测试 63 → **71 项全绿**（新增 8 项：ok/cancel 原因、persistent 双锁、noBackdrop/noEsc 分离、
+  setDefaults+update、五向定位、seamless/progress/dark、链式回调、hideAll）
+
+### Notes
+
+- **归属纪律再确认**：`dismissed(reason)` 在 Dialog/BottomSheet 是基线 2.28 真 parity；
+  在 Notify 是 Nova 增强——两处已分栏标注，防止再混
+- 基线 DOM 专属项（class/style/html/noRouteDismiss）⛔ 留痕不移植；prompt/options/component 标 🚧 待二期
+
 ## [0.6.0] - 2026-11-22
 
 ### Added（一期 Sprint 2 · L4 服务层第一件：NovaNotify + NovaOverlayHost —— 七层 L4 从 0% 到 6%）

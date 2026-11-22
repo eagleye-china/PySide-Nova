@@ -103,6 +103,7 @@ ApplicationWindow {
                     ListElement { label: "NovaBadge 徽标";     icon: "mdi:numeric-9-plus" }
                     ListElement { label: "NovaIcon 图标";      icon: "mdi:shape-outline" }
                     ListElement { label: "NovaNotify 通知";    icon: "mdi:bell-ring-outline" }
+                    ListElement { label: "NovaDialog 对话框";  icon: "mdi:message-text-outline" }
                     ListElement { label: "Theme / Screen";     icon: "mdi:palette-outline" }
                 }
 
@@ -151,7 +152,7 @@ ApplicationWindow {
         id: content
         anchors { top: header.bottom; left: sidebar.right; right: parent.right; bottom: parent.bottom }
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
-                          pageAvatar, pageBadge, pageIcon, pageNotify, pageTheme][nav.currentIndex]
+                          pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog, pageTheme][nav.currentIndex]
     }
 
     Rectangle { id: nav; property int currentIndex: 0; visible: false }
@@ -763,6 +764,111 @@ ApplicationWindow {
                               } }
                     NovaBtn { text: "清空全部"; variant: "outlined"; tint: NovaTheme.negative
                               onClicked: NovaNotify.dismissAll("bottom") }
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：NovaDialog 对话框
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageDialog
+        Item {
+            id: dp
+            property string lastReason: "—"
+            property var taskHandle: null
+
+            // 进度对话框演示：2 秒后句柄 update 收尾并关闭
+            Timer {
+                id: progressTimer
+                interval: 2000
+                onTriggered: {
+                    if (!dp.taskHandle)
+                        return
+                    dp.taskHandle.update({ title: "导入完成", message: "1,240 条记录已写入。", progress: false })
+                    dp.taskHandle.ok()
+                    dp.taskHandle = null
+                }
+            }
+
+            function openDlg(cfg) {
+                var h = NovaDialog.show(cfg)
+                if (h)
+                    h.dismissed.connect(function(r) { dp.lastReason = r })
+                return h
+            }
+
+            GalleryPage {
+                title: "NovaDialog 对话框"
+                desc: "对标 Dialog 插件（27 项配置对账）：命令式 show() → 句柄（hide/update/ok/cancel + 三信号），五向定位、OK/Cancel 三态、persistent 锁外点与 ESC、seamless、fullWidth/maximized、进度态。dismissed(reason) 五值 ok/cancel/backdrop/escape/api 属基线 2.28 真 parity。"
+
+                GalleryRow { label: "基础用法（关闭原因实时显示）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn { text: "标准确认框"
+                              onClicked: dp.openDlg({ title: "继续?", message: "确定要执行该操作吗？此操作不可撤销。" }) }
+                    NovaBtn { text: "危险确认"; tint: NovaTheme.negative
+                              onClicked: dp.openDlg({ title: "删除 3 个文件?", message: "删除后无法恢复。",
+                                                        ok: { label: "删除", tint: "#EF4444" },
+                                                        cancel: "取消" }) }
+                    NovaBtn { text: "仅确定（无取消）"; variant: "outlined"
+                              onClicked: dp.openDlg({ title: "提示", message: "系统已更新到最新版本。", cancel: false }) }
+                    NovaChip { text: "上次关闭原因: " + dp.lastReason; filled: true; tint: NovaTheme.primary }
+                }
+
+                GalleryRow { label: "行为开关（persistent / seamless / 全宽 / 最大化）" }
+                Flow {
+                    width: parent.width
+                    spacing: NovaTheme.spacingS
+                    NovaBtn { text: "persistent 常驻"; size: "sm"; variant: "flat"
+                              onClicked: dp.openDlg({ title: "必须处理", message: "点遮罩或按 ESC 都不会关闭，只能点按钮。", persistent: true }) }
+                    NovaBtn { text: "seamless 无遮罩"; size: "sm"; variant: "flat"
+                              onClicked: dp.openDlg({ title: "无缝模式", message: "背景可继续操作，无遮罩层。", seamless: true }) }
+                    NovaBtn { text: "fullWidth 全宽"; size: "sm"; variant: "flat"
+                              onClicked: dp.openDlg({ title: "全宽对话框", message: "卡片宽度贴近窗口，左右各留 24px。", fullWidth: true }) }
+                    NovaBtn { text: "maximized 最大化"; size: "sm"; variant: "flat"
+                              onClicked: dp.openDlg({ title: "最大化", message: "铺满整个窗口。", maximized: true }) }
+                }
+
+                GalleryRow { label: "五向定位（position）" }
+                Flow {
+                    width: parent.width
+                    spacing: NovaTheme.spacingS
+                    Repeater {
+                        model: ["standard", "top", "right", "bottom", "left"]
+                        delegate: NovaBtn {
+                            required property string modelData
+                            text: modelData; size: "sm"; variant: "flat"
+                            onClicked: dp.openDlg({ title: "position: " + modelData, message: "对话框按指定方位落位。", position: modelData })
+                        }
+                    }
+                }
+
+                GalleryRow { label: "进度态 + 句柄 update（2 秒后自动更新并关闭）" }
+                NovaBtn { text: "处理中对话框"
+                          onClicked: {
+                              dp.taskHandle = dp.openDlg({ title: "正在导入", message: "请稍候，正在写入 1,240 条记录…",
+                                                           progress: { message: "26%" }, cancel: false, persistent: true })
+                              progressTimer.restart()
+                          } }
+
+                GalleryRow { label: "自定义内容（contentDelegate 替代基线 html）" }
+                NovaBtn { text: "带输入框的对话框"
+                          onClicked: dp.openDlg({
+                              title: "重命名",
+                              message: "请输入新的名称：",
+                              contentDelegate: inputComp,
+                              ok: "保存"
+                          }) }
+            }
+
+            Component {
+                id: inputComp
+                TextField {
+                    width: parent ? parent.width : 320
+                    placeholderText: "新名称"
+                    font.pixelSize: NovaTheme.fontS
                 }
             }
         }

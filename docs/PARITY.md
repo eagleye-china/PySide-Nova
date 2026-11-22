@@ -165,6 +165,33 @@ M1/M2 排期在 ROADMAP 跟踪。
 冒烟测试覆盖：解析/实例化 + 分组徽标、组键含 actions、group:false、自定义组替换、更新语义、
 动作点击顺序、closeBtn user、overflow、timeout 到期、非法输入、Dark 实例化（宪法第 5 章强制用例）。
 
+
+## NovaDialog ← Dialog 插件（审计 0.6.1，npm 2.35.5 dist/api/Dialog.json 逐项核实 · 27 项）
+
+| Quasar 配置项 | 类型 | 状态 | 说明 |
+|---|---|---|---|
+| `title` / `message` | prop | ✅ | 标题 + 正文；均支持句柄 update |
+| `ok` / `cancel` | prop | ✅ | 三态 true/false/string + 对象（label/tint/variant/flat）；默认双按钮 flat |
+| `focus` | prop | ✅ | ok / cancel / none |
+| `stackButtons` | prop | ✅ | 单列堆叠（默认双列右对齐） |
+| `position` | prop | ✅ | standard/top/right/bottom/left；非法值直接拒绝（不静默回落） |
+| `persistent` / `noEscDismiss` / `noBackdropDismiss` | prop | ✅ | 三档关闭策略，互不串味；程序化 api 仍可关 |
+| `seamless` / `maximized` / `fullWidth` / `fullHeight` | prop | ✅ | 形态四开关 |
+| `transitionShow` / `transitionHide` | prop | ✅ | scale / fade / none（映射内置过渡子集） |
+| `color` | prop | ✅ | 映射 `tint`（命名红线：基调色叫 tint） |
+| `dark` | prop | 🚧 | 当前跟随 NovaTheme 全局明暗（宪法第 5 章路径）；单框局部覆盖 M2 |
+| `progress` | prop | ✅/🚧 | bool + `{message}` ✅；自定义 spinner 组件 🚧 M2 |
+| `html` | prop | ⛔→增强 | 不移植（QML 无 DOM + XSS 面），改 `contentDelegate`（Nova 增强） |
+| `class` / `style` | prop | ⛔ | QML 无 CSS 类/行内样式；由 `tint`/radius 令牌替代 |
+| `noRouteDismiss` | prop | ⛔ | QML 无路由概念（不适用） |
+| `prompt` | prop | 🚧 | 依赖 NovaInput，二期表单批交付后补 |
+| `options` | prop | 🚧 | 依赖 NovaRadio/NovaCheckbox，二期补 |
+| `component` / `componentProps` | prop | 🚧 | 当前用 `contentDelegate` 覆盖正文；整卡组件替换 M2 |
+| 句柄：`hide()` / `update()` / `onOk` / `onCancel` / `onDismiss` | API | ✅ | hide/update ✅；回调改名承载为 `accepted`/`rejected`/`dismissed(reason)` 三信号（on\* 撞 QML 红线） |
+| `dismissed(reason)` 五值 | 事件 | ✅ | ok/cancel/backdrop/escape/api —— **基线 2.28 真 parity**（与 Notify 不同，勿混） |
+| `ok()` / `cancel()` | API | ✅增强 | Nova 增强：程序化触发按钮，自动化测试友好 |
+| `count()` / `activeDialogs()` / `hideAll()` | API | ✅增强 | Nova 增强：内省与批量关闭 |
+
 ## 审计纪律（宪法第 3.5 条）
 
 1. 新组件交付 = 宪法迭代 + **本文件新增审计节**（属性/事件/槽/model 逐项列明）
