@@ -402,3 +402,64 @@ M1/M2 排期在 ROADMAP 跟踪。
 1. 新组件交付 = 宪法迭代 + **本文件新增审计节**（属性/事件/槽/model 逐项列明）
 2. ❌ 项必须标注目标里程碑；⛔ 项必须写明 QML 语境理由
 3. 封版（1.0.0-flagship）前，✅ 占比门禁：P0 组件 ≥90%，全库 ≥85%
+
+---
+
+## §0.9 二期 Sprint A · 表单核心七件（0.9.0，对标 Quasar 2.35.5 npm 原包逐项核对）
+
+### NovaField ↔ QField（use-field 29 + use-validate 7 props）
+
+| 基线 props | Nova | 备注 |
+|---|---|---|
+| label / stack-label / hint / hide-hint / prefix / suffix | ✅ 1:1 | 浮动 label 语义（stackLabel/聚焦/有值浮起） |
+| label-color / color / bg-color / dark | ✅（color→tint） | dark 随 NovaTheme.isDark 全局承担 |
+| loading / clearable / clear-icon | ✅ 1:1 | clearIcon 留 props（视觉用内置十字绘制，无网络依赖） |
+| filled / outlined / borderless / standout | ✅ 1:1 | 互斥优先级 outlined > standout > filled > borderless |
+| rounded / square / dense / hide-bottom-space | ✅ 1:1 | |
+| counter | ✅ | 基线 bool 由子类算长；Nova 另增 counterText 自定义 |
+| label-slot / bottom-slots | ⭕ 部分 | labelSlot 语义保留；bottom 插槽底行内置三位（hint/error/counter） |
+| item-aligned / for / tag | ❌ 留痕 | item-aligned 表格场景四期；for 为 QML 保留字 → `name`；tag 不适用 |
+| error / error-message / no-error-icon / rules / reactive-rules / lazy-rules | ✅ 1:1 | 校验引擎：函数规则 + 内置字符串 required/minlen(n)/maxlen(n)/len(n)/email；错误图标不适用（底行红字承担） |
+| model-value（use-validate） | ✅ | 走 value 属性接线，子类注入 |
+
+### NovaInput ↔ QInput（8 props）
+
+| 基线 props | Nova | 备注 |
+|---|---|---|
+| model-value / model-modifiers / type / debounce / autogrow / shadow-text | ✅ 1:1 | type 含 textarea（TextArea 自增高）；modifiers number/trim/capitalize |
+| input-class / input-style | ❌ 留痕 | CSS 通道不适用 QML；由 NovaText/typeScale 承担 |
+| maxlength（HTML） | ✅ Nova 增强 | 基线由属性透传 DOM；Nova 显式 prop |
+
+### NovaSelect ↔ QSelect（47 props，收口 24）
+
+| 基线核心 | Nova | 备注 |
+|---|---|---|
+| options / option-value / option-label / option-disable | ✅ 1:1 | 标量/对象数组归一化 |
+| model-value / multiple / emit-value / max-values | ✅ 1:1 | 多选上限拒收返回 false |
+| display-value / dropdown-icon / hide-dropdown-icon / no-option-label | ✅ 1:1 | |
+| use-input（过滤） / options-dense / options-cover | ✅ | cover 简化为向上弹 |
+| use-chips / new-value-mode / map-options / menu-* 五 props / virtual-scroll-* / behavior / transition-* / popup-* / options-html / options-dark / options-selected-class / fill-input / autocomplete / tabindex / display-value-html / hide-dialog-close / popup-no-route-dismiss / disable-tab-selection / no-chip-remove / no-option-prefetch / on-filter / on-new-value | ⭕/❌ 二期 B 起 | chips 与 onFilter/onNewValue 入 v0.10.0；menu 定制/虚拟滚动随 OverlayHost 演进；inputClass/inputStyle 不适用；@new-value 以 signal newValue 落位 |
+
+### NovaCheckbox / NovaRadio / NovaToggle ↔ use-checkbox(18) / QRadio(12) / QToggle(+2)
+
+| 基线 props | Nova | 备注 |
+|---|---|---|
+| model-value / val / true-value / false-value / indeterminate-value / toggle-order / toggle-indeterminate | ✅ 1:1 | 半选循环 order0 t→f→i→t / order1 f→t→i→f；toggle()/select() 只发信号不自写（受控模式，坑位 22） |
+| label / left-label / keep-color / dense / disable / dark / tabindex | ✅（tabindex→activeTab） | dark 随主题 |
+| checked-icon / unchecked-icon / indeterminate-icon | ✅ | 默认内置绘制勾/横线（零网络依赖），显式指定走 NovaIcon |
+| QToggle icon / icon-color | ✅ 1:1 | 滑块内置图标 |
+| error / hint（契约统一） | ✅ Nova 增强 | 基线经 QForm 校验态注入；Nova 直挂组件 |
+| clearable / rules | ❌ 留痕 | 契约对 checkbox 族不适用（与基线一致） |
+
+### NovaSlider ↔ QSlider（use-slider 33 + label-value/model-value）
+
+| 基线 props | Nova | 备注 |
+|---|---|---|
+| min / max / inner-min / inner-max / step / snap / reverse / vertical | ✅ 1:1 | step 恒量化 + 夹取；posToValue/setValue 公开 |
+| color→tint / track-color / selection-color / thumb-color / track-size / thumb-size / dark / dense / disable / readonly / tabindex | ✅ | |
+| label / label-always / label-value / label-color / label-text-color / switch-label-side | ✅ 核心 | 气泡配色随 tint；switch-label-side 四期 |
+| markers / marker-labels | ✅ | true=数值 / 数组=自定义 / 数字=间隔；上限 200 刻点 |
+| track-img / inner-track-img / selection-img / thumb-path / marker-labels-class / switch-marker-labels-side | ❌ 留痕 | 图片贴图与样式类不适用 QML |
+| events：update:model-value / change | ✅ | valueChanged 信号 + changed()（释放/键盘提交）；键盘 ←→↑↓/Home/End |
+
+> 测试口径：13 条实例化冒烟 + 12 个行为用例（FORM_ENV_QML 驱动代理），合计 0.9.0 新增 25 项。

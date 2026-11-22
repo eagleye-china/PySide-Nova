@@ -54,7 +54,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.8.0"
+                text: "Gallery 0.9.0"
                 outlined: true; dense: true
             }
         }
@@ -110,6 +110,7 @@ ApplicationWindow {
                     ListElement { label: "Theme / Screen";     icon: "mdi:palette-outline" }
                     ListElement { label: "L0 图标/排版/动效";   icon: "mdi:shape-plus-outline" }
                     ListElement { label: "L5 工具层 utils";     icon: "mdi:function-variant" }
+                    ListElement { label: "表单核心";            icon: "mdi:form-textbox" }
                 }
 
                 delegate: Rectangle {
@@ -159,7 +160,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -1834,6 +1835,181 @@ ApplicationWindow {
                     Text {
                         text: "uid() → " + up.uidSample
                         color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS
+                    }
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：表单核心（NovaField/NovaInput/NovaSelect/NovaCheckbox/NovaRadio/NovaToggle/NovaSlider）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageForms
+        Item {
+            id: fp
+            property var multi: [false, false]
+            property string radioPick: "b"
+            property var selFruit: null
+            property var selTags: []
+            property bool tg1: false
+            property bool tg2: false
+
+            GalleryPage {
+                title: "表单核心 · 二期 Sprint A"
+                desc: "统一契约 label / hint / error / readonly / disable / clearable / rules。NovaField 容器壳（样式四型 + 浮动 label + 校验引擎）、NovaInput（密码/多行/数字/防抖）、NovaSelect（归一化选项 + 多选 + useInput 过滤）、NovaCheckbox（三态循环）、NovaRadio、NovaToggle（复用 checkbox 语义换装开关）、NovaSlider（step 量化 + 刻点 + 气泡 + 垂直）。"
+
+                GalleryRow { label: "① NovaInput：校验规则 / 清空 / 密码 / 多行 / 数字" }
+                Column {
+                    spacing: NovaTheme.spacingM
+                    width: parent.width
+                    Row {
+                        spacing: NovaTheme.spacingL
+                        NovaInput {
+                            width: 260
+                            label: "用户名"
+                            hint: "至少 3 个字符"
+                            clearable: true
+                            rules: ["required", "minlen(3)"]
+                        }
+                        NovaInput {
+                            width: 200
+                            label: "密码"
+                            type: "password"
+                            clearable: true
+                        }
+                        NovaInput {
+                            width: 160
+                            label: "价格"
+                            type: "number"
+                            modelModifiers: ["number"]
+                            prefix: "¥"
+                            suffix: "元"
+                        }
+                    }
+                    NovaInput {
+                        width: 380
+                        label: "备注"
+                        type: "textarea"
+                        autogrow: true
+                        shadowText: "请输入备注（textarea 自增高）"
+                    }
+                    Text {
+                        text: "↑ 输入少于 3 字符即时报错（rules 实时校验）"
+                        color: NovaTheme.textMuted
+                        font.pixelSize: NovaTheme.fontXS
+                    }
+                }
+
+                GalleryRow { label: "② NovaField 样式四型：filled / outlined / standout / borderless" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaField { width: 170; label: "filled（默认）"; filled: true; hint: "底行 hint" }
+                    NovaField { width: 150; label: "outlined"; outlined: true }
+                    NovaField { width: 150; label: "standout"; standout: true }
+                    NovaField { width: 150; label: "borderless"; borderless: true }
+                    NovaField { width: 130; label: "dense+rounded"; filled: true; dense: true; rounded: true; stackLabel: true }
+                }
+
+                GalleryRow { label: "③ NovaSelect：单选 / 多选上限 / useInput 过滤" }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    NovaSelect {
+                        width: 200
+                        label: "水果"
+                        emitValue: true
+                        options: [
+                            { label: "苹果", value: "apple" },
+                            { label: "香蕉", value: "banana", disable: true },
+                            { label: "樱桃", value: "cherry" },
+                            { label: "榴莲", value: "durian" }
+                        ]
+                    }
+                    NovaSelect {
+                        width: 220
+                        label: "多选（最多 2 项）"
+                        multiple: true; emitValue: true; maxValues: 2
+                        options: ["HTML", "CSS", "QML", "Python"]
+                    }
+                    NovaSelect {
+                        width: 200
+                        label: "搜索过滤"
+                        useInput: true
+                        emitValue: true
+                        options: ["北京", "上海", "广州", "深圳", "杭州"]
+                    }
+                }
+
+                GalleryRow { label: "④ NovaCheckbox / NovaRadio / NovaToggle：三态循环与组联动（受控模式：宿主写回）" }
+                Column {
+                    spacing: 10
+                    Row {
+                        spacing: NovaTheme.spacingL
+                        Column {
+                            spacing: 8
+                            NovaCheckbox {
+                                label: "选项甲"
+                                modelValue: fp.multi[0] === true
+                                onValueChanged: (v) => { if (fp.multi[0] !== v) fp.multi = [v, fp.multi[1]] }
+                            }
+                            NovaCheckbox {
+                                label: "选项乙"
+                                modelValue: fp.multi[1] === true
+                                onValueChanged: (v) => { if (fp.multi[1] !== v) fp.multi = [fp.multi[0], v] }
+                            }
+                            NovaCheckbox {
+                                label: "全选（半选循环 f→t→i→f）"
+                                toggleIndeterminate: true
+                                indeterminateValue: "partial"
+                                modelValue: (fp.multi[0] === true && fp.multi[1] === true) ? true
+                                           : (fp.multi[0] !== true && fp.multi[1] !== true) ? false : "partial"
+                                onValueChanged: (v) => fp.multi = [v === true, v === true]
+                            }
+                        }
+                        Column {
+                            spacing: 8
+                            NovaRadio { label: "甲"; val: "a"; modelValue: fp.radioPick; onValueChanged: (v) => { if (fp.radioPick !== v) fp.radioPick = v } }
+                            NovaRadio { label: "乙"; val: "b"; modelValue: fp.radioPick; onValueChanged: (v) => { if (fp.radioPick !== v) fp.radioPick = v } }
+                            NovaRadio { label: "丙（禁用）"; val: "c"; modelValue: fp.radioPick; disable: true }
+                        }
+                        Column {
+                            spacing: 12
+                            NovaToggle { label: "开关（带图标）"; icon: "mdi:check"; modelValue: fp.tg1 === true; onValueChanged: (v) => fp.tg1 = v }
+                            NovaToggle { label: "dense"; dense: true; modelValue: fp.tg2 === true; onValueChanged: (v) => fp.tg2 = v }
+                            NovaToggle { label: "readonly"; readonly: true; modelValue: true }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "⑤ NovaSlider：step 量化 / 刻点 / 气泡 / 垂直 / markerLabels" }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    Column {
+                        spacing: 8
+                        NovaSlider {
+                            width: 300
+                            min: 0; max: 100; step: 5
+                            label: true
+                            markers: 2
+                        }
+                        NovaSlider {
+                            width: 300
+                            min: 0; max: 100; step: 10
+                            markerLabels: true
+                            hint: "markerLabels 数值刻度（step 10）"
+                        }
+                    }
+                    NovaSlider {
+                        width: 36; height: 120
+                        vertical: true
+                        reverse: true
+                        label: true
+                    }
+                    NovaSlider {
+                        width: 36; height: 120
+                        vertical: true
+                        markerLabels: ["低", "中", "高"]
+                        label: true
                     }
                 }
             }

@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.9.0] - 2026-11-22
+
+### Added（二期 Sprint A · **表单核心七件一次收口**：L2 10% → 16%，统一契约落地）
+
+- **统一表单契约**：`label / hint / error / readonly / disable / clearable / rules` 贯穿七件，
+  对标 Quasar "表单手感"（QField use-field 29 props + use-validate 7 props 逐项对账）
+- **NovaField 容器壳**（对标 QField）：浮动 label / 前后缀 / 样式四型（filled/outlined/standout/borderless）
+  / dense+rounded+square / counter / loading / clearable / 底行 hint·error·counter 三位；
+  **校验引擎**（对标 use-validate）：rules 数组（函数 + 内置字符串规则 required/minlen/maxlen/len/email）、
+  lazyRules 失焦激活、reactiveRules、validate()/resetValidation()/validated()
+- **NovaInput**（对标 QInput 8 props）：type text/password/number/int/textarea/email/tel/url/search、
+  modelModifiers（number/trim/capitalize）、debounce 防抖提交、autogrow 多行自增高、shadowText、
+  clearable、maxLength（Nova 增强）、autofocus；值通知走 modelValue 变更信号（对标 update:model-value）
+- **NovaSelect**（对标 QSelect 核心子集 24/47）：options 归一化（标量/对象/optionValue·Label·Disable）、
+  single/multiple + maxValues 上限、emitValue、displayValue、useInput 键入过滤、noOptionLabel、
+  optionsDense/optionsCover、dropdownIcon；disabled 选项拒选；Popup 弹层（Controls）
+- **NovaCheckbox**（对标 use-checkbox 18 props）：trueValue/falseValue/indeterminateValue 三态、
+  toggleIndeterminate 半选入链（order 0: t→f→i→t / order 1: f→t→i→f）、val 模式、leftLabel、keepColor、
+  **visual 插槽**（property Component，NovaToggle 换装复用同一套值语义）
+- **NovaRadio**（对标 QRadio 12 props）：val 匹配、组联动受控模式
+- **NovaToggle**（对标 QToggle）：轨道+滑块换装、icon/iconColor、复用 checkbox 全部值语义
+- **NovaSlider**（对标 use-slider 33 props 收口 26 项）：min/max/step 量化、innerMin/innerMax、
+  snap+markers+markerLabels、label 气泡（labelAlways/labelValue）、reverse/vertical、trackSize/thumbSize、
+  键盘方向键/Home/End、changed() 提交信号
+- **画廊第 16 页**：表单核心页（校验实时报错/样式四型/选择三态/受控模式组联动/滑杆刻度），共 16 页
+- **测试 149 → 174 项全绿**（13 条实例化冒烟 + 12 个行为用例：契约校验/清空/防抖/lazyRules/
+  选项归一化/多选上限/半选循环/val 模式/radio 组/开关/滑杆量化夹取/垂直步进）
+- **local_deploy.py 新增 `--allinone`**：全量交付包一键生成（修复 0.8.0 包内 git 历史滞后 2 提交的
+  交付缺陷；--allinone 须在最终提交后运行）
+
+### Changed（语义对齐说明）
+
+- **受控模式（Quasar 1:1）**：NovaCheckbox.toggle()/NovaRadio.select() 只发信号**不写自身 modelValue**，
+  写回由宿主完成（对标 v-model 语义，规避 QML 绑定自环）；toggle()/select() 返回下一值便于宿主写回
+- NovaSlider 按快照指令从二期 B（v0.10.0）提前至 Sprint A 交付；NovaForm/NovaBtnToggle/NovaPopupEdit/
+  NovaOptionGroup 留待 v0.10.0（快照「下一步」清单为准）
+
+### 留痕（PARITY 同步）
+
+- QField standout 颜色参数/labelSlot/bottom-slots 插槽、QInput inputClass/inputStyle、QSelect 23 项
+  （chips/虚拟滚动/menu 定制五 props/behavior 等）、QSlider img 类四 props 与 markerLabels-class——
+  QML 不适用或二期后续补齐，逐项见 docs/PARITY.md §Sprint A
+- 坑位沉淀 21~22：属性通知信号撞名（有 value 属性再声明 signal valueChanged 即报 Duplicate signal
+  ——改走属性变更信号）；受控组件禁写自身 modelValue（绑定环）
+
 ## [0.8.0] - 2026-11-22
 
 ### Added（一期 Sprint 4 · **L0 设计语言 + L5 工具层一次收口**：L0 60% → 100%、L5 0% → 95%）

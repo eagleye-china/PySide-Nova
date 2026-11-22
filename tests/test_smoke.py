@@ -120,6 +120,33 @@ CASES = [
     "import QtQuick\nimport Nova.Services\n"
     "QtObject { property int n: NovaIntersectionPool.count;"
     " property int p: NovaIntersectionPool.pollInterval }",
+    # ── 二期 Sprint A 表单核心（v0.9.0）：逐个实例化 ──
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaField { label: 'L'; hint: 'H'; clearable: true; outlined: true; counter: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaField { label: 'L'; Rectangle { width: 4; height: 4 } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaInput { label: '用户名'; hint: '必填'; clearable: true; rules: ['required'] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaInput { type: 'password'; modelModifiers: ['number', 'trim']; debounce: 200 }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaInput { type: 'textarea'; autogrow: true; shadowText: '影子文本' }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaSelect { label: 'S'; options: [{label: 'A', value: 1}, {label: 'B', value: 2}]; emitValue: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaSelect { multiple: true; maxValues: 3; useInput: true; options: ['x', 'y']; noOptionLabel: '无' }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaCheckbox { label: 'C'; hint: 'H'; toggleIndeterminate: true; indeterminateValue: 'p' }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaCheckbox { label: 'A'; val: 'opt-a'; leftLabel: true; keepColor: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaRadio { label: 'R'; val: 'a'; modelValue: 'a'; dense: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaToggle { label: 'T'; icon: 'mdi:check'; iconColor: '#FFF'; dense: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaSlider { min: 0; max: 10; step: 1; snap: true; markers: true; label: true; labelAlways: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaSlider { vertical: true; reverse: true; markers: 2; markerLabels: ['低', '高']; dense: true }",
 ]
 
 
@@ -2020,3 +2047,236 @@ def test_frame_debounce_and_uid(l0_env):
     u1, u2 = drv.val("uid1"), drv.val("uid2")
     assert re.match(r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", u1), u1
     assert u1 != u2
+
+
+# ── 二期 Sprint A：表单核心七件（v0.9.0） ────────────────────
+
+FORM_ENV_QML = (
+    "import QtQuick\n"
+    "import Nova.Controls\n"
+    "Item {\n"
+    "  width: 800; height: 600\n"
+    "  // 计数器\n"
+    "  property int commitCount: 0\n"
+    "  property var lastValue: null\n"
+    "  property int changedCount: 0\n"
+    "  property var lastCheck: null\n"
+    "  property int picked: 0\n"
+    "  // 状态镜像（坑位 15：QML 侧只暴露属性，Python 侧不摸子组件）\n"
+    "  property bool inpHasError: inp.hasError\n"
+    "  property string inpText: inp._text\n"
+    "  property bool cbChecked: cb.checked\n"
+    "  property bool cbValChecked: cbVal.checked\n"
+    "  property bool raChecked: ra.checked\n"
+    "  property bool rbChecked: rb.checked\n"
+    "  property bool tgChecked: tg.checked\n"
+    "  property var selVal: sel.modelValue\n"
+    "  // ① NovaInput：校验 + modifiers + clearable + debounce\n"
+    "  NovaInput {\n"
+    "    id: inp; width: 240; x: 10; y: 10\n"
+    "    label: '用户名'; clearable: true\n"
+    "    rules: ['required', 'minlen(3)']\n"
+    "    onEditingFinished: commitCount++\n"
+    "  }\n"
+    "  NovaInput {\n"
+    "    id: numInp; width: 240; x: 10; y: 80\n"
+    "    type: 'number'; modelModifiers: ['number']\n"
+    "    onModelValueChanged: { lastValue = modelValue; changedCount++ }\n"
+    "  }\n"
+    "  NovaInput {\n"
+    "    id: debInp; width: 240; x: 10; y: 150\n"
+    "    debounce: 120\n"
+    "    onModelValueChanged: { lastValue = modelValue; changedCount++ }\n"
+    "  }\n"
+    "  NovaInput { id: lazyInp; width: 240; x: 10; y: 220; rules: ['email']; lazyRules: true }\n"
+    "  // ② NovaSelect\n"
+    "  NovaSelect {\n"
+    "    id: sel; width: 240; x: 300; y: 10\n"
+    "    options: [{label: '苹果', value: 'apple'}, {label: '香蕉', value: 'banana', disable: true}, {label: '樱桃', value: 'cherry'}]\n"
+    "    emitValue: true\n"
+    "    onModelValueChanged: picked++\n"
+    "  }\n"
+    "  NovaSelect {\n"
+    "    id: selMulti; width: 240; x: 300; y: 80\n"
+    "    multiple: true; emitValue: true; maxValues: 2\n"
+    "    options: ['a', 'b', 'c', 'd']\n"
+    "  }\n"
+    "  // ③ NovaCheckbox / NovaRadio / NovaToggle\n"
+    "  NovaCheckbox {\n"
+    "    id: cb; x: 300; y: 150; label: '记住我'\n"
+    "    onModelValueChanged: lastCheck = modelValue\n"
+    "  }\n"
+    "  NovaCheckbox {\n"
+    "    id: cbInd; x: 300; y: 200; label: '全选'\n"
+    "    toggleIndeterminate: true; indeterminateValue: 'partial'; toggleOrder: 1\n"
+    "  }\n"
+    "  NovaCheckbox { id: cbVal; x: 300; y: 250; label: 'A'; val: 'opt-a' }\n"
+    "  property var radioVal: 'b'\n"
+    "  NovaRadio { id: ra; x: 300; y: 300; label: '甲'; val: 'a'; modelValue: radioVal }\n"
+    "  NovaRadio { id: rb; x: 300; y: 340; label: '乙'; val: 'b'; modelValue: radioVal }\n"
+    "  NovaToggle { id: tg; x: 300; y: 390; label: '开关'; icon: 'mdi:check' }\n"
+    "  // ④ NovaSlider\n"
+    "  NovaSlider {\n"
+    "    id: sl; width: 300; x: 10; y: 300\n"
+    "    min: 0; max: 100; step: 5; label: true\n"
+    "    onValueChanged: (v) => lastValue = v\n"
+    "  }\n"
+    "  NovaSlider { id: slV; width: 40; height: 160; x: 10; y: 380; vertical: true; reverse: true; step: 10 }\n"
+    "  // 驱动函数（QML 函数无可选参数——固定形参）\n"
+    "  function inpSet(t) { inp.modelValue = t }\n"
+    "  function inpValidate() { return inp.validate() }\n"
+    "  function inpClear() { inp.clear() }\n"
+    "  function inpReset() { inp.resetValidation() }\n"
+    "  function numSet(t) { numInp.modelValue = t; return numInp.typedValue }\n"
+    "  function debSet(t) { debInp.modelValue = t; return debInp._text }\n"
+    "  function debType(t) { debInp._setText(t) }\n"
+    "  function lazyBlur() { lazyInp.controlFocused = true; lazyInp.controlFocused = false; return lazyInp.hasError }\n"
+    "  function lazySet(t) { lazyInp.modelValue = t }\n"
+    "  function lazyValidate() { return lazyInp.validate() }\n"
+    "  function selPick(v) { return sel.selectOption(v) }\n"
+    "  function selByLabel(l) { return sel._setValueByLabel(l) }\n"
+    "  function selDisplay() { return sel._displayText }\n"
+    "  function selMultiToggle(v) { return selMulti.selectOption(v) }\n"
+    "  function selMultiVals() { return selMulti.modelValue ? selMulti.modelValue.length : 0 }\n"
+    "  function cbToggle() { cb.modelValue = cb.toggle(); return cb.checked }\n"
+    "  function cbIndCycle() { cbInd.modelValue = cbInd.toggle(); return cbInd.modelValue }\n"
+    "  function cbValToggle() { cbVal.modelValue = cbVal.toggle(); return cbVal.modelValue }\n"
+    "  function radioPick() { radioVal = ra.select(); return radioVal }\n"
+    "  function tgToggle() { tg.modelValue = tg.toggle(); return tg.checked }\n"
+    "  function slSet(v) { sl.setValue(v); return sl.modelValue }\n"
+    "  function slPos(x) { return sl.posToValue(x) }\n"
+    "  function slStep() { sl.stepBy(2); return sl.modelValue }\n"
+    "  function slStepV() { slV.stepBy(1); return slV.modelValue }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def form_env(qml_engine):
+    """Sprint A 表单测试环境：七件全实例化 + 调用代理。"""
+    win = _make(qml_engine, FORM_ENV_QML, wait=0.05)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)
+    _pump(60)
+    return drv
+
+
+def test_form_input_validation_contract(form_env):
+    """统一契约：required+minlen 双规则；空值报错 → 合法值通过 → reset 复位。"""
+    drv = form_env
+    assert drv.call0("inpValidate") is False          # 空值 → required 不通过
+    assert drv.val("inpHasError") is True
+    drv.call1("inpSet", "nova")
+    assert drv.call0("inpValidate") is True
+    drv.call0("inpReset")
+    assert drv.val("inpHasError") is False
+
+
+def test_form_input_clear_and_modifiers(form_env):
+    """clearable 清空；number 模式 typedValue 强转数值。"""
+    drv = form_env
+    drv.call1("inpSet", "hello")
+    drv.call0("inpClear")
+    assert drv.val("inpText") == ""
+    v = drv.call1("numSet", "42")
+    assert v == 42 and isinstance(v, (int, float))
+    assert drv.val("changedCount") >= 1
+
+
+def test_form_input_debounce(form_env):
+    """debounce>0 时 modelValue 延迟提交（文本即时，模型防抖）。"""
+    drv = form_env
+    before = drv.val("changedCount")
+    drv.call1("debType", "abc")                       # 模拟键入：文本即时变
+    _pump(30)
+    assert drv.val("changedCount") == before          # 防抖窗口内未提交
+    _pump(220)
+    assert drv.val("changedCount") == before + 1
+    assert drv.val("lastValue") == "abc"
+
+
+def test_form_input_lazy_rules(form_env):
+    """lazyRules：失焦前不实时校验；首次失焦激活后 email 规则生效。"""
+    drv = form_env
+    assert drv.call0("lazyBlur") is True              # 失焦激活：空值非 email → 报错
+    assert drv.call0("lazyValidate") is False
+    drv.call1("lazySet", "a@b.co")
+    assert drv.call0("lazyValidate") is True
+
+
+def test_form_select_pick_and_normalize(form_env):
+    """选项归一化 + emitValue + disabled 拒选 + 展示文案。"""
+    drv = form_env
+    assert drv.call1("selPick", "cherry") is True
+    assert drv.val("picked") == 1
+    assert drv.call0("selDisplay") == "樱桃"
+    assert drv.call1("selPick", "banana") is False    # disabled 拒选
+    assert drv.call1("selByLabel", "苹果") is True
+    assert drv.val("selVal") == "apple"
+
+
+def test_form_select_multiple_and_cap(form_env):
+    """multiple 多选 + maxValues=2 上限拒收。"""
+    drv = form_env
+    assert drv.call1("selMultiToggle", "a") is True
+    assert drv.call1("selMultiToggle", "b") is True
+    assert drv.call0("selMultiVals") == 2
+    assert drv.call1("selMultiToggle", "c") is False  # 满员时 c 被拒
+    assert drv.call0("selMultiVals") == 2
+
+
+def test_form_checkbox_toggle_semantics(form_env):
+    """true/false 语义 + 半选循环（order 1：f→t→i→f）。"""
+    drv = form_env
+    assert drv.call0("cbToggle") is True              # false → true
+    assert drv.val("lastCheck") is True
+    assert drv.call0("cbToggle") is False             # true → false
+    assert drv.val("lastCheck") is False
+    # 半选循环（toggleOrder 1）：false → true → partial → false
+    assert drv.call0("cbIndCycle") is True
+    assert drv.call0("cbIndCycle") == "partial"
+    assert drv.call0("cbIndCycle") is False
+
+
+def test_form_checkbox_val_mode(form_env):
+    """val 模式：checked = modelValue === val；toggle 发出 val。"""
+    drv = form_env
+    assert drv.val("cbValChecked") is False
+    assert drv.call0("cbValToggle") == "opt-a"
+    assert drv.val("cbValChecked") is True
+
+
+def test_form_radio_group(form_env):
+    """radio 组：select 写回 val；宿主同步 modelValue 后两枚联动。"""
+    drv = form_env
+    assert drv.val("rbChecked") is True               # 初始 modelValue 'b'
+    drv.call0("radioPick")                             # 点甲
+    assert drv.val("radioVal") == "a"
+    assert drv.val("raChecked") is True
+    assert drv.val("rbChecked") is False              # 乙取消
+
+
+def test_form_toggle_switch_semantics(form_env):
+    """NovaToggle 复用 checkbox 值语义（换装不改行为）。"""
+    drv = form_env
+    assert drv.call0("tgToggle") is True
+    assert drv.val("tgChecked") is True
+    assert drv.call0("tgToggle") is False
+    assert drv.val("tgChecked") is False
+
+
+def test_form_slider_quantize_and_clamp(form_env):
+    """step=5 量化 + min/max 夹取 + 轨道位置换算。"""
+    drv = form_env
+    assert drv.call1("slSet", 47) == 45                # 量化到 5 的倍数
+    assert drv.call1("slSet", 999) == 100              # 夹取上限
+    assert drv.call1("slSet", -9) == 0                 # 夹取下限
+    assert drv.call1("slPos", 146) == 50               # 轨道中点 → 50
+
+
+def test_form_slider_step_and_vertical(form_env):
+    """stepBy 走 N 步；垂直模式步进方向正确。"""
+    drv = form_env
+    drv.call1("slSet", 50)
+    assert drv.call0("slStep") == 60                   # +2 步 × step 5
+    assert drv.call0("slStepV") == 10                  # 垂直 stepBy +1 步 × step 10

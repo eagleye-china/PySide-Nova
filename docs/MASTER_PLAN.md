@@ -101,15 +101,15 @@
 > 体系内统一契约：`label / hint / error / errorMessage / readonly / disable /
 > clearable / rules 校验`，一套契约贯穿 18 个组件，这就是 Quasar 的"表单手感"。
 
-### Sprint A · 表单核心（v0.9.0）
+### Sprint A · 表单核心（v0.9.0）✅ 2026-11-22 收口
 
 | 交付物 | 对标 | 关键能力 |
 |---|---|---|
-| `NovaField` | QField | 统一字段包装器（标签/提示/错误态/前后置图标/计数器） |
-| `NovaInput` | QInput | 校验、clearable、多行、密码、字符计数 |
+| `NovaField` | QField | 统一字段包装器（标签/提示/错误态/前后置图标/计数器）✅ |
+| `NovaInput` | QInput | 校验、clearable、多行、密码、字符计数 ✅ |
 | `NovaForm` | QForm | 规则化校验容器、提交聚合校验、resetValidation |
-| `NovaSelect` | QSelect | 多选 chip、搜索过滤、选项分组、useInput 式自由输入；hover 契约（hover/hover-delay/hover-hide-delay）、no-option-label、dialog 关闭按钮 |
-| `NovaToggle` / `NovaCheckbox` / `NovaRadio` / `NovaOptionGroup` | 同名 | keep-color、dark 支持、indeterminate |
+| `NovaSelect` | QSelect | 多选、搜索过滤、useInput 式自由输入、no-option-label ✅（chips/选项分组/hover 契约/dialog 关闭按钮 → v0.10.0） |
+| `NovaToggle` / `NovaCheckbox` / `NovaRadio` / `NovaOptionGroup` | 同名 | keep-color、dark 支持、indeterminate ✅（NovaOptionGroup → v0.10.0；NovaSlider 依快照指令提前至 0.9.0 交付） |
 | `NovaBtnToggle` | QBtnToggle | 分段选择按钮组（spread/clear/outline） |
 | `NovaPopupEdit` | QPopupEdit | 点击编辑单元格/文本（配合三期表格） |
 
