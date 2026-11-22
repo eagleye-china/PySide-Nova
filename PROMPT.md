@@ -174,6 +174,6 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 - 快照版本：0.9.0（2026-11-22）
 - 内容指纹：`ead8cb53c0fa`
-- git HEAD：d53ec57
-- 生成时间：2026-11-22 22:57（星期日）
+- git HEAD：6ec7c99
+- 生成时间：2026-11-22 22:58（星期日）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）
