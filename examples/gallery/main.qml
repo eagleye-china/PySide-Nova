@@ -54,7 +54,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.12.0"
+                text: "Gallery 0.13.0"
                 outlined: true; dense: true
             }
         }
@@ -114,6 +114,7 @@ ApplicationWindow {
                     ListElement { label: "输入进阶";            icon: "mdi:clock-time-eight-outline" }
                     ListElement { label: "数据体系";            icon: "mdi:table-large" }
                     ListElement { label: "媒体体系";            icon: "mdi:image-multiple-outline" }
+                    ListElement { label: "导航体系";            icon: "mdi:compass-outline" }
                 }
 
                 delegate: Rectangle {
@@ -163,7 +164,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -355,7 +356,7 @@ ApplicationWindow {
         Item {
             GalleryPage {
                 title: "概览 Overview"
-                desc: "pyside-nova 已交付 86 个公共类型（Controls 59 + Services 10 + Design 3 + 句柄动作 4 + Behaviors 10）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
+                desc: "pyside-nova 已交付 100 个公共类型（Controls 73 + Services 10 + Design 3 + 句柄动作 4 + Behaviors 10）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
 
                 Row {
                     spacing: NovaTheme.spacingM
@@ -2691,6 +2692,167 @@ ApplicationWindow {
                     }
                     Text { text: "最后请求：sort=" + (md.srvSortBy === "" ? "无" : md.srvSortBy) + (md.srvDesc ? "↓" : "↑") + " · page=" + md.srvPage; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
                     Component.onCompleted: md.srvRefresh()
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：导航体系 · 四期 Sprint A（标签页/面板/面包屑/步骤条/展开项/工具栏/悬浮按钮组）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageNav
+        Item {
+            id: nv
+            // 导航页受控状态
+            property var tabVal: "inbox"
+            property var stepVal: "info"
+            property bool expAccount: true
+            property bool expSecurity: false
+            property bool fabOpen: false
+            property int fabTicks: 0
+
+            GalleryPage {
+                title: "导航体系 · 四期 Sprint A"
+                desc: "NovaTabs/NovaTab 标签页（横向滚动箭头/align/breakpoint 自动 justify/垂直模式/指示条）、NovaTabPanels 面板容器（animated/infinite/swipeable，受控联动）、NovaBreadcrumbs 面包屑（分隔符/激活色对标 2.35.6 源码语义）、NovaStepper 步骤条（状态图标解析 1:1/头部导航/垂直模式）、NovaExpansionItem 展开项（group 手风琴）、NovaToolbar 工具栏、NovaFab 悬浮按钮组（direction/stagger 级联/hover 契约）。"
+
+                GalleryRow { label: "① NovaTabs + NovaTabPanels：受控联动 / 禁用页跳过 / 箭头溢出滚动" }
+                NovaTabs {
+                    width: parent.width
+                    modelValue: nv.tabVal
+                    NovaTab { name: "inbox"; label: "收件箱"; icon: "mdi:email-outline" }
+                    NovaTab { name: "starred"; label: "已加星标"; icon: "mdi:star-outline"; alert: "3" }
+                    NovaTab { name: "sent"; label: "已发送"; icon: "mdi:send-outline" }
+                    NovaTab { name: "spam"; label: "垃圾邮件"; icon: "mdi:alert-octagon-outline"; disable: true }
+                    NovaTab { name: "archived"; label: "归档"; icon: "mdi:archive-outline"; alert: true }
+                    onUpdateModelValue: (n) => nv.tabVal = n
+                }
+                NovaTabPanels {
+                    width: parent.width; height: 150
+                    modelValue: nv.tabVal
+                    animated: true
+                    NovaTabPanel {
+                        name: "inbox"
+                        Rectangle {
+                            anchors.fill: parent; color: NovaTheme.surfaceAlt; radius: NovaTheme.radiusS
+                            Text { anchors.centerIn: parent; text: "收件箱面板 —— 与上方 Tabs 受控联动"; color: NovaTheme.textMuted }
+                        }
+                    }
+                    NovaTabPanel {
+                        name: "starred"
+                        Rectangle {
+                            anchors.fill: parent; color: NovaTheme.surfaceAlt; radius: NovaTheme.radiusS
+                            Text { anchors.centerIn: parent; text: "已加星标面板"; color: NovaTheme.textMuted }
+                        }
+                    }
+                    NovaTabPanel {
+                        name: "sent"
+                        Rectangle {
+                            anchors.fill: parent; color: NovaTheme.surfaceAlt; radius: NovaTheme.radiusS
+                            Text { anchors.centerIn: parent; text: "已发送面板"; color: NovaTheme.textMuted }
+                        }
+                    }
+                    NovaTabPanel { name: "spam" }
+                    NovaTabPanel { name: "archived" }
+                }
+
+                GalleryRow { label: "② NovaBreadcrumbs：分隔符 / 激活色（中间条目着色，当前页不着色）/ 禁用条目" }
+                NovaBreadcrumbs {
+                    width: parent.width
+                    NovaBreadcrumbsEl { label: "工作台"; icon: "mdi:home-outline"; onClicked: console.log("home") }
+                    NovaBreadcrumbsEl { label: "项目管理" }
+                    NovaBreadcrumbsEl { label: "pyside-nova" }
+                    NovaBreadcrumbsEl { label: "当前里程碑"; disable: true }
+                }
+                NovaBreadcrumbs {
+                    width: parent.width
+                    separator: "›"
+                    NovaBreadcrumbsEl { label: "一级" }
+                    NovaBreadcrumbsEl { label: "二级" }
+                    NovaBreadcrumbsEl { label: "三级"; disable: true }
+                }
+
+                GalleryRow { label: "③ NovaStepper：状态图标解析（active>error>done）/ 禁用步骤跳过 / navigation 槽 / 垂直模式" }
+                NovaStepper {
+                    id: stepper
+                    width: parent.width; height: 220
+                    modelValue: nv.stepVal
+                    animated: true
+                    NovaStep { name: "info"; title: "基本信息"; caption: "填写项目资料" }
+                    NovaStep { name: "config"; title: "参数配置"; caption: "勾选交付范围"; done: true }
+                    NovaStep { name: "review"; title: "评审"; caption: "等待复核"; disable: true }
+                    NovaStep { name: "deploy"; title: "交付上线"; caption: "出错自动回滚"; error: true }
+                    onUpdateModelValue: (n) => nv.stepVal = n
+                    navigation: [
+                        NovaStepperNavigation {
+                            NovaBtn { text: "上一步"; variant: "outlined"; onClicked: stepper.previous() }
+                            NovaBtn { text: "下一步"; onClicked: stepper.next() }
+                        }
+                    ]
+                }
+                NovaStepper {
+                    width: parent.width; height: 180
+                    vertical: true
+                    contracted: true
+                    NovaStep { title: "环境准备" }
+                    NovaStep { title: "依赖安装"; done: true }
+                    NovaStep { title: "启动服务" }
+                }
+
+                GalleryRow { label: "④ NovaExpansionItem：group 手风琴互斥 / switchToggleSide / expandSeparator" }
+                NovaExpansionItem {
+                    width: parent.width
+                    label: "账户设置"; caption: "昵称 / 邮箱 / 头像"
+                    icon: "mdi:account-cog-outline"
+                    group: "settings"; expandSeparator: true
+                    expanded: nv.expAccount
+                    onUpdateModelValue: (v) => nv.expAccount = v
+                    Rectangle { color: NovaTheme.surfaceAlt; radius: NovaTheme.radiusS; width: parent.width; height: 44
+                        Text { anchors.centerIn: parent; text: "账户设置内容区"; color: NovaTheme.textMuted } }
+                }
+                NovaExpansionItem {
+                    width: parent.width
+                    label: "安全与登录"; caption: "两步验证 / 设备管理"
+                    icon: "mdi:shield-lock-outline"
+                    group: "settings"; switchToggleSide: true
+                    expanded: nv.expSecurity
+                    onUpdateModelValue: (v) => nv.expSecurity = v
+                    Rectangle { color: NovaTheme.surfaceAlt; radius: NovaTheme.radiusS; width: parent.width; height: 44
+                        Text { anchors.centerIn: parent; text: "安全设置内容区"; color: NovaTheme.textMuted } }
+                }
+
+                GalleryRow { label: "⑤ NovaToolbar + NovaToolbarTitle：inset / shrink" }
+                NovaToolbar {
+                    width: parent.width
+                    radius: NovaTheme.radiusS
+                    border.color: NovaTheme.outline; border.width: 1
+                    NovaToolbarTitle { text: "项目设置" }
+                    NovaBtn { text: "撤销"; variant: "outlined"; size: "sm" }
+                    NovaBtn { text: "保存"; size: "sm" }
+                }
+
+                GalleryRow { label: "⑥ NovaFab + NovaFabAction：direction 展开方向 / stagger 级联 / external-label（点主钮开合）" }
+                Item {
+                    width: parent.width; height: 130
+                    NovaFab {
+                        id: fabDemo
+                        x: 40; y: 40
+                        direction: "up"
+                        stagger: 45
+                        label: "新建"
+                        modelValue: nv.fabOpen
+                        NovaFabAction { icon: "mdi:file-document-outline"; label: "文档"; onClicked: nv.fabTicks++ }
+                        NovaFabAction { icon: "mdi:table-large"; label: "表格"; onClicked: nv.fabTicks++ }
+                        NovaFabAction { icon: "mdi:presentation"; label: "演示"; disable: true }
+                        onUpdateModelValue: (v) => nv.fabOpen = v
+                    }
+                    Text {
+                        x: 130; y: 58
+                        text: "动作触发次数：" + nv.fabTicks
+                        color: NovaTheme.textMuted
+                        font.pixelSize: NovaTheme.fontS
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
                 }
             }
         }

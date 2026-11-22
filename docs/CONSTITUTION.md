@@ -123,6 +123,7 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 
 | 版本 | 日期 | 条款变更 |
 |---|---|---|
+| 0.13.0 | 2026-11-23 | 四期 Sprint A 收口：导航体系 14 类型一次交付（Tabs/Tab/TabPanel/TabPanels、Breadcrumbs/El、Stepper/Step/StepperNavigation、ExpansionItem、Toolbar/Title、Fab/FabAction），L2 43%→54%；基线复核 2.35.6（API 零漂移）；坑位沉淀 33~34（析构钩子 onDestruction / 基元无 background）；坑位 24/28 再验证（NovaStepper 状态绑定直读依赖 + _rev 显式失效）；受控契约沿用（Tabs/Panels/Stepper/Fab 均 emit-only） |
 | 0.12.0 | 2026-11-23 | 三期 Sprint B 收口：媒体体系十类型 + NovaTable 增强（虚拟滚动/服务端模式/loading 三态）一次交付，L2 34%→43%；坑位沉淀 29~31（inline component 裸名 delegate 恒 count 0 / 创建期定位器错过布局需 childrenRect 兜底 / QtMultimedia Video 必须按 src 惰性创建）；坑位 28 再验证（函数调用绑定依赖不可靠，派生数据一律显式失效）；受控契约沿用（Carousel modelValue / Table page·sortBy 均 emit-only） |
 | 0.11.0 | 2026-11-23 | 数据体系契约入宪：选择/勾选**按键值比较**（坑位 27：Qt6 信号参数深拷贝）、树派生索引**显式失效**（坑位 28：_refreshDerived + _rev）；NovaItem 槽位命名 left/top → leading/trailing、top → topAligned（FINAL 属性红线）；分页器受控 page 契约 |
 | 0.1.0 | 2026-11-21 | 宪法雏形：工程结构、头注释雏形、命名红线、令牌、断点、图标、质量门禁 |

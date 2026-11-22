@@ -604,3 +604,105 @@ M1/M2 排期在 ROADMAP 跟踪。
 
 > 测试口径：十类型实例化冒烟 13 条 + 行为用例 12 个（MEDIA_ENV_QML 驱动代理），合计 0.12.0 新增 25 项（225 → 250）。
 > 坑位沉淀：29 inline component 裸名赋 delegate 恒 count 0（须带花括号实例化）；30 创建期定位器错过自动布局（显式 childrenRect 高度兜底）；31 QtMultimedia Video 惰性创建（无音频服务环境初始化挂死）；32 reuseItems × 自定义 delegate 退出段错误（暂缓 reuseItems）；NovaImg 占位/错误图分层叠加规避 source↔status 绑定环。
+
+## §0.13 四期 Sprint A · 导航体系 14 类型（0.13.0，对标 Quasar 2.35.5 npm 原包 dist/api/*.json 逐项核对；基线漂移复核 2.35.6 零 API 变化）
+
+### NovaTabs ↔ QTabs（15 props + 1 event + 1 slot）
+
+| 类别 | 收口 | 留痕 |
+|---|---|---|
+| props | ✅ 13：model-value（受控，Tab name/序号寻址）/ vertical / outside-arrows / mobile-arrows / align（left/center/right/justify）/ breakpoint（默认 600，低于自动 justify）/ active-color→activeTint（命名红线）/ active-bg-color / indicator-color / left-icon / right-icon / switch-indicator / narrow-indicator / inline-label（横向即同行，恒等口径）/ no-caps（font.capitalization 实现）/ dense | stretch/shrink：flexbox 语境收敛为纵向拉伸/容器收缩为内容宽（implicit 尺寸派生）；dark ⛔（NovaTheme 自动） |
+| events | ✅ update:model-value→updateModelValue（Tab 只 emit，宿主写回——坑位 22 契约） | — |
+| slots | ✅ default（NovaTab 集合） | active-class/content-class ⛔（HTML class 选择器语义，样式直连属性下发） |
+
+- 指示条：横向底部下划线（switch→上沿）/ 纵向左侧竖条（switch→右侧），几何随激活 Tab 动画跟随；溢出时 Flickable 滚动 + flat 圆钮箭头（outside-arrows 占位两侧）。
+
+### NovaTab ↔ QTab（9 props + 1 slot）
+
+- ✅ name（空则宿主序号寻址）/ label / icon / alert（Boolean→红点、String→徽标）/ alert-icon / no-caps / disable + default 槽（覆盖 label/icon）。
+- ⛔ ripple（Nova 内置波纹口径）、tabindex（无障碍批次）、content-class（class 语义）。
+- 宿主识别 `isNovaTab` 标记 + tabsRef 注入（激活态/点击上报统一走宿主 `_goToTab`）。
+
+### NovaTabPanels ↔ QTabPanels（12 props + 2 events + 3 methods + 1 slot）
+
+| 类别 | 收口 | 留痕 |
+|---|---|---|
+| props | ✅ 6：model-value（受控）/ animated / infinite / swipeable（DragHandler 被动抓取，Carousel 口径）/ vertical / transition-duration | keep-alive 系 ⛔（Vue 组件缓存语义，面板常驻条带）；transition-prev/next ⛔（统一单一滑动过渡）；dark ⛔ |
+| events | ✅ update:model-value→updateModelValue（外部改 model 不触发）/ before-transition→beforeTransition（{newIndex,oldIndex,direction}）/ transition→transition（过渡完成后上报） | — |
+| methods | ✅ next / previous / goTo（name 或 index；禁用面板自动跳过；infinite 回绕瞬移不带动画） | — |
+| slots | ✅ default（NovaTabPanel 集合，子项即面板） | — |
+
+### NovaTabPanel ↔ QTabPanel（2 props + 1 slot）
+
+- ✅ name（任意类型寻址）/ disable（禁用遮罩）+ default 槽；几何由宿主统一管理（Slide 口径）。
+
+### NovaBreadcrumbs ↔ QBreadcrumbs（4 props + 2 slots）
+
+- ✅ separator（默认 '/'）/ separator-color / active-color→activeTint（命名红线）/ gutter（none/xs/sm/md/lg/xl→0/4/8/16/24/48）/ align（left/center/right）。
+- ✅ **activeColor 语义 1:1 对标 2.35.6 QBreadcrumbs.js 源码**：作用于「中间的、未禁用」条目；最后一个（当前页）不着色。
+- ✅ separator 槽 → `separatorDelegate`（Component 模板，作用域槽口径）；default 槽 → 宿主持有 + 手动线性布局（坑位 24/28：显式 x/y，不走定位器）。
+
+### NovaBreadcrumbsEl ↔ QBreadcrumbsEl（11 props + 1 event + 1 slot）
+
+- ✅ label / icon / disable / click→clicked + default 槽（覆盖 label/icon）；宿主注入 crumbsRef（激活色判定 `isActiveColor`）。
+- ⛔ to/href/exact/replace/active-class/exact-active-active-class/target（无路由体系，点击统一信号由宿主处理）；tag ⛔（HTML 元素语义）。
+
+### NovaStepper ↔ QStepper（26 props + 2 events + 3 methods + 3 slots）
+
+| 类别 | 收口 | 留痕 |
+|---|---|---|
+| props | ✅ 14：model-value（受控）/ vertical / header-nav（总开关）/ animated / infinite / flat / bordered / alternative-labels / contracted（头部只画圆点）/ inactive-icon / inactive-color / done-color / active-color / error-color / done-icon / active-icon / error-icon / transition-duration | keep-alive 系 ⛔；swipeable（步骤条语境留痕）；dark ⛔；transition-prev/next ⛔ |
+| events | ✅ update:model-value→updateModelValue / before-transition→beforeTransition / transition→transition | — |
+| methods | ✅ next / previous / goTo（禁用步骤跳过） | — |
+| slots | ✅ default（NovaStep 集合）/ navigation（NovaStepperNavigation 容器挂底部）/ message（Component 模板，Loader 渲染） | header-class ⛔（class 语义） |
+
+- **状态图标解析 1:1 对标 2.35.6 StepHeader.js**：active > error > done 优先级；step 级 icon/color 覆盖 stepper 级；`'none'` 退让 prefix → step.icon/inactiveIcon；颜色解析含命名色映射（primary/secondary/accent/negative/positive/warning/info/dark → NovaTheme 令牌）。
+- 连接线：前段/后段按相邻步骤 done 态着色（对标 q-stepper__line 语义）；垂直模式竖向连接线。
+- 坑位 24/28 口径落地：状态色/图标绑定侧**直读依赖**（st.* + currentIndex）强制重评，再经 `_dotColor/_stateIcon` 计算；派生步骤集合 `_steps` 平铺属性 + `_rev` 显式失效。
+
+### NovaStep ↔ QStep（15 props + 1 slot）
+
+- ✅ name / title / caption / icon / prefix / done / error / disable / header-nav（逐步骤）+ default 槽（步骤内容）。
+- ✅ 状态覆盖：done-icon/done-color/active-icon/active-color/error-icon/error-color（'none' 退让口径同上）；color（Quasar 命名色字符串口径，Item 基类无冲突）。
+
+### NovaStepperNavigation ↔ QStepperNavigation
+
+- ✅ default 槽容器（Row 间距 spacingM；由宿主 navigation 命名槽挂载渲染）。
+
+### NovaExpansionItem ↔ QExpansionItem（34 props + 7 events + 3 methods + 2 slots）
+
+| 类别 | 收口 | 留痕 |
+|---|---|---|
+| props | ✅ 16：label / caption / label-lines / caption-lines / icon / expand-icon / expanded-icon / hide-expand-icon / expand-icon-toggle / switch-toggle-side / dense-toggle / dense / duration / header-inset-level / content-inset-level / expand-separator / group（手风琴互斥）/ popup / disable / color→tint（命名红线） | expanded 受控 + defaultOpened 初值（宿主绑定后以宿主为准——坑位 22 不自写） |
+| events | ✅ update:model-value→updateModelValue / before-show→beforeShow / show→shown / before-hide→beforeHide / hide→hidden / after-show→afterShow / after-hide→afterHide | show/hide 与 QML 内建语义撞名规避（坑位 25 口径） |
+| methods | ✅ show / hide / toggle（只 emit 不自写；手风琴互斥经 ExpansionGroups.js 注册表通知组内其他条目各自受控上报） | — |
+| slots | ✅ default（展开内容）/ header（自定义头部） | to/href 系 ⛔（无路由）；dark ⛔；header-style/header-class/expand-icon-class ⛔（style/class 语义） |
+
+### NovaToolbar ↔ QToolbar（1 prop + 1 slot）
+
+- ✅ inset + default 槽；min-height 50（$toolbar-min-height 1:1）。dark ⛔。
+
+### NovaToolbarTitle ↔ QToolbarTitle（1 prop + 1 slot）
+
+- ✅ shrink（反转撑满语义）+ default 槽；便捷 text 属性（未用槽时渲染，elide 单行）。
+
+### NovaFab ↔ QFab（26 props + 5 events + 3 methods + 5 slots）
+
+| 类别 | 收口 | 留痕 |
+|---|---|---|
+| props | ✅ 15：model-value（bool 受控）/ icon / active-icon（open 态切换 + 45° 旋转）/ hide-icon / label / external-label / label-position（left/right/top/bottom）/ hide-label / direction（right/left/up/down）/ vertical-actions-align / stagger（级联节拍 ms）/ hover（悬停展开契约）/ hover-delay / hover-hide-delay（离场宽限）/ square / disable / color→tint（命名红线）/ text-color | type/outline/push/unelevated/glossy/padding ⛔（HTML 按钮形态，Nova 圆钮形态固定）；persistent ⛔（路由导航语境 N/A）；dark ⛔ |
+| events | ✅ update:model-value→updateModelValue / before-show→beforeShow / show→shown / before-hide→beforeHide / hide→hidden（坑位 25 撞名口径同上） | — |
+| methods | ✅ show / hide / toggle（只 emit 不自写；级联由 open 变化统一驱动） | — |
+| slots | ✅ default（NovaFabAction 集合）/ label（便捷 label 属性 + externalLabel 外置渲染）/ icon·active-icon（便捷属性替代）/ tooltip → 四期弹层体系交付后接入 | — |
+
+- **stagger 级联**：逐动作 Timer（delay = idx×stagger）置 revealed（坑位 19 显式 start）；收起全量即隐。
+- **hover 契约**（对标 2.35 use-hover）：进入 hoverDelay 展开、离场 hoverHideDelay 宽限收起；命中区 = 主钮 + 动作外溢范围的并集（`hoverArea` 统一更新）。
+
+### NovaFabAction ↔ QFabAction（21 props + 1 event + 1 slot + 1 method）
+
+- ✅ icon / label（外置标签渲染于按钮旁）/ hide-label / color→tint / text-color / square / disable / anchor（沿用宿主方向口径）+ default 槽（覆盖 icon）+ click 信号 + `click()` 方法。
+- ⛔ to/replace（无路由）；type/outline/push/unelevated/glossy/padding ⛔（同 Fab）；tabindex ⛔。
+- revealed/delay 由宿主 NovaFab 级联下发（组件只做渐显/缩放响应）。
+
+> 测试口径：14 类型实例化冒烟 + 行为用例 7 个（NAV_ENV_QML 驱动代理），合计 0.13.0 新增 21 项（250 → 271）。
+> 坑位沉淀：33 QML Item 析构钩子是 `Component.onDestruction`（无 onDestroyed）；34 Text/Item 基元无 `background` 属性（Control 系 API），徽标底色手写包裹 Rectangle；布尔 `join` 产出小写 `true/false`（断言口径）。

@@ -10,24 +10,25 @@
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-### 当前状态（0.12.0 · **三期 Sprint B 收口：媒体体系十类型 + Table 增强**）
+### 当前状态（0.13.0 · **四期 Sprint A 收口：导航体系 14 类型**）
 
-- **公共 QML 类型 86 个已交付**（qmldir 导出口径）：Controls **59**（0.12.0 新增
-  NovaImg/NovaResponsive/NovaVideo/NovaParallax/NovaCarousel+NovaCarouselSlide+NovaCarouselControl/
-  NovaTimeline+NovaTimelineEntry/NovaChatMessage）
+- **公共 QML 类型 100 个已交付**（qmldir 导出口径）：Controls **73**（0.13.0 新增
+  NovaTabs/NovaTab/NovaTabPanel/NovaTabPanels/NovaBreadcrumbs+NovaBreadcrumbsEl/
+  NovaStepper+NovaStep+NovaStepperNavigation/NovaExpansionItem/NovaToolbar+NovaToolbarTitle/
+  NovaFab+NovaFabAction）
   + Services 单例 10（Screen/Theme/OverlayHost/Notify/Dialog/Loading/Storage/App/Platform/IntersectionPool）
   + Design 单例 3（NovaIconSet/NovaMotion/NovaUtils）+ 句柄与动作 4
   + Behaviors 9（Ripple/Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan/Swipe/Hold/Repeat，
   另有 internal NovaTouchCore 内核）
-- **测试 250 项全绿**（225 + 0.12.0 新增 25：十类型实例化冒烟 13 + 行为用例 12：Img 真图加载
-  与 ratio 派生高、Responsive 等比数学、Video 播放器惰性、Parallax progress/scrolled/媒体层位移、
-  Carousel goTo 受控与禁用页跳过/infinite 回绕/覆盖控件挂载/autoplay 到末页停、Timeline 条目
-  宿主解析与 loose side、ChatMessage 多气泡/栅格宽/镜像、Table 虚拟滚动 500 行+scrollTo、
-  Table 服务端 request 全语义（排序/翻页/过滤/主动交互/setPagination/firstPage/页码重置））
+- **测试 271 项全绿**（250 + 0.13.0 新增 21：14 类型实例化冒烟 + 行为用例 7：Tabs 受控
+  与禁用页、Panels 联动/名称寻址/禁用跳过/过渡事件、Stepper 序号寻址/禁用跳过/事件、
+  ExpansionItem 同组互斥异组不扰、Fab 级联延迟与 Timer 显式启动、Breadcrumbs 分隔符
+  计数/点击/激活色语义、环境复检）
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → Sprint 3 ✅(0.7.0) → Sprint 4 ✅(0.8.0)
   → 二期 Sprint A ✅(0.9.0 表单核心七件) → 二期 Sprint B ✅(0.10.0 输入进阶八件)
-  → **三期 Sprint A ✅(0.11.0 数据体系九件)** → **三期 Sprint B ✅(0.12.0 媒体体系十类型 + Table 增强)** → 四期 Sprint A（v0.13.0 导航体系）待开工
-- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 43%（三期 B 0.12.0）** / L6 70%（五期）
+  → **三期 Sprint A ✅(0.11.0 数据体系九件)** → **三期 Sprint B ✅(0.12.0 媒体体系十类型 + Table 增强)**
+  → **四期 Sprint A ✅(0.13.0 导航体系 14 类型)** → 四期 Sprint B（v0.14.0 弹层与反馈）待开工
+- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 54%（四期 A 0.13.0）** / L6 70%（五期）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
   防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
@@ -35,8 +36,14 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   树派生索引**显式失效**（onNodesChanged/on_LazyStoreChanged → _refreshDerived + _rev，坑位 28）
 - **图标集数据纪律**：`src/pyside_nova/qml/Nova/Design/IconSets.js` 是生成物（scripts/gen_iconsets.py
   从 npm quasar@2.35.5 icon-set/*.js 提取），**禁止手改**；基线包临时解包目录 /tmp/qbase 可重建
+- **基线复核（0.13.0）**：Quasar 2.35.5→2.35.6 dist/api/*.json 逐文件 diff **零漂移**（纯补丁版），基线维持 2.35.5 口径
 - **交付节奏条款（0.6.2 新颁，0.7.0 首次完整执行）**：Sprint 是最小交付单元——一次收口、
   一个版本号、一套六份交付物；中间件只 git 提交不单独打全包
+- **导航体系契约（0.13.0）**：受控契约全族沿用（Tabs/Panels/Stepper 的 modelValue 与
+  Fab 的 open 均只 emit 不自写）；ExpansionItem group 手风琴经 ExpansionGroups.js 注册表
+  互斥——被收起方走自身 updateModelValue(false) 受控上报；Breadcrumbs 激活色 1:1
+  对标 2.35.6 QBreadcrumbs.js（中间未禁用条目着色，当前页不着色）；Stepper 状态图标
+  解析 1:1 对标 StepHeader.js（active>error>done、step 级优先、'none' 退让 prefix）
 - **环境约定**：用户 Dell Win11 · PySide6 6.12.0 · 单人开发 · PyPI + GitHub
 - **接续方式**：粘贴 `PROMPT.md`（自包含，快照已内联）；快照改动后须重跑 `gen_prompt.py`
 
@@ -128,6 +135,11 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 32. 占位/错误图若走"source 随 status 切换"成 source↔status 绑定环——分层叠加（主图常驻 +
     占位/错误图层按态覆盖）；坑位 28 再验证：columns.map()/宿主探测等函数调用绑定依赖不可靠，
     派生数据变更点一律显式失效（0.12.0 沉淀）
+33. QML `Item` 无 `Component.onDestroyed`——析构钩子是 **`Component.onDestruction`**，
+    写错整文件加载失败（0.13.0 沉淀）
+34. Text/Item 级基元元素**没有 `background` 属性**（Control 系 API）——徽标底色须手写
+    包裹 Rectangle；布尔型 JS `join(',')` 产出小写 `true/false`，测试断言小写口径
+    （0.13.0 沉淀）
 - ~~Sprint 2 L4 服务~~ ✅ 0.6.0~0.6.2（Notify 29 项/Dialog 27 项/Loading 11 项对账 + Storage/App/Platform；L4 44%）
 - ~~Sprint 3 L3 行为~~ ✅ 0.7.0（九件一次收口；L3 100%）
 - ~~Sprint 4 L0/L5 基础层~~ ✅ **0.8.0 收口（Nova.Design 三单例 + NovaText/NovaTransition；
@@ -143,12 +155,21 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - ~~三期 Sprint B 媒体体系~~ ✅ **0.12.0（NovaImg/NovaResponsive/NovaVideo/NovaParallax/
   NovaCarousel+Slide+Control/NovaTimeline+Entry/NovaChatMessage 十类型 + NovaTable 增强
   虚拟滚动/服务端模式/loading；L2 34%→43%；画廊 19 页；250 项测试）**
-- **四期 A（下一步）导航体系（v0.13.0）**：NovaTabs/NovaRoute/NovaBreadcrumbs/NovaStepper/
-  NovaBottomNavigation 等以 MASTER_PLAN §4 为准（开工首日复核 Quasar 最新 release）
+- ~~四期 A 导航体系~~ ✅ **0.13.0（NovaTabs/Tab/TabPanel/TabPanels + NovaBreadcrumbs/El +
+  NovaStepper/Step/StepperNavigation + NovaExpansionItem + NovaToolbar/Title +
+  NovaFab/FabAction 14 类型；L2 43%→54%；画廊 20 页；271 项测试；基线复核 2.35.6 零漂移）**
+- **四期 B（下一步）弹层与反馈（v0.14.0）**：NovaMenu/NovaDialog 壳（关闭原因上报）/
+  NovaPopupProxy/NovaTooltip/NovaBtnDropdown/NovaBtnGroup/NovaBanner/NovaBar/NovaAjaxBar/
+  NovaLoadingBar（服务）/NovaBottomSheet/NovaInnerLoading/NovaSpinner×8/NovaSkeleton/
+  NovaNoSsr，以 MASTER_PLAN §4 为准（开工首日复核 Quasar 最新 release）
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ### 最近一次交付
 
+- **0.13.0：四期 Sprint A 收口 · 导航体系 14 类型一次交付**
+  （NovaTabs/Tab/TabPanel/TabPanels 受控标签页族 + NovaBreadcrumbs/El + NovaStepper/Step/
+  StepperNavigation 状态图标 1:1 解析 + NovaExpansionItem group 手风琴 + NovaToolbar/Title +
+  NovaFab/FabAction stagger 级联 + hover 契约；画廊第 20 页；测试 271 项；L2 43%→54%）
 - **0.12.0：三期 Sprint B 收口 · 媒体体系十类型 + Table 增强一次交付**
   （NovaImg 三态占位/ratio + NovaResponsive 等比 + NovaVideo 惰性播放器 + NovaParallax 视差 +
   NovaCarousel 受控全家桶（arrows/navigation/autoplay/infinite/swipeable/覆盖控件）+
@@ -217,8 +238,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：0.12.0（2026-11-23）
-- 内容指纹：`ac1b1794fbcb`
-- git HEAD：e754933
-- 生成时间：2026-11-23 04:04（星期一）
+- 快照版本：0.13.0（2026-11-23）
+- 内容指纹：`20214557155a`
+- git HEAD：00055ca
+- 生成时间：2026-11-23 06:30（星期一）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

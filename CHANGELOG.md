@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.13.0] - 2026-11-23
+
+### Added（四期 Sprint A · **导航体系 14 类型一次收口**：L2 43% → 54%，Controls 59 → 73）
+
+- **NovaTabs / NovaTab**（对标 QTabs/QTab）：受控 modelValue（Tab 点击只 emit，宿主写回——
+  坑位 22 契约）；横向溢出滚动 + 溢出箭头（outside-arrows 占位 / mobile-arrows 强制）、
+  align（left/center/right/justify）、breakpoint 自动 justify（默认 600）、垂直模式、
+  指示条（narrow-indicator 内容宽 / switch-indicator 换侧）、dense、active-color→activeTint /
+  active-bg-color / indicator-color、left/right-icon；NovaTab：name/label/icon/alert
+  （true→红点 | 字符串→徽标）/alert-icon/no-caps（font.capitalization 实现）+ default 槽
+- **NovaTabPanels / NovaTabPanel**（对标 QTabPanels/QTabPanel）：受控 modelValue、
+  animated/infinite/swipeable（DragHandler 被动抓取）/vertical/transitionDuration；
+  next/previous/goTo（name 或 index，禁用面板自动跳过）；beforeTransition/transition 事件；
+  与 NovaTabs 共享宿主变量即可联动（受控契约）
+- **NovaBreadcrumbs / NovaBreadcrumbsEl**（对标 QBreadcrumbs/QBreadcrumbsEl）：
+  条目间自动插分隔符（separator 文本 / separatorDelegate 自定义模板）、separator-color、
+  gutter 五档（none/xs/sm/md/lg/xl→0/4/8/16/24/48）、align 三档；**activeColor 语义
+  1:1 对标 2.35.6 源码（QBreadcrumbs.js）**——作用于「中间的、未禁用」条目，
+  最后一个（当前页）不着色；El：label/icon/disable/click + default 槽
+- **NovaStepper / NovaStep / NovaStepperNavigation**（对标 QStepper/QStep/QStepperNavigation）：
+  受控 modelValue、头部导航（总开关 headerNav × 逐步骤 headerNav × disable）、
+  **状态图标解析 1:1 对标 2.35.6 StepHeader.js**——active > error > done 优先级、
+  step 级 icon/color 覆盖 stepper 级、'none' 退让 prefix→icon/inactiveIcon、
+  命名色映射（primary/secondary/…→NovaTheme 令牌）；垂直模式（contracted 只画圆点）、
+  flat/bordered、alternative-labels、infinite、next/previous/goTo（禁用步骤跳过）；
+  navigation 命名槽（NovaStepperNavigation 容器）+ message 槽（Component 模板）
+- **NovaExpansionItem**（对标 QExpansionItem）：header（icon/label/caption 或 header 命名槽）+
+  高度动画展开内容；**group 手风琴**（ExpansionGroups.js 注册表互斥收起——被收起方
+  走自身 updateModelValue(false) 受控上报）；show/beforeShow/shown/beforeHide/hidden/
+  afterShow/afterHide 全事件（show/hide 与 QML 内建语义撞名规避，坑位 25 口径）、
+  show()/hide()/toggle() 方法；switch-toggle-side / expand-icon-toggle / dense-toggle /
+  hide-expand-icon / expand-separator / popup / label·caption-lines / inset-level 系
+- **NovaToolbar / NovaToolbarTitle**（对标 QToolbar/QToolbarTitle）：inset 缩进、
+  min-height 50（$toolbar-min-height 1:1）；Title 默认撑满、shrink 收缩为内容宽
+- **NovaFab / NovaFabAction**（对标 QFab/QFabAction）：direction 四向展开、
+  **stagger 级联动画**（逐动作 Timer delay=idx×stagger，坑位 19 显式 start）、
+  **hover 打开契约**（hoverDelay 进入延迟 / hoverHideDelay 离场宽限，命中区覆盖动作外溢范围）、
+  external-label / label-position / vertical-actions-align / square、icon↔active-icon 旋转切换；
+  受控 modelValue(bool) + updateModelValue + beforeShow/shown/beforeHide/hidden + show/hide/toggle；
+  NovaFabAction：icon/label/tint/textColor/square/anchor/disable + clicked 信号 + click() 方法
+- 画廊新增第 20 页「导航体系」（20 页）：Tabs+Panels 受控联动（禁用页跳过/alert 徽标）/
+  Breadcrumbs 双形态 / Stepper 水平（navigation 槽上下步按钮）+垂直 contracted /
+  ExpansionItem 手风琴 / Toolbar / Fab 向上级联
+- 测试 250 → **271**：14 类型实例化冒烟 + 行为用例 7 个
+  （Tabs 受控与禁用页 / Panels 联动+名称寻址+禁用跳过+过渡事件 / Stepper 序号寻址+
+  禁用跳过+事件 / ExpansionItem 同组互斥异组不扰 / Fab 级联延迟与 Timer 显式启动 /
+  Breadcrumbs 分隔符计数+点击+激活色语义 / 环境复检）
+
+### Changed
+
+- 基线复核：Quasar 2.35.5 → **2.35.6**（dist/api/*.json 逐文件 diff 零漂移，纯补丁版；
+  基线维持 2.35.5 口径，审计仍逐项标注）
+- 版本贴/概览页同步 0.13.0（Gallery 0.13.0；概览口径改"100 个公共类型"）
+- 坑位 24/28 再验证：NovaStepper 状态色/图标经函数计算——绑定侧直读依赖
+  （st.* + currentIndex）强制重评后调函数；派生步骤集合 _steps 平铺属性 + _rev 显式失效
+
+### 固定（坑位沉淀）
+
+- **33**：QML `Item` 无 `Component.onDestroyed`——析构钩子是 **`Component.onDestruction`**
+  （NovaExpansionItem 组注销曾因此整文件加载失败）
+- **34**：Text/Item 级基元元素**没有 `background` 属性**（那是 Control 系 API）——
+  徽标底色须手写包裹 Rectangle
+- 布尔型 JS `join(',')` 产出小写 `true/false`——测试断言须小写口径
+
 ## [0.12.0] - 2026-11-23
 
 ### Added（三期 Sprint B · **媒体体系十类型 + Table 增强一次收口**：L2 34% → 43%，Controls 49 → 59）

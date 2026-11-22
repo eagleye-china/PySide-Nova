@@ -60,3 +60,18 @@ NovaTr 1.0 NovaTr.qml
 NovaVirtualScroll 1.0 NovaVirtualScroll.qml
 NovaVideo 1.0 NovaVideo.qml
 NovaVisible 1.0 NovaVisible.qml
+# ── 四期 Sprint A · 导航体系（0.13.0） ──
+NovaTabs 1.0 NovaTabs.qml
+NovaTab 1.0 NovaTab.qml
+NovaTabPanel 1.0 NovaTabPanel.qml
+NovaTabPanels 1.0 NovaTabPanels.qml
+NovaBreadcrumbs 1.0 NovaBreadcrumbs.qml
+NovaBreadcrumbsEl 1.0 NovaBreadcrumbsEl.qml
+NovaStepper 1.0 NovaStepper.qml
+NovaStep 1.0 NovaStep.qml
+NovaStepperNavigation 1.0 NovaStepperNavigation.qml
+NovaExpansionItem 1.0 NovaExpansionItem.qml
+NovaToolbar 1.0 NovaToolbar.qml
+NovaToolbarTitle 1.0 NovaToolbarTitle.qml
+NovaFab 1.0 NovaFab.qml
+NovaFabAction 1.0 NovaFabAction.qml

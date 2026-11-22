@@ -266,6 +266,50 @@ CASES = [
     "NovaTable { width: 640; height: 300; serverSide: true; rowsNumber: 42;"
     " loading: true; loadingLabel: '载入中'; noDataLabel: '空空如也';"
     " columns: ['nm']; rows: [{nm: 1}] }",
+    # 四期 Sprint A · 导航体系（0.13.0）
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTabs { NovaTab { name: 'a'; label: '邮件'; icon: 'mdi:email' }"
+    " NovaTab { name: 'b'; label: '日历'; alert: '3' }"
+    " NovaTab { name: 'c'; label: '禁用'; disable: true } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTabs { vertical: true; align: 'left'; switchIndicator: true; narrowIndicator: true;"
+    " NovaTab { name: 'x'; label: 'X' } NovaTab { name: 'y'; label: 'Y' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTabPanels { animated: true; swipeable: true; infinite: true;"
+    " NovaTabPanel { name: 'a'; Rectangle { } } NovaTabPanel { name: 'b' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBreadcrumbs { separator: '›'; NovaBreadcrumbsEl { label: '主页'; icon: 'mdi:home' }"
+    " NovaBreadcrumbsEl { label: '分类' } NovaBreadcrumbsEl { label: '当前'; disable: true } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBreadcrumbs { separatorDelegate: Component { Rectangle { width: 10; height: 2; color: 'red' } }"
+    " NovaBreadcrumbsEl { label: 'a' } NovaBreadcrumbsEl { label: 'b' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaStepper { NovaStep { name: 's1'; title: '一' } NovaStep { name: 's2'; title: '二'; done: true }"
+    " NovaStep { name: 's3'; title: '三'; error: true } NovaStep { name: 's4'; title: '四'; disable: true } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaStepper { vertical: true; contracted: true; animated: true;"
+    " NovaStep { title: 'a' } NovaStep { title: 'b' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaStepper { alternativeLabels: true;"
+    " NovaStep { title: 'a'; prefix: '1' } NovaStep { title: 'b' }"
+    " navigation: [NovaStepperNavigation { NovaBtn { text: '下一步' } }] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaExpansionItem { label: '展开我'; caption: '副文案'; group: 'g'; expandSeparator: true;"
+    " Rectangle { color: 'red'; width: 40; height: 20 } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaExpansionItem { switchToggleSide: true; expandIconToggle: true; denseToggle: true;"
+    " labelLines: 2; header: Item { } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaToolbar { inset: true; NovaToolbarTitle { text: '标题' } NovaBtn { text: '保存' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaToolbarTitle { shrink: true; Text { text: 'custom' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaFab { direction: 'up'; stagger: 25; label: '新建'; externalLabel: true;"
+    " NovaFabAction { icon: 'mdi:pencil'; label: '文档' }"
+    " NovaFabAction { icon: 'mdi:delete'; disable: true } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaFab { square: true; modelValue: true; hover: true;"
+    " NovaFabAction { icon: 'mdi:home' } NovaFabAction { square: true; label: '设' } }",
 ]
 
 
@@ -3116,3 +3160,187 @@ def test_media_env_reentrant(media_env):
     """媒体环境可复检（画廊加载由既有 test_gallery_loads 覆盖）。"""
     drv = media_env
     assert drv.call0("carCount") == 4
+
+
+# ══════════════════════════════════════════════════════════════
+# 四期 Sprint A · 导航体系行为级断言（v0.13.0，契约见 docs/PARITY.md §0.13）
+# ══════════════════════════════════════════════════════════════
+
+NAV_ENV_QML = (
+    "import QtQuick\n"
+    "import Nova.Controls\n"
+    "Item {\n"
+    "  id: it\n"
+    "  width: 900; height: 900\n"
+    "  // 宿主状态（受控写回）\n"
+    "  property var tabVal: null\n"
+    "  property var stepVal: 's1'\n"
+    "  property var stepEvt: null\n"
+    "  property bool expA: false\n"
+    "  property bool expB: false\n"
+    "  property bool expC: false\n"
+    "  property bool fabOpen: false\n"
+    "  property var crumbClick: null\n"
+    "  property var transInfo: null\n"
+    "  // ① NovaTabs（受控 + 禁用页）\n"
+    "  NovaTabs {\n"
+    "    id: tabs; width: 400; height: 48\n"
+    "    modelValue: it.tabVal\n"
+    "    NovaTab { id: t0; name: 'a'; label: 'A' }\n"
+    "    NovaTab { id: t1; name: 'b'; label: 'B' }\n"
+    "    NovaTab { id: t2; name: 'c'; label: 'C'; disable: true }\n"
+    "    onUpdateModelValue: (n) => it.tabVal = n\n"
+    "  }\n"
+    "  // ② NovaTabPanels（与 Tabs 共享 tabVal；禁用页 + 过渡事件）\n"
+    "  NovaTabPanels {\n"
+    "    id: panels; width: 400; height: 120; y: 60\n"
+    "    modelValue: it.tabVal\n"
+    "    animated: false\n"
+    "    NovaTabPanel { name: 'a' }\n"
+    "    NovaTabPanel { name: 'b' }\n"
+    "    NovaTabPanel { name: 'c'; disable: true }\n"
+    "    onUpdateModelValue: (n) => it.tabVal = n\n"
+    "    onBeforeTransition: (info) => it.transInfo = info\n"
+    "  }\n"
+    "  // ③ NovaStepper（s3 禁用）\n"
+    "  NovaStepper {\n"
+    "    id: st; width: 500; height: 200; y: 200\n"
+    "    modelValue: it.stepVal\n"
+    "    NovaStep { name: 's1'; title: '一' }\n"
+    "    NovaStep { name: 's2'; title: '二'; done: true }\n"
+    "    NovaStep { name: 's3'; title: '三'; disable: true }\n"
+    "    NovaStep { name: 's4'; title: '四' }\n"
+    "    onUpdateModelValue: (n) => it.stepVal = n\n"
+    "    onBeforeTransition: (info) => it.stepEvt = info\n"
+    "  }\n"
+    "  // ④ NovaExpansionItem 手风琴（A/B 同组，C 异组）\n"
+    "  NovaExpansionItem {\n"
+    "    id: ea; label: 'A'; group: 'acc'; width: 200; y: 420\n"
+    "    expanded: it.expA\n"
+    "    onUpdateModelValue: (v) => it.expA = v\n"
+    "  }\n"
+    "  NovaExpansionItem {\n"
+    "    id: eb; label: 'B'; group: 'acc'; width: 200; y: 470\n"
+    "    expanded: it.expB\n"
+    "    onUpdateModelValue: (v) => it.expB = v\n"
+    "  }\n"
+    "  NovaExpansionItem {\n"
+    "    id: ec; label: 'C'; group: 'other'; width: 200; y: 520\n"
+    "    expanded: it.expC\n"
+    "    onUpdateModelValue: (v) => it.expC = v\n"
+    "  }\n"
+    "  // ⑤ NovaFab（stagger 10ms × 3 动作）\n"
+    "  NovaFab {\n"
+    "    id: fab; x: 600; y: 420\n"
+    "    stagger: 10; direction: 'right'\n"
+    "    modelValue: it.fabOpen\n"
+    "    NovaFabAction { id: fa0; icon: 'mdi:pencil' }\n"
+    "    NovaFabAction { id: fa1; icon: 'mdi:delete' }\n"
+    "    NovaFabAction { id: fa2; icon: 'mdi:share' }\n"
+    "    onUpdateModelValue: (v) => it.fabOpen = v\n"
+    "  }\n"
+    "  // ⑥ NovaBreadcrumbs\n"
+    "  NovaBreadcrumbs {\n"
+    "    id: crumb; width: 400; height: 28; y: 640\n"
+    "    NovaBreadcrumbsEl { id: ce0; label: '主页'; onClicked: it.crumbClick = 'home' }\n"
+    "    NovaBreadcrumbsEl { id: ce1; label: '分类'; onClicked: it.crumbClick = 'cat' }\n"
+    "    NovaBreadcrumbsEl { id: ce2; label: '当前'; disable: true }\n"
+    "  }\n"
+    "  // ── 驱动代理（固定形参） ──\n"
+    "  function tabClick(i) { [t0,t1,t2][i].requestClick(); return String(it.tabVal) }\n"
+    "  function tabActive(i) { return [t0,t1,t2][i].isActive }\n"
+    "  function panelGo(n) { panels.goTo(n, false); return String(it.tabVal) }\n"
+    "  function panelNext() { panels.next(); return String(it.tabVal) }\n"
+    "  function panelCur() { return panels.currentIndex }\n"
+    "  function stepGo(i) { st.goTo(i); return String(it.stepVal) }\n"
+    "  function stepNext() { st.next(); return String(it.stepVal) }\n"
+    "  function expOpenA() { ea.show(); return [it.expA, it.expB, it.expC].join(',') }\n"
+    "  function expHideA() { ea.hide(); return String(it.expA) }\n"
+    "  function fabToggle() { fab.requestToggle(); return it.fabOpen }\n"
+    "  function fabReveal() { return [fa0.revealed, fa1.revealed, fa2.revealed].join(',') }\n"
+    "  function fabDelays() { return [fa0.delay, fa1.delay, fa2.delay].join(',') }\n"
+    "  function fabHideNow() { fab.hide(); return String(it.fabOpen) }\n"
+    "  function crumbClick0() { ce0.requestClick(); return String(it.crumbClick) }\n"
+    "  function crumbSeps() { return crumb._seps.length }\n"
+    "  function crumbSepText() { return crumb._seps.length > 0 ? crumb._seps[0].text : '' }\n"
+    "  function crumbActive() { return [ce0.isActiveColor, ce1.isActiveColor, ce2.isActiveColor].join(',') }\n"
+    "  function transInfoOk() { return it.transInfo !== null && it.transInfo.newIndex !== undefined }\n"
+    "  function stepEvtOk() { return it.stepEvt !== null && it.stepEvt.newIndex !== undefined }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def nav_env(qml_engine):
+    """导航体系测试环境：Tabs/Panels 联动 + Stepper + 手风琴 + Fab + 面包屑。"""
+    win = _make(qml_engine, NAV_ENV_QML, wait=0.3)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)
+    _pump(150)
+    return drv
+
+
+def test_nav_tabs_controlled_and_disabled(nav_env):
+    """Tab 点击受控写回；禁用页不写回；isActive 由宿主下发。"""
+    drv = nav_env
+    assert _call(drv, "tabClick", 1) == "b"
+    assert _call(drv, "tabActive", 1) is True
+    assert _call(drv, "tabActive", 0) is False
+    assert _call(drv, "tabClick", 2) == "b"      # 禁用页：不写回
+    assert _call(drv, "tabActive", 2) is False
+
+
+def test_nav_tab_panels_navigation(nav_env):
+    """面板与 Tabs 共享 modelValue 联动；goTo 名称寻址；禁用面板跳过；过渡事件。"""
+    drv = nav_env
+    assert _call(drv, "panelCur") == 0           # 初始 tabVal=null → 首面板
+    _call(drv, "tabClick", 1)                    # 'b' → 面板联动
+    assert _call(drv, "panelCur") == 1
+    assert _call(drv, "panelGo", "a") == "a"     # 名称寻址
+    assert _call(drv, "panelGo", 2) == "a"       # 禁用面板拒绝
+    assert _call(drv, "panelNext") == "b"        # a → b
+    _pump(60)
+    assert _call(drv, "transInfoOk") is True     # beforeTransition 事件
+
+
+def test_nav_stepper_header_and_navigation(nav_env):
+    """goTo 序号寻址；next 跳过禁用步骤；禁用目标拒绝；before-transition 事件。"""
+    drv = nav_env
+    assert _call(drv, "stepGo", 1) == "s2"
+    assert _call(drv, "stepNext") == "s4"        # s3 禁用 → 跳到 s4
+    assert _call(drv, "stepGo", 2) == "s4"       # 禁用目标拒绝
+    assert _call(drv, "stepEvtOk") is True
+
+
+def test_nav_expansion_group_accordion(nav_env):
+    """同组互斥：A 展开时 B 受控收起；异组 C 不受影响；hide() 收起自身。"""
+    drv = nav_env
+    assert _call(drv, "expOpenA") == "true,false,false"
+    assert _call(drv, "expHideA") == "false"
+
+
+def test_nav_fab_stagger_reveal(nav_env):
+    """toggle 受控写回；级联延迟 0/10/20；Timer 显式启动后动作全部 revealed；hide 收起。"""
+    drv = nav_env
+    assert _call(drv, "fabToggle") is True
+    assert _call(drv, "fabDelays") == "0,10,20"
+    _pump(250)
+    assert _call(drv, "fabReveal") == "true,true,true"
+    assert _call(drv, "fabHideNow") == "false"
+    _pump(80)
+    assert _call(drv, "fabReveal") == "false,false,false"
+
+
+def test_nav_breadcrumbs_semantics(nav_env):
+    """分隔符自动插入（n-1 个）；点击信号；激活色：中间条目着色、当前页不着色（2.35.6 源码语义）。"""
+    drv = nav_env
+    assert _call(drv, "crumbSeps") == 2
+    assert _call(drv, "crumbSepText") == "/"
+    assert _call(drv, "crumbClick0") == "home"
+    assert _call(drv, "crumbActive") == "true,true,false"
+
+
+def test_nav_env_reentrant(nav_env):
+    """导航环境可复检。"""
+    drv = nav_env
+    assert _call(drv, "crumbSeps") == 2
