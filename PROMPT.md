@@ -10,26 +10,28 @@
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-### 当前状态（0.10.0 · **二期 Sprint B 收口：输入进阶八件**，日期/时间/取色自研落地）
+### 当前状态（0.11.0 · **三期 Sprint A 收口：数据体系九件 14 类型**）
 
-- **公共 QML 类型 62 个已交付**（qmldir 导出口径）：Controls **35**（0.10.0 新增 NovaRange/NovaDate/
-  NovaTime/NovaColorPicker/NovaOptionGroup/NovaForm/NovaBtnToggle/NovaPopupEdit）
+- **公共 QML 类型 76 个已交付**（qmldir 导出口径）：Controls **49**（0.11.0 新增
+  NovaTable/NovaTh/NovaTd/NovaTr/NovaTree/NovaPagination/NovaList/NovaItem/NovaItemSection/
+  NovaItemLabel/NovaMarkupTable/NovaInfiniteScroll/NovaVirtualScroll/NovaScrollArea）
   + Services 单例 10（Screen/Theme/OverlayHost/Notify/Dialog/Loading/Storage/App/Platform/IntersectionPool）
   + Design 单例 3（NovaIconSet/NovaMotion/NovaUtils）+ 句柄与动作 4
   + Behaviors 9（Ripple/Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan/Swipe/Hold/Repeat，
   另有 internal NovaTouchCore 内核）
-- **测试 199 项全绿**（174 + 0.10.0 新增 25：八件实例化冒烟 14 + 行为用例 11：Range 量化与
-  min/maxRange 约束、Date 单选 mask 输出/区间 pending 闭合与逆序交换/多选计数/导航夹取/minimal
-  拒选、Time 时分管道/withSeconds 解析/AM-PM 偏移/options 过滤、Color hex 解析与 rgb 输出/非法
-  拒绝、OptionGroup 三型数组与标量语义/禁用拒选、Form 聚合校验/greedy 计错/submit/reset、
-  BtnToggle 选中与 clearable 清空/多选、PopupEdit set 写值/cancel 信号）
+- **测试 225 项全绿**（199 + 0.11.0 新增 26：十四类型实例化冒烟 18 + 行为用例 8：Table 三态
+  排序/过滤计数/选择键值语义/展开行键/分页钳制、Pagination 钳制与翻页、Tree strict 级联勾选/
+  懒加载回填/过滤祖先链/单选、List 手风琴收兄弟、InfiniteScroll 停止与 resume、VirtualScroll
+  5000 行虚拟化 + scrollToIndex）
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → Sprint 3 ✅(0.7.0) → Sprint 4 ✅(0.8.0)
-  → 二期 Sprint A ✅(0.9.0 表单核心七件) → **二期 Sprint B ✅(0.10.0 输入进阶八件)**
-  → 三期 Sprint A（v0.11.0 数据体系）待开工
-- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 24%（二期 0.10.0）** / L6 70%（五期）
-- **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿七件（对标 use-field +
-  use-validate 36 props 逐项对账）；**受控模式**：toggle()/select() 只发信号不写自身 modelValue
-  （Quasar v-model 语义 1:1，防 QML 绑定环），宿主绑定 + onValueChanged 写回
+  → 二期 Sprint A ✅(0.9.0 表单核心七件) → 二期 Sprint B ✅(0.10.0 输入进阶八件)
+  → **三期 Sprint A ✅(0.11.0 数据体系九件)** → 三期 Sprint B（v0.12.0 媒体体系）待开工
+- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 34%（三期 A 0.11.0）** / L6 70%（五期）
+- **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
+  use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
+  防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
+- **数据体系契约**：选中/勾选一律**按键值比较**（rowKey 或 JSON 全等，坑位 27）；
+  树派生索引**显式失效**（onNodesChanged/on_LazyStoreChanged → _refreshDerived + _rev，坑位 28）
 - **图标集数据纪律**：`src/pyside_nova/qml/Nova/Design/IconSets.js` 是生成物（scripts/gen_iconsets.py
   从 npm quasar@2.35.5 icon-set/*.js 提取），**禁止手改**；基线包临时解包目录 /tmp/qbase 可重建
 - **交付节奏条款（0.6.2 新颁，0.7.0 首次完整执行）**：Sprint 是最小交付单元——一次收口、
@@ -105,17 +107,13 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     paletteColors/shown/hidden（0.10.0 沉淀）
 26. local_deploy 装出 site-packages 真实拷贝后，pytest 的 `import pyside_nova` 会命中旧 QML
     （组件 is not a type 随机爆）——交付后必须 `pip install -e . --no-deps` 复位（0.10.0 沉淀）
-21. 子类再声明 `signal valueChanged(var)` 与基类属性的自动通知信号撞名 → "Duplicate signal name:
-    invalid override"（NovaField.value 的 valueChanged 即自动信号）；值通知一律走属性变更信号，
-    自定义信号换名（0.9.0 沉淀）
-22. 受控组件写自身 modelValue（self-assign）会断宿主绑定并触发绑定环告警；对标 Quasar v-model：
-    组件只 emit 不自写，toggle()/select() 返回下一值由宿主写回（0.9.0 沉淀）
-23. `readonly color x: …` 漏 property 关键字报 "Expected token `:`"——readonly 必须配 property
-    连用（0.9.0 沉淀）
-
-### 下一步（二期 表单与选择体系，总规划见 MASTER_PLAN.md）
-
-- ~~Sprint 1 L1 布局~~ ✅ 0.5.0（6 种经典布局入画廊）
+27. **Qt6 信号参数会把 JS 对象/数组深拷贝**——updateSelected(rows) 这类带对象数组参数的信号
+    送达宿主时引用一致性已丢失；选择/勾选语义一律按键值（rowKey 或 JSON 全等）比较，
+    勿用 `===`/`indexOf` 引用比较（0.11.0 沉淀）
+28. 绑定内经函数间接读取的依赖跟踪不可靠 + 递归索引漏层——NovaTree `_index` 只递归 `children`
+    静态层，懒加载回填层（`_lazyStore`）永不入索引，且函数内读 `_lazyStore` 的重赋不触发重评；
+    改显式失效：onNodesChanged/on_LazyStoreChanged/onFilterChanged → _refreshDerived() + _rev
+    版本号供渲染绑定引用（0.11.0 沉淀）
 - ~~Sprint 2 L4 服务~~ ✅ 0.6.0~0.6.2（Notify 29 项/Dialog 27 项/Loading 11 项对账 + Storage/App/Platform；L4 44%）
 - ~~Sprint 3 L3 行为~~ ✅ 0.7.0（九件一次收口；L3 100%）
 - ~~Sprint 4 L0/L5 基础层~~ ✅ **0.8.0 收口（Nova.Design 三单例 + NovaText/NovaTransition；
@@ -124,13 +122,21 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - ~~二期 Sprint A 表单核心~~ ✅ 0.9.0；~~二期 Sprint B 输入进阶~~ ✅ **0.10.0（NovaRange/NovaDate
   自研日历/NovaTime 时钟面盘/NovaColorPicker 色域盘/NovaOptionGroup/NovaForm/NovaBtnToggle/
   NovaPopupEdit 八件；L2 16%→24%；画廊 17 页；199 项测试）**
-- **三期 A（下一步）数据体系（v0.11.0）**：NovaTable（含 QTh/QTd/QTr）/NovaTree/NovaPagination/
-  NovaList·NovaItem/NovaMarkupTable/NovaInfiniteScroll/NovaVirtualScroll/NovaScrollArea
+- ~~二期 Sprint A 表单核心~~ ✅ 0.9.0；~~二期 Sprint B 输入进阶~~ ✅ 0.10.0（八件；L2 16%→24%）
+- ~~三期 Sprint A 数据体系~~ ✅ **0.11.0（NovaTable+Th/Td/Tr / NovaTree / NovaPagination /
+  NovaList·NovaItem(+Section/Label) / NovaMarkupTable / NovaInfiniteScroll / NovaVirtualScroll /
+  NovaScrollArea 九件 14 类型；L2 24%→34%；画廊 18 页；225 项测试）**
+- **三期 B（下一步）媒体体系（v0.12.0）**：NovaImg / NovaResponsive / NovaVideo / NovaParallax /
+  NovaCarousel / NovaTimeline / NovaChatMessage + NovaTable 增强（虚拟滚动/服务端模式）
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ### 最近一次交付
 
-- **0.10.0：二期 Sprint B 收口 · 输入进阶八件一次交付（自研日历/时钟面盘/取色器落地）**
+- **0.11.0：三期 Sprint A 收口 · 数据体系九件 14 类型一次交付**
+  （NovaTable 排序/过滤/分页/多选/展开行 + NovaTree strict 级联/懒加载/过滤 +
+  NovaPagination + NovaList 手风琴四件 + NovaMarkupTable + NovaInfiniteScroll +
+  NovaVirtualScroll 5000 行虚拟化 + NovaScrollArea；画廊第 18 页；测试 225 项；L2 24%→34%）
+- 0.10.0：二期 Sprint B 收口 · 输入进阶八件一次交付（自研日历/时钟面盘/取色器落地）
   （NovaRange 双值约束 + NovaDate 三模式 mask 日历 + NovaTime 三面时钟 + NovaColorPicker
   SV 色域盘 + NovaOptionGroup 三型 + NovaForm 聚合校验 + NovaBtnToggle + NovaPopupEdit
   + 画廊第 17 页 + 测试 199 项；L2 16%→24%）
@@ -189,8 +195,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：0.10.0（2026-11-22）
-- 内容指纹：`58ba44c35058`
-- git HEAD：c692e03
-- 生成时间：2026-11-23 00:13（星期一）
+- 快照版本：0.11.0（2026-11-23）
+- 内容指纹：`420a5d55b125`
+- git HEAD：032c052
+- 生成时间：2026-11-23 00:47（星期一）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

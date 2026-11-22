@@ -176,6 +176,51 @@ CASES = [
     "NovaBtnToggle { vertical: true; spread: true; multiple: true; options: [{label: 'a', value: 1}, {label: 'b', value: 2}] }",
     "import QtQuick\nimport Nova.Controls\n"
     "NovaPopupEdit { title: '编辑'; autoSave: false; Rectangle { width: 60; height: 24; color: '#eee' } }",
+    # ── 三期 Sprint A：数据体系九件（v0.11.0） ──
+    "import QtQuick\nimport Nova.Controls\nNovaTh { text: '名称'; sortable: true; align: 'center' }",
+    "import QtQuick\nimport Nova.Controls\nNovaTd { text: '单元格'; align: 'right' }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTr { width: 300; Rectangle { width: 40; height: 20 } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaPagination { page: 2; pages: 20; maxPages: 5; ellipses: true; boundaryLinks: true; arrows: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTable { width: 640; height: 300; title: '人员'; rowKey: 'id';"
+    " columns: [{name: 'id', label: 'ID', field: 'id', align: 'center', sortable: true}, '姓名'];"
+    " rows: [{id: 1, name: 'a'}, {id: 2, name: 'b'}]; rowsPerPage: 5; selected: []; expanded: [] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTable { width: 640; height: 300; filter: 'a'; singleSelection: true; binaryStateSort: true;"
+    " rowsPerPage: 0; selected: []; grid: true; flat: true;"
+    " columns: ['a', 'b']; rows: [{a: 1, b: 2}] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTree { width: 320; height: 240; tickStrategy: 'strict'; filter: '';"
+    " nodes: [{label: 'A', children: [{label: 'A1'}]}, {label: 'B', lazy: true}];"
+    " expanded: []; ticked: []; selected: null }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTree { width: 320; height: 240; dense: true; defaultExpandAll: true; nodeKey: 'key';"
+    " nodes: [{label: 'X', key: 'x', tickStrategy: 'none', caption: 'cap', icon: 'mdi:folder'}] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaList { width: 320; height: 200; separator: true; dense: true; accordion: true; padding: true;"
+    " NovaItem { label: 'a'; expandable: true } NovaItem { label: 'b'; caption: 'c'; clickable: true; active: true } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaItem { label: 'x'; caption: 'y'; icon: 'mdi:home';\n"
+    "  leading: NovaItemSection { avatar: true; Rectangle { width: 10; height: 10 } }\n"
+    "  trailing: NovaItemSection { trailing: true; NovaIcon { icon: 'mdi:chevron-right' } } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaItemSection { thumbnail: true; topAligned: true; Rectangle { width: 40; height: 40 } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaItemLabel { text: '标题'; overline: true; lines: 2 }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaItemLabel { text: '辅助'; caption: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaMarkupTable { title: '账单'; dense: true; flat: true;"
+    " columns: ['品名', '金额']; rows: [['咖啡', '¥28'], ['书籍', '¥56']] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaInfiniteScroll { width: 300; height: 200; offset: 40; Rectangle { width: 10; height: 10 } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaVirtualScroll { width: 300; height: 160; itemSize: 40;"
+    " delegate: Rectangle { width: 280; height: 40; required property int index } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaScrollArea { width: 300; height: 200; Rectangle { width: 500; height: 400 } }",
 ]
 
 
@@ -2557,3 +2602,212 @@ def test_form2_popup_edit_flow(form2_env):
     assert drv.val("lastPe") == "new-value"
     c = drv.call0("peCancel")
     assert c >= 1
+
+
+# ── 三期 Sprint A：数据体系九件（v0.11.0） ───────────────────
+
+DATA_ENV_QML = (
+    "import QtQuick\n"
+    "import Nova.Controls\n"
+    "Item {\n"
+    "  id: it\n"
+    "  width: 900; height: 700\n"
+    "  // 宿主状态（受控写回）\n"
+    "  property string sf: ''\n"
+    "  property bool sd: false\n"
+    "  property var tblSel: []\n"
+    "  property var tblExp: []\n"
+    "  property int tblPage: 1\n"
+    "  property var trExp: []\n"
+    "  property var trTicked: []\n"
+    "  property var trSel: null\n"
+    "  property int loadCount: 0\n"
+    "  property bool infStopped: false\n"
+    "  property bool itemA: false\n"
+    "  property bool itemB: false\n"
+    "  property int vsRendered: 0\n"
+    "  // ① NovaTable：排序/过滤/分页/选择/展开\n"
+    "  NovaTable {\n"
+    "    id: tbl\n"
+    "    width: 700; height: 460; title: '人员'; rowKey: 'id'\n"
+    "    columns: [{name: 'id', label: 'ID', field: 'id', align: 'center', sortable: true},\n"
+    "              {name: 'nm', label: '姓名', field: 'name', sortable: true}]\n"
+    "    rows: [{id: 3, name: 'cc'}, {id: 1, name: 'aa'}, {id: 5, name: 'ee'},\n"
+    "           {id: 2, name: 'bb'}, {id: 4, name: 'dd'}]\n"
+    "    rowsPerPage: 2\n"
+    "    sortBy: it.sf; descending: it.sd\n"
+    "    selected: it.tblSel; expanded: it.tblExp; page: it.tblPage\n"
+    "    expandSlot: Row { property var rowData; property int rowIndex;"
+    " Text { text: 'ext:' + (rowData ? rowData.name : '?') } }\n"
+    "    onUpdateSelected: (r) => it.tblSel = r\n"
+    "    onUpdateExpanded: (k) => it.tblExp = k\n"
+    "    onSortChanged: (f, d) => { it.sf = f; it.sd = d }\n"
+    "    onPageRequested: (p) => it.tblPage = p\n"
+    "  }\n"
+    "  // ② NovaPagination\n"
+    "  NovaPagination { id: pag; page: it.tblPage; pages: 20; ellipses: true; boundaryLinks: true;\n"
+    "    onPageRequested: (p) => it.tblPage = p }\n"
+    "  // ③ NovaTree：strict 勾选级联 + 懒加载\n"
+    "  NovaTree {\n"
+    "    id: tree\n"
+    "    width: 300; height: 320; tickStrategy: 'strict'\n"
+    "    nodes: [{label: 'A', children: [{label: 'A1'}, {label: 'A2'}]},\n"
+    "            {label: 'B', children: [{label: 'B1', children: [{label: 'B1a'}]}]},\n"
+    "            {label: 'L', lazy: true}]\n"
+    "    expanded: it.trExp; ticked: it.trTicked; selected: it.trSel\n"
+    "    onUpdateExpanded: (k) => it.trExp = k\n"
+    "    onUpdateTicked: (k) => it.trTicked = k\n"
+    "    onUpdateSelected: (k) => it.trSel = k\n"
+    "    onLazyLoad: (node, done) => done([{label: 'L1'}])\n"
+    "  }\n"
+    "  // ④ NovaList 手风琴（受控展开）\n"
+    "  NovaList {\n"
+    "    id: lst; width: 300; accordion: true\n"
+    "    NovaItem { id: lstA; label: '甲'; expandable: true; expanded: it.itemA;"
+    " onExpandRequested: (e) => it.itemA = e }\n"
+    "    NovaItem { id: lstB; label: '乙'; expandable: true; expanded: it.itemB;"
+    " onExpandRequested: (e) => it.itemB = e }\n"
+    "  }\n"
+    "  // ⑤ NovaInfiniteScroll\n"
+    "  NovaInfiniteScroll {\n"
+    "    id: inf; width: 300; height: 150; offset: 20\n"
+    "    contentHeight: 600\n"
+    "    onLoad: (i, done) => { it.loadCount++; var stop = it.loadCount >= 2;"
+    " it.infStopped = stop; done(stop) }\n"
+    "  }\n"
+    "  // ⑥ NovaVirtualScroll 5000 行虚拟化\n"
+    "  NovaVirtualScroll {\n"
+    "    id: vs; width: 300; height: 160; itemSize: 40\n"
+    "    items: Array.from({length: 5000}, function (_, i) { return i })\n"
+    "    delegate: Rectangle { width: 280; height: 40; required property int index;"
+    " Component.onCompleted: it.vsRendered++ }\n"
+    "  }\n"
+    "  // ⑦ NovaScrollArea / NovaMarkupTable（冒烟即验）\n"
+    "  NovaScrollArea { width: 120; height: 80; Rectangle { width: 400; height: 300; color: '#ddd' } }\n"
+    "  NovaMarkupTable { y: 620; columns: ['a', 'b']; rows: [['1', '2']] }\n"
+    "  // 驱动代理（固定形参）\n"
+    "  function snapT() { return JSON.stringify({sf: it.sf, sd: it.sd, sel: it.tblSel.length,"
+    " exp: it.tblExp, page: it.tblPage, vis: tbl.visibleRows.length}) }\n"
+    "  function tblSort(n) { tbl.requestSort(n); return it.snapT() }\n"
+    "  function tblPick(i) { tbl.toggleRowSelection(tbl.rows[i]); return it.tblSel.length }\n"
+    "  function tblAll() { tbl.toggleAllSelection(); return it.tblSel.length }\n"
+    "  function tblSetFilter(f) { tbl.filter = f; return tbl.filteredRows.length }\n"
+    "  function tblExpand(i) { tbl.toggleRowExpand(tbl.rows[i], i); return JSON.stringify(it.tblExp) }\n"
+    "  function tblGo(p) { return tbl.requestPage(p) }\n"
+    "  function pagGo(p) { return pag.requestPage(p) }\n"
+    "  function pagNext() { return pag.nextPage() }\n"
+    "  function pagPrev() { return pag.prevPage() }\n"
+    "  function trSnap() { return JSON.stringify({ticked: it.trTicked, sel: it.trSel, exp: it.trExp}) }\n"
+    "  function trTick(k, on) { tree.setTicked(k, on); return it.trSnap() }\n"
+    "  function trExpand(k) { tree.tryExpand(k); return it.trSnap() }\n"
+    "  function trExpandAll() { tree.expandAll(); return it.trExp.length }\n"
+    "  function trFilter() { tree.filter = 'B1a'; return JSON.stringify(Object.keys(tree._visibleKeys)) }\n"
+    "  function trSelect(k) { tree.selectNode(k); return it.trSel }\n"
+    "  function trNodeAt(k) { var n = tree.getNodeByKey(k); return n ? n.label : null }\n"
+    "  function lstExpandB() { lstB.requestExpand(); return true }\n"
+    "  function lstState() { return JSON.stringify({a: it.itemA, b: it.itemB}) }\n"
+    "  function infKick(y) { inf.contentY = y; return it.loadCount }\n"
+    "  function infResume() { inf.resume(); return it.loadCount }\n"
+    "  function vsScroll(i) { vs.scrollToIndex(i); return Math.round(vs.contentY) }\n"
+    "  function vsCount() { return it.vsRendered }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def data_env(qml_engine):
+    """三期数据体系测试环境：表格/分页器/树/列表/无限滚动/虚拟滚动全实例化 + 代理。"""
+    win = _make(qml_engine, DATA_ENV_QML, wait=0.05)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)
+    _pump(60)
+    return drv
+
+
+def test_data_table_sort_and_filter(data_env):
+    """三态排序（无序→升→降→无序）+ 全字段过滤。"""
+    drv = data_env
+    s = drv.call1("tblSort", "id")
+    assert '"sf":"id"' in s and '"sd":false' in s
+    assert drv.call1("tblSort", "id") == s.replace('"sd":false', '"sd":true')   # 升→降
+    s3 = drv.call1("tblSort", "id")                                             # 降→无序
+    assert '"sf":""' in s3 and '"sd":false' in s3
+    assert drv.call1("tblSetFilter", "a") == 1          # cc/aa/ee/dd/bb → 含 'a' 只有 aa
+    assert drv.call1("tblSetFilter", "") == 5
+
+
+def test_data_table_selection_semantics(data_env):
+    """单选一行 → 全选补齐 → 反选全清（键值比较，信号深拷贝不影响语义）。"""
+    drv = data_env
+    assert drv.call1("tblPick", 0) == 1
+    assert drv.call0("tblAll") == 2                     # 补齐本页（2 行/页）
+    assert drv.call0("tblAll") == 0                     # 全选→反选清空
+    assert drv.call0("tblAll") == 2
+
+
+def test_data_table_expand_and_page(data_env):
+    """展开行（key 上报）+ 分页翻页/越界钳制。"""
+    drv = data_env
+    assert drv.call1("tblExpand", 1) == '["1"]'         # rowKey=id → 第 2 行 id=1
+    assert drv.call1("tblGo", 3) == 3                   # 5 行 2/页 → 最大页 3
+    assert drv.call1("tblGo", 0) == 1                   # 下界钳制
+
+
+def test_data_pagination(data_env):
+    """NovaPagination：requestPage 钳制 + prev/next + 边界不再上报。"""
+    drv = data_env
+    assert drv.call1("pagGo", 25) == 20                 # 上界
+    assert drv.call1("pagGo", 0) == 1                   # 下界
+    assert drv.call1("pagGo", 10) == 10
+    assert drv.call0("pagNext") == 11
+    assert drv.call0("pagPrev") == 10
+    assert drv.val("tblPage") == 10
+
+
+def test_data_tree_tick_strict_cascade(data_env):
+    """strict 策略：勾子 → 勾父；反勾父 → 全清；键路径正确。"""
+    drv = data_env
+    s = drv.call2("trTick", "0.0", True)
+    assert '"0.0"' in s and '"0"' not in s.replace('"0.0"', "")
+    s2 = drv.call2("trTick", "0.1", True)
+    assert '"0.0","0.1","0"' in s2                      # 全勾 → 父自动勾
+    s3 = drv.call2("trTick", "0", False)
+    assert s3 == '{"ticked":[],"sel":null,"exp":[]}'    # 反勾父 → 子全清
+
+
+def test_data_tree_select_expand_lazy_filter(data_env):
+    """单选节点 / 懒加载（done 回填后子键 2.0 入索引）/ 过滤保祖先链。"""
+    drv = data_env
+    assert drv.call1("trSelect", "1") == "1"
+    assert drv.call1("trSelect", "1") is None           # 再点取消
+    s = drv.call1("trExpand", "2")                      # 懒节点首次展开
+    assert '"exp":["2"]' in s                           # 展开键上报
+    assert drv.call1("trNodeAt", "2.0") == "L1"         # done 回填后 L1 入索引
+    assert drv.call0("trExpandAll") >= 3
+    keys = drv.call0("trFilter")
+    assert "1.0.0" in keys and '"0"' not in keys        # B1a 可见、A 不可见
+
+
+def test_data_list_accordion(data_env):
+    """手风琴：展开甲 → 请求展开乙 → 甲被收起（expandRequested(false) 上报）。"""
+    drv = data_env
+    assert drv.call0("lstState") == '{"a":false,"b":false}'
+    assert drv.call0("lstExpandB") is True
+    assert drv.call0("lstState") == '{"a":false,"b":true}'   # 甲自动收起
+
+
+def test_data_infinite_scroll(data_env):
+    """触底持续加载（一次触底补满两批）→ done(true) 停止；resume 重新武装。"""
+    drv = data_env
+    assert drv.call1("infKick", 500) == 2               # 触底 → 连续加载 2 批后停止
+    assert drv.val("infStopped") is True
+    assert drv.call1("infKick", 500) == 2               # 停止后不再加载
+    assert drv.call0("infResume") == 3                  # resume 重新武装
+
+
+def test_data_virtual_scroll(data_env):
+    """5000 行仅渲染可视窗口（虚拟化生效）；scrollToIndex 跳转正确。"""
+    drv = data_env
+    rendered = drv.call0("vsCount")
+    assert rendered < 200                               # 远小于 5000
+    assert drv.call1("vsScroll", 4000) == 160000        # 4000 * 40

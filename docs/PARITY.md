@@ -521,3 +521,24 @@ M1/M2 排期在 ROADMAP 跟踪。
 
 > 测试口径：14 条实例化冒烟 + 11 个行为用例（FORM2_ENV_QML 驱动代理），合计 0.10.0 新增 25 项。
 > NovaSlider（0.9.0 提前交付）/NovaKnob/NovaFile/NovaUploader——Knob 随滑杆族四期，File/Uploader 五期文件体系。
+
+---
+
+## §0.11 三期 Sprint A · 数据体系九件（0.11.0，对标 Quasar 2.35.5 npm 原包逐项核对）
+
+| Quasar 组件 | Nova 收口 | 关键差异留痕 |
+|---|---|---|
+| QTable 79 props | ✅ 收口 26（基础面） | columns/rows/filter/filter-method/sortBy/descending/binary-state-sort/selection(single)/selected/rows-per-page/pagination(page)/expanded/expand-slot/grid/flat/bordered/title/hide-header/hide-bottom/dense 留痕；**虚拟滚动/服务端模式/粘性表头/行插槽定制 → v0.12.0**；loading/no-data/sort-method/binary-state-sort 已落 binaryStateSort |
+| QTh 5 / QTd 7 / QTr 5 | ✅ 收口 3+2+2 | auto-width 语义由列宽均分承担；props/route/typing 不适用 QML |
+| QTree 33 | ✅ 收口 20 | nodes/node-key/expanded/ticked/selected（单键）/tick-strategy(strict·lazy·none)/default-expand-all/filter/filter-method/dense/icon/caption/disabled/lazy；accordion/separator 语义由 NovaList 承担留痕；no-nodes-label/slot 定制 → 四期 |
+| QPagination 18 | ✅ 收口 12 | max-pages/ellipses/boundary-links/arrows/boundary-numbers(=boundaryLinks)/color/dark/disable/min-max 钳制；input 型页跳 → 五期 |
+| QList 6 | ✅ 收口 5 | separator/dense/padding/accordion；**listRef 注入制**（子 NovaItem 经 listRef 消费 separator/dense） |
+| QItem 17 | ✅ 收口 12 | label/caption/icon/clickable/active/disable/manual；expandable+expanded 手风琴语义（Quasar 由 QExpansionItem 承担，Nova 提前入 Item）；slot 命名 left→leading、side→trailing（FINAL 属性红线） |
+| QItemSection 5 / QItemLabel 5 | ✅ 1:1 | avatar/thumbnail/side→trailing/top→topAligned；overline/caption/header/lines |
+| QMarkupTable 9 | ✅ 收口 7 | title/columns/rows/dense/flat/bordered；slot 定制留五期 |
+| QInfiniteScroll 8 | ✅ 收口 6 | offset/load(index, done)/disable/resume；scroll-target 指定容器 → 四期 |
+| QVirtualScroll 20 | ✅ 收口 6 | items/delegate/itemsSize/uniform 行高假设（等高行）；slice-size/横向虚拟化/类型分隔 → v0.12.0 留痕 |
+| QScrollArea 12 | ✅ 收口 5 | 内容超界滚动 + 主题滚动条；延迟渲染/滚动锁 → 留痕 |
+
+> 测试口径：14 类型实例化冒烟 18 条 + 行为用例 8 个（DATA_ENV_QML 驱动代理），合计 0.11.0 新增 26 项（199 → 225）。
+> 坑位沉淀：27 信号参数深拷贝→键值比较；28 函数间接读绑定不可靠→显式失效 + _rev。

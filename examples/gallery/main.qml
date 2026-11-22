@@ -54,7 +54,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.10.0"
+                text: "Gallery 0.11.0"
                 outlined: true; dense: true
             }
         }
@@ -112,6 +112,7 @@ ApplicationWindow {
                     ListElement { label: "L5 工具层 utils";     icon: "mdi:function-variant" }
                     ListElement { label: "表单核心";            icon: "mdi:form-textbox" }
                     ListElement { label: "输入进阶";            icon: "mdi:clock-time-eight-outline" }
+                    ListElement { label: "数据体系";            icon: "mdi:table-large" }
                 }
 
                 delegate: Rectangle {
@@ -161,7 +162,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -2129,6 +2130,285 @@ ApplicationWindow {
                         }
                     }
                     Text { text: "当前值：" + f2.peVal; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：数据体系 · 三期 Sprint A（表格/树/分页/列表/无限滚动/虚拟滚动）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageData
+        Item {
+            id: dt
+            // 表格受控状态（坑位 22：组件只上报，宿主写回）
+            property string sortField: ""
+            property bool sortDesc: false
+            property var tblSelected: []
+            property int infBatches: 0
+            property var tblExpanded: []
+            property int tblPage: 1
+            property string tblFilter: ""
+            // 树受控状态
+            property var trExpanded: []
+            property var trTicked: []
+            property var trSelected: null
+            // 列表手风琴
+            property bool accA: false
+            property bool accB: false
+            property bool accC: false
+            // 分页器
+            property int pg: 3
+            // 数据源
+            property var staffRows: [
+                { id: 1, name: "苏晚晴", dept: "研发部", city: "杭州", score: 92 },
+                { id: 2, name: "陆则明", dept: "产品部", city: "上海", score: 87 },
+                { id: 3, name: "程一诺", dept: "研发部", city: "深圳", score: 95 },
+                { id: 4, name: "许知远", dept: "设计部", city: "杭州", score: 78 },
+                { id: 5, name: "林深见鹿", dept: "市场部", city: "北京", score: 83 },
+                { id: 6, name: "顾北辰", dept: "研发部", city: "广州", score: 90 },
+                { id: 7, name: "沈清辞", dept: "运营部", city: "成都", score: 74 },
+                { id: 8, name: "温叙白", dept: "产品部", city: "武汉", score: 88 }
+            ]
+
+            GalleryPage {
+                title: "数据体系 · 三期 Sprint A"
+                desc: "NovaTable 排序/过滤/分页/多选/展开行（受控模式）、NovaTree strict 勾选级联+懒加载+过滤、NovaPagination 页码器、NovaList 手风琴、NovaMarkupTable、NovaVirtualScroll 5000 行虚拟化、NovaInfiniteScroll 触底加载、NovaScrollArea。"
+
+                GalleryRow { label: "① NovaTable：点击表头排序（三态）· 多选 · 过滤 · 分页 · 点行展开" }
+                Column {
+                    width: parent ? parent.width - 16 : 600
+                    spacing: NovaTheme.spacingS
+                    Rectangle {
+                        width: parent.width
+                        height: 34
+                        radius: NovaTheme.radiusS
+                        color: NovaTheme.surfaceAlt
+                        border.width: 1; border.color: NovaTheme.outline
+                        TextInput {
+                            id: filterIn
+                            x: 10; anchors.verticalCenter: parent.verticalCenter
+                            width: 260
+                            color: NovaTheme.textColor
+                            font.pixelSize: NovaTheme.fontS
+                            onTextChanged: dt.tblFilter = text
+                            Text {
+                                visible: filterIn.text === ""
+                                x: 0; anchors.verticalCenter: parent.verticalCenter
+                                text: "🔍 全字段过滤（试试“研发”或“杭州”）…"
+                                color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS
+                            }
+                        }
+                    }
+                    NovaTable {
+                        id: bigTbl
+                        width: parent.width
+                        title: "团队名单"
+                        rowKey: "id"
+                        columns: [
+                            { name: "id", label: "ID", field: "id", align: "center", sortable: true },
+                            { name: "name", label: "姓名", field: "name", sortable: true },
+                            { name: "dept", label: "部门", field: "dept", sortable: true },
+                            { name: "city", label: "城市", field: "city", sortable: true },
+                            { name: "score", label: "绩效", field: "score", align: "right", sortable: true }
+                        ]
+                        rows: dt.staffRows
+                        filter: dt.tblFilter
+                        sortBy: dt.sortField
+                        descending: dt.sortDesc
+                        selected: dt.tblSelected
+                        expanded: dt.tblExpanded
+                        page: dt.tblPage
+                        rowsPerPage: 3
+                        expandSlot: Row {
+                            property var rowData
+                            property int rowIndex
+                            leftPadding: 56
+                            spacing: 8
+                            Text { text: "📋 工单小结："; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                            Text {
+                                text: rowData ? rowData.name + " · " + rowData.dept + " · 绩效 " + rowData.score + " 分"
+                                              : ""
+                                color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS
+                            }
+                        }
+                        onSortChanged: (f, d) => { dt.sortField = f; dt.sortDesc = d }
+                        onUpdateSelected: (r) => dt.tblSelected = r
+                        onUpdateExpanded: (k) => dt.tblExpanded = k
+                        onPageRequested: (p) => dt.tblPage = p
+                    }
+                    Text {
+                        text: "排序：" + (dt.sortField === "" ? "无" : dt.sortField + (dt.sortDesc ? " ↓" : " ↑"))
+                              + "　已选 " + dt.tblSelected.length + " 行　展开 " + dt.tblExpanded.length + " 行"
+                        color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS
+                    }
+                }
+
+                GalleryRow { label: "② NovaTree：strict 勾选级联（子全勾→父自动勾）· 懒加载 · 过滤" }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    NovaTree {
+                        id: bigTree
+                        width: 360; height: 260
+                        tickStrategy: "strict"
+                        nodes: [
+                            { label: "研发中心", icon: "mdi:folder-outline", children: [
+                                  { label: "前端组", children: [{ label: "Web 小队" }, { label: "客户端小队" }] },
+                                  { label: "后端组", children: [{ label: "平台小队" }] } ] },
+                            { label: "设计中心", icon: "mdi:palette-outline", children: [{ label: "视觉组" }] },
+                            { label: "外包资源池（懒加载）", icon: "mdi:cloud-download-outline", lazy: true }
+                        ]
+                        expanded: dt.trExpanded
+                        ticked: dt.trTicked
+                        selected: dt.trSelected
+                        onUpdateExpanded: (k) => dt.trExpanded = k
+                        onUpdateTicked: (k) => dt.trTicked = k
+                        onUpdateSelected: (k) => dt.trSelected = k
+                        onLazyLoad: (node, done) => done([
+                            { label: "外包 · 视觉支持" }, { label: "外包 · 文案支持" }
+                        ])
+                    }
+                    Column {
+                        spacing: 6
+                        Text { text: "已选节点：" + (dt.trSelected === null ? "无" : dt.trSelected); color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                        Text { text: "已勾选 " + dt.trTicked.length + " 个：" + dt.trTicked.join("、"); color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS; width: 360; wrapMode: Text.Wrap }
+                        NovaBtn { text: "全部展开"; variant: "outlined"; dense: true; onClicked: bigTree.expandAll() }
+                        NovaBtn { text: "全部收起"; variant: "outlined"; dense: true; onClicked: bigTree.collapseAll() }
+                    }
+                }
+
+                GalleryRow { label: "③ NovaList：手风琴（展开一个自动收起兄弟）· separator/dense" }
+                NovaList {
+                    width: 480
+                    separator: true
+                    accordion: true
+                    NovaItem {
+                        label: "v0.11.0 · 数据体系"
+                        caption: "表格/树/分页/列表九件一次交付"
+                        icon: "mdi:package-up"
+                        expandable: true; expanded: dt.accA
+                        onExpandRequested: (e) => dt.accA = e
+                        expandContent: NovaItemLabel { text: "NovaTable 基础能力全部就位，虚拟滚动与服务端模式留待 v0.12。"; caption: true; lines: 2 }
+                    }
+                    NovaItem {
+                        label: "受控模式贯穿"
+                        caption: "组件只上报，宿主写回"
+                        icon: "mdi:swap-horizontal"
+                        expandable: true; expanded: dt.accB
+                        onExpandRequested: (e) => dt.accB = e
+                        expandContent: NovaItemLabel { text: "排序/选择/展开/分页全部走 emit-only，杜绝绑定环。"; caption: true; lines: 2 }
+                    }
+                    NovaItem {
+                        label: "不可展开条目（对照）"
+                        icon: "mdi:information-outline"
+                        clickable: true
+                        onClicked: dt.accC = !dt.accC
+                        trailing: Item { width: 64; height: 22; NovaBadge { text: "点击试试" } }
+                    }
+                }
+
+                GalleryRow { label: "④ NovaPagination：maxPages 滑窗 + ellipses + boundaryLinks（« »）" }
+                Column {
+                    spacing: 6
+                    NovaPagination {
+                        page: dt.pg
+                        pages: 42
+                        maxPages: 5
+                        ellipses: true
+                        boundaryLinks: true
+                        onPageRequested: (p) => dt.pg = p
+                    }
+                    Text { text: "当前页 " + dt.pg + " / 42"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                }
+
+                GalleryRow { label: "⑤ NovaMarkupTable：标记表格（columns/rows 直渲）" }
+                NovaMarkupTable {
+                    width: 480
+                    title: "本期交付清单"
+                    columns: ["交付物", "对标", "状态"]
+                    rows: [
+                        ["NovaTable(+Th/Td/Tr)", "QTable", "已交付（基础）"],
+                        ["NovaTree", "QTree", "已交付"],
+                        ["NovaPagination", "QPagination", "已交付"],
+                        ["NovaList / NovaItem", "QList / QItem", "已交付"],
+                        ["NovaMarkupTable", "QMarkupTable", "已交付"],
+                        ["NovaVirtualScroll / NovaInfiniteScroll / NovaScrollArea", "同名", "已交付"]
+                    ]
+                }
+
+                GalleryRow { label: "⑥ NovaVirtualScroll：5000 行仅渲染可视窗口（reuseItems）" }
+                Rectangle {
+                    width: 520
+                    height: 220
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surfaceAlt
+                    border.width: 1; border.color: NovaTheme.outline
+                    NovaVirtualScroll {
+                        id: vsl
+                        anchors.fill: parent
+                        anchors.margins: 8
+                        itemSize: 40
+                        items: Array.from({ length: 5000 }, function (_, i) { return i })
+                        delegate: Rectangle {
+                            required property int index
+                            width: vsl.width; height: 40
+                            radius: NovaTheme.radiusS
+                            color: index % 2 ? NovaTheme.surface : NovaTheme.surfaceAlt
+                            Text {
+                                x: 12; anchors.verticalCenter: parent.verticalCenter
+                                text: "第 " + (parent.index + 1) + " 行 · 虚拟渲染中"
+                                color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "⑦ NovaInfiniteScroll：触底自动加载（本演示 3 批后停止）" }
+                NovaInfiniteScroll {
+                    width: 520
+                    height: 180
+                    Rectangle {
+                        width: parent.width; height: 120
+                        radius: NovaTheme.radiusS
+                        color: NovaTheme.surface
+                        border.width: 1; border.color: NovaTheme.outline
+                    }
+                    onLoad: (index, done) => {
+                        dt.infBatches++
+                        infTimer.done = done
+                        infTimer.start()
+                    }
+                    Timer {
+                        id: infTimer
+                        property var done: null
+                        interval: 600
+                        onTriggered: if (done) done(dt.infBatches >= 3)
+                    }
+                    Text { text: "已加载 " + dt.infBatches + " 批" + (dt.infBatches >= 3 ? "（已停止）" : ""); x: 12; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                }
+
+                GalleryRow { label: "⑧ NovaScrollArea：内容超界出主题化滚动条（明暗跟随）" }
+                NovaScrollArea {
+                    width: 520
+                    height: 160
+                    Rectangle {
+                        width: 800; height: 300
+                        radius: NovaTheme.radiusM
+                        color: NovaTheme.surface
+                        Column {
+                            x: 16; y: 12
+                            spacing: 8
+                            Repeater {
+                                model: 8
+                                Text {
+                                    required property int index
+                                    text: "横向纵向都超出内容区的长文本行 " + (index + 1)
+                                    color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontM
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

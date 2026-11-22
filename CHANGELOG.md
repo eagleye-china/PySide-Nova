@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.11.0] - 2026-11-23
+
+### Added（三期 Sprint A · **数据体系九件 14 类型一次收口**：L2 24% → 34%，Controls 35 → 49）
+
+- **NovaTable + NovaTh/NovaTd/NovaTr**（对标 QTable 基础面）：列定义（对象/字符串归一化）、
+  三态排序（无序→升→降→无序，binaryStateSort 两态）、全字段过滤 + filterMethod 自定义、
+  客户端分页（rowsPerPage/page/越界钳制）、多选/单选（表头半选态、全选/反选）、
+  展开行（rowKey 键控 + expandSlot 上下文 rowData/rowIndex）、grid/flat 模式、
+  底部计数与 NovaPagination 集成；**选中一律按键值比较**（坑位 27：Qt6 信号参数深拷贝）
+- **NovaTree**（对标 QTree）：递归渲染、nodeKey/路径键双键制、strict 勾选级联
+  （子全勾→父自动勾、反勾父→子全清、半选态）/lazy（仅向下联动）/none 三策略、
+  懒加载（lazyLoad(node, done) → _resolveLazy 回填重建索引）、过滤保祖先链、
+  defaultExpandAll、expandAll/collapseAll、dense
+- **NovaPagination**（对标 QPagination）：maxPages 滑窗、ellipses 省略号、
+  boundaryLinks 首末快捷（«»）、arrows 前后翻页、requestPage 越界钳制、
+  受控 page（pageRequested 上报宿主写回）
+- **NovaList / NovaItem / NovaItemSection / NovaItemLabel**（对标 QList/QItem 族）：
+  separator 分隔线（NovaList 注入 listRef，最后一条不画）、dense、padding、
+  **accordion 手风琴**（展开自动收起兄弟，expandRequested(false) 受控上报）、
+  NovaItem 四槽（default/leading/trailing/expandContent——left/top 撞 Item FINAL
+  属性改名，坑位 25 同款）、双行/三行布局、NovaItemSection avatar/thumbnail/trailing/topAligned、
+  NovaItemLabel overline/caption/header/lines
+- **NovaMarkupTable**（对标 QMarkupTable）：columns/rows 数组直渲 + title + dense/flat
+- **NovaInfiniteScroll**（对标 QInfiniteScroll）：触底 offset 提前量、load(index, done)
+  受控批次、done(true) 停止 / resume() 重新武装、内容不足视口自动补载
+- **NovaVirtualScroll**（对标 QVirtualScroll）：items + delegate 组件、内部 ListView
+  真虚拟化（reuseItems + cacheBuffer）、scrollToIndex 跳转、统一行高 itemSize
+- **NovaScrollArea**（对标 QScrollArea）：内容超界双向滚动 + NovaTheme 明暗跟随滚动条
+
+### Changed
+
+- 画廊新增第 18 页「数据体系」（18 页）；BUILD_INFO/版本贴同步 0.11.0
+
+### 固定（坑位沉淀）
+
+- 27：**Qt6 信号参数会把 JS 对象/数组深拷贝**——组件与宿主之间传递选中行等对象数组时
+  引用一致性丢失；选择语义一律按键值（rowKey 或 JSON 全等）比较，勿用 `===`/`indexOf` 引用比较
+- 28：**绑定内经函数间接读取的依赖跟踪不可靠 + 递归索引漏层**——NovaTree 的
+  `_index` 由 `_buildIndexInto` 生成时只递归 `children` 静态层，懒加载回填层（`_lazyStore`）
+  永不入索引；且函数内读 `_lazyStore` 的重赋不触发重评。改为显式失效模式：
+  `onNodesChanged/on_LazyStoreChanged/onFilterChanged → _refreshDerived()` + `_rev` 版本号
+  供节点渲染绑定引用保刷新
+
 ## [0.10.0] - 2026-11-22
 
 ### Added（二期 Sprint B · **输入进阶八件一次收口**：L2 16% → 24%，Controls 27 → 35）
