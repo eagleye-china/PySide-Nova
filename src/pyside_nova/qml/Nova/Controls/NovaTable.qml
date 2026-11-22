@@ -489,8 +489,10 @@ Rectangle {
                 visible: root.virtualScroll
                 anchors.fill: parent
                 model: root.virtualScroll ? root.sortedRows : null
+                // 坑位 32：reuseItems 与本 delegate 组合在 Qt 6.12 触发进程退出段错误
+                // （单测定位 media_table_virtual；包装 Component 亦不能规避）——
+                // 暂缓 reuseItems，cacheBuffer 承担预取；滚动性能仍为可视区+缓冲带量级
                 delegate: TableRow { }
-                reuseItems: true
                 cacheBuffer: 240
                 boundsBehavior: Flickable.StopAtBounds
             }

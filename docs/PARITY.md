@@ -603,4 +603,4 @@ M1/M2 排期在 ROADMAP 跟踪。
 - binary-state-sort 已于 0.11.0 落 binaryStateSort；column-sort-order/sort-method/visible-columns/fullscreen/grid 定制 → 留痕。
 
 > 测试口径：十类型实例化冒烟 13 条 + 行为用例 12 个（MEDIA_ENV_QML 驱动代理），合计 0.12.0 新增 25 项（225 → 250）。
-> 坑位沉淀：29 inline component 裸名赋 delegate 恒 count 0（须带花括号实例化）；30 创建期定位器错过自动布局（显式 childrenRect 高度兜底）；31 QtMultimedia Video 惰性创建（无音频服务环境初始化挂死）；NovaImg 占位/错误图分层叠加规避 source↔status 绑定环。
+> 坑位沉淀：29 inline component 裸名赋 delegate 恒 count 0（须带花括号实例化）；30 创建期定位器错过自动布局（显式 childrenRect 高度兜底）；31 QtMultimedia Video 惰性创建（无音频服务环境初始化挂死）；32 reuseItems × 自定义 delegate 退出段错误（暂缓 reuseItems）；NovaImg 占位/错误图分层叠加规避 source↔status 绑定环。

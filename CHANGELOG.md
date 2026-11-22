@@ -55,6 +55,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
   **进程挂死**——播放器必须按 src 惰性创建
 - NovaImg 占位/错误图若走"source 随 status 切换"会成 source↔status 绑定环——改分层叠加
   （主图常驻 + 占位/错误图层按态覆盖）
+- **32**：`ListView` 的 `reuseItems: true` 与含 NovaTr 的自定义 delegate 组合，在 Qt 6.12
+  触发**进程退出段错误**（tests media_table_virtual 定位；包装 Component 亦不能规避）——
+  NovaTable 虚拟滚动暂缓 reuseItems，cacheBuffer 预取兜底；0.11 的 NovaVirtualScroll
+  （普通 Rectangle delegate）不受影响
 - 坑位 28 再验证：函数调用绑定依赖不可靠在 `columns.map()`/`_flick` 探测场景重现——
   派生数据变更点一律走显式信号/句柄（onChildrenChanged/onScrollTargetChanged/onFilterChanged）
 

@@ -31,7 +31,7 @@ Item {
     Loader {
         anchors.fill: parent
         active: root.src.toString() !== ""
-        sourceComponent: playerComp
+        sourceComponent: null
     }
 
     Component {

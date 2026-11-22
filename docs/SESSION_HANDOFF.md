@@ -120,6 +120,10 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     才补）——显式绑定 `height: childrenRect.height` 兜底（子项高度不依赖父高，无环）（0.12.0 沉淀）
 31. QtMultimedia `Video` 元素创建即初始化 FFmpeg 音频上下文，无音频服务环境（CI/沙箱）**进程
     挂死**——播放器必须按 src 惰性创建（0.12.0 沉淀）
+32. `ListView` reuseItems 与含自定义子组件的 delegate 组合在 Qt 6.12 触发**进程退出段错误**
+    （包装 Component 亦不能规避）——NovaTable 虚拟滚动暂缓 reuseItems，cacheBuffer 兜底；
+    布尔型 exit code 必须以 subprocess/直接退出码核验，管道 `| tail` 会吞 pytest 退出码
+    （0.12.0 沉淀）
 32. 占位/错误图若走"source 随 status 切换"成 source↔status 绑定环——分层叠加（主图常驻 +
     占位/错误图层按态覆盖）；坑位 28 再验证：columns.map()/宿主探测等函数调用绑定依赖不可靠，
     派生数据变更点一律显式失效（0.12.0 沉淀）
