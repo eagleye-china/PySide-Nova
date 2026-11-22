@@ -1,5 +1,5 @@
 // examples/gallery/main.qml
-// pyside-nova 组件画廊：侧边导航 + 13 页面覆盖组件/服务/行为三层，明暗一键切换、断点实时监控
+// pyside-nova 组件画廊：侧边导航 + 15 页面覆盖组件/服务/行为/设计语言/工具层五层，明暗一键切换、断点实时监控
 // pyside-nova 组件画廊：左侧导航 + 右侧页面，覆盖全部已交付组件
 pragma ComponentBehavior: Bound
 import QtQuick
@@ -7,6 +7,7 @@ import QtQuick.Controls.Basic
 import Nova.Services
 import Nova.Controls
 import Nova.Behaviors
+import Nova.Design
 
 ApplicationWindow {
     id: window
@@ -53,7 +54,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.7.0"
+                text: "Gallery 0.8.0"
                 outlined: true; dense: true
             }
         }
@@ -107,6 +108,8 @@ ApplicationWindow {
                     ListElement { label: "Loading / Storage";  icon: "mdi:progress-clock" }
                     ListElement { label: "L3 行为指令";        icon: "mdi:gesture-swipe" }
                     ListElement { label: "Theme / Screen";     icon: "mdi:palette-outline" }
+                    ListElement { label: "L0 图标/排版/动效";   icon: "mdi:shape-plus-outline" }
+                    ListElement { label: "L5 工具层 utils";     icon: "mdi:function-variant" }
                 }
 
                 delegate: Rectangle {
@@ -155,10 +158,11 @@ ApplicationWindow {
         anchors { top: header.bottom; left: sidebar.right; right: parent.right; bottom: parent.bottom }
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
-                          pageServices, pageBehaviors, pageTheme][nav.currentIndex]
+                          pageServices, pageBehaviors, pageTheme,
+                          pageDesign, pageUtils][nav.currentIndex]
     }
 
-    Rectangle { id: nav; property int currentIndex: 0; visible: false }
+    Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
 
     // ════════════════════════════════════════════════════════════
     // 页面：NovaLayout 布局（6 种经典布局，全部可交互）
@@ -1480,6 +1484,362 @@ ApplicationWindow {
     // ════════════════════════════════════════════════════════════
     // 画廊复用构件
     // ════════════════════════════════════════════════════════════
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：L0 设计语言（图标集 / 排版 / 动效）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageDesign
+        Item {
+            id: dp
+            property string probeIcon: "mdi-home"
+            property string trName: "slide-right"
+            property bool trShow: true
+
+            Timer {
+                id: replay
+                interval: 520; repeat: false
+                onTriggered: dp.trShow = true
+            }
+            function replayDemo() { dp.trShow = false; replay.restart() }
+
+            GalleryPage {
+                title: "L0 设计语言 · 图标集 / 排版 / 动效"
+                desc: "图标：14 套 Quasar 官方 icon-set 全键移植（100 个语义键/套）+ provider 注册表 + 八通道名称归一化（mdi-home、mdi:home、fas fa-home、o_home、sym_r_home、ion-md-home、img:、SVG path）。排版：12 级字阶 1:1（h1 96px/96px/-1.5px/300）。动效：15 种预设过渡 + 时长/缓动令牌 + reducedMotion 短路。"
+
+                GalleryRow { label: "① 图标集切换（点击即刻换整套语义键）" }
+                Flow {
+                    width: parent.width
+                    spacing: 6
+                    Repeater {
+                        model: NovaIconSet.available
+                        delegate: NovaBtn {
+                            required property string modelData
+                            text: modelData
+                            size: "sm"
+                            variant: NovaIconSet.name === modelData ? "flat" : "outlined"
+                            onClicked: NovaIconSet.use(modelData)
+                        }
+                    }
+                }
+
+                GalleryRow { label: "② 当前图标集语义键（" + NovaIconSet.name + "）" }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    Repeater {
+                        model: [
+                            { "k": "type.positive", "label": "positive" },
+                            { "k": "type.negative", "label": "negative" },
+                            { "k": "arrow.dropdown", "label": "dropdown" },
+                            { "k": "chevron.right", "label": "chevron" },
+                            { "k": "chip.remove", "label": "chip.remove" },
+                            { "k": "pagination.next", "label": "pagination" },
+                            { "k": "stepper.done", "label": "stepper.done" },
+                            { "k": "rating.icon", "label": "rating" }
+                        ]
+                        delegate: Column {
+                            required property var modelData
+                            spacing: 4
+                            NovaIcon {
+                                icon: NovaIconSet.get(modelData.k)
+                                size: 26
+                                color: NovaTheme.primary
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                            Text {
+                                text: modelData.label
+                                color: NovaTheme.textMuted
+                                font.pixelSize: NovaTheme.fontXS
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "③ 八种写法归一化（同一图标的不同书写方式）" }
+                Flow {
+                    width: parent.width
+                    spacing: NovaTheme.spacingL
+                    Repeater {
+                        model: ["mdi-home", "mdi:home", "fas fa-home", "o_home",
+                                "sym_r_home", "ion-md-home", "bi-house", "eva-home"]
+                        delegate: Column {
+                            required property string modelData
+                            spacing: 2
+                            NovaIcon { icon: modelData; size: 26; anchors.horizontalCenter: parent.horizontalCenter }
+                            Text {
+                                text: modelData
+                                color: NovaTheme.textMuted
+                                font.pixelSize: NovaTheme.fontXS
+                            }
+                            Text {
+                                text: NovaIconSet.resolve(modelData).provider
+                                color: NovaTheme.textMuted
+                                font.pixelSize: 10
+                                opacity: 0.7
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+                    }
+                    Column {
+                        spacing: 2
+                        NovaIcon {
+                            icon: "M12 2L2 7v10h4V9h12v8h4V7z|0 0 24 24"
+                            size: 26
+                            color: NovaTheme.accent
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        Text { text: "SVG path 直出"; color: NovaTheme.textMuted; font.pixelSize: 10 }
+                    }
+                }
+
+                GalleryRow { label: "④ 排版 12 级字阶（1:1 对标 $headings）" }
+                Column {
+                    width: parent.width
+                    spacing: 2
+                    Repeater {
+                        model: NovaTheme.typeNames
+                        delegate: Row {
+                            required property string modelData
+                            spacing: NovaTheme.spacingM
+                            NovaText {
+                                text: modelData
+                                typography: "caption"
+                                muted: true
+                                width: 74
+                                anchors.bottom: parent.bottom
+                                anchors.bottomMargin: 8
+                            }
+                            NovaText { text: "青铜峡 Nova 字阶"; typography: modelData }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "⑤ 动效预设（15 种，reducedMotion 一键全链短路）" }
+                Row {
+                    spacing: NovaTheme.spacingS
+                    Repeater {
+                        model: ["fade", "scale", "slide-right", "slide-up", "jump-right", "flip-right"]
+                        delegate: NovaBtn {
+                            required property string modelData
+                            text: modelData
+                            size: "sm"
+                            variant: dp.trName === modelData ? "flat" : "outlined"
+                            onClicked: { dp.trName = modelData; dp.replayDemo() }
+                        }
+                    }
+                    NovaBtn {
+                        text: "重播"
+                        size: "sm"
+                        variant: "outlined"
+                        icon: "↻"
+                        onClicked: dp.replayDemo()
+                    }
+                    NovaBtn {
+                        text: NovaMotion.reducedMotion ? "减弱动效：开" : "减弱动效：关"
+                        size: "sm"
+                        variant: NovaMotion.reducedMotion ? "flat" : "outlined"
+                        onClicked: NovaMotion.reducedMotion = !NovaMotion.reducedMotion
+                    }
+                }
+                Rectangle {
+                    width: parent.width
+                    height: 96
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surfaceAlt
+                    border.color: NovaTheme.outline
+                    clip: true
+
+                    NovaTransition {
+                        anchors.centerIn: parent
+                        width: 180
+                        height: 64
+                        name: dp.trName
+                        show: dp.trShow
+                        Rectangle {
+                            anchors.fill: parent
+                            radius: NovaTheme.radiusS
+                            color: NovaTheme.primary
+                            NovaText {
+                                anchors.centerIn: parent
+                                text: dp.trName
+                                typography: "subtitle2"
+                                color: NovaTheme.textOnPrimary
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：L5 工具层（colors / date / format / debounce / throttle）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageUtils
+        Item {
+            id: up
+            property var now: new Date()
+            property int rawClicks: 0
+            property int debClicks: 0
+            property int thrClicks: 0
+            property var debFn: NovaUtils.debounce(function () { up.debClicks++ }, 300)
+            property var thrFn: NovaUtils.throttle(function () { up.thrClicks++ }, 300, true)
+            property string uidSample: ""
+
+            Timer {
+                interval: 1000; running: true; repeat: true
+                onTriggered: up.now = new Date()
+            }
+            Component.onCompleted: up.uidSample = NovaUtils.uid()
+
+            GalleryPage {
+                title: "L5 工具层 · NovaUtils"
+                desc: "对标 Quasar `import { colors, date, format, is, extend, debounce, throttle } from 'quasar'`。colors 12 函数（百分制 alpha 契约）、date 21 函数（formatDate 44 token、ISO 周、月末日夹取）、format 6 函数、is 5 函数 + extend/clone/uid/debounce/throttle/frameDebounce。DOM/event/scroll 共 35 项在 QML 不适用，已在 PARITY 留痕。"
+
+                GalleryRow { label: "① colors · 亮度梯度（lighten 负数即 darken）" }
+                Row {
+                    spacing: 4
+                    Repeater {
+                        model: [-60, -40, -20, 0, 20, 40, 60, 80, 95]
+                        delegate: Column {
+                            required property int modelData
+                            spacing: 2
+                            Rectangle {
+                                width: 62; height: 34; radius: NovaTheme.radiusS
+                                color: NovaUtils.colors.lighten("#5B6EF5", modelData)
+                            }
+                            Text {
+                                text: (modelData > 0 ? "+" : "") + modelData + "%"
+                                color: NovaTheme.textMuted
+                                font.pixelSize: 10
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "② colors · 对比度自动选字色（WCAG）" }
+                Row {
+                    spacing: 8
+                    Repeater {
+                        model: ["#5B6EF5", "#22C55E", "#F59E0B", "#EF4444", "#1D1D1D", "#FFFFFF"]
+                        delegate: Rectangle {
+                            required property string modelData
+                            width: 118; height: 44; radius: NovaTheme.radiusS
+                            color: modelData
+                            Text {
+                                anchors.centerIn: parent
+                                text: modelData + " · " + NovaUtils.colors.contrastRatio(modelData, NovaUtils.colors.contrastColor(modelData)).toFixed(1) + ":1"
+                                color: NovaUtils.colors.contrastColor(modelData)
+                                font.pixelSize: 11
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "③ date · 实时格式化（每秒刷新）" }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    Column {
+                        spacing: 2
+                        Text {
+                            text: NovaUtils.date.formatDate(up.now, "YYYY-MM-DD HH:mm:ss")
+                            color: NovaTheme.textColor
+                            font.pixelSize: NovaTheme.fontXL
+                            font.family: "Consolas"
+                        }
+                        Text {
+                            text: NovaUtils.date.formatDate(up.now, "dddd, MMMM Do YYYY · ww 周 · 年内第 DDD 天")
+                            color: NovaTheme.textMuted
+                            font.pixelSize: NovaTheme.fontS
+                        }
+                        Text {
+                            text: NovaUtils.date.formatDate(up.now, "YYYY年M月D日 dddd A hh:mm", NovaUtils.dateLocale.zhCN)
+                            color: NovaTheme.textMuted
+                            font.pixelSize: NovaTheme.fontS
+                        }
+                    }
+                    Column {
+                        spacing: 2
+                        Text { text: "ISO 周：w=" + NovaUtils.date.getWeekOfYear(up.now) + " / GG=" + NovaUtils.date.getISOWeekYear(up.now); color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS }
+                        Text { text: "年内第 " + NovaUtils.date.getDayOfYear(up.now) + " 天 / 本月 " + NovaUtils.date.daysInMonth(up.now) + " 天"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS }
+                        Text { text: "时间戳 x=" + NovaUtils.date.formatDate(up.now, "x") + " / X=" + NovaUtils.date.formatDate(up.now, "X"); color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS }
+                    }
+                }
+
+                GalleryRow { label: "④ format · 人类可读（humanStorageSize / pad / getDecimalsCount）" }
+                Row {
+                    spacing: NovaTheme.spacingS
+                    Repeater {
+                        model: [512, 1536, 1048576, 5368709120, 1099511627776]
+                        delegate: NovaChip {
+                            required property int modelData
+                            text: modelData + " → " + NovaUtils.format.humanStorageSize(modelData)
+                            outlined: true
+                            dense: true
+                        }
+                    }
+                    NovaChip {
+                        text: "1.5e-7 → " + NovaUtils.format.getDecimalsCount(1.5e-7) + " 位小数"
+                        outlined: true
+                        dense: true
+                    }
+                }
+
+                GalleryRow { label: "⑤ debounce / throttle（连点 10 次看真实差异）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    Rectangle {
+                        width: 150; height: 62; radius: NovaTheme.radiusS
+                        color: NovaTheme.primary
+                        Text { anchors.centerIn: parent; text: "连点我"; color: NovaTheme.textOnPrimary; font.pixelSize: NovaTheme.fontM }
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                up.rawClicks++
+                                up.debFn()
+                                up.thrFn()
+                            }
+                        }
+                    }
+                    Column {
+                        spacing: 4
+                        anchors.verticalCenter: parent.verticalCenter
+                        Text { text: "原始触发：" + up.rawClicks + " 次"; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS }
+                        Text { text: "debounce(300ms)：" + up.debClicks + " 次"; color: NovaTheme.positive; font.pixelSize: NovaTheme.fontS }
+                        Text { text: "throttle(300ms)：" + up.thrClicks + " 次"; color: NovaTheme.accent; font.pixelSize: NovaTheme.fontS }
+                    }
+                    NovaBtn {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "清零"
+                        size: "sm"
+                        variant: "outlined"
+                        onClicked: { up.rawClicks = 0; up.debClicks = 0; up.thrClicks = 0 }
+                    }
+                }
+
+                GalleryRow { label: "⑥ is / extend / uid" }
+                Column {
+                    spacing: 4
+                    Text {
+                        text: "deepEqual({a:[1,2]}, {a:[1,2]}) → " + NovaUtils.is.deepEqual({ "a": [1, 2] }, { "a": [1, 2] })
+                        color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS
+                    }
+                    Text {
+                        text: "extend(true, {a:{b:1}}, {a:{c:2}}) → " + JSON.stringify(NovaUtils.extend(true, { "a": { "b": 1 } }, { "a": { "c": 2 } }))
+                        color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS
+                    }
+                    Text {
+                        text: "uid() → " + up.uidSample
+                        color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS
+                    }
+                }
+            }
+        }
+    }
+
     component GalleryPage: Item {
         id: gp
         property string title: ""

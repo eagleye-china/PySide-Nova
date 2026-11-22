@@ -18,4 +18,6 @@ NovaPage 1.0 NovaPage.qml
 NovaRow 1.0 NovaRow.qml
 NovaSeparator 1.0 NovaSeparator.qml
 NovaSpace 1.0 NovaSpace.qml
+NovaText 1.0 NovaText.qml
+NovaTransition 1.0 NovaTransition.qml
 NovaVisible 1.0 NovaVisible.qml

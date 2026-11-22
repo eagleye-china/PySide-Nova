@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.8.0] - 2026-11-22
+
+### Added（一期 Sprint 4 · **L0 设计语言 + L5 工具层一次收口**：L0 60% → 100%、L5 0% → 95%）
+
+- **新增 `Nova.Design` 模块**（L0/L5 落位）：`NovaIconSet` / `NovaMotion` / `NovaUtils` 三个单例
+- **NovaIconSet 图标集单例**（对标 `$q.iconSet` + IconSet 插件，npm 2.35.5 icon-set/*.js 逐键提取）：
+  - **14 套内置图标集全键 1:1**（material-icons/-outlined/-round/-sharp、material-symbols ×3、
+    mdi-v7、ionicons-v4、eva-icons、fontawesome-v6、themify、bootstrap-icons、line-awesome；
+    mdi-v7 为基准 19 组 100 个语义键；material 系缺 editor.heading1~6/size1~7 共 13 键与基线一致，
+    官方标注"可省略，回落 heading/size"）
+  - 19 组语义属性直读（type/arrow/chevron/colorPicker/pullToRefresh/carousel/chip/datetime/editor/
+    expansionItem/fab/field/pagination/rating/stepper/tabs/table/tree/uploader）+ `get(path, fallback)`
+  - `set(obj)` 顶层浅合并 1:1（整组替换语义，与基线 Object.assign 一致）；`use(name)` 切换；
+    `register(name, def)` 自定义集以 mdi-v7 全键补底；`available` / `keyPaths` 自检面
+  - **provider 注册表**：`registerProvider/unregisterProvider/provider/providerUrl`，svg / ligature
+    双通道；内置 15 个 provider 的 CDN 模板全部实测（2026-11-22，HTTP 200）；ionicons v4 类名 →
+    v7 SVG 名称映射（md-X→X、ios-X→X-outline）；Eva 补 `-outline` 后缀；Line Awesome 实际分发
+    `<name>-solid.svg`；FA6 改名内置 44 条别名表（home→house 等）；**themify 无逐图标 SVG 分发
+    （实测 404），留痕需自备本地图标包**
+  - **八通道归一化解析器 `resolve()`**（对标 QIcon.parseIcon 全语义）：`img:` / `svguse:`（unsupported
+    留痕）/ `ion-*` 平台前缀 / `sym_[ors]_` / libMap 九前缀（mdi-/icon-/fa-/bt-/eva-/iconfont /ti-/bi-/i-）
+    / FA 旧式类名（fas fa-home / las la-check）/ SVG path 直出（`&&` 多路径 + `|viewBox` + `@@style@@transform`）
+    / `o_ r_ s_` 连字变体 / `set:name` 显式写法 / 非 ASCII 文本走文本通道（emoji 不再撞 CDN 404）
+- **NovaIcon 升级**：改走 NovaIconSet.resolve + provider 注册表；渲染三通道 Image(SVG) / Text(连字
+  与 emoji) / Shape+PathSvg（path 直出，viewBox 缩放）；本地图标包（NovaTheme.iconLocalRoot）优先
+  → provider CDN 回落链路保留
+- **NovaMotion 动效令牌单例**（对标 --q-transition-duration/.3s + transitions.sass + animations.sass）：
+  时长七令牌（300/150/200/400…）、缓动八令牌（easingStandard=OutCubic 对标
+  cubic-bezier(0.215,0.61,0.355,1)）、**15 种预设过渡表**（fade/scale/rotate/slide×4/jump×4/flip×4，
+  enter-from 与 leave-to 非对称 1:1）、`speedFactor` 全局调速、`reducedMotion` 无障碍短路（Nova 增强，
+  基线只覆盖 .animated）
+- **NovaTransition 过渡组件**（Controls）：声明式包住任意内容，show 切换按预设播进场/离场动画；
+  entered()/exited() 信号；flip 用 Rotation 轴旋转近似 perspective；reducedMotion 时长归零
+- **NovaTheme 排版/高程令牌**：`typeScale` 12 级 1:1（rem×16→px、em 字距→px、Font 枚举字重；
+  h1 96/96/-1.5/300 … caption 12/20/0.4/400）、`typeNames`/`textStyle()`、六档字重令牌（$text-weights）；
+  `elevation` 0~24 级三层 umbra/penumbra/ambient 几何（QML 无多层 box-shadow，供 MultiEffect 组合）
+- **NovaText 排版组件**（对标 text-h1…caption + text-weight-* + text-italic/strike 等）：typography
+  12 级、muted/strike/italic/upper；大写小写走 QML 原生 font.capitalization（1:1 text-uppercase/lowercase/capitalize）
+- **NovaUtils 工具层单例**（对标 `import { colors, date, format, is, extend, debounce, throttle } from 'quasar'`）：
+  - **colors 12 函数 1:1**（rgbToHex/rgbToText/hexToRgb/hsvToRgb/rgbToHsv/textToRgb/lighten/luminosity/
+    brightness/blend/changeAlpha + getPaletteColor 因 DOM 不适用留痕）；alpha 一律 0..100 百分制契约；
+    changeAlpha 无 alpha 基准 0 等边界 1:1；Nova 增强 `contrastRatio`/`contrastColor`（WCAG 自动选字色）
+  - **date 21 函数**：formatDate **44 token 全覆盖**（YYYY…x，序数/ISO 周/时区符号约定 1:1）；
+    en-US/zh-CN 语言包内置；addToDate/subtractFromDate（月末日夹取，1/31+1月→2/28）、adjustDate/
+    buildDate/startOfDate/endOfDate/getDateDiff/getDayOfYear/getWeekOfYear（纯 ISO）/getISOWeekYear/
+    getDayOfWeek/isBetweenDates（opts 对象 1:1 + `'[]' '[)' '(]' '()'` 字符串写法为 Nova 增强）/
+    isSameDate/daysInMonth/getMaxDate/getMinDate/getDateBetween/inferDateFormat/isValid/clone/extractDate
+  - **format 6 函数**（humanStorageSize/capitalize/between/normalizeToInterval/pad/getDecimalsCount）
+  - **is 5 函数**（isObject/isDate/isRegexp/isNumber/deepEqual）+ `extend`（deep 标志 1:1）+ `clone`
+  - **debounce**（leading/trailing/maxWait/isPending/cancel/flush 1:1）、**throttle**（尾跑补齐、返回
+    上次结果 1:1）、**frameDebounce**（16ms Timer 等价 rAF）、**uid**（v4 形态；QML 无 crypto.randomUUID，
+    碰撞抗性弱于基线，PARITY 留痕）
+  - **不适用留痕**：dom 9 项、event 14 项、scroll 12 项（QML Item 几何/MouseArea 信号/Flickable 原生）
+- **画廊第 14/15 页**（L0 图标/排版/动效 + L5 utils）：图标集 14 套一键切换、语义键实时预览、
+  八种写法对照、12 级字阶、动效预设演示、亮度梯度、对比度选字色、实时日期格式化、防抖节流真实交互
+- **测试 114 → 149 项全绿**（新增 35 项：图标集 8 / 归一化 2 / provider 2 / 动效 4 / 过渡 1 /
+  排版 2 / 高程 1 / colors 5 / format 1 / date 8 / is-extend 1 / debounce-throttle-frame-uid 3）
+
+### Fixed
+- NovaIcon 对 emoji/符号输入不再请求 CDN（404 噪音），改文本通道渲染
+- gen_prompt.py 基线常量 2.26.0 → 2.35.5（与 0.4.2 纠正同步）
+
+### 沉淀坑位（17~20，详见 CONSTITUTION/SESSION_HANDOFF）
+17. V4 引擎下 `1<<24` 参与 `|` 位运算拼 hex 会串色 → 逐字节 toHex2
+18. Animation 无 `enabled` 属性（NumberAnimation 用 from==to 兜底不参与）
+19. `Component.createObject` 创建的 Timer 不自动启动，必须显式 start/restart
+20. QML 无 requestAnimationFrame/crypto.randomUUID → frameDebounce 用 16ms Timer、uid 降级实现留痕
+
 ## [0.7.0] - 2026-11-22
 
 ### Added（一期 Sprint 3 · **L3 行为层九件一次收口**：L3 11% → 100%）

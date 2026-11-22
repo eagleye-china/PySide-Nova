@@ -28,7 +28,7 @@
 >    一套交付物**（ALL-IN-ONE / release zip / sha256 / PROMPT / MASTER_PLAN / 总索引 共六份）；
 >    Sprint 中间件只做 git 提交与画廊预览，**不单独打全包发版**。
 > 2. 版本号跟随 Sprint：0.5.0=Sprint 1；0.6.x=Sprint 2（0.6.0/0.6.1 为拆件期的历史小版本，
->    自 0.6.2 起恢复"一 Sprint 一版本"）；**0.7.0=Sprint 3 ✅**；0.8.0=Sprint 4。
+>    自 0.6.2 起恢复"一 Sprint 一版本"）；**0.7.0=Sprint 3 ✅；0.8.0=Sprint 4 ✅（一期生态骨架完工）**；0.9.0=Sprint A 二期。
 > 3. 唯一例外：涉及契约裁定（如 0.5.1）可单独发版，但同样只出六份交付物。
 
 ---
@@ -81,17 +81,17 @@
 - **冒烟验收（✅ 0.7.0 达成）**：画廊第 13 页演示全部行为（懒加载进入视口才触发、
   拖动/划动/长按/连发可交互、ClosePopup 真实关闭对话框）；测试 91 → **114 项**
 
-### Sprint 4 · L0/L5 基础层（v0.8.0）
+### Sprint 4 · L0/L5 基础层（v0.8.0）✅ 2026-11-22 收口
 
 | 交付物 | 对标 | 关键能力 |
 |---|---|---|
-| 图标 provider 注册表 + 6 套图标集 | 8 套图标 | `mdi:home` / `mdi-home` / `fas fa-home` 三写法归一解析；缺图标降级占位 |
-| `Nova.utils` | date/color/formatter | 日期、颜色（lighten/darken/对比度选字色）、格式化、防抖节流 |
-| 动效令牌 | animate.css | durationS/M/L、easingStandard、reduced-motion 开关 |
-| 排版 9 级 | text-h1…overline | NovaText（variant/ellipsis/lines） |
+| ✅ 图标 provider 注册表 + **14 套**图标集 | 8 套图标 | 八通道归一解析（mdi-home/mdi:home/fas fa-home/o_home/sym_r_home/ion-*/img:/SVG path）；CDN 模板逐个实测；themify 无逐图标 SVG 留痕 |
+| ✅ `NovaUtils` | colors/date/format/is/extend/计时 | colors 12 函数 + date 21 函数（formatDate 44 token）+ format 6 + is 5 + debounce/throttle/frameDebounce/uid |
+| ✅ 动效令牌 NovaMotion | q-transition--* | 时长/缓动令牌 + 15 种预设 + speedFactor 调速 + reducedMotion 短路（Nova 增强） |
+| ✅ 排版 **12 级** NovaText | text-h1…caption | typeScale 1:1（rem×16→px）+ 字重六档 + 高程 0~24 |
 
-- **冒烟验收**：三写法图标全部正确渲染；`Nova.utils` 单元测试全绿；
-  画廊全部页面换用排版令牌后视觉无回归；测试 66 → 75 项
+- **冒烟验收（已达成）**：八种写法图标全部正确渲染；`NovaUtils` 单元测试全绿（44 token 逐项对账）；
+  画廊 14/15 页新增 + 明暗双主题视觉验收通过；测试 114 → **149 项**；L0 60%→100%、L5 0%→95%
 - **一期里程碑验收**：七层成熟度 L1 0%→100%、L3 11%→100%、L4 0%→100%、L5 0%→≥90%
 
 ---

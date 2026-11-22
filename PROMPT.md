@@ -10,17 +10,22 @@
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-### 当前状态（0.7.0 · 一期 Sprint 3 **收口完成**：L3 行为层九件，L3 100%）
+### 当前状态（0.8.0 · **一期生态骨架完工**：L0 100% + L5 95%，五层全部就位）
 
-- **公共 QML 类型 42 个已交付**（qmldir 导出口径）：Controls 18 + Services 单例 10
-  （Screen/Theme/OverlayHost/Notify/Dialog/Loading/Storage/App/Platform/**IntersectionPool**）
-  + 句柄与动作 4 + **Behaviors 9**（Ripple/Intersection/ScrollObserver/ScrollFire/ClosePopup/
-  TouchPan/Swipe/Hold/Repeat，另有 internal NovaTouchCore 内核）
-- **测试 114 项全绿**（组件解析/槽/断点/Dark API/demo+画廊完整加载 + 布局/Notify/Dialog/
-  Loading/Storage/Platform/App 行为级断言 + 0.7.0 新增：Intersection 进出/比例/once 再武装/
-  stop，Scroll 位置/边界，ScrollFire 一次性，Pan/Swipe/Hold/Repeat QTest 真实鼠标事件，
-  ClosePopup 弹层栈 depth 三态 + Dialog 进出栈）
-- **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → **Sprint 3 ✅(0.7.0)** → Sprint 4 待开工
+- **公共 QML 类型 47 个已交付**（qmldir 导出口径）：Controls 20（新增 NovaText/NovaTransition）
+  + Services 单例 10（Screen/Theme/OverlayHost/Notify/Dialog/Loading/Storage/App/Platform/IntersectionPool）
+  + **Design 单例 3（NovaIconSet/NovaMotion/NovaUtils，0.8.0 新增模块）** + 句柄与动作 4
+  + Behaviors 9（Ripple/Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan/Swipe/Hold/Repeat，
+  另有 internal NovaTouchCore 内核）
+- **测试 149 项全绿**（114 + 0.8.0 新增 35：图标集 14 套/use 浅合并/register、resolve 八通道、
+  provider 注册表与实测 URL、动效令牌与 15 预设、NovaTransition 进出场信号、typeScale 12 级、
+  elevation、colors 12 函数、format 6 函数、date 44 token 逐项对账/月末日夹取/ISO 周/extractDate、
+  is/extend、debounce/trailing/cancel、throttle 尾跑、frameDebounce、uid v4 形态）
+- **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → Sprint 3 ✅(0.7.0)
+  → **Sprint 4 ✅(0.8.0) —— 一期生态骨架完工** → 二期 Sprint A（v0.9.0 表单核心）待开工
+- **七层成熟度**：L0 **100%** / L1 100% / L3 100% / L4 44% / L5 **95%** / L2 10%（二期）/ L6 70%（五期）
+- **图标集数据纪律**：`src/pyside_nova/qml/Nova/Design/IconSets.js` 是生成物（scripts/gen_iconsets.py
+  从 npm quasar@2.35.5 icon-set/*.js 提取），**禁止手改**；基线包临时解包目录 /tmp/qbase 可重建
 - **交付节奏条款（0.6.2 新颁，0.7.0 首次完整执行）**：Sprint 是最小交付单元——一次收口、
   一个版本号、一套六份交付物；中间件只 git 提交不单独打全包
 - **环境约定**：用户 Dell Win11 · PySide6 6.12.0 · 单人开发 · PyPI + GitHub
@@ -73,21 +78,36 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     测试用 QML 侧 QtObject 代理（call0/1/2 按实参个数分派——QML 函数无可选参数）+ 强引用窗口（0.7.0 沉淀）
 16. 观察器只报"变化"：重新订阅必须重置上次判定并补一帧当前状态，否则状态未变就永远等不到回调
     （基线 reobserve 同款语义）（0.7.0 沉淀）
+17. V4 引擎下 `1<<24` 参与 `|` 位运算拼 hex 会静默串色（#5B6EF5→#769397）→ 十六进制一律逐字节
+    toString(16) 补零；formatDate 的 literal `[...]` 语义是"原样输出"不是"解析后插值"（0.8.0 沉淀）
+18. QML Animation/NumberAnimation **没有 `enabled` 属性**：不参与的维度用 from==to 兜底（0.8.0 沉淀）
+19. `Component.createObject` 创建的 Timer **不会自动启动**：必须显式 start()/restart()
+    ——throttle 尾跑曾因此静默失效（0.8.0 沉淀）
+20. QML 无 requestAnimationFrame / crypto.randomUUID：frameDebounce 用 16ms 单发 Timer 等价 rAF；
+    uid 用时间戳+计数+随机 v4 形态降级留痕；debounce/throttle 的 Timer 用 `property Component`
+    内联创建（0.8.0 沉淀）
 
-### 下一步（一期 Sprint 2 L4 服务层，总规划见 MASTER_PLAN.md）
+### 下一步（二期 表单与选择体系，总规划见 MASTER_PLAN.md）
 
-- ~~Sprint 1 L1 布局~~ ✅ 0.5.0 完成（6 种经典布局示例全部入画廊）
-- ~~Sprint 2 L4 服务~~ ✅ **0.6.0~0.6.2 收口完成**（Notify 29 项 / Dialog 27 项 / Loading 11 项对账
-  + Storage 全 API + App + Platform；L4 0% → 44%）
-- ~~Sprint 3 L3 行为~~ ✅ **0.7.0 收口完成**（八件新行为 + 共享观察池 + 宿主弹层栈；画廊 13 页；
-  114 项测试；L3 11% → 100%；Morph/Mutation/Resize/DropZone 能力由 QML 原生信号承担留痕）
-- **Sprint 4（下一步）L0/L5 基础层（v0.8.0）**：图标 provider 注册表 + 6 套图标集 + Nova.utils
-  （date/color/formatter/防抖节流）+ 动效令牌 + 排版 9 级 —— 按节奏条款一次收口
-- 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`（12 项 P0 空白 + 24 条封版验收）
+- ~~Sprint 1 L1 布局~~ ✅ 0.5.0（6 种经典布局入画廊）
+- ~~Sprint 2 L4 服务~~ ✅ 0.6.0~0.6.2（Notify 29 项/Dialog 27 项/Loading 11 项对账 + Storage/App/Platform；L4 44%）
+- ~~Sprint 3 L3 行为~~ ✅ 0.7.0（九件一次收口；L3 100%）
+- ~~Sprint 4 L0/L5 基础层~~ ✅ **0.8.0 收口（Nova.Design 三单例 + NovaText/NovaTransition；
+  14 套图标集 + provider 注册表 + 八通道解析；colors 12 + date 21（44 token）+ format 6 + is 5 +
+  debounce/throttle/uid；动效 15 预设；排版 12 级；画廊 15 页；149 项测试；L0 100%/L5 95%）**
+- **二期 Sprint A（下一步）表单核心（v0.9.0）**：NovaInput/NovaSelect/NovaField/NovaCheckbox/
+  NovaRadio/NovaToggle/NovaSlider —— 统一契约 `label/hint/error/readonly/disable/clearable/rules`
+- 二期 B（v0.10.0）输入进阶：NovaDate/NovaTime/NovaOptionGroup/NovaRange 等
+- 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ### 最近一次交付
 
-- **0.7.0：Sprint 3 收口 · L3 行为层九件一次交付**（Intersection/ScrollObserver/ScrollFire/
+- **0.8.0：Sprint 4 收口 · L0 设计语言 + L5 工具层一次交付（一期生态骨架完工）**
+  （NovaIconSet 14 套图标集/100 语义键/provider 注册表/八通道解析 + NovaMotion 动效令牌 15 预设
+  + NovaUtils colors 12·date 21·format 6·is 5·debounce/throttle/uid/extend + NovaText 排版 12 级
+  + NovaTransition 过渡组件 + NovaTheme 排版/高程令牌 + NovaIcon 升级三通道 + 画廊 14/15 页
+  + 测试 149 项；L0 60%→100%、L5 0%→95%；新增 Nova.Design 模块）
+- 0.7.0：Sprint 3 收口 · L3 行为层九件一次交付（Intersection/ScrollObserver/ScrollFire/
   ClosePopup/TouchPan·Swipe·Hold·Repeat + NovaIntersectionPool 共享观察池 + NovaOverlayHost
   弹层栈 + 画廊第 13 页 + 114 项测试；L3 11% → 100%）
 - 0.6.2：Sprint 2 收口 · 一次交付四件（NovaLoading 11 项对账 + 引用计数 / NovaStorage 真落盘 /
@@ -118,7 +138,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - 每次交付：升版 → CHANGELOG → 宪法迭代记录表 → 更新 `docs/SESSION_HANDOFF.md` → 运行 `scripts/gen_prompt.py` 刷新本 PROMPT → `python scripts/local_deploy.py --zip`
 - 新组件交付必须同时新增 PARITY 审计节 + 画廊页面 + 冒烟测试
 - 头注释规范 / `tint` 命名 / 禁 `on*` / qmldir 用 `#` 等红线见宪法
-- 对标基线：Quasar 2.26.0；属性/事件/槽/model 逐项对照，不臆造 API
+- 对标基线：Quasar 2.35.5；属性/事件/槽/model 逐项对照，不臆造 API
 
 ## 按需深读（仅涉及对应主题时再打开，不必预先全读）
 
@@ -135,8 +155,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：0.7.0（2026-11-22）
-- 内容指纹：`2b24b5637f92`
-- git HEAD：1c07271
-- 生成时间：2026-11-22 21:53（星期日）
+- 快照版本：0.8.0（2026-11-22）
+- 内容指纹：`50ef3f39b9a4`
+- git HEAD：74d3c7c
+- 生成时间：2026-11-22 22:15（星期日）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

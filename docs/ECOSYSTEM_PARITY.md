@@ -10,16 +10,16 @@
 
 | 层 | 内容 | Quasar 提供 | Nova 现状 | 成熟度 | 封版门槛 |
 |---|---|---|---|---|---|
-| **L0 设计语言** | 令牌/主题/图标集/动效/排版 | 8 品牌色 + Dark + 8 套图标 + animate.css | 8 品牌色 ✅、Dark ✅、2 套图标 🚧、动效 ❌ | **60%** | ≥95% |
+| **L0 设计语言** | 令牌/主题/图标集/动效/排版 | 8 品牌色 + Dark + 14 套图标 + q-transition--* | **已交付（0.8.0）**：14 套图标集 + provider 注册表 + 八通道解析 + NovaMotion 15 预设 + 12 级字阶 + 高程 0~24 | **100%** | ≥95% |
 | **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **已交付（0.5.0）** | **100%** | 100% |
 | **L2 组件** | 120+ 组件 | 全 | 12 个（约 10%） | **10%** | P0 100% / 全库 ≥90% |
 | **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | **9 个**（Ripple + 0.7.0 一次收口 Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan·Swipe·Hold·Repeat；Morph/Mutation/Resize/DropZone 能力由 QML 原生信号承担，PARITY 留痕） | **100%** | 100% |
 | **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **7 个**（OverlayHost 基建 + Notify + Dialog + Loading + Storage + App + Platform，0.6.2 一次收口四件） | **44%** | 100%（QML 适用项） |
-| **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **0** | **0%** | ≥90% |
+| **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **已交付（0.8.0）**：NovaUtils（colors 12 + date 21 + format 6 + is 5 + debounce/throttle/frameDebounce/uid/extend/clone）；CSS 工具类由 QML 组件承担留痕 | **95%** | ≥90% |
 | **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | 70%（缺文档站、视觉回归、打包器） | **70%** | ≥95% |
 
-> **一句话诊断**：L1 满格（0.5.0）、L3 满格（0.7.0 九件行为一次收口）、L4 44%（0.6.2）；L5 仍接近 0%，是"Quasar 味"最后一块拼图。
-> 补组件只是"长得像"，补齐这三层才叫"用起来像"。
+> **一句话诊断**：L1/L3/L0 满格、L5 95%（0.8.0 一期生态骨架完工）；L4 44%（二期补齐）。一期"生态骨架"五层全部就位，二期起进入表单与数据体系。
+> 补组件只是"长得像"，补齐这几层才叫"用起来像"。
 
 ---
 
@@ -63,12 +63,12 @@ L6 工程化     ← 构建、打包、文档、测试、发布、治理
 |---|---|---|---|
 | 8 大品牌色 + `setBrand` | ✅ 已 1:1 | — | — |
 | Dark 插件（isActive/set/toggle/auto） | ✅ 手动 + ❌ auto（跟随系统） | `auto` 跟随系统、定时切换 | P1 |
-| 8 套图标集（material/mdi/fontawesome/ionicons/eva/themify/bootstrap/linea） | 🚧 mdi + material | **图标 provider 注册表** + 6 套补齐 | **P0** |
-| 图标命名三种写法（`mdi-home` / `mdi:home` / `fas fa-home`） | ✅ 仅 `mdi:home` | 归一化解析器 | **P0** |
-| 颜色工具（`lighten/darken/setAlpha/getBrand`） | ❌ | `NovaColor` 工具（含对比度自动选字色） | **P0** |
-| animate.css 动效集 + 过渡 | ❌ | 动效令牌（时长/缓动）+ 标准过渡 + reduced-motion | **P0** |
-| 排版（text-h1…h6/subtitle/body/caption/overline/weight） | 🚧 仅 fontXS~XL | 9 级排版令牌 + 字重/行高/字距 | P1 |
-| 阴影 0~24 级 | ✅ 0~5 级（够用） | 按需扩展 | P2 |
+| 图标集 + provider 注册表（14 套内置 + 运行时注册） | ✅ 0.8.0 全交付（CDN 模板实测、themify 留痕） | — | — |
+| 图标命名八通道写法（`mdi-home`/`mdi:home`/`fas fa-home`/`o_home`/`sym_r_home`/`ion-*`/`img:`/SVG path） | ✅ 0.8.0 resolve() 归一化解析器 1:1 | — | — |
+| 颜色工具（lighten/darken/changeAlpha/luminosity/blend… 12 函数） | ✅ 0.8.0 NovaUtils.colors 1:1 + WCAG 对比度选字色（增强） | — | — |
+| q-transition--* 15 种 + 动效令牌 + reduced-motion | ✅ 0.8.0 NovaMotion + NovaTransition（reducedMotion 为 Nova 增强） | — | — |
+| 排版 12 级（text-h1…caption + text-weight-*） | ✅ 0.8.0 NovaTheme.typeScale + NovaText（rem×16→px 1:1） | — | — |
+| 阴影 0~24 级三层几何 | ✅ 0.8.0 elevation 0~24 入册（MultiEffect 组合待 L2 落地） | — | — |
 
 ### L1 布局系统（0%）—— **最紧急**
 

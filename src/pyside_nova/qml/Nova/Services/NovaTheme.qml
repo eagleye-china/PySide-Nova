@@ -79,6 +79,46 @@ QtObject {
     readonly property int fontL: 18
     readonly property int fontXL: 24
 
+    // ── 排版令牌（12 级，1:1 对标 $headings map；rem×16 换算 px）──
+    // size / lineHeight 单位 px；letterSpacing 单位 px（= em 值 × size）；weight 为 Font 枚举
+    // 基线：h1 6rem/6rem/-.01562em/300 … caption .75rem/1.25rem/.03333em/400
+    readonly property var typeScale: ({
+        "h1":        { size: 96, lineHeight: 96, letterSpacing: -1.5,  weight: Font.Light },
+        "h2":        { size: 60, lineHeight: 60, letterSpacing: -0.5,  weight: Font.Light },
+        "h3":        { size: 48, lineHeight: 50, letterSpacing: 0,     weight: Font.Normal },
+        "h4":        { size: 34, lineHeight: 40, letterSpacing: 0.25,  weight: Font.Normal },
+        "h5":        { size: 24, lineHeight: 32, letterSpacing: 0,     weight: Font.Normal },
+        "h6":        { size: 20, lineHeight: 32, letterSpacing: 0.25,  weight: Font.Medium },
+        "subtitle1": { size: 16, lineHeight: 28, letterSpacing: 0.15,  weight: Font.Normal },
+        "subtitle2": { size: 14, lineHeight: 22, letterSpacing: 0.1,   weight: Font.Medium },
+        "body1":     { size: 16, lineHeight: 24, letterSpacing: 0.5,   weight: Font.Normal },
+        "body2":     { size: 14, lineHeight: 20, letterSpacing: 0.25,  weight: Font.Normal },
+        "overline":  { size: 12, lineHeight: 32, letterSpacing: 2,     weight: Font.Medium },
+        "caption":   { size: 12, lineHeight: 20, letterSpacing: 0.4,   weight: Font.Normal }
+    })
+
+    // 基线 body：font-size 14px / line-height 1.5
+    readonly property int bodyFontSize: 14
+    readonly property real bodyLineHeight: 1.5
+
+    readonly property var typeNames: ["h1", "h2", "h3", "h4", "h5", "h6",
+                                      "subtitle1", "subtitle2", "body1", "body2",
+                                      "overline", "caption"]
+
+    // 取排版样式，未知名回落 body2（不抛错，避免绑定中断）
+    function textStyle(name) {
+        var s = theme.typeScale[name]
+        return s !== undefined ? s : theme.typeScale["body2"]
+    }
+
+    // 字重令牌（1:1 对标 $text-weights：thin100/light300/regular400/medium500/bold700/bolder900）
+    readonly property int weightThin: Font.Thin
+    readonly property int weightLight: Font.Light
+    readonly property int weightRegular: Font.Normal
+    readonly property int weightMedium: Font.Medium
+    readonly property int weightBold: Font.Bold
+    readonly property int weightBolder: Font.Black
+
     // ── 阴影令牌：0~5 级高程 → 阴影色 ───────────────────────────
     function shadowColor(level) {
         var l = Math.min(Math.max(Math.floor(level), 0), 5)
@@ -86,5 +126,30 @@ QtObject {
         var darkA = [0, 0.18, 0.26, 0.34, 0.42, 0.50]
         var a = theme.isDark ? darkA[l] : light[l]
         return Qt.rgba(0, 0, 0, a)
+    }
+
+    // ── 高程令牌（0~24，1:1 对标 $shadow-* 三层 umbra/penumbra/ambient）──
+    // QML 无多层 box-shadow：数值保留供 MultiEffect 组合（blur/offset/alpha 三档）
+    readonly property var elevation: ({
+        0:  [],
+        1:  [[0, 1, 3], [0, 1, 1], [0, 2, 1]],
+        2:  [[0, 1, 5], [0, 2, 2], [0, 3, 1]],
+        3:  [[0, 1, 8], [0, 3, 4], [0, 3, 3]],
+        4:  [[0, 2, 4], [0, 4, 5], [0, 1, 10]],
+        5:  [[0, 3, 5], [0, 5, 8], [0, 1, 14]],
+        6:  [[0, 3, 5], [0, 6, 10], [0, 1, 18]],
+        8:  [[0, 5, 5], [0, 8, 10], [0, 3, 14]],
+        10: [[0, 6, 6], [0, 10, 14], [0, 4, 18]],
+        12: [[0, 7, 8], [0, 12, 17], [0, 5, 22]],
+        16: [[0, 8, 10], [0, 16, 24], [0, 6, 30]],
+        24: [[0, 11, 15], [0, 24, 38], [0, 9, 46]]
+    })
+
+    // 取最近可用的高程层（如 7 → 6，9 → 8）
+    function elevationLayers(level) {
+        var lv = Math.min(Math.max(Math.floor(level), 0), 24)
+        while (lv > 0 && theme.elevation[lv] === undefined)
+            --lv
+        return theme.elevation[lv]
     }
 }

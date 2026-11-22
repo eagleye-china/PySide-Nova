@@ -140,3 +140,4 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 | 0.6.1 | 2026-11-22 | Sprint 2 第二件 NovaDialog 交付（27 项对账 / 句柄五方法 / dismissed 五值）；L4 6%→12%；测试 63→71；确认"同名字段在 Notify 是增强、在 Dialog 是 parity"的分栏纪律 |
 | 0.6.2 | 2026-11-22 | Sprint 2 收口：一次交付 NovaLoading/Storage/App/Platform（L4 12%→44%）；新增 Nova.Runtime Python 后端；新颁"Sprint 最小交付单元"节奏条款；坑位沉淀：qmlRegisterSingletonInstance 所有权 / 裸 JS 条目无属性通知 / overlay visible 与宿主冲突 |
 | 0.7.0 | 2026-11-22 | Sprint 3 收口：L3 行为层九件一次交付（Ripple 之外八件新 + 共享观察池 NovaIntersectionPool + 宿主弹层栈），L3 11%→100%；坑位沉淀：Item FINAL 属性不可覆盖 / visible:false 阻断事件分发 / 默认属性转交内部容器使 parent 失真 / QWindow wrapper 调不到 QML 函数 / 观察器重订阅须重交付 / QML 函数无可选参数 |
+| 0.8.0 | 2026-11-22 | Sprint 4 收口（一期生态骨架完工）：新增 **Nova.Design 模块**（NovaIconSet/NovaMotion/NovaUtils）+ NovaText/NovaTransition，L0 60%→100%、L5 0%→95%；14 套图标集全键 1:1（图标集数据表经 scripts/gen_iconsets.py 从基线包提取，禁止手改）；坑位沉淀 17~20：V4 引擎位运算拼 hex 串色 / Animation 无 enabled / createObject 的 Timer 不自启 / QML 无 rAF 与 crypto.randomUUID |

@@ -325,6 +325,78 @@ M1/M2 排期在 ROADMAP 跟踪。
 - **v-resize**：监听元素尺寸变化；QML `onWidthChanged/onHeightChanged` 原生信号，同上
 - **v-drop-zone**：HTML5 拖放（dataTransfer）；QML 有 DropArea + urls 通道，五期文件交互时再评估
 
+## L0 设计语言总审计（0.8.0，npm quasar@2.35.5 icon-set/*.js + src/css/core/*.sass 逐项核实）
+
+### NovaIconSet ← $q.iconSet + IconSet 插件（审计 0.8.0 · 100 语义键 × 14 套）
+- 语义键：mdi-v7 为基准 19 组 100 叶子键 1:1（type/arrow/chevron/colorPicker/pullToRefresh/carousel/
+  chip/datetime/editor(42)/expansionItem/fab/field/pagination/rating/stepper/tabs/table/tree/uploader）；
+  material 系缺 editor.heading1~6/size1~7 共 13 键——与基线一致（IconSet.json 标注"可省略，回落 heading/size"）
+- `set(obj)` 顶层浅合并（整组替换）1:1；`use(name)` 对标 install(iconSet)；`register()` 以 mdi-v7 全键
+  补底为 Nova 增强；任务描述中的 nav.*/header.*/notify.* 等键在 2.35.5 中不存在，未收录
+- 归一化解析 1:1 对标 QIcon.parseIcon：img: / svguse: / ion-*（平台前缀）/ sym_[ors]_ / libMap 九前缀 /
+  FA 旧式类名 / SVG path（&&、|viewBox、@@）/ o_r_s_ 连字变体；`svguse:` 与 `i-`(UnoCSS) 显式
+  unsupported 留痕（QML 无对应能力）
+- provider CDN 模板 2026-11-22 实测 200：mdi@7.4.47、material-design-icons、material-symbols(svg-400)、
+  ionicons@7、eva-icons@1.1.3(outline/svg/，文件名带 -outline 后缀)、fontawesome-free@6.7.2（FA5→FA6
+  改名内置 44 条别名表）、bootstrap-icons@1.11.3、line-awesome@1（<name>-solid.svg）
+- ⛔ themify：仅 woff 字体分发，无逐图标 SVG（实测 404）→ 图标集数据保留，资源通道需自备本地图标包
+
+### NovaMotion ← transitions.sass + animations.sass（审计 0.8.0）
+- 时长/缓动：--q-transition-duration .3s、--animate-duration .3s、q-animate--scale .15s、
+  q-animate--fade .2s；cubic-bezier(0.215,0.61,0.355,1)=Easing.OutCubic 1:1
+- 预设过渡 15 种 1:1（q-transition--fade/scale/rotate/slide-right·left·up·down/jump-right·left·up·down/
+  flip-right·left·up·down）；enter-from 与 leave-to 非对称语义保留（两组独立动画）
+- Nova 增强：speedFactor 调速、reducedMotion 全链短路（基线 prefers-reduced-motion 只覆盖 .animated）
+
+### NovaTheme 排版/高程 ← typography.sass + elevation.sass（审计 0.8.0）
+- typeScale 12 级 1:1（$headings map，rem×16→px、letterSpacing=em×size）：h1 96/96/-1.5/300、
+  h2 60/60/-0.5/300、h3 48/50/0/400、h4 34/40/0.25/400、h5 24/32/0/400、h6 20/32/0.25/500、
+  subtitle1 16/28/0.15/400、subtitle2 14/22/0.1/500、body1 16/24/0.5/400、body2 14/20/0.25/400、
+  overline 12/32/2/500、caption 12/20/0.4/400；body 14px/1.5
+- 字重六档（$text-weights：100/300/400/500/700/900）；基线无响应式字阶缩放（grep 全包无 @media），
+  Nova 同样固定
+- elevation 三层几何 0~24（umbra/penumbra/ambient）入册；QML 无多层 box-shadow，数值供 MultiEffect
+  组合，属"部分映射"
+
+### NovaText ← text-* 工具类（审计 0.8.0）
+- typography 12 级 / muted / strike / italic / upper（text-uppercase→font.capitalization 原生映射）；
+  text-justify 在 QML 无通用对齐（Qt 6.6+ AlignJustify 场景有限），未硬编码，留痕
+
+## L5 工具层总审计（0.8.0，npm quasar@2.35.5 src/utils/* 逐函数核实）
+
+### NovaUtils.colors ← src/utils/colors/colors.js（12 具名导出）
+- 12 函数全移植：rgbToHex/rgbToText/hexToRgb/hsvToRgb/rgbToHsv/textToRgb/lighten/luminosity/brightness/
+  blend/changeAlpha；a 全链 0..100 百分制；changeAlpha 无 alpha 基准 0、offset 限 -1..1 1:1；
+  lighten 负数即 darken 1:1；blend source-over 合成、入参 string 返回 hex 1:1
+- ⛔ getPaletteColor（document+getComputedStyle）不适用；Nova 增强：contrastRatio/contrastColor（WCAG）
+
+### NovaUtils.date ← src/utils/date/date.js（23 具名导出）
+- formatDate 44 token 全覆盖（6 序数 + aa 点分 + Z/ZZ/X/x），literal [...] 原样输出（基线语义）；
+  mask===undefined 走 defaultMask（YYYY-MM-DDTHH:mm:ss.SSSZ）；**有意偏差**：mask===null 基线抛错、
+  Nova 回落 defaultMask（QML 绑定空值友好，见 CHANGELOG）
+- addToDate/subtractFromDate 单位 14 别名 1:1（year(s)/month(s)/day(s)/date/hour(s)/minute(s)/
+  second(s)/millisecond(s)；week/quarter 不支持同基线）；月末日夹取（先 setDate(1)）1:1
+- getWeekOfYear 纯 ISO 8601（无 firstDayOfWeek/firstWeekMinDays 参数，2.x 已收敛）1:1；
+  isBetweenDates opts={inclusiveFrom,inclusiveTo,onlyDate} 默认两端开区间 1:1，
+  **Nova 增强**：'[]' '[)' '(]' '()' 字符串写法；isSameDate 未知 unit 抛错 1:1
+- adjustDate/buildDate/startOfDate/endOfDate/getDateDiff/getDayOfYear/getISOWeekYear/getDayOfWeek/
+  daysInMonth/getMaxDate/getMinDate/getDateBetween/inferDateFormat/isValid/clone 全部移植
+- extractDate 覆盖常用 token 子集解析（YYYY/YY/M*、D*、H*/h*/m*/s*/S*、A*/a*/aa、Z/ZZ、X/x），
+  其余 token 宽松吞掉——格式化侧 44 全覆盖、解析侧子集，如实留痕
+- ⛔ __splitDate/persian 历法不移植（内部函数 + QDate 侧原生承担）
+
+### NovaUtils 其余 ← format/is/extend/debounce/throttle/frame-debounce/uid
+- format 6 函数 1:1（humanStorageSize parseInt>=1024 边界、getDecimalsCount 指数处理、pad null 透传）
+- is 5 函数 1:1（isObject 排除数组、deepEqual 过滤 undefined 键、NaN 同判定）
+- extend：deep 标志、__proto__ 跳过、undefined 不覆盖 1:1；单参调用基线会崩（this===undefined），
+  Nova 显式重置 target={}，为有意偏差
+- debounce(fn, wait=250, options)：leading/trailing/maxWait/isPending/cancel/flush 1:1；
+  throttle：尾跑补齐重开窗口、返回上次结果、cancel/flush 1:1
+- **Nova 增强/降级留痕**：frameDebounce 无 rAF → 16ms Timer 等价；uid 无 crypto.randomUUID →
+  时间戳+计数+随机 v4 形态（碰撞抗性弱于基线）；无 setTimeout → Timer Component 内联创建
+- ⛔ dom 9 项 / event 14 项 / scroll 12 项不适用（QML Item 几何、MouseArea accepted、Flickable contentY
+  原生承担）
+
 ## 审计纪律（宪法第 3.5 条）
 
 1. 新组件交付 = 宪法迭代 + **本文件新增审计节**（属性/事件/槽/model 逐项列明）

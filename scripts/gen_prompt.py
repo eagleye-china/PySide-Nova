@@ -25,7 +25,7 @@ SNAPSHOT = ROOT / "docs" / "SESSION_HANDOFF.md"
 TEMPLATE = ROOT / "docs" / "templates" / "PROMPT_TEMPLATE.md"
 OUTPUT = ROOT / "PROMPT.md"
 
-QUASAR_BASELINE = "2.26.0"
+QUASAR_BASELINE = "2.35.5"
 WEEK = "一二三四五六日"
 
 

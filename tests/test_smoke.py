@@ -1438,3 +1438,585 @@ def test_close_popup_trigger_returns_count(close_popup_env):
     assert _call(drv, "trigger") == 1
     _pump(300)
     assert _call(drv, "cnt") == 2
+
+
+# ══════════════════════════════════════════════════════════════
+# 0.8.0 · Sprint 4：L0 设计语言（图标集/动效/排版）+ L5 工具层
+# ══════════════════════════════════════════════════════════════
+
+L0_ENV_QML = r"""
+import QtQuick
+import Nova.Design
+import Nova.Services
+import Nova.Controls
+
+Item {
+    id: win
+    width: 400; height: 300
+
+    property int enterCount: 0
+    property int exitCount: 0
+    property int debCount: 0
+    property int thrCount: 0
+    property int frameCount: 0
+    property var debFn: null
+    property var thrFn: null
+    property var frameFn: null
+    property string uid1: ""
+    property string uid2: ""
+
+    readonly property var fixedDate: new Date(2026, 10, 22, 21, 53, 7, 123)
+
+    // ── 图标集 ──
+    property int setCount: NovaIconSet.available.length
+    property int keyCount: NovaIconSet.keyPaths.length
+    property int providerCount: NovaIconSet.providers.length
+    property string defName: NovaIconSet.name
+    property string typePositive: NovaIconSet.type.positive
+    property string arrowDown: NovaIconSet.get("arrow.down")
+    property string missingKey: NovaIconSet.get("no.such.key", "fb")
+
+    function reset() {
+        NovaMotion.speedFactor = 1.0
+        NovaMotion.reducedMotion = false
+        NovaIconSet.use("material-icons")
+        NovaIconSet.unregister("my-set")
+        NovaIconSet.unregisterProvider("acme")
+    }
+    function useSet(n) { return NovaIconSet.use(n) }
+    function setNameValue() { return NovaIconSet.name }
+    function val(p) { return NovaIconSet.get(p) }
+    function applyPartial() {
+        NovaIconSet.set({ editor: { bold: "mdi-alpha-b" } })
+        return String(NovaIconSet.editor.italic) + "|" + NovaIconSet.editor.bold
+    }
+    function applyName() {
+        NovaIconSet.set({ name: "brand-x" })
+        return NovaIconSet.name
+    }
+    function registerSet() { return NovaIconSet.register("my-set", { type: { positive: "mdi-verified" } }) }
+    function cutSet() { return NovaIconSet.unregister("my-set") }
+    function kind(s) { return NovaIconSet.resolve(s).kind }
+    function provider(s) { return NovaIconSet.resolve(s).provider }
+    function iname(s) { return NovaIconSet.resolve(s).name }
+    function reason(s) { var r = NovaIconSet.resolve(s); return r.reason === undefined ? "" : r.reason }
+    function nodeCount(s) { var r = NovaIconSet.resolve(s); return r.nodes === undefined ? -1 : r.nodes.length }
+    function viewBox(s) { var r = NovaIconSet.resolve(s); return r.viewBox === undefined ? "" : r.viewBox }
+    function addProvider() { return NovaIconSet.registerProvider("acme", { url: "https://acme.io/%1.svg" }) }
+    function delProvider() { return NovaIconSet.unregisterProvider("acme") }
+    function pcount() { return NovaIconSet.providers.length }
+    function purl(a, b) { return NovaIconSet.providerUrl(a, b) }
+    function badProvider() { return NovaIconSet.registerProvider("bad", { kind: "ligature" }) }
+
+    // ── 动效 ──
+    property int durMain: NovaMotion.transitionDuration
+    property int durScale: NovaMotion.scaleDuration
+    property int durFade: NovaMotion.fadeDuration
+    property int presetCount: NovaMotion.presetNames.length
+    property bool hasFlip: NovaMotion.hasPreset("flip-right")
+    property bool hasBogus: NovaMotion.hasPreset("no-such")
+    function setSpeed(v) { NovaMotion.speedFactor = v }
+    function setReduced(v) { NovaMotion.reducedMotion = v }
+    function durOf(v) { return NovaMotion.duration(v) }
+    function presetField(n, f) { var p = NovaMotion.preset(n); return p[f] === undefined ? -999 : p[f] }
+
+    // ── 排版 ──
+    property int typeCount: NovaTheme.typeNames.length
+    property string h1Style: NovaTheme.textStyle("h1").size + "/" + NovaTheme.textStyle("h1").lineHeight
+                             + "/" + NovaTheme.textStyle("h1").letterSpacing + "/" + NovaTheme.textStyle("h1").weight
+    property string capStyle: NovaTheme.textStyle("caption").size + "/" + NovaTheme.textStyle("caption").weight
+    property int unknownSize: NovaTheme.textStyle("nope").size
+    property int elev7: NovaTheme.elevationLayers(7).length
+    property int elev1Blur: NovaTheme.elevationLayers(1)[0][2]
+
+    NovaText { id: tx1; typography: "h3"; text: "甲" }
+    property int txSize: tx1.font.pixelSize
+    property int txLine: tx1.lineHeight
+
+    NovaTransition {
+        id: tr
+        name: "fade"
+        show: true
+        width: 100
+        height: 50
+        duration: 60
+        onEntered: win.enterCount++
+        onExited: win.exitCount++
+    }
+    function showIt() { tr.show = true }
+    function hideIt() { tr.show = false }
+    function trVisible() { return tr.visible ? "true" : "false" }
+
+    // ── colors ──
+    property string c1: NovaUtils.colors.rgbToHex({ r: 91, g: 110, b: 245 })
+    property string c2: NovaUtils.colors.rgbToHex({ r: 91, g: 110, b: 245, a: 50 })
+    property int c3: NovaUtils.colors.hexToRgb("#5B6EF5").g
+    property string c4: NovaUtils.colors.lighten("#000000", 50)
+    property string c5: NovaUtils.colors.lighten("#FFFFFF", -50)
+    property string c6: NovaUtils.colors.changeAlpha("#ff0000", 0.5)
+    property string c7: NovaUtils.colors.changeAlpha("#ff000080", -0.5)
+    property real c8: NovaUtils.colors.textToRgb("rgba(10,20,30,0.5)").a
+    property string c9: NovaUtils.colors.rgbToText({ r: 10, g: 20, b: 30, a: 50 })
+    property string c10: NovaUtils.colors.blend("rgba(255,0,0,0.5)", "#0000FF")
+    property real c11: NovaUtils.colors.contrastRatio("#000000", "#FFFFFF")
+    property string c12: NovaUtils.colors.contrastColor("#000000")
+    property int c13: NovaUtils.colors.rgbToHsv({ r: 255, g: 0, b: 0 }).h
+    property int c14: NovaUtils.colors.hsvToRgb({ h: 120, s: 100, v: 100 }).g
+
+    // ── format ──
+    property string f1: NovaUtils.format.humanStorageSize(1536)
+    property string f2: NovaUtils.format.humanStorageSize(1023)
+    property string f3: NovaUtils.format.pad(7)
+    property int f4: NovaUtils.format.getDecimalsCount(1.5e-7)
+    property int f5: NovaUtils.format.normalizeToInterval(-1, 0, 4)
+    property string f6: NovaUtils.format.capitalize("nova")
+    property real f7: NovaUtils.format.between(15, 0, 10)
+
+    // ── date ──
+    property string d1: NovaUtils.date.formatDate(fixedDate, "YYYY|YY|M|Mo|MM|MMM|MMMM|Q|Qo|D|Do|DD|DDD|DDDo|DDDD|d|do|dd|ddd|dddd|E|w|wo|ww|GG|GGGG|H|HH|h|hh|m|mm|s|ss|S|SS|SSS|A|a|aa")
+    property string d2: NovaUtils.date.formatDate(fixedDate, "YYYY年M月D日 dddd", NovaUtils.dateLocale.zhCN)
+    property string d3: NovaUtils.date.formatDate(fixedDate, "[YYYY]年-MM")
+    property string dZ: NovaUtils.date.formatDate(fixedDate, "Z|ZZ")
+    property bool dX: NovaUtils.date.formatDate(fixedDate, "x") === String(fixedDate.getTime())
+    property bool d4: NovaUtils.date.formatDate(undefined) === undefined
+    property bool d5: NovaUtils.date.formatDate("not a date") === undefined
+    property string dMask: NovaUtils.date.formatDate(fixedDate)
+    function addMonthEnd() { var x = NovaUtils.date.addToDate(new Date(2026, 0, 31), { month: 1 }); return (x.getMonth() + 1) + "/" + x.getDate() }
+    function subDays() { var x = NovaUtils.date.subtractFromDate(new Date(2026, 2, 1), { days: 1 }); return (x.getMonth() + 1) + "/" + x.getDate() }
+    function addLeap() { var x = NovaUtils.date.addToDate(new Date(2024, 1, 29), { year: 1 }); return x.getFullYear() + "/" + (x.getMonth() + 1) + "/" + x.getDate() }
+    function adjDate() { var x = NovaUtils.date.adjustDate(new Date(2026, 0, 1), { month: 6, date: 15 }); return (x.getMonth() + 1) + "/" + x.getDate() }
+    property string d6: NovaUtils.date.formatDate(NovaUtils.date.startOfDate(fixedDate, "month"), "YYYY-MM-DD HH:mm:ss")
+    property string d7: NovaUtils.date.formatDate(NovaUtils.date.endOfDate(fixedDate, "month"), "YYYY-MM-DD HH:mm:ss.SSS")
+    property int d8: NovaUtils.date.getDayOfYear(fixedDate)
+    property int d9: NovaUtils.date.getWeekOfYear(fixedDate)
+    property int d10: NovaUtils.date.getISOWeekYear(fixedDate)
+    property int d11: NovaUtils.date.getDayOfWeek(fixedDate)
+    property bool b1: NovaUtils.date.isBetweenDates(fixedDate, new Date(2026, 10, 1), new Date(2026, 11, 1))
+    property bool b2: NovaUtils.date.isBetweenDates(new Date(2026, 10, 1), new Date(2026, 10, 1), new Date(2026, 11, 1))
+    property bool b3: NovaUtils.date.isBetweenDates(new Date(2026, 10, 1), new Date(2026, 10, 1), new Date(2026, 11, 1), "[]")
+    property bool b4: NovaUtils.date.isBetweenDates(new Date(2026, 10, 1, 23), new Date(2026, 10, 1), new Date(2026, 10, 2), { onlyDate: true, inclusiveFrom: true, inclusiveTo: true })
+    property bool b5: NovaUtils.date.isSameDate(new Date(2026, 10, 22, 1), new Date(2026, 10, 22, 23), "day")
+    property string d12: NovaUtils.date.formatDate(NovaUtils.date.extractDate("22/11/2026 21:53", "DD/MM/YYYY HH:mm"), "YYYY-MM-DD HH:mm")
+    property int d13: NovaUtils.date.daysInMonth(new Date(2024, 1, 1))
+    property string d14: NovaUtils.date.formatDate(NovaUtils.date.getMaxDate(new Date(2026, 0, 1), new Date(2026, 5, 1)), "MM")
+    property string d15: NovaUtils.date.formatDate(NovaUtils.date.getDateBetween(new Date(2026, 0, 1), new Date(2026, 5, 1), new Date(2026, 8, 1)), "MM")
+    property string d16: NovaUtils.date.inferDateFormat(new Date())
+    property bool d17: NovaUtils.date.isValid(new Date()) && !NovaUtils.date.isValid("xx")
+
+    // ── is / extend ──
+    property bool e1: NovaUtils.is.deepEqual({ a: [1, 2] }, { a: [1, 2] })
+    property bool e2: NovaUtils.is.deepEqual({ a: 1 }, { a: 2 })
+    property bool e3: NovaUtils.is.isObject({}) && !NovaUtils.is.isObject([]) && NovaUtils.is.isDate(new Date())
+    property bool e4: NovaUtils.is.isNumber(1.5) && !NovaUtils.is.isNumber(NaN)
+    property string e5: JSON.stringify(NovaUtils.extend(true, { a: { b: 1 } }, { a: { c: 2 } }))
+    property string e6: JSON.stringify(NovaUtils.extend({ x: 1 }, { y: 2 }))
+
+    // ── 计时类 ──
+    function setupDebounce() { debFn = NovaUtils.debounce(function () { win.debCount++ }, 60) }
+    function fireDebounce() { debFn() }
+    function cancelDebounce() { debFn.cancel() }
+    function setupThrottle() { thrFn = NovaUtils.throttle(function () { win.thrCount++ }, 80, true) }
+    function fireThrottle() { thrFn() }
+    function setupFrame() { frameFn = NovaUtils.frameDebounce(function () { win.frameCount++ }) }
+    function fireFrame() { frameFn() }
+    function makeUids() { win.uid1 = NovaUtils.uid(); win.uid2 = NovaUtils.uid() }
+}
+"""
+
+
+@pytest.fixture()
+def l0_env(qml_engine):
+    """L0/L5 测试环境：单例状态复位 + 窗口强引用 + QML 侧调用代理。"""
+    win = _make(qml_engine, L0_ENV_QML)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)
+    _call(drv, "reset")
+    _pump(30)
+    return drv
+
+
+# ── L0 图标集 ──────────────────────────────────────────────
+
+def test_iconset_defaults(l0_env):
+    """默认图标集 material-icons：14 套内置、100 个语义键、provider 注册表就绪。"""
+    drv = l0_env
+    assert drv.val("defName") == "material-icons"
+    assert drv.val("setCount") == 14
+    assert drv.val("keyCount") == 100
+    assert drv.val("providerCount") >= 14
+    assert drv.val("typePositive") == "check_circle"
+    assert drv.val("arrowDown") == "arrow_downward"
+    assert drv.val("missingKey") == "fb"
+
+
+def test_iconset_use_switches_values(l0_env):
+    """use() 切换图标集后语义键整体换值（1:1 对标 $q.iconSet.type.positive）。"""
+    drv = l0_env
+    assert _call(drv, "useSet", "mdi-v7") is True
+    assert _call(drv, "setNameValue") == "mdi-v7"
+    assert _call(drv, "val", "type.positive") == "mdi-check-circle"
+    assert _call(drv, "val", "arrow.dropdown") == "mdi-menu-down"
+    assert _call(drv, "useSet", "fontawesome-v6") is True
+    assert _call(drv, "val", "type.positive") == "fas fa-check"
+    assert _call(drv, "useSet", "no-such-set") is False
+    assert _call(drv, "setNameValue") == "fontawesome-v6"
+
+
+def test_iconset_set_is_shallow_merge(l0_env):
+    """set() 顶层浅合并：给出 editor 组就整组替换（基线 Object.assign 语义）。"""
+    drv = l0_env
+    out = _call(drv, "applyPartial")
+    assert out == "undefined|mdi-alpha-b"       # editor.italic 被整组替换掉
+    assert _call(drv, "applyName") == "brand-x"
+
+
+def test_iconset_register_custom(l0_env):
+    """register() 自定义图标集以 mdi-v7 全键补齐，可 use/unregister。"""
+    drv = l0_env
+    assert _call(drv, "registerSet") is True
+    assert drv.val("setCount") == 15
+    assert _call(drv, "useSet", "my-set") is True
+    assert _call(drv, "val", "type.positive") == "mdi-verified"
+    assert _call(drv, "val", "chevron.left") == "mdi-chevron-left"   # 未给出的键自动补齐
+    assert _call(drv, "cutSet") is True
+    assert drv.val("setCount") == 14
+
+
+def test_resolve_prefix_family(l0_env):
+    """前缀归一化：mdi-/fa 旧式/o_ 变体/显式冒号/sym_ 变体/ion 平台前缀。"""
+    drv = l0_env
+    assert _call(drv, "provider", "mdi-home") == "mdi"
+    assert _call(drv, "iname", "mdi-home") == "home"
+    assert _call(drv, "provider", "mdi:home") == "mdi"
+    assert _call(drv, "provider", "fas fa-home") == "fontawesome-solid"
+    assert _call(drv, "iname", "fas fa-home") == "home"
+    assert _call(drv, "provider", "far fa-star") == "fontawesome-regular"
+    assert _call(drv, "provider", "fab fa-github") == "fontawesome-brands"
+    assert _call(drv, "provider", "las la-check") == "line-awesome"
+    assert _call(drv, "provider", "o_home") == "material-outlined"
+    assert _call(drv, "provider", "r_home") == "material-round"
+    assert _call(drv, "provider", "s_home") == "material-sharp"
+    assert _call(drv, "provider", "sym_r_home") == "material-symbols-rounded"
+    assert _call(drv, "provider", "sym_o_home") == "material-symbols-outlined"
+    assert _call(drv, "provider", "bi-house") == "bootstrap"
+    assert _call(drv, "provider", "eva-home") == "eva"
+    assert _call(drv, "provider", "ti-home") == "themify"
+    assert _call(drv, "provider", "ion-md-home") == "ionicons"
+    assert _call(drv, "iname", "ion-md-home") == "ion-md-home"
+
+
+def test_resolve_platform_and_fallbacks(l0_env):
+    """ion 裸名补平台前缀；裸名走当前图标集默认 provider；none/img 两通道。"""
+    drv = l0_env
+    ion = _call(drv, "iname", "ion-home")
+    assert ion.startswith("ion-md-") or ion.startswith("ion-ios-")
+    assert _call(drv, "provider", "home") == "material"
+    assert _call(drv, "kind", "") == "none"
+    assert _call(drv, "kind", "none") == "none"
+    assert _call(drv, "kind", "img:qrc:/a.png") == "image"
+    assert _call(drv, "iname", "img:qrc:/a.png") == "qrc:/a.png"
+    assert _call(drv, "kind", "svguse:a.svg#b") == "unsupported"
+    assert "SVG <use>" in _call(drv, "reason", "svguse:a.svg#b")
+    assert _call(drv, "kind", "i-carbon-home") == "unsupported"
+
+
+def test_resolve_svg_path_channel(l0_env):
+    """SVG path 直出：&& 多路径、|viewBox、@@ style/transform 三段解析。"""
+    drv = l0_env
+    assert _call(drv, "kind", "M12 2L2 7v10h4V9h12v8h4V7z") == "path"
+    assert _call(drv, "nodeCount", "M0 0h24v24H0z&&M5 5h14v14H5z") == 2
+    assert _call(drv, "viewBox", "M0 0h24v24H0z|0 0 16 16") == "0 0 16 16"
+    assert _call(drv, "viewBox", "M0 0h24v24H0z") == "0 0 24 24"
+
+
+def test_provider_registry(l0_env):
+    """provider 注册/注销/模板替换；非法 spec 拒绝注册。"""
+    drv = l0_env
+    base = _call(drv, "pcount")
+    assert _call(drv, "addProvider") is True
+    assert _call(drv, "pcount") == base + 1
+    assert _call(drv, "purl", "acme", "rocket") == "https://acme.io/rocket.svg"
+    assert _call(drv, "delProvider") is True
+    assert _call(drv, "pcount") == base
+    assert _call(drv, "badProvider") is False
+
+
+def test_provider_urls_match_baseline_distribution(l0_env):
+    """四类 provider 的真实分发地址（2026-11-22 实测 200）：ionicons/eva/fa 别名/line-awesome。"""
+    drv = l0_env
+    assert _call(drv, "purl", "ionicons", "ion-md-home").endswith("/ionicons@7/dist/svg/home.svg")
+    assert _call(drv, "purl", "ionicons", "ion-ios-home").endswith("/svg/home-outline.svg")
+    assert _call(drv, "purl", "eva", "home-outline").endswith("/eva-icons@1.1.3/outline/svg/home-outline.svg")
+    assert _call(drv, "purl", "fontawesome-solid", "home").endswith("/svgs/solid/house.svg")
+    assert _call(drv, "purl", "fontawesome-solid", "user").endswith("/svgs/solid/user.svg")
+    assert _call(drv, "purl", "line-awesome", "check").endswith("/line-awesome@1/svg/check-solid.svg")
+    assert _call(drv, "purl", "bootstrap", "house").endswith("/bootstrap-icons@1.11.3/icons/house.svg")
+
+
+# ── L0 动效 ───────────────────────────────────────────────
+
+def test_motion_tokens(l0_env):
+    """动效令牌 1:1：--q-transition-duration .3s、q-animate--scale .15s、q-animate--fade .2s。"""
+    drv = l0_env
+    assert drv.val("durMain") == 300
+    assert drv.val("durScale") == 150
+    assert drv.val("durFade") == 200
+    assert drv.val("presetCount") == 15
+    assert drv.val("hasFlip") is True
+    assert drv.val("hasBogus") is False
+
+
+def test_motion_preset_fields(l0_env):
+    """预设字段：fade 只动透明、slide-right 位移非对称、flip 绕 y 轴。"""
+    drv = l0_env
+    assert _call(drv, "presetField", "fade", "opacityIn") == 0
+    assert _call(drv, "presetField", "fade", "xIn") == -999
+    assert _call(drv, "presetField", "slide-right", "xIn") == -1
+    assert _call(drv, "presetField", "slide-right", "xOut") == 1
+    assert _call(drv, "presetField", "jump-up", "pyIn") == 15
+    assert _call(drv, "presetField", "flip-right", "angleOut") == 180
+
+
+def test_motion_speed_and_reduced(l0_env):
+    """speedFactor 缩放时长；reducedMotion 全链归零（无障碍短路）。"""
+    drv = l0_env
+    assert _call(drv, "durOf", 300) == 300
+    _call(drv, "setSpeed", 2)
+    assert _call(drv, "durOf", 300) == 600
+    _call(drv, "setSpeed", 0.5)
+    assert _call(drv, "durOf", 300) == 150
+    _call(drv, "setReduced", True)
+    assert _call(drv, "durOf", 300) == 0
+    _call(drv, "setReduced", False)
+
+
+def test_transition_enter_exit_signals(l0_env):
+    """NovaTransition：show 切换触发 entered/exited，离场结束隐藏。"""
+    drv = l0_env
+    assert drv.val("enterCount") == 0
+    _call(drv, "hideIt")
+    _pump(180)
+    assert drv.val("exitCount") == 1
+    assert _call(drv, "trVisible") == "false"
+    _call(drv, "showIt")
+    _pump(180)
+    assert drv.val("enterCount") == 1
+    assert _call(drv, "trVisible") == "true"
+
+
+# ── L0 排版 ───────────────────────────────────────────────
+
+def test_typescale_table(l0_env):
+    """12 级字阶：h1 = 6rem/6rem/-.01562em/300 → 96px/96px/-1.5px/Light。"""
+    drv = l0_env
+    assert drv.val("typeCount") == 12
+    assert drv.val("h1Style") == "96/96/-1.5/300"
+    assert drv.val("capStyle") == "12/400"
+    assert drv.val("unknownSize") == 14       # 未知字阶回落 body2
+
+
+def test_elevation_tokens(l0_env):
+    """高程令牌：7 级就近取 6 级（三层），shadow-1 umbra blur = 3。"""
+    drv = l0_env
+    assert drv.val("elev7") == 3
+    assert drv.val("elev1Blur") == 3
+
+
+def test_novatext_applies_style(l0_env):
+    """NovaText 按字阶写入 font.pixelSize / lineHeight。"""
+    drv = l0_env
+    assert drv.val("txSize") == 48
+    assert drv.val("txLine") == 50
+
+
+# ── L5 colors ─────────────────────────────────────────────
+
+def test_colors_hex_roundtrip(l0_env):
+    """rgbToHex / hexToRgb 往返；a 为 0..100 百分制。"""
+    drv = l0_env
+    assert drv.val("c1") == "#5b6ef5"
+    assert drv.val("c2") == "#5b6ef580"
+    assert drv.val("c3") == 110
+
+
+def test_colors_lighten_darken(l0_env):
+    """lighten 正数提亮、负数即 darken。"""
+    drv = l0_env
+    assert drv.val("c4") == "#808080"
+    assert drv.val("c5") == "#808080"
+
+
+def test_colors_change_alpha_baseline_semantics(l0_env):
+    """changeAlpha：原色无 alpha 时基准为 0（基线坑，非直觉的 100）。"""
+    drv = l0_env
+    assert drv.val("c6") == "#ff000080"
+    assert drv.val("c7") == "#ff000000"
+
+
+def test_colors_text_and_blend(l0_env):
+    """textToRgb 的 a 百分制（0.5→50）；blend 为 source-over 合成。"""
+    drv = l0_env
+    assert drv.val("c8") == 50
+    assert drv.val("c9") == "rgba(10,20,30,0.5)"
+    assert drv.val("c10") == "#800080ff"
+
+
+def test_colors_contrast_and_hsv(l0_env):
+    """WCAG 对比度黑白 21:1；自动字色对比度取大者；HSV 往返。"""
+    drv = l0_env
+    assert abs(drv.val("c11") - 21.0) < 0.01
+    assert drv.val("c12") == "#FFFFFF"
+    assert drv.val("c13") == 0
+    assert drv.val("c14") == 255
+
+
+# ── L5 format ─────────────────────────────────────────────
+
+def test_format_functions(l0_env):
+    """humanStorageSize / pad / getDecimalsCount / normalizeToInterval / between。"""
+    drv = l0_env
+    assert drv.val("f1") == "1.5KB"
+    assert drv.val("f2") == "1023.0B"
+    assert drv.val("f3") == "07"
+    assert drv.val("f4") == 8
+    assert drv.val("f5") == 4
+    assert drv.val("f6") == "Nova"
+    assert drv.val("f7") == 10
+
+
+# ── L5 date ───────────────────────────────────────────────
+
+def test_formatdate_all_tokens(l0_env):
+    """formatDate 44 个 token 逐项对账（2026-11-22 21:53:07.123 星期日）。"""
+    drv = l0_env
+    assert drv.val("d1") == (
+        "2026|26|11|11th|11|Nov|November|4|4th|22|22nd|22|326|326th|326|"
+        "0|0th|Su|Sun|Sunday|7|47|47th|47|26|2026|21|21|9|09|53|53|7|07|1|12|123|PM|pm|p.m."
+    )
+
+
+def test_formatdate_timezone_and_epoch(l0_env):
+    """Z/ZZ 符号与基线一致（东八区 +08:00/+0800）；x 为毫秒时间戳。"""
+    import re
+    drv = l0_env
+    tz = drv.val("dZ")
+    assert re.match(r"^[+-]\d{2}:\d{2}\|[+-]\d{4}$", tz), tz
+    assert drv.val("dX") is True
+
+
+def test_formatdate_locale_and_literal(l0_env):
+    """中文语言包（MMMM/dddd）；[literal] 转义为原样输出（基线语义，非解析后插值）。"""
+    drv = l0_env
+    assert drv.val("d2") == "2026年11月22日 星期日"
+    assert drv.val("d3") == "YYYY年-11"
+
+
+def test_formatdate_invalid_inputs(l0_env):
+    """非法输入返回 undefined；mask 缺省用 defaultMask。"""
+    drv = l0_env
+    assert drv.val("d4") is True
+    assert drv.val("d5") is True
+    m = drv.val("dMask")
+    assert m.startswith("2026-11-22T21:53:07.123")
+
+
+def test_date_arithmetic_month_end(l0_env):
+    """月加法先夹取日（1/31 + 1 月 → 2/28，不滚到 3/3）；闰年 2/29 + 1 年 → 2/28。"""
+    drv = l0_env
+    assert _call(drv, "addMonthEnd") == "2/28"
+    assert _call(drv, "subDays") == "2/28"
+    assert _call(drv, "addLeap") == "2025/2/28"
+    assert _call(drv, "adjDate") == "7/15"
+
+
+def test_date_start_end_of_unit(l0_env):
+    """startOfDate/endOfDate 月边界：01 00:00:00.000 ~ 30 23:59:59.999。"""
+    drv = l0_env
+    assert drv.val("d6") == "2026-11-01 00:00:00"
+    assert drv.val("d7") == "2026-11-30 23:59:59.999"
+
+
+def test_date_week_and_day_of_year(l0_env):
+    """年内第 326 天、ISO 第 47 周、ISO 周年 2026、周日 = 7。"""
+    drv = l0_env
+    assert drv.val("d8") == 326
+    assert drv.val("d9") == 47
+    assert drv.val("d10") == 2026
+    assert drv.val("d11") == 7
+
+
+def test_date_is_between_dates(l0_env):
+    """isBetweenDates 默认两端开；'[]' 字符串写法闭合；onlyDate 只比日期。"""
+    drv = l0_env
+    assert drv.val("b1") is True
+    assert drv.val("b2") is False
+    assert drv.val("b3") is True
+    assert drv.val("b4") is True
+    assert drv.val("b5") is True
+
+
+def test_date_extract_and_misc(l0_env):
+    """extractDate 解析往返；daysInMonth 闰年、getMaxDate、getDateBetween、infer/isValid。"""
+    drv = l0_env
+    assert drv.val("d12") == "2026-11-22 21:53"
+    assert drv.val("d13") == 29
+    assert drv.val("d14") == "06"
+    assert drv.val("d15") == "06"
+    assert drv.val("d16") == "date"
+    assert drv.val("d17") is True
+
+
+# ── L5 is / extend / 计时类 ────────────────────────────────
+
+def test_is_and_extend(l0_env):
+    """deepEqual 深比较、isObject 排除数组、extend 深合并保留原对象。"""
+    drv = l0_env
+    assert drv.val("e1") is True
+    assert drv.val("e2") is False
+    assert drv.val("e3") is True
+    assert drv.val("e4") is True
+    assert drv.val("e5") == '{"a":{"b":1,"c":2}}'
+    assert drv.val("e6") == '{"x":1,"y":2}'
+
+
+def test_debounce_trailing_and_cancel(l0_env):
+    """debounce 默认 trailing：连发 3 次只执行 1 次；cancel 后不再执行。"""
+    drv = l0_env
+    _call(drv, "setupDebounce")
+    _call(drv, "fireDebounce")
+    _call(drv, "fireDebounce")
+    _call(drv, "fireDebounce")
+    _pump(200)
+    assert drv.val("debCount") == 1
+    _call(drv, "fireDebounce")
+    _call(drv, "cancelDebounce")
+    _pump(200)
+    assert drv.val("debCount") == 1
+
+
+def test_throttle_leading_and_trailing(l0_env):
+    """throttle：窗口内只执行一次，尾跑补齐（trailing=true）。"""
+    drv = l0_env
+    _call(drv, "setupThrottle")
+    _call(drv, "fireThrottle")
+    _call(drv, "fireThrottle")
+    _pump(40)
+    assert drv.val("thrCount") == 1
+    _pump(200)
+    assert drv.val("thrCount") == 2
+
+
+def test_frame_debounce_and_uid(l0_env):
+    """frameDebounce 只保留最后一次；uid 为 v4 形态且唯一。"""
+    import re
+    drv = l0_env
+    _call(drv, "setupFrame")
+    _call(drv, "fireFrame")
+    _call(drv, "fireFrame")
+    _pump(120)
+    assert drv.val("frameCount") == 1
+
+    _call(drv, "makeUids")
+    u1, u2 = drv.val("uid1"), drv.val("uid2")
+    assert re.match(r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", u1), u1
+    assert u1 != u2
