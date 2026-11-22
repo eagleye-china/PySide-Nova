@@ -463,3 +463,61 @@ M1/M2 排期在 ROADMAP 跟踪。
 | events：update:model-value / change | ✅ | valueChanged 信号 + changed()（释放/键盘提交）；键盘 ←→↑↓/Home/End |
 
 > 测试口径：13 条实例化冒烟 + 12 个行为用例（FORM_ENV_QML 驱动代理），合计 0.9.0 新增 25 项。
+
+---
+
+## §0.10 二期 Sprint B · 输入进阶八件（0.10.0，对标 Quasar 2.35.5 npm 原包逐项核对）
+
+### NovaRange ↔ QRange（20 props）
+
+| 基线 props | Nova | 备注 |
+|---|---|---|
+| model-value / min / max / step / snap / reverse / vertical | ✅ 1:1 | 双值 {min,max} 归一（逆序交换） |
+| left-thumb-color / right-thumb-color / left-label-value / right-label-value / left(right)-label-color·text-color | ✅ 核心 | 气泡配色随 tint；label-color 双端独立留四期 |
+| min-range / max-range | ✅ 1:1 | setRange 内强制约束（minRange 拉右滑块 / maxRange 压右滑块） |
+| drag-range / drag-only-range | ⭕ 部分 | dragRange=整段随右滑块平移；drag-only-range 延后 |
+| left(right)-thumb-aria-label / aria | ❌ 留痕 | QML 无 aria 通道 |
+| events：update:model-value / change | ✅ | valueChanged + changed()（释放/键盘提交） |
+
+### NovaDate ↔ QDate（23 props；Qt 6 无内置日历——全自研）
+
+| 基线核心 | Nova | 备注 |
+|---|---|---|
+| model-value / mask / multiple / range | ✅ 1:1 | mask→正则解析 + NovaUtils.date.formatDate 输出（44 token 全量复用）；range pending 两击闭合、逆序交换 |
+| first-day-of-week / title / subtitle / minimal | ✅ 1:1 | title/subtitle 空串自动派生 |
+| navigation-min(year-month) / navigation-max | ✅ 1:1 | 翻月双向夹取返回 false |
+| today-btn / no-unset / required / events / event-color / options | ✅ 1:1 | events 数组或函数；options fn(date)->bool |
+| default-view / years-in-month-view / event-from / emit-immediately / validator / default-year-month | ⭕/❌ 留痕 | 年月视图选择器随 OverlayHost 演进；emit-immediately 三期；validator 五期表单深度集成 |
+| type: date→datetime | ⭕ | datetime 由 NovaDate+NovaTime 组合承担（四期页面级） |
+
+### NovaTime ↔ QTime（14 props）
+
+| 基线核心 | Nova | 备注 |
+|---|---|---|
+| model-value / format24h / with-seconds | ✅ 1:1 | 内部恒 24h 制存储；12h 显示 AM/PM 切换偏移 |
+| hour-options / minute-options / second-options | ✅ 1:1 | set 拒绝返回 false |
+| now-btn / mask / required / validator / default-date | ✅核心/⭕ | mask 输出固定 HH:mm(:ss)（自定义 mask 五期）；default-date 留痕 |
+| 时钟面盘实现 | ✅ Nova 增强 | Canvas 三面（时数字环/分秒 60 刻点），选拔自动进分面（基线手感） |
+
+### NovaColorPicker ↔ QColor（16 props）
+
+| 基线核心 | Nova | 备注 |
+|---|---|---|
+| model-value / default-value / format-model(hex·rgb) / palette | ✅ 1:1 | 无默认值不产出（null）；rgb 输出 "rgb(r,g,b)" |
+| no-footer / no-header / flat / bordered / disable / readonly | ✅ 1:1 | |
+| default-view / no-header-tabs / square | ⭕ 部分 | 默认 spectrum 单视图；square 视觉留四期 |
+| rgb/hsl 编辑器、alpha 通道（hexb/rgba/hsla） | ❌ 留痕 | 五期色域深化 |
+| palette 属性名 | ⚠️ 改名 paletteColors | Item.palette 内建撞名（坑位 25） |
+
+### NovaOptionGroup / NovaForm / NovaBtnToggle / NovaPopupEdit
+
+| 基线 props | Nova | 备注 |
+|---|---|---|
+| QOptionGroup 24 | ✅ 收口 21 | type checkbox/radio/toggle Loader 换装；size/validator/name 留痕（name 为 QML 保留字 → 契约 `name` 不适用） |
+| QForm 5（autofocus/greedy/no-error-focus/no-reset-focus/onSubmit） | ✅ 1:1 | 递归发现 validate() 子件；validationSuccess/Failed 信号 |
+| QBtnToggle 31 | ✅ 收口 22 | glossy/stack/stretch/key/validator 留痕；multiple 多值 Nova 增强（基线无 multiple——实际基线 QBtnToggle 单值，Nova 补齐多选） |
+| QPopupEdit 13 | ✅ 收口 11 | cover 覆盖定位/validate 函数留四期；shown/hidden 信号（show/hide 撞内建改名） |
+| show/hide 信号名 | ⚠️ 改名 shown/hidden | 坑位 25 留痕 |
+
+> 测试口径：14 条实例化冒烟 + 11 个行为用例（FORM2_ENV_QML 驱动代理），合计 0.10.0 新增 25 项。
+> NovaSlider（0.9.0 提前交付）/NovaKnob/NovaFile/NovaUploader——Knob 随滑杆族四期，File/Uploader 五期文件体系。

@@ -147,6 +147,35 @@ CASES = [
     "NovaSlider { min: 0; max: 10; step: 1; snap: true; markers: true; label: true; labelAlways: true }",
     "import QtQuick\nimport Nova.Controls\n"
     "NovaSlider { vertical: true; reverse: true; markers: 2; markerLabels: ['低', '高']; dense: true }",
+    # ── Sprint B（v0.10.0）输入进阶八件 ──
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaRange { min: 0; max: 100; step: 5; label: true; minRange: 10; maxRange: 60 }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaRange { vertical: true; reverse: true; markers: 4; markerLabels: ['A', 'B', 'C', 'D'] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaDate { mask: 'YYYY/MM/DD'; minimal: '2026/01/15'; todayBtn: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaDate { range: true; events: ['2026/01/08', '2026/01/22'] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaDate { multiple: true; firstDayOfWeek: 1 }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTime { withSeconds: true; format24h: true; nowBtn: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTime { hourOptions: [9, 10, 11]; minuteOptions: [0, 15, 30, 45] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaColorPicker { formatModel: 'rgb'; noFooter: false }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaColorPicker { defaultValue: '#5B6EF5'; flat: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaOptionGroup { type: 'radio'; options: [{label: '甲', value: 1}, {label: '乙', value: 2, disable: true}] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaOptionGroup { type: 'toggle'; inline: true; leftLabel: true; options: ['x', 'y', 'z'] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBtnToggle { options: ['日', '周', '月']; clearable: true; outline: true; dense: true }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaBtnToggle { vertical: true; spread: true; multiple: true; options: [{label: 'a', value: 1}, {label: 'b', value: 2}] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaPopupEdit { title: '编辑'; autoSave: false; Rectangle { width: 60; height: 24; color: '#eee' } }",
 ]
 
 
@@ -2280,3 +2309,251 @@ def test_form_slider_step_and_vertical(form_env):
     drv.call1("slSet", 50)
     assert drv.call0("slStep") == 60                   # +2 步 × step 5
     assert drv.call0("slStepV") == 10                  # 垂直 stepBy +1 步 × step 10
+
+
+
+# ── 二期 Sprint B：输入进阶八件（v0.10.0） ────────────────────
+
+FORM2_ENV_QML = (
+    "import QtQuick\n"
+    "import Nova.Controls\n"
+    "Item {\n"
+    "  width: 900; height: 700\n"
+    "  // 计数器\n"
+    "  property int submitCount: 0\n"
+    "  property int failedCount: 0\n"
+    "  property int canceledCount: 0\n"
+    "  property int shownCount: 0\n"
+    "  property var lastPe: null\n"
+    "  // ① NovaRange\n"
+    "  NovaRange { id: rng; width: 240; x: 10; y: 10; min: 0; max: 100; step: 5; minRange: 10; maxRange: 60 }\n"
+    "  // ② NovaDate（单选/区间/多选/导航夹取）\n"
+    "  NovaDate { id: dt; x: 10; y: 60; mask: 'YYYY/MM/DD' }\n"
+    "  NovaDate { id: dtR; x: 320; y: 60; range: true; mask: 'YYYY/MM/DD' }\n"
+    "  NovaDate { id: dtM; x: 320; y: 60; multiple: true; mask: 'YYYY/MM/DD' }\n"
+    "  NovaDate { id: dtNav; x: 320; y: 60; mask: 'YYYY/MM/DD'\n"
+    "             navigationMinYearMonth: dtNav._pad4(dtNav._today.y) + '/' + dtNav._pad2(dtNav._today.m + 1)\n"
+    "             navigationMaxYearMonth: dtNav._pad4(dtNav._today.y) + '/' + dtNav._pad2(dtNav._today.m + 1) }\n"
+    "  NovaDate { id: dtMin; x: 320; y: 60; mask: 'YYYY/MM/DD'\n"
+    "             minimal: dtMin._pad4(dtMin._today.y) + '/' + dtMin._pad2(dtMin._today.m + 1) + '/' + dtMin._pad2(dtMin._today.d) }\n"
+    "  // ③ NovaTime\n"
+    "  NovaTime { id: tm; x: 640; y: 60 }\n"
+    "  NovaTime { id: tmS; x: 640; y: 60; withSeconds: true; format24h: true }\n"
+    "  NovaTime { id: tmOpt; x: 640; y: 60; hourOptions: [9, 10, 11] }\n"
+    "  // ④ NovaColorPicker\n"
+    "  NovaColorPicker { id: cp; x: 10; y: 420 }\n"
+    "  NovaColorPicker { id: cpRgb; x: 280; y: 420; formatModel: 'rgb' }\n"
+    "  // ⑤ NovaOptionGroup\n"
+    "  NovaOptionGroup { id: og; x: 640; y: 420; options: [{label: '甲', value: 'a'}, {label: '乙', value: 'b'}, {label: '丙（禁用）', value: 'c', disable: true}] }\n"
+    "  NovaOptionGroup { id: ogr; x: 640; y: 420; type: 'radio'; options: ['r1', 'r2'] }\n"
+    "  NovaOptionGroup { id: ogt; x: 640; y: 420; type: 'toggle'; options: ['t1', 't2'] }\n"
+    "  // ⑥ NovaForm\n"
+    "  NovaForm {\n"
+    "    id: f; x: 10; y: 620; width: 200\n"
+    "    NovaInput { id: fInp; label: '必填'; rules: ['required'] }\n"
+    "  }\n"
+    "  NovaForm {\n"
+    "    id: fg; x: 10; y: 620; width: 200; greedy: true\n"
+    "    onValidationFailed: failedCount++\n"
+    "    NovaInput { id: gInp1; label: '一'; rules: ['required'] }\n"
+    "    NovaInput { id: gInp2; label: '二'; rules: ['email'] }\n"
+    "  }\n"
+    "  // ⑦ NovaBtnToggle\n"
+    "  NovaBtnToggle { id: bt; x: 400; y: 620; options: [{label: '日', value: 'd'}, {label: '周', value: 'w'}, {label: '月', value: 'm', disable: true}]; clearable: true }\n"
+    "  NovaBtnToggle { id: btm; x: 400; y: 620; multiple: true; options: ['a', 'b', 'c'] }\n"
+    "  // ⑧ NovaPopupEdit\n"
+    "  NovaPopupEdit {\n"
+    "    id: pe; x: 700; y: 620\n"
+    "    onShown: shownCount++\n"
+    "    onCanceled: canceledCount++\n"
+    "    onValueChanged: (v) => lastPe = v\n"
+    "    Rectangle { width: 60; height: 24; color: '#eee' }\n"
+    "  }\n"
+    "  // 驱动函数\n"
+    "  function rngSet(l, r) { rng.setRange(l, r); return rng.modelValue }\n"
+    "  function rngLeft(v) { rng.setValueLeft(v); return rng.modelValue }\n"
+    "  function rngRight(v) { rng.setValueRight(v); return rng.modelValue }\n"
+    "  function datePick(d) { return dt.selectDay(d) }\n"
+    "  function dateVal() { return dt.modelValue }\n"
+    "  function dateRangeClick(d) { dtR.selectDay(d); return dtR.modelValue }\n"
+    "  function dateMulti(d) { dtM.selectDay(d); return dtM.modelValue.length }\n"
+    "  function dateNavUp() { return dtNav.navigateMonth(1) }\n"
+    "  function dateNavDown() { return dtNav.navigateMonth(-1) }\n"
+    "  function dateMinPick(d) { return dtMin.selectDay(Math.max(1, dtMin._today.d - 3)) }\n"
+    "  function timeSetH(h) { return tm.setHour(h) }\n"
+    "  function timeSetM(m) { return tm.setMinute(m) }\n"
+    "  function timeVal() { return tm.modelValue }\n"
+    "  function timeSSet(v) { tmS.modelValue = v; return tmS.modelValue }\n"
+    "  function timeAmPm() { tm.toggleAmPm(); return tm._isAm }\n"
+    "  function timeOptH(h) { return tmOpt.setHour(h) }\n"
+    "  function timeOptVal() { return tmOpt.modelValue }\n"
+    "  function colorHex(s) { return cp.setHex(s) }\n"
+    "  function colorVal() { return cp.modelValue }\n"
+    "  function colorRgbHex(s) { return cpRgb.setHex(s) }\n"
+    "  function colorRgbVal() { return cpRgb.modelValue }\n"
+    "  function ogPick(v) { return og.selectOption(v) }\n"
+    "  function ogVals() { return og.modelValue ? og.modelValue.length : 0 }\n"
+    "  function ogRadio(v) { return ogr.selectOption(v) }\n"
+    "  function ogRadioVal() { return ogr.modelValue }\n"
+    "  function ogTogglePick(v) { return ogt.selectOption(v) }\n"
+    "  function ogToggleVals() { return ogt.modelValue ? ogt.modelValue.length : 0 }\n"
+    "  function formValidate() { return f.validate() }\n"
+    "  function formInpSet(t) { fInp.modelValue = t; return f.validate() }\n"
+    "  function formSubmit() { return f.submit() }\n"
+    "  function formGreedyValidate() { return fg.validate() }\n"
+    "  function formReset() { f.resetValidation(); return fInp.hasError }\n"    "  function btPick(v) { return bt.select(v) }\n"
+    "  function btVal() { return bt.modelValue }\n"
+    "  function btmPick(v) { return btm.select(v) }\n"
+    "  function btmVals() { return btm.modelValue ? btm.modelValue.length : 0 }\n"
+    "  function peShow() { pe.show(); return shownCount }\n"
+    "  function peSet(v) { pe.set(v); return pe.modelValue }\n"
+    "  function peCancel() { pe.cancel(); return canceledCount }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def form2_env(qml_engine):
+    """Sprint B 输入进阶测试环境：八件全实例化 + 调用代理。"""
+    win = _make(qml_engine, FORM2_ENV_QML, wait=0.05)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)
+    _pump(60)
+    return drv
+
+
+def test_form2_range_quantize_and_constraints(form2_env):
+    """step 量化 + min/maxRange 约束 + 左右滑块独立步进。"""
+    drv = form2_env
+    v = drv.call2("rngSet", 47, 93).toVariant()
+    assert v["min"] == 45 and v["max"] == 95               # 双端量化
+    v = drv.call2("rngSet", 10, 85).toVariant()            # maxRange=60 → max=70
+    assert v["min"] == 10 and v["max"] == 70
+    v = drv.call1("rngLeft", 5).toVariant()                # minRange=10 → max 拉到 15
+    assert v["min"] == 5 and v["max"] - v["min"] >= 10
+    v = drv.call1("rngRight", 3).toVariant()               # 右滑块不许低于左-10
+    assert v["max"] >= v["min"] + 10
+
+
+def test_form2_date_single_and_mask(form2_env):
+    """单选：mask 格式化输出；再点取消（noUnset=false）。"""
+    drv = form2_env
+    ok = drv.call1("datePick", 20)
+    assert ok is True
+    mv = drv.call0("dateVal")
+    assert isinstance(mv, str) and mv.endswith("/20") and len(mv) == 10   # YYYY/MM/DD
+    assert drv.call1("datePick", 20) is True               # 再点取消
+    assert drv.call0("dateVal") is None
+
+
+def test_form2_date_range_and_multiple(form2_env):
+    """区间：两次点击形成 {from,to}（逆序自动交换）；多选计数。"""
+    drv = form2_env
+    assert drv.call1("dateRangeClick", 10) is None         # 第一击只入 pending
+    mv = drv.call1("dateRangeClick", 5).toVariant()
+    assert mv["from"].endswith("/05") and mv["to"].endswith("/10")
+    assert mv["from"] < mv["to"]                           # 逆序交换
+    n = drv.call1("dateMulti", 3)
+    assert n == 1
+    n = drv.call1("dateMulti", 7)
+    assert n == 2
+
+
+def test_form2_date_navigation_clamp_and_minimal(form2_env):
+    """导航夹取：navMin=navMax=本月 → 翻月双向拒绝；minimal 之前拒选。"""
+    drv = form2_env
+    assert drv.call0("dateNavUp") is False
+    assert drv.call0("dateNavDown") is False
+    assert drv.call0("dateMinPick") is False               # today-3 < minimal
+
+
+def test_form2_time_clock_semantics(form2_env):
+    """时/分管道 + withSeconds 输出 + options 拒绝 + nowBtn。"""
+    drv = form2_env
+    assert drv.call1("timeSetH", 14) is True
+    assert drv.call0("timeVal") == "14:00"
+    assert drv.call1("timeSetM", 37) is True
+    assert drv.call0("timeVal") == "14:37"
+    # withSeconds：mask 解析管道（三段式 HH:mm:ss）
+    assert drv.call1("timeSSet", "09:05:08") == "09:05:08"
+    assert drv.call1("timeOptH", 22) is False              # hourOptions 过滤
+    assert drv.call1("timeOptH", 10) is True
+    assert drv.call0("timeOptVal") == "10:00"
+
+
+def test_form2_time_ampm_toggle(form2_env):
+    """12h 制：AM/PM 切换偏移 +12h（16:30 → 04:30）。"""
+    drv = form2_env
+    drv.call1("timeSetH", 16)
+    drv.call1("timeSetM", 30)
+    is_am = drv.call0("timeAmPm")                          # 16 点 → 切到 AM
+    assert is_am is True
+    assert drv.call0("timeVal") == "04:30"
+
+
+def test_form2_color_pipeline(form2_env):
+    """hex 解析→HSV→输出；非法 hex 拒绝；rgb formatModel 输出。"""
+    drv = form2_env
+    assert drv.call1("colorHex", "#FF0000") is True
+    assert drv.call0("colorVal") == "#ff0000"
+    assert drv.call1("colorHex", "zzz") is False
+    assert drv.call1("colorHex", "#00ff00") is True
+    assert drv.call0("colorVal") == "#00ff00"              # 自洽往返
+    assert drv.call1("colorRgbHex", "#ff0000") is True
+    assert drv.call0("colorRgbVal") == "rgb(255,0,0)"
+
+
+def test_form2_option_group_semantics(form2_env):
+    """checkbox 数组增删 + 禁用拒选；radio 标量；toggle 型同数组语义。"""
+    drv = form2_env
+    assert drv.call1("ogPick", "a") is True
+    assert drv.call0("ogVals") == 1
+    assert drv.call1("ogPick", "c") is False               # 禁用拒选
+    assert drv.call1("ogPick", "a") is True                # 再点移除
+    assert drv.call0("ogVals") == 0
+    assert drv.call1("ogRadio", "r2") is True
+    assert drv.call0("ogRadioVal") == "r2"
+    assert drv.call1("ogRadio", "r1") is True
+    assert drv.call0("ogRadioVal") == "r1"
+    assert drv.call1("ogTogglePick", "t1") is True
+    assert drv.call0("ogToggleVals") == 1
+
+
+def test_form2_form_aggregate(form2_env):
+    """NovaForm：聚合校验/greedy 全量计错/submit 发信号/reset 复位。"""
+    drv = form2_env
+    assert drv.call0("formValidate") is False              # 必填空 → 失败
+    assert drv.call1("formInpSet", "ok") is True
+    assert drv.call0("formSubmit") is True
+    assert drv.val("submitCount") >= 0                     # submitted 信号由宿主接
+    # greedy：两个都空 → failed 一次（全量后仍单次信号）
+    before = drv.val("failedCount")
+    assert drv.call0("formGreedyValidate") is False
+    assert drv.val("failedCount") == before + 1
+    drv.call0("formReset")
+    assert drv.call0("formReset") is False                 # 复位后无错误态
+
+
+def test_form2_btn_toggle_group(form2_env):
+    """按钮组：选中/禁用拒选/clearable 再点清空/多选数组。"""
+    drv = form2_env
+    assert drv.call1("btPick", "d") is True
+    assert drv.call0("btVal") == "d"
+    assert drv.call1("btPick", "m") is False               # 禁用
+    assert drv.call1("btPick", "d") is True                # clearable 再点清
+    assert drv.call0("btVal") is None
+    assert drv.call1("btmPick", "a") is True
+    assert drv.call1("btmPick", "b") is True
+    assert drv.call0("btmVals") == 2
+
+
+def test_form2_popup_edit_flow(form2_env):
+    """就地编辑：set 写值+发信号/cancel 发 canceled（Popup.open 需窗口环境，
+    无头测试不验 opened——留痕 PARITY）。"""
+    drv = form2_env
+    drv.call0("peShow")                                    # 无窗口时 open 静默失败，不抛
+    v = drv.call1("peSet", "new-value")
+    assert v == "new-value"
+    assert drv.val("lastPe") == "new-value"
+    c = drv.call0("peCancel")
+    assert c >= 1

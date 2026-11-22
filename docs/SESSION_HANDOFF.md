@@ -2,28 +2,30 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.9.0 · 2026-11-22）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.10.0 · 2026-11-22）
 
 ## 一句话定位
 
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-## 当前状态（0.9.0 · **二期开工：表单核心七件收口**，统一契约落地）
+## 当前状态（0.10.0 · **二期 Sprint B 收口：输入进阶八件**，日期/时间/取色自研落地）
 
-- **公共 QML 类型 54 个已交付**（qmldir 导出口径）：Controls **27**（0.9.0 新增 NovaField/NovaInput/
-  NovaSelect/NovaCheckbox/NovaRadio/NovaToggle/NovaSlider）
+- **公共 QML 类型 62 个已交付**（qmldir 导出口径）：Controls **35**（0.10.0 新增 NovaRange/NovaDate/
+  NovaTime/NovaColorPicker/NovaOptionGroup/NovaForm/NovaBtnToggle/NovaPopupEdit）
   + Services 单例 10（Screen/Theme/OverlayHost/Notify/Dialog/Loading/Storage/App/Platform/IntersectionPool）
   + Design 单例 3（NovaIconSet/NovaMotion/NovaUtils）+ 句柄与动作 4
   + Behaviors 9（Ripple/Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan/Swipe/Hold/Repeat，
   另有 internal NovaTouchCore 内核）
-- **测试 174 项全绿**（149 + 0.9.0 新增 25：七件实例化冒烟 13 + 行为用例 12：契约校验 required/minlen/
-  email/内置字符串规则、lazyRules 失焦激活、clearable 清空、number modifiers、debounce 防抖提交、
-  select 归一化/emitValue/disabled 拒选/多选 maxValues 上限、checkbox 半选循环 t→f→i→t、val 模式、
-  radio 组联动、toggle 换装同语义、slider step 量化/夹取/posToValue/垂直步进）
+- **测试 199 项全绿**（174 + 0.10.0 新增 25：八件实例化冒烟 14 + 行为用例 11：Range 量化与
+  min/maxRange 约束、Date 单选 mask 输出/区间 pending 闭合与逆序交换/多选计数/导航夹取/minimal
+  拒选、Time 时分管道/withSeconds 解析/AM-PM 偏移/options 过滤、Color hex 解析与 rgb 输出/非法
+  拒绝、OptionGroup 三型数组与标量语义/禁用拒选、Form 聚合校验/greedy 计错/submit/reset、
+  BtnToggle 选中与 clearable 清空/多选、PopupEdit set 写值/cancel 信号）
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → Sprint 3 ✅(0.7.0) → Sprint 4 ✅(0.8.0)
-  → **二期 Sprint A ✅(0.9.0 表单核心七件)** → 二期 B（v0.10.0 输入进阶）待开工
-- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 16%（二期 0.9.0）** / L6 70%（五期）
+  → 二期 Sprint A ✅(0.9.0 表单核心七件) → **二期 Sprint B ✅(0.10.0 输入进阶八件)**
+  → 三期 Sprint A（v0.11.0 数据体系）待开工
+- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 24%（二期 0.10.0）** / L6 70%（五期）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿七件（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：toggle()/select() 只发信号不写自身 modelValue
   （Quasar v-model 语义 1:1，防 QML 绑定环），宿主绑定 + onValueChanged 写回
@@ -96,6 +98,19 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     组件只 emit 不自写，toggle()/select() 返回下一值由宿主写回（0.9.0 沉淀）
 23. `readonly color x: …` 漏 property 关键字报 "Expected token `:`"——readonly 必须配 property
     连用（0.9.0 沉淀）
+24. 缓存型 `readonly property var _norm: _normalize(mv)` 在信号处理器内引用时可能拿到重评期
+    undefined——处理器内改直接函数调用，不走缓存绑定（0.10.0 沉淀）
+25. `palette`/`show`/`hide` 与 Qt 内建 Item 成员撞名 → 覆盖告警或 Duplicate method：改
+    paletteColors/shown/hidden（0.10.0 沉淀）
+26. local_deploy 装出 site-packages 真实拷贝后，pytest 的 `import pyside_nova` 会命中旧 QML
+    （组件 is not a type 随机爆）——交付后必须 `pip install -e . --no-deps` 复位（0.10.0 沉淀）
+21. 子类再声明 `signal valueChanged(var)` 与基类属性的自动通知信号撞名 → "Duplicate signal name:
+    invalid override"（NovaField.value 的 valueChanged 即自动信号）；值通知一律走属性变更信号，
+    自定义信号换名（0.9.0 沉淀）
+22. 受控组件写自身 modelValue（self-assign）会断宿主绑定并触发绑定环告警；对标 Quasar v-model：
+    组件只 emit 不自写，toggle()/select() 返回下一值由宿主写回（0.9.0 沉淀）
+23. `readonly color x: …` 漏 property 关键字报 "Expected token `:`"——readonly 必须配 property
+    连用（0.9.0 沉淀）
 
 ## 下一步（二期 表单与选择体系，总规划见 MASTER_PLAN.md）
 
@@ -105,18 +120,20 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - ~~Sprint 4 L0/L5 基础层~~ ✅ **0.8.0 收口（Nova.Design 三单例 + NovaText/NovaTransition；
   14 套图标集 + provider 注册表 + 八通道解析；colors 12 + date 21（44 token）+ format 6 + is 5 +
   debounce/throttle/uid；动效 15 预设；排版 12 级；画廊 15 页；149 项测试；L0 100%/L5 95%）**
-- ~~二期 Sprint A 表单核心~~ ✅ **0.9.0（NovaField/NovaInput/NovaSelect/NovaCheckbox/NovaRadio/
-  NovaToggle/NovaSlider 七件 + 统一契约 + 校验引擎；L2 10%→16%；画廊 16 页；174 项测试）**
-- **二期 B（下一步）输入进阶（v0.10.0）**：NovaDate/NovaTime/NovaRange/NovaOptionGroup/NovaForm/
-  NovaBtnToggle/NovaPopupEdit/NovaColorPicker 等（NovaSlider 已随 0.9.0 提前交付）
+- ~~二期 Sprint A 表单核心~~ ✅ 0.9.0；~~二期 Sprint B 输入进阶~~ ✅ **0.10.0（NovaRange/NovaDate
+  自研日历/NovaTime 时钟面盘/NovaColorPicker 色域盘/NovaOptionGroup/NovaForm/NovaBtnToggle/
+  NovaPopupEdit 八件；L2 16%→24%；画廊 17 页；199 项测试）**
+- **三期 A（下一步）数据体系（v0.11.0）**：NovaTable（含 QTh/QTd/QTr）/NovaTree/NovaPagination/
+  NovaList·NovaItem/NovaMarkupTable/NovaInfiniteScroll/NovaVirtualScroll/NovaScrollArea
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ## 最近一次交付
 
-- **0.9.0：二期 Sprint A 收口 · 表单核心七件一次交付（统一契约 + 校验引擎）**
-  （NovaField 样式四型/浮动 label/底行三位 + NovaInput 密码·多行·数字·防抖 + NovaSelect 归一化·
-  多选上限·useInput 过滤 + NovaCheckbox 三态循环 + NovaRadio + NovaToggle 换装复用 + NovaSlider
-  量化·刻点·气泡·垂直 + 画廊第 16 页 + 测试 174 项；L2 10%→16%；local_deploy 新增 --allinone）
+- **0.10.0：二期 Sprint B 收口 · 输入进阶八件一次交付（自研日历/时钟面盘/取色器落地）**
+  （NovaRange 双值约束 + NovaDate 三模式 mask 日历 + NovaTime 三面时钟 + NovaColorPicker
+  SV 色域盘 + NovaOptionGroup 三型 + NovaForm 聚合校验 + NovaBtnToggle + NovaPopupEdit
+  + 画廊第 17 页 + 测试 199 项；L2 16%→24%）
+- 0.9.0：二期 Sprint A · 表单核心七件（统一契约 + 校验引擎；画廊 16 页；174 项测试）
 - 0.8.0：Sprint 4 收口 · L0 设计语言 + L5 工具层一次交付（一期生态骨架完工）**
   （NovaIconSet 14 套图标集/100 语义键/provider 注册表/八通道解析 + NovaMotion 动效令牌 15 预设
   + NovaUtils colors 12·date 21·format 6·is 5·debounce/throttle/uid/extend + NovaText 排版 12 级

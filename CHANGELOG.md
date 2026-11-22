@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.10.0] - 2026-11-22
+
+### Added（二期 Sprint B · **输入进阶八件一次收口**：L2 16% → 24%，Controls 27 → 35）
+
+- **NovaRange**（对标 QRange 20 props 收口 17）：双值 {min,max}、左右滑块独立步进、
+  step 双端量化、minRange/maxRange 间距约束、左/右气泡（left/rightLabelValue）、
+  markers/markerLabels、vertical+reverse、点轨道跳最近滑块、changed() 提交信号
+- **NovaDate 自研日历**（对标 QDate 23 props 收口 19）：Qt 6 无内置日历——全自研；
+  单选/多选(multiple)/区间(range 三态点击 pending→闭合、逆序自动交换)、
+  mask 任意格式（mask→正则解析 + formatDate 输出）、firstDayOfWeek、minimal 最小可选、
+  options 函数过滤、navigationMin/MaxYearMonth 导航夹取、events 事件点（数组或函数）、
+  todayBtn、noUnset、required
+- **NovaTime 时钟面盘**（对标 QTime 14 props 收口 12）：Canvas 时/分/秒三面自动递进、
+  24h/12h（AM/PM 切换偏移 +12h）、hourOptions/minuteOptions/secondOptions 过滤、
+  nowBtn、内部恒 24h 制存储（对标基线）
+- **NovaColorPicker**（对标 QColor 16 props 收口 13）：Canvas SV 色域盘（hue 底色 + 双向
+  渐变）+ 色相条 + 调色板（palette 18 色）+ HEX 编辑框 + footer 值显示；formatModel hex/rgb；
+  无默认值不产出（modelValue null 对标基线语义）；palette 属性因 Item 内建撞名改名 paletteColors
+- **NovaOptionGroup**（对标 QOptionGroup 24 props 收口 21）：checkbox/radio/toggle 三型
+  Loader 换装（复用七件值语义）、options 归一化（标量/对象 + optionValue/Label/Disable）、
+  inline 横排、leftLabel、keepColor、disabled 选项拒选
+- **NovaForm**（对标 QForm 5 props 1:1）：递归发现 validate() 能力子件、greedy 全量校验
+  （默认短路）、noErrorFocus/noResetFocus、submit()/validate()/resetValidation()、
+  validationSuccess/validationFailed 信号
+- **NovaBtnToggle**（对标 QBtnToggle 31 props 收口 22）：options 单/多值、clearable 再点
+  清空、选中 toggleColor 着色、未选中 outline/flat/push 变体、spread 均分、vertical、
+  dense/rounded/size
+- **NovaPopupEdit**（对标 QPopupEdit 13 props 收口 11）：点击目标就地弹层、editorData
+  编辑槽、autoSave（无按钮，编辑即值）、buttons + labelSet/labelCancel、title、validate；
+  set() 写值并关闭、cancel() 发 canceled；shown/hidden 信号（show/hide 因内建撞名改名）
+- **画廊第 17 页**：输入进阶页（Range 约束演示/日历+时钟/取色器/选项组+按钮组/
+  Form 聚合校验提交/PopupEdit 就地编辑），共 17 页
+- **测试 174 → 199 项全绿**（14 条实例化冒烟 + 11 个行为用例：Range 量化约束/日期
+  单选·区间·多选·导航夹取·minimal/时钟管道·AM/PM·options/取色 hex·rgb/选项组三型/
+  Form 聚合·greedy/按钮组 clearable·多选/PopupEdit 值管道）
+
+### 留痕（PARITY 同步）
+
+- QDate validator/yearsInMonthView/QTime validator+defaultDate/QRange dragOnlyRange 与
+  aria 类/QColor rgb·hsl 编辑器与 alpha 通道/QBtnToggle glossy·stack·stretch/QPopupEdit
+  cover 覆盖定位、QSlider 家族 NovaKnob/NovaFile/NovaUploader——延后五期或留痕，逐项见
+  docs/PARITY.md §Sprint B
+- 坑位沉淀 24~26：`_norm` 缓存绑定在信号处理器重评期可返回 undefined（改直接函数调用）；
+  `palette`/`show`/`hide` 与 Item 内建成员撞名（改 paletteColors/shown/hidden）；
+  site-packages 残留 wheel 旧拷贝会让 pytest 走旧 QML（交付后须 `pip install -e .` 复位）
+
 ## [0.9.0] - 2026-11-22
 
 ### Added（二期 Sprint A · **表单核心七件一次收口**：L2 10% → 16%，统一契约落地）

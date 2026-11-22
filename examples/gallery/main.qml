@@ -54,7 +54,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.9.0"
+                text: "Gallery 0.10.0"
                 outlined: true; dense: true
             }
         }
@@ -111,6 +111,7 @@ ApplicationWindow {
                     ListElement { label: "L0 图标/排版/动效";   icon: "mdi:shape-plus-outline" }
                     ListElement { label: "L5 工具层 utils";     icon: "mdi:function-variant" }
                     ListElement { label: "表单核心";            icon: "mdi:form-textbox" }
+                    ListElement { label: "输入进阶";            icon: "mdi:clock-time-eight-outline" }
                 }
 
                 delegate: Rectangle {
@@ -160,7 +161,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -2011,6 +2012,123 @@ ApplicationWindow {
                         markerLabels: ["低", "中", "高"]
                         label: true
                     }
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：输入进阶（NovaRange/NovaDate/NovaTime/NovaColorPicker/NovaOptionGroup/NovaForm/NovaBtnToggle/NovaPopupEdit）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageForm2
+        Item {
+            id: f2
+            property var rangeVal: ({ min: 20, max: 80 })
+            property string dateVal: ""
+            property string timeVal: ""
+            property string colorVal: ""
+            property var ogVals: []
+            property string radioVal: "r1"
+            property var btVal: "w"
+            property string peVal: "可编辑文本"
+            property int formOk: 0
+
+            GalleryPage {
+                title: "输入进阶 · 二期 Sprint B"
+                desc: "NovaRange 双值范围、NovaDate 自研日历（单选/多选/区间）、NovaTime 时钟面盘、NovaColorPicker 色域盘、NovaOptionGroup 三型选项组、NovaForm 聚合校验、NovaBtnToggle 按钮组、NovaPopupEdit 就地编辑。"
+
+                GalleryRow { label: "① NovaRange：双值范围滑杆（step 量化 + min/maxRange 约束）" }
+                NovaRange {
+                    width: 320
+                    min: 0; max: 100; step: 5
+                    minRange: 10; maxRange: 60
+                    label: true; markers: 4
+                    modelValue: f2.rangeVal
+                    onValueChanged: (v) => f2.rangeVal = v
+                }
+
+                GalleryRow { label: "② NovaDate / NovaTime：自研日历 + 时钟面盘" }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    Column {
+                        spacing: 8
+                        NovaDate {
+                            mask: "YYYY/MM/DD"
+                            todayBtn: true
+                            events: [Qt.formatDate(new Date(), "yyyy/MM/dd")]
+                            onValueChanged: (v) => f2.dateVal = v === null ? "未选择" : v
+                        }
+                        Text { text: "选中：" + f2.dateVal; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                    }
+                    Column {
+                        spacing: 8
+                        NovaTime { withSeconds: false; nowBtn: true; onValueChanged: (v) => f2.timeVal = v === null ? "未选择" : v }
+                        Text { text: "选中：" + f2.timeVal; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                    }
+                }
+
+                GalleryRow { label: "③ NovaColorPicker：色域盘 + 色相条 + 调色板" }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    NovaColorPicker { onValueChanged: (v) => f2.colorVal = v === null ? "未选择" : v }
+                    Column {
+                        spacing: 8
+                        Rectangle { width: 48; height: 48; radius: 10; color: f2.colorVal === "" ? NovaTheme.outline : f2.colorVal; border.width: 1; border.color: NovaTheme.outline }
+                        Text { text: f2.colorVal === "" ? "-" : f2.colorVal; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                    }
+                }
+
+                GalleryRow { label: "④ NovaOptionGroup / NovaBtnToggle：三型选项组 + 按钮组" }
+                Row {
+                    spacing: NovaTheme.spacingL
+                    Column { spacing: 8; NovaOptionGroup { type: "checkbox"; options: [{label: "邮件", value: "mail"}, {label: "短信", value: "sms"}, {label: "推送（禁用）", value: "push", disable: true}]; onValueChanged: (v) => f2.ogVals = v } }
+                    Column { spacing: 8; NovaOptionGroup { type: "radio"; options: [{label: "普通", value: "r1"}, {label: "加急", value: "r2"}]; modelValue: f2.radioVal; onValueChanged: (v) => f2.radioVal = v } }
+                    NovaOptionGroup { type: "toggle"; inline: true; options: ["天气", "新闻"] }
+                    NovaBtnToggle { options: [{label: "日", value: "d"}, {label: "周", value: "w"}, {label: "月", value: "m"}]; clearable: true; modelValue: f2.btVal; onValueChanged: (v) => f2.btVal = v }
+                }
+
+                GalleryRow { label: "⑤ NovaForm：聚合校验（greedy 全量计错 + submit）" }
+                Column {
+                    spacing: 10
+                    width: parent.width
+                    NovaForm {
+                        id: f2form
+                        width: 320
+                        greedy: true
+                        onSubmitted: f2.formOk++
+                        NovaInput { width: 320; label: "邮箱（必填 + email 规则）"; rules: ["required", "email"] }
+                        NovaInput { width: 320; label: "备注（maxlen 10）"; rules: ["maxlen(10)"] }
+                        Row {
+                            spacing: 8
+                            NovaBtn { text: "提交表单"; onClicked: f2form.submit() }
+                            NovaBtn { text: "重置"; variant: "outlined"; onClicked: f2form.resetValidation() }
+                        }
+                    }
+                    Text { text: "成功提交次数：" + f2.formOk; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                }
+
+                GalleryRow { label: "⑥ NovaPopupEdit：就地编辑（autoSave 关闭即提交）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaPopupEdit {
+                        width: 200
+                        title: "编辑文本"
+                        labelSet: "保存"; labelCancel: "取消"
+                        Rectangle {
+                            width: 200; height: 34; radius: NovaTheme.radiusS
+                            color: NovaTheme.background
+                            border.width: 1; border.color: NovaTheme.outline
+                            Text { x: 8; anchors.verticalCenter: parent.verticalCenter; text: f2.peVal; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS; elide: Text.ElideRight }
+                        }
+                        editorData: Column {
+                            spacing: 8
+                            Rectangle { width: 200; height: 28; radius: NovaTheme.radiusS; color: NovaTheme.background; border.width: 1; border.color: NovaTheme.outline
+                                TextInput { x: 8; anchors.verticalCenter: parent.verticalCenter; width: 184; text: f2.peVal; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS; onTextChanged: if (text !== f2.peVal) f2.peVal = text }
+                            }
+                        }
+                    }
+                    Text { text: "当前值：" + f2.peVal; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
                 }
             }
         }

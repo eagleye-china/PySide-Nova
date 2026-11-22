@@ -12,13 +12,13 @@
 |---|---|---|---|---|---|
 | **L0 设计语言** | 令牌/主题/图标集/动效/排版 | 8 品牌色 + Dark + 14 套图标 + q-transition--* | **已交付（0.8.0）**：14 套图标集 + provider 注册表 + 八通道解析 + NovaMotion 15 预设 + 12 级字阶 + 高程 0~24 | **100%** | ≥95% |
 | **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **已交付（0.5.0）** | **100%** | 100% |
-| **L2 组件** | 120+ 组件 | 全 | **19 个**（0.9.0 表单核心七件：Field/Input/Select/Checkbox/Radio/Toggle/Slider，统一契约 + 校验引擎） | **16%** | P0 100% / 全库 ≥90% |
+| **L2 组件** | 120+ 组件 | 全 | **27 个**（0.10.0 输入进阶八件：Range/Date 自研日历/Time 时钟面盘/ColorPicker/OptionGroup/Form/BtnToggle/PopupEdit） | **24%** | P0 100% / 全库 ≥90% |
 | **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | **9 个**（Ripple + 0.7.0 一次收口 Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan·Swipe·Hold·Repeat；Morph/Mutation/Resize/DropZone 能力由 QML 原生信号承担，PARITY 留痕） | **100%** | 100% |
 | **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **7 个**（OverlayHost 基建 + Notify + Dialog + Loading + Storage + App + Platform，0.6.2 一次收口四件） | **44%** | 100%（QML 适用项） |
 | **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **已交付（0.8.0）**：NovaUtils（colors 12 + date 21 + format 6 + is 5 + debounce/throttle/frameDebounce/uid/extend/clone）；CSS 工具类由 QML 组件承担留痕 | **95%** | ≥90% |
 | **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | 70%（缺文档站、视觉回归、打包器） | **70%** | ≥95% |
 
-> **一句话诊断**：L1/L3/L0 满格、L5 95%（一期骨架完工）；L2 16%（0.9.0 表单核心七件收口，统一契约落地）；L4 44%（三期补齐）。
+> **一句话诊断**：L1/L3/L0 满格、L5 95%（一期骨架完工）；L2 24%（二期 A/B 表单核心 + 输入进阶收口，自研日历/时钟/取色落地）；L4 44%（三期补齐）。
 > 补组件只是"长得像"，补齐这几层才叫"用起来像"。
 
 ---

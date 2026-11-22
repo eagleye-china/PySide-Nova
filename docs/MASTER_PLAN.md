@@ -113,15 +113,15 @@
 | `NovaBtnToggle` | QBtnToggle | 分段选择按钮组（spread/clear/outline） |
 | `NovaPopupEdit` | QPopupEdit | 点击编辑单元格/文本（配合三期表格） |
 
-### Sprint B · 输入进阶（v0.10.0）
+### Sprint B · 输入进阶（v0.10.0）✅ 2026-11-22 收口
 
 | 交付物 | 对标 | 关键能力 |
 |---|---|---|
-| `NovaSlider` / `NovaRange` / `NovaKnob` | 同名 | 双值范围、step/markers/labelAlways、拖动 label |
-| `NovaDate` | QDate | **自研日历**（Qt 6 无内置）：年月切换、多选/区间、locale、最小最大值 |
-| `NovaTime` | QTime | 时/分/秒选择、24h 制、with-seconds |
-| `NovaColorPicker` | QColor | 调色板 + 无默认值的格式化输出 |
-| `NovaFile` / `NovaUploader` | QFile/QUploader | 多文件、大小限制、拒绝回调、进度模拟 |
+| `NovaSlider` / `NovaRange` / `NovaKnob` | 同名 | 双值范围、step/markers/labelAlways、拖动 label ✅（NovaKnob 随滑杆族四期） |
+| `NovaDate` | QDate | **自研日历**（Qt 6 无内置）：年月切换、多选/区间、locale、最小最大值 ✅ |
+| `NovaTime` | QTime | 时/分/秒选择、24h 制、with-seconds ✅ |
+| `NovaColorPicker` | QColor | 调色板 + 无默认值的格式化输出 ✅ |
+| `NovaFile` / `NovaUploader` | QFile/QUploader | 多文件、大小限制、拒绝回调、进度模拟（→ 五期文件体系） |
 
 - **冒烟验收**：18 组件全部进画廊"表单"页；rules 校验（必填/长度/正则/自定义函数）
   错误态与 a11y 提示齐全；表单提交聚合校验演示可用；测试 75 → 100 项
