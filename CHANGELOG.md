@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.4.2] - 2026-11-22
+
+### Fixed（基线漂移纠正 —— 用户截屏立功）
+
+- **对标基线 2.26.0 → 2.35.5**：经官方 GitHub releases 复核（v2.35.5 发布于 2026-11-17），
+  原 0.4.0"核实"的 2.26.0 为过期结果；宪法第 0 章新增**基线复核条款**：
+  每期开工第一天必须先核对官方最新 release
+- `ECOSYSTEM_PARITY.md` 新增 §0.5 基线漂移审计（2.26→2.35 增量对照表）：
+  Quasar 无新增组件（对账 76 项不变），生态层 6 类增量全部落入 MASTER_PLAN
+
+### Changed（增量审计落入各期 DoD）
+
+- 一期 Sprint 1：NovaScreen 补 `orientation`（对标 2.35 Screen API）
+- 一期 Sprint 3：NovaIntersection 采用**单例 observer 池**（对标 2.30 useIntersection 复用架构）
+- 二期：NovaSelect 补 hover 契约 / no-option-label / dialog 关闭按钮（对标 2.26~2.28）
+- 四期：NovaFab 补 stagger 级联 + hover 打开；NovaPullToRefresh 补 side 四边拉动；
+  NovaDialog/NovaBottomSheet 补**关闭原因上报**（cancel/backdrop/escape/programmatic，对标 2.28）
+- 五期：**新增 L6 项"Nova MCP server + AI-ready 离线文档"**（对标 2.33 @quasar/mcp 全新品类，
+  AI agent 精确查询版本化 API，杜绝幻觉）；供应链门禁补外部输入消毒（对标 2.32~2.35 安全硬化）
+
 ## [0.4.1] - 2026-11-21
 
 ### Added（全生态开发总规划 —— 六期战略图）

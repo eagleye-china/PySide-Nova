@@ -1,6 +1,6 @@
 # 生态对标白皮书 — Quasar Ecosystem Parity
 
-> 对标基线 **Quasar 2.26.0** · 编制 2026-11-21 · 适用版本 0.4.0
+> 对标基线 **Quasar 2.35.5**（2026-11-22 复核，原 2.26.0 已过期纠正）· 编制 2026-11-21 · 增量审计 2026-11-22 · 适用版本 0.4.2
 > 结论先行：**组件层已走通，生态层才刚起步**。封版前必须补的不是"更多组件"，而是
 > **服务层（插件）、指令层（行为）、工具类层（布局语法）**这三块——它们才是 Quasar 开发者的"肌肉记忆"。
 
@@ -22,6 +22,21 @@
 > 补组件只是"长得像"，补齐这四层才叫"用起来像"。
 
 ---
+
+
+## 0.5 基线漂移审计（2.26.0 → 2.35.5，2026-11-22）
+
+Quasar 无新增组件（组件对账 76 项不变），但生态层有 6 类增量，已并入 MASTER_PLAN：
+
+| 增量 | 版本 | Nova 对应动作 |
+|---|---|---|
+| QMenu/QBtnDropdown/QFab/QSelect 统一 hover 契约（hover/hover-delay/hover-hide-delay） | 2.26~2.28 | 二期 NovaSelect、四期 NovaFab 验收补 hover 契约 |
+| Dialog/BottomSheet 插件关闭原因上报（cancel/backdrop/escape/programmatic） | 2.28 | NovaDialog / NovaBottomSheet DoD 增加关闭原因回调 |
+| QFab stagger 级联动画；QPullToRefresh side 四边拉动；QTooltip cursor-position | 2.27/2.30 | 四期对应组件关键能力补充 |
+| useIntersection() composable + **共享 observer 池**（指令/组件/composable 三合一复用） | 2.30 | 一期 Sprint 3 NovaIntersection 实现要点：单例 observer 池 |
+| **AI-ready 文档 + @quasar/mcp server**（全新生态品类） | 2.33 | **L6 新增项：Nova 离线文档包 + Nova MCP server（五期交付）** |
+| useElementSize()、colors.rgbToText()、format.getDecimalsCount()、Screen.orientation | 2.34/2.35 | NovaScreen 补 orientation；Nova.utils 对账更新 |
+| 安全硬化：SSR 品牌色注入 / Lang isoName 注入 / DOM clobbering | 2.32~2.35 | 五期供应链门禁补"外部输入消毒" |
 
 ## 1. 七层生态模型（交付范围的统一定义）
 

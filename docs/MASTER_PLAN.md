@@ -1,6 +1,6 @@
 # 全生态开发总规划 — Master Plan
 
-> 目标：**使用 PySide6 QML 完现 Quasar 框架全生态 + 全部组件**，对标基线 Quasar `2.26.0`，
+> 目标：**使用 PySide6 QML 完现 Quasar 框架全生态 + 全部组件**，对标基线 Quasar `2.35.5`（2026-11-22 官方 releases 复核），
 > 终点 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 > 编制 2026-11-21 · 适用版本 0.4.1 · 总周期估算 **约 28 周（单人节奏，含缓冲）**
 > 与 `ECOSYSTEM_PARITY.md`（差距审计）、`PARITY.md`（逐组件对标）互为姊妹篇：
@@ -37,6 +37,7 @@
 | `NovaPage` | QPageContainer + QPage | 页面容器、padding、页面切换 |
 | `NovaPageSticky` / `NovaPageScroller` | 同名 | 页内吸附、滚动回顶 |
 | `NovaRow` / `NovaCol` | Flex 栅格 | 12 栅格 × 5 断点（xs~xl）、gutter、offset、align、wrap |
+| `NovaScreen` 增强 | Screen 2.35 | 补 `orientation`（portrait/landscape + primary/secondary）|
 | `NovaVisible` | gt-md / lt-sm | above/below/only 断点显隐 |
 
 - **冒烟验收**：6 种经典布局示例可跑（后台/看板/表单/详情/登录/空态）；
@@ -62,7 +63,7 @@
 | 交付物 | 对标指令 | 关键能力 |
 |---|---|---|
 | `NovaClosePopup` | v-close-popup | 点击外部/ESC 关闭弹层（菜单/对话框/抽屉通用） |
-| `NovaIntersection` | v-intersection | 进入/离开视口，once 与持续两种模式 |
+| `NovaIntersection` | v-intersection | 进入/离开视口，once 与持续两种模式；**单例 observer 池**（对标 2.30 useIntersection 复用架构） |
 | `NovaTouchPan` / `NovaTouchSwipe` / `NovaTouchHold` / `NovaTouchRepeat` | v-touch 系列 | 方向/阈值/惯性；长按；按住连发 |
 | `NovaScrollObserver` / `NovaScrollFire` | v-scroll / v-scroll-fire | 滚动监听 / 滚动触发一次 |
 
@@ -98,7 +99,7 @@
 | `NovaField` | QField | 统一字段包装器（标签/提示/错误态/前后置图标/计数器） |
 | `NovaInput` | QInput | 校验、clearable、多行、密码、字符计数 |
 | `NovaForm` | QForm | 规则化校验容器、提交聚合校验、resetValidation |
-| `NovaSelect` | QSelect | 多选 chip、搜索过滤、选项分组、useInput 式自由输入 |
+| `NovaSelect` | QSelect | 多选 chip、搜索过滤、选项分组、useInput 式自由输入；hover 契约（hover/hover-delay/hover-hide-delay）、no-option-label、dialog 关闭按钮 |
 | `NovaToggle` / `NovaCheckbox` / `NovaRadio` / `NovaOptionGroup` | 同名 | keep-color、dark 支持、indeterminate |
 | `NovaBtnToggle` | QBtnToggle | 分段选择按钮组（spread/clear/outline） |
 | `NovaPopupEdit` | QPopupEdit | 点击编辑单元格/文本（配合三期表格） |
@@ -161,26 +162,26 @@
 | `NovaStepper`（含 QStep） | QStepper | 步骤条（可编辑/错误态/垂直/备用标签） |
 | `NovaExpansionItem` | QExpansionItem | 展开项（手风琴/分组） |
 | `NovaToolbar` | QToolbar(+Title) | 工具栏 |
-| `NovaFab` / `NovaFabAction` | QFab/QFabAction | 悬浮按钮组（展开方向/持久展开） |
+| `NovaFab` / `NovaFabAction` | QFab/QFabAction | 悬浮按钮组（展开方向/持久展开/**stagger 级联动画**、hover 打开契约） |
 
 ### Sprint B · 弹层与反馈（v0.14.0）
 
 | 交付物 | 对标 | 关键能力 |
 |---|---|---|
 | `NovaMenu` | QMenu | 菜单（auto-close/context-menu/触摸） |
-| `NovaDialog`（组件壳） | QDialog | 声明式对话框（服务式 v0.6.0 已交付） |
+| `NovaDialog`（组件壳） | QDialog | 声明式对话框（服务式 v0.6.0 已交付）；**关闭原因上报**（cancel/backdrop/escape/programmatic，对标 2.28） |
 | `NovaPopupProxy` | QPopupProxy | 弹层路由（Menu/Dialog 自适应） |
 | `NovaTooltip` | QTooltip | 工具提示（延迟/锚点/偏移） |
 | `NovaBtnDropdown` / `NovaBtnGroup` | 同名 | 下拉按钮 / 按钮组 |
 | `NovaBanner` / `NovaBar` | QBanner/QBar | 横幅 / 顶栏 |
 | `NovaAjaxBar` | QAjaxBar | 顶部进度条 |
 | `NovaLoadingBar`（服务） | LoadingBar 插件 | 命令式顶部进度 |
-| `NovaBottomSheet` | BottomSheet 插件 | 底部动作面板（网格/列表） |
+| `NovaBottomSheet` | BottomSheet 插件 | 底部动作面板（网格/列表）；关闭原因上报（对标 2.28） |
 | `NovaInnerLoading` | QInnerLoading | 局部加载遮罩 |
 | `NovaSpinner`（8 变体） | QSpinner 系列 | 球/环/齿轮/沙漏等 8 种 |
 | `NovaSkeleton` | QSkeleton | 骨架屏（类型/动画/波纹） |
 | `NovaNoSsr` | QNoSsr | 延迟渲染 |
-| `NovaPullToRefresh` | QPullToRefresh | 下拉刷新 |
+| `NovaPullToRefresh` | QPullToRefresh | 下拉刷新（**side 四边拉动**：top/bottom/left/right，对标 2.30） |
 | `NovaScrollObserver` / `NovaResizeObserver` | 同名组件 | 滚动/尺寸观察（若 S3 未覆盖则此期补齐） |
 
 - **冒烟验收**：菜单/对话框/抽屉/弹层互相嵌套不串焦点；ESC 逐层关闭；
@@ -198,6 +199,7 @@
 | `NovaMorph` | v-morph | 元素形变过渡（卡片展开为详情） |
 | `NovaSlideItem` | QSlideItem | 滑动操作项（左滑删除/右滑收藏） |
 | `NovaIconGenie` | Icon Genie | 单图生成全套应用图标（favicon/启动图/多分辨率） |
+| **Nova MCP server + AI-ready 文档** | @quasar/mcp（2.33 新品类） | 离线文档包 + MCP server（search/list/get 三工具，AI agent 精确查询 Nova 版本化 API，杜绝幻觉） |
 
 ### Sprint B · 非功能攻坚（v0.16.0）
 
@@ -210,7 +212,7 @@
 | 文档站 | 可搜索 + 在线示例 + API 自动生成 | MkDocs/Sphinx + 示例沙箱 |
 | 视觉回归 | 明/暗 × 5 断点全画廊基线 | 截图 diff 纳入 CI |
 | 应用打包 | 一键 exe | `python scripts/build_app.py`（PyInstaller）+ 安装器 |
-| 供应链 | SBOM + 许可证审计 + CVE 周巡 | 脚本化 |
+| 供应链 | SBOM + 许可证审计 + CVE 周巡 | 脚本化；**外部输入消毒**（对标 2.32~2.35 SSR 注入/DOM clobbering 硬化，Nova 语境：Storage/Notify 等服务的字符串内容消毒） |
 
 - **测试基线**：175 → 220 项 + 视觉回归基线集
 

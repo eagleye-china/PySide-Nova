@@ -8,7 +8,7 @@
 ### 一句话定位
 
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
-对标 **Quasar 2.26.0**，目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
+对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
 ### 当前状态（0.4.0 · M0 完成，M1 生态骨架待动工）
 
@@ -23,6 +23,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 0. `docs/MASTER_PLAN.md` —— **全生态六期总规划**（排期与验收以它为准）
 
 1. `docs/CONSTITUTION.md` —— 架构宪法（十章程则 + 迭代记录表）
+0.5. `docs/ECOSYSTEM_PARITY.md` §0.5 —— 2.26→2.35 基线漂移审计（增量对照表）
 2. `docs/PARITY.md` —— 全量对标审计（逐属性/事件/槽/model）
 3. `CHANGELOG.md` —— 版本史（含 Qt 6.12 坑位沉淀）
 4. `CONTRIBUTING.md` —— 宪法落地细则
@@ -55,6 +56,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ### 最近一次交付
 
+- 0.4.2：**基线纠正 2.26.0 → 2.35.5** + 增量审计（AI-ready/MCP 入 L6、关闭原因上报/hover 契约/stagger/side 入 DoD）
 - 0.4.1：**全生态开发总规划**（六期战略 + 全量对账表 + 冒烟测试七条纪律）
 - 0.4.0：生态对标白皮书（七层模型 + 12 项 P0 空白 + 24 条封版验收）+ 宪法第 10 章 + M1 范围重排
 - 0.3.4：PROMPT 单文件自包含（快照全文内联 + 内容指纹校验），告别"翻 4 个文件"
@@ -94,8 +96,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：0.4.1（2026-11-21）
-- 内容指纹：`45fc4787af90`
-- git HEAD：e923dc0
-- 生成时间：2026-11-21 21:19（星期六）
+- 快照版本：0.4.2（2026-11-22）
+- 内容指纹：`f85849867d4f`
+- git HEAD：582cb73
+- 生成时间：2026-11-22 17:27（星期日）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）
