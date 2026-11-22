@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.6.0] - 2026-11-22
+
+### Added（一期 Sprint 2 · L4 服务层第一件：NovaNotify + NovaOverlayHost —— 七层 L4 从 0% 到 6%）
+
+- **NovaOverlayHost**（全局弹层宿主单例）：动态 Item 挂载窗口顶层 + 层叠分配；
+  自动跟随 `NovaScreen.source` 定位窗口（Window.contentItem / Item.window 双路解析），
+  Dialog/Loading 直接复用，不再各自造宿主
+- **NovaTheme 层叠令牌族入册**：`zFab 990 / zSide 1000 / zMarginals 2000 / zFixedDrawer 3000 /
+  zFullscreen 6000 / zMenu 6000 / zTop 7000 / zTooltip 9000 / zNotify 9500 / zMax 9998`
+  （对标 Quasar `$z-*` 数值 1:1，宪法第 5 章补充条款：弹层 z 值禁止魔法数值）
+- **NovaNotify**（L4，对标 Notify 插件）：29 项配置逐项对账（npm quasar@2.35.5 包内源码 +
+  dist/api/Notify.json 核实）；9 位定位（top 系头插 / bottom 系尾插 / 侧向中线插入）；
+  分组徽标（组键 message|caption|multiLine|label*icon…|position 逐条复刻）；动作按钮
+  （NovaNotifyAction：triggered 信号 + handler 回调双通道）；超时进度条（时长 = timeout+1000
+  与消失时刻对齐）；句柄 `NovaNotifyHandle`（dismiss / update / valid）
+- **Nova 增强（PARITY 增强栏）**：`dismissed(reason)` 6 值 timeout/user/action/api/replaced/overflow；
+  `maxVisible`（默认 5，同屏上限）；`countAt()/dismissAll()` 队列内省；`triggerAction(i)` 程序化触发
+- **NovaNotifyAction / NovaNotifyHandle** 公开导出；`NovaNotificationItem` 内部导出（internal）
+- 画廊新增"**NovaNotify 通知**"页（类型预设 / 9 位定位 / 动作与关闭原因 / 分组徽标 / 句柄
+  ongoing 进度更新，全程真实组件可交互）；Demo 页新增通知卡片区
+- 冒烟测试 46 → **63 项**（解析用例 + 行为级断言：分组徽标/组键含 actions/自定义组替换/
+  更新语义拒绝与放行/动作点击顺序/closeBtn user/overflow 淘汰/timeout 到期/非法输入回落/Dark 实例化）
+
+### Changed
+
+- **方法论入册执行首例**：API 对账以 npm 包源码与 dist API JSON 为准（0.5.1 新颁纪律）——
+  本轮实机核对发现 npm 当日最新 2.35.6 的 Notify 与 2.35.5 逐字节相同，基线无需返工
+- 库存契约文档（资料库）同步落定：D1/D2/D6 采纳、D3 红线确认、D4 内置最小转圈、D5 不暴露 ignoreDefaults
+
+### Fixed
+
+- 0.4.2 审计归属二次澄清落地：PARITY 增补 NovaNotify 审计节，"关闭原因上报"在 Notify 上
+  明确标为 Nova 增强（基线 `onDismiss()` 无参数），杜绝后续误打勾
+
 ## [0.5.1] - 2026-11-22
 
 ### Changed（NovaNotify 契约裁定落盘 —— 新会话 npm 源码级核对成果固化）

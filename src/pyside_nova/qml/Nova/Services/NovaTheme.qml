@@ -50,6 +50,19 @@ QtObject {
     // 为空则 NovaIcon 走云端 CDN，本地缺失仍会自动回落云端
     property url iconLocalRoot: ""
 
+    // ── 层叠令牌（0.6.0 起入册，对标 Quasar $z-* 变量，数值 1:1） ──
+    // 组件禁止魔法 z 值：弹层/抽屉/悬浮等一律取本组令牌（NovaOverlayHost.attach 默认层为 zNotify）
+    readonly property int zFab: 990
+    readonly property int zSide: 1000
+    readonly property int zMarginals: 2000
+    readonly property int zFixedDrawer: 3000
+    readonly property int zFullscreen: 6000
+    readonly property int zMenu: 6000
+    readonly property int zTop: 7000
+    readonly property int zTooltip: 9000
+    readonly property int zNotify: 9500
+    readonly property int zMax: 9998
+
     // ── 几何令牌 ──────────────────────────────────────────────
     readonly property int spacingS: 6
     readonly property int spacingM: 12

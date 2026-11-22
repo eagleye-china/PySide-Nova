@@ -53,7 +53,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.5.0"
+                text: "Gallery 0.6.0"
                 outlined: true; dense: true
             }
         }
@@ -102,6 +102,7 @@ ApplicationWindow {
                     ListElement { label: "NovaAvatar 头像";    icon: "mdi:account-circle-outline" }
                     ListElement { label: "NovaBadge 徽标";     icon: "mdi:numeric-9-plus" }
                     ListElement { label: "NovaIcon 图标";      icon: "mdi:shape-outline" }
+                    ListElement { label: "NovaNotify 通知";    icon: "mdi:bell-ring-outline" }
                     ListElement { label: "Theme / Screen";     icon: "mdi:palette-outline" }
                 }
 
@@ -150,7 +151,7 @@ ApplicationWindow {
         id: content
         anchors { top: header.bottom; left: sidebar.right; right: parent.right; bottom: parent.bottom }
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
-                          pageAvatar, pageBadge, pageIcon, pageTheme][nav.currentIndex]
+                          pageAvatar, pageBadge, pageIcon, pageNotify, pageTheme][nav.currentIndex]
     }
 
     Rectangle { id: nav; property int currentIndex: 0; visible: false }
@@ -342,7 +343,7 @@ ApplicationWindow {
         Item {
             GalleryPage {
                 title: "概览 Overview"
-                desc: "pyside-nova 已交付 20 个组件全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
+                desc: "pyside-nova 已交付 21 个组件（含 NovaNotify 通知服务）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
 
                 Row {
                     spacing: NovaTheme.spacingM
@@ -641,6 +642,127 @@ ApplicationWindow {
                     NovaIcon { icon: "mdi:heart"; size: 24 }
                     NovaIcon { icon: "mdi:heart"; size: 32 }
                     NovaIcon { icon: "mdi:heart"; size: 48; color: NovaTheme.negative }
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：NovaNotify 通知
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageNotify
+        Item {
+            id: np
+            property string lastReason: ""
+            property var taskHandle: null
+
+            // 统一入口：接管 dismissed(reason) 用于页面内实时展示关闭原因
+            function notify(cfg) {
+                var h = NovaNotify.show(cfg)
+                if (h && h.item)
+                    h.item.dismissed.connect(function(r) { np.lastReason = r })
+                return h
+            }
+
+            GalleryPage {
+                title: "NovaNotify 通知"
+                desc: "对标 Notify 插件：命令式 show()（对标 Notify.create）、9 位定位、分组徽标（badge 计数）、动作按钮、超时进度条、dismissed(reason) 关闭原因上报（Nova 增强，基线 onDismiss 无参数）。通知悬浮于窗口顶层，点按钮触发。"
+
+                GalleryRow { label: "内置类型（type 预设，对标 notifTypes）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn { text: "positive"; tint: NovaTheme.positive
+                              onClicked: np.notify({ type: "positive", message: "保存成功", caption: "文档已写入本地" }) }
+                    NovaBtn { text: "negative"; tint: NovaTheme.negative
+                              onClicked: np.notify({ type: "negative", message: "删除失败", caption: "文件被其他程序占用" }) }
+                    NovaBtn { text: "warning"
+                              onClicked: np.notify({ type: "warning", message: "磁盘剩余空间不足 10%" }) }
+                    NovaBtn { text: "info"
+                              onClicked: np.notify({ type: "info", message: "新版本 0.6.0 已发布" }) }
+                    NovaBtn { text: "closeBtn"
+                              onClicked: np.notify({ message: "常驻通知（timeout: 0）", closeBtn: true, timeout: 0 }) }
+                }
+
+                GalleryRow { label: "9 位定位（top 头插 / bottom 尾插 / 侧向中线插入）" }
+                Flow {
+                    width: parent.width
+                    spacing: NovaTheme.spacingS
+                    Repeater {
+                        model: ["top-left", "top-right", "bottom-left", "bottom-right", "top", "bottom", "left", "right", "center"]
+                        delegate: NovaBtn {
+                            required property string modelData
+                            text: modelData
+                            variant: "flat"
+                            size: "sm"
+                            onClicked: np.notify({ message: "position: " + modelData, position: modelData, timeout: 1500 })
+                        }
+                    }
+                }
+
+                GalleryRow { label: "动作按钮与关闭原因（triggered 先行 → dismissed 后至）" }
+                Column {
+                    spacing: NovaTheme.spacingS
+                    Row {
+                        spacing: NovaTheme.spacingM
+                        NovaBtn { text: "可撤销删除"
+                                  onClicked: np.notify({ message: "已删除 1 个文件", caption: "本次操作可撤销",
+                                                         actions: [{ label: "撤销", handler: function() {
+                                                                        np.notify({ type: "info", message: "已恢复" }) } }] }) }
+                        NovaBtn { text: "不关闭动作（noDismiss）"; variant: "outlined"
+                                  onClicked: np.notify({ message: "点「看看」我不会关闭",
+                                                         actions: [{ label: "看看", noDismiss: true, handler: function() {
+                                                                        np.notify({ type: "info", message: "看过了" }) } }] }) }
+                        NovaBtn { text: "超时进度条"
+                                  onClicked: np.notify({ message: "5 秒后自动消失", progress: true, timeout: 5000 }) }
+                    }
+                    NovaChip {
+                        text: "最近关闭原因 dismissed(reason): " + (np.lastReason === "" ? "（尚无）" : np.lastReason)
+                        filled: np.lastReason !== ""
+                        tint: np.lastReason === "" ? NovaTheme.textMuted : NovaTheme.primary
+                        dense: true
+                    }
+                }
+
+                GalleryRow { label: "分组与徽标（同键合并 + badge 递增；自定义组后到者替换前者）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn { text: "同消息连发 ×2"
+                              onClicked: {
+                                  np.notify({ message: "同一事件", caption: "分组键相同会合并并计徽标" })
+                                  np.notify({ message: "同一事件", caption: "分组键相同会合并并计徽标" })
+                              } }
+                    NovaBtn { text: "自定义组 upload 连发 ×3"; variant: "outlined"
+                              onClicked: {
+                                  for (var i = 1; i <= 3; i++)
+                                      np.notify({ message: "上传分片 " + i + "/3", group: "upload" })
+                              } }
+                    NovaBtn { text: "group: false 并发 ×2"; variant: "flat"
+                              onClicked: {
+                                  np.notify({ message: "任务 A", group: false, timeout: 3000 })
+                                  np.notify({ message: "任务 B", group: false, timeout: 3000 })
+                              } }
+                }
+
+                GalleryRow { label: "句柄 handle：dismiss() / update(props)（仅非分组可更新）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn { text: np.taskHandle ? "同步进度 +10%" : "开始同步（ongoing）"
+                              onClicked: {
+                                  if (!np.taskHandle) {
+                                      np.taskHandle = np.notify({ type: "ongoing", message: "正在同步… 0%", position: "top-right" })
+                                  } else {
+                                      var runs = np.taskHandle.item.message.match(/\d+/)
+                                      var pct = Math.min(100, (runs ? parseInt(runs[0]) : 0) + 10)
+                                      np.taskHandle.update({ message: "正在同步… " + pct + "%" })
+                                      if (pct >= 100) {
+                                          np.taskHandle.dismiss()
+                                          np.taskHandle = null
+                                      }
+                                  }
+                              } }
+                    NovaBtn { text: "清空全部"; variant: "outlined"; tint: NovaTheme.negative
+                              onClicked: NovaNotify.dismissAll("bottom") }
                 }
             }
         }

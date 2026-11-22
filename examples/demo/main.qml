@@ -23,7 +23,6 @@ ApplicationWindow {
         if (typeof novaIconLocalRoot !== "undefined" && novaIconLocalRoot !== "")
             NovaTheme.iconLocalRoot = novaIconLocalRoot
     }
-
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: NovaTheme.spacingL
@@ -41,7 +40,7 @@ ApplicationWindow {
                 color: NovaTheme.textColor
             }
             Text {
-                text: "0.1.0 · Quasar-style components for PySide6"
+                text: "0.6.0 · Quasar-style components for PySide6"
                 font.pixelSize: NovaTheme.fontS
                 color: NovaTheme.textMuted
             }
@@ -392,6 +391,61 @@ ApplicationWindow {
                                 NovaChip { text: "NovaCardSection" }
                                 NovaChip { text: "NovaCardActions" }
                                 NovaChip { text: "NovaCardActions: align center" }
+                            }
+                        }
+                    }
+                }
+
+                // ── NovaNotify · 通知 ────────────────────────
+                NovaCard {
+                    Layout.fillWidth: true
+                    NovaCardSection {
+                        Column {
+                            width: parent.width
+                            spacing: NovaTheme.spacingM
+
+                            Text {
+                                text: "NovaNotify · 通知（对标 Notify 插件）"
+                                font.bold: true
+                                font.pixelSize: NovaTheme.fontL
+                                color: NovaTheme.textColor
+                            }
+                            Text {
+                                width: parent.width
+                                text: "命令式 show() · 9 位定位 · 分组徽标 · 动作按钮 · 超时进度条 · dismissed(reason) 关闭原因上报（Nova 增强）"
+                                font.pixelSize: NovaTheme.fontS
+                                color: NovaTheme.textMuted
+                                wrapMode: Text.WordWrap
+                            }
+                            Flow {
+                                width: parent.width
+                                spacing: NovaTheme.spacingM
+
+                                NovaBtn { text: "成功"; tint: NovaTheme.positive
+                                          onClicked: NovaNotify.show({ type: "positive", message: "保存成功", caption: "文档已写入本地" }) }
+                                NovaBtn { text: "失败"; tint: NovaTheme.negative
+                                          onClicked: NovaNotify.show({ type: "negative", message: "删除失败", caption: "文件被其他程序占用" }) }
+                                NovaBtn { text: "警告"
+                                          onClicked: NovaNotify.show({ type: "warning", message: "磁盘剩余空间不足 10%" }) }
+                                NovaBtn { text: "信息"
+                                          onClicked: NovaNotify.show({ type: "info", message: "新版本 0.6.0 已发布", caption: "pip install --upgrade pyside-nova" }) }
+                                NovaBtn { text: "撤销演示"; variant: "outlined"
+                                          onClicked: NovaNotify.show({ message: "已删除 1 个文件", caption: "本次操作可撤销",
+                                                                       actions: [{ label: "撤销", handler: function() {
+                                                                           NovaNotify.show({ type: "info", message: "已恢复" }) } }] }) }
+                                NovaBtn { text: "带关闭按钮"; variant: "flat"
+                                          onClicked: NovaNotify.show({ message: "常驻通知（timeout: 0）", closeBtn: true, timeout: 0 }) }
+                                NovaBtn { text: "分组连发 ×2"; variant: "flat"
+                                          onClicked: {
+                                              NovaNotify.show({ message: "同一事件", caption: "分组键相同会合并并计徽标" })
+                                              NovaNotify.show({ message: "同一事件", caption: "分组键相同会合并并计徽标" })
+                                          } }
+                                NovaBtn { text: "九宫格定位"; variant: "flat"
+                                          onClicked: {
+                                              var pos = ["top-left", "top-right", "bottom-left", "bottom-right"]
+                                              for (var i = 0; i < pos.length; i++)
+                                                  NovaNotify.show({ message: pos[i], position: pos[i], timeout: 1500 })
+                                          } }
                             }
                         }
                     }

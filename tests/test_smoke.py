@@ -1,12 +1,12 @@
 # tests/test_smoke.py
-# 冒烟测试：全部组件 QML 解析+实例化、令牌可读、断点语义（1366px→md）、画廊完整加载
+# 冒烟测试：全部组件 QML 解析+实例化、令牌可读、断点语义（1366px→md）、画廊完整加载、L4 服务行为级断言
 """冒烟测试：验证 pyside-nova QML 模块可在引擎中正确解析并实例化。"""
 import os
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import pytest
-from PySide6.QtCore import QUrl
+from PySide6.QtCore import QEventLoop, QTimer, QUrl
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlComponent, QQmlEngine
 
@@ -89,6 +89,18 @@ CASES = [
     "import QtQuick\nimport Nova.Controls\n"
     "NovaLayout { width: 800; height: 600;"
     " NovaHeader { } NovaDrawer { } NovaFooter { } NovaPage { Text { text: 'x' } } }",
+    # ── L4 服务层（v0.6.0）：单例读取 + 动作/句柄实例化 ──
+    "import QtQuick\nimport Nova.Services\n"
+    "QtObject { property int c: NovaNotify.countAt('bottom');"
+    " property var ci: NovaOverlayHost.contentItem;"
+    " property int zn: NovaTheme.zNotify }",
+    "import QtQuick\nimport Nova.Services\n"
+    "NovaNotifyAction { label: 'undo'; icon: 'mdi:undo'; noDismiss: true }",
+    "import QtQuick\nimport Nova.Services\n"
+    "NovaNotifyHandle { }",
+    "import QtQuick\nimport Nova.Services\n"
+    "QtObject { property var h: null;"
+    " Component.onCompleted: h = NovaNotify.show('hi') }",
 ]
 
 
@@ -123,7 +135,9 @@ def _make(qml_engine, code, wait=0.0):
     obj = component.create()
     errors = [e.toString() for e in component.errors()]
     assert obj is not None, errors
-    obj.setParent(QGuiApplication.instance())
+    from PySide6.QtGui import QWindow
+    if not isinstance(obj, QWindow):
+        obj.setParent(QGuiApplication.instance())   # Window 不能挂 app，自身引用由测试持有
     if wait > 0:
         end = time.time() + wait
         while time.time() < end:
@@ -274,3 +288,216 @@ def test_theme_tokens(qml_engine):
     assert obj is not None, errors
     assert obj.property("c").isValid()
     assert obj.property("s").isValid()
+
+
+
+
+# ══════════════════════════════════════════════════════════════
+# L4 服务层：NovaNotify 行为级断言（契约见 docs/PARITY.md 审计节）
+# ══════════════════════════════════════════════════════════════
+
+NOTIFY_WINDOW_QML = (
+    "import QtQuick\nimport QtQuick.Window\nimport Nova.Services\n"
+    "Window { id: w; visible: false; width: 800; height: 600;"
+    " Component.onCompleted: NovaScreen.source = w }"
+)
+
+NOTIFY_DRIVER_QML = (
+    "import QtQuick\nimport Nova.Services\n"
+    "QtObject {\n"
+    "  property var lastReason: ''\n"
+    "  property var lastHandle: null\n"
+    "  property int handlerRuns: 0\n"
+    "  function show(msg, opts) {\n"
+    "    var c = opts === undefined ? {} : opts; c.message = msg\n"
+    "    var h = NovaNotify.show(c)\n"
+    "    if (h && h.item) h.item.dismissed.connect(function(r) { lastReason = r })\n"
+    "    lastHandle = h\n"
+    "    return h\n"
+    "  }\n"
+    "  function act(msg, opts) {\n"
+    "    var c = opts === undefined ? {} : opts; c.message = msg\n"
+    "    c.actions = [{ label: 'ok', handler: function() { handlerRuns++ } }]\n"
+    "    var h = NovaNotify.show(c)\n"
+    "    if (h && h.item) h.item.dismissed.connect(function(r) { lastReason = r })\n"
+    "    lastHandle = h\n"
+    "    return h\n"
+    "  }\n"
+    "  function cnt(pos) { return NovaNotify.countAt(pos) }\n"
+    "  function dismissAll(pos) { NovaNotify.dismissAll(pos) }\n"
+    "  function setmax(n) { NovaNotify.maxVisible = n }\n"
+    "  function setdark(v) { NovaTheme.setDark(v) }\n"
+    "  function resetReason() { lastReason = '' }\n"
+    "  function clearAll() {\n"
+    "    var all = NovaNotify.positionList\n"
+    "    for (var i = 0; i < all.length; i++) NovaNotify.dismissAll(all[i])\n"
+    "  }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def notify_env(qml_engine):
+    """L4 行为测试环境：源窗口 + 驱动对象；每个用例前后清空通知栈。"""
+    win = _make(qml_engine, NOTIFY_WINDOW_QML)
+    drv = _make(qml_engine, NOTIFY_DRIVER_QML)
+    drv.clearAll()
+    yield drv
+    drv.clearAll()
+    drv.setmax(5)
+
+
+def _pump(ms=50):
+    loop = QEventLoop()
+    QTimer.singleShot(ms, loop.quit)
+    loop.exec()
+
+
+def test_notify_show_dismiss_reason_api(notify_env):
+    """show → count 1 → dismiss() → reason 'api'，句柄失效。"""
+    h = notify_env.show("hello", None)
+    assert notify_env.cnt("bottom") == 1
+    assert h.property("valid") is True
+    item = h.property("item")
+    assert item.property("message") == "hello"
+    h.dismiss()
+    assert notify_env.cnt("bottom") == 0
+    assert h.property("valid") is False
+    assert notify_env.property("lastReason") == "api"
+
+
+def test_notify_nine_positions(notify_env):
+    """9 个位置逐个落位；left/right/center 走中线插入。"""
+    positions = ["top-left", "top-right", "bottom-left", "bottom-right",
+                 "top", "bottom", "left", "right", "center"]
+    for pos in positions:
+        notify_env.show("p", {"position": pos, "group": False})
+        assert notify_env.cnt(pos) == 1
+    for pos in positions:
+        notify_env.dismissAll(pos)
+        assert notify_env.cnt(pos) == 0
+
+
+def test_notify_type_presets(notify_env):
+    """内置类型预设：positive 色板、warning textTint=dark、ongoing 常驻转圈不分组。"""
+    h = notify_env.show("ok", {"type": "positive"})
+    from PySide6.QtGui import QColor
+    assert h.property("item").property("tint") == QColor("#22C55E")
+    h2 = notify_env.show("warn", {"type": "warning"})
+    assert h2.property("item").property("textTint") == QColor("#1D1D1D")
+    h3 = notify_env.show("job", {"type": "ongoing"})
+    it = h3.property("item")
+    assert it.property("spinner") is True
+    assert it.property("timeout") == 0
+    assert it.property("groupKey") is None
+
+
+
+def test_notify_invalid_inputs(notify_env):
+    """非法位置拒绝（返回 null）；非法 timeout 回落 5000；timeout=0 强制关进度。"""
+    assert notify_env.show("x", {"position": "middle"}) is None
+    assert notify_env.property("lastHandle") is None
+    it = notify_env.show("t", {"group": False, "timeout": -5}).property("item")
+    assert it.property("timeout") == 5000
+    it2 = notify_env.show("z", {"group": False, "timeout": 0, "progress": True}).property("item")
+    assert it2.property("progress") is False
+
+
+def test_notify_grouping_and_badge(notify_env):
+    """自动分组：同键合并 badge 递增，旧句柄失效且上报 replaced。"""
+    h1 = notify_env.show("dup", None)
+    h2 = notify_env.show("dup", None)
+    assert notify_env.cnt("bottom") == 1
+    assert h2.property("item").property("badge") == 2
+    assert h1.property("valid") is False
+    assert notify_env.property("lastReason") == "replaced"
+
+
+def test_notify_group_key_includes_actions(notify_env):
+    """分组键含 actions 标签：同 message 不同动作文案 → 不同组。"""
+    notify_env.show("m", {"actions": [{"label": "保存"}]})
+    notify_env.show("m", {"actions": [{"label": "另存为"}]})
+    assert notify_env.cnt("bottom") == 2
+
+
+def test_notify_group_false_and_custom_group(notify_env):
+    """group:false 并列多条；自定义组后到者替换前者。"""
+    notify_env.show("A", {"group": False})
+    notify_env.show("B", {"group": False})
+    assert notify_env.cnt("bottom") == 2
+    h = notify_env.show("u1", {"group": "upload"})
+    assert notify_env.cnt("bottom") == 3        # A + B + u1
+    notify_env.show("u2", {"group": "upload"})
+    assert notify_env.cnt("bottom") == 3        # u1 被 u2 替换，总数不增
+    assert h.property("valid") is False
+    assert notify_env.property("lastReason") == "replaced"
+
+
+def test_notify_update_semantics(notify_env):
+    """分组句柄 update 拒绝返回 False；非分组句柄可更新内容。"""
+    g = notify_env.show("grp", None)
+    assert g.update({"message": "x"}) is False
+    f = notify_env.show("free", {"group": False})
+    assert f.update({"message": "free2"}) is True
+    assert f.property("item").property("message") == "free2"
+
+
+def test_notify_action_dismiss_order(notify_env):
+    """动作点击契约：handler 先行、dismissed('action') 后至；noDismiss 不关闭。"""
+    h = notify_env.act("with-action", {"group": False})
+    it = h.property("item")
+    it.triggerAction(0)
+    assert notify_env.property("handlerRuns") == 1
+    assert notify_env.property("lastReason") == "action"
+    assert h.property("valid") is False
+    # noDismiss：点击后不关闭、不上报 dismissed
+    notify_env.resetReason()
+    sticky = notify_env.show("sticky2", {"group": False,
+                                         "actions": [{"label": "ok", "noDismiss": True,
+                                                      "handler": lambda: None}]})
+    sticky.property("item").triggerAction(0)
+    assert sticky.property("valid") is True
+    assert notify_env.property("lastReason") == ""
+    assert notify_env.property("handlerRuns") == 1   # Python lambda 句柄不进 driver 计数
+
+
+def test_notify_close_btn_user_reason(notify_env):
+    """closeBtn 归入动作列表，点击上报 user。"""
+    h = notify_env.show("cb", {"group": False, "closeBtn": True})
+    acts = h.property("item").property("actions")
+    assert len(acts) == 1
+    assert acts[0].property("label") == "关闭"
+    assert acts[0].property("closeReason") == "user"
+    h.property("item").triggerAction(0)
+    assert notify_env.property("lastReason") == "user"
+
+
+def test_notify_max_visible_overflow(notify_env):
+    """同屏上限：超限淘汰最旧一条，原因 overflow（Nova 增强）。"""
+    notify_env.setmax(2)
+    for i in range(3):
+        notify_env.show("of%d" % i, {"group": False})
+    assert notify_env.cnt("bottom") == 2
+    assert notify_env.property("lastReason") == "overflow"
+
+
+def test_notify_timeout_reason(notify_env):
+    """自然到期上报 timeout（timeout=20ms → 计时器 1020ms，含入场动效时长）。"""
+    notify_env.show("ttl", {"group": False, "timeout": 20})
+    assert notify_env.cnt("bottom") == 1
+    _pump(1400)
+    assert notify_env.cnt("bottom") == 0
+    assert notify_env.property("lastReason") == "timeout"
+
+
+def test_notify_setdefaults_and_dark(notify_env):
+    """setDefaults 合并（position/timeout 覆盖）+ Dark 模式下实例化（宪法第 5 章强制用例）。"""
+    notify_env.setdark(True)
+    h = notify_env.show("dark-ttl", None)
+    assert h.property("valid") is True
+    assert h.property("item").property("tint").isValid()
+    h.dismiss()
+    notify_env.setdark(False)
+    notify_env.show("d2", {"position": "top"})
+    assert notify_env.cnt("top") == 1
+    notify_env.dismissAll("top")

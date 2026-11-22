@@ -48,7 +48,7 @@
 
 | 交付物 | 对标插件 | 关键能力 |
 |---|---|---|
-| `NovaNotify` | Notify | 队列、去重、超时、动作按钮、四角定位、同屏 ≤5 条；**29 项配置逐项对账**（npm 2.35.5 源码核实）；`html` 不移植改 `contentDelegate`（QML 无 DOM + XSS 面）；信号 `dismissed`（on\* 红线），`dismissed(reason)` 5 值 timeout/user/action/api/replaced 为 **Nova 增强**（PARITY 标增强）；**NovaOverlayHost 抽件提前至 Sprint 2**（overlay 宿主 + 层叠令牌 + 位置栈 9 位插入，避免 Dialog 返工） |
+| `NovaNotify` —— **✅ v0.6.0 交付** | Notify | 队列、去重、超时、动作按钮、9 位定位、同屏 ≤5 条（maxVisible）；**29 项配置逐项对账**（npm 2.35.5 源码核实）；`html` 不移植改 `contentDelegate`；`dismissed(reason)` 6 值（含 overflow）为 **Nova 增强**（PARITY 标增强）；**NovaOverlayHost 已抽件**（overlay 宿主 + 层叠令牌 + 位置栈 9 位插入，Dialog/Loading 直接复用） |
 | `NovaDialog` | Dialog | 命令式 `ask()/confirm()`、ESC/遮罩策略、可嵌套、返回结果 |
 | `NovaLoading` | Loading | show/hide、引用计数（并发不互踩）、局部/全屏、超时保护 |
 | `NovaStorage` | LocalStorage/SessionStorage | QSettings 后端、命名空间、JSON 序列化 |

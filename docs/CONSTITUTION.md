@@ -67,6 +67,8 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 4. 明暗双主题为每个组件的强制属性；`toggleDark()` 一键切换零警告；
    主题模式 API 对标 Dark 插件：`isDark`（= $q.dark.isActive）/ `setDark(v)`（= $q.dark.set()）/ `toggleDark()`（= $q.dark.toggle()）
 5. WCAG 2.1 AA 对比度门禁自 M2 起纳入 CI
+6. **层叠令牌（0.6.0 新颁）**：`zFab/zSide/zMarginals/zFixedDrawer/zFullscreen/zMenu/zTop/zTooltip/zNotify/zMax`
+   对标 Quasar `$z-*` 数值 1:1；一切弹层（Notify/Dialog/Loading/Tooltip…）z 值禁止魔法数值，一律取令牌
 
 ## 第 6 章 断点体系
 
@@ -134,3 +136,4 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 | 0.4.2 | 2026-11-22 | ⚠ 基线漂移纠正：对标基线 2.26.0 → **2.35.5**（官方 releases 复核）；新颁基线复核条款（每期开工先核对最新 release）；2.26→2.35 增量审计入册：新增 L6 "AI-ready 文档 + Nova MCP server"，Dialog/BottomSheet 关闭原因上报、Select hover 契约、Fab stagger、PullToRefresh side、Screen orientation 等写入对应期 DoD，安全硬化入五期门禁 |
 | 0.5.0 | 2026-11-22 | 一期 Sprint 1 落地：L1 布局系统交付（NovaLayout 五件套 + NovaRow/Col/Visible），七层 L1 0%→100%；画廊布局页 6 种经典布局；测试 32→46；沉淀坑位"瞬态 parent 宽度不可自判断点" |
 | 0.5.1 | 2026-11-22 | NovaNotify 契约裁定（D1 增强 dismissed(reason) 标增强栏 / D2 不移植 html 改 contentDelegate / D3 onDismiss→dismissed 信号 / D6 NovaOverlayHost 提前 Sprint 2）；归属修正：Notify 无关闭原因（npm 2.35.5 源码核实）；新颁纪律：API 对账以 npm 包源码与 dist API JSON 为准，不按文档页凭记忆写 |
+| 0.6.0 | 2026-11-22 | 一期 Sprint 2 首件落地：L4 通知服务 NovaNotify + NovaOverlayHost 交付（L4 0%→6%）；第 5 章新颁第 6 条层叠令牌（$z-* 1:1，禁止弹层魔法 z 值）；坑位沉淀第 7 条（QtObject 单例体内禁声明 Component 子项）；0.4.2"关闭原因上报"归属二次澄清入 PARITY 审计节 |

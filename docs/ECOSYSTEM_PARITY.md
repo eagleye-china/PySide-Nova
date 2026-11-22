@@ -11,15 +11,15 @@
 | 层 | 内容 | Quasar 提供 | Nova 现状 | 成熟度 | 封版门槛 |
 |---|---|---|---|---|---|
 | **L0 设计语言** | 令牌/主题/图标集/动效/排版 | 8 品牌色 + Dark + 8 套图标 + animate.css | 8 品牌色 ✅、Dark ✅、2 套图标 🚧、动效 ❌ | **60%** | ≥95% |
-| **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **完全缺失** | **0%** | 100% |
+| **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **已交付（0.5.0）** | **100%** | 100% |
 | **L2 组件** | 120+ 组件 | 全 | 12 个（约 10%） | **10%** | P0 100% / 全库 ≥90% |
 | **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | 1 个（Ripple） | **11%** | 100% |
-| **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **0 个** | **0%** | 100%（QML 适用项） |
+| **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **1 个**（Notify ✅ 0.6.0） | **6%** | 100%（QML 适用项） |
 | **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **0** | **0%** | ≥90% |
 | **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | 70%（缺文档站、视觉回归、打包器） | **70%** | ≥95% |
 
-> **一句话诊断**：L1/L3/L4/L5 四层合计 0%，却是"Quasar 味"最浓的部分。
-> 补组件只是"长得像"，补齐这四层才叫"用起来像"。
+> **一句话诊断**：L1 已满格（0.5.0），L3/L4/L5 三层仍接近 0%，却是"Quasar 味"最浓的部分。
+> 补组件只是"长得像"，补齐这三层才叫"用起来像"。
 
 ---
 
@@ -110,7 +110,7 @@ L6 工程化     ← 构建、打包、文档、测试、发布、治理
 
 | Quasar 插件 | 能力 | Nova 规划 | 优先级 |
 |---|---|---|---|
-| `Notify` | 全局消息队列：位置/超时/动作按钮/分组/进度 | `NovaNotify`（单例 + 队列 + 4 角定位） | **P0** |
+| `Notify` | 全局消息队列：位置/超时/动作按钮/分组/进度 | `NovaNotify`（单例 + 队列 + 9 位定位）—— **✅ 0.6.0 交付** | **P0** |
 | `Dialog` | 命令式弹窗，返回 Promise | `NovaDialog`（回调式 `ask()` / `confirm()`） | **P0** |
 | `Loading` | 全屏/局部遮罩 + 文案 + 超时 | `NovaLoading`（show/hide + 引用计数） | **P0** |
 | `BottomSheet` | 底部动作面板（网格/列表） | `NovaBottomSheet` | P1 |
@@ -159,7 +159,7 @@ L6 工程化     ← 构建、打包、文档、测试、发布、治理
 |---|---|---|---|
 | 1 | **NovaLayout 五件套** | L1 | header/footer/drawer/page 组合可用；drawer 支持 mini/behavior/breakpoint；断点切换不闪烁 |
 | 2 | **NovaRow / NovaCol / NovaVisible** | L5/L1 | 12 栅格 × 5 断点；gutter；`above/below` 显隐；示例页覆盖 6 种经典布局 |
-| 3 | **NovaNotify** | L4 | 队列/去重/超时/动作按钮/4 角定位；同屏 ≤5 条；Demo 可交互 |
+| 3 | **NovaNotify** ✅（0.6.0） | L4 | 队列/去重/超时/动作按钮/9 位定位；同屏 ≤5 条（maxVisible）；Demo 可交互；29 项对账见 PARITY 审计节 |
 | 4 | **NovaDialog** | L4 | `confirm()/ask()` 回调式；ESC/遮罩关闭策略；可嵌套；返回选择结果 |
 | 5 | **NovaLoading** | L4 | 引用计数（并发不互相踩）；局部/全屏；超时保护 |
 | 6 | **NovaStorage + NovaApp + NovaPlatform** | L4 | 命名空间键值持久化；全屏/标题/可见性；平台判定 |
