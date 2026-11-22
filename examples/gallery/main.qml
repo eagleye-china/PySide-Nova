@@ -54,7 +54,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.11.0"
+                text: "Gallery 0.12.0"
                 outlined: true; dense: true
             }
         }
@@ -113,6 +113,7 @@ ApplicationWindow {
                     ListElement { label: "表单核心";            icon: "mdi:form-textbox" }
                     ListElement { label: "输入进阶";            icon: "mdi:clock-time-eight-outline" }
                     ListElement { label: "数据体系";            icon: "mdi:table-large" }
+                    ListElement { label: "媒体体系";            icon: "mdi:image-multiple-outline" }
                 }
 
                 delegate: Rectangle {
@@ -162,7 +163,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2, pageData][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -354,7 +355,7 @@ ApplicationWindow {
         Item {
             GalleryPage {
                 title: "概览 Overview"
-                desc: "pyside-nova 已交付 21 个组件（含 NovaNotify 通知服务）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
+                desc: "pyside-nova 已交付 86 个公共类型（Controls 59 + Services 10 + Design 3 + 句柄动作 4 + Behaviors 10）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
 
                 Row {
                     spacing: NovaTheme.spacingM
@@ -2409,6 +2410,287 @@ ApplicationWindow {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：媒体体系 · 三期 Sprint B（图片/等比容器/视频/视差/轮播/时间轴/聊天气泡/表格增强）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageMedia
+        Item {
+            id: md
+            // 媒体页受控状态
+            property var carSlide: "首屏"
+            property int carVisits: 0
+            property string srvSortBy: ""
+            property bool srvDesc: false
+            property int srvPage: 1
+            property var srvRows: []
+            property string srvFilter: ""
+            property var parInfo: null
+            property string imgState: ""
+            // 服务端模式模拟数据池
+            readonly property var srvPool: Array.from({ length: 137 }, function (_, i) {
+                return { id: i + 1, name: "工单-" + (1000 + i + 1), owner: ["苏晚晴", "陆则明", "程一诺", "许知远"][i % 4], status: ["处理中", "已完成", "待评审"][i % 3] }
+            })
+            function srvFetch(sortBy, desc, page, flt) {
+                var rows = srvPool
+                if (flt !== "") rows = rows.filter(function (r) { return r.name.indexOf(flt) !== -1 || r.owner.indexOf(flt) !== -1 })
+                if (sortBy !== "") rows = rows.slice().sort(function (a, b) {
+                    var va = a[sortBy], vb = b[sortBy]
+                    return (typeof va === "number" ? va - vb : String(va).localeCompare(String(vb))) * (desc ? -1 : 1)
+                })
+                return rows.slice((page - 1) * 8, page * 8)
+            }
+            function srvRefresh() {
+                srvRows = Qt.binding(function () {
+                    return srvFetch(srvSortBy, srvDesc, srvPage, srvFilter)
+                })
+            }
+
+            GalleryPage {
+                title: "媒体体系 · 三期 Sprint B"
+                desc: "NovaImg 占位/错误/转圈三态 + ratio 宽高比、NovaResponsive 等比容器、NovaVideo 视频包装（播放器惰性创建）、NovaParallax 视差滚动、NovaCarousel 受控轮播（arrows/navigation/autoplay/infinite/swipeable/缩略图/覆盖控件）、NovaTimeline 三布局时间轴、NovaChatMessage 聊天气泡、NovaTable 虚拟滚动 + 服务端模式。"
+
+                // 图片演示源：内联 SVG data URL（离线可用）
+                readonly property string svgRed: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%235B6EF5'/><stop offset='1' stop-color='%2326A69A'/></linearGradient></defs><rect width='160' height='100' fill='url(%23g)'/><circle cx='130' cy='26' r='14' fill='%23FF7043'/></svg>"
+                readonly property string svgPlaceholder: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='100'><rect width='160' height='100' fill='%23E3E5EB'/><text x='80' y='55' font-size='12' text-anchor='middle' fill='%236E7380'>加载中…</text></svg>"
+
+                GalleryRow { label: "① NovaImg：加载态（占位图+延时转圈）/ 错误图 / ratio 宽高比 / fit 四态" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    Column {
+                        spacing: 4
+                        NovaImg {
+                            width: 240; ratio: 1.6; fit: "contain"
+                            src: md.svgRed
+                            placeholderSrc: md.svgPlaceholder
+                            spinnerTint: NovaTheme.primary; loadingShowDelay: 200
+                            onLoaded: md.imgState = "loaded"
+                        }
+                        Text { text: "加载态 → " + md.imgState; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                    }
+                    Column {
+                        spacing: 4
+                        NovaImg {
+                            width: 240; ratio: 1.6; fit: "cover"
+                            src: "file:///not-exists-404.png"
+                            errorSrc: md.svgPlaceholder
+                            onErrored: md.imgState = md.imgState === "loaded" ? md.imgState : "error"
+                        }
+                        Text { text: "错误态（404 → errorSrc）"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                    }
+                }
+
+                GalleryRow { label: "② NovaResponsive：ratio 等比容器（内容铺满，宽变高随）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaResponsive {
+                        width: 300; ratio: 16 / 9
+                        Rectangle { anchors.fill: parent; radius: NovaTheme.radiusS; color: NovaTheme.primary
+                            Text { anchors.centerIn: parent; text: "16 : 9"; color: NovaTheme.textOnPrimary; font.bold: true } }
+                    }
+                    NovaResponsive {
+                        width: 300; ratio: 1
+                        Rectangle { anchors.fill: parent; radius: NovaTheme.radiusS; color: NovaTheme.secondary
+                            Text { anchors.centerIn: parent; text: "1 : 1"; color: NovaTheme.textOnPrimary; font.bold: true } }
+                    }
+                }
+
+                GalleryRow { label: "③ NovaVideo：视频包装（ratio 16:9；src 为空时显示提示、播放器按需创建）" }
+                NovaVideo { width: 360; title: "产品宣传片（示例占位）" }
+
+                GalleryRow { label: "④ NovaParallax：视差滚动（下方滚动条拖动，看对勾图随速度因子 0.6 慢移）" }
+                Item {
+                    width: 560; height: 200
+                    Rectangle {
+                        id: parFlickBg
+                        width: 560; height: 200
+                        radius: NovaTheme.radiusM
+                        color: NovaTheme.surfaceAlt
+                        border.width: 1; border.color: NovaTheme.outline
+                    }
+                    Flickable {
+                        id: parFlick
+                        anchors.fill: parent
+                        contentWidth: width
+                        contentHeight: 620
+                        clip: true
+                        boundsBehavior: Flickable.StopAtBounds
+                        Rectangle { width: 560; height: 620; color: "transparent" }
+                        Column {
+                            y: 520; spacing: 6
+                            Repeater {
+                                model: ["滚动内容 A（正常速度）", "滚动内容 B（正常速度）", "滚动内容 C（正常速度）"]
+                                Text { required property string modelData; x: 16; text: modelData; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                            }
+                        }
+                        NovaParallax {
+                            y: 180; width: 560; height: 180; speed: 0.6
+                            scrollTarget: parFlick
+                            src: md.svgRed
+                            Rectangle {
+                                anchors { left: parent.left; leftMargin: 16; bottom: parent.bottom; bottomMargin: 12 }
+                                Text { text: "Parallax 媒体层"; color: "#fff"; font.bold: true; font.pixelSize: NovaTheme.fontM }
+                            }
+                            onScrolled: (info) => md.parInfo = info
+                        }
+                    }
+                    Rectangle {
+                        anchors { right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
+                        width: 6; height: 120; radius: 3; color: NovaTheme.outline
+                    }
+                }
+                Text { text: "视差进度：" + (md.parInfo ? Number(md.parInfo.progress).toFixed(3) : "0"); color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+
+                GalleryRow { label: "⑤ NovaCarousel：受控轮播（← → 箭头 / 圆点导航 / 自动轮播 / 无限回绕 / 拖拽翻页 / 自定义覆盖控件）" }
+                Column {
+                    spacing: 6
+                    NovaCarousel {
+                        id: car
+                        width: 560; height: 220
+                        modelValue: md.carSlide
+                        arrows: true
+                        navigation: true
+                        infinite: true
+                        swipeable: true
+                        animated: true
+                        autoplay: 4000
+                        transitionDuration: 260
+                        NovaCarouselSlide {
+                            name: "首屏"; imgSrc: md.svgRed
+                            Rectangle { anchors.centerIn: parent; width: 180; height: 64; radius: NovaTheme.radiusM; color: Qt.rgba(0, 0, 0, 0.45)
+                                Text { anchors.centerIn: parent; text: "品牌首屏"; color: "#fff"; font.pixelSize: NovaTheme.fontL } }
+                        }
+                        NovaCarouselSlide {
+                            name: "新品"
+                            Rectangle { anchors.fill: parent; color: NovaTheme.secondary
+                                Text { anchors.centerIn: parent; text: "新品发布"; color: NovaTheme.textOnPrimary; font.pixelSize: NovaTheme.fontXL } }
+                        }
+                        NovaCarouselSlide {
+                            name: "数据"
+                            Rectangle { anchors.fill: parent; color: NovaTheme.primary
+                                Text { anchors.centerIn: parent; text: "数据看板"; color: NovaTheme.textOnPrimary; font.pixelSize: NovaTheme.fontXL } }
+                        }
+                        NovaCarouselControl {
+                            position: "bottom-right"; offset: 10
+                            Rectangle { width: 92; height: 26; radius: 13; color: Qt.rgba(0, 0, 0, 0.55)
+                                Text { anchors.centerIn: parent; text: "已翻 " + md.carVisits + " 次"; color: "#fff"; font.pixelSize: NovaTheme.fontXS } }
+                        }
+                        onUpdateModelValue: (n) => { md.carSlide = n; md.carVisits++ }
+                    }
+                    Text { text: "当前页：" + md.carSlide + "（4 秒自动轮播，亦可拖拽 / 点击圆点）"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                }
+
+                GalleryRow { label: "⑥ NovaTimeline：comfortable 布局（标签与正文分侧）+ heading + 图标轴点" }
+                NovaTimeline {
+                    width: 560
+                    layout: "comfortable"
+                    side: "left"
+                    tint: NovaTheme.primary
+                    NovaTimelineEntry { heading: true; title: "v0.12.0 · 媒体体系里程碑" }
+                    NovaTimelineEntry { title: "NovaImg 落地"; subtitle: "三态 + ratio"; body: "占位/错误图与延时转圈，宽高比派生。"; icon: "mdi:image-outline" }
+                    NovaTimelineEntry { title: "NovaCarousel 落地"; subtitle: "受控 + 覆盖控件"; body: "arrows/navigation/autoplay/infinite/swipeable 全家桶。"; icon: "mdi:view-carousel-outline" }
+                    NovaTimelineEntry { title: "NovaTable 增强"; subtitle: "虚拟滚动 + 服务端"; body: "virtualScroll 与 request 信号一次收口。"; icon: "mdi:table-edit" }
+                }
+
+                GalleryRow { label: "⑦ NovaChatMessage：收发镜像 / 多条气泡 / stamp / 分组标签" }
+                Column {
+                    spacing: NovaTheme.spacingM
+                    width: 560
+                    NovaChatMessage {
+                        width: 480
+                        label: "今天 10:02"
+                        name: "客服小诺"
+                        text: ["您好，请问 NovaCarousel 支持触摸翻页吗？", "支持的，swipeable 默认开启～"]
+                        stamp: "10:02"
+                        avatarSlot: Rectangle { width: 34; height: 34; radius: 17; color: NovaTheme.secondary
+                            Text { anchors.centerIn: parent; text: "诺"; color: NovaTheme.textOnPrimary; font.pixelSize: NovaTheme.fontS } }
+                    }
+                    NovaChatMessage {
+                        width: 480
+                        sent: true
+                        name: "小伙"
+                        text: "太好了，服务端表格也想要！"
+                        stamp: "10:03"
+                        size: 8
+                    }
+                }
+
+                GalleryRow { label: "⑧ NovaTable 虚拟滚动：1000 行真虚拟化 + 表头粘性常驻 + scrollTo" }
+                Column {
+                    spacing: 4
+                    width: 560
+                    NovaTable {
+                        id: vtbl
+                        width: 560; height: 240
+                        virtualScroll: true; rowsPerPage: 0; virtualScrollItemSize: 44
+                        title: "虚拟滚动 · 1000 行"
+                        rowKey: "id"
+                        columns: [
+                            { name: "id", label: "#", field: "id", align: "center" },
+                            { name: "name", label: "名称", field: "name" },
+                            { name: "status", label: "状态", field: "status" }
+                        ]
+                        rows: Array.from({ length: 1000 }, function (_, i) {
+                            return { id: i + 1, name: "记录-" + (i + 1), status: ["活跃", "归档", "草稿"][i % 3] }
+                        })
+                    }
+                    Row {
+                        spacing: NovaTheme.spacingM
+                        NovaBtn { text: "跳到第 800 行"; variant: "outlined"; dense: true; onClicked: vtbl.scrollTo(799) }
+                        Text { text: "虚拟化行数：" + vtbl.virtualRowCount + "（仅可视区 + 缓存带渲染）"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS; anchors.verticalCenter: parent.verticalCenter }
+                    }
+                }
+
+                GalleryRow { label: "⑨ NovaTable 服务端模式：排序/翻页/过滤触发 request，宿主切片回填" }
+                Column {
+                    spacing: 4
+                    width: 560
+                    Rectangle {
+                        width: parent.width; height: 32; radius: NovaTheme.radiusS
+                        color: NovaTheme.surfaceAlt; border.width: 1; border.color: NovaTheme.outline
+                        TextInput {
+                            id: srvFilterIn
+                            x: 10; anchors.verticalCenter: parent.verticalCenter; width: 240
+                            color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS
+                            onTextChanged: { md.srvFilter = text; md.srvPage = 1; md.srvRefresh() }
+                            Text { visible: srvFilterIn.text === ""; x: 0; anchors.verticalCenter: parent.verticalCenter
+                                text: "🔍 服务端过滤（试试“苏晚晴”）…"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                        }
+                    }
+                    NovaTable {
+                        id: srvTbl
+                        width: 560; height: 260
+                        title: "服务端分页 · 共 137 条（8 条/页）"
+                        serverSide: true
+                        rowsNumber: 137
+                        rowsPerPage: 8
+                        rowKey: "id"
+                        loading: srvLoadTimer.running
+                        loadingLabel: "宿主取数中…"
+                        columns: [
+                            { name: "id", label: "#", field: "id", align: "center", sortable: true },
+                            { name: "name", label: "工单", field: "name", sortable: true },
+                            { name: "owner", label: "负责人", field: "owner", sortable: true },
+                            { name: "status", label: "状态", field: "status" }
+                        ]
+                        rows: md.srvRows
+                        sortBy: md.srvSortBy; descending: md.srvDesc; page: md.srvPage
+                        filter: md.srvFilter
+                        onSortChanged: (f, d) => { md.srvSortBy = f; md.srvDesc = d; md.srvPage = 1; srvLoadTimer.restart(); md.srvRefresh() }
+                        onPageRequested: (p) => { md.srvPage = p; srvLoadTimer.restart(); md.srvRefresh() }
+                    }
+                    Timer {
+                        id: srvLoadTimer
+                        interval: 350
+                        onTriggered: if (running) stop()
+                    }
+                    Text { text: "最后请求：sort=" + (md.srvSortBy === "" ? "无" : md.srvSortBy) + (md.srvDesc ? "↓" : "↑") + " · page=" + md.srvPage; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                    Component.onCompleted: md.srvRefresh()
                 }
             }
         }

@@ -2,30 +2,31 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.11.0 · 2026-11-23）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.12.0 · 2026-11-23）
 
 ## 一句话定位
 
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-## 当前状态（0.11.0 · **三期 Sprint A 收口：数据体系九件 14 类型**）
+## 当前状态（0.12.0 · **三期 Sprint B 收口：媒体体系十类型 + Table 增强**）
 
-- **公共 QML 类型 76 个已交付**（qmldir 导出口径）：Controls **49**（0.11.0 新增
-  NovaTable/NovaTh/NovaTd/NovaTr/NovaTree/NovaPagination/NovaList/NovaItem/NovaItemSection/
-  NovaItemLabel/NovaMarkupTable/NovaInfiniteScroll/NovaVirtualScroll/NovaScrollArea）
+- **公共 QML 类型 86 个已交付**（qmldir 导出口径）：Controls **59**（0.12.0 新增
+  NovaImg/NovaResponsive/NovaVideo/NovaParallax/NovaCarousel+NovaCarouselSlide+NovaCarouselControl/
+  NovaTimeline+NovaTimelineEntry/NovaChatMessage）
   + Services 单例 10（Screen/Theme/OverlayHost/Notify/Dialog/Loading/Storage/App/Platform/IntersectionPool）
   + Design 单例 3（NovaIconSet/NovaMotion/NovaUtils）+ 句柄与动作 4
   + Behaviors 9（Ripple/Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan/Swipe/Hold/Repeat，
   另有 internal NovaTouchCore 内核）
-- **测试 225 项全绿**（199 + 0.11.0 新增 26：十四类型实例化冒烟 18 + 行为用例 8：Table 三态
-  排序/过滤计数/选择键值语义/展开行键/分页钳制、Pagination 钳制与翻页、Tree strict 级联勾选/
-  懒加载回填/过滤祖先链/单选、List 手风琴收兄弟、InfiniteScroll 停止与 resume、VirtualScroll
-  5000 行虚拟化 + scrollToIndex）
+- **测试 250 项全绿**（225 + 0.12.0 新增 25：十类型实例化冒烟 13 + 行为用例 12：Img 真图加载
+  与 ratio 派生高、Responsive 等比数学、Video 播放器惰性、Parallax progress/scrolled/媒体层位移、
+  Carousel goTo 受控与禁用页跳过/infinite 回绕/覆盖控件挂载/autoplay 到末页停、Timeline 条目
+  宿主解析与 loose side、ChatMessage 多气泡/栅格宽/镜像、Table 虚拟滚动 500 行+scrollTo、
+  Table 服务端 request 全语义（排序/翻页/过滤/主动交互/setPagination/firstPage/页码重置））
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → Sprint 3 ✅(0.7.0) → Sprint 4 ✅(0.8.0)
   → 二期 Sprint A ✅(0.9.0 表单核心七件) → 二期 Sprint B ✅(0.10.0 输入进阶八件)
-  → **三期 Sprint A ✅(0.11.0 数据体系九件)** → 三期 Sprint B（v0.12.0 媒体体系）待开工
-- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 34%（三期 A 0.11.0）** / L6 70%（五期）
+  → **三期 Sprint A ✅(0.11.0 数据体系九件)** → **三期 Sprint B ✅(0.12.0 媒体体系十类型 + Table 增强)** → 四期 Sprint A（v0.13.0 导航体系）待开工
+- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 43%（三期 B 0.12.0）** / L6 70%（五期）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
   防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
@@ -113,6 +114,15 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     静态层，懒加载回填层（`_lazyStore`）永不入索引，且函数内读 `_lazyStore` 的重赋不触发重评；
     改显式失效：onNodesChanged/on_LazyStoreChanged/onFilterChanged → _refreshDerived() + _rev
     版本号供渲染绑定引用（0.11.0 沉淀）
+29. inline component 裸名赋给 `delegate:`（`delegate: TableRow`）在 Qt 6.12 下**恒 count 0**
+    且零报错——必须带花括号实例化 `delegate: TableRow { }`（0.12.0 沉淀）
+30. 创建期可见性求值时序会让 Column 定位器错过自动布局（委托 implicitHeight 恒 0，翻可见性
+    才补）——显式绑定 `height: childrenRect.height` 兜底（子项高度不依赖父高，无环）（0.12.0 沉淀）
+31. QtMultimedia `Video` 元素创建即初始化 FFmpeg 音频上下文，无音频服务环境（CI/沙箱）**进程
+    挂死**——播放器必须按 src 惰性创建（0.12.0 沉淀）
+32. 占位/错误图若走"source 随 status 切换"成 source↔status 绑定环——分层叠加（主图常驻 +
+    占位/错误图层按态覆盖）；坑位 28 再验证：columns.map()/宿主探测等函数调用绑定依赖不可靠，
+    派生数据变更点一律显式失效（0.12.0 沉淀）
 - ~~Sprint 2 L4 服务~~ ✅ 0.6.0~0.6.2（Notify 29 项/Dialog 27 项/Loading 11 项对账 + Storage/App/Platform；L4 44%）
 - ~~Sprint 3 L3 行为~~ ✅ 0.7.0（九件一次收口；L3 100%）
 - ~~Sprint 4 L0/L5 基础层~~ ✅ **0.8.0 收口（Nova.Design 三单例 + NovaText/NovaTransition；
@@ -125,12 +135,20 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - ~~三期 Sprint A 数据体系~~ ✅ **0.11.0（NovaTable+Th/Td/Tr / NovaTree / NovaPagination /
   NovaList·NovaItem(+Section/Label) / NovaMarkupTable / NovaInfiniteScroll / NovaVirtualScroll /
   NovaScrollArea 九件 14 类型；L2 24%→34%；画廊 18 页；225 项测试）**
-- **三期 B（下一步）媒体体系（v0.12.0）**：NovaImg / NovaResponsive / NovaVideo / NovaParallax /
-  NovaCarousel / NovaTimeline / NovaChatMessage + NovaTable 增强（虚拟滚动/服务端模式）
+- ~~三期 Sprint B 媒体体系~~ ✅ **0.12.0（NovaImg/NovaResponsive/NovaVideo/NovaParallax/
+  NovaCarousel+Slide+Control/NovaTimeline+Entry/NovaChatMessage 十类型 + NovaTable 增强
+  虚拟滚动/服务端模式/loading；L2 34%→43%；画廊 19 页；250 项测试）**
+- **四期 A（下一步）导航体系（v0.13.0）**：NovaTabs/NovaRoute/NovaBreadcrumbs/NovaStepper/
+  NovaBottomNavigation 等以 MASTER_PLAN §4 为准（开工首日复核 Quasar 最新 release）
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ## 最近一次交付
 
+- **0.12.0：三期 Sprint B 收口 · 媒体体系十类型 + Table 增强一次交付**
+  （NovaImg 三态占位/ratio + NovaResponsive 等比 + NovaVideo 惰性播放器 + NovaParallax 视差 +
+  NovaCarousel 受控全家桶（arrows/navigation/autoplay/infinite/swipeable/覆盖控件）+
+  NovaTimeline 三布局 + NovaChatMessage 收发气泡 + NovaTable 虚拟滚动/服务端模式/loading；
+  画廊第 19 页；测试 250 项；L2 34%→43%）
 - **0.11.0：三期 Sprint A 收口 · 数据体系九件 14 类型一次交付**
   （NovaTable 排序/过滤/分页/多选/展开行 + NovaTree strict 级联/懒加载/过滤 +
   NovaPagination + NovaList 手风琴四件 + NovaMarkupTable + NovaInfiniteScroll +

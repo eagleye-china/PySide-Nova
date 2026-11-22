@@ -219,8 +219,53 @@ CASES = [
     "import QtQuick\nimport Nova.Controls\n"
     "NovaVirtualScroll { width: 300; height: 160; itemSize: 40;"
     " delegate: Rectangle { width: 280; height: 40; required property int index } }",
+    "import QtQuick\nimport Nova.Controls\nNovaScrollArea { width: 300; height: 200; Rectangle { width: 500; height: 400 } }",
+    # ── 三期 Sprint B：媒体体系十类型（v0.12.0） ──
     "import QtQuick\nimport Nova.Controls\n"
-    "NovaScrollArea { width: 300; height: 200; Rectangle { width: 500; height: 400 } }",
+    "NovaImg { width: 120; ratio: 1.6; fit: 'contain'; alt: '图'; loadingShowDelay: 200;"
+    " spinnerSize: 36; noSpinner: false }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaImg { src: ''; placeholderSrc: 'p.png'; errorSrc: 'e.png'; noTransition: true;"
+    " loadingSlot: Rectangle { } errorSlot: Rectangle { } Rectangle { } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaResponsive { width: 320; ratio: 1.7777; Rectangle { color: 'red' } }",
+    "import QtQuick\nimport Nova.Controls\nNovaVideo { width: 480; title: '宣传片' }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "Item { width: 400; height: 600; Flickable { id: f }"
+    " NovaParallax { width: 400; height: 200; src: 'x.png'; speed: 0.5; scrollTarget: f;"
+    " mediaSlot: Item { } Rectangle { } } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaCarousel { width: 400; height: 200; arrows: true; navigation: true; infinite: true;"
+    " swipeable: true; autoplay: false; transitionDuration: 200;"
+    " NovaCarouselSlide { name: 'a' } NovaCarouselSlide { name: 'b'; disable: true }"
+    " NovaCarouselControl { position: 'top-right'; offset: 12; Text { text: 'x' } } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaCarousel { width: 300; height: 160; vertical: true; padding: true;"
+    " navigation: true; navigationPosition: 'right'; navigationIcon: 'mdi:circle';"
+    " NovaCarouselSlide { imgSrc: 't.png' } NovaCarouselSlide { } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTimeline { width: 380; tint: '#26A69A'; side: 'left'; layout: 'comfortable';"
+    " NovaTimelineEntry { heading: true; title: '里程碑' }"
+    " NovaTimelineEntry { title: 'T'; subtitle: 'S'; body: 'B'; icon: 'mdi:star' }"
+    " NovaTimelineEntry { title: 'R'; side: 'right'; avatar: 'a.png' } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTimeline { width: 320; layout: 'dense';"
+    " NovaTimelineEntry { title: 'D'; body: '正文' }"
+    " NovaTimelineEntry { title: 'D2'; subtitle: '子'; Rectangle { } } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaChatMessage { width: 420; sent: true; name: '我'; text: ['在吗', '好的'];"
+    " stamp: '10:00'; size: 8; avatarSlot: Rectangle { } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaChatMessage { width: 420; label: '今天'; text: '单条字符串';"
+    " nameSlot: Item { } stampSlot: Item { } labelSlot: Item { } Rectangle { } }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTable { width: 640; height: 300; virtualScroll: true; rowsPerPage: 0;"
+    " virtualScrollItemSize: 40; columns: ['a', 'b'];"
+    " rows: [{a: 1, b: 2}, {a: 3, b: 4}] }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaTable { width: 640; height: 300; serverSide: true; rowsNumber: 42;"
+    " loading: true; loadingLabel: '载入中'; noDataLabel: '空空如也';"
+    " columns: ['nm']; rows: [{nm: 1}] }",
 ]
 
 
@@ -2811,3 +2856,263 @@ def test_data_virtual_scroll(data_env):
     rendered = drv.call0("vsCount")
     assert rendered < 200                               # 远小于 5000
     assert drv.call1("vsScroll", 4000) == 160000        # 4000 * 40
+
+
+# ══════════════════════════════════════════════════════════════
+# 三期 Sprint B · 媒体体系行为级断言（v0.12.0，契约见 docs/PARITY.md §0.12）
+# ══════════════════════════════════════════════════════════════
+
+MEDIA_ENV_QML = (
+    "import QtQuick\n"
+    "import Nova.Controls\n"
+    "Item {\n"
+    "  id: it\n"
+    "  width: 900; height: 1400\n"
+    "  // 宿主状态（受控写回）\n"
+    "  property var carVal: 0\n"
+    "  property var carEvt: null\n"
+    "  property var parInfo: null\n"
+    "  property var srvReq: null\n"
+    "  property bool imgLoaded: false\n"
+    "  property bool imgErrored: false\n"
+    "  property bool imgLoading: false\n"
+    "  property string ssf: ''\n"
+    "  property bool ssd: false\n"
+    "  property int srvPage: 1\n"
+    "  property bool chatSent: false\n"
+    "  property var car2Val: 0\n"
+    "  // ① NovaImg（真实 PNG，由测试夹具注入路径）\n"
+    "  NovaImg {\n"
+    "    id: img; width: 120; ratio: 1.6; fit: 'contain'; loadingShowDelay: 0\n"
+    "    src: '%SRC%'\n"
+    "    onLoaded: { it.imgLoaded = true; it.imgLoading = false }\n"
+    "    onErrored: it.imgErrored = true\n"
+    "    Rectangle { color: 'blue'; width: 10; height: 10 }\n"
+    "  }\n"
+    "  // ② NovaResponsive 等比容器\n"
+    "  NovaResponsive { id: resp; width: 320; y: 130; ratio: 2.0; Rectangle { color: 'red' } }\n"
+    "  // ③ NovaVideo 空源（播放器惰性，不创建 Video 元素）\n"
+    "  NovaVideo { id: vid; width: 200; y: 300 }\n"
+    "  // ④ NovaParallax（宿主 Flickable，progress 与 scroll 事件）\n"
+    "  Flickable {\n"
+    "    id: flick; x: 480; width: 300; height: 300; contentWidth: 300; contentHeight: 900\n"
+    "    Rectangle { width: 300; height: 900; color: '#eee' }\n"
+    "    NovaParallax {\n"
+    "      id: par; y: 400; width: 300; height: 120; speed: 0.5; scrollTarget: flick; src: '%SRC%'\n"
+    "      onScrolled: (info) => it.parInfo = info\n"
+    "    }\n"
+    "  }\n"
+    "  // ⑤ NovaCarousel（受控 + infinite + 禁用页 + 覆盖控件）\n"
+    "  NovaCarousel {\n"
+    "    id: car; width: 320; height: 180; y: 340\n"
+    "    modelValue: it.carVal\n"
+    "    infinite: true; arrows: true; navigation: true; swipeable: true; animated: false\n"
+    "    NovaCarouselSlide { name: 'x' }\n"
+    "    NovaCarouselSlide { name: 'y' }\n"
+    "    NovaCarouselSlide { name: 'dis'; disable: true }\n"
+    "    NovaCarouselSlide { name: 'z' }\n"
+    "    NovaCarouselControl { id: carCtl; position: 'bottom-left'; Text { text: 'ctl' } }\n"
+    "    onUpdateModelValue: (n) => it.carVal = n\n"
+    "    onTransition: (info) => it.carEvt = info\n"
+    "  }\n"
+    "  // ⑥ 自动轮播（非 infinite，到末页停止）\n"
+    "  NovaCarousel {\n"
+    "    id: car2; width: 200; height: 100; y: 540; animated: false\n"
+    "    autoplay: 30; modelValue: it.car2Val\n"
+    "    NovaCarouselSlide { name: 'p1' } NovaCarouselSlide { name: 'p2' }\n"
+    "    onUpdateModelValue: (n) => it.car2Val = n\n"
+    "  }\n"
+    "  // ⑦ NovaTimeline（comfortable + heading + loose side）\n"
+    "  NovaTimeline {\n"
+    "    id: tl; width: 380; y: 660; layout: 'comfortable'; side: 'left'\n"
+    "    NovaTimelineEntry { id: te0; heading: true; title: '里程碑' }\n"
+    "    NovaTimelineEntry { id: te1; title: 'v0.12'; subtitle: '媒体'; body: '七件'; icon: 'mdi:star' }\n"
+    "    NovaTimelineEntry { id: te2; title: 'x'; side: 'right' }\n"
+    "  }\n"
+    "  // ⑧ NovaChatMessage（多气泡 + stamp 尾条）\n"
+    "  NovaChatMessage {\n"
+    "    id: chat; width: 420; y: 900; name: '客服'; text: ['您好', '在吗']; stamp: '10:00'\n"
+    "    sent: it.chatSent; size: 8\n"
+    "  }\n"
+    "  // ⑨ NovaTable 虚拟滚动（500 行）\n"
+    "  NovaTable {\n"
+    "    id: tv; x: 480; width: 400; height: 300\n"
+    "    virtualScroll: true; rowsPerPage: 0; virtualScrollItemSize: 40\n"
+    "    columns: [{name: 'id', label: 'ID', field: 'id', align: 'center', sortable: true}]\n"
+    "    rows: Array.from({length: 500}, function (_, i) { return {id: i + 1} })\n"
+    "  }\n"
+    "  // ⑩ NovaTable 服务端模式（request 信号 + rowsNumber）\n"
+    "  NovaTable {\n"
+    "    id: ts; x: 480; y: 340; width: 400; height: 300\n"
+    "    serverSide: true; rowsNumber: 42; rowsPerPage: 10\n"
+    "    loadingLabel: '载入中'; noDataLabel: '空空如也'\n"
+    "    columns: [{name: 'nm', label: '名', field: 'nm', sortable: true}]\n"
+    "    rows: []\n"
+    "    filter: it.srvFilter\n"
+    "    sortBy: it.ssf; descending: it.ssd; page: it.srvPage\n"
+    "    onSortChanged: (f, d) => { it.ssf = f; it.ssd = d }\n"
+    "    onPageRequested: (p) => it.srvPage = p\n"
+    "    onRequest: (req) => it.srvReq = req\n"
+    "  }\n"
+    "  property string srvFilter: ''\n"
+    "  // ── 驱动代理（固定形参） ──\n"
+    "  function imgStatus() { return img.status }\n"
+    "  function imgH() { return img.implicitHeight }\n"
+    "  function respH() { return resp.height }\n"
+    "  function vidPlayerGone() { return vid.children.length >= 0 && vid.src.toString() === '' }\n"
+    "  function parScroll(y) { flick.contentY = y; return par.progress }\n"
+    "  function parProbe() { return JSON.stringify({top: par._topInContent, flick: par._flick !== null, y: par.y, prog: par.progress}) }\n"
+    "  function parMediaY() { return Math.round(par.children[0] !== undefined ? par.children[0].y : 999) }\n"
+    "  function carGo(n) { car.goTo(n, false); return it.carVal }\n"
+    "  function carNext() { car.next(); return it.carVal }\n"
+    "  function carPrev() { car.previous(); return it.carVal }\n"
+    "  function carCount() { return car.count }\n"
+    "  function carCtlOk() { return carCtl.parent === car.controlLayerItem }\n"
+    "  function car2State() { return JSON.stringify({cur: car2.currentIndex, atEnd: car2._autoAtEnd, run: car2.autoRunning, ms: car2._autoMs}) }\n"
+    "  function tlInfo() { return JSON.stringify({idx: te1._entryIndex, host: te1._host !== null,\n"
+    "                                             lay: te1._host.layout, first: te1._isFirst, last: te1._isLast}) }\n"
+    "  function tlSide2() { return te2._effSide }\n"
+    "  function chatLines() { return chat._lines.length }\n"
+    "  function chatZone() { return Math.round(chat._bubbleZone) }\n"
+    "  function chatMirror() { chat.sent = true; return chat.sent }\n"
+    "  function tvCount() { return tv.virtualRowCount }\n"
+    "  function tvScroll(i) { tv.scrollTo(i); return Math.round(tv.virtualContentY) }\n"
+    "  function srvSort(f) { ts.requestSort(f); return it.srvReq === null ? '' : JSON.stringify(it.srvReq.pagination) }\n"
+    "  function srvGo(p) { ts.requestPage(p); return it.srvReq === null ? '' : JSON.stringify(it.srvReq.pagination) }\n"
+    "  function srvSet(pg) { ts.setPagination({sortBy: 'nm', descending: true, page: pg}); return it.srvReq === null ? '' : JSON.stringify(it.srvReq.pagination) }\n"
+    "  function srvFirst() { ts.firstPage(); return it.srvReq === null ? '' : JSON.stringify(it.srvReq.pagination) }\n"
+    "  function srvFilterSet(f) { it.srvFilter = f; return it.srvReq === null ? '' : JSON.stringify(it.srvReq.pagination) }\n"
+    "  function srvPages() { return ts.pageCount }\n"
+    "  function srvRowCnt() { return ts.rowCount }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def media_env(qml_engine):
+    """媒体体系测试环境：Img(真图)/Responsive/Video/Parallax/Carousel×2/Timeline/Chat/虚拟表/服务端表。"""
+    import os
+    import tempfile
+
+    from PIL import Image as PILImage
+
+    fd, path = tempfile.mkstemp(suffix=".png")
+    os.close(fd)
+    PILImage.new("RGB", (8, 8), (91, 110, 245)).save(path)
+    qml = MEDIA_ENV_QML.replace("%SRC%", QUrl.fromLocalFile(path).toString())
+    win = _make(qml_engine, qml, wait=0.3)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)
+    _pump(150)
+    return drv
+
+
+def test_media_img_load_and_ratio(media_env):
+    """真实 PNG 加载 → loaded 事件 + ratio 派生高度（120/1.6=75）。"""
+    drv = media_env
+    assert drv.call0("imgStatus") == "loaded"
+    assert drv.val("imgLoaded") is True
+    assert abs(drv.call0("imgH") - 75.0) < 0.6
+
+
+def test_media_responsive_ratio(media_env):
+    """NovaResponsive：ratio 2.0 → height = width / ratio = 160。"""
+    drv = media_env
+    assert abs(drv.call0("respH") - 160.0) < 0.6
+
+
+def test_media_video_lazy_player(media_env):
+    """空源 NovaVideo 不创建播放器（惰性实例化）。"""
+    drv = media_env
+    assert drv.call0("vidPlayerGone") is True
+
+
+def test_media_parallax_progress_and_event(media_env):
+    """滚动宿主 → progress∈(0,1] + scrolled 事件上报；媒体层产生位移。"""
+    drv = media_env
+    p = drv.call1("parScroll", 120)
+    assert 0 < p <= 1
+    info = drv.val("parInfo")
+    assert info is not None and "progress" in info
+    y1 = drv.call0("parMediaY")
+    drv.call1("parScroll", 300)
+    y2 = drv.call0("parMediaY")
+    assert y2 < y1   # 视差：媒体层随滚动上移
+
+
+def test_media_carousel_go_to_and_skip_disabled(media_env):
+    """goTo(name) 受控上报；next 跳过禁用页；infinite 末页回绕首页。"""
+    drv = media_env
+    assert drv.call1("carGo", "y") == "y"
+    assert drv.call1("carGo", "dis") == "y"     # 禁用页不可达
+    assert drv.call0("carNext") == "z"
+    assert drv.call0("carNext") == "x"          # infinite 回绕
+    assert drv.call0("carPrev") == "z"
+    assert drv.call0("carCount") == 4
+
+
+def test_media_carousel_control_attach(media_env):
+    """NovaCarouselControl 声明于轮播内部 → 自动挂载覆盖层。"""
+    drv = media_env
+    assert drv.call0("carCtlOk") is True
+
+
+def test_media_carousel_autoplay_stop_at_end(media_env):
+    """autoplay 到末页自动停（Timer.running=false）；interval=30ms。"""
+    drv = media_env
+    _pump(260)
+    s = drv.call0("car2State")
+    assert '"ms":30' in s
+    assert '"atEnd":true' in s
+    assert '"run":false' in s
+
+
+def test_media_timeline_entry_host_binding(media_env):
+    """条目回填序号/宿主解析（坑位 14 向上遍历）；loose side 覆盖宿主 side。"""
+    drv = media_env
+    s = drv.call0("tlInfo")
+    assert '"host":true' in s and '"idx":1' in s and '"lay":"comfortable"' in s
+    assert '"first":false' in s and '"last":false' in s
+    assert drv.call0("tlSide2") == "right"
+
+
+def test_media_chat_message_semantics(media_env):
+    """text 数组多条气泡；size 栅格宽 8/12；sent 镜像翻转。"""
+    drv = media_env
+    assert drv.call0("chatLines") == 2
+    assert abs(drv.call0("chatZone") - 420 * 8 / 12) < 1.5
+    assert drv.call0("chatMirror") is True
+
+
+def test_media_table_virtual_scroll(media_env):
+    """500 行虚拟化 + scrollTo 跳转（行高 40）。"""
+    drv = media_env
+    assert drv.call0("tvCount") == 500
+    h1 = drv.call1("tvScroll", 1)                # 首行高（NovaTr 44 + 分隔 1）
+    assert h1 > 0
+    assert drv.call1("tvScroll", 100) >= 100 * h1 - 10   # 线性跳转（含分隔线余量）
+
+
+def test_media_table_server_request(media_env):
+    """服务端模式：排序/翻页/过滤/主动交互全部触发 request（页码重置语义）。"""
+    drv = media_env
+    s = drv.call1("srvSort", "nm")
+    assert '"sortBy":"nm"' in s and '"descending":false' in s and '"page":1' in s
+    s2 = drv.call1("srvSort", "nm")
+    assert '"descending":true' in s2             # 升→降
+    s3 = drv.call1("srvGo", 3)
+    assert '"page":3' in s3 and '"rowsPerPage":10' in s3 and '"rowsNumber":42' in s3
+    assert drv.call0("srvPages") == 5            # ceil(42/10)
+    assert drv.call0("srvRowCnt") == 42
+    s4 = drv.call1("srvSet", 2)
+    assert '"sortBy":"nm"' in s4 and '"descending":true' in s4 and '"page":2' in s4
+    s5 = drv.call0("srvFirst")
+    assert '"page":1' in s5
+    s6 = drv.call1("srvFilterSet", "关键词")
+    assert '"page":1' in s6                      # 过滤触发请求且重置页码
+
+
+def test_media_env_reentrant(media_env):
+    """媒体环境可复检（画廊加载由既有 test_gallery_loads 覆盖）。"""
+    drv = media_env
+    assert drv.call0("carCount") == 4

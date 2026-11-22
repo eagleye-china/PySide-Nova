@@ -134,7 +134,7 @@
 
 | 交付物 | 对标 | 关键能力 |
 |---|---|---|
-| `NovaTable`（含 QTh/QTd/QTr） | QTable | 列定义/排序/过滤/分页/多选/展开行/grid 模式 ✅（粘性表头/虚拟滚动/服务端模式 → v0.12.0） |
+| `NovaTable`（含 QTh/QTd/QTr） | QTable | 列定义/排序/过滤/分页/多选/展开行/grid 模式 ✅（粘性表头/虚拟滚动/服务端模式 ✅ v0.12.0） |
 | `NovaTree` | QTree | 节点勾选（strict/lazy/none 级联）/展开/懒加载/过滤、default-expand-all ✅ |
 | `NovaPagination` | QPagination | 页码器（max-pages/ellipses/boundary-links）✅ |
 | `NovaList` / `NovaItem` | QList/QItem/QItemSection/QItemLabel | 列表与条目、手风琴、双行/三行布局 ✅ |
@@ -143,7 +143,7 @@
 | `NovaVirtualScroll` | QVirtualScroll | 大列表虚拟化 ✅ |
 | `NovaScrollArea` | QScrollArea | 统一滚动条样式 ✅ |
 
-### Sprint B · 媒体体系（v0.12.0）
+### Sprint B · 媒体体系（v0.12.0）✅ 2026-11-23 收口
 
 | 交付物 | 对标 | 关键能力 |
 |---|---|---|

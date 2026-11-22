@@ -3,6 +3,61 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.12.0] - 2026-11-23
+
+### Added（三期 Sprint B · **媒体体系十类型 + Table 增强一次收口**：L2 34% → 43%，Controls 49 → 59）
+
+- **NovaImg**（对标 QImg）：占位图/错误图/延时转圈三态（loadingShowDelay 防缓存闪 spinner）、
+  ratio/initial-ratio 宽高比派生、fit 五模式 + position 方位、alt→Accessible.name、
+  slots：default 覆盖内容 / loadingSlot / errorSlot；**占位与错误图分层叠加**，
+  规避 source↔status 互相依赖的绑定环
+- **NovaResponsive**（对标 QResponsive）：ratio 等比容器（useRatio 语义 1:1，非法值视为无比例）
+- **NovaVideo**（对标 QVideo）：QtMultimedia Video 皮肤化包装，ratio 默认 16/9，
+  title→无障碍语义；**播放器惰性创建**——src 为空不实例化（坑位 31：
+  无音频服务环境 FFmpeg 音频初始化挂死，空源本就只显示提示）
+- **NovaParallax**（对标 QParallax）：媒体层随宿主滚动按 speed 因子慢速位移（progress 0→1），
+  scroll-target 缺省向上遍历找最近 Flickable（坑位 14 语义）、refresh() 重测、
+  scrolled({progress, contentY}) 事件、mediaSlot 作用域槽
+- **NovaCarousel**（对标 QCarousel，受控 modelValue）：arrows / navigation（四向停靠）/
+  navigation-icon / thumbnails 缩略图 / autoplay（数字 ms、true→5000、负数反向、到末页停）/
+  infinite 回绕 / swipeable（**DragHandler 被动抓取**，不吞子内容点击）/ vertical / padding /
+  transitionDuration；next/previous/goTo（name 或 index，禁用页自动跳过）；
+  **NovaCarouselSlide**（name/disable/img-src 快速图片页）+ **NovaCarouselControl**
+  （position/offset 覆盖控件，声明于轮播内部自动挂载覆盖层——坑位 14 向上遍历）
+- **NovaTimeline / NovaTimelineEntry**（对标 QTimeline 族）：tint 轴色 / side 左右停靠 /
+  dense·comfortable·loose 三布局；条目 heading 标题态 / icon·avatar 轴点 / title·subtitle·body
+  + titleSlot/subtitleSlot 命名槽；轴连线条目自绘（延伸进 spacing 覆盖间隙，loose 左右交替成立）
+- **NovaChatMessage**（对标 QChatMessage）：sent 收发镜像 / label 分组标签 / tint 气泡色 /
+  name / avatar / text（字符串或数组→多条气泡）/ stamp（仅尾条）/ size 1~12 栅格宽；
+  slots：default 正文 / avatarSlot / nameSlot / stampSlot / labelSlot
+- **NovaTable 增强**（v0.12.0 承诺项）：**虚拟滚动**（virtualScroll + virtualScrollItemSize，
+  表体切 ListView 真虚拟化、行结构 inline component 复用、表头独立常驻=天然粘性、scrollTo）；
+  **服务端模式**（serverSide + rowsNumber + request 信号 {pagination, filter} +
+  requestServerInteraction()/setPagination()/firstPage()，排序/过滤触发请求页码重置为 1）；
+  **loading 覆盖层 + loadingLabel + noDataLabel**
+- 画廊新增第 19 页「媒体体系」（19 页）：Img 三态 / Responsive / Video / Parallax 视差实机 /
+  Carousel 全家桶实机（自动轮播+覆盖控件计数）/ Timeline / ChatMessage 收发对话 /
+  虚拟表 1000 行 / 服务端表 137 条模拟取数（内联 SVG data URL 作离线图源）
+
+### Changed
+
+- 版本贴/概览页同步 0.12.0（Gallery 0.12.0；概览口径改"86 个公共类型"）
+- NovaCarousel/NovaTable 暴露诊断只读位（controlLayerItem / autoRunning /
+  virtualRowCount / virtualContentY / virtualContentHeight）
+
+### 固定（坑位沉淀）
+
+- **29**：inline component 裸名赋给 `delegate:`（如 `delegate: TableRow`）在 Qt 6.12 下
+  **恒 count 0** 且零报错——必须带花括号实例化 `delegate: TableRow { }`
+- **30**：创建期可见性求值时序会让 Column 定位器错过自动布局（委托 implicitHeight 恒 0），
+  显式绑定 `height: childrenRect.height` 兜底（子项高度不依赖父高，无环）
+- **31**：QtMultimedia `Video` 元素创建即初始化 FFmpeg 音频上下文，无音频服务环境（CI/沙箱）
+  **进程挂死**——播放器必须按 src 惰性创建
+- NovaImg 占位/错误图若走"source 随 status 切换"会成 source↔status 绑定环——改分层叠加
+  （主图常驻 + 占位/错误图层按态覆盖）
+- 坑位 28 再验证：函数调用绑定依赖不可靠在 `columns.map()`/`_flick` 探测场景重现——
+  派生数据变更点一律走显式信号/句柄（onChildrenChanged/onScrollTargetChanged/onFilterChanged）
+
 ## [0.11.0] - 2026-11-23
 
 ### Added（三期 Sprint A · **数据体系九件 14 类型一次收口**：L2 24% → 34%，Controls 35 → 49）

@@ -1,9 +1,11 @@
 // src/pyside_nova/qml/Nova/Controls/NovaTable.qml
 // NovaTable 数据表格（对标 QTable）
 // v0.11.0 基础：列定义/排序/过滤/分页/多选/展开行/grid 模式
-// （虚拟滚动与服务端模式 → v0.12.0）
+// v0.12.0 增强：虚拟滚动（virtualScroll + ListView 真虚拟化）/ 服务端模式
+// （serverSide + rowsNumber + request 信号 + requestServerInteraction/setPagination/firstPage）
+// / loading 状态层 / noDataLabel / loadingLabel；表头独立于表体滚动区，天然粘性
 // 受控模式（坑位 22）：selected/expanded/sortBy/descending/page 均不自写，
-// 只 emit updateSelected/updateExpanded/sortChanged/pageRequested 由宿主写回
+// 只 emit updateSelected/updateExpanded/sortChanged/pageRequested/request 由宿主写回
 import QtQuick
 import Nova.Controls
 import Nova.Services
@@ -17,6 +19,19 @@ Rectangle {
     property string rowKey: ""             // 行键字段名；空则用原始行序号
     property string filter: ""             // 客户端过滤（全字段包含匹配）
     property var filterMethod: null        // 自定义过滤 function(row, filter) -> bool
+
+    // ── 服务端模式（v0.12.0） ───────────────────────────────
+    property bool serverSide: false        // true=过滤/排序/分页均由宿主执行，rows 即当前页数据
+    property int rowsNumber: -1            // 服务端总行数（pageCount 依据；-1 回落 rows.length）
+
+    // ── 虚拟滚动（v0.12.0，对标 virtual-scroll 系） ─────────
+    property bool virtualScroll: false     // 表体走 ListView 真虚拟化（建议 rowsPerPage: 0）
+    property int virtualScrollItemSize: 48 // 行高（虚拟化估高）
+
+    // ── 状态反馈 ────────────────────────────────────────────
+    property bool loading: false           // loading 覆盖层（对标 loading）
+    property string loadingLabel: ""       // loading 文案（对标 loading-label）
+    property string noDataLabel: ""        // 空态文案（对标 no-data-label；空用内置文案）
 
     // ── 排序（受控） ────────────────────────────────────────
     property string sortBy: ""
@@ -44,14 +59,15 @@ Rectangle {
     property bool flat: false
     property bool bordered: !flat
 
-    // ── 派生数据（管道：过滤 → 排序 → 分页） ────────────────
-    readonly property var filteredRows: _filterRows()
-    readonly property var sortedRows: _sortRows(filteredRows)
-    readonly property int rowCount: sortedRows.length
+    // ── 派生数据（管道：服务端模式下全部直通，客户端：过滤 → 排序 → 分页） ──
+    readonly property var filteredRows: serverSide ? rows : _filterRows()
+    readonly property var sortedRows: serverSide ? rows : _sortRows(filteredRows)
+    readonly property int rowCount: serverSide && rowsNumber >= 0 ? rowsNumber : sortedRows.length
     readonly property int pageCount: rowsPerPage > 0 ? Math.max(1, Math.ceil(rowCount / rowsPerPage)) : 1
-    readonly property var visibleRows: rowsPerPage > 0
-        ? sortedRows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-        : sortedRows
+    // 服务端模式：rows 即宿主返回的当前页切片；客户端模式：本地切片
+    readonly property var visibleRows: serverSide ? rows
+        : (rowsPerPage > 0 ? sortedRows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+                           : sortedRows)
     readonly property bool allVisibleSelected: visibleRows.length > 0 && _allSelected()
     readonly property bool someSelected: selected.length > 0 && !allVisibleSelected
 
@@ -61,14 +77,33 @@ Rectangle {
     signal updateExpanded(var keys)
     signal sortChanged(string field, bool desc)
     signal pageRequested(int page)
+    signal request(var params)   // 服务端模式：{ pagination: {sortBy,descending,page,rowsPerPage,rowsNumber}, filter }
 
     radius: NovaTheme.radiusL
     color: NovaTheme.surface
     border.width: bordered ? 1 : 0
     border.color: NovaTheme.outline
     implicitWidth: 640
-    implicitHeight: titleArea.height + headerRow.height + bodyCol.height
+    implicitHeight: titleArea.height + headerRow.height + bodyHost.height
                     + (hideBottom ? 0 : bottomBar.height) + 2
+
+    // 虚拟滚动模式：宿主应给定 height；未给定时回落 320 视口
+    readonly property real _bodyViewport: Math.max(virtualScrollItemSize,
+        ((height > 0 ? height : 320) - titleArea.height - headerRow.height
+         - (hideBottom ? 0 : bottomBar.height) - 2))
+
+    function scrollTo(i) {
+        // 虚拟滚动模式跳转到指定行（对标 scrollTo()）
+        if (!virtualScroll || virtualBody.count === 0) return
+        virtualBody.positionViewAtIndex(
+            Math.min(Math.max(0, Math.floor(i)), virtualBody.count - 1),
+            ListView.Beginning)
+    }
+
+    // 虚拟滚动内部状态（诊断/测试用）
+    readonly property int virtualRowCount: virtualBody.count
+    readonly property real virtualContentY: virtualBody.contentY
+    readonly property real virtualContentHeight: virtualBody.contentHeight
 
     // ── 工具函数 ────────────────────────────────────────────
     function _normCol(c) {
@@ -186,22 +221,30 @@ Rectangle {
     }
 
     // ── 排序请求（受控：emit 下一状态） ─────────────────────
+    // 服务端模式：排序触发请求并重置页码为 1（Quasar 语义）
     function requestSort(name) {
         if (sortBy !== name) {
             sortChanged(name, false)
+            _emitServerRequest(name, false, 1)
             return { sortBy: name, descending: false }
         }
         if (!descending) {
             sortChanged(name, true)
+            _emitServerRequest(name, true, 1)
             return { sortBy: name, descending: true }
         }
         if (binaryStateSort) {
             sortChanged(name, false)
+            _emitServerRequest(name, false, 1)
             return { sortBy: name, descending: false }
         }
         sortChanged("", false)
+        _emitServerRequest("", false, 1)
         return { sortBy: "", descending: false }
     }
+
+    // 服务端模式：filter 变化触发请求（重置页码为 1；宿主勿在 request 处理器回写 filter，防环）
+    onFilterChanged: if (serverSide) _emitServerRequest(sortBy, descending, 1)
 
     // ── 展开行（受控） ──────────────────────────────────────
     function isRowExpanded(row, i) {
@@ -223,12 +266,123 @@ Rectangle {
     // ── 分页 ────────────────────────────────────────────────
     function requestPage(p) {
         var next = Math.min(Math.max(1, Math.round(p)), pageCount)
-        if (next !== page)
+        if (next !== page) {
             pageRequested(next)
+            _emitServerRequest(sortBy, descending, next)  // 服务端模式：翻页触发请求
+        }
         return next
     }
     function nextPage() { return requestPage(page + 1) }
     function prevPage() { return requestPage(page - 1) }
+    function firstPage() { return requestPage(1) }   // 对标 firstPage()
+
+    // ── 服务端模式辅助（对标 requestServerInteraction / setPagination） ──
+    function _emitServerRequest(sortBy_, desc, pg) {
+        if (!serverSide) return
+        request({
+            pagination: {
+                sortBy: sortBy_, descending: desc, page: pg,
+                rowsPerPage: rowsPerPage, rowsNumber: rowsNumber
+            },
+            filter: filter
+        })
+    }
+    function requestServerInteraction() {
+        // 主动触发一次服务端交互（对标 requestServerInteraction()）
+        _emitServerRequest(sortBy, descending, page)
+    }
+    function setPagination(pg) {
+        // 对标 setPagination：以给定分页对象触发服务端请求
+        // pg: {sortBy, descending, page, rowsPerPage, rowsNumber}
+        if (pg === undefined || pg === null) return
+        if (pg.sortBy !== undefined && pg.descending !== undefined)
+            sortChanged(pg.sortBy, pg.descending)
+        if (pg.page !== undefined)
+            pageRequested(pg.page)
+        _emitServerRequest(pg.sortBy !== undefined ? pg.sortBy : sortBy,
+                           pg.descending !== undefined ? pg.descending : descending,
+                           pg.page !== undefined ? pg.page : page)
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // 行结构（inline component：普通 Repeater 与虚拟 ListView 共用）
+    // ══════════════════════════════════════════════════════════
+    component TableRow: Column {
+        id: rowWrap
+        required property var modelData
+        required property int index
+        width: ListView.view !== null ? ListView.view.width
+                                      : (parent !== null ? parent.width : 300)
+        // 显式高度：虚拟滚动创建期定位器可能错过自动布局（坑位 30），
+        // 用 childrenRect 兜底——子项自身高度（NovaTr 44 + 展开区 + 分隔线 1）不依赖父高，无环
+        height: childrenRect.height
+
+        property var rowData: modelData
+        property int rowIdx: index
+        property string rowK: root._keyOf(modelData, index)
+        property bool rowExpanded: root.expanded.indexOf(rowK) !== -1
+        property bool rowSelected: root.isRowSelected(modelData)
+
+        NovaTr {
+            id: tr
+            width: parent.width
+            selected: rowWrap.rowSelected
+            Row {
+                // 单选/多选列
+                Item {
+                    width: root.singleSelection ? 0 : 44
+                    height: parent.height
+                    visible: !root.singleSelection
+                    Rectangle {
+                        width: 16; height: 16; radius: 3
+                        anchors.centerIn: parent
+                        color: rowWrap.rowSelected ? NovaTheme.primary : "transparent"
+                        border.width: 1
+                        border.color: rowWrap.rowSelected ? NovaTheme.primary : NovaTheme.textMuted
+                        Text {
+                            anchors.centerIn: parent
+                            visible: rowWrap.rowSelected
+                            text: "✓"; color: NovaTheme.textOnPrimary
+                            font.pixelSize: 12; font.bold: true
+                        }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: root.toggleRowSelection(rowWrap.rowData)
+                    }
+                }
+                Repeater {
+                    model: root.normColumns
+                    NovaTd {
+                        required property var modelData
+                        text: root._cellText(rowWrap.rowData, modelData)
+                        align: modelData.align
+                        width: Math.max(80, (tr.width - (root.singleSelection ? 0 : 44)) / root.normColumns.length)
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "transparent"
+                            border.width: root.grid ? 1 : 0
+                            border.color: NovaTheme.outline
+                        }
+                    }
+                }
+            }
+            onRowClicked: root.rowClicked(rowWrap.rowData, rowWrap.rowIdx)
+            onRowDoubleClicked: root.rowDoubleClicked(rowWrap.rowData, rowWrap.rowIdx)
+        }
+
+        // 展开区
+        Loader {
+            width: parent.width
+            active: rowWrap.rowExpanded && root.expandSlot !== null
+            sourceComponent: root.expandSlot
+            onLoaded: {
+                if (item.rowData !== undefined) item.rowData = rowWrap.rowData
+                if (item.rowIndex !== undefined) item.rowIndex = rowWrap.rowIdx
+            }
+        }
+        Rectangle { width: parent.width; height: 1; color: NovaTheme.outline; opacity: 0.5 }
+    }
 
     // ══════════════════════════════════════════════════════════
     Column {
@@ -309,99 +463,98 @@ Rectangle {
             }
         }
 
-        // 表体
-        Column {
-            id: bodyCol
+        // 表体（v0.12.0 双形态：普通流式 / 虚拟滚动；表头独立常驻=天然粘性）
+        Item {
+            id: bodyHost
             width: parent.width
+            height: root.virtualScroll ? root._bodyViewport : bodyCol.height
+            clip: true
 
-            Repeater {
-                model: root.visibleRows
+            // 形态一：普通流式（Repeater 直渲）
+            Column {
+                id: bodyCol
+                visible: !root.virtualScroll
+                width: parent.width
 
-                Column {
-                    id: rowWrap
-                    required property var modelData
-                    required property int index
-                    width: parent.width
-
-                    property var rowData: modelData
-                    property int rowIdx: index
-                    property string rowK: root._keyOf(modelData, index)
-                    property bool rowExpanded: root.expanded.indexOf(rowK) !== -1
-                    property bool rowSelected: root.isRowSelected(modelData)
-
-                    NovaTr {
-                        id: tr
-                        width: parent.width
-                        selected: rowWrap.rowSelected
-                        Row {
-                            // 单选/多选列
-                            Item {
-                                width: root.singleSelection ? 0 : 44
-                                height: parent.height
-                                visible: !root.singleSelection
-                                Rectangle {
-                                    width: 16; height: 16; radius: 3
-                                    anchors.centerIn: parent
-                                    color: rowWrap.rowSelected ? NovaTheme.primary : "transparent"
-                                    border.width: 1
-                                    border.color: rowWrap.rowSelected ? NovaTheme.primary : NovaTheme.textMuted
-                                    Text {
-                                        anchors.centerIn: parent
-                                        visible: rowWrap.rowSelected
-                                        text: "✓"; color: NovaTheme.textOnPrimary
-                                        font.pixelSize: 12; font.bold: true
-                                    }
-                                }
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: root.toggleRowSelection(rowWrap.rowData)
-                                }
-                            }
-                            Repeater {
-                                model: root.normColumns
-                                NovaTd {
-                                    required property var modelData
-                                    text: root._cellText(rowWrap.rowData, modelData)
-                                    align: modelData.align
-                                    width: Math.max(80, (tr.width - (root.singleSelection ? 0 : 44)) / root.normColumns.length)
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        color: "transparent"
-                                        border.width: root.grid ? 1 : 0
-                                        border.color: NovaTheme.outline
-                                    }
-                                }
-                            }
-                        }
-                        onRowClicked: root.rowClicked(rowWrap.rowData, rowWrap.rowIdx)
-                        onRowDoubleClicked: root.rowDoubleClicked(rowWrap.rowData, rowWrap.rowIdx)
-                    }
-
-                    // 展开区
-                    Loader {
-                        width: parent.width
-                        active: rowWrap.rowExpanded && root.expandSlot !== null
-                        sourceComponent: root.expandSlot
-                        onLoaded: {
-                            if (item.rowData !== undefined) item.rowData = rowWrap.rowData
-                            if (item.rowIndex !== undefined) item.rowIndex = rowWrap.rowIdx
-                        }
-                    }
-                    Rectangle { width: parent.width; height: 1; color: NovaTheme.outline; opacity: 0.5 }
+                Repeater {
+                    model: root.visibleRows
+                    delegate: TableRow { }
                 }
             }
 
-            // 空态
+            // 形态二：虚拟滚动（ListView 真虚拟化；建议 rowsPerPage: 0 全量入模）
+            // 坑位 29：inline component 裸名赋 delegate 恒 count 0——必须带花括号实例化
+            ListView {
+                id: virtualBody
+                visible: root.virtualScroll
+                anchors.fill: parent
+                model: root.virtualScroll ? root.sortedRows : null
+                delegate: TableRow { }
+                reuseItems: true
+                cacheBuffer: 240
+                boundsBehavior: Flickable.StopAtBounds
+            }
+
+            // 空态（两种形态共用；noDataLabel 优先）
             Rectangle {
                 width: parent.width
-                height: root.visibleRows.length === 0 ? 64 : 0
+                height: root.visibleRows.length === 0 && !root.loading ? 64 : 0
                 color: "transparent"
                 Text {
                     anchors.centerIn: parent
-                    visible: root.visibleRows.length === 0
-                    text: "暂无数据"
+                    visible: root.visibleRows.length === 0 && !root.loading
+                    text: root.noDataLabel !== "" ? root.noDataLabel : "暂无数据"
                     color: NovaTheme.textMuted
                     font.pixelSize: NovaTheme.fontM
+                }
+            }
+
+            // loading 覆盖层（令牌取色；loadingLabel 优先）
+            Rectangle {
+                anchors.fill: parent
+                color: Qt.rgba(NovaTheme.surface.r, NovaTheme.surface.g,
+                               NovaTheme.surface.b, 0.72)
+                visible: root.loading
+
+                Item {
+                    width: 28; height: 28
+                    anchors.centerIn: parent
+                    RotationAnimation on rotation {
+                        from: 0; to: 360
+                        duration: 900
+                        loops: Animation.Infinite
+                        running: root.loading
+                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: width / 2
+                        color: "transparent"
+                        border.width: 3
+                        border.color: Qt.rgba(NovaTheme.primary.r, NovaTheme.primary.g,
+                                              NovaTheme.primary.b, 0.22)
+                    }
+                    Canvas {
+                        anchors.fill: parent
+                        onPaint: {
+                            var ctx = getContext("2d")
+                            ctx.reset()
+                            ctx.strokeStyle = NovaTheme.primary.toString()
+                            ctx.lineWidth = 3
+                            ctx.lineCap = "round"
+                            ctx.beginPath()
+                            ctx.arc(width / 2, height / 2, width / 2 - 2,
+                                    -Math.PI / 2, -Math.PI / 2 + 1.5 * Math.PI)
+                            ctx.stroke()
+                        }
+                    }
+                }
+                Text {
+                    anchors { horizontalCenter: parent.horizontalCenter
+                              top: parent.verticalCenter; topMargin: 22 }
+                    visible: root.loadingLabel !== ""
+                    text: root.loadingLabel
+                    color: NovaTheme.textMuted
+                    font.pixelSize: NovaTheme.fontS
                 }
             }
         }

@@ -12,13 +12,13 @@
 |---|---|---|---|---|---|
 | **L0 设计语言** | 令牌/主题/图标集/动效/排版 | 8 品牌色 + Dark + 14 套图标 + q-transition--* | **已交付（0.8.0）**：14 套图标集 + provider 注册表 + 八通道解析 + NovaMotion 15 预设 + 12 级字阶 + 高程 0~24 | **100%** | ≥95% |
 | **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **已交付（0.5.0）** | **100%** | 100% |
-| **L2 组件** | 120+ 组件 | 全 | **41 个**（0.11.0 数据体系 14：Table+Th/Td/Tr、Tree、Pagination、List、Item+Section+Label、MarkupTable、InfiniteScroll、VirtualScroll、ScrollArea） | **34%** | P0 100% / 全库 ≥90% |
+| **L2 组件** | 120+ 组件 | 全 | **51 个**（0.12.0 媒体体系 10：Img、Responsive、Video、Parallax、Carousel+Slide+Control、Timeline+Entry、ChatMessage + Table 增强） | **43%** | P0 100% / 全库 ≥90% |
 | **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | **9 个**（Ripple + 0.7.0 一次收口 Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan·Swipe·Hold·Repeat；Morph/Mutation/Resize/DropZone 能力由 QML 原生信号承担，PARITY 留痕） | **100%** | 100% |
 | **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **7 个**（OverlayHost 基建 + Notify + Dialog + Loading + Storage + App + Platform，0.6.2 一次收口四件） | **44%** | 100%（QML 适用项） |
 | **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **已交付（0.8.0）**：NovaUtils（colors 12 + date 21 + format 6 + is 5 + debounce/throttle/frameDebounce/uid/extend/clone）；CSS 工具类由 QML 组件承担留痕 | **95%** | ≥90% |
 | **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | 70%（缺文档站、视觉回归、打包器） | **70%** | ≥95% |
 
-> **一句话诊断**：L1/L3/L0 满格、L5 95%（一期骨架完工）；L2 34%（三期 A 数据体系 14 件收口，表格/树/虚拟滚动落地）；L4 44%（三期补齐）。
+> **一句话诊断**：L1/L3/L0 满格、L5 95%（一期骨架完工）；L2 43%（三期收官：A 数据体系 14 件 + B 媒体体系 10 件 + Table 增强收口）；L4 44%（三期补齐）。
 > 补组件只是"长得像"，补齐这几层才叫"用起来像"。
 
 ---
@@ -167,7 +167,7 @@ L6 工程化     ← 构建、打包、文档、测试、发布、治理
 | 8 | **图标 provider 注册表 + 6 套图标集** | L0 | `icon="mdi:home"`/`mdi-home`/`fas fa-home` 三写法归一；离线包按需下载；缺图标降级占位 |
 | 9 | **Nova.utils + 动效令牌** | L5/L0 | 日期/颜色/格式化/防抖；`durationS/M/L`、`easingStandard`；reduced-motion 开关 |
 | 10 | **NovaForm 体系（Form/Field/Input/Select/Toggle/OptionGroup）+ rules 校验** | L2 | 规则数组（必填/长度/正则/自定义函数）；错误态与 a11y 提示；提交聚合校验 |
-| 11 | **NovaTable 完整能力** | L2 | 列定义/排序/过滤/分页/多选/展开行/粘性表头/virtual scroll/服务端模式 |
+| 11 | **NovaTable 完整能力** | L2 | 列定义/排序/过滤/分页/多选/展开行/粘性表头/virtual scroll/服务端模式 ✅（0.12.0：虚拟滚动 + 服务端模式 + loading 收口） |
 | 12 | **工程化三件套：文档站 + 视觉回归 + 应用打包** | L6 | 文档站可搜索；截图 diff 纳入 CI；`python scripts/build_app.py` 产出 exe |
 
 ---

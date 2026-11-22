@@ -542,3 +542,65 @@ M1/M2 排期在 ROADMAP 跟踪。
 
 > 测试口径：14 类型实例化冒烟 18 条 + 行为用例 8 个（DATA_ENV_QML 驱动代理），合计 0.11.0 新增 26 项（199 → 225）。
 > 坑位沉淀：27 信号参数深拷贝→键值比较；28 函数间接读绑定不可靠→显式失效 + _rev。
+
+---
+
+## §0.12 三期 Sprint B · 媒体体系十类型 + Table 增强（0.12.0，对标 Quasar 2.35.5 npm 原包 dist/api/*.json 逐项核对）
+
+### NovaImg ↔ QImg（29 props）
+
+| 类别 | 收口 | 留痕 |
+|---|---|---|
+| props | ✅ 12：src / placeholder-src / error-src / ratio / initial-ratio / fit / position / spinner-color→spinnerTint / spinner-size / no-spinner / no-transition / loading-show-delay / alt（→Accessible.name） | width/height ⛔（QML Item.width/height 即尺寸语义）；srcset/sizes ⛔（QML Image 无 srcset，原生按 DPR 取图）；loading/crossorigin/decoding/referrerpolicy/fetchpriority/draggable/img-class/img-style/no-native-menu ⛔（浏览器加载与 class 语境） |
+| events | ✅ load→loaded / error→errored | — |
+| slots | ✅ default（覆盖层）/ loading / error | loading 与 error 态互斥渲染 |
+
+### NovaResponsive ↔ QResponsive（1 prop）
+
+- ✅ ratio（Number>0 强制 height = width/ratio，useRatio 语义 1:1：非法值视为无比例，高度交宿主）；slot：default 铺满容器。Quasar 无 ratio 时依赖 CSS aspect-ratio 缺省 —— Nova 取"高度交宿主/内容自定"同语义。
+
+### NovaVideo ↔ QVideo（6 props）
+
+- ✅ src / ratio（默认 16/9）/ title（→Accessible.name）；⛔ fetchpriority/referrerpolicy/loading（浏览器 iframe 语境）。
+- **播放器惰性创建**：src 为空不实例化 QtMultimedia Video（坑位 31：无音频服务环境 FFmpeg 初始化挂死；且空源仅显示提示）。
+
+### NovaParallax ↔ QParallax（4 props + 1 event + 1 method + 3 slots）
+
+- ✅ src / speed（0~1 钳制，官方默认 1）/ scroll-target（仅接受 Item 引用；缺省向上遍历找最近 Flickable，坑位 14 语义）；scroll-target 的 CSS 选择器形态 ⛔（无 DOM 查询）；height ⛔（Item.height 即容器高）。
+- ✅ scroll → scrolled({ progress, contentY })（Quasar 载荷为滚动位置对象，Nova 收敛为穿越进度 0→1 + contentY）；✅ refresh()；slots：default（前景）/ media（mediaSlot）；content 槽与 default 合并（QML 覆盖层语义等价）。
+- 实现口径：媒体层高 = 容器高 + speed×高 余量，随 progress 反向位移，全程覆盖容器。
+
+### NovaCarousel ↔ QCarousel（31 props + 5 events + 7 methods + 3 slots）
+
+| 类别 | 收口 | 留痕 |
+|---|---|---|
+| props | ✅ 15：model-value（受控，页 name/序号寻址）/ animated / infinite / swipeable / vertical / transition-duration / padding / autoplay（数字 ms、true→5000、负数反向）/ arrows / prev-icon / next-icon / navigation / navigation-position / navigation-icon / thumbnails / control-color→controlTint / control-text-color | height ⛔（Item.height）；dark ⛔（NovaTheme 自动）；keep-alive 系 ⛔（Vue 组件缓存）；fullscreen/no-route-fullscreen-exit ⛔（窗口全屏与路由退出留待四期弹层体系）；transition-prev/next ⛔（统一单一滑动过渡）；control-type ⛔（控件形态固定） |
+| events | ✅ update:model-value→updateModelValue / before-transition→beforeTransition / transition→transition（过渡完成后上报） | fullscreen / update:fullscreen 随 fullscreen ⛔ |
+| methods | ✅ next / previous / goTo（name 或 index；禁用页自动跳过） | toggleFullscreen/setFullscreen/exitFullscreen 随 fullscreen ⛔ |
+| slots | ✅ default（页集合，子项即页）+ NovaCarouselControl（position/offset 覆盖控件，自动挂载覆盖层） | navigation-icon 槽 → navigation-icon 属性替代 |
+
+- NovaCarouselSlide ↔ QCarouselSlide：✅ name / disable / img-src（快速图片页）+ default 槽。
+- 手势：DragHandler 被动抓取（不吞子内容点击），快速甩动（速度>0.5px/ms）或拖过 1/4 尺寸翻页。
+- infinite 回绕（首尾跳变）瞬移不带动画留痕：避免长距离扫过中间页。
+
+### NovaTimeline / NovaTimelineEntry ↔ QTimeline（4 props）/ QTimelineEntry（9 props + 3 slots）
+
+- ✅ QTimeline：color→tint / side（left/right）/ layout（dense/comfortable/loose）；dark ⛔（主题自动）。
+- ✅ QTimelineEntry：heading / side（loose 布局生效）/ icon / avatar / color→tint / title / subtitle / body + default 槽（正文）+ title/subtitle 命名槽；tag ⛔（HTML 元素语义）。
+- 轴连线由条目自绘（延伸进 spacing 覆盖间隙；loose 左右交替成立）。
+
+### NovaChatMessage ↔ QChatMessage（14 props + 5 slots）
+
+- ✅ sent（镜像）/ label / bg-color→tint / text-color→textColor / name / avatar / text（字符串或数组→多条气泡）/ stamp（仅尾条）/ size（1~12 栅格宽语义）。
+- ✅ slots：default（正文）/ avatar / name / stamp / label。
+- ⛔ label-html/name-html/text-html/stamp-html：QML 不解析 HTML，富文本走 default 槽。
+
+### NovaTable 增强（v0.12.0 承诺项收口）
+
+- ✅ **虚拟滚动**：virtual-scroll→virtualScroll / virtual-scroll-item-size→virtualScrollItemSize（表体切 ListView 真虚拟化，reuseItems+cacheBuffer；表头独立常驻=天然粘性）；scrollTo() / resetVirtualScroll 语义由 scrollTo 承担；virtual-scroll-slice-size ⛔（reuseItems+cacheBuffer 等价）。
+- ✅ **服务端模式**：@request→request 信号（{ pagination:{sortBy,descending,page,rowsPerPage,rowsNumber}, filter }）/ rowsNumber / serverSide（Nova 增强显式开关，Quasar 以 request 绑定推断）/ requestServerInteraction() / setPagination() / firstPage()；排序/过滤触发请求时页码重置为 1（Quasar 语义）；filter 变化自动触发请求（宿主勿在 request 处理器回写 filter，防环）。
+- ✅ loading / loading-label→loadingLabel / no-data-label→noDataLabel（loading 覆盖层 + 空态文案）。
+- binary-state-sort 已于 0.11.0 落 binaryStateSort；column-sort-order/sort-method/visible-columns/fullscreen/grid 定制 → 留痕。
+
+> 测试口径：十类型实例化冒烟 13 条 + 行为用例 12 个（MEDIA_ENV_QML 驱动代理），合计 0.12.0 新增 25 项（225 → 250）。
+> 坑位沉淀：29 inline component 裸名赋 delegate 恒 count 0（须带花括号实例化）；30 创建期定位器错过自动布局（显式 childrenRect 高度兜底）；31 QtMultimedia Video 惰性创建（无音频服务环境初始化挂死）；NovaImg 占位/错误图分层叠加规避 source↔status 绑定环。

@@ -8,6 +8,10 @@ NovaBtnToggle 1.0 NovaBtnToggle.qml
 NovaCard 1.0 NovaCard.qml
 NovaCardActions 1.0 NovaCardActions.qml
 NovaCardSection 1.0 NovaCardSection.qml
+NovaCarousel 1.0 NovaCarousel.qml
+NovaCarouselControl 1.0 NovaCarouselControl.qml
+NovaCarouselSlide 1.0 NovaCarouselSlide.qml
+NovaChatMessage 1.0 NovaChatMessage.qml
 NovaCheckbox 1.0 NovaCheckbox.qml
 NovaChip 1.0 NovaChip.qml
 NovaCol 1.0 NovaCol.qml
@@ -19,6 +23,7 @@ NovaFooter 1.0 NovaFooter.qml
 NovaForm 1.0 NovaForm.qml
 NovaHeader 1.0 NovaHeader.qml
 NovaIcon 1.0 NovaIcon.qml
+NovaImg 1.0 NovaImg.qml
 NovaInput 1.0 NovaInput.qml
 NovaLayout 1.0 NovaLayout.qml
 NovaOptionGroup 1.0 NovaOptionGroup.qml
@@ -30,9 +35,11 @@ NovaList 1.0 NovaList.qml
 NovaMarkupTable 1.0 NovaMarkupTable.qml
 NovaPage 1.0 NovaPage.qml
 NovaPagination 1.0 NovaPagination.qml
+NovaParallax 1.0 NovaParallax.qml
 NovaPopupEdit 1.0 NovaPopupEdit.qml
 NovaRadio 1.0 NovaRadio.qml
 NovaRange 1.0 NovaRange.qml
+NovaResponsive 1.0 NovaResponsive.qml
 NovaRow 1.0 NovaRow.qml
 NovaScrollArea 1.0 NovaScrollArea.qml
 NovaSelect 1.0 NovaSelect.qml
@@ -43,10 +50,13 @@ NovaTable 1.0 NovaTable.qml
 NovaTd 1.0 NovaTd.qml
 NovaText 1.0 NovaText.qml
 NovaTh 1.0 NovaTh.qml
+NovaTimeline 1.0 NovaTimeline.qml
+NovaTimelineEntry 1.0 NovaTimelineEntry.qml
 NovaTime 1.0 NovaTime.qml
 NovaToggle 1.0 NovaToggle.qml
 NovaTransition 1.0 NovaTransition.qml
 NovaTree 1.0 NovaTree.qml
 NovaTr 1.0 NovaTr.qml
 NovaVirtualScroll 1.0 NovaVirtualScroll.qml
+NovaVideo 1.0 NovaVideo.qml
 NovaVisible 1.0 NovaVisible.qml
