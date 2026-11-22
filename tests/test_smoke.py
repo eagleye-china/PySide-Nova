@@ -124,6 +124,9 @@ def test_screen_breakpoints(qml_engine):
     assert obj.property("ltMd") is True
 
 
+_ALIVE = []   # 测试期强引用池：QWindow 无 parent，组件对象一销毁就会被连带 delete
+
+
 def _make(qml_engine, code, wait=0.0):
     """创建 QML 对象并挂到 app 防止引擎 GC 无父根对象；wait>0 时泵事件（宽度动画）。"""
     import time
@@ -136,8 +139,9 @@ def _make(qml_engine, code, wait=0.0):
     errors = [e.toString() for e in component.errors()]
     assert obj is not None, errors
     from PySide6.QtGui import QWindow
+    _ALIVE.append(obj)                              # 全类型强引用（Window 也不例外）
     if not isinstance(obj, QWindow):
-        obj.setParent(QGuiApplication.instance())   # Window 不能挂 app，自身引用由测试持有
+        obj.setParent(QGuiApplication.instance())   # 非 Window 再挂到 app
     if wait > 0:
         end = time.time() + wait
         while time.time() < end:
@@ -675,3 +679,397 @@ def test_dialog_callbacks_and_hideall(dialog_env):
     assert dialog_env.cnt() == 2
     dialog_env.hideAll("api")
     assert dialog_env.cnt() == 0
+
+
+# ══════════════════════════════════════════════════════════════
+# L4 服务层：NovaLoading（11 项对账 · 引用计数 · 局部/全屏 · 超时）
+# ══════════════════════════════════════════════════════════════
+
+LOADING_DRIVER_QML = (
+    "import QtQuick\nimport Nova.Services\n"
+    "QtObject {\n"
+    "  property var lastHandle: null\n"
+    "  function open(opts) { var h = NovaLoading.show(opts); lastHandle = h; return h }\n"
+    "  function cnt(g) { return NovaLoading.count(g) }\n"
+    "  function active(g) { return NovaLoading.isActive(g) }\n"
+    "  function groups() { return NovaLoading.activeGroups() }\n"
+    "  function activeCount() { return NovaLoading.activeCount() }\n"
+    "  function inc(opts) { return NovaLoading.increment(opts) }\n"
+    "  function dec(g) { return NovaLoading.decrement(g) }\n"
+    "  function forceHide(g) { return NovaLoading.hide(g) }\n"
+    "  function hideAll() { NovaLoading.hideAll() }\n"
+    "  function setDefaults(o) { NovaLoading.setDefaults(o) }\n"
+    "  function clearDefaults() { NovaLoading._defaults = ({}) }\n"
+    "  function setdark(v) { NovaTheme.setDark(v) }\n"
+    "}"
+)
+
+
+@pytest.fixture()
+def loading_env(qml_engine):
+    """L4 加载服务测试环境：源窗口 + 驱动对象；用例前后强杀全部加载组。"""
+    _make(qml_engine, NOTIFY_WINDOW_QML)
+    drv = _make(qml_engine, LOADING_DRIVER_QML)
+    drv.hideAll()
+    drv.clearDefaults()
+    yield drv
+    drv.hideAll()
+    drv.clearDefaults()
+    drv.setdark(False)
+
+
+def test_loading_show_hide(loading_env):
+    """show 建组并渲染 message；句柄 hide 归零即释放，句柄失效。"""
+    h = loading_env.open({"delay": 0, "message": "加载中"})
+    assert loading_env.cnt("__default_quasar_group__") == 1
+    item = h.property("item")
+    assert item.property("message") == "加载中"
+    assert item.property("started") is True
+    assert h.property("valid") is True
+    h.hide()
+    assert loading_env.cnt("__default_quasar_group__") == 0
+    assert h.property("valid") is False
+
+
+def test_loading_concurrent_refcount(loading_env):
+    """引用计数：同组两次 show → 2；释放一份仍显示，归零才收口（并发不互踩）。"""
+    h1 = loading_env.open({"delay": 0, "group": "job"})
+    h2 = loading_env.open({"delay": 0, "group": "job"})
+    assert loading_env.cnt("job") == 2
+    assert h1.property("count") == 2
+    assert h1.property("item") == h2.property("item")      # 复用同一视觉层
+
+    h1.hide()
+    assert loading_env.cnt("job") == 1
+    assert loading_env.active("job") is True
+    assert h2.property("valid") is True
+    assert h2.property("item").property("refCount") == 1
+
+    h2.hide()
+    assert loading_env.cnt("job") == 0
+    assert loading_env.active("job") is False
+
+
+def test_loading_groups_isolated(loading_env):
+    """不同组互不影响：hide(g1) 不动 g2；activeGroups 如实反映。"""
+    h1 = loading_env.open({"delay": 0, "group": "g1"})
+    h2 = loading_env.open({"delay": 0, "group": "g2"})
+    assert loading_env.activeCount() == 2
+    assert sorted(_v(loading_env.groups())) == ["g1", "g2"]
+    loading_env.forceHide("g1")
+    assert loading_env.active("g1") is False
+    assert loading_env.active("g2") is True
+    assert h1.property("valid") is False
+    h2.hide()
+
+
+def test_loading_force_hide_ignores_count(loading_env):
+    """hide(group) 对标基线语义：无视引用计数整组立即关闭。"""
+    h1 = loading_env.open({"delay": 0, "group": "f"})
+    h2 = loading_env.open({"delay": 0, "group": "f"})
+    assert loading_env.cnt("f") == 2
+    loading_env.forceHide("f")
+    assert loading_env.cnt("f") == 0
+    assert h1.property("valid") is False
+    assert h2.property("valid") is False
+
+
+def test_loading_delay_defers_show(loading_env):
+    """delay 内不显示（防闪烁）；到点后才 started。"""
+    h = loading_env.open({"delay": 250})
+    item = h.property("item")
+    assert item.property("started") is False
+    _pump(420)
+    assert item.property("started") is True
+    h.hide()
+
+
+def test_loading_delay_then_hide_never_shows(loading_env):
+    """delay 窗口内 hide：从未显示即销毁，不留残余组。"""
+    h = loading_env.open({"delay": 400})
+    h.hide()
+    assert loading_env.cnt("__default_quasar_group__") == 0
+    assert h.property("valid") is False
+    _pump(500)
+    assert loading_env.activeCount() == 0
+
+
+def test_loading_config_mapping(loading_env):
+    """配置映射：message / spinnerSize / spinnerModel / 配色 / boxed；非法 spinnerModel 回落 ring。"""
+    from PySide6.QtGui import QColor
+
+    h = loading_env.open({"delay": 0, "message": "m", "spinnerSize": 64,
+                          "spinnerModel": "dots", "spinnerTint": "#EF4444",
+                          "backgroundTint": "#223344", "boxed": True})
+    it = h.property("item")
+    assert it.property("spinnerSize") == 64
+    assert it.property("spinnerModel") == "dots"
+    assert it.property("boxed") is True
+    assert it.property("spinnerTint") == QColor("#EF4444")
+    assert it.property("backgroundTint") == QColor("#223344")
+    h.hide()
+
+    bad = loading_env.open({"delay": 0, "spinnerModel": "bogus"})
+    assert bad.property("item").property("spinnerModel") == "ring"
+    bad.hide()
+
+
+def test_loading_setdefaults_and_dark(loading_env):
+    """setDefaults 深合并生效；Dark 模式实例化无异常（宪法第 5 章强制用例）。"""
+    loading_env.setDefaults({"spinnerSize": 72, "message": "默认文案"})
+    h = loading_env.open({"delay": 0})
+    it = h.property("item")
+    assert it.property("spinnerSize") == 72
+    assert it.property("message") == "默认文案"
+    h.hide()
+
+    loading_env.setdark(True)
+    h2 = loading_env.open({"delay": 0, "message": "暗色"})
+    assert h2.property("item").property("spinnerTint").isValid()
+    h2.hide()
+    loading_env.setdark(False)
+
+
+def test_loading_local_target(qml_engine):
+    """局部加载：target 是 Item 时挂进该 Item 内并铺满（Nova 增强）。"""
+    obj = _make(qml_engine,
+                "import QtQuick\nimport Nova.Services\n"
+                "Item { id: host; width: 320; height: 240\n"
+                "  property var h: null\n"
+                "  property var kid: children.length > 0 ? children[0] : null\n"
+                "  property bool attachedNow: kid !== null && kid.parent === host\n"
+                "  Component.onCompleted: h = NovaLoading.show({ delay: 0, target: host, message: '局部' })\n"
+                "}")
+    assert obj.property("h").property("valid") is True
+    assert obj.property("attachedNow") is True
+    obj.property("h").hide()
+
+
+def test_loading_timeout_guard(loading_env):
+    """超时保护：timeout 到点强制收口（Nova 增强，防卡死）。"""
+    h = loading_env.open({"delay": 0, "group": "slow", "timeout": 150})
+    assert loading_env.active("slow") is True
+    _pump(500)
+    assert loading_env.active("slow") is False
+    assert h.property("valid") is False
+
+
+# ══════════════════════════════════════════════════════════════
+# L4 服务层：NovaStorage（LocalStorage API · 命名空间 · 真落盘）
+# ══════════════════════════════════════════════════════════════
+
+STORAGE_DRIVER_QML = (
+    "import QtQuick\nimport Nova.Services\n"
+    "QtObject {\n"
+    "  function useNs(n) { return NovaStorage.useNamespace(n) }\n"
+    "  function set(k, v) { return NovaStorage.set(k, v) }\n"
+    "  function get(k, d) { return NovaStorage.get(k, d) }\n"
+    "  function has(k) { return NovaStorage.has(k) }\n"
+    "  function drop(k) { return NovaStorage.remove(k) }\n"
+    "  function clear() { return NovaStorage.clear() }\n"
+    "  function keys() { return NovaStorage.getAllKeys() }\n"
+    "  function all() { return NovaStorage.getAll() }\n"
+    "  function setAll(o) { return NovaStorage.setAll(o) }\n"
+    "  function setAllArray() { return NovaStorage.setAll([1, 2, 3]) }\n"
+    "  function len() { return NovaStorage.getLength() }\n"
+    "  function empty() { return NovaStorage.isEmpty() }\n"
+    "  function reload() { return NovaStorage.reload() }\n"
+    "  function setItem(k, v) { return NovaStorage.setItem(k, v) }\n"
+    "  function getItem(k) { return NovaStorage.getItem(k) }\n"
+    "  function removeItem(k) { return NovaStorage.removeItem(k) }\n"
+    "  function backend() { return NovaStorage.backend }\n"
+    "  function path() { return NovaStorage.storagePath }\n"
+    "}"
+)
+
+STORAGE_TEST_NS = "nova-smoke"
+
+
+@pytest.fixture()
+def storage_env(qml_engine):
+    """持久化测试环境：切到专用命名空间并清空，避免污染真实用户数据。"""
+    drv = _make(qml_engine, STORAGE_DRIVER_QML)
+    drv.useNs(STORAGE_TEST_NS)
+    drv.clear()
+    yield drv
+    drv.clear()
+
+
+def test_storage_crud(storage_env):
+    """set/get/has/remove/getLength/isEmpty 基本语义。"""
+    assert storage_env.empty() is True
+    assert storage_env.set("alpha", 1) is True
+    assert storage_env.has("alpha") is True
+    assert storage_env.get("alpha", 0) == 1
+    assert storage_env.len() == 1
+    assert storage_env.drop("alpha") is True
+    assert storage_env.drop("alpha") is False          # 二次删除返回 false
+    assert storage_env.get("alpha", "fallback") == "fallback"
+
+
+def _v(value):
+    """QML 返回值归一：QJSValue → Python，其余原样。"""
+    return value.toVariant() if hasattr(value, "toVariant") else value
+
+
+def test_storage_value_types(storage_env):
+    """值类型往返：字符串 / 数字 / 布尔 / 对象 / 数组 / null。"""
+    storage_env.set("s", "青铜峡")
+    storage_env.set("n", 3.14)
+    storage_env.set("b", True)
+    storage_env.set("o", {"k": [1, 2], "deep": {"x": "y"}})
+    storage_env.set("a", [1, "two", False])
+    storage_env.set("z", None)
+
+    assert storage_env.get("s", None) == "青铜峡"
+    assert abs(storage_env.get("n", 0) - 3.14) < 1e-9
+    assert storage_env.get("b", False) is True
+    assert _v(storage_env.get("o", {}))["deep"]["x"] == "y"
+    assert _v(storage_env.get("a", []))[1] == "two"
+    assert storage_env.get("z", "missing") is None
+    assert storage_env.has("z") is True               # null 与"键不存在"可区分
+
+
+def test_storage_persistence_to_disk(storage_env):
+    """真落盘：写入后由 Python 侧新建 QSettings 实例读回同一 ini（模拟重启）。"""
+    from pyside_nova.runtime import NovaRuntime
+
+    storage_env.set("persist", {"mode": "ini"})
+    rt = NovaRuntime()
+    blob = rt.readBlob(STORAGE_TEST_NS)
+    assert "persist" in blob and "ini" in blob
+    assert storage_env.path().endswith("nova-storage.ini")
+
+
+def test_storage_namespace_isolated(storage_env):
+    """命名空间隔离：A 空间写入不影响 B 空间；切回 A 数据仍在。"""
+    storage_env.set("k", "A")
+    storage_env.useNs(STORAGE_TEST_NS + "-b")
+    storage_env.clear()
+    assert storage_env.has("k") is False
+    storage_env.set("k", "B")
+    assert storage_env.get("k", None) == "B"
+    storage_env.useNs(STORAGE_TEST_NS)
+    assert storage_env.get("k", None) == "A"
+    storage_env.useNs(STORAGE_TEST_NS + "-b")
+    storage_env.clear()
+    storage_env.useNs(STORAGE_TEST_NS)
+
+
+def test_storage_getall_deepcopy(storage_env):
+    """getAll 返回深拷贝：外部改副本不影响库内数据。"""
+    storage_env.setAll({"a": 1, "b": {"c": 2}})
+    assert storage_env.len() == 2
+    snap = _v(storage_env.all())
+    snap["b"]["c"] = 999
+    assert _v(storage_env.get("b", {}))["c"] == 2
+    assert sorted(_v(storage_env.keys())) == ["a", "b"]
+
+
+def test_storage_invalid_inputs(storage_env):
+    """非法输入安全兜底：setAll 非对象拒绝；空 key 拒绝；损坏数据不崩。"""
+    assert storage_env.setAllArray() is False
+    assert storage_env.setAll("nope") is False
+    assert storage_env.set(None, 1) is False
+
+
+def test_storage_web_aliases(storage_env):
+    """Web Storage 兼容别名：setItem/getItem/removeItem 与主 API 同源。"""
+    assert storage_env.setItem("w", "v") is True
+    assert storage_env.getItem("w") == "v"
+    assert storage_env.removeItem("w") is True
+    assert storage_env.getItem("w") is None
+
+
+# ══════════════════════════════════════════════════════════════
+# L4 服务层：NovaPlatform / NovaApp
+# ══════════════════════════════════════════════════════════════
+
+def test_platform_facts(qml_engine):
+    """平台事实：os 与 Python 侧一致、桌面互斥判定、snapshot 字段齐全。"""
+    import sys
+
+    from pyside_nova.runtime import NovaRuntime
+
+    obj = _make(qml_engine,
+                "import QtQuick\nimport Nova.Services\n"
+                "QtObject {\n"
+                " property string os: NovaPlatform.os\n"
+                " property bool w: NovaPlatform.isWindows\n"
+                " property bool l: NovaPlatform.isLinux\n"
+                " property bool d: NovaPlatform.isDesktop\n"
+                " property bool t: NovaPlatform.hasTouch\n"
+                " property string desc: NovaPlatform.describe()\n"
+                " property var snap: NovaPlatform.snapshot()\n"
+                "}")
+    rt = NovaRuntime()
+    assert obj.property("os") == rt.osName
+    assert (obj.property("w") and obj.property("l")) is False
+    assert isinstance(obj.property("t"), bool)
+    assert obj.property("desc") != ""
+    snap = _v(obj.property("snap"))
+    for key in ("os", "osVersion", "cpuArch", "isMobile", "isDesktop", "hasTouch", "isWasm"):
+        assert key in snap
+    if sys.platform.startswith("linux"):
+        assert obj.property("l") is True
+        assert obj.property("d") is True
+
+
+# 驱动对象在 QML 侧持有窗口引用（held）：QML 的 JS GC 不认 Python 引用，
+# 必须由 QML 属性强引用窗口，否则 _pump 触发 GC 后窗口被回收、Python wrapper 悬空。
+APP_DRIVER_QML = (
+    "import QtQuick\nimport Nova.Services\n"
+    "QtObject {\n"
+    "  property var held: null\n"
+    "  function keep(w) { held = w }\n"
+    "  function snap() { return NovaApp.snapshot() }\n"
+    "  function curTitle() { return NovaApp.title }\n"
+    "  function curVisible() { return NovaApp.isVisible }\n"
+    "  function title(t) { return NovaApp.setTitle(t) }\n"
+    "  function vis(n) { return NovaApp.setVisibility(n) }\n"
+    "  function toggle() { return NovaApp.toggle() }\n"
+    "  function exitFs() { return NovaApp.exit() }\n"
+    "  function bad(n) { return NovaApp.setVisibility(n) }\n"
+    "}"
+)
+
+
+def test_app_window_control(qml_engine):
+    """窗口服务：标题同步、最大化/全屏切换、toggle 往返、非法状态拒绝。"""
+    drv = _make(qml_engine, APP_DRIVER_QML)      # 先建驱动，再建窗口并立刻在 QML 侧强引用
+    win = _make(qml_engine, NOTIFY_WINDOW_QML)
+    drv.keep(win)
+
+    assert drv.snap().toVariant()["available"] is True
+    assert drv.title("Nova 控制台") is True
+    assert drv.curTitle() == "Nova 控制台"          # 断言一律走 QML 侧，不摸 Python 侧窗口 wrapper
+
+    assert drv.vis("maximized") is True
+    assert drv.snap().toVariant()["isMaximized"] is True
+
+    assert drv.toggle() is True
+    assert drv.snap().toVariant()["isFullscreen"] is True
+    assert drv.toggle() is True
+    assert drv.snap().toVariant()["isFullscreen"] is False
+    assert drv.snap().toVariant()["isMaximized"] is True          # 退出全屏回落到进入前状态
+
+    assert drv.vis("windowed") is True
+    assert drv.bad("floating") is False
+
+
+def test_app_without_window(qml_engine):
+    """无源窗口时安全降级：available=false、命令返回 false、不抛错。"""
+    engine = QQmlEngine()
+    init_nova(engine)
+    component = QQmlComponent(engine)
+    component.setData(("import QtQuick\nimport Nova.Services\n"
+                       "QtObject { property bool a: NovaApp.available\n"
+                       " property bool r: NovaApp.request()\n"
+                       " property string t: NovaApp.title }").encode(),
+                      QUrl("qrc:/nova-app-nowin.qml"))
+    obj = component.create()
+    assert obj is not None, [e.toString() for e in component.errors()]
+    assert obj.property("a") is False
+    assert obj.property("r") is False
+    assert obj.property("t") == ""
+    obj.deleteLater()

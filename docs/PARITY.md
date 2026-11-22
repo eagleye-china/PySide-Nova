@@ -192,6 +192,60 @@ M1/M2 排期在 ROADMAP 跟踪。
 | `ok()` / `cancel()` | API | ✅增强 | Nova 增强：程序化触发按钮，自动化测试友好 |
 | `count()` / `activeDialogs()` / `hideAll()` | API | ✅增强 | Nova 增强：内省与批量关闭 |
 
+## NovaLoading ← Loading 插件（审计 0.6.2，npm 2.35.5 dist/api/Loading.json 逐项核实 · 11 项）
+
+| 基线配置 | Nova | 判定 |
+|---|---|---|
+| delay | delay（默认 500 同基线） | ✅ |
+| message | message | ✅ |
+| group | group（默认 `__default_quasar_group__` 1:1） | ✅ |
+| spinnerSize | spinnerSize | ✅ |
+| spinnerColor | spinnerTint（命名规范 tint） | ✅ 改名 |
+| messageColor | messageTint | ✅ 改名 |
+| backgroundColor | backgroundTint | ✅ 改名 |
+| spinner（QSpinner 组件） | spinnerModel: ring/dots/pulse | 🚧 四期 NovaSpinner 就绪后开放组件注入 |
+| html | —（XSS 面 + QML 无 DOM） | ⛔ 留痕 |
+| boxClass / customClass | boxed（布尔卡片化） | ⛔→映射（无 CSS 类体系） |
+
+- `hide(group)` 对标基线 = 按组立即关闭；**句柄 hide() 是 Nova 增强的引用计数语义**
+  （同组多次 show 各持一份引用，归零才收口）——两者刻意区分，防混用
+- Nova 增强：`target`（局部加载）/ `timeout`（卡死兜底）/ `increment / decrement / count /
+  activeGroups / activeCount / isActive / hideAll / setDefaults` / 句柄 `valid/count/item`
+
+## NovaStorage ← LocalStorage 插件（审计 0.6.2）
+
+- API 面 1:1：`set/get/has/remove/clear/getAll/getAllKeys/getLength/isEmpty/setAll`
+  + Web Storage 别名 `setItem/getItem/removeItem` ✅
+- 后端裁定：Quasar 走浏览器 localStorage；Nova 走 Python `Nova.Runtime` 的 QSettings ini
+  （AppDataLocation/nova-storage.ini）——纯 QML 的 Settings 类型在应用未设 organizationName 时
+  直接失效（0.6.2 实测），不可作为企业级默认
+- Nova 增强：`useNamespace()` 命名空间隔离（基线无此概念）；`reload()/flush()` 显式同步；
+  JSON 损坏安全降级；getAll 深拷贝
+- SessionStorage 语义：由 `clear()` + 不持久模式承载（QML 无 per-tab 存储），记录不移植
+
+## NovaApp ← AppFullscreen + AppVisibility + Meta（审计 0.6.2）
+
+| 基线 | Nova | 判定 |
+|---|---|---|
+| $q.fullscreen.request/exit/toggle/isActive | request/exit/toggle/isFullscreen | ✅ |
+| $q.fullscreen.isCapable | isCapable（窗口存在即可） | ✅ |
+| $q.appVisible | isVisible / isActive（窗口级近似） | ✅ 映射 |
+| $q.meta.set({ title }) | setTitle / title（document.title → 窗口 title） | ✅ 映射 |
+| page URL / meta 标签 | — | ⛔ 不适用（无浏览器文档模型） |
+- Nova 增强：`setVisibility` 统一入口（fullscreen/maximized/minimized/windowed）、
+  退出全屏自动回落进入前状态、`show/hide/snapshot()`
+
+## NovaPlatform ← Platform 插件（审计 0.6.2）
+
+| 基线 | Nova | 判定 |
+|---|---|---|
+| is.windows/mac/linux/ios/android | isWindows/isMac/isLinux/isIOS/isAndroid | ✅ |
+| is.desktop / is.mobile | isDesktop / isMobile | ✅ |
+| has.touch | hasTouch（后端 QInputDevice 枚举 TouchScreen；无后端回落"移动系统即有触摸"） | ✅ 换实现路径 |
+| is.chrome/firefox/safari 等内核判定 | — | ⛔ 不适用 |
+| has.webAuthn / within.iframe / within.webView / is.pwa / is.electron | — | ⛔ 不适用（浏览器/Electron 专属） |
+- Nova 增强：`osVersion / cpuArch / describe() / snapshot() / reducedMotion`（五期 a11y 接管真实系统值）
+
 ## 审计纪律（宪法第 3.5 条）
 
 1. 新组件交付 = 宪法迭代 + **本文件新增审计节**（属性/事件/槽/model 逐项列明）

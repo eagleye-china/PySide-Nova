@@ -1,5 +1,5 @@
 // examples/gallery/main.qml
-// pyside-nova 组件画廊：侧边导航 + 8 页面覆盖全部组件，明暗一键切换、断点实时监控
+// pyside-nova 组件画廊：侧边导航 + 12 页面覆盖全部组件与服务，明暗一键切换、断点实时监控
 // pyside-nova 组件画廊：左侧导航 + 右侧页面，覆盖全部已交付组件
 pragma ComponentBehavior: Bound
 import QtQuick
@@ -53,7 +53,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.6.0"
+                text: "Gallery 0.6.2"
                 outlined: true; dense: true
             }
         }
@@ -104,6 +104,7 @@ ApplicationWindow {
                     ListElement { label: "NovaIcon 图标";      icon: "mdi:shape-outline" }
                     ListElement { label: "NovaNotify 通知";    icon: "mdi:bell-ring-outline" }
                     ListElement { label: "NovaDialog 对话框";  icon: "mdi:message-text-outline" }
+                    ListElement { label: "Loading / Storage";  icon: "mdi:progress-clock" }
                     ListElement { label: "Theme / Screen";     icon: "mdi:palette-outline" }
                 }
 
@@ -152,7 +153,8 @@ ApplicationWindow {
         id: content
         anchors { top: header.bottom; left: sidebar.right; right: parent.right; bottom: parent.bottom }
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
-                          pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog, pageTheme][nav.currentIndex]
+                          pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
+                          pageServices, pageTheme][nav.currentIndex]
     }
 
     Rectangle { id: nav; property int currentIndex: 0; visible: false }
@@ -869,6 +871,231 @@ ApplicationWindow {
                     width: parent ? parent.width : 320
                     placeholderText: "新名称"
                     font.pixelSize: NovaTheme.fontS
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：L4 服务（NovaLoading / NovaStorage / NovaApp / NovaPlatform）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageServices
+        Item {
+            id: svc
+
+            property var autoHandle: null
+            property var refA: null
+            property var refB: null
+            property int demoCount: 0
+            property string storeDump: ""
+            property string appState: "窗口"
+            property string localMsg: ""
+
+            function autoLoading() {
+                svc.autoHandle = NovaLoading.show({ delay: 0, message: "正在写入 1,240 条记录…" })
+                autoTimer.restart()
+            }
+
+            function addRef() {
+                var n = NovaLoading.count("demo") + 1
+                var h = NovaLoading.show({ delay: 0, group: "demo", message: "并发任务 " + n + " / 3" })
+                if (n === 1)
+                    svc.refA = h
+                else
+                    svc.refB = h
+                svc.demoCount = NovaLoading.count("demo")
+            }
+
+            function dropRef() {
+                if (svc.refB) {
+                    svc.refB.hide()
+                    svc.refB = null
+                } else if (svc.refA) {
+                    svc.refA.hide()
+                    svc.refA = null
+                }
+                svc.demoCount = NovaLoading.count("demo")
+            }
+
+            function localLoading() {
+                var h = NovaLoading.show({ delay: 0, target: localBox,
+                                           message: "局部加载中…", spinnerSize: 36 })
+                svc.localMsg = "已挂到框内"
+                localTimer.handle = h
+                localTimer.restart()
+            }
+
+            function saveValue() {
+                NovaStorage.useNamespace("gallery-demo")
+                NovaStorage.set(storeKey.text.length > 0 ? storeKey.text : "greeting", storeValue.text)
+                svc.storeDump = JSON.stringify(NovaStorage.getAll())
+            }
+
+            function clearStore() {
+                NovaStorage.useNamespace("gallery-demo")
+                NovaStorage.clear()
+                svc.storeDump = "（空）"
+            }
+
+            function refreshApp() {
+                svc.appState = NovaApp.isFullscreen ? "全屏"
+                             : NovaApp.isMaximized ? "最大化" : "窗口"
+            }
+
+            // 自动收口 / 局部加载收口 / 状态刷新 三个轻量计时器
+            Timer {
+                id: autoTimer
+                interval: 1600
+                onTriggered: {
+                    if (svc.autoHandle) {
+                        svc.autoHandle.hide()
+                        svc.autoHandle = null
+                    }
+                }
+            }
+
+            Timer {
+                id: localTimer
+                property var handle: null
+                interval: 1600
+                onTriggered: {
+                    if (handle) {
+                        handle.hide()
+                        handle = null
+                    }
+                }
+            }
+
+            Timer {
+                interval: 300
+                running: true
+                repeat: true
+                onTriggered: svc.refreshApp()
+            }
+
+            GalleryPage {
+                title: "L4 服务 · Loading / Storage / App / Platform"
+                desc: "0.6.2 一次交付四件服务：NovaLoading（11 项对账 + 引用计数/局部加载/超时保护）、NovaStorage（LocalStorage API + 命名空间 + 真落盘 ini）、NovaApp（全屏/最大化/标题）、NovaPlatform（系统与触摸能力探测）。"
+
+                GalleryRow { label: "NovaLoading · 全屏加载（1.6 秒自动收口）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn { text: "显示加载"; icon: "mdi:loading"; onClicked: svc.autoLoading() }
+                    NovaChip {
+                        text: "active: " + NovaLoading.activeCount()
+                        outlined: true; dense: true
+                    }
+                }
+
+                GalleryRow { label: "NovaLoading · 引用计数（同组并发，归零才真正关闭）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn { text: "引用 +1"; size: "sm"; variant: "outlined"; onClicked: svc.addRef() }
+                    NovaBtn { text: "释放 -1"; size: "sm"; variant: "outlined"; onClicked: svc.dropRef() }
+                    NovaChip { text: "demo 组引用: " + svc.demoCount; filled: true; tint: NovaTheme.primary; dense: true }
+                }
+
+                GalleryRow { label: "NovaLoading · 局部加载（target = 下方框体）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn { text: "框内加载"; size: "sm"; variant: "flat"; onClicked: svc.localLoading() }
+                    NovaChip { text: svc.localMsg === "" ? "遮罩只覆盖目标区域" : svc.localMsg; outlined: true; dense: true }
+                }
+                Rectangle {
+                    id: localBox
+                    width: parent ? parent.width : 400
+                    height: 110
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surfaceAlt
+                    border.color: NovaTheme.outline
+                    Text {
+                        anchors.centerIn: parent
+                        text: "局部容器（NovaLoading target 指向我）"
+                        color: NovaTheme.textMuted
+                        font.pixelSize: NovaTheme.fontXS
+                    }
+                }
+
+                GalleryRow { label: "NovaLoading · spinner 变体" }
+                Flow {
+                    width: parent.width
+                    spacing: NovaTheme.spacingS
+                    Repeater {
+                        model: ["ring", "dots", "pulse"]
+                        delegate: NovaBtn {
+                            required property string modelData
+                            text: modelData
+                            size: "sm"
+                            variant: "flat"
+                            onClicked: {
+                                var h = NovaLoading.show({ delay: 0, spinnerModel: modelData,
+                                                           message: "spinnerModel: " + modelData })
+                                svc.autoHandle = h
+                                autoTimer.restart()
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "NovaStorage · 命名空间 gallery-demo（真落盘，重启仍在）" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    Rectangle {
+                        width: 150; height: 34; radius: NovaTheme.radiusS
+                        color: NovaTheme.surface; border.color: NovaTheme.outline
+                        TextInput {
+                            id: storeKey
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            text: "greeting"
+                            color: NovaTheme.textColor
+                            font.pixelSize: NovaTheme.fontS
+                            verticalAlignment: TextInput.AlignVCenter
+                        }
+                    }
+                    Rectangle {
+                        width: 220; height: 34; radius: NovaTheme.radiusS
+                        color: NovaTheme.surface; border.color: NovaTheme.outline
+                        TextInput {
+                            id: storeValue
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            text: "你好，青铜峡"
+                            color: NovaTheme.textColor
+                            font.pixelSize: NovaTheme.fontS
+                            verticalAlignment: TextInput.AlignVCenter
+                        }
+                    }
+                    NovaBtn { text: "写入"; size: "sm"; onClicked: svc.saveValue() }
+                    NovaBtn { text: "清空"; size: "sm"; variant: "outlined"; onClicked: svc.clearStore() }
+                }
+                Text {
+                    width: parent ? parent.width : 400
+                    text: svc.storeDump === "" ? "（点写入后显示 getAll() 快照）" : svc.storeDump
+                    color: NovaTheme.textMuted
+                    font.pixelSize: NovaTheme.fontXS
+                    font.family: "Consolas"
+                    wrapMode: Text.WrapAnywhere
+                }
+
+                GalleryRow { label: "NovaApp · 窗口控制" }
+                Row {
+                    spacing: NovaTheme.spacingM
+                    NovaBtn { text: "全屏"; size: "sm"; variant: "flat"; onClicked: NovaApp.request() }
+                    NovaBtn { text: "最大化"; size: "sm"; variant: "flat"; onClicked: NovaApp.setVisibility("maximized") }
+                    NovaBtn { text: "还原窗口"; size: "sm"; variant: "flat"; onClicked: NovaApp.setVisibility("windowed") }
+                    NovaChip { text: "当前: " + svc.appState; filled: true; tint: NovaTheme.secondary; dense: true }
+                }
+
+                GalleryRow { label: "NovaPlatform · 运行环境" }
+                Flow {
+                    width: parent.width
+                    spacing: NovaTheme.spacingS
+                    NovaChip { text: NovaPlatform.describe(); filled: true; dense: true }
+                    NovaChip { text: "isDesktop: " + NovaPlatform.isDesktop; outlined: true; dense: true }
+                    NovaChip { text: "hasTouch: " + NovaPlatform.hasTouch; outlined: true; dense: true }
+                    NovaChip { text: "isWindows: " + NovaPlatform.isWindows; outlined: true; dense: true }
                 }
             }
         }

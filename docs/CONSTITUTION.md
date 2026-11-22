@@ -138,3 +138,4 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 | 0.5.1 | 2026-11-22 | NovaNotify 契约裁定（D1 增强 dismissed(reason) 标增强栏 / D2 不移植 html 改 contentDelegate / D3 onDismiss→dismissed 信号 / D6 NovaOverlayHost 提前 Sprint 2）；归属修正：Notify 无关闭原因（npm 2.35.5 源码核实）；新颁纪律：API 对账以 npm 包源码与 dist API JSON 为准，不按文档页凭记忆写 |
 | 0.6.0 | 2026-11-22 | 一期 Sprint 2 首件落地：L4 通知服务 NovaNotify + NovaOverlayHost 交付（L4 0%→6%）；第 5 章新颁第 6 条层叠令牌（$z-* 1:1，禁止弹层魔法 z 值）；坑位沉淀第 7 条（QtObject 单例体内禁声明 Component 子项）；0.4.2"关闭原因上报"归属二次澄清入 PARITY 审计节 |
 | 0.6.1 | 2026-11-22 | Sprint 2 第二件 NovaDialog 交付（27 项对账 / 句柄五方法 / dismissed 五值）；L4 6%→12%；测试 63→71；确认"同名字段在 Notify 是增强、在 Dialog 是 parity"的分栏纪律 |
+| 0.6.2 | 2026-11-22 | Sprint 2 收口：一次交付 NovaLoading/Storage/App/Platform（L4 12%→44%）；新增 Nova.Runtime Python 后端；新颁"Sprint 最小交付单元"节奏条款；坑位沉淀：qmlRegisterSingletonInstance 所有权 / 裸 JS 条目无属性通知 / overlay visible 与宿主冲突 |

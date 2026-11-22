@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.6.2] - 2026-11-22
+
+### Added（一期 Sprint 2 收口 · **一次交付四件**：NovaLoading / NovaStorage / NovaApp / NovaPlatform —— L4 12% → 44%）
+
+- **NovaRuntime Python 后端**（独立模块 `Nova.Runtime`，C++ 侧注册）：
+  - ini 存储后端：QSettings 文件级落盘（`AppDataLocation/nova-storage.ini`），
+    **不依赖 organizationName**（纯 QML 的 Settings 类型在无 org 标识时直接失效，故下沉 Python）
+  - 平台探测：os / osVersion（prettyProductName）/ cpuArch / kernelType / isMobile /
+    hasTouchscreen（QInputDevice 枚举 TouchScreen，Qt 6 无 QML 级 API）
+- **NovaLoading**（对标 Loading 插件，npm 2.35.5 `dist/api/Loading.json` 逐项核实 **11 项**）：
+  - 配置：delay / message / group / spinnerSize / spinnerColor→spinnerTint / messageColor→messageTint /
+    backgroundColor→backgroundTint / spinner→spinnerModel（ring/dots/pulse）✅；html / boxClass / customClass ⛔（留痕，boxed 布尔映射）
+  - **引用计数（Nova 增强）**：同组并发 show 不互踩，句柄 `hide()` 只释放自己那一份，归零才收口；
+    `hide(group)` 对标基线语义 = 无视计数整组强杀
+  - delay 防闪烁（默认 500，对标基线）；delay 窗口内 hide 从未显示即销毁
+  - `target` 局部加载（挂任意 Item 内铺满）/ `timeout` 卡死兜底（默认关）/
+    `increment / decrement / count / activeGroups / activeCount / isActive / hideAll / setDefaults` 内省面
+  - 视觉层 `NovaLoadingOverlay`（internal）：Canvas 圆环（底环 16% + 270° 弧）、三点缩放、呼吸圆；
+    明暗双主题遮罩自适应；句柄 `NovaLoadingHandle`（hide/update/valid/count/item）
+- **NovaStorage**（对标 LocalStorage 插件）：
+  - 全 API 面：`set/get/has/remove/clear/getAll/getAllKeys/getLength/isEmpty/setAll`
+    + Web Storage 别名 `setItem/getItem/removeItem`
+  - **命名空间隔离（Nova 增强）**：`useNamespace(name)` 切换即落盘旧空间、加载新空间
+  - 真持久化：写入后由全新 QSettings 实例读回验证（测试 `test_storage_persistence_to_disk`）
+  - JSON 损坏安全降级（按空空间载入不崩）；getAll 深拷贝防外部改库
+- **NovaApp**（对标 AppFullscreen + AppVisibility + Meta）：
+  - `request/exit/toggle/isFullscreen/isCapable`（全屏三件套 1:1）；
+    `setVisibility` 统一入口：fullscreen/maximized/minimized/windowed；
+    退出全屏自动回落进入前状态；`setTitle`（document.title → 窗口 title）；`show/hide/isVisible/isActive`
+- **NovaPlatform**（对标 Platform 插件）：
+  - `isWindows/isMac/isLinux/isAndroid/isIOS/isWasm/isMobile/isDesktop`；
+    `hasTouch` 走后端输入设备枚举（桌面触摸本真实可得）；浏览器专属项
+    （webAuthn/within.iframe/pwa/electron/内核判定）⛔ 不适用留痕
+  - Nova 增强：`osVersion / cpuArch / describe() / snapshot()`
+- 画廊第 12 页 "**Loading / Storage**"：全屏加载自动收口、引用计数 ±1 演示、局部加载、
+  三种 spinner、Storage 读写/清空快照、窗口控制、平台信息（全程真实组件可交互）
+- 冒烟测试 71 → **91 项全绿**（新增 20 项：Loading 10 + Storage 7 + Platform 1 + App 2）
+
+### Fixed（Qt 6.12 / PySide6 实战坑位沉淀）
+
+- **qmlRegisterSingletonInstance 所有权坑**：QML 树按 JS 所有权管理实例，组件销毁即 delete
+  Python 侧对象，二次访问报 "Internal C++ object already deleted"；且全局单实例无法被多个
+  QQmlEngine 安全共享 → 改用**工厂式 `qmlRegisterSingletonType`**（每引擎惰性创建，PySide 不留悬空引用）
+- **单例引用裸 JS 对象无属性通知**：Loading 的活动组条目最初用裸 JS 对象，句柄 valid/count 绑定
+  不随状态刷新 → 升级为 QML QtObject 条目（property Component 内联，Qt 6.12 坑位惯例）
+- **overlay 可见性与宿主冲突**：NovaOverlayHost.attach 强制 visible=true，与 Loading 的
+  delay 门控打架 → 可见性改由内部 `_started` 门控（delay 期间子项不渲染、遮罩不拦点击）
+
 ## [0.6.1] - 2026-11-22
 
 ### Added（一期 Sprint 2 · L4 服务层第二件：NovaDialog）

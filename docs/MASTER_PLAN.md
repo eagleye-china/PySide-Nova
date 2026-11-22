@@ -22,6 +22,14 @@
 > **排期总原则（宪法第 10 章）**：先骨架、再服务、后组件；组件按"体系"成批交付
 > （表单一批、数据一批、导航一批），不做零敲碎打——成批交付才能保证体系内
 > API 风格一致（如全部表单组件统一 `label/hint/error/readonly/disable` 语义）。
+>
+> **交付节奏条款（0.6.2 增补，回应用户对"每期一个组件"的纠偏）**：
+> 1. **Sprint 是最小交付单元**——一个 Sprint 内的所有组件/服务**一次收口、一个版本号、
+>    一套交付物**（ALL-IN-ONE / release zip / sha256 / PROMPT / MASTER_PLAN / 总索引 共六份）；
+>    Sprint 中间件只做 git 提交与画廊预览，**不单独打全包发版**。
+> 2. 版本号跟随 Sprint：0.5.0=Sprint 1；0.6.x=Sprint 2（0.6.0/0.6.1 为拆件期的历史小版本，
+>    自 0.6.2 起恢复"一 Sprint 一版本"）；0.7.0=Sprint 3；0.8.0=Sprint 4。
+> 3. 唯一例外：涉及契约裁定（如 0.5.1）可单独发版，但同样只出六份交付物。
 
 ---
 
@@ -50,13 +58,14 @@
 |---|---|---|
 | `NovaNotify` —— **✅ v0.6.0 交付** | Notify | 队列、去重、超时、动作按钮、9 位定位、同屏 ≤5 条（maxVisible）；**29 项配置逐项对账**（npm 2.35.5 源码核实）；`html` 不移植改 `contentDelegate`；`dismissed(reason)` 6 值（含 overflow）为 **Nova 增强**（PARITY 标增强）；**NovaOverlayHost 已抽件**（overlay 宿主 + 层叠令牌 + 位置栈 9 位插入，Dialog/Loading 直接复用） |
 | `NovaDialog` | Dialog | 命令式 `ask()/confirm()`、ESC/遮罩策略、可嵌套、返回结果 |
-| `NovaLoading` | Loading | show/hide、引用计数（并发不互踩）、局部/全屏、超时保护 |
-| `NovaStorage` | LocalStorage/SessionStorage | QSettings 后端、命名空间、JSON 序列化 |
-| `NovaApp` | AppFullscreen/AppVisibility/Meta | 全屏切换、窗口可见性、标题/图标 |
-| `NovaPlatform` | Platform | isWindows/isMac/isLinux/isTouch 等 |
+| `NovaLoading` —— **✅ v0.6.2 交付** | Loading | 11 项对账（npm 2.35.5 核实）；引用计数并发不互踩（句柄释放一份，归零收口）；delay 防闪烁；局部 target/全屏双路；timeout 卡死兜底；ring/dots/pulse 三 spinner |
+| `NovaStorage` —— **✅ v0.6.2 交付** | LocalStorage/SessionStorage | Python ini 后端（不依赖 organizationName）；全 API 面 + Web 别名；命名空间隔离；JSON 损坏安全降级 |
+| `NovaApp` —— **✅ v0.6.2 交付** | AppFullscreen/AppVisibility/Meta | request/exit/toggle 1:1；setVisibility 统一入口（fullscreen/maximized/minimized/windowed）；setTitle 映射 document.title |
+| `NovaPlatform` —— **✅ v0.6.2 交付** | Platform | isWindows/isMac/isLinux/isAndroid/isIOS/isWasm/isMobile/isDesktop；hasTouch 走 QInputDevice 枚举；osVersion/cpuArch 增强 |
 
-- **冒烟验收**：Demo 页可交互触发 Notify/Dialog/Loading；并发 Loading 引用计数正确；
-  Storage 重启后数据留存；测试 45 → 58 项
+- **冒烟验收（✅ 0.6.2 达成）**：画廊可交互触发 Notify/Dialog/Loading；并发 Loading 引用计数正确
+  （测试实证：同组 ×2 → 释放一份仍显示，归零收口）；Storage 全新 QSettings 实例读回同 ini 实证落盘；
+  测试 46 → 63 → 71 → **91 项**（Sprint 2 累计 +45）
 
 ### Sprint 3 · L3 行为层（v0.7.0）
 

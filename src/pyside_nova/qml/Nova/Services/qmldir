@@ -1,13 +1,20 @@
 # src/pyside_nova/qml/Nova/Services/qmldir
-# Nova.Services 模块导出清单（公共 API 面）：NovaTheme / NovaScreen / NovaOverlayHost / NovaNotify / NovaDialog
+# Nova.Services 模块导出清单（公共 API 面）：NovaTheme / NovaScreen / NovaOverlayHost /
+#   NovaNotify / NovaDialog / NovaLoading / NovaStorage / NovaApp / NovaPlatform
 module Nova.Services
 singleton NovaScreen 1.0 NovaScreen.qml
 singleton NovaTheme 1.0 NovaTheme.qml
 singleton NovaOverlayHost 1.0 NovaOverlayHost.qml
 singleton NovaNotify 1.0 NovaNotify.qml
 singleton NovaDialog 1.0 NovaDialog.qml
+singleton NovaLoading 1.0 NovaLoading.qml
+singleton NovaStorage 1.0 NovaStorage.qml
+singleton NovaApp 1.0 NovaApp.qml
+singleton NovaPlatform 1.0 NovaPlatform.qml
 NovaNotifyAction 1.0 NovaNotifyAction.qml
 NovaNotifyHandle 1.0 NovaNotifyHandle.qml
 NovaDialogHandle 1.0 NovaDialogHandle.qml
+NovaLoadingHandle 1.0 NovaLoadingHandle.qml
 internal NovaNotificationItem NovaNotificationItem.qml
 internal NovaDialogCard NovaDialogCard.qml
+internal NovaLoadingOverlay NovaLoadingOverlay.qml
