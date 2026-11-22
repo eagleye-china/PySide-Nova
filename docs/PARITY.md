@@ -246,6 +246,85 @@ M1/M2 排期在 ROADMAP 跟踪。
 | has.webAuthn / within.iframe / within.webView / is.pwa / is.electron | — | ⛔ 不适用（浏览器/Electron 专属） |
 - Nova 增强：`osVersion / cpuArch / describe() / snapshot() / reducedMotion`（五期 a11y 接管真实系统值）
 
+## L3 行为层总审计（0.7.0，npm quasar@2.35.5 src/directives/*/*.json 逐项核实）
+
+### NovaIntersection ← v-intersection（审计 0.7.0）
+
+| 基线 | Nova | 判定 |
+|---|---|---|
+| value: Function(handler) | `onIntersect(entry)` 信号（每次跨阈值/翻转） | ✅ 映射 |
+| value: {handler, cfg{root, rootMargin, threshold}} | `root` + `rootMarginTop/Right/Bottom/Left` + `threshold`（数字/数组） | ✅ 映射（rootMargin 字符串拆四向 real，更 QML） |
+| value: false / null / undefined（禁用） | `enabled: false`（重开即重新武装） | ✅ |
+| modifiers.once | `once: true` + `rearm()`（对标 setOnce） | ✅ |
+| handler 返回 false（停止） | `stop()` | ✅ 映射 |
+| entry 七字段 | target/isIntersecting/intersectionRatio/boundingClientRect/intersectionRect/rootBounds/time 1:1 | ✅ |
+| 浏览器原生 IntersectionObserver | NovaIntersectionPool 帧轮询 + 自算矩形交集（含祖先 clip 链） | 🔄 实现路径（比例是精确值；pollInterval 可调） |
+| 2.30 共享 observer 池 | NovaIntersectionPool 单例：N 订阅者共用一个 Timer 驱动源 | ✅ 架构复刻 |
+
+- Nova 增强：`entered/exited` 状态信号、`kick()` 立即求值、`observing/intersectionRatio` 只读状态
+
+### NovaScrollObserver ← v-scroll（审计 0.7.0）
+
+- 基线 `Function(vertical, horizontal)` → `onScroll(details)`；details 另含 deltaY/deltaX/
+  direction/atTop/atBottom/atLeft/atRight（Nova 增强）✅
+- root 解析：显式 root → 最近可滚动祖先（Flickable/ListView/GridView）→ 窗口视口（基线固定窗口，Nova 更通用）✅
+- 与 Intersection/ScrollFire 共用 NovaIntersectionPool 驱动源（对标 2.30 共享架构）✅
+
+### NovaScrollFire ← v-scroll-fire（审计 0.7.0）
+
+- `Function(el)` 触发一次 → `onFire(item)`；arg 0~1（v2.30）→ `threshold` 属性 ✅
+- 禁用期重新赋值可再武装 → 触发后 `armed=false`，`rearm()` / enabled 开关再武装 ✅
+- v2.30 起与 v-intersection 共享 observer → Nova 直接复用 NovaIntersection（同池同算法）✅
+
+### NovaClosePopup ← v-close-popup（审计 0.7.0）
+
+| 基线 | Nova | 判定 |
+|---|---|---|
+| value 0 / 'false'（禁用） | `depth: 0` | ✅ |
+| value < 0（关整链） | `depth: -1` → `closePopups(-1)` | ✅ |
+| value 1 / 'true' / undefined（关父层） | `depth: 1`（默认） | ✅ |
+| value > 1（关 N 层） | `depth: N` | ✅ |
+| click + keyup(Enter 13) | clicked 信号桥接 + Keys（Key_Return/Key_Enter） | ✅ |
+| setTimeout(0) 延迟关（让 @click 先跑） | QML 信号处理器天然同步完成，无需延迟 | ✅ 等价 |
+| portal 链（getPortalProxy/closePortals） | NovaOverlayHost 弹层栈（registerPopup/closePopups） | 🔄 实现路径（NovaDialog 已接入） |
+- Nova 增强：`closed(count)` 信号（实际关闭层数）、`trigger()` 程序化触发、`usePointer` 指针兜底、`reason` 可指定关闭原因
+
+### NovaTouchPan ← v-touch-pan（审计 0.7.0）
+
+- details 十一字段 1:1：evt(null)/touch/mouse/position{top,left}/direction/isFirst/isFinal/
+  duration/distance{x,y}/offset{x,y}(带符号)/delta{x,y} ✅
+- 修饰映射：stop→stopPropagation、prevent→preventStealing、mouseAllDir→allDirections、
+  preserveCursor→preserveCursor、horizontal/vertical→同名、up/right/down/left→directions 数组 ✅
+- 差异：基线鼠标无独立起判阈值，Nova 统一 `threshold: 8px`（增强，可调）；evt 传 null（QML 无 DOM 事件对象）⛔
+- Nova 增强：`panning` 只读状态、`threshold` 可调
+
+### NovaTouchSwipe ← v-touch-swipe（审计 0.7.0）
+
+- arg "6e-2:6:50"（minVelocity:touchMinDistance:mouseMinDistance）→ 三个独立属性，默认值同基线 ✅
+- details：direction/duration/distance{x,y} 1:1；另给 `velocity`（Nova 增强）✅
+- 语义同基线：移动中判定即触发（不等松手），Nova 附加松手兜底一次；方向/轴向过滤同基线 ✅
+
+### NovaTouchHold ← v-touch-hold（审计 0.7.0）
+
+- arg "600:5:7"（duration:touchSensitivity:mouseSensitivity）→ 三个属性，默认值同基线 ✅
+- details：touch/mouse/position/duration 1:1 ✅
+- Nova 增强：`onCancel`（位移超限/提前松手显式通知）、`holding` 进度源、`held` 状态
+
+### NovaTouchRepeat ← v-touch-repeat（审计 0.7.0）
+
+- arg "0:600:300"（首帧/第二次/之后）→ `delays` 属性（字符串同格式，末值复用、防 0 延迟自旋）✅
+- details 九字段 1:1：touch/mouse/keyboard/position(仅指针)/keyCode(仅键盘)/duration/repeatCount/startTime ✅
+- 键盘修饰（esc/tab/enter/space/up/left/right/down/delete/[键码]）→ `keys` 数组（Qt.Key 值）+ `keyRepeat` 开关 ✅ 映射
+
+### L3 不适用项留痕（⛔）
+
+- **v-morph**：依赖 DOM 元素变形过渡（morph transitions between DOM elements）；QML 无 DOM，
+  等价能力由 Loader + Behavior/Transition 天然承担，不做指令化移植
+- **v-mutation**：监听 DOM MutationObserver；QML 属性变化本身就是信号（property 变更通知），
+  能力天然存在，无需指令
+- **v-resize**：监听元素尺寸变化；QML `onWidthChanged/onHeightChanged` 原生信号，同上
+- **v-drop-zone**：HTML5 拖放（dataTransfer）；QML 有 DropArea + urls 通道，五期文件交互时再评估
+
 ## 审计纪律（宪法第 3.5 条）
 
 1. 新组件交付 = 宪法迭代 + **本文件新增审计节**（属性/事件/槽/model 逐项列明）

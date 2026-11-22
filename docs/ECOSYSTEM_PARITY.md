@@ -1,6 +1,6 @@
 # 生态对标白皮书 — Quasar Ecosystem Parity
 
-> 对标基线 **Quasar 2.35.5**（2026-11-22 复核，原 2.26.0 已过期纠正）· 编制 2026-11-21 · 增量审计 2026-11-22 · 适用版本 0.6.2
+> 对标基线 **Quasar 2.35.5**（2026-11-22 复核，原 2.26.0 已过期纠正）· 编制 2026-11-21 · 增量审计 2026-11-22 · 适用版本 0.7.0
 > 结论先行：**组件层已走通，生态层才刚起步**。封版前必须补的不是"更多组件"，而是
 > **服务层（插件）、指令层（行为）、工具类层（布局语法）**这三块——它们才是 Quasar 开发者的"肌肉记忆"。
 
@@ -13,12 +13,12 @@
 | **L0 设计语言** | 令牌/主题/图标集/动效/排版 | 8 品牌色 + Dark + 8 套图标 + animate.css | 8 品牌色 ✅、Dark ✅、2 套图标 🚧、动效 ❌ | **60%** | ≥95% |
 | **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **已交付（0.5.0）** | **100%** | 100% |
 | **L2 组件** | 120+ 组件 | 全 | 12 个（约 10%） | **10%** | P0 100% / 全库 ≥90% |
-| **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | 1 个（Ripple） | **11%** | 100% |
+| **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | **9 个**（Ripple + 0.7.0 一次收口 Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan·Swipe·Hold·Repeat；Morph/Mutation/Resize/DropZone 能力由 QML 原生信号承担，PARITY 留痕） | **100%** | 100% |
 | **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **7 个**（OverlayHost 基建 + Notify + Dialog + Loading + Storage + App + Platform，0.6.2 一次收口四件） | **44%** | 100%（QML 适用项） |
 | **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **0** | **0%** | ≥90% |
 | **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | 70%（缺文档站、视觉回归、打包器） | **70%** | ≥95% |
 
-> **一句话诊断**：L1 已满格（0.5.0），L4 服务层 44%（0.6.2 收口 Loading/Storage/App/Platform）；L3/L5 仍接近 0%，却是"Quasar 味"最浓的部分。
+> **一句话诊断**：L1 满格（0.5.0）、L3 满格（0.7.0 九件行为一次收口）、L4 44%（0.6.2）；L5 仍接近 0%，是"Quasar 味"最后一块拼图。
 > 补组件只是"长得像"，补齐这三层才叫"用起来像"。
 
 ---

@@ -28,7 +28,7 @@
 >    一套交付物**（ALL-IN-ONE / release zip / sha256 / PROMPT / MASTER_PLAN / 总索引 共六份）；
 >    Sprint 中间件只做 git 提交与画廊预览，**不单独打全包发版**。
 > 2. 版本号跟随 Sprint：0.5.0=Sprint 1；0.6.x=Sprint 2（0.6.0/0.6.1 为拆件期的历史小版本，
->    自 0.6.2 起恢复"一 Sprint 一版本"）；0.7.0=Sprint 3；0.8.0=Sprint 4。
+>    自 0.6.2 起恢复"一 Sprint 一版本"）；**0.7.0=Sprint 3 ✅**；0.8.0=Sprint 4。
 > 3. 唯一例外：涉及契约裁定（如 0.5.1）可单独发版，但同样只出六份交付物。
 
 ---
@@ -71,15 +71,15 @@
 
 | 交付物 | 对标指令 | 关键能力 |
 |---|---|---|
-| `NovaClosePopup` | v-close-popup | 点击外部/ESC 关闭弹层（菜单/对话框/抽屉通用） |
-| `NovaIntersection` | v-intersection | 进入/离开视口，once 与持续两种模式；**单例 observer 池**（对标 2.30 useIntersection 复用架构） |
-| `NovaTouchPan` / `NovaTouchSwipe` / `NovaTouchHold` / `NovaTouchRepeat` | v-touch 系列 | 方向/阈值/惯性；长按；按住连发 |
-| `NovaScrollObserver` / `NovaScrollFire` | v-scroll / v-scroll-fire | 滚动监听 / 滚动触发一次 |
+| `NovaClosePopup` —— **✅ v0.7.0 交付** | v-close-popup | depth 语义 1:1（<0 全关/0 禁用/N 层）；clicked 信号自动桥接 + Enter 键；NovaOverlayHost 弹层栈承载"层"（NovaDialog 已接入） |
+| `NovaIntersection` —— **✅ v0.7.0 交付** | v-intersection | entry 七字段 1:1；threshold/rootMargin/once+rearm/stop；**NovaIntersectionPool 共享观察池**（对标 2.30 架构）；祖先 clip 链计入可见区域 |
+| `NovaTouchPan` / `NovaTouchSwipe` / `NovaTouchHold` / `NovaTouchRepeat` —— **✅ v0.7.0 交付** | v-touch 系列 | details 全字段 1:1（offset/delta/isFirst/isFinal）；arg 三段阈值拆独立属性（默认值同基线）；共享 NovaTouchCore 内核（触摸/鼠标来源判定统一） |
+| `NovaScrollObserver` / `NovaScrollFire` —— **✅ v0.7.0 交付** | v-scroll / v-scroll-fire | 滚动位置/方向/边界回调；首入视口触发一次 + rearm 再武装；与 Intersection 同池同驱动 |
 
-> 注：Mutation 指令不适用（QML 无 DOM，等价能力由属性信号天然承担，记录于 PARITY）。
+> 注：Morph/Mutation/Resize/DropZone 不做指令化移植（QML 属性信号/DropArea 天然承担，PARITY 留痕）。
 
-- **冒烟验收**：画廊新增"行为"页演示全部指令；懒加载图片进入视口才加载；
-  长按/连发手势在触摸与鼠标双输入下可用；测试 58 → 66 项
+- **冒烟验收（✅ 0.7.0 达成）**：画廊第 13 页演示全部行为（懒加载进入视口才触发、
+  拖动/划动/长按/连发可交互、ClosePopup 真实关闭对话框）；测试 91 → **114 项**
 
 ### Sprint 4 · L0/L5 基础层（v0.8.0）
 

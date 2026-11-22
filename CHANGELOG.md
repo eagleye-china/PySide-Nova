@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.7.0] - 2026-11-22
+
+### Added（一期 Sprint 3 · **L3 行为层九件一次收口**：L3 11% → 100%）
+
+- **NovaIntersectionPool 共享观察池**（L3 基础设施，对标 2.30 共享 IntersectionObserver 池架构）：
+  - 一个 Timer（pollInterval 34ms ≈ 30fps）驱动全部订阅者批量求值，N 个行为共享唯一驱动源；
+    无订阅时零开销；`add/remove/clear/kick/tick` + `viewport()/nearestScrollable()/scrollPosition()/intersect()`
+    公共几何工具
+  - 实现路径差异（如实记录）：基线走浏览器原生 IntersectionObserver（异步、阈值边界通知），
+    Nova 走"帧轮询 + 自算矩形交集（含祖先 clip 链）"——比例是精确值
+- **NovaIntersection**（对标 v-intersection，Intersection.json 核实）：handler → `onIntersect/entered/exited`
+  三信号；threshold 数字/数组；rootMargin 四向 real；once + `rearm()`（对标 setOnce 再武装）；
+  `stop()`（对标 handler 返回 false）；entry 七字段 1:1（target/isIntersecting/intersectionRatio/
+  boundingClientRect/intersectionRect/rootBounds/time）；祖先 clip 链计入可见区域
+- **NovaScrollObserver**（对标 v-scroll）：`onScroll(details)` 给出 vertical/horizontal/deltaX/Y/
+  direction/atTop/atBottom/atLeft/atRight；root 自动解析最近可滚动祖先（Flickable/ListView/GridView）
+- **NovaScrollFire**（对标 v-scroll-fire）：进入视口触发一次（复用 NovaIntersection，同池同算法）；
+  threshold 0~1（arg 语义）；触发后自动解除武装，`rearm()` 可再触发
+- **NovaClosePopup**（对标 v-close-popup，ClosePopup.json 核实）：depth 语义 1:1（<0 全关 / 0 禁用 /
+  N 关顶 N 层）；触发源自动桥接宿主 clicked 信号（向上找带 clicked 的祖先，NovaBtn 子项转交
+  contentHost 也能命中）；`usePointer` 兜底指针通道；Enter 键触发（对标 keyup 13）
+- **NovaOverlayHost 弹层栈**（Nova 增强，对标 portal 链 + closePortals）：
+  `registerPopup/unregisterPopup/popupCount/popups/closePopups(depth, reason)/topPopup`；
+  **NovaDialog 已接入**（show 进栈、_forget 出栈），ClosePopup 的"层"因此有真实语义
+- **NovaTouchPan**（对标 v-touch-pan，TouchPan.json 核实）：details 十一字段 1:1（evt/touch/mouse/
+  position/direction/isFirst/isFinal/duration/distance/offset/delta）；修饰 horizontal/vertical/
+  up/right/down/left → `horizontal/vertical/directions`；mouseAllDir → `allDirections`；
+  preserveCursor → `preserveCursor`；stop/prevent → `stopPropagation/preventStealing`
+- **NovaTouchSwipe**（对标 v-touch-swipe）：arg "6e-2:6:50" → `minVelocity/touchMinDistance/
+  mouseMinDistance` 三属性；移动中即触发 + 松手兜底；direction/duration/distance/velocity
+- **NovaTouchHold**（对标 v-touch-hold）：arg "600:5:7" → `duration/touchSensitivity/
+  mouseSensitivity`；位移超灵敏度取消 + `onCancel` 通知（增强）；`progress` 进度源 `holding`
+- **NovaTouchRepeat**（对标 v-touch-repeat）：delays 序列 "0:600:300"（末值复用、0 延迟防自旋）；
+  details 九字段含 keyboard/keyCode/repeatCount/startTime；`keys` 数组接键盘（默认 Space/Enter）
+- 内核 **NovaTouchCore**（internal）：四个 touch 行为共享同一套指针生命周期/坐标/时间/阈值/
+  触摸来源判定（MultiPointTouchArea 探测真实触摸 + MouseArea 合成事件），避免四份实现各自漂移
+- 画廊第 13 页"L3 行为指令"：懒加载（ScrollFire 触发变色 + Intersection 比例实时显示）、
+  滚动位置/方向/到底、拖动方块（松手回弹）、四向划动、长按 600ms、按住连发、
+  弹层栈按层关闭 + 对话框内容内真实 ClosePopup 关闭按钮
+- 冒烟测试 91 → **114 项全绿**（新增 23：九件实例化 10 + Intersection 4 + Scroll 2 +
+  Touch 4 + ClosePopup/弹层栈 3）
+
+### Fixed（Qt 6.12 / PySide6 实战坑位沉淀）
+
+- **Item 的 FINAL 属性不可覆盖**：QML 派生 Item 里声明 `property real x/y`、`property bool active`
+  报 "Cannot override FINAL property"（x/y/active 是 Qt 6.12 的 FINAL 成员）——
+  行为层改用 posX/posY/gesturing；`enabled` 同理不重声明，直接用 Item.enabled（继承语义天然正确）
+- **visible:false 的 Item 不参与事件分发**：行为根节点若设 visible:false，内部 MouseArea 彻底失灵——
+  纯逻辑行为可关，带指针通道的行为绝不能关（Item 无 visual 本就不渲染，无需隐藏）
+- **组件默认属性转交内部容器**：NovaBtn 把子项塞进 contentHost，子项的 `parent` 不是按钮本体，
+  `target: parent` 拿不到 clicked 信号 → ClosePopup 向上遍历找第一个带 clicked 的祖先
+- **QML Window 的 Python wrapper 调不到 QML 函数**：PySide 把 QQuickWindow 包装成 QWindow
+  （metaobject 里没有 QML 定义的方法）——测试用 QML 侧 QtObject 代理（call0/1/2 + val）统一调用，
+  代理同时强引用窗口防 JS GC 回收
+- **观察器重订阅必须重交付**：IntersectionObserver 只报"变化"，重新 observe 才会补一帧
+  当前状态——`_start()` 时重置上次判定，否则 rearm 后永远等不到回调（基线 reobserve 同款注释）
+- **QML 函数无可选参数**：Qt 6 的 QML 函数按固定形参暴露给 PySide（缺参即 TypeError）——
+  代理拆成 call0/call1/call2 按实参个数分派
+
 ## [0.6.2] - 2026-11-22
 
 ### Added（一期 Sprint 2 收口 · **一次交付四件**：NovaLoading / NovaStorage / NovaApp / NovaPlatform —— L4 12% → 44%）

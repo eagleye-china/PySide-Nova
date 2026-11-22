@@ -2,24 +2,26 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.6.2 · 2026-11-22）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.7.0 · 2026-11-22）
 
 ## 一句话定位
 
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-## 当前状态（0.6.2 · 一期 Sprint 2 **收口完成**：六件服务全交付，L4 44%）
+## 当前状态（0.7.0 · 一期 Sprint 3 **收口完成**：L3 行为层九件，L3 100%）
 
-- **公共 QML 类型 32 个已交付**（qmldir 导出口径）：Controls 18 + Services 单例 9
-  （Screen/Theme/OverlayHost/Notify/Dialog/**Loading/Storage/App/Platform**）+ 句柄与动作 4
-  + Behaviors 1；另有 Nova.Runtime Python 后端（ini 存储 + 平台探测）
-- **测试 91 项全绿**（组件解析/槽/断点/Dark API/demo+画廊完整加载 + 布局/Notify/Dialog 行为级断言
-  + 0.6.2 新增：Loading 引用计数/delay/局部 target/timeout/强杀/配置映射，Storage CRUD/类型往返/
-  真落盘/命名空间/深拷贝/非法输入/Web 别名，Platform 事实核对，窗口控制/无窗口降级）
-- **Sprint 2 六件全部交付**：Notify(0.6.0) / Dialog(0.6.1) / Loading·Storage·App·Platform(0.6.2 一次收口)
-- **交付节奏条款（0.6.2 新颁）**：Sprint 是最小交付单元——一次收口、一个版本号、一套六份交付物；
-  中间件只 git 提交不单独打全包
+- **公共 QML 类型 42 个已交付**（qmldir 导出口径）：Controls 18 + Services 单例 10
+  （Screen/Theme/OverlayHost/Notify/Dialog/Loading/Storage/App/Platform/**IntersectionPool**）
+  + 句柄与动作 4 + **Behaviors 9**（Ripple/Intersection/ScrollObserver/ScrollFire/ClosePopup/
+  TouchPan/Swipe/Hold/Repeat，另有 internal NovaTouchCore 内核）
+- **测试 114 项全绿**（组件解析/槽/断点/Dark API/demo+画廊完整加载 + 布局/Notify/Dialog/
+  Loading/Storage/Platform/App 行为级断言 + 0.7.0 新增：Intersection 进出/比例/once 再武装/
+  stop，Scroll 位置/边界，ScrollFire 一次性，Pan/Swipe/Hold/Repeat QTest 真实鼠标事件，
+  ClosePopup 弹层栈 depth 三态 + Dialog 进出栈）
+- **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → **Sprint 3 ✅(0.7.0)** → Sprint 4 待开工
+- **交付节奏条款（0.6.2 新颁，0.7.0 首次完整执行）**：Sprint 是最小交付单元——一次收口、
+  一个版本号、一套六份交付物；中间件只 git 提交不单独打全包
 - **环境约定**：用户 Dell Win11 · PySide6 6.12.0 · 单人开发 · PyPI + GitHub
 - **接续方式**：粘贴 `PROMPT.md`（自包含，快照已内联）；快照改动后须重跑 `gen_prompt.py`
 
@@ -60,20 +62,34 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     根节点常驻、子项受控（0.6.2 沉淀）
 11. QML 测试里 Python 引用保不住 QML 顶层 Window（JS GC 不认 Python 引用）→ 行为断言一律走
     QML 侧函数，不摸 Python 侧窗口 wrapper（0.6.2 沉淀）
+12. QML 派生 Item 里重声明 `x/y/active` 报 "Cannot override FINAL property"（Qt 6.12 FINAL 成员）；
+    `enabled` 不重声明直接用 Item.enabled（继承语义天然正确）（0.7.0 沉淀）
+13. 行为根节点设 visible:false 会阻断内部 MouseArea 收事件（不可见 Item 不参与事件分发）——
+    纯逻辑行为可以关，带指针通道的绝不能关（0.7.0 沉淀）
+14. 组件默认属性把子项转交内部容器（如 NovaBtn 的 contentHost）时，子项的 parent 不是宿主本体，
+    `target: parent` 拿不到宿主信号 → 向上遍历找第一个带目标信号的祖先（0.7.0 沉淀）
+15. PySide 把 QML Window 包装成 QWindow，metaobject 里没有 QML 定义的方法，函数调不到 →
+    测试用 QML 侧 QtObject 代理（call0/1/2 按实参个数分派——QML 函数无可选参数）+ 强引用窗口（0.7.0 沉淀）
+16. 观察器只报"变化"：重新订阅必须重置上次判定并补一帧当前状态，否则状态未变就永远等不到回调
+    （基线 reobserve 同款语义）（0.7.0 沉淀）
 
 ## 下一步（一期 Sprint 2 L4 服务层，总规划见 MASTER_PLAN.md）
 
 - ~~Sprint 1 L1 布局~~ ✅ 0.5.0 完成（6 种经典布局示例全部入画廊）
 - ~~Sprint 2 L4 服务~~ ✅ **0.6.0~0.6.2 收口完成**（Notify 29 项 / Dialog 27 项 / Loading 11 项对账
-  + Storage 全 API + App + Platform；画廊 12 页；91 项测试；L4 0% → 44%）
-- **Sprint 3（下一步）L3 行为（v0.7.0）**：NovaClosePopup / NovaIntersection（单例 observer 池）/
-  NovaTouchPan·Swipe·Hold·Repeat / NovaScrollObserver·ScrollFire —— 按节奏条款一次收口
-- **Sprint 4 L0/L5（v0.8.0）**：图标 provider 注册表 + 6 套图标集 + Nova.utils + 动效令牌 + 9 级排版
+  + Storage 全 API + App + Platform；L4 0% → 44%）
+- ~~Sprint 3 L3 行为~~ ✅ **0.7.0 收口完成**（八件新行为 + 共享观察池 + 宿主弹层栈；画廊 13 页；
+  114 项测试；L3 11% → 100%；Morph/Mutation/Resize/DropZone 能力由 QML 原生信号承担留痕）
+- **Sprint 4（下一步）L0/L5 基础层（v0.8.0）**：图标 provider 注册表 + 6 套图标集 + Nova.utils
+  （date/color/formatter/防抖节流）+ 动效令牌 + 排版 9 级 —— 按节奏条款一次收口
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`（12 项 P0 空白 + 24 条封版验收）
 
 ## 最近一次交付
 
-- **0.6.2：Sprint 2 收口 · 一次交付四件**（NovaLoading 11 项对账 + 引用计数 / NovaStorage 真落盘 /
+- **0.7.0：Sprint 3 收口 · L3 行为层九件一次交付**（Intersection/ScrollObserver/ScrollFire/
+  ClosePopup/TouchPan·Swipe·Hold·Repeat + NovaIntersectionPool 共享观察池 + NovaOverlayHost
+  弹层栈 + 画廊第 13 页 + 114 项测试；L3 11% → 100%）
+- 0.6.2：Sprint 2 收口 · 一次交付四件（NovaLoading 11 项对账 + 引用计数 / NovaStorage 真落盘 /
   NovaApp / NovaPlatform + NovaRuntime Python 后端 + 画廊第 12 页 + 91 项测试 + 交付节奏条款）
 - 0.6.1：Sprint 2 第二件 NovaDialog（27 项对账 + 句柄三信号 + 画廊对话框页 + 71 项测试）
 - 0.6.0：Sprint 2 首件 NovaNotify + NovaOverlayHost（29 项对账 + 63 项测试）
