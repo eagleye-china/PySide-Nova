@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.5.0] - 2026-11-22
+
+### Added（一期 Sprint 1 · L1 布局系统 —— 生态七层 L1 从 0% 到 100%）
+
+- **布局五件套**（L1，对标 QLayout 系列）：
+  `NovaLayout`（四象限骨架，子项按类型自动归位，push/overlay 双模式 + 断点自动收起）、
+  `NovaHeader`（顶栏，tint + 默认槽）、`NovaFooter`（底栏）、
+  `NovaDrawer`（left/right、mini 悬停展开、overlay、breakpoint、bordered、宽度动画）、
+  `NovaPage`（页面容器 + padding）
+- **栅格三件套**（L5/L1，对标 Quasar Flex 栅格）：
+  `NovaRow`（12 栅格水平排布、wrap 换行、justify/align 对齐）、
+  `NovaCol`（cols 1~12、offset 推挤、gutter）、
+  `NovaVisible`（above/below/only 断点显隐，对标 gt-*/lt-*/*-only 工具类）
+- 画廊新增"**NovaLayout 布局**"页：6 种经典布局迷你示例（后台/看板/表单/详情/登录/空态），全部真实组件可交互
+- 冒烟测试 32 → **46 项**（新增四象限归位/push 让位/断点自动收起/栅格数学/NovaVisible 语义等行为级断言）
+
+### Changed
+
+- `NovaLayout.pageArea` 只读暴露页面区引用；`drawerOpen` / `openDrawer()` / `closeDrawer()` / `toggleDrawer()` 抽屉控制 API
+- PARITY 新增布局五件套 + 栅格三件套审计节（基线 2.35.5）；reveal/elevated/断点响应式 cols 等 🚧 项如实标注 M2
+
+### Notes
+
+- 断点收起策略由宿主 NovaLayout 执行（NovaDrawer 创建期 parent 宽度是瞬态值，不可自判）——已沉淀为坑位经验
+- 距宪法 24 条封版验收：L1 布局层达成 100%，L5 可见性/栅格从 0% 起步覆盖
+
 ## [0.4.2] - 2026-11-22
 
 ### Fixed（基线漂移纠正 —— 用户截屏立功）

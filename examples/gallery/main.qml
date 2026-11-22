@@ -53,7 +53,7 @@ ApplicationWindow {
             }
             NovaChip {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Gallery 0.2.0"
+                text: "Gallery 0.5.0"
                 outlined: true; dense: true
             }
         }
@@ -93,8 +93,9 @@ ApplicationWindow {
             spacing: 2
 
             Repeater {
-                model: ListModel {
+                model:                     ListModel {
                     ListElement { label: "概览";               icon: "mdi:home-variant-outline" }
+                    ListElement { label: "NovaLayout 布局";    icon: "mdi:view-dashboard-outline" }
                     ListElement { label: "NovaBtn 按钮";       icon: "mdi:gesture-tap" }
                     ListElement { label: "NovaCard 卡片";      icon: "mdi:card-outline" }
                     ListElement { label: "NovaChip 标签";      icon: "mdi:tag-outline" }
@@ -148,11 +149,190 @@ ApplicationWindow {
     Loader {
         id: content
         anchors { top: header.bottom; left: sidebar.right; right: parent.right; bottom: parent.bottom }
-        sourceComponent: [pageOverview, pageBtn, pageCard, pageChip,
+        sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageTheme][nav.currentIndex]
     }
 
     Rectangle { id: nav; property int currentIndex: 0; visible: false }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：NovaLayout 布局（6 种经典布局，全部可交互）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageLayout
+        Item {
+            GalleryPage {
+                title: "NovaLayout 布局"
+                desc: "布局五件套 + 栅格：NovaLayout 按子项类型自动归位（header/footer/drawer/page）；NovaDrawer 支持 mini 悬停展开、breakpoint 自动收起、push/overlay；NovaRow × NovaCol 12 栅格（offset/offset 推挤/wrap）；NovaVisible 断点显隐（跟随窗口断点，右上角实时显示）。"
+
+                GalleryRow { label: "① 后台管理（mini 抽屉 · 点 ☰ 切换 push/overlay）" }
+                LayoutPreview {
+                    height: 220
+                    NovaLayout {
+                        id: adminLay
+                        NovaHeader {
+                            height: 30
+                            Row {
+                                anchors { left: parent.left; leftMargin: 8; verticalCenter: parent.verticalCenter }
+                                spacing: 6
+                                Text { text: "N"; color: NovaTheme.textOnPrimary; font.bold: true; font.pixelSize: 14; anchors.verticalCenter: parent.verticalCenter }
+                                Text { text: "Nova 后台"; color: NovaTheme.textOnPrimary; font.pixelSize: 12; anchors.verticalCenter: parent.verticalCenter }
+                            }
+                            NovaBtn {
+                                anchors { right: parent.right; rightMargin: 6; verticalCenter: parent.verticalCenter }
+                                icon: "mdi:menu"; variant: "flat"; tint: Qt.rgba(1, 1, 1, 0.18)
+                                onClicked: adminDrawer.overlay = !adminDrawer.overlay
+                            }
+                        }
+                        NovaDrawer {
+                            id: adminDrawer
+                            mini: true; size: 110; miniWidth: 40; breakpoint: 420
+                            Column {
+                                spacing: 4
+                                Repeater {
+                                    model: ["mdi:home-outline", "mdi:chart-bar", "mdi:email-outline", "mdi:cog-outline"]
+                                    delegate: NovaIcon {
+                                        required property int index
+                                        required property string modelData
+                                        x: 8; y: index * 34 + 8
+                                        icon: modelData; size: 22; color: NovaTheme.textMuted
+                                    }
+                                }
+                            }
+                        }
+                        NovaFooter {
+                            height: 24
+                            Text { anchors.centerIn: parent; text: "NovaFooter"; color: NovaTheme.textOnPrimary; font.pixelSize: 11 }
+                        }
+                        NovaPage {
+                            padding: 8
+                            NovaRow {
+                                anchors { left: parent.left; right: parent.right; top: parent.top }
+                                NovaCol { cols: 4; gutter: 4; LayoutCard { } }
+                                NovaCol { cols: 4; gutter: 4; LayoutCard { } }
+                                NovaCol { cols: 4; gutter: 4; LayoutCard { } }
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "② 数据看板（12 栅格 cols 3/3/6 + 4/8）" }
+                LayoutPreview {
+                    height: 170
+                    NovaPage {
+                        padding: 8
+                        NovaRow {
+                            id: dashRow1
+                            anchors { left: parent.left; right: parent.right; top: parent.top }
+                            NovaCol { cols: 3; gutter: 4; LayoutCard { h: 52 } }
+                            NovaCol { cols: 3; gutter: 4; LayoutCard { h: 52 } }
+                            NovaCol { cols: 6; gutter: 4; LayoutCard { h: 52 } }
+                        }
+                        NovaRow {
+                            anchors { left: parent.left; right: parent.right; top: dashRow1.bottom; topMargin: 8 }
+                            NovaCol { cols: 4; gutter: 4; LayoutCard { h: 52 } }
+                            NovaCol { cols: 8; gutter: 4; LayoutCard { h: 52 } }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "③ 表单页（双列栅格 + offset）" }
+                LayoutPreview {
+                    height: 150
+                    NovaPage {
+                        padding: 8
+                        NovaRow {
+                            anchors { left: parent.left; right: parent.right; top: parent.top }
+                            NovaCol { cols: 6; gutter: 4; LayoutField { label: "用户名" } }
+                            NovaCol { cols: 6; gutter: 4; LayoutField { label: "邮箱" } }
+                        }
+                        NovaRow {
+                            anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: 50 }
+                            NovaCol { cols: 6; offset: 6; gutter: 4; LayoutField { label: "备注（offset 6 右移）" } }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "④ 详情页（头图 4 栅格 + 内容 8 栅格）" }
+                LayoutPreview {
+                    height: 150
+                    NovaPage {
+                        padding: 8
+                        NovaRow {
+                            anchors { left: parent.left; right: parent.right; top: parent.top }
+                            NovaCol { cols: 4; gutter: 4 }
+                            NovaCol { cols: 8; gutter: 4 }
+                            NovaCol { cols: 4; gutter: 4; LayoutCard { h: 100 } }
+                            NovaCol { cols: 8; gutter: 4; LayoutLines { n: 5 } }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "⑤ 登录页（justify center 居中卡片）" }
+                LayoutPreview {
+                    height: 180
+                    NovaLayout {
+                        NovaHeader { height: 26 }
+                        NovaPage {
+                            padding: 8
+                            NovaRow {
+                                anchors.fill: parent
+                                justify: "center"; align: "center"
+                                NovaCol {
+                                    cols: 4
+                                    Rectangle {
+                                        width: parent.width; height: 96; radius: NovaTheme.radiusM
+                                        color: NovaTheme.surface; border.color: NovaTheme.outline
+                                        Column {
+                                            anchors.centerIn: parent
+                                            spacing: 8
+                                            Text { text: "登录 Nova"; color: NovaTheme.textColor; font.bold: true; anchors.horizontalCenter: parent.horizontalCenter }
+                                            Rectangle { width: 120; height: 22; radius: 4; color: NovaTheme.surfaceAlt; border.color: NovaTheme.outline; anchors.horizontalCenter: parent.horizontalCenter }
+                                            NovaBtn { text: "登录"; anchors.horizontalCenter: parent.horizontalCenter }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "⑥ 空态 + NovaVisible 断点显隐（窗口断点：当前 " + NovaScreen.name + "）" }
+                LayoutPreview {
+                    height: 150
+                    NovaPage {
+                        padding: 8
+                        NovaRow {
+                            anchors.fill: parent
+                            justify: "center"; align: "center"
+                            NovaVisible {
+                                width: 420; height: 60
+                                above: "md"
+                                Rectangle {
+                                    width: 420; height: 60; radius: NovaTheme.radiusM
+                                    color: NovaTheme.surface; border.color: NovaTheme.outline
+                                    Column {
+                                        anchors.centerIn: parent; spacing: 6
+                                        NovaIcon { icon: "mdi:inbox-multiple-outline"; size: 26; color: NovaTheme.textMuted; anchors.horizontalCenter: parent.horizontalCenter }
+                                        Text { text: "桌面端空态（above: 'md' 时显示）"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS; anchors.horizontalCenter: parent.horizontalCenter }
+                                    }
+                                }
+                            }
+                            NovaVisible {
+                                width: 220; height: 60
+                                below: "md"
+                                Rectangle {
+                                    width: 220; height: 60; radius: NovaTheme.radiusM
+                                    color: NovaTheme.surface; border.color: NovaTheme.outline
+                                    Text { anchors.centerIn: parent; text: "移动端空态（below: 'md'）"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // ════════════════════════════════════════════════════════════
     // 页面：概览
@@ -162,7 +342,7 @@ ApplicationWindow {
         Item {
             GalleryPage {
                 title: "概览 Overview"
-                desc: "pyside-nova 首批 12 个组件全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
+                desc: "pyside-nova 已交付 20 个组件全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
 
                 Row {
                     spacing: NovaTheme.spacingM
@@ -596,5 +776,69 @@ ApplicationWindow {
         text: label.toUpperCase()
         topPadding: NovaTheme.spacingL
         property string label: ""
+    }
+
+    // 布局页预览框：固定高度的迷你画布，内部嵌真实 NovaLayout
+    component LayoutPreview: Rectangle {
+        id: lp
+        default property alias content: slot.data
+        width: parent ? parent.width : 0
+        height: 200
+        radius: NovaTheme.radiusM
+        color: NovaTheme.surfaceAlt
+        border.color: NovaTheme.outline
+        clip: true
+
+        Text {
+            x: 8; y: 4
+            text: "迷你预览（内部为真实组件，非截图）"
+            color: NovaTheme.textMuted
+            font.pixelSize: NovaTheme.fontXS
+            opacity: 0.6
+        }
+
+        Item {
+            id: slot
+            anchors { fill: parent; topMargin: 20; leftMargin: 8; rightMargin: 8; bottomMargin: 8 }
+        }
+    }
+
+    component LayoutCard: Rectangle {
+        width: parent ? parent.width : 100
+        height: h
+        radius: NovaTheme.radiusS
+        color: NovaTheme.surface
+        border.color: NovaTheme.outline
+        property int h: 60
+        Text { anchors.centerIn: parent; text: "NovaCol"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS }
+    }
+
+    component LayoutField: Column {
+        property string label: ""
+        spacing: 4
+        Text { text: label; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS }
+        Rectangle {
+            width: parent ? parent.width : 100; height: 24
+            radius: NovaTheme.radiusS
+            color: NovaTheme.surface
+            border.color: NovaTheme.outline
+            Text { x: 6; anchors.verticalCenter: parent.verticalCenter; text: "输入…"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS; opacity: 0.6 }
+        }
+    }
+
+    component LayoutLines: Column {
+        property int n: 3
+        spacing: 6
+        Repeater {
+            model: n
+            Rectangle {
+                required property int index
+                width: parent ? parent.width * (index === 0 ? 0.6 : 1) : 100
+                height: 8
+                radius: 3
+                color: NovaTheme.surfaceAlt
+                border.color: NovaTheme.outline
+            }
+        }
     }
 }

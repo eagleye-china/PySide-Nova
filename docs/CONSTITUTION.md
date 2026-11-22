@@ -132,3 +132,4 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 | 0.4.0 | 2026-11-21 | 新颁第 10 章 **生态完整性（七层模型）**：L0 设计语言/L1 布局/L2 组件/L3 指令/L4 插件/L5 工具/L6 工程化；发布 `docs/ECOSYSTEM_PARITY.md` 生态对标白皮书（成熟度评分 + 12 项 P0 空白 + 24 条封版验收） |
 | 0.4.1 | 2026-11-21 | 发布 `docs/MASTER_PLAN.md` **全生态开发总规划**：六期战略（生态骨架→表单→数据媒体→导航弹层→长尾+非功能→封版 1.0.0-flagship），组件 76 项/指令 11 项/插件 15 项全量对账到期；冒烟测试七条纪律制度化 |
 | 0.4.2 | 2026-11-22 | ⚠ 基线漂移纠正：对标基线 2.26.0 → **2.35.5**（官方 releases 复核）；新颁基线复核条款（每期开工先核对最新 release）；2.26→2.35 增量审计入册：新增 L6 "AI-ready 文档 + Nova MCP server"，Dialog/BottomSheet 关闭原因上报、Select hover 契约、Fab stagger、PullToRefresh side、Screen orientation 等写入对应期 DoD，安全硬化入五期门禁 |
+| 0.5.0 | 2026-11-22 | 一期 Sprint 1 落地：L1 布局系统交付（NovaLayout 五件套 + NovaRow/Col/Visible），七层 L1 0%→100%；画廊布局页 6 种经典布局；测试 32→46；沉淀坑位"瞬态 parent 宽度不可自判断点" |
