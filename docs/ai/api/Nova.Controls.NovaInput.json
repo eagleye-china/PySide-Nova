@@ -1,0 +1,144 @@
+{
+ "name": "Nova.Controls.NovaInput",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaInput.qml",
+ "description": "NovaInput 文本输入：单行/密码/多行/数字、modelModifiers、debounce、autogrow、clearable 对标 Quasar QInput（input 8 props + use-field + use-validate；NovaField 之下的控制层） 契约统一：label / hint / error / readonly / disable / clearable / rules",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "对标 modelValue（string/number）",
+   "line": 13
+  },
+  {
+   "name": "modelModifiers",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "number | trim | capitalize",
+   "line": 14
+  },
+  {
+   "name": "shadowText",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "空值且未聚焦时的影子文本（对标 shadowText）",
+   "line": 15
+  },
+  {
+   "name": "type",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"text\"",
+   "doc": "text|password|number|int|textarea|search|email|tel|url",
+   "line": 16
+  },
+  {
+   "name": "debounce",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "valueChanged 防抖毫秒（对标 debounce）",
+   "line": 17
+  },
+  {
+   "name": "autogrow",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "textarea 自增高（对标 autogrow）",
+   "line": 18
+  },
+  {
+   "name": "maxLength",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "Nova 增强（HTML maxlength 语义）",
+   "line": 19
+  },
+  {
+   "name": "placeholder",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "Nova 增强：原生 placeholder",
+   "line": 20
+  },
+  {
+   "name": "_emitting",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "内部提交旗标：避免 number 模式改写用户输入",
+   "line": 26
+  },
+  {
+   "name": "_isArea",
+   "type": "bool",
+   "readonly": true,
+   "default": ": type === \"textarea\"",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "_isPassword",
+   "type": "bool",
+   "readonly": true,
+   "default": ": type === \"password\"",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "_text",
+   "type": "string",
+   "readonly": true,
+   "default": ": _isArea ? area.text : input.text",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "_mods",
+   "type": "var",
+   "readonly": true,
+   "default": ": Array.isArray(modelModifiers) ? modelModifiers : []",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "typedValue",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 34
+  }
+ ],
+ "signals": [
+  {
+   "name": "editingFinished",
+   "params": ""
+  },
+  {
+   "name": "keyPressed",
+   "params": "var event"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_setText",
+   "params": "s"
+  },
+  {
+   "name": "_emitChange",
+   "params": ""
+  },
+  {
+   "name": "setFocus",
+   "params": ""
+  }
+ ]
+}

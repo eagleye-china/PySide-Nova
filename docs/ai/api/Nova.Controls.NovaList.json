@@ -1,0 +1,55 @@
+{
+ "name": "Nova.Controls.NovaList",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaList.qml",
+ "description": "NovaList 列表容器（对标 QList）：separator/dense/padding、accordion 手风琴协调",
+ "properties": [
+  {
+   "name": "separator",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "子项之间画分隔线（由 NovaItem 消费）",
+   "line": 11
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "紧凑行高（由 NovaItem 消费）",
+   "line": 12
+  },
+  {
+   "name": "padding",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "accordion",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "手风琴：子 NovaItem 展开时收起兄弟",
+   "line": 14
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "collapseSiblings",
+   "params": "item"
+  },
+  {
+   "name": "_bindChildren",
+   "params": ""
+  },
+  {
+   "name": "isLastItem",
+   "params": "item"
+  }
+ ]
+}

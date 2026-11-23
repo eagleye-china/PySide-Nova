@@ -1,0 +1,66 @@
+{
+ "name": "Nova.Controls.NovaInnerLoading",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaInnerLoading.qml",
+ "description": "NovaInnerLoading 局部加载遮罩：半透明蒙层 + Spinner（或 default 槽替换）+ label（对标 QInnerLoading） 用法：anchors.fill: parent 覆盖宿主区域；default 槽非空时替换 Spinner（如自定义动画）",
+ "properties": [
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "default 槽非空时被覆盖（对标 label prop）",
+   "line": 13
+  },
+  {
+   "name": "showing",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "loading 态",
+   "line": 16
+  },
+  {
+   "name": "size",
+   "type": "real",
+   "readonly": false,
+   "default": ": 42",
+   "doc": "spinner 直径",
+   "line": 17
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "spinnerVariant",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"ring\"",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "dark",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "深底蒙层口径（宿主自选）",
+   "line": 20
+  },
+  {
+   "name": "_hasSlot",
+   "type": "bool",
+   "readonly": true,
+   "default": ": slotBox.children.length > 0",
+   "doc": null,
+   "line": 28
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

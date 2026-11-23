@@ -1,0 +1,135 @@
+{
+ "name": "Nova.Services.NovaStorage",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaStorage.qml",
+ "description": "NovaStorage 持久化服务单例：命名空间隔离、JSON 值序列化、Web Storage 别名、落盘到 ini（对标 LocalStorage / SessionStorage） NovaStorage —— 全局键值持久化（对标 Quasar $q.localStorage；sessionStorage 语义由 clear() + 不持久模式承载） 基线事实（npm quasar@2.35.5 LocalStorage 源码核实）： API 面：set / get / remove / clear / has / getAll / getAllKeys / getLength / isEmpty / setAll",
+ "properties": [
+  {
+   "name": "storagePath",
+   "type": "string",
+   "readonly": true,
+   "default": ": NovaRuntime ? NovaRuntime.storagePath : \"\"",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "persistent",
+   "type": "bool",
+   "readonly": true,
+   "default": ": NovaRuntime !== null && NovaRuntime !== undefined",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "backend",
+   "type": "string",
+   "readonly": true,
+   "default": ": db.persistent ? \"ini\" : \"memory\"",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "namespace",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"default\"",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "_data",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "_loaded",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 27
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "_encode",
+   "params": "value"
+  },
+  {
+   "name": "_decode",
+   "params": "text"
+  },
+  {
+   "name": "_flush",
+   "params": ""
+  },
+  {
+   "name": "reload",
+   "params": ""
+  },
+  {
+   "name": "flush",
+   "params": ""
+  },
+  {
+   "name": "useNamespace",
+   "params": "name"
+  },
+  {
+   "name": "set",
+   "params": "key, value"
+  },
+  {
+   "name": "get",
+   "params": "key, defaultValue"
+  },
+  {
+   "name": "has",
+   "params": "key"
+  },
+  {
+   "name": "remove",
+   "params": "key"
+  },
+  {
+   "name": "clear",
+   "params": ""
+  },
+  {
+   "name": "getLength",
+   "params": ""
+  },
+  {
+   "name": "isEmpty",
+   "params": ""
+  },
+  {
+   "name": "getAllKeys",
+   "params": ""
+  },
+  {
+   "name": "getAll",
+   "params": ""
+  },
+  {
+   "name": "setAll",
+   "params": "obj"
+  },
+  {
+   "name": "setItem",
+   "params": "key, value"
+  },
+  {
+   "name": "getItem",
+   "params": "key"
+  },
+  {
+   "name": "removeItem",
+   "params": "key"
+  }
+ ]
+}

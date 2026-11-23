@@ -1,0 +1,92 @@
+{
+ "name": "Nova.Behaviors.NovaMorph",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaMorph.qml",
+ "description": "NovaMorph 元素形变行为（对标 Quasar v-morph 指令 · 基线 2.35.5 语义）： 同 group 的元素间形变过渡——morph() 时旧活动元素退出、ghost 影子从旧几何 形变至新元素几何、新元素显示（卡片展开为详情） 契约：morph 接管目标可见性（旧隐/新显，命令式切换），目标 visible 勿再绑定；",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": parent",
+   "doc": "形变目标元素",
+   "line": 13
+  },
+  {
+   "name": "group",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "形变组名（对标 v-morph group）",
+   "line": 14
+  },
+  {
+   "name": "duration",
+   "type": "int",
+   "readonly": false,
+   "default": ": 300",
+   "doc": "ghost 形变动画时长",
+   "line": 15
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "ghost 影子颜色",
+   "line": 16
+  },
+  {
+   "name": "radius",
+   "type": "real",
+   "readonly": false,
+   "default": ": 4",
+   "doc": "ghost 圆角",
+   "line": 17
+  },
+  {
+   "name": "active",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _active",
+   "doc": "本实例最近一次 morph 是否生效",
+   "line": 22
+  },
+  {
+   "name": "_active",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "ghostComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 26
+  }
+ ],
+ "signals": [
+  {
+   "name": "morphStarted",
+   "params": ""
+  },
+  {
+   "name": "morphFinished",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "morph",
+   "params": ""
+  },
+  {
+   "name": "isActive",
+   "params": ""
+  }
+ ]
+}

@@ -1,0 +1,35 @@
+{
+ "name": "Nova.Controls.NovaTr",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTr.qml",
+ "description": "NovaTr 表格行（对标 QTr）：选中高亮/点击上报（受控：selection 由宿主写回）",
+ "properties": [
+  {
+   "name": "selected",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 11
+  },
+  {
+   "name": "clickable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 12
+  }
+ ],
+ "signals": [
+  {
+   "name": "rowClicked",
+   "params": ""
+  },
+  {
+   "name": "rowDoubleClicked",
+   "params": ""
+  }
+ ],
+ "methods": []
+}

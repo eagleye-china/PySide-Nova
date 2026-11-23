@@ -1,0 +1,80 @@
+{
+ "name": "Nova.Controls.NovaForm",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaForm.qml",
+ "description": "NovaForm 表单容器：聚合子组件校验（递归发现 validate() 能力）、greedy 全量校验、 提交聚合、错误焦点（对标 Quasar QForm 5 props 1:1） 契约统一：readonly / disable 由子组件自持，本组件只做编排",
+ "properties": [
+  {
+   "name": "greedy",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "true=全量校验（非短路）",
+   "line": 12
+  },
+  {
+   "name": "autofocus",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "完成后聚焦首个可输入子件",
+   "line": 13
+  },
+  {
+   "name": "noErrorFocus",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "校验失败不聚焦",
+   "line": 14
+  },
+  {
+   "name": "noResetFocus",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "reset 不移焦点",
+   "line": 15
+  },
+  {
+   "name": "_fields",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 36
+  }
+ ],
+ "signals": [
+  {
+   "name": "submitted",
+   "params": ""
+  },
+  {
+   "name": "validationSuccess",
+   "params": "bool res"
+  },
+  {
+   "name": "validationFailed",
+   "params": "var errors"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_collectFields",
+   "params": "item, out"
+  },
+  {
+   "name": "validate",
+   "params": ""
+  },
+  {
+   "name": "resetValidation",
+   "params": ""
+  },
+  {
+   "name": "submit",
+   "params": ""
+  }
+ ]
+}

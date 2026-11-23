@@ -1,0 +1,59 @@
+{
+ "name": "Nova.Controls.NovaTimeline",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTimeline.qml",
+ "description": "NovaTimeline 时间轴（对标 QTimeline）：tint 轴色 / side 左右停靠 / dense·comfortable·loose 三布局；default 槽为 NovaTimelineEntry 序列，条目经 _timelineRef 反向取宿主布局参数",
+ "properties": [
+  {
+   "name": "_isNovaTimeline",
+   "type": "bool",
+   "readonly": true,
+   "default": ": true",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 color（tint 命名红线）",
+   "line": 18
+  },
+  {
+   "name": "side",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"left\"",
+   "doc": "left/right（dense/comfortable 的停靠边）",
+   "line": 19
+  },
+  {
+   "name": "layout",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"dense\"",
+   "doc": "dense/comfortable/loose",
+   "line": 20
+  },
+  {
+   "name": "_axisOnLeft",
+   "type": "bool",
+   "readonly": true,
+   "default": ": side === \"left\"",
+   "doc": null,
+   "line": 36
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "_entryCount",
+   "params": ""
+  },
+  {
+   "name": "_relayout",
+   "params": ""
+  }
+ ]
+}

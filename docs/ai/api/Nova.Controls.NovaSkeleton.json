@@ -1,0 +1,58 @@
+{
+ "name": "Nova.Controls.NovaSkeleton",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaSkeleton.qml",
+ "description": "NovaSkeleton 骨架屏：type（rect/text/circle/square/badge/tag）× animation（wave/bounce/fade/none，对标 QSkeleton） wave = 渐变横扫；bounce = 透明度脉冲；fade = 交替呼吸",
+ "properties": [
+  {
+   "name": "type",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"rect\"",
+   "doc": "rect | text | circle | square | badge | tag",
+   "line": 11
+  },
+  {
+   "name": "animation",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"wave\"",
+   "doc": "wave | bounce | fade | none",
+   "line": 12
+  },
+  {
+   "name": "animationSpeed",
+   "type": "int",
+   "readonly": false,
+   "default": ": 1500",
+   "doc": "周期 ms",
+   "line": 13
+  },
+  {
+   "name": "bordered",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "_base",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surfaceAlt",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "_hi",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.isDark ? \"#32323A\" : \"#EDEFF4\"",
+   "doc": null,
+   "line": 20
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

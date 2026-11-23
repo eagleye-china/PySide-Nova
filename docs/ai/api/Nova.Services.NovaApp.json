@@ -1,0 +1,123 @@
+{
+ "name": "Nova.Services.NovaApp",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaApp.qml",
+ "description": "NovaApp 窗口服务单例：全屏/最大化/最小化、窗口标题、可见与激活状态（对标 AppFullscreen + AppVisibility + Meta） NovaApp —— 窗口级命令式服务（对标 Quasar $q.fullscreen / $q.appVisible / $q.meta） 基线事实（npm quasar@2.35.5 源码核实）： AppFullscreen: request() / exit() / toggle() / isActive / isCapable",
+ "properties": [
+  {
+   "name": "targetWindow",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "available",
+   "type": "bool",
+   "readonly": true,
+   "default": ": app.targetWindow !== null",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "isCapable",
+   "type": "bool",
+   "readonly": true,
+   "default": ": app.available",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "isFullscreen",
+   "type": "bool",
+   "readonly": true,
+   "default": ": app.available",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "isMaximized",
+   "type": "bool",
+   "readonly": true,
+   "default": ": app.available",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "isMinimized",
+   "type": "bool",
+   "readonly": true,
+   "default": ": app.available",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "isVisible",
+   "type": "bool",
+   "readonly": true,
+   "default": ": app.available ? app.targetWindow.visible : false",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "isActive",
+   "type": "bool",
+   "readonly": true,
+   "default": ": app.available ? app.targetWindow.active : false",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "title",
+   "type": "string",
+   "readonly": true,
+   "default": ": app.available ? app.targetWindow.title : \"\"",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_restoreTo",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"windowed\"",
+   "doc": null,
+   "line": 56
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "request",
+   "params": ""
+  },
+  {
+   "name": "exit",
+   "params": ""
+  },
+  {
+   "name": "toggle",
+   "params": ""
+  },
+  {
+   "name": "setVisibility",
+   "params": "name"
+  },
+  {
+   "name": "setTitle",
+   "params": "text"
+  },
+  {
+   "name": "show",
+   "params": ""
+  },
+  {
+   "name": "hide",
+   "params": ""
+  },
+  {
+   "name": "snapshot",
+   "params": ""
+  }
+ ]
+}

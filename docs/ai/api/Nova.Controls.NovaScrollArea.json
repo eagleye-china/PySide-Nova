@@ -1,0 +1,9 @@
+{
+ "name": "Nova.Controls.NovaScrollArea",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaScrollArea.qml",
+ "description": "NovaScrollArea 滚动区域（对标 QScrollArea）：内容超界出主题化滚动条",
+ "properties": [],
+ "signals": [],
+ "methods": []
+}

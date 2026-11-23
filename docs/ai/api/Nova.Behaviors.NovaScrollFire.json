@@ -1,0 +1,68 @@
+{
+ "name": "Nova.Behaviors.NovaScrollFire",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaScrollFire.qml",
+ "description": "NovaScrollFire 首次进入视口触发一次的行为：阈值可调、可再武装（对标 Quasar v-scroll-fire） NovaScrollFire —— 滚动到视口触发一次（L3 行为层） 用法（懒加载图片的经典姿势）：",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": parent",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "root",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "threshold",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "0~1，需可见比例 ≥ 该值才触发",
+   "line": 30
+  },
+  {
+   "name": "armed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "武装态：false = 不再触发（触发后自动置 false）",
+   "line": 31
+  },
+  {
+   "name": "fired",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _fired",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "_fired",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 34
+  }
+ ],
+ "signals": [
+  {
+   "name": "fire",
+   "params": "var item"
+  }
+ ],
+ "methods": [
+  {
+   "name": "rearm",
+   "params": ""
+  }
+ ]
+}

@@ -1,0 +1,184 @@
+{
+ "name": "Nova.Behaviors.NovaIntersection",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaIntersection.qml",
+ "description": "NovaIntersection 视口观察行为：进入/离开视口回调、阈值、once、rootMargin、once 再武装（对标 Quasar v-intersection） NovaIntersection —— 元素可见性观察（L3 行为层） 用法（行为作为子项挂到目标 Item 内，target 默认就是宿主）：",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": parent",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "root",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": "null = 窗口视口（NovaIntersectionPool.viewport()）",
+   "line": 37
+  },
+  {
+   "name": "rootMarginTop",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "rootMarginRight",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "rootMarginBottom",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "rootMarginLeft",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "threshold",
+   "type": "var",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "once",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "isIntersecting",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _intersecting",
+   "doc": null,
+   "line": 49
+  },
+  {
+   "name": "intersectionRatio",
+   "type": "real",
+   "readonly": true,
+   "default": ": _ratio",
+   "doc": null,
+   "line": 50
+  },
+  {
+   "name": "observing",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _observed",
+   "doc": null,
+   "line": 51
+  },
+  {
+   "name": "_intersecting",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 53
+  },
+  {
+   "name": "_ratio",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 54
+  },
+  {
+   "name": "_done",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 55
+  },
+  {
+   "name": "_observed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 56
+  }
+ ],
+ "signals": [
+  {
+   "name": "intersect",
+   "params": "var entry"
+  },
+  {
+   "name": "entered",
+   "params": "var entry"
+  },
+  {
+   "name": "exited",
+   "params": "var entry"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_start",
+   "params": ""
+  },
+  {
+   "name": "_stop",
+   "params": ""
+  },
+  {
+   "name": "stop",
+   "params": ""
+  },
+  {
+   "name": "rearm",
+   "params": ""
+  },
+  {
+   "name": "kick",
+   "params": ""
+  },
+  {
+   "name": "_thresholds",
+   "params": ""
+  },
+  {
+   "name": "_crossed",
+   "params": "prev, next"
+  },
+  {
+   "name": "measure",
+   "params": ""
+  },
+  {
+   "name": "_makeEntry",
+   "params": "m"
+  },
+  {
+   "name": "evaluate",
+   "params": ""
+  }
+ ]
+}

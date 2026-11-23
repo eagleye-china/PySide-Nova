@@ -1,0 +1,39 @@
+{
+ "name": "Nova.Controls.NovaVirtualScroll",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaVirtualScroll.qml",
+ "description": "NovaVirtualScroll 虚拟滚动容器（对标 QVirtualScroll） items 数组 + delegate 组件 → 内部 ListView 真虚拟化（仅渲染可视窗口 + reuseItems）",
+ "properties": [
+  {
+   "name": "items",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "数据数组（任意元素）",
+   "line": 11
+  },
+  {
+   "name": "delegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "行渲染组件（必填，可读 modelData/index）",
+   "line": 12
+  },
+  {
+   "name": "itemSize",
+   "type": "real",
+   "readonly": false,
+   "default": ": 48",
+   "doc": "统一行高（当前实现要求等高）",
+   "line": 13
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "scrollToIndex",
+   "params": "i"
+  }
+ ]
+}

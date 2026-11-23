@@ -1,0 +1,208 @@
+{
+ "name": "Nova.Controls.NovaSelect",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaSelect.qml",
+ "description": "NovaSelect 下拉选择：options 归一化 / single+multiple / emitValue / useInput 过滤 / 下拉弹层 对标 Quasar QSelect（47 props；Nova 收口核心 24 项，其余留痕见 PARITY） 契约统一：label / hint / error / readonly / disable / clearable / rules",
+ "properties": [
+  {
+   "name": "options",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "[{label,value,disable}] 或标量数组",
+   "line": 13
+  },
+  {
+   "name": "optionValue",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"value\"",
+   "doc": "值键名",
+   "line": 14
+  },
+  {
+   "name": "optionLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"label\"",
+   "doc": "文案键名",
+   "line": 15
+  },
+  {
+   "name": "optionDisable",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"disable\"",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "单选：值/对象；多选：数组",
+   "line": 17
+  },
+  {
+   "name": "multiple",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "emitValue",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "true=模型取原始值；false=取选项对象（对标语义）",
+   "line": 19
+  },
+  {
+   "name": "displayValue",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "自定义展示文案（对标 display-value）",
+   "line": 20
+  },
+  {
+   "name": "hideDropdownIcon",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "dropdownIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"mdi:menu-down\"",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "optionsDense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "optionsCover",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "Nova 简化：true=向上弹（近似 cover 语义）",
+   "line": 24
+  },
+  {
+   "name": "noOptionLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "空选项文案（对标 no-option-label）",
+   "line": 25
+  },
+  {
+   "name": "maxValues",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "多选上限（0=不限）",
+   "line": 26
+  },
+  {
+   "name": "useInput",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "键入过滤（对标 use-input）",
+   "line": 27
+  },
+  {
+   "name": "inputPlaceholder",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "useInput 占位",
+   "line": 28
+  },
+  {
+   "name": "_normalized",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_selectedValues",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 54
+  },
+  {
+   "name": "_displayText",
+   "type": "string",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 59
+  },
+  {
+   "name": "filterText",
+   "type": "string",
+   "readonly": true,
+   "default": ": useInput ? filterInput.text : \"\"",
+   "doc": null,
+   "line": 77
+  }
+ ],
+ "signals": [
+  {
+   "name": "popupShow",
+   "params": ""
+  },
+  {
+   "name": "popupHide",
+   "params": ""
+  },
+  {
+   "name": "newValue",
+   "params": "var input"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_optEq",
+   "params": "opt, v"
+  },
+  {
+   "name": "_pick",
+   "params": "opt"
+  },
+  {
+   "name": "_setValueByLabel",
+   "params": "label"
+  },
+  {
+   "name": "selectOption",
+   "params": "value"
+  },
+  {
+   "name": "showPopup",
+   "params": ""
+  },
+  {
+   "name": "hidePopup",
+   "params": ""
+  }
+ ]
+}

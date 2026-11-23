@@ -1,0 +1,35 @@
+{
+ "name": "Nova.Services.NovaNotifyHandle",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaNotifyHandle.qml",
+ "description": "NovaNotifyHandle 通知句柄：show() 返回值，dismiss()/update(props)/valid 三面（对标 Notify.create 返回的句柄函数） NovaNotifyHandle —— 通知句柄（基线返回裸函数，QML 语境升级为 QObject：可绑定、可观测、可 GC） 语义对齐： dismiss()                 —— 等价基线句柄函数无参调用",
+ "properties": [
+  {
+   "name": "item",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "valid",
+   "type": "bool",
+   "readonly": true,
+   "default": ": item !== null",
+   "doc": null,
+   "line": 16
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "dismiss",
+   "params": ""
+  },
+  {
+   "name": "update",
+   "params": "props"
+  }
+ ]
+}

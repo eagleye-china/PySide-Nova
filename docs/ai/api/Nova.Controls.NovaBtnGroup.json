@@ -1,0 +1,67 @@
+{
+ "name": "Nova.Controls.NovaBtnGroup",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBtnGroup.qml",
+ "description": "NovaBtnGroup 按钮组样式壳：spread/vertical、outline/flat/push 形态统一下发（对标 QBtnGroup） 子项为 NovaBtn；组内间距归零（并接）；vertical 切换时槽内容 reparent 到对应布局容器",
+ "properties": [
+  {
+   "name": "vertical",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "spread",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "撑满可用空间",
+   "line": 14
+  },
+  {
+   "name": "outline",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "flat",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "push",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": 1",
+   "doc": null,
+   "line": 29
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "_applyStyle",
+   "params": ""
+  },
+  {
+   "name": "_layout",
+   "params": ""
+  }
+ ]
+}

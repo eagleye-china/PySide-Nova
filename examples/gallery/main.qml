@@ -116,6 +116,7 @@ ApplicationWindow {
                     ListElement { label: "媒体体系";            icon: "mdi:image-multiple-outline" }
                     ListElement { label: "导航体系";            icon: "mdi:compass-outline" }
                     ListElement { label: "弹层与反馈";          icon: "mdi:layers-triple-outline" }
+                    ListElement { label: "长尾组件";            icon: "mdi:alpha-t-circle-outline" }
                 }
 
                 delegate: Rectangle {
@@ -165,7 +166,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -357,7 +358,7 @@ ApplicationWindow {
         Item {
             GalleryPage {
                 title: "概览 Overview"
-                desc: "pyside-nova 已交付 117 个公共类型（Controls 89 + Services 10 + Design 3 + 句柄动作 4 + Behaviors 10）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
+                desc: "pyside-nova 已交付 120 个公共类型（Controls 91 + Services 15 + Design 3 + Behaviors 11）全部实机展示。所有组件共享 NovaTheme 三级设计令牌，明暗主题一键切换。"
 
                 Row {
                     spacing: NovaTheme.spacingM
@@ -3101,6 +3102,161 @@ ApplicationWindow {
                 id: obsRoot
                 target: pp
                 onResize: (w, h) => { /* 宿主尺寸变化（演示绑定读取） */ }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：长尾组件 · 五期 Sprint A（Editor/SlideItem/Morph/IconGenie/MCP）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageLongtail
+        Item {
+            id: lt
+            property bool morphCard: true          // true=卡片形态 / false=详情形态
+            property int slideCount: 0
+
+            GalleryPage {
+                title: "长尾组件 · 五期 Sprint A"
+                desc: "NovaEditor 轻量富文本（工具栏配置/格式化命令/HTML 导出——QML 无 contenteditable，以标记编辑实现同语义）、NovaSlideItem 滑动操作项（左滑右滑动作面板）、NovaMorph 元素形变（v-morph group 语义，ghost 几何过渡）、NovaIconGenie 图标全套生成 CLI、Nova MCP server（离线 AI 文档查询六工具，对标 @quasar/mcp 2.33 新品类）。"
+
+                GalleryRow { label: "① NovaEditor：工具栏命令编辑 · 底部实时 HTML 导出" }
+                NovaEditor {
+                    id: ltEd
+                    width: Math.min(640, parent.width)
+                    minHeight: 90
+                    placeholder: "写点什么…（选中后点工具栏加粗/标题/列表）"
+                    modelValue: "# 发布计划\n- 图标全套已生成\n- MCP server 已接入"
+                    onUpdateModelValue: (v) => { ltEd.modelValue = v; htmlOut.text = ltEd.toHtml() }
+                    Component.onCompleted: htmlOut.text = ltEd.toHtml()
+                }
+                Text {
+                    width: Math.min(640, parent.width)
+                    text: "HTML 导出实时预览："
+                    color: NovaTheme.textMuted
+                    font.pixelSize: NovaTheme.fontXS
+                }
+                Rectangle {
+                    width: Math.min(640, parent.width)
+                    height: 56
+                    radius: NovaTheme.radiusS
+                    color: NovaTheme.surfaceAlt
+                    clip: true
+                    Text {
+                        id: htmlOut
+                        x: 8
+                        width: parent.width - 16
+                        color: NovaTheme.textMuted
+                        font.pixelSize: NovaTheme.fontXS
+                        wrapMode: Text.WordWrap
+                    }
+                }
+
+                GalleryRow { label: "② NovaSlideItem：左右滑动露出动作面板（拖拽跟手 + 越阈值吸附）" }
+                Item {
+                    width: Math.min(480, parent.width)
+                    height: 56
+                    NovaSlideItem {
+                        id: slideDemo
+                        width: parent.width
+                        height: 56
+                        leftSlot: Component {
+                            Rectangle {
+                                anchors.fill: parent
+                                color: NovaTheme.secondary
+                                Text { anchors.centerIn: parent; text: "收藏"; color: NovaTheme.textOnPrimary }
+                            }
+                        }
+                        rightSlot: Component {
+                            Rectangle {
+                                anchors.fill: parent
+                                color: NovaTheme.negative
+                                Text { anchors.centerIn: parent; text: "删除"; color: NovaTheme.textOnPrimary }
+                            }
+                        }
+                        Rectangle {
+                            anchors.fill: parent
+                            radius: NovaTheme.radiusS
+                            color: NovaTheme.surface
+                            border.width: 1
+                            border.color: NovaTheme.outline
+                            Text { anchors.centerIn: parent; text: "← 拖我 · 第 " + lt.slideCount + " 次动作"; color: NovaTheme.textColor }
+                        }
+                        onLeftAction: lt.slideCount++
+                        onRightAction: lt.slideCount++
+                    }
+                }
+
+                GalleryRow { label: "③ NovaMorph：卡片 ⇄ 详情形变（v-morph group 语义 · ghost 几何过渡）" }
+                Item {
+                    width: Math.min(480, parent.width)
+                    height: 130
+                    clip: true
+
+                    Rectangle {
+                        id: morphCardFace
+                        visible: lt.morphCard
+                        width: 180; height: 110; x: 10; y: 8
+                        radius: NovaTheme.radiusM
+                        color: NovaTheme.surfaceAlt
+                        border.width: 1
+                        border.color: NovaTheme.primary
+                        Column {
+                            anchors.centerIn: parent
+                            spacing: 6
+                            Text { text: "新版本通知"; color: NovaTheme.textColor; font.bold: true }
+                            NovaBtn { text: "展开详情"; anchors.horizontalCenter: parent.horizontalCenter; onClicked: lt.morphCard = !lt.morphCard }
+                        }
+                        NovaMorph { group: "card"; target: morphCardFace; duration: 260; tint: NovaTheme.primary }
+                    }
+                    Rectangle {
+                        id: morphDetailFace
+                        visible: !lt.morphCard
+                        width: 420; height: 110; x: 10; y: 8
+                        radius: NovaTheme.radiusM
+                        color: NovaTheme.surface
+                        border.width: 1
+                        border.color: NovaTheme.primary
+                        Column {
+                            anchors { verticalCenter: parent.verticalCenter; left: parent.left; margins: 12 }
+                            spacing: 6
+                            Text { text: "v0.15.0 长尾组件已交付"; color: NovaTheme.textColor; font.bold: true }
+                            Text { text: "Editor / SlideItem / Morph / IconGenie / MCP server"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontS }
+                            NovaBtn { text: "收起"; onClicked: lt.morphCard = !lt.morphCard }
+                        }
+                        NovaMorph { group: "card"; target: morphDetailFace; duration: 260; tint: NovaTheme.primary }
+                    }
+                }
+                Text {
+                    text: "点「展开详情 / 收起」触发 group 形变：旧形态隐藏、ghost 从旧几何动画至新几何。"
+                    color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS
+                }
+
+                GalleryRow { label: "④ NovaIconGenie + Nova MCP server：生态工具（CLI 演示口径）" }
+                NovaCard {
+                    width: Math.min(640, parent.width)
+                    flat: true
+                    NovaCardSection {
+                        Column {
+                            spacing: 6
+                            Text { text: "图标全套生成（对标 @quasar/icongenie）"; color: NovaTheme.textColor; font.bold: true }
+                            Text {
+                                text: "python scripts/gen_icons.py source.png --out icons/ --background \"#FFF\" --splash\n→ favicon ×4 + apple-touch ×6 + android ×7 + ios 全档 + splash ×6（37 产物 + icongenie-report.json）"
+                                color: NovaTheme.textMuted
+                                font.pixelSize: NovaTheme.fontXS
+                                font.family: "monospace"
+                            }
+                            Item { width: 1; height: 6 }
+                            Text { text: "AI-ready 文档包 + MCP server（对标 @quasar/mcp · 2.33 新品类）"; color: NovaTheme.textColor; font.bold: true }
+                            Text {
+                                text: "python scripts/gen_apidocs.py          → docs/ai/（120 类型 API + 10 页离线文档 + 指纹）\npython scripts/nova_mcp.py --project . → stdio MCP server\n六工具：search_docs / list_pages / get_page / list_api / get_api / check_updates"
+                                color: NovaTheme.textMuted
+                                font.pixelSize: NovaTheme.fontXS
+                                font.family: "monospace"
+                            }
+                        }
+                    }
+                }
             }
         }
     }

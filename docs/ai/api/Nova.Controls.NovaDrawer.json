@@ -1,0 +1,130 @@
+{
+ "name": "Nova.Controls.NovaDrawer",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaDrawer.qml",
+ "description": "NovaDrawer 侧边抽屉：left/right、mini 悬停展开、push/overlay 双模式、breakpoint 自动收起、宽度动画（对标 QDrawer） NovaDrawer —— 侧边抽屉（对标 QDrawer） 用法：作为 NovaLayout 直接子项声明；open 控制展开；mini 模式收起为 miniWidth、悬停临时展开； 宿主宽度 < breakpoint 时自动转 overlay 并收起（对标 QDrawer behavior/breakpoint）",
+ "properties": [
+  {
+   "name": "side",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"left\"",
+   "doc": "left | right",
+   "line": 16
+  },
+  {
+   "name": "size",
+   "type": "real",
+   "readonly": false,
+   "default": ": 280",
+   "doc": "展开宽度（width 由展开状态驱动）",
+   "line": 17
+  },
+  {
+   "name": "mini",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "mini 模式：收起为 miniWidth，悬停临时展开",
+   "line": 18
+  },
+  {
+   "name": "miniWidth",
+   "type": "real",
+   "readonly": false,
+   "default": ": 64",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "overlay",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "悬浮模式（不推挤页面区）",
+   "line": 20
+  },
+  {
+   "name": "breakpoint",
+   "type": "int",
+   "readonly": false,
+   "default": ": 1024",
+   "doc": "宿主宽度小于该值 → 强制 overlay + 收起",
+   "line": 21
+  },
+  {
+   "name": "autoCollapse",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "跨过 breakpoint 时是否自动收起",
+   "line": 22
+  },
+  {
+   "name": "bordered",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "open",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "展开状态（mini 模式下表示\"固定展开\"）",
+   "line": 24
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "layoutWidth",
+   "type": "real",
+   "readonly": true,
+   "default": ": parent ? parent.width : NovaScreen.width",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "belowBreakpoint",
+   "type": "bool",
+   "readonly": true,
+   "default": ": layoutWidth < breakpoint",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "effectiveOverlay",
+   "type": "bool",
+   "readonly": true,
+   "default": ": overlay || belowBreakpoint",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "expanded",
+   "type": "bool",
+   "readonly": true,
+   "default": ": mini ? (hovered || open) : open",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "hovered",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 37
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

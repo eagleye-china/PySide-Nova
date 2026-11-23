@@ -44,6 +44,7 @@ NovaRow 1.0 NovaRow.qml
 NovaScrollArea 1.0 NovaScrollArea.qml
 NovaSelect 1.0 NovaSelect.qml
 NovaSeparator 1.0 NovaSeparator.qml
+NovaSlideItem 1.0 NovaSlideItem.qml
 NovaSlider 1.0 NovaSlider.qml
 NovaSpace 1.0 NovaSpace.qml
 NovaTable 1.0 NovaTable.qml
@@ -70,6 +71,7 @@ NovaBreadcrumbsEl 1.0 NovaBreadcrumbsEl.qml
 NovaStepper 1.0 NovaStepper.qml
 NovaStep 1.0 NovaStep.qml
 NovaStepperNavigation 1.0 NovaStepperNavigation.qml
+NovaEditor 1.0 NovaEditor.qml
 NovaExpansionItem 1.0 NovaExpansionItem.qml
 NovaToolbar 1.0 NovaToolbar.qml
 NovaToolbarTitle 1.0 NovaToolbarTitle.qml

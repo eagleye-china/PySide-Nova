@@ -1,0 +1,264 @@
+{
+ "name": "Nova.Controls.NovaBtnToggle",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBtnToggle.qml",
+ "description": "NovaBtnToggle 按钮组切换：options 单/多值、clearable、active 着色、spread/vertical 对标 Quasar QBtnToggle（31 props；Nova 收口核心 22 项，glossy/stack/stretch 留痕见 PARITY） 契约统一：disable / readonly",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "标量（multiple 未开）或数组",
+   "line": 12
+  },
+  {
+   "name": "multiple",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "clearable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "再点已选项清除",
+   "line": 14
+  },
+  {
+   "name": "options",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "[{label, value, icon, disable}] 或标量",
+   "line": 15
+  },
+  {
+   "name": "noCaps",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 no-caps（中文无影响，留 API 面）",
+   "line": 16
+  },
+  {
+   "name": "outline",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "未选中描边态",
+   "line": 19
+  },
+  {
+   "name": "flat",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "未选中扁平态",
+   "line": 20
+  },
+  {
+   "name": "push",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "unelevated",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "rounded",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 color",
+   "line": 24
+  },
+  {
+   "name": "textColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.textColor",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "toggleColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": tint",
+   "doc": "对标 toggle-color（选中底色）",
+   "line": 26
+  },
+  {
+   "name": "toggleTextColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.textOnPrimary",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "spread",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "均分宽度",
+   "line": 28
+  },
+  {
+   "name": "vertical",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "size",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"md\"",
+   "doc": "sm | md | lg",
+   "line": 31
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "hint",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "errorMessage",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "hasError",
+   "type": "bool",
+   "readonly": true,
+   "default": ": error || errorMessage !== \"\"",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_normalized",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "_inactiveVariant",
+   "type": "string",
+   "readonly": true,
+   "default": ": push ? \"push\"",
+   "doc": null,
+   "line": 107
+  },
+  {
+   "name": "opt",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 140
+  },
+  {
+   "name": "optIndex",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 141
+  },
+  {
+   "name": "on",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root._isOn(opt ? opt.value : null)",
+   "doc": null,
+   "line": 142
+  }
+ ],
+ "signals": [
+  {
+   "name": "valueChanged",
+   "params": "var value"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_isOn",
+   "params": "v"
+  },
+  {
+   "name": "_pick",
+   "params": "opt"
+  },
+  {
+   "name": "select",
+   "params": "value"
+  },
+  {
+   "name": "clear",
+   "params": ""
+  }
+ ]
+}

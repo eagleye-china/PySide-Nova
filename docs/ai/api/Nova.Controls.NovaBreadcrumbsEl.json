@@ -1,0 +1,60 @@
+{
+ "name": "Nova.Controls.NovaBreadcrumbsEl",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBreadcrumbsEl.qml",
+ "description": "NovaBreadcrumbsEl 面包屑条目（对标 QBreadcrumbsEl）：label/icon/disable + default 槽； to/href 路由语义 ⛔（无路由体系），点击统一 clicked 信号由宿主处理",
+ "properties": [
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "条目文案",
+   "line": 13
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "条目图标",
+   "line": 14
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "禁用（不可点击）",
+   "line": 15
+  },
+  {
+   "name": "crumbsRef",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "isActiveColor",
+   "type": "bool",
+   "readonly": true,
+   "default": ": crumbsRef !== null",
+   "doc": null,
+   "line": 19
+  }
+ ],
+ "signals": [
+  {
+   "name": "clicked",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "requestClick",
+   "params": ""
+  }
+ ]
+}

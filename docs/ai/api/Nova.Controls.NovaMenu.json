@@ -1,0 +1,268 @@
+{
+ "name": "Nova.Controls.NovaMenu",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaMenu.qml",
+ "description": "NovaMenu 声明式菜单：target 触发（父项/右键/hover 契约）、auto-close、persistent 锁 ESC+外部点击、 fit/cover、anchor/self/offset 定位、受控 modelValue（对标 QMenu） Nova 口径（PARITY §0.14 留痕）： portal 语义降级为就地渲染 + z 提升（建议声明在页面根层，z 由宿主层级决定）；",
+ "properties": [
+  {
+   "name": "target",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "null = 声明父项",
+   "line": 18
+  },
+  {
+   "name": "contextMenu",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "右键打开",
+   "line": 19
+  },
+  {
+   "name": "autoClose",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "点击菜单内任意处关闭（被动监听）",
+   "line": 20
+  },
+  {
+   "name": "persistent",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "锁 ESC + 外部点击",
+   "line": 21
+  },
+  {
+   "name": "noEscDismiss",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "hover",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "悬停展开契约（离场宽限收起）",
+   "line": 23
+  },
+  {
+   "name": "hoverDelay",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "hoverHideDelay",
+   "type": "int",
+   "readonly": false,
+   "default": ": 150",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "fit",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "菜单至少与 target 等宽",
+   "line": 28
+  },
+  {
+   "name": "cover",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "菜单覆盖 target",
+   "line": 29
+  },
+  {
+   "name": "anchor",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"bottom left\"",
+   "doc": "target 的锚点（两词：纵 top/bottom/middle × 横 left/middle/right）",
+   "line": 30
+  },
+  {
+   "name": "self",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"top left\"",
+   "doc": "菜单自身对齐点",
+   "line": 31
+  },
+  {
+   "name": "offset",
+   "type": "var",
+   "readonly": false,
+   "default": ": [0, 0]",
+   "doc": "[x, y] 外扩",
+   "line": 32
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "square",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "maxHeight",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "0 = 不限（超出裁剪）",
+   "line": 37
+  },
+  {
+   "name": "maxWidth",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "pad",
+   "type": "real",
+   "readonly": true,
+   "default": ": 6",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "contentBox",
+   "type": "alias",
+   "readonly": true,
+   "default": ": contentHost",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "modelValue",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "_open",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelValue",
+   "doc": null,
+   "line": 54
+  },
+  {
+   "name": "_tgt",
+   "type": "var",
+   "readonly": true,
+   "default": ": target !== null ? target : parent",
+   "doc": null,
+   "line": 88
+  },
+  {
+   "name": "pendingShow",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 110
+  },
+  {
+   "name": "_hookedItems",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 216
+  }
+ ],
+ "signals": [
+  {
+   "name": "updateModelValue",
+   "params": "bool v"
+  },
+  {
+   "name": "beforeShow",
+   "params": ""
+  },
+  {
+   "name": "shown",
+   "params": ""
+  },
+  {
+   "name": "beforeHide",
+   "params": ""
+  },
+  {
+   "name": "hidden",
+   "params": ""
+  },
+  {
+   "name": "escapeKey",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "updateHover",
+   "params": "inside"
+  },
+  {
+   "name": "_edgePt",
+   "params": "str, w, h"
+  },
+  {
+   "name": "_place",
+   "params": ""
+  },
+  {
+   "name": "show",
+   "params": ""
+  },
+  {
+   "name": "hide",
+   "params": ""
+  },
+  {
+   "name": "requestShow",
+   "params": ""
+  },
+  {
+   "name": "requestHide",
+   "params": ""
+  },
+  {
+   "name": "toggle",
+   "params": ""
+  },
+  {
+   "name": "updatePosition",
+   "params": ""
+  },
+  {
+   "name": "_hookAutoClose",
+   "params": ""
+  }
+ ]
+}

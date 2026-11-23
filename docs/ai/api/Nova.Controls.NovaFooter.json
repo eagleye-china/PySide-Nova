@@ -1,0 +1,26 @@
+{
+ "name": "Nova.Controls.NovaFooter",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaFooter.qml",
+ "description": "NovaFooter 底部应用栏：NovaLayout 四象限之底栏，tint 基调色 + 默认槽，高度隐式 48（对标 QFooter） NovaFooter —— 底部应用栏（对标 QFooter） 用法：作为 NovaLayout 直接子项声明即自动安置到底部；默认底色 primary",
+ "properties": [
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "contentColor",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.textOnPrimary",
+   "doc": null,
+   "line": 14
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

@@ -1,0 +1,146 @@
+{
+ "name": "Nova.Controls.NovaStep",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaStep.qml",
+ "description": "NovaStep 步骤面板（对标 QStep）：name/title/caption/icon/prefix/done/error/disable + 状态图标覆盖（done/active/error 的 icon+color，'none' 退让 prefix→icon）；default 槽 为步骤内容；几何与激活态由宿主 NovaStepper 统一管理（stepperRef 注入）",
+ "properties": [
+  {
+   "name": "name",
+   "type": "var",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "步骤寻址名；空则宿主以序号寻址",
+   "line": 15
+  },
+  {
+   "name": "title",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "caption",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "无状态时圆点内图标",
+   "line": 18
+  },
+  {
+   "name": "prefix",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "圆点内编号文案（覆盖 icon，有状态图标时让位）",
+   "line": 19
+  },
+  {
+   "name": "done",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "headerNav",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "允许头部导航跳到本步骤",
+   "line": 23
+  },
+  {
+   "name": "color",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "Quasar 命名色字符串口径（Item 基类无冲突）",
+   "line": 24
+  },
+  {
+   "name": "doneIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "doneColor",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "activeIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "activeColor",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "errorIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "errorColor",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "isNovaStep",
+   "type": "bool",
+   "readonly": true,
+   "default": ": true",
+   "doc": null,
+   "line": 34
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

@@ -1,0 +1,115 @@
+{
+ "name": "Nova.Controls.NovaBreadcrumbs",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBreadcrumbs.qml",
+ "description": "NovaBreadcrumbs 面包屑容器（对标 QBreadcrumbs）：在条目之间自动插分隔符； activeColor 语义对标 2.35.6 源码——作用于「中间的、未禁用」条目（最后一个为当前页不吃激活色）",
+ "properties": [
+  {
+   "name": "separator",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"/\"",
+   "doc": "分隔符文本",
+   "line": 13
+  },
+  {
+   "name": "separatorColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.textMuted",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "activeTint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 active-color（tint 命名红线）",
+   "line": 15
+  },
+  {
+   "name": "gutter",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"sm\"",
+   "doc": "none/xs/sm/md/lg/xl → 0/4/8/16/24/48",
+   "line": 16
+  },
+  {
+   "name": "align",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"left\"",
+   "doc": "left/center/right",
+   "line": 17
+  },
+  {
+   "name": "separatorDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "自定义分隔符模板（对标 separator 槽）",
+   "line": 18
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": gutter === \"xs\" ? 4",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "_seps",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "isCrumbsSeparator",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 62
+  },
+  {
+   "name": "_building",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 133
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "isActiveEl",
+   "params": "el"
+  },
+  {
+   "name": "_els",
+   "params": ""
+  },
+  {
+   "name": "_buildSep",
+   "params": ""
+  },
+  {
+   "name": "_layout",
+   "params": ""
+  },
+  {
+   "name": "sepTextW",
+   "params": ""
+  },
+  {
+   "name": "_layoutGuarded",
+   "params": ""
+  }
+ ]
+}

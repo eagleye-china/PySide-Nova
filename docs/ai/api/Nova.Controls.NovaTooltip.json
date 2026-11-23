@@ -1,0 +1,180 @@
+{
+ "name": "Nova.Controls.NovaTooltip",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTooltip.qml",
+ "description": "NovaTooltip 工具提示：target 悬停（delay/hideDelay）、anchor/self/offset 定位、text 便捷或 default 槽（对标 QTooltip） 就地渲染口径：z 提升于声明处（PARITY §0.14 留痕：非 portal，建议声明在页面根层）",
+ "properties": [
+  {
+   "name": "text",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "Nova 增强：单行便捷文案",
+   "line": 13
+  },
+  {
+   "name": "_useText",
+   "type": "bool",
+   "readonly": true,
+   "default": ": text !== \"\" && bubbleContent.children.length === 0",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "target",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "null = 声明父项",
+   "line": 17
+  },
+  {
+   "name": "delay",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "显示延迟 ms",
+   "line": 18
+  },
+  {
+   "name": "hideDelay",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "消失延迟 ms",
+   "line": 19
+  },
+  {
+   "name": "offset",
+   "type": "var",
+   "readonly": false,
+   "default": ": [14, 14]",
+   "doc": "对标默认 [14, 14]",
+   "line": 20
+  },
+  {
+   "name": "anchor",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"bottom middle\"",
+   "doc": "target 锚点",
+   "line": 21
+  },
+  {
+   "name": "self",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"top middle\"",
+   "doc": "气泡对齐点",
+   "line": 22
+  },
+  {
+   "name": "maxWidth",
+   "type": "real",
+   "readonly": false,
+   "default": ": 280",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": isDark ? \"#3A3A44\" : \"#2A2A32\"",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "isDark",
+   "type": "bool",
+   "readonly": false,
+   "default": ": NovaTheme.isDark",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "modelValue",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "_open",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelValue",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "_tgt",
+   "type": "var",
+   "readonly": true,
+   "default": ": target !== null ? target : parent",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "pendingShow",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 58
+  }
+ ],
+ "signals": [
+  {
+   "name": "updateModelValue",
+   "params": "bool v"
+  },
+  {
+   "name": "beforeShow",
+   "params": ""
+  },
+  {
+   "name": "shown",
+   "params": ""
+  },
+  {
+   "name": "beforeHide",
+   "params": ""
+  },
+  {
+   "name": "hidden",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "updateHover",
+   "params": "inside"
+  },
+  {
+   "name": "_edgePt",
+   "params": "str, w, h"
+  },
+  {
+   "name": "_place",
+   "params": ""
+  },
+  {
+   "name": "show",
+   "params": ""
+  },
+  {
+   "name": "hide",
+   "params": ""
+  },
+  {
+   "name": "toggle",
+   "params": ""
+  },
+  {
+   "name": "updatePosition",
+   "params": ""
+  }
+ ]
+}

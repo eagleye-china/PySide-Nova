@@ -1,0 +1,132 @@
+{
+ "name": "Nova.Controls.NovaPagination",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaPagination.qml",
+ "description": "NovaPagination 页码器（对标 QPagination） 受控模式（坑位 22）：不自写 page —— pageRequested(next) 上报，宿主写回",
+ "properties": [
+  {
+   "name": "page",
+   "type": "int",
+   "readonly": false,
+   "default": ": 1",
+   "doc": "当前页（宿主写回）",
+   "line": 10
+  },
+  {
+   "name": "pages",
+   "type": "int",
+   "readonly": false,
+   "default": ": 1",
+   "doc": "总页数",
+   "line": 11
+  },
+  {
+   "name": "maxPages",
+   "type": "int",
+   "readonly": false,
+   "default": ": 5",
+   "doc": "最多显示的页码按钮数",
+   "line": 12
+  },
+  {
+   "name": "boundaryLinks",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "首末页快捷键（«»）",
+   "line": 13
+  },
+  {
+   "name": "ellipses",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "省略号",
+   "line": 14
+  },
+  {
+   "name": "arrows",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "前后翻页箭头",
+   "line": 15
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "activeColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 color（页码选中底色）",
+   "line": 17
+  },
+  {
+   "name": "inputStyle",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"filled\"",
+   "doc": "保留 API 面",
+   "line": 18
+  },
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 68
+  },
+  {
+   "name": "nav",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "箭头/边界按钮（禁用态逻辑不同）",
+   "line": 69
+  },
+  {
+   "name": "tag",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 74
+  }
+ ],
+ "signals": [
+  {
+   "name": "pageRequested",
+   "params": "int page"
+  }
+ ],
+ "methods": [
+  {
+   "name": "visiblePages",
+   "params": ""
+  },
+  {
+   "name": "requestPage",
+   "params": "p"
+  },
+  {
+   "name": "nextPage",
+   "params": ""
+  },
+  {
+   "name": "prevPage",
+   "params": ""
+  },
+  {
+   "name": "nbPage",
+   "params": "t"
+  }
+ ]
+}

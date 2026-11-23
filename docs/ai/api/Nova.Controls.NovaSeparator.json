@@ -1,0 +1,42 @@
+{
+ "name": "Nova.Controls.NovaSeparator",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaSeparator.qml",
+ "description": "NovaSeparator 分隔线：vertical 属性切换方向，颜色取 outline 令牌（对标 QSeparator） NovaSeparator —— 分隔线（对标 QSeparator） horizontal（默认）或 vertical；spaced 在两端留出呼吸空隙",
+ "properties": [
+  {
+   "name": "vertical",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 11
+  },
+  {
+   "name": "spaced",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 12
+  },
+  {
+   "name": "size",
+   "type": "real",
+   "readonly": false,
+   "default": ": 1",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "color",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 14
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

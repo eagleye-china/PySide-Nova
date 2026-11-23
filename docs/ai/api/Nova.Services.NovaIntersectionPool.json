@@ -1,0 +1,83 @@
+{
+ "name": "Nova.Services.NovaIntersectionPool",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaIntersectionPool.qml",
+ "description": "NovaIntersectionPool 视口观察池单例：一个定时器驱动全部订阅者批量求值（对标 Quasar 2.30 共享 IntersectionObserver 池） NovaIntersectionPool —— 共享观察池（L3 行为层基础设施） 为什么需要池：浏览器的 IntersectionObserver 每帧对每个 observer 单独跑一遍，",
+ "properties": [
+  {
+   "name": "pollInterval",
+   "type": "int",
+   "readonly": false,
+   "default": ": 34",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "_subs",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "count",
+   "type": "int",
+   "readonly": true,
+   "default": ": _subs.length",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "ticker",
+   "type": "Timer",
+   "readonly": false,
+   "default": ": Timer {",
+   "doc": null,
+   "line": 32
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "add",
+   "params": "sub"
+  },
+  {
+   "name": "remove",
+   "params": "sub"
+  },
+  {
+   "name": "clear",
+   "params": ""
+  },
+  {
+   "name": "kick",
+   "params": ""
+  },
+  {
+   "name": "tick",
+   "params": ""
+  },
+  {
+   "name": "viewport",
+   "params": ""
+  },
+  {
+   "name": "nearestScrollable",
+   "params": "item"
+  },
+  {
+   "name": "scrollPosition",
+   "params": "root"
+  },
+  {
+   "name": "intersect",
+   "params": "a, b"
+  },
+  {
+   "name": "toRect",
+   "params": "x, y, width, height"
+  }
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "name": "Nova.Controls.NovaTh",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTh.qml",
+ "description": "NovaTh 表头单元格（对标 QTh）：文本/对齐/排序指示（受控模式：sortRequest 只上报）",
+ "properties": [
+  {
+   "name": "text",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 11
+  },
+  {
+   "name": "align",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"left\"",
+   "doc": "left | center | right",
+   "line": 12
+  },
+  {
+   "name": "sortable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "sorted",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "descending",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 16
+  }
+ ],
+ "signals": [
+  {
+   "name": "sortRequest",
+   "params": ""
+  }
+ ],
+ "methods": []
+}

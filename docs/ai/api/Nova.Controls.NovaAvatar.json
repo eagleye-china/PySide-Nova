@@ -1,0 +1,74 @@
+{
+ "name": "Nova.Controls.NovaAvatar",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaAvatar.qml",
+ "description": "NovaAvatar 头像：文字哈希自动配色 / 图片 / square / size 可调（对标 QAvatar） NovaAvatar —— 头像（对标 QAvatar） 文字头像（按内容自动配色）/ emoji / 图片三态",
+ "properties": [
+  {
+   "name": "text",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "source",
+   "type": "url",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "size",
+   "type": "real",
+   "readonly": false,
+   "default": ": 44",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "square",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": root.autoColor",
+   "doc": "基调色（QML 中 color 与基类属性冲突故命名 tint）",
+   "line": 19
+  },
+  {
+   "name": "textColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": \"#FFFFFF\"",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "autoColor",
+   "type": "color",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "_hasImage",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.source.toString() !== \"\"",
+   "doc": null,
+   "line": 39
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

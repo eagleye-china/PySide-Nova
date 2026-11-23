@@ -1,0 +1,34 @@
+{
+ "name": "Nova.Controls.NovaTabPanel",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTabPanel.qml",
+ "description": "NovaTabPanel 标签页面板（对标 QTabPanel）：name 寻址 / disable； default 槽为面板内容；几何（位置/尺寸/显隐）由宿主 NovaTabPanels 统一管理",
+ "properties": [
+  {
+   "name": "name",
+   "type": "var",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "面板寻址名（可任意类型；空则宿主以序号寻址）",
+   "line": 13
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "禁用面板（不可被 goTo 选中）",
+   "line": 14
+  },
+  {
+   "name": "isNovaTabPanel",
+   "type": "bool",
+   "readonly": true,
+   "default": ": true",
+   "doc": null,
+   "line": 16
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

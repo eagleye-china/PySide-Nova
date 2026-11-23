@@ -1,0 +1,131 @@
+{
+ "name": "Nova.Services.NovaPlatform",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaPlatform.qml",
+ "description": "NovaPlatform 平台信息服务单例：操作系统判定、触摸能力、移动/桌面/WebAssembly 分流（对标 Platform 插件） NovaPlatform —— 平台事实查询（对标 Quasar $q.platform） 基线事实（npm quasar@2.35.5 Platform 源码核实）： is.windows / is.mac / is.linux / is.ios / is.android / is.mobile / is.desktop /",
+ "properties": [
+  {
+   "name": "os",
+   "type": "string",
+   "readonly": true,
+   "default": ": NovaRuntime ? NovaRuntime.osName : Qt.platform.os",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "osVersion",
+   "type": "string",
+   "readonly": true,
+   "default": ": NovaRuntime ? NovaRuntime.osVersion : \"\"",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "cpuArch",
+   "type": "string",
+   "readonly": true,
+   "default": ": NovaRuntime ? NovaRuntime.cpuArch : \"\"",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "isWindows",
+   "type": "bool",
+   "readonly": true,
+   "default": ": pf.os === \"windows\"",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "isMac",
+   "type": "bool",
+   "readonly": true,
+   "default": ": pf.os === \"osx\"",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "isLinux",
+   "type": "bool",
+   "readonly": true,
+   "default": ": pf.os === \"linux\"",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "isAndroid",
+   "type": "bool",
+   "readonly": true,
+   "default": ": pf.os === \"android\"",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "isIOS",
+   "type": "bool",
+   "readonly": true,
+   "default": ": pf.os === \"ios\"",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "isWasm",
+   "type": "bool",
+   "readonly": true,
+   "default": ": pf.os === \"wasm\"",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "isMobile",
+   "type": "bool",
+   "readonly": true,
+   "default": ": pf.isAndroid || pf.isIOS",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "isDesktop",
+   "type": "bool",
+   "readonly": true,
+   "default": ": !pf.isMobile && !pf.isWasm",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "hasTouch",
+   "type": "bool",
+   "readonly": true,
+   "default": ": novaRuntimeReady ? NovaRuntime.hasTouchscreen : pf.isMobile",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "novaRuntimeReady",
+   "type": "bool",
+   "readonly": true,
+   "default": ": NovaRuntime !== null && NovaRuntime !== undefined",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "reducedMotion",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 42
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "describe",
+   "params": ""
+  },
+  {
+   "name": "snapshot",
+   "params": ""
+  }
+ ]
+}

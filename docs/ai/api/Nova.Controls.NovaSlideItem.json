@@ -1,0 +1,144 @@
+{
+ "name": "Nova.Controls.NovaSlideItem",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaSlideItem.qml",
+ "description": "NovaSlideItem 滑动操作项（对标 QSlideItem · 基线 2.35.5 语义）： 正面内容（default 槽）左右滑动露出动作面板（leftSlot/rightSlot Component 槽（QSlideItem 的 left/right 撞 Item FINAL 成员改名，坑位 12））， 拖拽跟手 + 释放越阈值吸附打开；dense 紧凑侧板 契约：开合是内部动画状态（QSlideItem 本身无 v-model，指令型组件）；",
+ "properties": [
+  {
+   "name": "leftSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "左滑露出的动作面板",
+   "line": 15
+  },
+  {
+   "name": "rightSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "右滑露出的动作面板",
+   "line": 16
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "侧板紧凑宽度",
+   "line": 17
+  },
+  {
+   "name": "revealWidth",
+   "type": "int",
+   "readonly": false,
+   "default": ": dense ? 56 : 72",
+   "doc": "侧板露出宽度",
+   "line": 20
+  },
+  {
+   "name": "duration",
+   "type": "int",
+   "readonly": false,
+   "default": ": 240",
+   "doc": "吸附动画时长",
+   "line": 21
+  },
+  {
+   "name": "openThreshold",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0.4",
+   "doc": "释放时打开所需进度（0~1）",
+   "line": 22
+  },
+  {
+   "name": "opened",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _side !== \"\"",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "_side",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "当前打开侧：\"\" | \"left\" | \"right\"",
+   "line": 32
+  },
+  {
+   "name": "_startX",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 91
+  },
+  {
+   "name": "_baseX",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 92
+  },
+  {
+   "name": "_dir",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 93
+  }
+ ],
+ "signals": [
+  {
+   "name": "slideOpened",
+   "params": "string side"
+  },
+  {
+   "name": "slideClosed",
+   "params": ""
+  },
+  {
+   "name": "leftAction",
+   "params": ""
+  },
+  {
+   "name": "rightAction",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "_rebuildPanels",
+   "params": ""
+  },
+  {
+   "name": "_settle",
+   "params": ""
+  },
+  {
+   "name": "_openSide",
+   "params": "side"
+  },
+  {
+   "name": "_closeSide",
+   "params": ""
+  },
+  {
+   "name": "slideLeft",
+   "params": ""
+  },
+  {
+   "name": "slideRight",
+   "params": ""
+  },
+  {
+   "name": "reset",
+   "params": ""
+  }
+ ]
+}

@@ -1,0 +1,187 @@
+{
+ "name": "Nova.Controls.NovaTimelineEntry",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTimelineEntry.qml",
+ "description": "NovaTimelineEntry 时间轴条目（对标 QTimelineEntry）：heading 标题态 / icon·avatar 轴点 / title·subtitle·body 三段内容 + titleSlot/subtitleSlot 命名槽；布局参数取自宿主 NovaTimeline",
+ "properties": [
+  {
+   "name": "_isNovaTimelineEntry",
+   "type": "bool",
+   "readonly": true,
+   "default": ": true",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "_entryIndex",
+   "type": "int",
+   "readonly": false,
+   "default": ": -1",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "heading",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "标题条目（无轴点，整行渲染）",
+   "line": 21
+  },
+  {
+   "name": "side",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "loose 布局下的停靠边（left/right；空取宿主 side）",
+   "line": 22
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "轴点图标（优先于 avatar）",
+   "line": 23
+  },
+  {
+   "name": "avatar",
+   "type": "url",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "轴点头像",
+   "line": 24
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 color（tint 命名红线）",
+   "line": 25
+  },
+  {
+   "name": "title",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "subtitle",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "body",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "正文文本；亦可走 default 槽",
+   "line": 28
+  },
+  {
+   "name": "titleSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "subtitleSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_host",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "_effSide",
+   "type": "string",
+   "readonly": true,
+   "default": ": side !== \"\" ? side",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "_axisLeft",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _effSide === \"left\"",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_comfortable",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _host !== null && _host.layout === \"comfortable\"",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "_isFirst",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _entryIndex <= 0",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_isLast",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _host !== null",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "_axisW",
+   "type": "int",
+   "readonly": true,
+   "default": ": 32",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "_gap",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaTheme.spacingM",
+   "doc": null,
+   "line": 47
+  },
+  {
+   "name": "_headingMode",
+   "type": "bool",
+   "readonly": true,
+   "default": ": heading",
+   "doc": null,
+   "line": 64
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "_attach",
+   "params": ""
+  },
+  {
+   "name": "_hasSlotContent",
+   "params": ""
+  }
+ ]
+}

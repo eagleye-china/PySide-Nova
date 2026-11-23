@@ -1,0 +1,212 @@
+{
+ "name": "Nova.Controls.NovaTransition",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTransition.qml",
+ "description": "NovaTransition 过渡包装组件（对标 Quasar q-transition--fade/scale/rotate/slide-*/jump-*/flip-* 共 16 种） NovaTransition —— 进出场过渡：声明式包住任意内容，show 切换时按预设播放进场/离场动画 1:1 语义：enter-from 与 leave-to 不对称（slide 进场从一侧推入、离场向另一侧推出），故用两组独立动画 reduced-motion：NovaMotion.reducedMotion 为真时时长归零（基线只覆盖 .animated，此处为 Nova 增强）",
+ "properties": [
+  {
+   "name": "name",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"fade\"",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "show",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "duration",
+   "type": "int",
+   "readonly": false,
+   "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "easing",
+   "type": "int",
+   "readonly": false,
+   "default": ": NovaMotion.easingStandard",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "clipContent",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "preset",
+   "type": "var",
+   "readonly": true,
+   "default": ": NovaMotion.preset(name)",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "axis",
+   "type": "string",
+   "readonly": true,
+   "default": ": preset.axis !== undefined ? preset.axis : \"y\"",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "_hasOpacity",
+   "type": "bool",
+   "readonly": true,
+   "default": ": preset.opacityIn !== undefined || preset.opacityOut !== undefined",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "_hasScale",
+   "type": "bool",
+   "readonly": true,
+   "default": ": preset.scaleIn !== undefined || preset.scaleOut !== undefined",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "_hasMoveX",
+   "type": "bool",
+   "readonly": true,
+   "default": ": preset.xIn !== undefined || preset.xOut !== undefined",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "_hasMoveY",
+   "type": "bool",
+   "readonly": true,
+   "default": ": preset.yIn !== undefined || preset.yOut !== undefined",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "_hasAngle",
+   "type": "bool",
+   "readonly": true,
+   "default": ": preset.angleIn !== undefined || preset.angleOut !== undefined",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "_inOpacity",
+   "type": "real",
+   "readonly": true,
+   "default": ": preset.opacityIn !== undefined ? preset.opacityIn : 1",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "_outOpacity",
+   "type": "real",
+   "readonly": true,
+   "default": ": preset.opacityOut !== undefined ? preset.opacityOut : 1",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "_inScale",
+   "type": "real",
+   "readonly": true,
+   "default": ": preset.scaleIn !== undefined ? preset.scaleIn : 1",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_outScale",
+   "type": "real",
+   "readonly": true,
+   "default": ": preset.scaleOut !== undefined ? preset.scaleOut : 1",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_inX",
+   "type": "real",
+   "readonly": true,
+   "default": ": (preset.xIn !== undefined ? preset.xIn : 0) * width",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "_outX",
+   "type": "real",
+   "readonly": true,
+   "default": ": (preset.xOut !== undefined ? preset.xOut : 0) * width",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "_inY",
+   "type": "real",
+   "readonly": true,
+   "default": ": (preset.yIn !== undefined ? preset.yIn : 0) * height",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "_outY",
+   "type": "real",
+   "readonly": true,
+   "default": ": (preset.yOut !== undefined ? preset.yOut : 0) * height",
+   "doc": null,
+   "line": 47
+  },
+  {
+   "name": "_inAngle",
+   "type": "real",
+   "readonly": true,
+   "default": ": preset.angleIn !== undefined ? preset.angleIn : 0",
+   "doc": null,
+   "line": 49
+  },
+  {
+   "name": "_outAngle",
+   "type": "real",
+   "readonly": true,
+   "default": ": preset.angleOut !== undefined ? preset.angleOut : 0",
+   "doc": null,
+   "line": 50
+  },
+  {
+   "name": "_visible",
+   "type": "bool",
+   "readonly": false,
+   "default": ": show",
+   "doc": null,
+   "line": 52
+  }
+ ],
+ "signals": [
+  {
+   "name": "entered",
+   "params": ""
+  },
+  {
+   "name": "exited",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "_applyState",
+   "params": "entering"
+  },
+  {
+   "name": "_applyFinal",
+   "params": ""
+  }
+ ]
+}

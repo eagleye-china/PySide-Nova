@@ -1,0 +1,443 @@
+{
+ "name": "Nova.Services.NovaTheme",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaTheme.qml",
+ "description": "NovaTheme 设计令牌单例：三级令牌体系、明暗双主题一键切换、运行时品牌换肤、0~5 级阴影（对标 Quasar brand + Dark 插件） NovaTheme —— 全局设计令牌单例（对标 Quasar brand 变量 + Dark 插件） 三级令牌体系的第一层：品牌色 / 语义色 / 表面色 / 几何 / 字阶 / 阴影",
+ "properties": [
+  {
+   "name": "isDark",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "primary",
+   "type": "color",
+   "readonly": false,
+   "default": ": \"#5B6EF5\"",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "secondary",
+   "type": "color",
+   "readonly": false,
+   "default": ": \"#26A69A\"",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "accent",
+   "type": "color",
+   "readonly": false,
+   "default": ": \"#FF7043\"",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "dark",
+   "type": "color",
+   "readonly": false,
+   "default": ": \"#1D1D1D\"",
+   "doc": "Quasar $dark 品牌色 1:1",
+   "line": 22
+  },
+  {
+   "name": "textOnPrimary",
+   "type": "color",
+   "readonly": true,
+   "default": ": \"#FFFFFF\"",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "positive",
+   "type": "color",
+   "readonly": true,
+   "default": ": \"#22C55E\"",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "negative",
+   "type": "color",
+   "readonly": true,
+   "default": ": \"#EF4444\"",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "warning",
+   "type": "color",
+   "readonly": true,
+   "default": ": \"#F59E0B\"",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "info",
+   "type": "color",
+   "readonly": true,
+   "default": ": \"#38BDF8\"",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "page",
+   "type": "color",
+   "readonly": true,
+   "default": ": isDark ? \"#121216\" : \"#F2F4F7\"",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "surface",
+   "type": "color",
+   "readonly": true,
+   "default": ": isDark ? \"#1C1C21\" : \"#FFFFFF\"",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "surfaceAlt",
+   "type": "color",
+   "readonly": true,
+   "default": ": isDark ? \"#25252C\" : \"#F7F8FA\"",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "outline",
+   "type": "color",
+   "readonly": true,
+   "default": ": isDark ? \"#38383F\" : \"#E3E5EB\"",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "textColor",
+   "type": "color",
+   "readonly": true,
+   "default": ": isDark ? \"#E9EAEF\" : \"#1F2128\"",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "textMuted",
+   "type": "color",
+   "readonly": true,
+   "default": ": isDark ? \"#9DA0AB\" : \"#6E7380\"",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "ripple",
+   "type": "color",
+   "readonly": true,
+   "default": ": isDark ? Qt.rgba(1, 1, 1, 0.22)",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "iconLocalRoot",
+   "type": "url",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 51
+  },
+  {
+   "name": "zFab",
+   "type": "int",
+   "readonly": true,
+   "default": ": 990",
+   "doc": null,
+   "line": 55
+  },
+  {
+   "name": "zSide",
+   "type": "int",
+   "readonly": true,
+   "default": ": 1000",
+   "doc": null,
+   "line": 56
+  },
+  {
+   "name": "zMarginals",
+   "type": "int",
+   "readonly": true,
+   "default": ": 2000",
+   "doc": null,
+   "line": 57
+  },
+  {
+   "name": "zFixedDrawer",
+   "type": "int",
+   "readonly": true,
+   "default": ": 3000",
+   "doc": null,
+   "line": 58
+  },
+  {
+   "name": "zFullscreen",
+   "type": "int",
+   "readonly": true,
+   "default": ": 6000",
+   "doc": null,
+   "line": 59
+  },
+  {
+   "name": "zMenu",
+   "type": "int",
+   "readonly": true,
+   "default": ": 6000",
+   "doc": null,
+   "line": 60
+  },
+  {
+   "name": "zTop",
+   "type": "int",
+   "readonly": true,
+   "default": ": 7000",
+   "doc": null,
+   "line": 61
+  },
+  {
+   "name": "zTooltip",
+   "type": "int",
+   "readonly": true,
+   "default": ": 9000",
+   "doc": null,
+   "line": 62
+  },
+  {
+   "name": "zNotify",
+   "type": "int",
+   "readonly": true,
+   "default": ": 9500",
+   "doc": null,
+   "line": 63
+  },
+  {
+   "name": "zMax",
+   "type": "int",
+   "readonly": true,
+   "default": ": 9998",
+   "doc": null,
+   "line": 64
+  },
+  {
+   "name": "spacingS",
+   "type": "int",
+   "readonly": true,
+   "default": ": 6",
+   "doc": null,
+   "line": 67
+  },
+  {
+   "name": "spacingM",
+   "type": "int",
+   "readonly": true,
+   "default": ": 12",
+   "doc": null,
+   "line": 68
+  },
+  {
+   "name": "spacingL",
+   "type": "int",
+   "readonly": true,
+   "default": ": 24",
+   "doc": null,
+   "line": 69
+  },
+  {
+   "name": "radiusS",
+   "type": "int",
+   "readonly": true,
+   "default": ": 6",
+   "doc": null,
+   "line": 70
+  },
+  {
+   "name": "radiusM",
+   "type": "int",
+   "readonly": true,
+   "default": ": 10",
+   "doc": null,
+   "line": 71
+  },
+  {
+   "name": "radiusL",
+   "type": "int",
+   "readonly": true,
+   "default": ": 14",
+   "doc": null,
+   "line": 72
+  },
+  {
+   "name": "fontFamily",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"Segoe UI\"",
+   "doc": null,
+   "line": 75
+  },
+  {
+   "name": "fontXS",
+   "type": "int",
+   "readonly": true,
+   "default": ": 11",
+   "doc": null,
+   "line": 76
+  },
+  {
+   "name": "fontS",
+   "type": "int",
+   "readonly": true,
+   "default": ": 13",
+   "doc": null,
+   "line": 77
+  },
+  {
+   "name": "fontM",
+   "type": "int",
+   "readonly": true,
+   "default": ": 15",
+   "doc": null,
+   "line": 78
+  },
+  {
+   "name": "fontL",
+   "type": "int",
+   "readonly": true,
+   "default": ": 18",
+   "doc": null,
+   "line": 79
+  },
+  {
+   "name": "fontXL",
+   "type": "int",
+   "readonly": true,
+   "default": ": 24",
+   "doc": null,
+   "line": 80
+  },
+  {
+   "name": "typeScale",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 85
+  },
+  {
+   "name": "bodyFontSize",
+   "type": "int",
+   "readonly": true,
+   "default": ": 14",
+   "doc": null,
+   "line": 101
+  },
+  {
+   "name": "bodyLineHeight",
+   "type": "real",
+   "readonly": true,
+   "default": ": 1.5",
+   "doc": null,
+   "line": 102
+  },
+  {
+   "name": "typeNames",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"h1\", \"h2\", \"h3\", \"h4\", \"h5\", \"h6\",",
+   "doc": null,
+   "line": 104
+  },
+  {
+   "name": "weightThin",
+   "type": "int",
+   "readonly": true,
+   "default": ": Font.Thin",
+   "doc": null,
+   "line": 115
+  },
+  {
+   "name": "weightLight",
+   "type": "int",
+   "readonly": true,
+   "default": ": Font.Light",
+   "doc": null,
+   "line": 116
+  },
+  {
+   "name": "weightRegular",
+   "type": "int",
+   "readonly": true,
+   "default": ": Font.Normal",
+   "doc": null,
+   "line": 117
+  },
+  {
+   "name": "weightMedium",
+   "type": "int",
+   "readonly": true,
+   "default": ": Font.Medium",
+   "doc": null,
+   "line": 118
+  },
+  {
+   "name": "weightBold",
+   "type": "int",
+   "readonly": true,
+   "default": ": Font.Bold",
+   "doc": null,
+   "line": 119
+  },
+  {
+   "name": "weightBolder",
+   "type": "int",
+   "readonly": true,
+   "default": ": Font.Black",
+   "doc": null,
+   "line": 120
+  },
+  {
+   "name": "elevation",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 133
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "toggleDark",
+   "params": ""
+  },
+  {
+   "name": "setDark",
+   "params": "value"
+  },
+  {
+   "name": "setBrand",
+   "params": "primaryColor"
+  },
+  {
+   "name": "textStyle",
+   "params": "name"
+  },
+  {
+   "name": "shadowColor",
+   "params": "level"
+  },
+  {
+   "name": "elevationLayers",
+   "params": "level"
+  }
+ ]
+}

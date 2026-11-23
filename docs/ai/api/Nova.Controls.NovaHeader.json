@@ -1,0 +1,26 @@
+{
+ "name": "Nova.Controls.NovaHeader",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaHeader.qml",
+ "description": "NovaHeader 顶部应用栏：NovaLayout 四象限之顶栏，tint 基调色 + 默认槽，高度隐式 56（对标 QHeader） NovaHeader —— 顶部应用栏（对标 QHeader） 用法：作为 NovaLayout 直接子项声明即自动安置到顶部；默认底色 primary，字色用 NovaTheme.textOnPrimary",
+ "properties": [
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "contentColor",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.textOnPrimary",
+   "doc": null,
+   "line": 16
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

@@ -1,0 +1,26 @@
+{
+ "name": "Nova.Controls.NovaCardActions",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaCardActions.qml",
+ "description": "NovaCardActions 卡片操作区：align 左/中/右对齐 NovaCardActions —— 卡片操作区（对标 QCardActions） align: \"left\" | \"center\" | \"right\"",
+ "properties": [
+  {
+   "name": "align",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"right\"",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "_pad",
+   "type": "real",
+   "readonly": true,
+   "default": ": 8",
+   "doc": null,
+   "line": 15
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

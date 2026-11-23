@@ -1,0 +1,96 @@
+{
+ "name": "Nova.Behaviors.NovaTouchSwipe",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaTouchSwipe.qml",
+ "description": "NovaTouchSwipe 快速滑动行为：速度阈值、触摸/鼠标各自最小距离、方向过滤（对标 Quasar v-touch-swipe） NovaTouchSwipe —— 快速滑动（L3 行为层） 用法：",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": parent",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "minVelocity",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0.06",
+   "doc": "px/ms",
+   "line": 31
+  },
+  {
+   "name": "touchMinDistance",
+   "type": "real",
+   "readonly": false,
+   "default": ": 6",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "mouseMinDistance",
+   "type": "real",
+   "readonly": false,
+   "default": ": 50",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "horizontal",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "vertical",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "directions",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "空 = 全向",
+   "line": 36
+  },
+  {
+   "name": "_fired",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 38
+  }
+ ],
+ "signals": [
+  {
+   "name": "swipe",
+   "params": "var details"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_accept",
+   "params": "dir"
+  },
+  {
+   "name": "_qualified",
+   "params": ""
+  },
+  {
+   "name": "_details",
+   "params": ""
+  },
+  {
+   "name": "_tryFire",
+   "params": ""
+  }
+ ]
+}

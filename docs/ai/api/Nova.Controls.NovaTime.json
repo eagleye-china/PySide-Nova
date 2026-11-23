@@ -1,0 +1,280 @@
+{
+ "name": "Nova.Controls.NovaTime",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTime.qml",
+ "description": "NovaTime 时钟面盘：时/分/秒三面切换、24h/12h(AM/PM)、options 过滤、nowBtn 对标 Quasar QTime（14 props；Nova 收口核心 12 项，validator/defaultDate 留痕见 PARITY） 契约统一：hint / error / readonly / disable",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "\"HH:mm(:ss)\" 串（24h 制存储）",
+   "line": 12
+  },
+  {
+   "name": "format24h",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "withSeconds",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "hourOptions",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "数组过滤（0-23）",
+   "line": 15
+  },
+  {
+   "name": "minuteOptions",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "0-59",
+   "line": 16
+  },
+  {
+   "name": "secondOptions",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "nowBtn",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "hint",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "errorMessage",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "hasError",
+   "type": "bool",
+   "readonly": true,
+   "default": ": error || errorMessage !== \"\"",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "_h",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "0-23（内部恒 24h 制）",
+   "line": 32
+  },
+  {
+   "name": "_m",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "_s",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_isAm",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "显示侧状态（12h 模式）",
+   "line": 35
+  },
+  {
+   "name": "_face",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "0=时 1=分 2=秒",
+   "line": 36
+  },
+  {
+   "name": "_touched",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "是否已选过（null → 值）",
+   "line": 37
+  },
+  {
+   "name": "_fmt",
+   "type": "string",
+   "readonly": true,
+   "default": ": withSeconds ? \"HH:mm:ss\" : \"HH:mm\"",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_hDisplay",
+   "type": "string",
+   "readonly": true,
+   "default": ": format24h ? _pad(_h)",
+   "doc": null,
+   "line": 119
+  },
+  {
+   "name": "_hDirty",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _touched",
+   "doc": null,
+   "line": 121
+  },
+  {
+   "name": "cx",
+   "type": "real",
+   "readonly": true,
+   "default": ": width / 2",
+   "doc": null,
+   "line": 224
+  },
+  {
+   "name": "cy",
+   "type": "real",
+   "readonly": true,
+   "default": ": height / 2",
+   "doc": null,
+   "line": 225
+  },
+  {
+   "name": "rOuter",
+   "type": "real",
+   "readonly": true,
+   "default": ": width / 2 - 8",
+   "doc": null,
+   "line": 226
+  }
+ ],
+ "signals": [
+  {
+   "name": "valueChanged",
+   "params": "var value"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_pad",
+   "params": "v"
+  },
+  {
+   "name": "_emit",
+   "params": ""
+  },
+  {
+   "name": "_inOptions",
+   "params": "opts, v"
+  },
+  {
+   "name": "setHour",
+   "params": "h"
+  },
+  {
+   "name": "setMinute",
+   "params": "m"
+  },
+  {
+   "name": "setSecond",
+   "params": "s"
+  },
+  {
+   "name": "toggleAmPm",
+   "params": ""
+  },
+  {
+   "name": "cycleFace",
+   "params": ""
+  },
+  {
+   "name": "setNow",
+   "params": ""
+  },
+  {
+   "name": "valueText",
+   "params": ""
+  },
+  {
+   "name": "on_HChanged",
+   "params": ""
+  },
+  {
+   "name": "on_MChanged",
+   "params": ""
+  },
+  {
+   "name": "on_SChanged",
+   "params": ""
+  },
+  {
+   "name": "on_FaceChanged",
+   "params": ""
+  }
+ ]
+}

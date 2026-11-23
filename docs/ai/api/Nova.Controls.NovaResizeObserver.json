@@ -1,0 +1,72 @@
+{
+ "name": "Nova.Controls.NovaResizeObserver",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaResizeObserver.qml",
+ "description": "NovaResizeObserver 尺寸观察：target（默认声明父项）尺寸变化 → debounce → resize(w,h)（对标 QResizeObserver）",
+ "properties": [
+  {
+   "name": "debounce",
+   "type": "int",
+   "readonly": false,
+   "default": ": 100",
+   "doc": null,
+   "line": 10
+  },
+  {
+   "name": "target",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "null = Component.onCompleted 时取 parent",
+   "line": 11
+  },
+  {
+   "name": "_touched",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "初次绑定不触发（观察器语义：只报变化）",
+   "line": 12
+  },
+  {
+   "name": "_lw",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "_lh",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 31
+  }
+ ],
+ "signals": [
+  {
+   "name": "resize",
+   "params": "real width, real height"
+  }
+ ],
+ "methods": [
+  {
+   "name": "onWidthChanged",
+   "params": ""
+  },
+  {
+   "name": "onHeightChanged",
+   "params": ""
+  },
+  {
+   "name": "_check",
+   "params": ""
+  },
+  {
+   "name": "trigger",
+   "params": ""
+  }
+ ]
+}

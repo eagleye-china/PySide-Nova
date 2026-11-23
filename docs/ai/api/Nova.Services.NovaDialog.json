@@ -1,0 +1,99 @@
+{
+ "name": "Nova.Services.NovaDialog",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaDialog.qml",
+ "description": "NovaDialog 全局对话框服务单例：27 项配置对账、五向定位、双按钮契约、关闭原因上报、句柄更新（对标 Dialog 插件） NovaDialog —— 命令式对话框（对标 Quasar Dialog 插件；契约见 docs/PARITY.md NovaDialog 审计节） 基线事实（npm quasar@2.35.5 dist/api/Dialog.json 核实，勿按文档页凭记忆改）： 27 项配置：class/style/html/component 等 DOM 专属项⛔不移植；prompt/options 待二期表单组件就绪；",
+ "properties": [
+  {
+   "name": "positionList",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"standard\", \"top\", \"right\", \"bottom\", \"left\"]",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "dismissReasons",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"ok\", \"cancel\", \"backdrop\", \"escape\", \"api\"]",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "zLayer",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaTheme.zTop",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "_defaults",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": "setDefaults 合并源",
+   "line": 22
+  },
+  {
+   "name": "_dialogs",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "活动对话框（按创建顺序，支持多层堆叠）",
+   "line": 23
+  },
+  {
+   "name": "dialogComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 170
+  },
+  {
+   "name": "handleComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 174
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "setDefaults",
+   "params": "opts"
+  },
+  {
+   "name": "_merge",
+   "params": "target, src"
+  },
+  {
+   "name": "normalizeButton",
+   "params": "input, defLabel"
+  },
+  {
+   "name": "show",
+   "params": "opts"
+  },
+  {
+   "name": "count",
+   "params": ""
+  },
+  {
+   "name": "activeDialogs",
+   "params": ""
+  },
+  {
+   "name": "hideAll",
+   "params": "reason"
+  },
+  {
+   "name": "_forget",
+   "params": "item"
+  }
+ ]
+}

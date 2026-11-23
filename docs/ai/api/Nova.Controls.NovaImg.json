@@ -1,0 +1,188 @@
+{
+ "name": "Nova.Controls.NovaImg",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaImg.qml",
+ "description": "NovaImg 图片组件（对标 QImg）：占位/错误图 + 加载转圈（延时防闪）+ ratio 宽高比 + fit/position， slots：default 覆盖内容 / loadingSlot / errorSlot（对标 loading/error 插槽）",
+ "properties": [
+  {
+   "name": "src",
+   "type": "url",
+   "readonly": false,
+   "default": null,
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "placeholderSrc",
+   "type": "url",
+   "readonly": false,
+   "default": null,
+   "doc": "加载中占位图（对标 placeholder-src）",
+   "line": 15
+  },
+  {
+   "name": "errorSrc",
+   "type": "url",
+   "readonly": false,
+   "default": null,
+   "doc": "加载失败错误图（对标 error-src）",
+   "line": 16
+  },
+  {
+   "name": "ratio",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": ">0 强制宽高比 height = width / ratio",
+   "line": 19
+  },
+  {
+   "name": "initialRatio",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "未指定 ratio 时的初始宽高比（避免加载期高度塌陷）",
+   "line": 20
+  },
+  {
+   "name": "_effRatio",
+   "type": "real",
+   "readonly": true,
+   "default": ": ratio > 0 ? ratio",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "fit",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"cover\"",
+   "doc": "cover/fill/contain/none/scale-down",
+   "line": 25
+  },
+  {
+   "name": "position",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"center\"",
+   "doc": "对标 object-position（简化方位枚举）",
+   "line": 26
+  },
+  {
+   "name": "spinnerTint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 spinner-color（tint 命名红线）",
+   "line": 27
+  },
+  {
+   "name": "spinnerSize",
+   "type": "real",
+   "readonly": false,
+   "default": ": 42",
+   "doc": "对标 spinner-size",
+   "line": 28
+  },
+  {
+   "name": "noSpinner",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "noTransition",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "loadingShowDelay",
+   "type": "int",
+   "readonly": false,
+   "default": ": 400",
+   "doc": "防缓存图闪 spinner（对标 loading-show-delay）",
+   "line": 31
+  },
+  {
+   "name": "alt",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "无障碍语义（对标 alt 属性）",
+   "line": 32
+  },
+  {
+   "name": "loadingSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "errorSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "status",
+   "type": "string",
+   "readonly": true,
+   "default": ": img.status === Image.Ready ? \"loaded\"",
+   "doc": null,
+   "line": 49
+  },
+  {
+   "name": "busy",
+   "type": "bool",
+   "readonly": true,
+   "default": ": status === \"loading\"",
+   "doc": null,
+   "line": 51
+  },
+  {
+   "name": "elapsed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 124
+  }
+ ],
+ "signals": [
+  {
+   "name": "loaded",
+   "params": ""
+  },
+  {
+   "name": "errored",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "_fitMode",
+   "params": ""
+  },
+  {
+   "name": "_posVAlign",
+   "params": ""
+  },
+  {
+   "name": "_posHAlign",
+   "params": ""
+  },
+  {
+   "name": "onSpinnerTintChanged",
+   "params": ""
+  }
+ ]
+}

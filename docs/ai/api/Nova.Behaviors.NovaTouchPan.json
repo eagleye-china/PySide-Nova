@@ -1,0 +1,132 @@
+{
+ "name": "Nova.Behaviors.NovaTouchPan",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaTouchPan.qml",
+ "description": "NovaTouchPan 拖动手势行为：方向/轴向过滤、首末标记、位移与增量、抓手光标（对标 Quasar v-touch-pan） NovaTouchPan —— 拖动（L3 行为层） 用法：",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": parent",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "horizontal",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "vertical",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "directions",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "allDirections",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "preventStealing",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "stopPropagation",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "preserveCursor",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "threshold",
+   "type": "real",
+   "readonly": false,
+   "default": ": 8",
+   "doc": "起判距离（Nova 增强：基线鼠标无独立阈值，这里统一 8px）",
+   "line": 42
+  },
+  {
+   "name": "panning",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _started && core.pressed",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "_started",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "_aborted",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "_count",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 47
+  }
+ ],
+ "signals": [
+  {
+   "name": "pan",
+   "params": "var details"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_accept",
+   "params": "dir"
+  },
+  {
+   "name": "_details",
+   "params": "isFinal, isFirst"
+  },
+  {
+   "name": "_emit",
+   "params": "isFinal"
+  }
+ ]
+}

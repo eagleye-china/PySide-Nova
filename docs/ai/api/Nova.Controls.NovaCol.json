@@ -1,0 +1,34 @@
+{
+ "name": "Nova.Controls.NovaCol",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaCol.qml",
+ "description": "NovaCol 栅格列：cols 1~12 占 12 栅格、offset 偏移、gutter 内边距，父级 NovaRow 自动排布（对标 Quasar col-*-n） NovaCol —— 栅格列（对标 Quasar col-*-n + offset-*） 用法：置于 NovaRow 内；宽度 = 行宽 × cols/12（声明式绑定，随行宽实时变化）； offset 向右偏移 offset/12 行宽；gutter 为四周内边距",
+ "properties": [
+  {
+   "name": "cols",
+   "type": "int",
+   "readonly": false,
+   "default": ": 12",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "offset",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "gutter",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 19
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

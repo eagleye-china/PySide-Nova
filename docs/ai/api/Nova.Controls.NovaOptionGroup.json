@@ -1,0 +1,212 @@
+{
+ "name": "Nova.Controls.NovaOptionGroup",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaOptionGroup.qml",
+ "description": "NovaOptionGroup 选项组：checkbox/radio/toggle 三型统一、options 归一化、inline/纵向布局 对标 Quasar QOptionGroup（24 props 含继承 use-checkbox 18；Nova 收口核心 21 项， size/validator/name 留痕见 PARITY） 契约统一：hint / error / readonly / disable",
+ "properties": [
+  {
+   "name": "type",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"checkbox\"",
+   "doc": "checkbox | radio | toggle",
+   "line": 13
+  },
+  {
+   "name": "options",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "标量数组或 [{label, value, disable}]",
+   "line": 14
+  },
+  {
+   "name": "optionValue",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"value\"",
+   "doc": "值键名",
+   "line": 15
+  },
+  {
+   "name": "optionLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"label\"",
+   "doc": "文案键名",
+   "line": 16
+  },
+  {
+   "name": "optionDisable",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"disable\"",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "checkbox/toggle: 数组；radio: 标量",
+   "line": 18
+  },
+  {
+   "name": "inline",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "横排",
+   "line": 21
+  },
+  {
+   "name": "leftLabel",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "keepColor",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 color",
+   "line": 24
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "activeTab",
+   "type": "bool",
+   "readonly": false,
+   "default": ": !disable",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "hint",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "errorMessage",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "hasError",
+   "type": "bool",
+   "readonly": true,
+   "default": ": error || errorMessage !== \"\"",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "_normalized",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "_scalarMode",
+   "type": "bool",
+   "readonly": true,
+   "default": ": type === \"radio\"",
+   "doc": null,
+   "line": 57
+  },
+  {
+   "name": "opt",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 126
+  },
+  {
+   "name": "on",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root._has(opt ? opt.value : null)",
+   "doc": null,
+   "line": 127
+  }
+ ],
+ "signals": [
+  {
+   "name": "valueChanged",
+   "params": "var value"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_has",
+   "params": "v"
+  },
+  {
+   "name": "_setRadio",
+   "params": "v"
+  },
+  {
+   "name": "_setArray",
+   "params": "v, on"
+  },
+  {
+   "name": "selectOption",
+   "params": "value"
+  },
+  {
+   "name": "resetValue",
+   "params": ""
+  }
+ ]
+}

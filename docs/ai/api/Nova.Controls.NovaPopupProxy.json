@@ -1,0 +1,216 @@
+{
+ "name": "Nova.Controls.NovaPopupProxy",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaPopupProxy.qml",
+ "description": "NovaPopupProxy 弹层路由：窗口宽/高较小者 < breakpoint → Dialog 形态（全屏卡片），否则 Menu 形态（对标 QPopupProxy） 内容槽共享：default 槽内容按当前形态 reparent 到对应形态容器；关闭后归还 受控契约：modelValue（坑位 22）；target 触发语义与 NovaMenu 一致",
+ "properties": [
+  {
+   "name": "target",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "contextMenu",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "autoClose",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "persistent",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "noEscDismiss",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "noBackdropDismiss",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "breakpoint",
+   "type": "int",
+   "readonly": false,
+   "default": ": 450",
+   "doc": "窗口宽/高较小者低于该值 → Dialog 形态",
+   "line": 21
+  },
+  {
+   "name": "cover",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "fit",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "anchor",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"bottom left\"",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "self",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"top left\"",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "offset",
+   "type": "var",
+   "readonly": false,
+   "default": ": [0, 0]",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "position",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"standard\"",
+   "doc": "Dialog 形态定位",
+   "line": 28
+  },
+  {
+   "name": "modelValue",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "dialogMode",
+   "type": "bool",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_open",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelValue",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "menuModeActive",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 55
+  }
+ ],
+ "signals": [
+  {
+   "name": "updateModelValue",
+   "params": "bool v"
+  },
+  {
+   "name": "beforeShow",
+   "params": ""
+  },
+  {
+   "name": "shown",
+   "params": ""
+  },
+  {
+   "name": "beforeHide",
+   "params": ""
+  },
+  {
+   "name": "hidden",
+   "params": ""
+  },
+  {
+   "name": "escapeKey",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "_reparentContent",
+   "params": "dest"
+  },
+  {
+   "name": "_restoreContent",
+   "params": ""
+  },
+  {
+   "name": "onShown",
+   "params": ""
+  },
+  {
+   "name": "onHidden",
+   "params": ""
+  },
+  {
+   "name": "onShown",
+   "params": ""
+  },
+  {
+   "name": "onHidden",
+   "params": ""
+  },
+  {
+   "name": "show",
+   "params": ""
+  },
+  {
+   "name": "hide",
+   "params": ""
+  },
+  {
+   "name": "toggle",
+   "params": ""
+  }
+ ]
+}

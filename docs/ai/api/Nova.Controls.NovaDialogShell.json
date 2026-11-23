@@ -1,0 +1,224 @@
+{
+ "name": "Nova.Controls.NovaDialogShell",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaDialogShell.qml",
+ "description": "NovaDialogShell 声明式对话框壳：遮罩 + 卡片 + default 槽，persistent/no-esc/no-backdrop、 五向定位、shake 吸引注意、**关闭原因上报**（ok/cancel/backdrop/escape/api，对标 QDialog · 基线 2.28 真 parity） 命名说明：Services 已有 NovaDialog 命令式单例，跨模块同名 import 歧义 → 组件壳名 NovaDialogShell（Nova 命名红线） 就地渲染口径：anchors.fill 父级（建议声明在页面根层）；modelValue 受控（坑位 22）",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "persistent",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "同时锁 backdrop 与 ESC（点击外部/按 ESC → shake 吸引注意）",
+   "line": 21
+  },
+  {
+   "name": "noEscDismiss",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "noBackdropDismiss",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "seamless",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "无遮罩",
+   "line": 24
+  },
+  {
+   "name": "noShake",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "maximized",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "fullWidth",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "fullHeight",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "position",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"standard\"",
+   "doc": "standard | top | right | bottom | left",
+   "line": 31
+  },
+  {
+   "name": "square",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "margin",
+   "type": "real",
+   "readonly": true,
+   "default": ": 24",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "maxWidth",
+   "type": "real",
+   "readonly": false,
+   "default": ": 560",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "_open",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelValue",
+   "doc": null,
+   "line": 49
+  },
+  {
+   "name": "implicitHeight",
+   "type": "real",
+   "readonly": true,
+   "default": ": cardBody.childrenRect.height + 2 * NovaTheme.spacingL",
+   "doc": null,
+   "line": 107
+  },
+  {
+   "name": "contentBox",
+   "type": "alias",
+   "readonly": true,
+   "default": ": cardBody",
+   "doc": null,
+   "line": 140
+  }
+ ],
+ "signals": [
+  {
+   "name": "updateModelValue",
+   "params": "bool v"
+  },
+  {
+   "name": "beforeShow",
+   "params": ""
+  },
+  {
+   "name": "shown",
+   "params": ""
+  },
+  {
+   "name": "beforeHide",
+   "params": ""
+  },
+  {
+   "name": "hidden",
+   "params": ""
+  },
+  {
+   "name": "escapeKey",
+   "params": ""
+  },
+  {
+   "name": "shake",
+   "params": ""
+  },
+  {
+   "name": "accepted",
+   "params": ""
+  },
+  {
+   "name": "cancelled",
+   "params": ""
+  },
+  {
+   "name": "dismissed",
+   "params": "string reason"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_playEnter",
+   "params": ""
+  },
+  {
+   "name": "_doShake",
+   "params": ""
+  },
+  {
+   "name": "requestDismiss",
+   "params": "reason"
+  },
+  {
+   "name": "accept",
+   "params": ""
+  },
+  {
+   "name": "cancel",
+   "params": ""
+  },
+  {
+   "name": "show",
+   "params": ""
+  },
+  {
+   "name": "hide",
+   "params": ""
+  },
+  {
+   "name": "toggle",
+   "params": ""
+  },
+  {
+   "name": "doShake",
+   "params": ""
+  }
+ ]
+}

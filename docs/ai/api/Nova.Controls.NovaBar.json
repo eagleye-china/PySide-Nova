@@ -1,0 +1,34 @@
+{
+ "name": "Nova.Controls.NovaBar",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBar.qml",
+ "description": "NovaBar 顶栏：default 槽、dense、tint 默认主色（对标 QBar —— 默认背景 $primary、文字反转）",
+ "properties": [
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 12
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "fg",
+   "type": "color",
+   "readonly": true,
+   "default": ": tint === NovaTheme.primary ? NovaTheme.textOnPrimary : NovaTheme.textColor",
+   "doc": null,
+   "line": 22
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

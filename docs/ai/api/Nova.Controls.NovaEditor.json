@@ -1,0 +1,180 @@
+{
+ "name": "Nova.Controls.NovaEditor",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaEditor.qml",
+ "description": "NovaEditor 轻量富文本编辑器（对标 QEditor · 基线 2.35.5 语义） 工具栏配置 toolbar（数组的数组，分组渲染）+ execCmd() 格式化命令 + modelValue 受控 ── 实现口径留痕（PARITY 对账）── QEditor 基于 DOM contenteditable，QML TextEdit 无富文本选区格式化 API；",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "编辑器内容（标记文本；对标 modelValue）",
+   "line": 17
+  },
+  {
+   "name": "toolbar",
+   "type": "var",
+   "readonly": false,
+   "default": ": [",
+   "doc": "工具栏配置（分组的命令名数组；对标 QEditor toolbar）",
+   "line": 18
+  },
+  {
+   "name": "placeholder",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "flat",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "无边框模式（对标 flat）",
+   "line": 26
+  },
+  {
+   "name": "minHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 96",
+   "doc": "内容区最小高度（Nova 增强）",
+   "line": 27
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "只读（对标 QEditor readonly）",
+   "line": 29
+  },
+  {
+   "name": "_commands",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": "命令 → 行内包裹标记（null = 行前缀型命令，见 _commands2）",
+   "line": 38
+  },
+  {
+   "name": "_commands2",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": "行前缀型命令 → 每行前缀（对标 QEditor 命令名 1:1）",
+   "line": 41
+  },
+  {
+   "name": "_labels",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": "工具栏按钮标签（无 DOM 字体图标，用语义缩写）",
+   "line": 45
+  },
+  {
+   "name": "_text",
+   "type": "string",
+   "readonly": true,
+   "default": ": area.text",
+   "doc": null,
+   "line": 52
+  },
+  {
+   "name": "buttonCount",
+   "type": "int",
+   "readonly": true,
+   "default": ": toolRepeater.count",
+   "doc": "工具栏命令按钮数（不含 separator）",
+   "line": 53
+  },
+  {
+   "name": "_syncing",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "guard 防回环（NovaInput 同款）",
+   "line": 54
+  },
+  {
+   "name": "isSep",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelData === \"separator\"",
+   "doc": null,
+   "line": 99
+  }
+ ],
+ "signals": [
+  {
+   "name": "updateModelValue",
+   "params": "string value"
+  },
+  {
+   "name": "saved",
+   "params": "string value"
+  },
+  {
+   "name": "keyPressed",
+   "params": "var event"
+  }
+ ],
+ "methods": [
+  {
+   "name": "selectRange",
+   "params": "s, e"
+  },
+  {
+   "name": "caretPosition",
+   "params": ""
+  },
+  {
+   "name": "execCmd",
+   "params": "cmd, arg"
+  },
+  {
+   "name": "_wrapSelection",
+   "params": "name, arg"
+  },
+  {
+   "name": "_prefixLines",
+   "params": "prefix"
+  },
+  {
+   "name": "_removeFormat",
+   "params": ""
+  },
+  {
+   "name": "_esc",
+   "params": "s"
+  },
+  {
+   "name": "toHtml",
+   "params": ""
+  },
+  {
+   "name": "_inline",
+   "params": "s"
+  },
+  {
+   "name": "clear",
+   "params": ""
+  },
+  {
+   "name": "focusEditor",
+   "params": ""
+  }
+ ]
+}

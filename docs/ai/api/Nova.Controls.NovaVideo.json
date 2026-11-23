@@ -1,0 +1,34 @@
+{
+ "name": "Nova.Controls.NovaVideo",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaVideo.qml",
+ "description": "NovaVideo 视频嵌入包装（对标 QVideo）：QtMultimedia Video 的皮肤化容器， ratio 默认 16/9 等比缩放，controls 常驻（QML Video 自带回放控件）",
+ "properties": [
+  {
+   "name": "src",
+   "type": "url",
+   "readonly": false,
+   "default": null,
+   "doc": null,
+   "line": 12
+  },
+  {
+   "name": "ratio",
+   "type": "real",
+   "readonly": false,
+   "default": ": 16 / 9",
+   "doc": ">0 强制 height = width / ratio（对标 ratio）",
+   "line": 13
+  },
+  {
+   "name": "title",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "无障碍语义（对标 title 属性）",
+   "line": 14
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

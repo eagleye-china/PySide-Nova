@@ -1,0 +1,154 @@
+{
+ "name": "Nova.Controls.NovaChatMessage",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaChatMessage.qml",
+ "description": "NovaChatMessage 聊天气泡（对标 QChatMessage）：sent 收发镜像 / name·avatar·text[]·stamp / label 分组标签 + size 栅格宽（1~12）；slots：default 正文 / avatarSlot / nameSlot / stampSlot / labelSlot；⛔ *-html 系（QML 不解析 HTML，走 default 槽）",
+ "properties": [
+  {
+   "name": "sent",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "true=当前用户发出（镜像右侧）",
+   "line": 15
+  },
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "分组标签（气泡组上方居中）",
+   "line": 16
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": sent ? NovaTheme.primary : NovaTheme.surfaceAlt",
+   "doc": "对标 bg-color",
+   "line": 17
+  },
+  {
+   "name": "textColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": sent ? NovaTheme.textOnPrimary : NovaTheme.textColor",
+   "doc": "对标 text-color",
+   "line": 18
+  },
+  {
+   "name": "name",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "发送者名",
+   "line": 19
+  },
+  {
+   "name": "avatar",
+   "type": "url",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "头像",
+   "line": 20
+  },
+  {
+   "name": "text",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "字符串或字符串数组（多条气泡）",
+   "line": 21
+  },
+  {
+   "name": "stamp",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "时间戳（尾条气泡右下角）",
+   "line": 22
+  },
+  {
+   "name": "size",
+   "type": "int",
+   "readonly": false,
+   "default": ": 12",
+   "doc": "1~12（栅格宽语义：气泡区宽 = size/12 × 容器宽）",
+   "line": 23
+  },
+  {
+   "name": "avatarSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "nameSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "stampSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "labelSlot",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "_lines",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_unit",
+   "type": "real",
+   "readonly": true,
+   "default": ": width > 0 ? width : implicitWidth",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "_bubbleZone",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(60, _unit * Math.min(Math.max(size, 1), 12) / 12)",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_avatarW",
+   "type": "real",
+   "readonly": true,
+   "default": ": (avatarSlot !== null || avatar.toString() !== \"\") ? 34 : 0",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "isLast",
+   "type": "bool",
+   "readonly": true,
+   "default": ": index === root._lines.length - 1",
+   "doc": null,
+   "line": 137
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

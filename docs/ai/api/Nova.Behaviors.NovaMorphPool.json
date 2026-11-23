@@ -1,0 +1,35 @@
+{
+ "name": "Nova.Behaviors.NovaMorphPool",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaMorphPool.qml",
+ "description": "NovaMorphPool 形变分组注册表（单例）：group -> 当前活动目标 Item NovaMorph 依赖它协调同名 group 的元素切换（旧隐/新显 + 几何形变） ── 实现口径留痕：曾用 .pragma library JS 共享注册表，实测呈现 per-importing-file 实例化（同 group 两实例互相看不见对方的注册），",
+ "properties": [
+  {
+   "name": "_map",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": "group -> Item",
+   "line": 11
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "register",
+   "params": "group, item"
+  },
+  {
+   "name": "setCurrent",
+   "params": "group, item"
+  },
+  {
+   "name": "unregister",
+   "params": "group, item"
+  },
+  {
+   "name": "current",
+   "params": "group"
+  }
+ ]
+}

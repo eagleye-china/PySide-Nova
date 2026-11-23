@@ -1,0 +1,176 @@
+{
+ "name": "Nova.Controls.NovaRadio",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaRadio.qml",
+ "description": "NovaRadio 单选：val 匹配 modelValue、leftLabel、keepColor、键盘选择 对标 Quasar QRadio（12 props） 契约统一：label / hint / error / readonly / disable",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "val",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "checked",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelValue === val && val !== null",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "leftLabel",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "checkedIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "对标 checked-icon（空=内置绘制圆点）",
+   "line": 21
+  },
+  {
+   "name": "uncheckedIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "keepColor",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "activeTab",
+   "type": "bool",
+   "readonly": false,
+   "default": ": !disable",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "hint",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "契约统一",
+   "line": 29
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "errorMessage",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "hasError",
+   "type": "bool",
+   "readonly": true,
+   "default": ": error || errorMessage !== \"\"",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "_size",
+   "type": "real",
+   "readonly": true,
+   "default": ": dense ? 16 : 18",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_fs",
+   "type": "int",
+   "readonly": true,
+   "default": ": dense ? 12 : 14",
+   "doc": null,
+   "line": 35
+  }
+ ],
+ "signals": [
+  {
+   "name": "valueChanged",
+   "params": "var value"
+  },
+  {
+   "name": "selected",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "select",
+   "params": ""
+  }
+ ]
+}

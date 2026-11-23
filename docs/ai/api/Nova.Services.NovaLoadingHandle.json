@@ -1,0 +1,59 @@
+{
+ "name": "Nova.Services.NovaLoadingHandle",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaLoadingHandle.qml",
+ "description": "NovaLoadingHandle 加载句柄：show() 返回值，hide()/update() + valid/count（引用计数语义，Nova 增强） NovaLoadingHandle —— 单个\"调用方\"对加载层的引用凭据。 语义（与 NovaDialogHandle 的强杀语义刻意不同）： hide()  = 释放本句柄持有的 **一份** 引用；同组还有其他持有者时遮罩继续显示（并发不互踩）",
+ "properties": [
+  {
+   "name": "entry",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "item",
+   "type": "var",
+   "readonly": true,
+   "default": ": entry ? entry.item : null",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "valid",
+   "type": "bool",
+   "readonly": true,
+   "default": ": entry !== null && !entry.dead",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "group",
+   "type": "string",
+   "readonly": true,
+   "default": ": entry ? entry.group : \"\"",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "count",
+   "type": "int",
+   "readonly": true,
+   "default": ": entry ? entry.count : 0",
+   "doc": null,
+   "line": 22
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "hide",
+   "params": ""
+  },
+  {
+   "name": "update",
+   "params": "props"
+  }
+ ]
+}

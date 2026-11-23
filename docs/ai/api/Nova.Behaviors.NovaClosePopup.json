@@ -1,0 +1,84 @@
+{
+ "name": "Nova.Behaviors.NovaClosePopup",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaClosePopup.qml",
+ "description": "NovaClosePopup 关闭弹层行为：点击宿主即关闭当前弹层栈的 N 层（对标 Quasar v-close-popup） NovaClosePopup —— 关闭弹层（L3 行为层） 用法：",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": "默认自动：向上找带 clicked 信号的宿主（NovaBtn 把子项转交给内部 contentHost）",
+   "line": 34
+  },
+  {
+   "name": "depth",
+   "type": "int",
+   "readonly": false,
+   "default": ": 1",
+   "doc": "<0 全关；0 禁用；>0 关 N 层",
+   "line": 35
+  },
+  {
+   "name": "reason",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"api\"",
+   "doc": "传给弹层的关闭原因（NovaDialog 五值之一）",
+   "line": 36
+  },
+  {
+   "name": "usePointer",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "true = 用内部 MouseArea 接管点击（宿主无 clicked 信号时）",
+   "line": 37
+  },
+  {
+   "name": "keyboard",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "Enter 键也触发（对标 keyup 13）",
+   "line": 38
+  },
+  {
+   "name": "popupCount",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaOverlayHost.popupCount()",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "host",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": "解析出的宿主（clicked 信号所在对象）",
+   "line": 41
+  }
+ ],
+ "signals": [
+  {
+   "name": "closed",
+   "params": "int count"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_resolveHost",
+   "params": ""
+  },
+  {
+   "name": "onClicked",
+   "params": ""
+  },
+  {
+   "name": "trigger",
+   "params": ""
+  }
+ ]
+}

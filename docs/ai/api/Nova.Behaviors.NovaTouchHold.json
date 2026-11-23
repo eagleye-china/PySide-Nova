@@ -1,0 +1,91 @@
+{
+ "name": "Nova.Behaviors.NovaTouchHold",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaTouchHold.qml",
+ "description": "NovaTouchHold 长按行为：按住时长阈值、触摸/鼠标各自灵敏度、位移即取消（对标 Quasar v-touch-hold） NovaTouchHold —— 长按（L3 行为层） 用法：",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": parent",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "duration",
+   "type": "int",
+   "readonly": false,
+   "default": ": 600",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "touchSensitivity",
+   "type": "real",
+   "readonly": false,
+   "default": ": 5",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "mouseSensitivity",
+   "type": "real",
+   "readonly": false,
+   "default": ": 7",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "preventStealing",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "pressed",
+   "type": "bool",
+   "readonly": true,
+   "default": ": core.pressed",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "held",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _held",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "holding",
+   "type": "bool",
+   "readonly": true,
+   "default": ": holder.running",
+   "doc": "正在计时中（可用于进度指示的起点）",
+   "line": 35
+  },
+  {
+   "name": "_held",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 37
+  }
+ ],
+ "signals": [
+  {
+   "name": "hold",
+   "params": "var details"
+  },
+  {
+   "name": "cancel",
+   "params": ""
+  }
+ ],
+ "methods": []
+}

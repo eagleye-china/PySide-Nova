@@ -1,0 +1,42 @@
+{
+ "name": "Nova.Controls.NovaItemLabel",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaItemLabel.qml",
+ "description": "NovaItemLabel 条目标签（对标 QItemLabel）：overline/caption/header/lines",
+ "properties": [
+  {
+   "name": "overline",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "上标签样式（小号大写字距）",
+   "line": 9
+  },
+  {
+   "name": "caption",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "辅助文字（小号灰）",
+   "line": 10
+  },
+  {
+   "name": "header",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "列表分节标题",
+   "line": 11
+  },
+  {
+   "name": "lines",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "0=不省略；>0=ellipsis 行数",
+   "line": 12
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

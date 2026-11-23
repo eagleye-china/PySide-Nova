@@ -1,0 +1,195 @@
+{
+ "name": "Nova.Services.NovaNotify",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaNotify.qml",
+ "description": "NovaNotify 全局通知服务单例：29 项配置对账、9 位位置栈、分组徽标、句柄更新、关闭原因上报（对标 Notify 插件） NovaNotify —— 全局通知服务单例（对标 Quasar Notify 插件；契约裁定见 docs/PARITY.md / 宪法 0.5.1 记录） 基线事实（npm quasar@2.35.5 源码核实，勿按文档页凭记忆改）： 默认 position=bottom / timeout=5000 / textColor=white；timeout=0 常驻且 progress 强制关；",
+ "properties": [
+  {
+   "name": "positionList",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"top-left\", \"top-right\", \"bottom-left\", \"bottom-right\",",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "enterMs",
+   "type": "int",
+   "readonly": true,
+   "default": ": 1000",
+   "doc": "进出场动效时长 = 基线 transition 1s；计时器/进度条共用本常量",
+   "line": 18
+  },
+  {
+   "name": "defaultTimeout",
+   "type": "int",
+   "readonly": true,
+   "default": ": 5000",
+   "doc": "基线默认显示时长",
+   "line": 19
+  },
+  {
+   "name": "maxVisible",
+   "type": "int",
+   "readonly": false,
+   "default": ": 5",
+   "doc": "同屏上限（MASTER_PLAN Sprint 2 验收，Nova 增强）",
+   "line": 20
+  },
+  {
+   "name": "dismissReasons",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"timeout\", \"user\", \"action\", \"api\", \"replaced\", \"overflow\"]",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "_defaults",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "_registeredTypes",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "_stacks",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": "position → Item 数组",
+   "line": 29
+  },
+  {
+   "name": "_groups",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": "运行时分组键 → Item",
+   "line": 30
+  },
+  {
+   "name": "_conn",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "窗口尺寸监听",
+   "line": 31
+  },
+  {
+   "name": "connComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 377
+  },
+  {
+   "name": "itemComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 384
+  },
+  {
+   "name": "actionComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 388
+  },
+  {
+   "name": "handleComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 392
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "setDefaults",
+   "params": "opts"
+  },
+  {
+   "name": "registerType",
+   "params": "typeName, typeOpts"
+  },
+  {
+   "name": "_typePreset",
+   "params": "name"
+  },
+  {
+   "name": "_baseConfig",
+   "params": ""
+  },
+  {
+   "name": "_merge",
+   "params": "target, src"
+  },
+  {
+   "name": "_stackFor",
+   "params": "position"
+  },
+  {
+   "name": "_normalizeAction",
+   "params": "a"
+  },
+  {
+   "name": "show",
+   "params": "config"
+  },
+  {
+   "name": "dismiss",
+   "params": "item, reason, animate"
+  },
+  {
+   "name": "update",
+   "params": "item, props"
+  },
+  {
+   "name": "countAt",
+   "params": "position"
+  },
+  {
+   "name": "totalCount",
+   "params": ""
+  },
+  {
+   "name": "dismissAll",
+   "params": "position"
+  },
+  {
+   "name": "relayout",
+   "params": "position"
+  },
+  {
+   "name": "relayoutAll",
+   "params": ""
+  },
+  {
+   "name": "_watchWindow",
+   "params": ""
+  },
+  {
+   "name": "onWidthChanged",
+   "params": ""
+  },
+  {
+   "name": "onHeightChanged",
+   "params": ""
+  }
+ ]
+}

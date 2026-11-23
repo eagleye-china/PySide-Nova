@@ -1,0 +1,183 @@
+{
+ "name": "Nova.Design.NovaMotion",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Design/NovaMotion.qml",
+ "description": "NovaMotion 动效令牌单例（对标 Quasar --q-transition-duration/.3s + q-transition--* 12 种过渡 + q-animate--* 2 种动画） NovaMotion —— 动效令牌（L0 设计语言）：时长/缓动/预设过渡表/reduced-motion 短路 1:1 对账基线：npm quasar@2.35.5 src/css/core/transitions.sass + animations.sass --q-transition-duration: .3s；--q-transition-easing: cubic-bezier(0.215,0.61,0.355,1)（= Easing.OutCubic）",
+ "properties": [
+  {
+   "name": "transitionDuration",
+   "type": "int",
+   "readonly": true,
+   "default": ": 300",
+   "doc": "--q-transition-duration: .3s",
+   "line": 16
+  },
+  {
+   "name": "animateDuration",
+   "type": "int",
+   "readonly": true,
+   "default": ": 300",
+   "doc": "--animate-duration: .3s",
+   "line": 17
+  },
+  {
+   "name": "animateDelay",
+   "type": "int",
+   "readonly": true,
+   "default": ": 300",
+   "doc": "--animate-delay: .3s",
+   "line": 18
+  },
+  {
+   "name": "animateRepeat",
+   "type": "int",
+   "readonly": true,
+   "default": ": 1",
+   "doc": "--animate-repeat: 1",
+   "line": 19
+  },
+  {
+   "name": "scaleDuration",
+   "type": "int",
+   "readonly": true,
+   "default": ": 150",
+   "doc": ".q-animate--scale 0.15s",
+   "line": 20
+  },
+  {
+   "name": "fadeDuration",
+   "type": "int",
+   "readonly": true,
+   "default": ": 200",
+   "doc": ".q-animate--fade 0.2s",
+   "line": 21
+  },
+  {
+   "name": "rippleDuration",
+   "type": "int",
+   "readonly": true,
+   "default": ": 400",
+   "doc": "NovaRipple 默认（与基线 ripple 视觉对齐）",
+   "line": 22
+  },
+  {
+   "name": "easingStandard",
+   "type": "int",
+   "readonly": true,
+   "default": ": Easing.OutCubic",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "easingScale",
+   "type": "int",
+   "readonly": true,
+   "default": ": Easing.OutQuad",
+   "doc": "cubic-bezier(.25,.8,.25,1) 近似",
+   "line": 27
+  },
+  {
+   "name": "easingFade",
+   "type": "int",
+   "readonly": true,
+   "default": ": Easing.OutQuad",
+   "doc": "基线 fade 固定 ease-out",
+   "line": 28
+  },
+  {
+   "name": "easingDecelerate",
+   "type": "int",
+   "readonly": true,
+   "default": ": Easing.OutQuart",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "easingAccelerate",
+   "type": "int",
+   "readonly": true,
+   "default": ": Easing.InQuad",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "easingEmphasized",
+   "type": "int",
+   "readonly": true,
+   "default": ": Easing.OutQuint",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "easingOvershoot",
+   "type": "int",
+   "readonly": true,
+   "default": ": Easing.OutBack",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "easingLinear",
+   "type": "int",
+   "readonly": true,
+   "default": ": Easing.Linear",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "speedFactor",
+   "type": "real",
+   "readonly": false,
+   "default": ": 1.0",
+   "doc": "1.0 原速；2.0 半速；0.5 双速",
+   "line": 36
+  },
+  {
+   "name": "reducedMotion",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "无障碍：true 时全部动效时长归零（等价 prefers-reduced-motion）",
+   "line": 37
+  },
+  {
+   "name": "animateOnStart",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "组件创建时是否播放进场动画（默认不播，避免首帧闪烁）",
+   "line": 38
+  },
+  {
+   "name": "presets",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 53
+  },
+  {
+   "name": "presetNames",
+   "type": "var",
+   "readonly": true,
+   "default": ": Object.keys(root.presets)",
+   "doc": null,
+   "line": 80
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "duration",
+   "params": "base"
+  },
+  {
+   "name": "preset",
+   "params": "name"
+  },
+  {
+   "name": "hasPreset",
+   "params": "name"
+  }
+ ]
+}

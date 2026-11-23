@@ -2,6 +2,7 @@
 # 冒烟测试：全部组件 QML 解析+实例化、令牌可读、断点语义（1366px→md）、画廊完整加载、L4 服务行为级断言
 """冒烟测试：验证 pyside-nova QML 模块可在引擎中正确解析并实例化。"""
 import os
+from pathlib import Path
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -362,6 +363,26 @@ CASES = [
     "import QtQuick\nimport Nova.Controls\n"
     "NovaBtnGroup { vertical: true; spread: true; outline: true;"
     " NovaBtn { text: '日' } NovaBtn { text: '周' } NovaBtn { text: '月' } }",
+    # ── 五期长尾组件（v0.15.0）：Editor / SlideItem / Morph / MorphPool ──
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaEditor { placeholder: '写点什么…'; minHeight: 80 }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaEditor { toolbar: [['bold', 'italic'], ['h1', 'quote'], ['undo', 'redo']];"
+    " flat: true; modelValue: '# 标题\\n正文' }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaSlideItem { dense: true; width: 300; height: 44 }",
+    "import QtQuick\nimport Nova.Controls\n"
+    "NovaSlideItem { width: 300; height: 56;"
+    " leftSlot: Component { Rectangle { anchors.fill: parent; color: 'teal' } }"
+    " rightSlot: Component { Rectangle { anchors.fill: parent; color: 'tomato' } }"
+    " Rectangle { color: '#E8EAF2'; anchors.fill: parent; Text { text: '正面' } } }",
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "Rectangle { width: 50; height: 50; NovaMorph { group: 'g' } }",
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "Item { width: 10; height: 10; NovaMorph { group: 'g'; target: parent; duration: 0;"
+    " tint: 'teal'; radius: 8 } }",
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "QtObject { property var cur: NovaMorphPool.current('nonexistent-group') }",
 ]
 
 
@@ -3588,3 +3609,275 @@ def test_popup_btn_group_style_and_service(popup_env):
     drv = popup_env
     assert _call(drv, "grpStyle") == "outline"
     assert _call(drv, "loadingBarSvc") == "ok"
+
+
+# ══════════════════════════════════════════════════════════════════
+# 五期 Sprint A · 长尾组件（v0.15.0）：Editor / SlideItem / Morph / IconGenie / MCP
+# ══════════════════════════════════════════════════════════════════
+
+LT_EDITOR_ENV_QML = (
+    "import QtQuick\nimport Nova.Controls\n"
+    "Item {\n"
+    "  id: host\n"
+    "  width: 460; height: 300\n"
+    "  property int emits: 0\n"
+    "  NovaEditor {\n"
+    "    id: ed\n"
+    "    width: 460; height: 300\n"
+    "    toolbar: [['bold', 'italic'], ['h1', 'quote'], ['undo', 'redo']]\n"
+    "    onUpdateModelValue: function(v) { ed.modelValue = v; host.emits++ }\n"
+    "  }\n"
+    "  function boldNoSel() { ed.modelValue = ''; ed.execCmd('bold'); return ed.modelValue }\n"
+    "  function boldSel() { ed.modelValue = 'hello world'; ed.selectRange(0, 5);"
+    " ed.execCmd('bold'); return ed.modelValue }\n"
+    "  function prefixQuote() { ed.modelValue = 'hello'; ed.execCmd('quote'); return ed.modelValue }\n"
+    "  function prefixH1() { ed.modelValue = '行甲\\n行乙'; ed.selectRange(2, 4);"
+    " ed.execCmd('h2'); return ed.modelValue }\n"
+    "  function rfNoSel() { ed.modelValue = 'a[Bold]b[/Bold]c'; ed.selectRange(0, 0);"
+    " return ed.execCmd('removeFormat') ? ed.modelValue : 'noop' }\n"
+    "  function htmlOf(s) { ed.modelValue = s; return ed.toHtml() }\n"
+    "  function btnCount() { return ed.buttonCount }\n"
+    "  function undoCmd() { ed.modelValue = 'abc'; ed.execCmd('undo'); return ed.modelValue }\n"
+    "}\n"
+)
+
+LT_SLIDE_ENV_QML = (
+    "import QtQuick\nimport Nova.Controls\n"
+    "Item {\n"
+    "  id: host\n"
+    "  width: 320; height: 60\n"
+    "  property string log: ''\n"
+    "  NovaSlideItem {\n"
+    "    id: si\n"
+    "    width: 320; height: 60\n"
+    "    duration: 60\n"
+    "    leftSlot: Component { Rectangle { anchors.fill: parent; color: 'teal' } }\n"
+    "    rightSlot: Component { Rectangle { anchors.fill: parent; color: 'tomato' } }\n"
+    "    Rectangle { color: '#E8EAF2'; anchors.fill: parent }\n"
+    "    onSlideOpened: function(side) { host.log += 'open:' + side + ';' }\n"
+    "    onSlideClosed: { host.log += 'closed;' }\n"
+    "    onLeftAction: { host.log += 'L;' }\n"
+    "  }\n"
+    "  function slideL() { si.slideLeft(); return si.opened }\n"
+    "  function slideR() { si.slideRight(); return si.opened }\n"
+    "  function closeAll() { si.reset(); return si.opened }\n"
+    "  function frontX() { return si.children[2].x }\n"
+    "}\n"
+)
+
+LT_MORPH_ENV_QML = (
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "Item {\n"
+    "  id: host\n"
+    "  width: 300; height: 150\n"
+    "  property int started: 0\n"
+    "  property int finished: 0\n"
+    "  Rectangle {\n"
+    "    id: cardA\n"
+    "    width: 50; height: 40; x: 10; y: 5; color: 'teal'\n"
+    "    NovaMorph { id: ma; group: 'g'; target: cardA; duration: 0\n"
+    "      onMorphStarted: host.started++\n"
+    "      onMorphFinished: host.finished++ }\n"
+    "  }\n"
+    "  Rectangle {\n"
+    "    id: cardB\n"
+    "    width: 120; height: 60; x: 100; y: 40; color: 'tomato'; visible: false\n"
+    "    NovaMorph { id: mb; group: 'g'; target: cardB; duration: 0\n"
+    "      onMorphStarted: host.started++\n"
+    "      onMorphFinished: host.finished++ }\n"
+    "  }\n"
+    "  function toA() { ma.morph(); return cardA.visible ? 'aOn' : 'fail' }\n"
+    "  function toB() { mb.morph(); return cardB.visible ? 'bOn' : 'fail' }\n"
+    "  function vis() { return 'a:' + cardA.visible + ',b:' + cardB.visible }\n"
+    "  function act() { return 'ma:' + ma.isActive() + ',mb:' + mb.isActive() }\n"
+    "}\n"
+)
+
+LT_MORPH_GHOST_ENV_QML = (
+    "import QtQuick\nimport Nova.Behaviors\n"
+    "Item {\n"
+    "  id: host\n"
+    "  width: 300; height: 150\n"
+    "  property int started: 0\n"
+    "  property int finished: 0\n"
+    "  property bool bVis: cardB.visible\n"
+    "  Rectangle {\n"
+    "    id: cardA\n"
+    "    width: 50; height: 40; x: 10; y: 5\n"
+    "    NovaMorph { id: ma; group: 'g'; target: cardA; duration: 120 }\n"
+    "  }\n"
+    "  Rectangle {\n"
+    "    id: cardB\n"
+    "    width: 120; height: 60; x: 100; y: 40; visible: false\n"
+    "    NovaMorph { id: mb; group: 'g'; target: cardB; duration: 120\n"
+    "      onMorphStarted: host.started++\n"
+    "      onMorphFinished: host.finished++ }\n"
+    "  }\n"
+    "  function toA() { ma.morph(); return 'ok' }\n"
+    "  function toB() { mb.morph(); return 'ok' }\n"
+    "}\n"
+)
+
+
+def _lt_env(qml_engine, code):
+    win = _make(qml_engine, code, wait=0.12)
+    drv = _make(qml_engine, BEHAVIOR_DRIVER_QML)
+    drv.setProperty("w", win)
+    _pump(50)
+    return win, drv
+
+
+def test_lt_editor_commands(qml_engine):
+    """Editor 命令链：无选区占位对 / 选区包裹 / 行前缀 / removeFormat 守卫 / undo。"""
+    win, drv = _lt_env(qml_engine, LT_EDITOR_ENV_QML)
+    assert _call(drv, "boldNoSel") == "[Bold]text[/Bold]"
+    assert drv.val("emits") >= 1                     # 受控 emit 上报
+    assert _call(drv, "boldSel") == "[Bold]hello[/Bold] world"
+    assert _call(drv, "prefixQuote") == "> hello"    # 光标行前缀
+    assert _call(drv, "prefixH1") == "## 行甲\n## 行乙"  # 选区跨两行逐行前缀（h2 命令）
+    assert _call(drv, "rfNoSel") == "noop"           # 无选区 removeFormat 不动（返回 false）
+
+
+def test_lt_editor_html_and_toolbar(qml_engine):
+    """Editor HTML 导出：标题/引用/列表/段落 + 行内标记；工具栏按钮渲染。"""
+    win, drv = _lt_env(qml_engine, LT_EDITOR_ENV_QML)
+    html = _call(drv, "htmlOf", "# 大标题\n> 引用行\n- 选项一\n普通段落")
+    assert "<h1>大标题</h1>" in html
+    assert "<blockquote>引用行</blockquote>" in html
+    assert "<li>选项一</li>" in html
+    assert "<p>普通段落</p>" in html
+    assert "&lt;" in _call(drv, "htmlOf", "a<b")     # HTML 转义
+    n = _call(drv, "btnCount")
+    assert n >= 6                                    # 4 命令按钮 + separator 节点（Repeater 展平）
+    assert "abc" in _call(drv, "undoCmd") or _call(drv, "undoCmd") == ""   # undo 不炸（无栈亦安全）
+
+
+def test_lt_slideitem_open_reset(qml_engine):
+    """SlideItem 命令式开合：slideLeft/slideRight 事件 + reset 收拢 + 跟手位移。"""
+    win, drv = _lt_env(qml_engine, LT_SLIDE_ENV_QML)
+    assert _call(drv, "slideL") is True
+    _pump(120)
+    assert drv.val("log") == "open:left;"
+    assert _call(drv, "closeAll") is False
+    _pump(120)
+    assert drv.val("log") == "open:left;closed;"
+    assert _call(drv, "slideR") is True
+    _pump(120)
+    assert drv.val("log") == "open:left;closed;open:right;"
+    # 跟手位移：slideRight 后正面 x = -revealWidth（72）
+    x = _call(drv, "frontX")
+    assert abs(x + 72) < 1.5
+
+
+def test_lt_morph_switch_and_events(qml_engine):
+    """Morph 零时长切换：注册表默认成员（onCompleted 逆序）→ morph 双向切换 + 信号计数。"""
+    win, drv = _lt_env(qml_engine, LT_MORPH_ENV_QML)
+    # 初始：b 先完成注册 = 默认活动元素（宿主初始 visible=false 由首次 morph 校正）
+    assert _call(drv, "toA") == "aOn"                # 切到 a：b 隐藏
+    assert "a:true,b:false" in _call(drv, "vis")
+    assert _call(drv, "act") == "ma:true,mb:false"
+    assert _call(drv, "toB") == "bOn"                # 切回 b：a 隐藏
+    assert "a:false,b:true" in _call(drv, "vis")
+    assert drv.val("started") >= 2 and drv.val("finished") >= 2
+
+
+def test_lt_morph_ghost_animation(qml_engine):
+    """Morph ghost 动画路径：morph 立即隐藏旧元素、新元素延至动画完成显示。"""
+    win, drv = _lt_env(qml_engine, LT_MORPH_GHOST_ENV_QML)
+    assert _call(drv, "toA") == "ok"
+    _pump(60)
+    assert _call(drv, "toB") == "ok"
+    assert win.property("bVis") is False             # 动画期未显示
+    assert win.property("started") == 1
+    _pump(320)                                       # 等动画 + Timer 收尾（坑位 19 显式 start）
+    assert win.property("bVis") is True
+    assert win.property("finished") == 1
+
+
+def test_lt_icongenie_cli(qml_engine, tmp_path):
+    """IconGenie CLI：64px 源图 → favicon/android/apple-touch 产物 + 尺寸正确 + report 清单。"""
+    import json as _json
+    import subprocess
+    import sys
+
+    from PIL import Image
+
+    src = tmp_path / "src.png"
+    Image.new("RGBA", (64, 64), (91, 110, 245, 255)).save(src)
+    out = tmp_path / "icons"
+    r = subprocess.run(
+        [sys.executable, str(Path(__file__).resolve().parents[1] / "scripts" / "gen_icons.py"),
+         str(src), "--out", str(out), "--background", "#FFFFFF", "--padding", "2"],
+        capture_output=True, text=True, timeout=60)
+    assert r.returncode == 0, r.stderr
+    report = _json.loads((out / "icongenie-report.json").read_text(encoding="utf-8"))
+    assert report["count"] >= 20
+    assert Image.open(out / "favicon" / "favicon-16x16.png").size == (16, 16)
+    assert Image.open(out / "android" / "icon-192.png").size == (192, 192)
+    assert Image.open(out / "apple-touch-icon-180.png").size == (180, 180)
+    assert (out / "ios" / "AppIcon-1024.png").exists()
+    names = {f["path"] for f in report["files"]}
+    assert "favicon/favicon-128x128.png" in names
+    # splash 需要背景色：--splash + transparent 必须拒绝
+    r2 = subprocess.run(
+        [sys.executable, str(Path(__file__).resolve().parents[1] / "scripts" / "gen_icons.py"),
+         str(src), "--out", str(out / "x"), "--splash"],
+        capture_output=True, text=True, timeout=60)
+    assert r2.returncode != 0
+
+
+def test_lt_mcp_server_six_tools(qml_engine):
+    """Nova MCP server：initialize/tools/list 六工具/search 命中/get_api 版本化口径。"""
+    import json as _json
+    import subprocess
+    import sys
+
+    root = Path(__file__).resolve().parents[1]
+    proc = subprocess.Popen(
+        [sys.executable, str(root / "scripts" / "nova_mcp.py"), "--project", str(root)],
+        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        text=True, encoding="utf-8")
+
+    def rpc(rid, method, params=None):
+        req = {"jsonrpc": "2.0", "id": rid, "method": method}
+        if params is not None:
+            req["params"] = params
+        proc.stdin.write(_json.dumps(req) + "\n")
+        proc.stdin.flush()
+        return _json.loads(proc.stdout.readline())
+
+    try:
+        r = rpc(1, "initialize", {"protocolVersion": "2024-11-05",
+                                  "capabilities": {}, "clientInfo": {"name": "t", "version": "0"}})
+        assert r["result"]["serverInfo"]["name"] == "nova-mcp"
+        r = rpc(2, "tools/list")
+        names = [t["name"] for t in r["result"]["tools"]]
+        assert names == ["search_docs", "list_pages", "get_page", "list_api",
+                         "get_api", "check_updates"]
+        r = rpc(3, "tools/call", {"name": "search_docs",
+                                  "arguments": {"keyword": "morph"}})
+        txt = r["result"]["content"][0]["text"]
+        assert "NovaMorph" in txt
+        r = rpc(4, "tools/call", {"name": "list_pages"})
+        assert "CHANGELOG.md" in r["result"]["content"][0]["text"]
+        r = rpc(5, "tools/call", {"name": "get_page",
+                                  "arguments": {"name": "CONSTITUTION.md", "section": "第 1 章"}})
+        assert "第 1 章" in r["result"]["content"][0]["text"]
+        r = rpc(6, "tools/call", {"name": "list_api",
+                                  "arguments": {"module": "Nova.Behaviors"}})
+        assert "NovaMorphPool" in r["result"]["content"][0]["text"]
+        r = rpc(7, "tools/call", {"name": "get_api",
+                                  "arguments": {"type": "NovaSlideItem"}})
+        api = _json.loads(r["result"]["content"][0]["text"])
+        assert api["name"] == "Nova.Controls.NovaSlideItem"
+        assert len(api["properties"]) >= 5
+        r = rpc(8, "tools/call", {"name": "check_updates"})
+        upd = _json.loads(r["result"]["content"][0]["text"])
+        assert upd["baseline"] == "Quasar 2.35.5"
+        assert len(upd["fingerprint"]) == 16
+        # 小上下文口径：search 返回摘要而非全文
+        assert len(txt) < 4000
+        proc.stdin.close()
+    finally:
+        proc.wait(timeout=10)
+    assert proc.returncode == 0

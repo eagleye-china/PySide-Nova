@@ -1,0 +1,420 @@
+{
+ "name": "Nova.Controls.NovaDate",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaDate.qml",
+ "description": "NovaDate 自研日历：单选/多选(multiple)/区间(range)、mask 格式化、最小值约束、 事件点(events)、todayBtn、导航范围限定（Qt 6 无内置日历——对标 Quasar QDate 全自研路径） 对标 Quasar QDate（23 props；Nova 收口核心 19 项，validator/yearsInMonthView 留痕见 PARITY） 契约统一：hint / error / readonly / disable",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "单选 mask 串；multiple: 数组；range: {from,to}",
+   "line": 14
+  },
+  {
+   "name": "mask",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"YYYY/MM/DD\"",
+   "doc": "对标 mask（默认与基线一致）",
+   "line": 15
+  },
+  {
+   "name": "multiple",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "range",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "firstDayOfWeek",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "0=周日 … 6=周六（对标 first-day-of-week）",
+   "line": 18
+  },
+  {
+   "name": "title",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "默认：当前选中（range=区间串）",
+   "line": 19
+  },
+  {
+   "name": "subtitle",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "默认：当前视图年月",
+   "line": 20
+  },
+  {
+   "name": "minimal",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "最小可选日期（Date 或 mask 串）",
+   "line": 21
+  },
+  {
+   "name": "navigationMinYearMonth",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "\"YYYY/MM\"",
+   "line": 22
+  },
+  {
+   "name": "navigationMaxYearMonth",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "todayBtn",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "noUnset",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "已选中再点不取消",
+   "line": 25
+  },
+  {
+   "name": "required",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "至少选一个才能导航关闭（Nova：拒绝清空为 null）",
+   "line": 26
+  },
+  {
+   "name": "events",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "数组（mask 串）或 fn(date)->bool",
+   "line": 27
+  },
+  {
+   "name": "eventColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "hint",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "errorMessage",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "hasError",
+   "type": "bool",
+   "readonly": true,
+   "default": ": error || errorMessage !== \"\"",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "_today",
+   "type": "var",
+   "readonly": true,
+   "default": ": { var t = new Date(); return { y: t.getFullYear(), m: t.getMonth(), d: t.getDate() } }",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "viewYear",
+   "type": "int",
+   "readonly": false,
+   "default": ": _today.y",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "viewMonth",
+   "type": "int",
+   "readonly": false,
+   "default": ": _today.m",
+   "doc": "0-based",
+   "line": 45
+  },
+  {
+   "name": "_selected",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "内部：按 mask 串规范形（单选长度 0/1）",
+   "line": 46
+  },
+  {
+   "name": "_pendingRange",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "range 模式第一击",
+   "line": 47
+  },
+  {
+   "name": "_subtitleText",
+   "type": "string",
+   "readonly": true,
+   "default": ": subtitle !== \"\" ? subtitle",
+   "doc": null,
+   "line": 212
+  },
+  {
+   "name": "_titleText",
+   "type": "string",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 214
+  },
+  {
+   "name": "_weekHead",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 221
+  },
+  {
+   "name": "_gridOffset",
+   "type": "int",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 229
+  },
+  {
+   "name": "_daysCount",
+   "type": "int",
+   "readonly": true,
+   "default": ": _daysInMonth(viewYear, viewMonth)",
+   "doc": null,
+   "line": 233
+  },
+  {
+   "name": "w",
+   "type": "string",
+   "readonly": true,
+   "default": ": root._weekHead[index]",
+   "doc": null,
+   "line": 324
+  },
+  {
+   "name": "cellW",
+   "type": "int",
+   "readonly": false,
+   "default": ": width / 7",
+   "doc": null,
+   "line": 343
+  },
+  {
+   "name": "day",
+   "type": "int",
+   "readonly": true,
+   "default": ": index + 1",
+   "doc": null,
+   "line": 354
+  },
+  {
+   "name": "md",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({ y: root.viewYear, m: root.viewMonth, d: day })",
+   "doc": null,
+   "line": 355
+  },
+  {
+   "name": "sel",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.isDaySelected(root.viewYear, root.viewMonth, day)",
+   "doc": null,
+   "line": 356
+  },
+  {
+   "name": "inRng",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.isDayInRange(root.viewYear, root.viewMonth, day)",
+   "doc": null,
+   "line": 357
+  },
+  {
+   "name": "isToday",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root._today.y === root.viewYear",
+   "doc": null,
+   "line": 358
+  },
+  {
+   "name": "en",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root._dayEnabled(md)",
+   "doc": null,
+   "line": 361
+  }
+ ],
+ "signals": [
+  {
+   "name": "valueChanged",
+   "params": "var value"
+  },
+  {
+   "name": "navigationChanged",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "_daysInMonth",
+   "params": "y, m"
+  },
+  {
+   "name": "_maskRe",
+   "params": "mask"
+  },
+  {
+   "name": "_parse",
+   "params": "str"
+  },
+  {
+   "name": "_fmt",
+   "params": "y, m, d"
+  },
+  {
+   "name": "_fmtKey",
+   "params": "md"
+  },
+  {
+   "name": "_sameDay",
+   "params": "a, b"
+  },
+  {
+   "name": "_minMD",
+   "params": ""
+  },
+  {
+   "name": "_dayEnabled",
+   "params": "md"
+  },
+  {
+   "name": "_emit",
+   "params": ""
+  },
+  {
+   "name": "_toggleDay",
+   "params": "md"
+  },
+  {
+   "name": "selectDay",
+   "params": "d"
+  },
+  {
+   "name": "selectDate",
+   "params": "y, m, d"
+  },
+  {
+   "name": "clearValue",
+   "params": ""
+  },
+  {
+   "name": "navigateMonth",
+   "params": "dir"
+  },
+  {
+   "name": "_pad2",
+   "params": "v"
+  },
+  {
+   "name": "_pad4",
+   "params": "v"
+  },
+  {
+   "name": "isDaySelected",
+   "params": "y, m, d"
+  },
+  {
+   "name": "isDayInRange",
+   "params": "y, m, d"
+  },
+  {
+   "name": "isDayEvent",
+   "params": "y, m, d"
+  },
+  {
+   "name": "_navLimit",
+   "params": "key, isMin"
+  }
+ ]
+}

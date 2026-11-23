@@ -2,6 +2,7 @@
 # Nova.Behaviors 模块导出清单（公共 API 面）：可挂载行为层（对标 Quasar L3 指令）
 # 0.7.0：新增 8 件 —— Intersection / ScrollObserver / ScrollFire / ClosePopup / TouchPan·Swipe·Hold·Repeat
 module Nova.Behaviors
+singleton NovaMorphPool 1.0 NovaMorphPool.qml
 NovaRipple 1.0 NovaRipple.qml
 NovaIntersection 1.0 NovaIntersection.qml
 NovaScrollObserver 1.0 NovaScrollObserver.qml
@@ -11,4 +12,5 @@ NovaTouchPan 1.0 NovaTouchPan.qml
 NovaTouchSwipe 1.0 NovaTouchSwipe.qml
 NovaTouchHold 1.0 NovaTouchHold.qml
 NovaTouchRepeat 1.0 NovaTouchRepeat.qml
+NovaMorph 1.0 NovaMorph.qml
 internal NovaTouchCore NovaTouchCore.qml

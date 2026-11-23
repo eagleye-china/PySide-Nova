@@ -1,0 +1,50 @@
+{
+ "name": "Nova.Controls.NovaMarkupTable",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaMarkupTable.qml",
+ "description": "NovaMarkupTable 标记表格（对标 QMarkupTable）：columns/rows 数组直渲 + 标题",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 9
+  },
+  {
+   "name": "columns",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "[\"列A\", \"列B\", ...]",
+   "line": 10
+  },
+  {
+   "name": "rows",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "[[\"a1\",\"b1\"], [\"a2\",\"b2\"], ...]",
+   "line": 11
+  },
+  {
+   "name": "flat",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 12
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 13
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

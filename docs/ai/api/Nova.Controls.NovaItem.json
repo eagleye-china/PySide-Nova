@@ -1,0 +1,132 @@
+{
+ "name": "Nova.Controls.NovaItem",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaItem.qml",
+ "description": "NovaItem 列表条目（对标 QItem） 槽：default（主内容）/ leading（左头像图标区，对标 QItemSection left）/ trailing（右侧区）/ expandContent（展开内容区，仅 expanded 时显示） 可展开模式（expandable）：expandRequested(bool) 受控上报，宿主写回 expanded；",
+ "properties": [
+  {
+   "name": "leading",
+   "type": "alias",
+   "readonly": false,
+   "default": ": leftSlot.data",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "trailing",
+   "type": "alias",
+   "readonly": false,
+   "default": ": sideSlot.data",
+   "doc": "对标 QItemSection side",
+   "line": 16
+  },
+  {
+   "name": "expandContent",
+   "type": "alias",
+   "readonly": false,
+   "default": ": expandBody.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "便捷主文案",
+   "line": 19
+  },
+  {
+   "name": "caption",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "便捷副文案",
+   "line": 20
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "便捷左图标",
+   "line": 21
+  },
+  {
+   "name": "clickable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "active",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "激活高亮",
+   "line": 23
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "expandable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "可展开（点击切换）",
+   "line": 25
+  },
+  {
+   "name": "expanded",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "受控",
+   "line": 26
+  },
+  {
+   "name": "manualExpand",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "true=展开状态完全由宿主管（点击只上报）",
+   "line": 27
+  },
+  {
+   "name": "listRef",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 30
+  }
+ ],
+ "signals": [
+  {
+   "name": "clicked",
+   "params": ""
+  },
+  {
+   "name": "expandRequested",
+   "params": "bool expanded"
+  }
+ ],
+ "methods": [
+  {
+   "name": "requestExpand",
+   "params": ""
+  },
+  {
+   "name": "requestClick",
+   "params": ""
+  }
+ ]
+}

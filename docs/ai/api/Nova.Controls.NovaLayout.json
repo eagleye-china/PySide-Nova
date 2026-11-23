@@ -1,0 +1,119 @@
+{
+ "name": "Nova.Controls.NovaLayout",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaLayout.qml",
+ "description": "NovaLayout 布局骨架：四象限容器（header/footer/drawer/page），按子项类型自动归位 + push/overlay 双模式 + 断点自动收起（对标 QLayout） NovaLayout —— 页面布局骨架（对标 QLayout） 用法：将 NovaHeader / NovaFooter / NovaDrawer / NovaPage 作为直接子项声明， NovaLayout 按类型扫描并安置到对应象限；其余子项进入页面区。",
+ "properties": [
+  {
+   "name": "headerItem",
+   "type": "Item",
+   "readonly": true,
+   "default": ": _headerItem",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "footerItem",
+   "type": "Item",
+   "readonly": true,
+   "default": ": _footerItem",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "drawerItem",
+   "type": "Item",
+   "readonly": true,
+   "default": ": _drawerItem",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "pageArea",
+   "type": "Item",
+   "readonly": true,
+   "default": ": pageHost",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "drawerOpen",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _drawerItem ? _drawerItem.open : false",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "pageColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.page",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "_headerItem",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "_footerItem",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "_drawerItem",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "pushLeft",
+   "type": "real",
+   "readonly": true,
+   "default": ": _drawerItem && _drawerItem.side === \"left\" && !_drawerItem.effectiveOverlay",
+   "doc": null,
+   "line": 58
+  },
+  {
+   "name": "pushRight",
+   "type": "real",
+   "readonly": true,
+   "default": ": _drawerItem && _drawerItem.side === \"right\" && !_drawerItem.effectiveOverlay",
+   "doc": null,
+   "line": 60
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "openDrawer",
+   "params": ""
+  },
+  {
+   "name": "closeDrawer",
+   "params": ""
+  },
+  {
+   "name": "toggleDrawer",
+   "params": ""
+  },
+  {
+   "name": "_scan",
+   "params": ""
+  },
+  {
+   "name": "_collapseIfBelow",
+   "params": ""
+  }
+ ]
+}

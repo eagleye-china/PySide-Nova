@@ -1,0 +1,300 @@
+{
+ "name": "Nova.Controls.NovaTabs",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTabs.qml",
+ "description": "NovaTabs 标签页容器（对标 QTabs）：受控 modelValue、横向滚动 + 溢出箭头 （outside-arrows/mobile-arrows）、align（left/center/right/justify）、breakpoint 自动 justify、垂直模式、指示条（narrow/switch）、dense；Tab 激活态由本组件下发",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "vertical",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "outsideArrows",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "溢出箭头占位两侧（常显）",
+   "line": 21
+  },
+  {
+   "name": "mobileArrows",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "窄容器强制显示箭头",
+   "line": 22
+  },
+  {
+   "name": "align",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"center\"",
+   "doc": "left/center/right/justify",
+   "line": 23
+  },
+  {
+   "name": "breakpoint",
+   "type": "int",
+   "readonly": false,
+   "default": ": 600",
+   "doc": "容器宽低于此值自动 justify",
+   "line": 24
+  },
+  {
+   "name": "activeColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 active-color（tint 红线）",
+   "line": 25
+  },
+  {
+   "name": "activeBgColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": \"transparent\"",
+   "doc": "对标 active-bg-color",
+   "line": 26
+  },
+  {
+   "name": "indicatorColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 indicator-color",
+   "line": 27
+  },
+  {
+   "name": "leftIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"mdi:chevron-left\"",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "rightIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"mdi:chevron-right\"",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "stretch",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "Tab 纵向拉伸填满容器",
+   "line": 30
+  },
+  {
+   "name": "shrink",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "容器收缩为内容宽（默认撑满）",
+   "line": 31
+  },
+  {
+   "name": "switchIndicator",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "指示条换侧（横→上沿 / 纵→右侧）",
+   "line": 32
+  },
+  {
+   "name": "narrowIndicator",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "指示条同 Tab 内容宽",
+   "line": 33
+  },
+  {
+   "name": "inlineLabel",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "图标文案同行（默认垂直堆叠近似——横向模式即同行）",
+   "line": 34
+  },
+  {
+   "name": "noCaps",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_tabs",
+   "type": "var",
+   "readonly": true,
+   "default": ": _collectTabs()",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "count",
+   "type": "int",
+   "readonly": true,
+   "default": ": _tabs.length",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "currentIndex",
+   "type": "int",
+   "readonly": true,
+   "default": ": _indexOfValue(modelValue)",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "currentName",
+   "type": "string",
+   "readonly": true,
+   "default": ": currentIndex >= 0 ? _nameOf(currentIndex) : \"\"",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "_justify",
+   "type": "bool",
+   "readonly": true,
+   "default": ": align === \"justify\" || (!vertical && width < breakpoint)",
+   "doc": null,
+   "line": 103
+  },
+  {
+   "name": "_overflow",
+   "type": "bool",
+   "readonly": true,
+   "default": ": vertical",
+   "doc": null,
+   "line": 159
+  },
+  {
+   "name": "_arrowsVisible",
+   "type": "bool",
+   "readonly": true,
+   "default": ": !_overflowBlocked",
+   "doc": null,
+   "line": 162
+  },
+  {
+   "name": "_overflowBlocked",
+   "type": "bool",
+   "readonly": true,
+   "default": ": false",
+   "doc": null,
+   "line": 164
+  },
+  {
+   "name": "_edge",
+   "type": "real",
+   "readonly": true,
+   "default": ": _arrowsVisible && outsideArrows ? 40 : 0",
+   "doc": null,
+   "line": 175
+  },
+  {
+   "name": "act",
+   "type": "var",
+   "readonly": true,
+   "default": ": root.currentIndex >= 0 ? root._tabs[root.currentIndex] : null",
+   "doc": null,
+   "line": 205
+  },
+  {
+   "name": "narrowW",
+   "type": "real",
+   "readonly": true,
+   "default": ": act !== null",
+   "doc": null,
+   "line": 206
+  }
+ ],
+ "signals": [
+  {
+   "name": "updateModelValue",
+   "params": "var name"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_collectTabs",
+   "params": ""
+  },
+  {
+   "name": "_indexOfValue",
+   "params": "v"
+  },
+  {
+   "name": "_nameOf",
+   "params": "i"
+  },
+  {
+   "name": "_isActive",
+   "params": "tab"
+  },
+  {
+   "name": "_goToTab",
+   "params": "tab"
+  },
+  {
+   "name": "contentMeasure",
+   "params": ""
+  },
+  {
+   "name": "contentMeasureH",
+   "params": ""
+  },
+  {
+   "name": "_layout",
+   "params": ""
+  },
+  {
+   "name": "_stackY",
+   "params": "tabs, idx"
+  },
+  {
+   "name": "contentRowW",
+   "params": "t"
+  },
+  {
+   "name": "_scrollBack",
+   "params": ""
+  },
+  {
+   "name": "_scrollFwd",
+   "params": ""
+  },
+  {
+   "name": "_updateOverflow",
+   "params": ""
+  }
+ ]
+}

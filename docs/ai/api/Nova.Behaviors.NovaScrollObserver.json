@@ -1,0 +1,116 @@
+{
+ "name": "Nova.Behaviors.NovaScrollObserver",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaScrollObserver.qml",
+ "description": "NovaScrollObserver 滚动位置观察行为：滚动回调、方向、边界（对标 Quasar v-scroll） NovaScrollObserver —— 滚动监听（L3 行为层） 用法：",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": parent",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "root",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": "null = 自动（最近可滚动祖先）",
+   "line": 26
+  },
+  {
+   "name": "trackHorizontal",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "verticalPosition",
+   "type": "real",
+   "readonly": true,
+   "default": ": _v",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "horizontalPosition",
+   "type": "real",
+   "readonly": true,
+   "default": ": _h",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "scrollRoot",
+   "type": "Item",
+   "readonly": true,
+   "default": ": _root",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "_v",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "_h",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_root",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "_observed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 36
+  }
+ ],
+ "signals": [
+  {
+   "name": "scroll",
+   "params": "var details"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_resolveRoot",
+   "params": ""
+  },
+  {
+   "name": "_start",
+   "params": ""
+  },
+  {
+   "name": "_stop",
+   "params": ""
+  },
+  {
+   "name": "kick",
+   "params": ""
+  },
+  {
+   "name": "evaluate",
+   "params": ""
+  }
+ ]
+}

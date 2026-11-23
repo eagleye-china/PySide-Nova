@@ -1,0 +1,9 @@
+{
+ "name": "Nova.Controls.NovaSpace",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaSpace.qml",
+ "description": "NovaSpace 占位空白（对标 QSpace） NovaSpace —— 弹性占位（对标 QSpace） 在 RowLayout / ColumnLayout 中自动撑满剩余空间",
+ "properties": [],
+ "signals": [],
+ "methods": []
+}

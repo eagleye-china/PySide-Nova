@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.15.0] - 2026-11-23
+
+### Added（五期 Sprint A · **长尾组件一次收口**：Controls 89 → 91、Behaviors 10 → 11 + 新 singleton）
+
+- **NovaEditor**（对标 QEditor）：toolbar 分组配置（数组的数组，组间 separator）、execCmd 命令族
+  （bold/italic/underline/strike 行内包裹、h1~h6/quote/code/ul/ol 行前缀、link、removeFormat、
+  undo/redo）、modelValue 受控 + updateModelValue 上报（NovaInput 同款 guard 防回环）、
+  selectRange/caretPosition 辅助、toHtml() HTML 导出（结构前缀在原始行上判断切片、内容单独转义）、
+  placeholder/flat/minHeight/readonly/disable、buttonCount 派生。
+  **实现口径留痕**：QEditor 基于 DOM contenteditable，QML TextEdit 无富文本选区格式化 API——
+  Nova 以「轻量标记编辑器 + HTML 导出」实现同语义（toolbar 配置/execCmd/modelValue 契约 1:1）
+- **NovaSlideItem**（对标 QSlideItem）：正面 default 槽左右拖拽跟手（死区防抖 + clamp）、
+  leftSlot/rightSlot Component 动作面板（QSlideItem 的 left/right 撞 Item FINAL 成员改名，
+  坑位 12）、释放越 openThreshold 吸附（Behavior OutCubic）、slideLeft/slideRight/reset 命令式
+  API、slideOpened(side)/slideClosed/leftAction/rightAction 事件、dense/revealWidth/duration
+- **NovaMorph**（对标 v-morph 指令 · Behaviors 族）：group 组内元素形变切换——morph() 时旧活动
+  元素退出、ghost 影子从旧几何动画至新几何（跨父级 mapFromItem 映射）、新元素延至动画完成显示；
+  morphStarted/morphFinished 信号、isActive() 命令式判定、duration=0 快路径。
+  **NovaMorphPool 单例注册表**：group → 当前活动目标 Item；曾用 .pragma library JS 共享注册表
+  实测呈现 per-importing-file 实例化（同组两实例互相看不见对方注册）→ 改 QML singleton
+  （Services 模块同款惯例）保证引擎级唯一（0.15.0 新沉淀）
+- **NovaIconGenie**（对标 @quasar/icongenie，`scripts/gen_icons.py`）：单图生成全套应用图标——
+  favicon ×4 + apple-touch ×6 + android ×7 + iOS AppIcon 全档 + 可选 splash ×6（37 产物），
+  --background/--padding/--splash、居中缩放合成、icongenie-report.json 产物清单（源图指纹）
+- **AI-ready 文档包**（对标 Quasar 2.33 "AI-ready out of the box"，`scripts/gen_apidocs.py`）：
+  扫描 qmldir + QML 源生成 `docs/ai/api/*.json`（每公共类型 props/signals/methods/描述 + 行内注释）
+  + `docs/ai/pages/`（10 页核心文档离线拷贝）+ `docs/ai/index.json`（版本 + 基线 + 模块计数 +
+  内容指纹）——AI agent 从此查询 Nova **版本化 API** 而非依赖训练记忆
+- **Nova MCP server**（对标 @quasar/mcp v1.0.0，`scripts/nova_mcp.py`）：stdio JSON-RPC 2.0
+  （MCP 换行分隔传输），六工具口径 1:1——search_docs / list_pages / get_page（宽松按节截取）/
+  list_api / get_api（带前缀自动宽松匹配）/ check_updates（离线版本+指纹报告）；仅标准库、
+  零网络零依赖；"built for small context windows" 口径——search 返回命中摘要、get_page 支持单节
+- 画廊第 22 页"长尾组件"（Editor 实时 HTML 导出 / SlideItem 左右滑动 / Morph 卡片⇄详情形变 /
+  IconGenie 与 MCP CLI 演示）
+
+### Fixed
+
+- NovaEditor toHtml 结构前缀判断误用转义后文本（"> " 已变 "&gt; " 永不命中）→ 原始行上判结构、
+  内容单独转义（切片错位同源修复）
+
+### Changed
+
+- 类型总面：**120 个公共类型**（Controls 91 + Services 15 + Design 3 + Behaviors 11）
+- 测试 308 → **322 项全绿**（7 冒烟 + 7 行为：Editor 命令链与 HTML 导出/工具栏按钮计数、
+  SlideItem 开合事件链与跟手位移、Morph 零时长切换与 ghost 动画路径、IconGenie CLI 产物尺寸
+  与 splash 拒绝守卫、MCP server 六工具 subprocess 全链路）
+
 ## [0.14.0] - 2026-11-23
 
 ### Added（四期 Sprint B · **弹层与反馈一次收口**：L2 54% → 68%，Controls 73 → 89、Services 10 → 11）

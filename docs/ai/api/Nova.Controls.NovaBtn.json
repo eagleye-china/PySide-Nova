@@ -1,0 +1,188 @@
+{
+ "name": "Nova.Controls.NovaBtn",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBtn.qml",
+ "description": "NovaBtn 按钮：filled/outlined/flat × sm/md/lg，内置按压水波纹、hover、loading、disable、键盘触发（对标 QBtn） NovaBtn —— 按钮（对标 QBtn） variant: filled(默认) | outlined | flat；size: sm | md | lg；round 图形按钮 内置：按压水波纹 / hover 反馈 / loading 旋转 / disable / 键盘 Enter 触发",
+ "properties": [
+  {
+   "name": "text",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "iconRight",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "variant",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"filled\"",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "size",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"md\"",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "round",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "loading",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "isPressed",
+   "type": "bool",
+   "readonly": true,
+   "default": ": ma.pressed",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "isHovered",
+   "type": "bool",
+   "readonly": true,
+   "default": ": ma.containsMouse",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_iconIsRef",
+   "type": "bool",
+   "readonly": true,
+   "default": ": icon.indexOf(\":\") > -1",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_h",
+   "type": "real",
+   "readonly": true,
+   "default": ": size === \"sm\" ? 28",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "_fs",
+   "type": "int",
+   "readonly": true,
+   "default": ": size === \"sm\" ? 12 : (size === \"lg\" ? 16 : 14)",
+   "doc": null,
+   "line": 49
+  },
+  {
+   "name": "_padX",
+   "type": "real",
+   "readonly": true,
+   "default": ": round ? 0 : (size === \"sm\" ? 10 : (size === \"lg\" ? 20 : 14))",
+   "doc": null,
+   "line": 50
+  },
+  {
+   "name": "_fg",
+   "type": "color",
+   "readonly": true,
+   "default": ": variant === \"filled\" ? NovaTheme.textOnPrimary : tint",
+   "doc": null,
+   "line": 51
+  },
+  {
+   "name": "_bg",
+   "type": "color",
+   "readonly": true,
+   "default": ": variant === \"filled\"",
+   "doc": null,
+   "line": 52
+  }
+ ],
+ "signals": [
+  {
+   "name": "clicked",
+   "params": ""
+  },
+  {
+   "name": "pressed",
+   "params": ""
+  },
+  {
+   "name": "released",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "_emitClick",
+   "params": ""
+  },
+  {
+   "name": "onTintChanged",
+   "params": ""
+  },
+  {
+   "name": "onVariantChanged",
+   "params": ""
+  },
+  {
+   "name": "_rippleDia",
+   "params": "x, y"
+  },
+  {
+   "name": "_settle",
+   "params": ""
+  }
+ ]
+}

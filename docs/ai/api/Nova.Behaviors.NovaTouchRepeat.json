@@ -1,0 +1,140 @@
+{
+ "name": "Nova.Behaviors.NovaTouchRepeat",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaTouchRepeat.qml",
+ "description": "NovaTouchRepeat 按住连发行为：按序列延迟重复触发、可接键盘按键（对标 Quasar v-touch-repeat） NovaTouchRepeat —— 按住连发（L3 行为层） 用法（数字键盘 / 长按加速滚动都靠它）：",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": parent",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "delays",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"0:600:300\"",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "keyRepeat",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "true = 键盘也参与连发",
+   "line": 31
+  },
+  {
+   "name": "keys",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "空 = 默认 Space / Enter",
+   "line": 32
+  },
+  {
+   "name": "pressed",
+   "type": "bool",
+   "readonly": true,
+   "default": ": core.pressed",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "repeating",
+   "type": "bool",
+   "readonly": true,
+   "default": ": rep.running && _active",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "repeatCount",
+   "type": "int",
+   "readonly": true,
+   "default": ": _count",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_active",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "_count",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_startTime",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_kb",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "本次连发的通道（timer 接力时不能丢）",
+   "line": 41
+  },
+  {
+   "name": "_keyCode",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 42
+  }
+ ],
+ "signals": [
+  {
+   "name": "repeat",
+   "params": "var details"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_list",
+   "params": ""
+  },
+  {
+   "name": "_delayFor",
+   "params": "count"
+  },
+  {
+   "name": "_details",
+   "params": "keyboard, keyCode"
+  },
+  {
+   "name": "_wantKey",
+   "params": "code"
+  },
+  {
+   "name": "_schedule",
+   "params": "keyboard, keyCode"
+  },
+  {
+   "name": "_fire",
+   "params": ""
+  },
+  {
+   "name": "_stop",
+   "params": ""
+  }
+ ]
+}

@@ -1,0 +1,115 @@
+{
+ "name": "Nova.Controls.NovaChip",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaChip.qml",
+ "description": "NovaChip 标签：filled/outlined/tinted、可选中、可移除、dense（对标 QChip） NovaChip —— 标签/片（对标 QChip） tint 为基调色（对应 QChip 的 color 属性；QML 中 color 与基类属性冲突故命名 tint） filled / outlined / tinted 三形态，支持图标、可选中、可移除",
+ "properties": [
+  {
+   "name": "text",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "filled",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "outlined",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "selected",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "clickable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "removable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "_h",
+   "type": "real",
+   "readonly": true,
+   "default": ": dense ? 26 : 34",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_fg",
+   "type": "color",
+   "readonly": true,
+   "default": ": filled ? \"#FFFFFF\" : tint",
+   "doc": null,
+   "line": 37
+  }
+ ],
+ "signals": [
+  {
+   "name": "clicked",
+   "params": ""
+  },
+  {
+   "name": "removed",
+   "params": ""
+  }
+ ],
+ "methods": []
+}

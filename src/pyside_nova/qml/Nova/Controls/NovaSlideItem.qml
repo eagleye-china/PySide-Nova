@@ -1,0 +1,144 @@
+// src/pyside_nova/qml/Nova/Controls/NovaSlideItem.qml
+// NovaSlideItem 滑动操作项（对标 QSlideItem · 基线 2.35.5 语义）：
+// 正面内容（default 槽）左右滑动露出动作面板（leftSlot/rightSlot Component 槽（QSlideItem 的 left/right 撞 Item FINAL 成员改名，坑位 12）），
+// 拖拽跟手 + 释放越阈值吸附打开；dense 紧凑侧板
+// 契约：开合是内部动画状态（QSlideItem 本身无 v-model，指令型组件）；
+// 宿主经 slideLeft()/slideRight()/reset() 命令式驱动，侧板点击后 reset()
+import QtQuick
+import Nova.Services
+
+Item {
+    id: root
+
+    // ── 槽 ────────────────────────────────────────────────────
+    default property alias content: front.data                  // 正面内容
+    property Component leftSlot: null                               // 左滑露出的动作面板
+    property Component rightSlot: null                              // 右滑露出的动作面板
+    property bool dense: false                                  // 侧板紧凑宽度
+
+    // ── 配置 ──────────────────────────────────────────────────
+    property int revealWidth: dense ? 56 : 72                   // 侧板露出宽度
+    property int duration: 240                                  // 吸附动画时长
+    property real openThreshold: 0.4                            // 释放时打开所需进度（0~1）
+
+    // ── 事件 ──────────────────────────────────────────────────
+    signal slideOpened(string side)                             // "left" | "right"
+    signal slideClosed()
+    signal leftAction()                                         // 左侧板整板点击（随后自动 reset）
+    signal rightAction()
+    readonly property bool opened: _side !== ""
+
+    // ── 状态 ──────────────────────────────────────────────────
+    property string _side: ""                                   // 当前打开侧："" | "left" | "right"
+
+    implicitWidth: 400
+    implicitHeight: 56
+    clip: true
+
+    onLeftSlotChanged: _rebuildPanels()
+    onRightSlotChanged: _rebuildPanels()
+
+    // ── 侧板 ──────────────────────────────────────────────────
+    function _rebuildPanels() {
+        var build = function(loader, comp) {
+            if (loader.item !== null && loader.item !== undefined)
+                loader.item.destroy()
+            if (comp !== null)
+                comp.createObject(loader)
+        }
+        leftLoader.active = leftSlot !== null
+        if (leftLoader.active) build(leftLoader, leftSlot)
+        rightLoader.active = rightSlot !== null
+        if (rightLoader.active) build(rightLoader, rightSlot)
+    }
+
+    Loader {
+        id: leftLoader
+        width: root.revealWidth
+        height: root.height
+        active: false
+    }
+    Loader {
+        id: rightLoader
+        width: root.revealWidth
+        height: root.height
+        x: root.width - width
+        active: false
+    }
+
+    // ── 正面（拖拽跟手 + Behavior 吸附） ──────────────────────
+    Item {
+        id: front
+        x: 0
+        width: root.width
+        height: root.height
+
+        // 吸附动画：非拖拽期生效（拖拽时直接赋值跟手，Behavior 禁用防打架）
+        Behavior on x {
+            enabled: !dragMa.pressed
+            NumberAnimation {
+                duration: root.duration
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        MouseArea {
+            id: dragMa
+            anchors.fill: parent
+            enabled: root.leftSlot !== null || root.rightSlot !== null
+            preventStealing: true
+
+            property real _startX: 0
+            property real _baseX: 0
+            property string _dir: ""
+
+            onPressed: function(mouse) {
+                _startX = mouse.x
+                _baseX = front.x
+                _dir = ""
+            }
+            onPositionChanged: function(mouse) {
+                var dx = mouse.x - _startX
+                if (_dir === "") {
+                    if (Math.abs(dx) < 6) return                 // 死区防抖
+                    _dir = dx > 0 ? "right" : "left"
+                }
+                var off = _baseX + dx
+                front.x = Math.max(-root.revealWidth, Math.min(root.revealWidth, off))
+            }
+            onReleased: root._settle()
+            onCanceled: root._settle()
+        }
+    }
+
+    // 释放吸附：越过阈值打开对应侧，否则闭合
+    function _settle() {
+        var prog = Math.abs(front.x) / revealWidth
+        if (prog >= openThreshold && front.x > 0 && leftSlot !== null) _openSide("left")
+        else if (prog >= openThreshold && front.x < 0 && rightSlot !== null) _openSide("right")
+        else _closeSide()
+    }
+
+    function _openSide(side) {
+        if (_side !== side) {
+            _side = side
+            slideOpened(side)
+        }
+        front.x = side === "left" ? revealWidth : -revealWidth
+    }
+
+    function _closeSide() {
+        if (_side !== "") {
+            _side = ""
+            slideClosed()
+        }
+        front.x = 0
+    }
+
+    // ── 命令式 API ────────────────────────────────────────────
+    function slideLeft() { if (leftSlot !== null) _openSide("left") }
+    function slideRight() { if (rightSlot !== null) _openSide("right") }
+    function reset() { _closeSide() }
+
+    Component.onCompleted: _rebuildPanels()
+}

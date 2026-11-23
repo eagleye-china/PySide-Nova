@@ -1,0 +1,47 @@
+{
+ "name": "Nova.Controls.NovaRow",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaRow.qml",
+ "description": "NovaRow 栅格行：12 栅格水平排布 + wrap 换行 + justify/align 对齐，与 NovaCol 配合使用（对标 Quasar Flex row） NovaRow —— 栅格行（对标 Quasar row + q-gutter + justify-*/items-* 工具类） 用法：子项用 NovaCol（cols 1~12 占栅格数）；普通子项按自身 width 排布。 justify: start|center|end|between；align: top|center|bottom；wrap 换行。",
+ "properties": [
+  {
+   "name": "spacing",
+   "type": "real",
+   "readonly": false,
+   "default": ": NovaTheme.spacingM",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "justify",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"start\"",
+   "doc": "start | center | end | between",
+   "line": 16
+  },
+  {
+   "name": "align",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"top\"",
+   "doc": "top | center | bottom",
+   "line": 17
+  },
+  {
+   "name": "wrap",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 18
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "relayout",
+   "params": ""
+  }
+ ]
+}

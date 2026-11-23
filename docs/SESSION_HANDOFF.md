@@ -2,33 +2,34 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.14.0 · 2026-11-23）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.15.0 · 2026-11-23）
 
 ## 一句话定位
 
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-## 当前状态（0.14.0 · **四期 Sprint B 收口：弹层与反馈**）
+## 当前状态（0.15.0 · **五期 Sprint A 收口：长尾组件**）
 
-- **公共 QML 类型 117 个已交付**（qmldir 导出口径）：Controls **89**（0.14.0 新增
-  NovaMenu/NovaDialogShell/NovaPopupProxy/NovaTooltip/NovaBottomSheet/NovaSpinner×8 变体/
-  NovaSkeleton/NovaInnerLoading/NovaAjaxBar/NovaBanner/NovaBar/NovaNoSsr/NovaPullToRefresh/
-  NovaResizeObserver）
-  + Services 单例 11（Screen/Theme/OverlayHost/Notify/Dialog/Loading/**LoadingBar**/Storage/App/Platform/IntersectionPool）
-  + Design 单例 3（NovaIconSet/NovaMotion/NovaUtils）+ 句柄与动作 4
-  + Behaviors 9（Ripple/Intersection/ScrollObserver/ScrollFire/ClosePopup/TouchPan/Swipe/Hold/Repeat，
-  另有 internal NovaTouchCore 内核）
-- **测试 308 项全绿**（271 + 0.14.0 新增 38：29 类型实例化冒烟 + 行为用例 9：菜单 auto-close
-  与弹层栈逐层 ESC、对话框关闭原因上报/persistent 锁闭+shake、BottomSheet 动作回报、
-  AjaxBar 多进程计数、PTR trigger 受控复位、ResizeObserver 上报、BtnGroup 样式下发、
-  LoadingBar 服务降级 no-op）
+- **公共 QML 类型 120 个已交付**（qmldir 导出口径）：Controls **91**（0.15.0 新增
+  NovaEditor 轻量富文本/NovaSlideItem）
+  + Behaviors **11**（0.15.0 新增 NovaMorph 形变 + **NovaMorphPool singleton 注册表**）
+  + Services 15（单例 11：Screen/Theme/OverlayHost/Notify/Dialog/Loading/LoadingBar/
+  Storage/App/Platform/IntersectionPool + 句柄动作 4）
+  + Design 单例 3（NovaIconSet/NovaMotion/NovaUtils）
+- **生态工具首秀（0.15.0，对标 @quasar/mcp 2.33 新品类）**：`scripts/gen_icons.py`
+  （IconGenie：单图 37 产物全套图标）、`scripts/gen_apidocs.py`（AI-ready 版本化 API 包
+  docs/ai/）、`scripts/nova_mcp.py`（MCP server 六工具 search_docs/list_pages/get_page/
+  list_api/get_api/check_updates，离线零依赖）
+- **测试 322 项全绿**（308 + 0.15.0 新增 14：7 冒烟 + 7 行为——Editor 命令链/HTML 导出/
+  按钮计数、SlideItem 开合事件/跟手位移、Morph 零时长切换/ghost 动画路径、IconGenie CLI
+  产物与 splash 拒绝守卫、MCP server subprocess 六工具全链路）
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → Sprint 3 ✅(0.7.0) → Sprint 4 ✅(0.8.0)
-  → 二期 Sprint A ✅(0.9.0 表单核心七件) → 二期 Sprint B ✅(0.10.0 输入进阶八件)
-  → **三期 Sprint A ✅(0.11.0 数据体系九件)** → **三期 Sprint B ✅(0.12.0 媒体体系十类型 + Table 增强)**
-  → **四期 Sprint A ✅(0.13.0 导航体系 14 类型)** → **四期 Sprint B ✅(0.14.0 弹层与反馈)**
-  → 五期 Sprint A（v0.15.0 长尾组件）待开工
-- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / **L2 68%（四期 B 0.14.0）** / L6 70%（五期）
+  → 二期 Sprint A ✅(0.9.0) → 二期 Sprint B ✅(0.10.0) → 三期 A ✅(0.11.0) → 三期 B ✅(0.12.0)
+  → 四期 A ✅(0.13.0) → 四期 B ✅(0.14.0) → **五期 A ✅(0.15.0 长尾组件)**
+  → 五期 Sprint B（v0.16.0 非功能攻坚）待开工
+- **七层成熟度**：L0 100% / L1 100% / L3 100%（Morph 补齐 10 指令）/ L4 44% / L5 95% /
+  **L2 70%（五期 A 0.15.0）** / L6 75%（AI-ready + MCP 已通）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
   防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
@@ -37,6 +38,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - **图标集数据纪律**：`src/pyside_nova/qml/Nova/Design/IconSets.js` 是生成物（scripts/gen_iconsets.py
   从 npm quasar@2.35.5 icon-set/*.js 提取），**禁止手改**；基线包临时解包目录 /tmp/qbase 可重建
 - **基线复核（0.13.0）**：Quasar 2.35.5→2.35.6 dist/api/*.json 逐文件 diff **零漂移**（纯补丁版），基线维持 2.35.5 口径
+- **基线开工复核（0.15.0）**：Quasar 最新 release 2.35.2（2026-10-19）；@quasar/mcp v1.x Active
+  （2026-09-17 上线，六工具口径已 1:1 对标）；quasar 2.33.0 AI-ready out of the box 口径核实
 - **交付节奏条款（0.6.2 新颁，0.7.0 首次完整执行）**：Sprint 是最小交付单元——一次收口、
   一个版本号、一套六份交付物；中间件只 git 提交不单独打全包
 - **弹层纪律（0.14.0）**：可关闭弹层挂 NovaOverlayHost.registerPopup + **Component.onDestruction
@@ -47,8 +50,10 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - **导航体系契约（0.13.0）**：受控契约全族沿用（Tabs/Panels/Stepper 的 modelValue 与
   Fab 的 open 均只 emit 不自写）；ExpansionItem group 手风琴经 ExpansionGroups.js 注册表
   互斥——被收起方走自身 updateModelValue(false) 受控上报；Breadcrumbs 激活色 1:1
-  对标 2.35.6 QBreadcrumbs.js（中间未禁用条目着色，当前页不着色）；Stepper 状态图标
-  解析 1:1 对标 StepHeader.js（active>error>done、step 级优先、'none' 退让 prefix）
+  对标 2.35.6 QBreadcrumbs.js；Stepper 状态图标解析 1:1 对标 StepHeader.js
+- **长尾契约（0.15.0）**：NovaEditor 实现口径留痕（QML 无 contenteditable → 标记编辑 + toHtml
+  导出，契约 1:1）；NovaMorph 接管目标可见性（旧隐/新显命令式切换，目标 visible 勿再绑定）；
+  Morph 初始活动元素 = 组内首个完成注册成员（onCompleted **逆序**执行 → 通常是声明序最后的）
 - **环境约定**：用户 Dell Win11 · PySide6 6.12.0 · 单人开发 · PyPI + GitHub
 - **接续方式**：粘贴 `PROMPT.md`（自包含，快照已内联）；快照改动后须重跑 `gen_prompt.py`
 
@@ -147,6 +152,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 34. Text/Item 级基元元素**没有 `background` 属性**（Control 系 API）——徽标底色须手写
     包裹 Rectangle；布尔型 JS `join(',')` 产出小写 `true/false`，测试断言小写口径
     （0.13.0 沉淀）
+36. `.pragma library` JS 在多组件实例 import 场景实测呈现 **per-importing-file 实例化**
+    （同 group 两实例互相看不见对方注册）——跨实例共享注册表用 **QML singleton**
+    （NovaMorphPool 先例，0.15.0 沉淀）
+37. QML `Component.onCompleted` 按**创建完成逆序**执行（声明序最后的先 complete）——
+    组内"首个完成注册者成为默认活动元素"通常是声明序最后的成员；依赖顺序的注册表
+    语义须按此口径设计并写进测试（0.15.0 沉淀）
 - ~~Sprint 2 L4 服务~~ ✅ 0.6.0~0.6.2（Notify 29 项/Dialog 27 项/Loading 11 项对账 + Storage/App/Platform；L4 44%）
 - ~~Sprint 3 L3 行为~~ ✅ 0.7.0（九件一次收口；L3 100%）
 - ~~Sprint 4 L0/L5 基础层~~ ✅ **0.8.0 收口（Nova.Design 三单例 + NovaText/NovaTransition；
@@ -168,13 +179,23 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - ~~四期 B 弹层与反馈~~ ✅ **0.14.0（NovaMenu/DialogShell/PopupProxy/Tooltip/BottomSheet +
   Spinner×8/Skeleton/InnerLoading/AjaxBar+LoadingBar 服务/Banner/Bar/NoSsr/PullToRefresh/
   ResizeObserver；L2 54%→68%；画廊 21 页；308 项测试；ScrollObserver 规划核对不重复）**
-- **五期 A（下一步）长尾组件（v0.15.0）**：NovaEditor（轻量富文本）/ NovaMorph（元素形变）/
-  NovaSlideItem（滑动操作项）/ NovaIconGenie（图标生成）/ **Nova MCP server + AI-ready 文档**
-  （对标 @quasar/mcp 2.33 新品类），以 MASTER_PLAN §5 为准（开工首日复核 Quasar 最新 release）
+- ~~五期 A 长尾组件~~ ✅ **0.15.0（NovaEditor 轻量富文本（标记编辑+HTML 导出同语义留痕）/
+  NovaSlideItem 左右滑动面板/NovaMorph group 形变 + NovaMorphPool 单例/NovaIconGenie CLI
+  37 产物/AI-ready 文档包 + Nova MCP server 六工具；L2 68%→70%、L3 Morph 补齐、L6 70%→75%；
+  画廊 22 页；322 项测试；坑位 36~37 沉淀）**
+- **五期 B（下一步）非功能攻坚（v0.16.0）**：a11y（WCAG 2.1 AA 全过）/i18n+RTL/性能门禁
+  （冷启动 ≤800ms、1000 行表格 ≥55fps、单组件 ≤5ms）/HiDPI/文档站（MkDocs + 示例沙箱）/
+  视觉回归（明暗 × 5 断点基线）/应用打包（PyInstaller 一键 exe）/供应链（SBOM + 外部输入
+  消毒）；测试基线 175 → 220 项 + 视觉回归基线集；以 MASTER_PLAN §5 Sprint B 为准
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ## 最近一次交付
 
+- **0.15.0：五期 Sprint A 收口 · 长尾组件一次交付**
+  （NovaEditor 轻量富文本（toolbar 分组/execCmd 命令族/toHtml 导出/受控 guard）+
+  NovaSlideItem 左右滑动动作面板 + NovaMorph 元素形变（ghost 几何过渡）+ NovaMorphPool
+  singleton 注册表 + NovaIconGenie 图标全套 CLI + AI-ready 版本化 API 文档包 +
+  Nova MCP server 六工具；画廊第 22 页；测试 322 项；类型 117→120）
 - **0.14.0：四期 Sprint B 收口 · 弹层与反馈一次交付**
   （NovaMenu + NovaDialogShell 关闭原因上报 + NovaPopupProxy 断点路由 + NovaTooltip +
   NovaBottomSheet + NovaSpinner 八变体 + NovaSkeleton/NovaInnerLoading/NovaAjaxBar/

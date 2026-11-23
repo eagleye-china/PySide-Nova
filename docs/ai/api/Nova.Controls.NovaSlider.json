@@ -1,0 +1,388 @@
+{
+ "name": "Nova.Controls.NovaSlider",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaSlider.qml",
+ "description": "NovaSlider 滑杆：拖拽/键盘取值、step 量化、snap 刻点、markers、label 气泡、垂直模式 对标 Quasar QSlider（use-slider 33 props；Nova 收口 26 项，img 类留痕见 PARITY） 契约统一：label（气泡沫）/ hint / error / readonly / disable",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 12
+  },
+  {
+   "name": "min",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "max",
+   "type": "real",
+   "readonly": false,
+   "default": ": 100",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "innerMin",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "对标 inner-min",
+   "line": 15
+  },
+  {
+   "name": "innerMax",
+   "type": "real",
+   "readonly": false,
+   "default": ": 100",
+   "doc": "对标 inner-max",
+   "line": 16
+  },
+  {
+   "name": "step",
+   "type": "real",
+   "readonly": false,
+   "default": ": 1",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "snap",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 snap（刻点吸附显示）",
+   "line": 18
+  },
+  {
+   "name": "reverse",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "vertical",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 color",
+   "line": 23
+  },
+  {
+   "name": "trackColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "selectionColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": tint",
+   "doc": "对标 selection-color",
+   "line": 25
+  },
+  {
+   "name": "thumbColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": tint",
+   "doc": "对标 thumb-color",
+   "line": 26
+  },
+  {
+   "name": "trackSize",
+   "type": "real",
+   "readonly": false,
+   "default": ": dense ? 2 : 4",
+   "doc": "对标 track-size",
+   "line": 27
+  },
+  {
+   "name": "thumbSize",
+   "type": "real",
+   "readonly": false,
+   "default": ": dense ? 14 : 20",
+   "doc": "对标 thumb-size",
+   "line": 28
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "dark",
+   "type": "bool",
+   "readonly": false,
+   "default": ": NovaTheme.isDark",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "label",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "拖拽/键盘时显示气泡",
+   "line": 33
+  },
+  {
+   "name": "labelAlways",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "labelValue",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "自定义气泡文案",
+   "line": 35
+  },
+  {
+   "name": "markers",
+   "type": "var",
+   "readonly": false,
+   "default": ": false",
+   "doc": "true=每 step 一个刻点；数字=间隔",
+   "line": 38
+  },
+  {
+   "name": "markerLabels",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "true=数值标签；数组=自定义标签",
+   "line": 39
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "activeTab",
+   "type": "bool",
+   "readonly": false,
+   "default": ": !disable",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "hint",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "errorMessage",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 47
+  },
+  {
+   "name": "hasError",
+   "type": "bool",
+   "readonly": true,
+   "default": ": error || errorMessage !== \"\"",
+   "doc": null,
+   "line": 49
+  },
+  {
+   "name": "_focused",
+   "type": "bool",
+   "readonly": true,
+   "default": ": dragArea.drag.active || keyboardFocus",
+   "doc": null,
+   "line": 50
+  },
+  {
+   "name": "_lo",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(min, innerMin)",
+   "doc": null,
+   "line": 56
+  },
+  {
+   "name": "_hi",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.min(max, innerMax)",
+   "doc": null,
+   "line": 57
+  },
+  {
+   "name": "_pct",
+   "type": "real",
+   "readonly": true,
+   "default": ": (Number(modelValue) - _lo) / Math.max(_hi - _lo, 1e-9)",
+   "doc": null,
+   "line": 58
+  },
+  {
+   "name": "_labelText",
+   "type": "string",
+   "readonly": true,
+   "default": ": labelValue !== \"\" ? labelValue : String(modelValue)",
+   "doc": null,
+   "line": 59
+  },
+  {
+   "name": "keyboardFocus",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 60
+  },
+  {
+   "name": "updatingFromDrag",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 96
+  },
+  {
+   "name": "_trackLen",
+   "type": "real",
+   "readonly": true,
+   "default": ": (vertical ? height : width) - thumbSize",
+   "doc": null,
+   "line": 104
+  },
+  {
+   "name": "_thumbPos",
+   "type": "real",
+   "readonly": true,
+   "default": ": thumbSize / 2 + (reverse ? 1 - Math.max(0, Math.min(1, _pct)) : Math.max(0, Math.min(1, _pct))) * _trackLen",
+   "doc": null,
+   "line": 105
+  },
+  {
+   "name": "_selLen",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(1, _pct)) * _trackLen",
+   "doc": null,
+   "line": 106
+  },
+  {
+   "name": "_markerCount",
+   "type": "int",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 135
+  },
+  {
+   "name": "_markerEvery",
+   "type": "real",
+   "readonly": true,
+   "default": ": typeof markers === \"number\" && markers > 1",
+   "doc": null,
+   "line": 140
+  },
+  {
+   "name": "t",
+   "type": "real",
+   "readonly": true,
+   "default": ": root.reverse ? 1 - index / (root._markerCount - 1)",
+   "doc": null,
+   "line": 146
+  },
+  {
+   "name": "t",
+   "type": "real",
+   "readonly": true,
+   "default": ": root.reverse ? 1 - index / (root._markerCount - 1)",
+   "doc": null,
+   "line": 166
+  },
+  {
+   "name": "txt",
+   "type": "string",
+   "readonly": true,
+   "default": ": Array.isArray(root.markerLabels)",
+   "doc": null,
+   "line": 168
+  }
+ ],
+ "signals": [
+  {
+   "name": "valueChanged",
+   "params": "var value"
+  },
+  {
+   "name": "changed",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "_quantize",
+   "params": "v"
+  },
+  {
+   "name": "posToValue",
+   "params": "pos"
+  },
+  {
+   "name": "setValue",
+   "params": "v"
+  },
+  {
+   "name": "stepBy",
+   "params": "n"
+  }
+ ]
+}

@@ -1,0 +1,56 @@
+{
+ "name": "Nova.Services.NovaDialogHandle",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaDialogHandle.qml",
+ "description": "NovaDialogHandle 对话框句柄：show() 返回值，hide()/update()/ok()/cancel()/valid + 三信号（对标 createDialog 的链式句柄） NovaDialogHandle —— 对话框句柄（基线返回可链式对象；QML 语境升级为 QObject：可绑定、可观测、可 GC） 语义对齐： hide()                —— 等价基线 handle.hide()，关闭原因 api",
+ "properties": [
+  {
+   "name": "item",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "valid",
+   "type": "bool",
+   "readonly": true,
+   "default": ": item !== null",
+   "doc": null,
+   "line": 17
+  }
+ ],
+ "signals": [
+  {
+   "name": "accepted",
+   "params": ""
+  },
+  {
+   "name": "rejected",
+   "params": ""
+  },
+  {
+   "name": "dismissed",
+   "params": "string reason"
+  }
+ ],
+ "methods": [
+  {
+   "name": "hide",
+   "params": ""
+  },
+  {
+   "name": "update",
+   "params": "props"
+  },
+  {
+   "name": "ok",
+   "params": ""
+  },
+  {
+   "name": "cancel",
+   "params": ""
+  }
+ ]
+}

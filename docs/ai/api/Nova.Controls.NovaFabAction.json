@@ -1,0 +1,100 @@
+{
+ "name": "Nova.Controls.NovaFabAction",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaFabAction.qml",
+ "description": "NovaFabAction 悬浮按钮动作（对标 QFabAction）：圆钮 + 外置 label；revealed/_delay 由宿主 NovaFab 级联下发（stagger 节拍），本组件只做渐显/缩放响应； to 路由语义 ⛔（无路由体系），点击统一 clicked 信号",
+ "properties": [
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "外置标签文案（externalLabel 语义恒定：宿主侧展开）",
+   "line": 15
+  },
+  {
+   "name": "hideLabel",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "基调色红线",
+   "line": 17
+  },
+  {
+   "name": "textColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.textOnPrimary",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "square",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "anchor",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "对齐锚（空=沿用宿主方向）",
+   "line": 21
+  },
+  {
+   "name": "revealed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "展开态（宿主按 stagger 节拍逐个置真）",
+   "line": 24
+  },
+  {
+   "name": "delay",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "本动作的级联延迟（ms）",
+   "line": 25
+  }
+ ],
+ "signals": [
+  {
+   "name": "clicked",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "click",
+   "params": ""
+  }
+ ]
+}

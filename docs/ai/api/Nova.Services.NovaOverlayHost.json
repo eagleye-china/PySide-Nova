@@ -1,0 +1,63 @@
+{
+ "name": "Nova.Services.NovaOverlayHost",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaOverlayHost.qml",
+ "description": "NovaOverlayHost 全局弹层宿主单例：把动态 Item 挂到窗口顶层 overlay 并按层叠令牌分配 z（对标 Quasar createGlobalNode） NovaOverlayHost —— 全局弹层宿主单例（L4 服务层共用基础设施） 职责边界：只负责\"挂载 + 分层\"，不管理队列/生命周期；队列类服务（NovaNotify 等）各自持有自己的栈。 接入方式：复用断点体系唯一入口，无需额外绑定——宿主自动跟随 NovaScreen.source 定位窗口：",
+ "properties": [
+  {
+   "name": "zNotify",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaTheme.zNotify",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "contentItem",
+   "type": "var",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "_popups",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 47
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "attach",
+   "params": "item, layer"
+  },
+  {
+   "name": "registerPopup",
+   "params": "item, closeFn"
+  },
+  {
+   "name": "unregisterPopup",
+   "params": "item"
+  },
+  {
+   "name": "popupCount",
+   "params": ""
+  },
+  {
+   "name": "popups",
+   "params": ""
+  },
+  {
+   "name": "closePopups",
+   "params": "depth, reason"
+  },
+  {
+   "name": "topPopup",
+   "params": ""
+  }
+ ]
+}

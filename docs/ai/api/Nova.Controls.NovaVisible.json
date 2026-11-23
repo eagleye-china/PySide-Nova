@@ -1,0 +1,43 @@
+{
+ "name": "Nova.Controls.NovaVisible",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaVisible.qml",
+ "description": "NovaVisible 断点显隐：above/below/only 三种语义按 NovaScreen 断点控制 visible（对标 Quasar gt-*/lt-* 可见性工具类） NovaVisible —— 断点可见性包装器（对标 Quasar visible-* 工具类） 用法：包裹任意子项；above: \"md\" 表示 ≥md 显示；below: \"sm\" 表示 <sm 显示； only: \"xs sm\" 表示仅这些断点显示；三属性可组合，均默认不限制",
+ "properties": [
+  {
+   "name": "above",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "below",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "only",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 19
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "threshold",
+   "params": "bp"
+  },
+  {
+   "name": "known",
+   "params": "bp"
+  }
+ ]
+}

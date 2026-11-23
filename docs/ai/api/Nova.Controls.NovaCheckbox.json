@@ -1,0 +1,308 @@
+{
+ "name": "Nova.Controls.NovaCheckbox",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaCheckbox.qml",
+ "description": "NovaCheckbox 复选：true/false/indeterminate 三态、toggleOrder、val 模式、leftLabel、键盘切换 对标 Quasar QCheckbox（use-checkbox 18 props）；visual 插槽供 NovaToggle 换装开关外观 契约统一：label / hint / error / readonly / disable（clearable/rules 不适用已留痕）",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "val",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "非 null：checked = modelValue === val",
+   "line": 15
+  },
+  {
+   "name": "trueValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": true",
+   "doc": "对标 true-value",
+   "line": 16
+  },
+  {
+   "name": "falseValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 false-value",
+   "line": 17
+  },
+  {
+   "name": "indeterminateValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "对标 indeterminate-value",
+   "line": 18
+  },
+  {
+   "name": "toggleIndeterminate",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 toggle-indeterminate（把半选入循环）",
+   "line": 19
+  },
+  {
+   "name": "toggleOrder",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "0=true→false；1=false→true（半选居间）",
+   "line": 20
+  },
+  {
+   "name": "checked",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _valMode ? modelValue === val",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "indeterminate",
+   "type": "bool",
+   "readonly": true,
+   "default": ": !_valMode && indeterminateValue !== null",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "leftLabel",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "checkedIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "对标 checked-icon（空=内置绘制勾）",
+   "line": 29
+  },
+  {
+   "name": "uncheckedIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "indeterminateIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": "对标 color",
+   "line": 32
+  },
+  {
+   "name": "keepColor",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 keep-color（未选中仍着色）",
+   "line": 33
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "activeTab",
+   "type": "bool",
+   "readonly": false,
+   "default": ": !disable",
+   "doc": "对标 tabindex（QML 化：是否入 Tab 链）",
+   "line": 37
+  },
+  {
+   "name": "hint",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "契约统一",
+   "line": 38
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "errorMessage",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "hasError",
+   "type": "bool",
+   "readonly": true,
+   "default": ": error || errorMessage !== \"\"",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_boxSize",
+   "type": "real",
+   "readonly": true,
+   "default": ": dense ? 16 : 18",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "_fs",
+   "type": "int",
+   "readonly": true,
+   "default": ": dense ? 12 : 14",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "visualWidth",
+   "type": "real",
+   "readonly": false,
+   "default": ": _boxSize",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "visual",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 52
+  },
+  {
+   "name": "chk",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.checked",
+   "doc": null,
+   "line": 54
+  },
+  {
+   "name": "ind",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.indeterminate",
+   "doc": null,
+   "line": 55
+  },
+  {
+   "name": "_borderBox",
+   "type": "color",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 119
+  },
+  {
+   "name": "_fgBox",
+   "type": "color",
+   "readonly": true,
+   "default": ": (root.checked || root.indeterminate) && !root.readonly",
+   "doc": null,
+   "line": 124
+  },
+  {
+   "name": "_valMode",
+   "type": "bool",
+   "readonly": true,
+   "default": ": val !== null && val !== undefined",
+   "doc": null,
+   "line": 149
+  },
+  {
+   "name": "_hasInd",
+   "type": "bool",
+   "readonly": true,
+   "default": ": indeterminateValue !== null && !_valMode",
+   "doc": null,
+   "line": 150
+  }
+ ],
+ "signals": [
+  {
+   "name": "valueChanged",
+   "params": "var value"
+  },
+  {
+   "name": "toggled",
+   "params": "bool checked"
+  }
+ ],
+ "methods": [
+  {
+   "name": "onModelValueChanged",
+   "params": ""
+  },
+  {
+   "name": "toggle",
+   "params": ""
+  },
+  {
+   "name": "_onVal",
+   "params": ""
+  },
+  {
+   "name": "_offVal",
+   "params": ""
+  }
+ ]
+}

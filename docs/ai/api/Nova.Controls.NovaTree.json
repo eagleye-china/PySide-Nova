@@ -1,0 +1,376 @@
+{
+ "name": "Nova.Controls.NovaTree",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTree.qml",
+ "description": "NovaTree 树控件（对标 QTree） 受控模式（坑位 22）：expanded/ticked/selected 均不自写，只 emit 由宿主写回 勾选策略：none（仅自身）/ strict（上下级联动+半选）/ lazy（仅向下联动已加载层） 懒加载：lazy 节点首次展开 emit lazyLoad(node, done)，宿主 done(子节点数组)",
+ "properties": [
+  {
+   "name": "nodes",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "{label,icon,children,lazy,expandable,disabled,tickable,tickStrategy,caption}",
+   "line": 13
+  },
+  {
+   "name": "nodeKey",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "键字段名；空则自动生成路径键 \"0.1.2\"",
+   "line": 14
+  },
+  {
+   "name": "expanded",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "已展开 key 数组（受控）",
+   "line": 15
+  },
+  {
+   "name": "selected",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "选中节点 key 或 null（受控）",
+   "line": 16
+  },
+  {
+   "name": "ticked",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "勾选 key 数组（受控）",
+   "line": 17
+  },
+  {
+   "name": "tickStrategy",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"none\"",
+   "doc": "树级默认策略：none | strict | lazy",
+   "line": 18
+  },
+  {
+   "name": "filter",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "filterMethod",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "function(node) -> bool",
+   "line": 20
+  },
+  {
+   "name": "defaultExpandAll",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "默认全展开（不影响受控数组）",
+   "line": 21
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "_lazyStore",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "_rev",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 84
+  },
+  {
+   "name": "_index",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 88
+  },
+  {
+   "name": "_visibleKeys",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 89
+  },
+  {
+   "name": "parentNode",
+   "type": "var",
+   "readonly": false,
+   "default": ": root.nodes[index]",
+   "doc": null,
+   "line": 270
+  },
+  {
+   "name": "parentKey",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 271
+  },
+  {
+   "name": "depth",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 272
+  },
+  {
+   "name": "ld",
+   "type": "var",
+   "readonly": false,
+   "default": ": parent",
+   "doc": null,
+   "line": 285
+  },
+  {
+   "name": "nd",
+   "type": "var",
+   "readonly": false,
+   "default": ": ld.parentNode",
+   "doc": null,
+   "line": 286
+  },
+  {
+   "name": "key",
+   "type": "string",
+   "readonly": false,
+   "default": ": root._keyOf(nd, ld.parentKey, ld.index)",
+   "doc": null,
+   "line": 287
+  },
+  {
+   "name": "kids",
+   "type": "var",
+   "readonly": false,
+   "default": ": { root._rev; root._kidsOf(nd, key) }",
+   "doc": null,
+   "line": 289
+  },
+  {
+   "name": "expandable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": { root._rev; root._isExpandable(nd, key) }",
+   "doc": null,
+   "line": 290
+  },
+  {
+   "name": "open",
+   "type": "bool",
+   "readonly": false,
+   "default": ": { root._rev; root.isExpanded(key) }",
+   "doc": null,
+   "line": 291
+  },
+  {
+   "name": "strat",
+   "type": "string",
+   "readonly": false,
+   "default": ": root._strategyOf(nd)",
+   "doc": null,
+   "line": 292
+  },
+  {
+   "name": "tickable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": nd.tickable !== false && strat !== \"none\"",
+   "doc": null,
+   "line": 293
+  },
+  {
+   "name": "tickOn",
+   "type": "bool",
+   "readonly": false,
+   "default": ": { root._rev; tickable && (root.isTicked(key) || (strat === \"strict\" && kids.length > 0 && _allKidsOn())) }",
+   "doc": null,
+   "line": 294
+  },
+  {
+   "name": "half",
+   "type": "bool",
+   "readonly": false,
+   "default": ": { root._rev; tickable && !tickOn && root.tickHalf(key) }",
+   "doc": null,
+   "line": 295
+  },
+  {
+   "name": "shown",
+   "type": "bool",
+   "readonly": false,
+   "default": ": { root._rev; root._visibleKeys === null || root._visibleKeys[key] === true }",
+   "doc": null,
+   "line": 296
+  },
+  {
+   "name": "sel",
+   "type": "bool",
+   "readonly": false,
+   "default": ": { root._rev; root.selected === key }",
+   "doc": null,
+   "line": 297
+  },
+  {
+   "name": "parentNode",
+   "type": "var",
+   "readonly": false,
+   "default": ": nodeRoot.kids[index]",
+   "doc": null,
+   "line": 416
+  },
+  {
+   "name": "parentKey",
+   "type": "string",
+   "readonly": false,
+   "default": ": nodeRoot.key",
+   "doc": null,
+   "line": 417
+  },
+  {
+   "name": "depth",
+   "type": "int",
+   "readonly": false,
+   "default": ": nodeRoot.ld.depth + 1",
+   "doc": null,
+   "line": 418
+  }
+ ],
+ "signals": [
+  {
+   "name": "updateExpanded",
+   "params": "var keys"
+  },
+  {
+   "name": "updateSelected",
+   "params": "var key"
+  },
+  {
+   "name": "updateTicked",
+   "params": "var keys"
+  },
+  {
+   "name": "nodeClicked",
+   "params": "var node, string key"
+  },
+  {
+   "name": "lazyLoad",
+   "params": "var node, var done"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_resolveLazy",
+   "params": "key, children"
+  },
+  {
+   "name": "_keyOf",
+   "params": "node, parentKey, i"
+  },
+  {
+   "name": "_kidsOf",
+   "params": "node, key"
+  },
+  {
+   "name": "_isExpandable",
+   "params": "node, key"
+  },
+  {
+   "name": "_strategyOf",
+   "params": "node"
+  },
+  {
+   "name": "_buildIndexInto",
+   "params": "list, parentKey, map"
+  },
+  {
+   "name": "_refreshDerived",
+   "params": ""
+  },
+  {
+   "name": "getNodeByKey",
+   "params": "key"
+  },
+  {
+   "name": "isExpanded",
+   "params": "key"
+  },
+  {
+   "name": "setExpanded",
+   "params": "key, on"
+  },
+  {
+   "name": "expandAll",
+   "params": ""
+  },
+  {
+   "name": "collapseAll",
+   "params": ""
+  },
+  {
+   "name": "selectNode",
+   "params": "key"
+  },
+  {
+   "name": "isTicked",
+   "params": "key"
+  },
+  {
+   "name": "tickHalf",
+   "params": "key"
+  },
+  {
+   "name": "_anyDescTicked",
+   "params": "key"
+  },
+  {
+   "name": "setTicked",
+   "params": "key, on"
+  },
+  {
+   "name": "toggleTicked",
+   "params": "key"
+  },
+  {
+   "name": "tryExpand",
+   "params": "key, open"
+  },
+  {
+   "name": "_nodeMatches",
+   "params": "n"
+  },
+  {
+   "name": "_computeVisible",
+   "params": ""
+  },
+  {
+   "name": "_allKidsOn",
+   "params": ""
+  }
+ ]
+}

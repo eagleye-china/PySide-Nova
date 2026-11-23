@@ -1,0 +1,200 @@
+{
+ "name": "Nova.Controls.NovaBtnDropdown",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBtnDropdown.qml",
+ "description": "NovaBtnDropdown 下拉按钮：NovaBtn 主钮 + 内嵌 NovaMenu、split 分体、cover/persistent/auto-close（对标 QBtnDropdown） 受控契约：modelValue（菜单开合，坑位 22）",
+ "properties": [
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "iconRight",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "variant",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"filled\"",
+   "doc": "filled | outline | flat（NovaBtn 口径）",
+   "line": 17
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "size",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"md\"",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "split",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "下拉图标独立按钮",
+   "line": 21
+  },
+  {
+   "name": "disableMainBtn",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "disableDropdown",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "dropdownIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"mdi:menu-down\"",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "noIconAnimation",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "persistent",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "autoClose",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "cover",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "fit",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "modelValue",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_open",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelValue",
+   "doc": null,
+   "line": 42
+  }
+ ],
+ "signals": [
+  {
+   "name": "updateModelValue",
+   "params": "bool v"
+  },
+  {
+   "name": "click",
+   "params": ""
+  },
+  {
+   "name": "beforeShow",
+   "params": ""
+  },
+  {
+   "name": "shown",
+   "params": ""
+  },
+  {
+   "name": "beforeHide",
+   "params": ""
+  },
+  {
+   "name": "hidden",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "onShown",
+   "params": ""
+  },
+  {
+   "name": "onHidden",
+   "params": ""
+  },
+  {
+   "name": "show",
+   "params": ""
+  },
+  {
+   "name": "hide",
+   "params": ""
+  },
+  {
+   "name": "toggle",
+   "params": ""
+  }
+ ]
+}

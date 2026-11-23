@@ -1,0 +1,26 @@
+{
+ "name": "Nova.Controls.NovaToolbarTitle",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaToolbarTitle.qml",
+ "description": "NovaToolbarTitle 工具栏标题（对标 QToolbarTitle）：默认占满剩余宽度（shrink 反转收缩为内容宽）",
+ "properties": [
+  {
+   "name": "shrink",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "text",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "便捷文案（未用默认槽时渲染）",
+   "line": 15
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

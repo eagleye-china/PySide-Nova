@@ -1,0 +1,216 @@
+{
+ "name": "Nova.Controls.NovaColorPicker",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaColorPicker.qml",
+ "description": "NovaColorPicker 取色器：SV 色域盘 + 色相条 + 调色板(palette) + HEX 编辑 + footer 值显示 对标 Quasar QColor（16 props；Nova 收口核心 13 项，rgb/hsl 编辑器与 alpha 通道留痕见 PARITY） 契约统一：hint / error / readonly / disable",
+ "properties": [
+  {
+   "name": "modelValue",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "\"#RRGGBB\"；未选= null（基线语义：无默认值不产出）",
+   "line": 12
+  },
+  {
+   "name": "defaultValue",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "对标 default-value（null 时显示占位）",
+   "line": 13
+  },
+  {
+   "name": "formatModel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"hex\"",
+   "doc": "hex | rgb（rgb 输出 \"rgb(r,g,b)\"）",
+   "line": 14
+  },
+  {
+   "name": "paletteColors",
+   "type": "var",
+   "readonly": false,
+   "default": ": [",
+   "doc": "对标 palette（Item.palette 内建撞名，宪法坑位：改名留痕）",
+   "line": 15
+  },
+  {
+   "name": "noFooter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "noHeader",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "flat",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 flat/bordered（视觉令牌化）",
+   "line": 22
+  },
+  {
+   "name": "bordered",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "readonly",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "hint",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "error",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "errorMessage",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "hasError",
+   "type": "bool",
+   "readonly": true,
+   "default": ": error || errorMessage !== \"\"",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "_hue",
+   "type": "real",
+   "readonly": false,
+   "default": ": 210",
+   "doc": "0-360",
+   "line": 36
+  },
+  {
+   "name": "_sat",
+   "type": "real",
+   "readonly": false,
+   "default": ": 85",
+   "doc": "0-100",
+   "line": 37
+  },
+  {
+   "name": "_val",
+   "type": "real",
+   "readonly": false,
+   "default": ": 90",
+   "doc": "0-100",
+   "line": 38
+  },
+  {
+   "name": "_touched",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 39
+  }
+ ],
+ "signals": [
+  {
+   "name": "valueChanged",
+   "params": "var value"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_clamp",
+   "params": "v, lo, hi"
+  },
+  {
+   "name": "_toHex",
+   "params": "r, g, b"
+  },
+  {
+   "name": "h2",
+   "params": "v"
+  },
+  {
+   "name": "_hsv2rgb",
+   "params": "h, s, v"
+  },
+  {
+   "name": "_rgb2hsv",
+   "params": "r, g, b"
+  },
+  {
+   "name": "_parseHex",
+   "params": "str"
+  },
+  {
+   "name": "_out",
+   "params": "rgb"
+  },
+  {
+   "name": "_emit",
+   "params": ""
+  },
+  {
+   "name": "setHex",
+   "params": "str"
+  },
+  {
+   "name": "setHsv",
+   "params": "h, s, v"
+  },
+  {
+   "name": "currentHex",
+   "params": ""
+  },
+  {
+   "name": "on_HueChanged",
+   "params": ""
+  },
+  {
+   "name": "apply",
+   "params": "m"
+  },
+  {
+   "name": "apply",
+   "params": "m"
+  }
+ ]
+}

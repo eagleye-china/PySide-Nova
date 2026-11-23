@@ -1,0 +1,171 @@
+{
+ "name": "Nova.Services.NovaLoading",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaLoading.qml",
+ "description": "NovaLoading 全局加载服务单例：引用计数并发、delay 防闪烁、局部/全屏、超时保护、三种 spinner（对标 Loading 插件） NovaLoading —— 命令式加载遮罩（对标 Quasar Loading 插件；契约见 docs/PARITY.md NovaLoading 审计节） 基线事实（npm quasar@2.35.5 dist/api/Loading.json 逐项核实）： 11 项配置：delay / message / group / html / boxClass / spinnerSize / spinnerColor /",
+ "properties": [
+  {
+   "name": "defaultGroup",
+   "type": "string",
+   "readonly": true,
+   "default": ": \"__default_quasar_group__\"",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "spinnerModels",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"ring\", \"dots\", \"pulse\"]",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "zLayer",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaTheme.zTop",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "_defaults",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "_entries",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": "活动组：[{ group, count, item, dead }]",
+   "line": 30
+  },
+  {
+   "name": "overlayComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 252
+  },
+  {
+   "name": "handleComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 256
+  },
+  {
+   "name": "entryComp",
+   "type": "Component",
+   "readonly": false,
+   "default": ": Component {",
+   "doc": null,
+   "line": 262
+  },
+  {
+   "name": "group",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 264
+  },
+  {
+   "name": "count",
+   "type": "int",
+   "readonly": false,
+   "default": ": 1",
+   "doc": null,
+   "line": 265
+  },
+  {
+   "name": "item",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 266
+  },
+  {
+   "name": "dead",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 267
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "setDefaults",
+   "params": "opts"
+  },
+  {
+   "name": "_merge",
+   "params": "target, src"
+  },
+  {
+   "name": "_find",
+   "params": "group"
+  },
+  {
+   "name": "show",
+   "params": "opts"
+  },
+  {
+   "name": "_apply",
+   "params": "entry, cfg"
+  },
+  {
+   "name": "_release",
+   "params": "entry"
+  },
+  {
+   "name": "_drop",
+   "params": "entry"
+  },
+  {
+   "name": "hide",
+   "params": "group"
+  },
+  {
+   "name": "hideAll",
+   "params": ""
+  },
+  {
+   "name": "increment",
+   "params": "opts"
+  },
+  {
+   "name": "decrement",
+   "params": "group"
+  },
+  {
+   "name": "isActive",
+   "params": "group"
+  },
+  {
+   "name": "count",
+   "params": "group"
+  },
+  {
+   "name": "activeGroups",
+   "params": ""
+  },
+  {
+   "name": "activeCount",
+   "params": ""
+  },
+  {
+   "name": "_makeHandle",
+   "params": "entry"
+  }
+ ]
+}

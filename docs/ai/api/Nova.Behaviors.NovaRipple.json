@@ -1,0 +1,39 @@
+{
+ "name": "Nova.Behaviors.NovaRipple",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaRipple.qml",
+ "description": "NovaRipple 水波纹行为：作为子项挂载到任意 Item，color/duration 可定制（对标 Quasar v-ripple 指令） NovaRipple —— 水波纹（对标 v-ripple） 用法：作为最后一个子项放进任意可点击的 Item： Rectangle {",
+ "properties": [
+  {
+   "name": "color",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.ripple",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "duration",
+   "type": "int",
+   "readonly": false,
+   "default": ": 550",
+   "doc": null,
+   "line": 21
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "open",
+   "params": "x, y"
+  },
+  {
+   "name": "settle",
+   "params": ""
+  },
+  {
+   "name": "removeAt",
+   "params": "i"
+  }
+ ]
+}

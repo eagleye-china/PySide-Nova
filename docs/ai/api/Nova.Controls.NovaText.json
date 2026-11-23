@@ -1,0 +1,58 @@
+{
+ "name": "Nova.Controls.NovaText",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaText.qml",
+ "description": "NovaText 排版组件（对标 Quasar text-h1…caption + text-weight-* + text-muted/italic/strike/no-wrap 工具类） NovaText —— 排版文本：12 级字阶 1:1 取 NovaTheme.typeScale（rem×16→px、em→px 字距、真实行高） 用法：NovaText { typography: \"h1\"; text: \"标题\" } / NovaText { typography: \"overline\"; text: \"OVERLINE\" } 大写/小写/首字母大写走 QML 原生 font.capitalization（1:1 对标 text-uppercase/lowercase/capitalize）",
+ "properties": [
+  {
+   "name": "typography",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"body2\"",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "muted",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 text-grey / text-muted",
+   "line": 16
+  },
+  {
+   "name": "strike",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 text-strike",
+   "line": 17
+  },
+  {
+   "name": "italic",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "对标 text-italic",
+   "line": 18
+  },
+  {
+   "name": "upper",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "style",
+   "type": "var",
+   "readonly": true,
+   "default": ": NovaTheme.textStyle(typography)",
+   "doc": null,
+   "line": 23
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

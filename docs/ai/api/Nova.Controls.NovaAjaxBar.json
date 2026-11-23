@@ -1,0 +1,100 @@
+{
+ "name": "Nova.Controls.NovaAjaxBar",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaAjaxBar.qml",
+ "description": "NovaAjaxBar 顶部进度条：start/increment/stop 命令式 API + 渐进模拟（越接近完成越慢，对标 QAjaxBar） 四向 position（top/bottom/left/right）+ reverse；进度语义：start 后自动渐进至 progressCap，stop 冲刺收尾",
+ "properties": [
+  {
+   "name": "position",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"top\"",
+   "doc": "top | bottom | left | right",
+   "line": 11
+  },
+  {
+   "name": "size",
+   "type": "real",
+   "readonly": false,
+   "default": ": 2",
+   "doc": "条厚度 px",
+   "line": 12
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "reverse",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "反向行进",
+   "line": 14
+  },
+  {
+   "name": "progressCap",
+   "type": "real",
+   "readonly": true,
+   "default": ": 90",
+   "doc": "未 stop 前渐进上限（对标 QAjaxBar 行为口径）",
+   "line": 15
+  },
+  {
+   "name": "progress",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "0~100",
+   "line": 18
+  },
+  {
+   "name": "active",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _waiters > 0",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "_waiters",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 29
+  }
+ ],
+ "signals": [
+  {
+   "name": "started",
+   "params": ""
+  },
+  {
+   "name": "stopped",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "start",
+   "params": ""
+  },
+  {
+   "name": "increment",
+   "params": "size"
+  },
+  {
+   "name": "stop",
+   "params": ""
+  },
+  {
+   "name": "_finish",
+   "params": ""
+  }
+ ]
+}

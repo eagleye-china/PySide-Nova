@@ -813,3 +813,71 @@ M1/M2 排期在 ROADMAP 跟踪。
 > 坑位沉淀：35 TapHandler 被子项 MouseArea 独占饿死——auto-close 类语义须动态挂接子项 clicked 信号；
 > 弹层组件必须 Component.onDestruction 注销弹层栈（跨测试泄漏级联）；QtObject 无默认属性不能挂
 > Timer/Connections（观察器根改 Item）；var 数组 in-place push 不写回（concat 口径三度复验）。
+
+
+---
+
+## 0.15.0 审计 —— 五期 Sprint A · 长尾组件（Controls 89→91、Behaviors 10→11 + singleton）
+
+### NovaEditor ↔ QEditor（4 props + 5 events + 15 methods + 2 slots）
+
+- ✅ toolbar 分组配置（数组的数组、组间 separator，对标 QEditor toolbar 定义格式）/ modelValue
+  受控 + updateModelValue（update:model-value 口径，NovaInput 同款 guard 防回环）/ placeholder /
+  flat / readonly / disable / min-height→minHeight（Nova 增强）；@save→saved（execCmd("save") 触发）、
+  key-press→keyPressed；**execCmd 命令族 1:1 命令名**：bold/italic/underline/strike（行内包裹）、
+  h1~h6/quote/code/ul/ol（行前缀逐行）、link、remove-format、undo/redo（TextEdit 原生栈）、save；
+  selectRange/caretPosition（对标 caret）；toHtml()（对标 getHTML：结构前缀原始行判断、内容单独
+  转义、h1~h6/blockquote/li/pre/p + 行内标记 + HTML 实体转义）；buttonCount 派生。
+- ⛔ **实现口径留痕**：QEditor 基于 DOM contenteditable + document.execCommand，QML TextEdit 无
+  富文本选区格式化 API——Nova 以「轻量标记编辑器 + HTML 导出」实现同语义（工具栏配置/命令名/
+  受控契约 1:1，标记语法非 HTML-in-place，PARITY 记录为语义对齐而非字节级对齐）。
+- ⚠️ execCmd 内 command-view/restore-default ⛔（无 DOM 命令栈）；字体/颜色命令 ⛔（QML 无选区格式化）。
+
+### NovaSlideItem ↔ QSlideItem（6 props + 4 events + 3 methods + 3 slots）
+
+- ✅ left/right 动作面板 → **leftSlot/rightSlot**（QSlideItem 的 left/right 撞 Item FINAL 成员
+  [坑位 12] 改名留痕，Component 槽语义一致）/ dense→revealWidth 紧凑侧板；slideLeft/slideRight/
+  reset 命令式 API（对标 ref 方法族）；拖拽跟手（死区防抖 + clamp 侧板宽度）+ 释放越
+  openThreshold 吸附（Behavior OutCubic）；slideOpened(side)/slideClosed/leftAction/rightAction
+  事件（QSlideItem 回调型槽语义的事件化映射）。
+- ⛔ use-plain-anchor ⛔（QML 无 DOM 锚定语义）；开合为内部动画状态（QSlideItem 无 v-model，
+  指令型组件契约一致）。
+
+### NovaMorph ↔ v-morph 指令（Behaviors 族，1 directive value + group 修饰符）
+
+- ✅ group 组内元素形变切换：morph() 触发——旧活动元素退出、**ghost 影子从旧几何动画至新几何**
+  （跨父级 mapFromItem 映射）、新元素延至动画完成显示；duration/tint/radius 配置；
+  morphStarted/morphFinished 事件；isActive() 命令式判定（坑位 24/28：不做函数调用派生绑定）；
+  duration=0 快路径直切。
+- ✅ **NovaMorphPool singleton 注册表**（group → 当前活动 Item）：register/setCurrent/unregister/
+  current——首成员登记（组空时）、morph 强制切换、析构注销。
+- ⛔ v-morph 修饰符只接首个匹配元素等 DOM 细节 ⛔；可见性接管为命令式切换（宿主勿绑定
+  target.visible，组件头注释声明契约）。
+- **坑位沉淀 36**：.pragma library JS 注册表实测 per-importing-file 实例化（同组两实例互盲）→
+  改 QML singleton；**坑位沉淀 37**：Component.onCompleted 逆序执行——组内默认活动元素通常是
+  声明序最后的成员，语义已入测试。
+
+### NovaIconGenie ↔ @quasar/icongenie（CLI，scripts/gen_icons.py）
+
+- ✅ 单图生成全套：favicon ×4 + apple-touch ×6 + android ×7 + iOS AppIcon 全档（20~1024 pt/scale
+  全清单）+ 可选 splash ×6（**37 产物**，icongenie-report.json 清单含源图指纹）；--background /
+  --padding / --splash；居中缩放合成、背景色/透明模式；splash 必须不透明背景（拒绝守卫）。
+- ⛔ 桌面平台专属产物（electron/macos/win 图标 ICO/ICNS）⛔ 本期不含（打包器 v0.16.0 补）；
+  产物清单为 icongenie 默认模式主档位子集（全档位口径在报告 JSON 可扩展）。
+
+### AI-ready 文档包 + Nova MCP server ↔ @quasar/mcp v1.0.0（Quasar 2.33 新品类，scripts/gen_apidocs.py + nova_mcp.py）
+
+- ✅ **AI-ready 文档包**：docs/ai/api/*.json（120 公共类型 props/signals/methods/描述 + 行内注释 +
+  行号）/ docs/ai/pages/（10 页核心文档离线拷贝）/ docs/ai/index.json（版本 + 基线 Quasar 2.35.5 +
+  模块计数 + 16 位内容指纹）——"docs that match your project"（版本化 API，杜绝幻觉 props）口径 1:1。
+- ✅ **MCP server 六工具 1:1**：search_docs（关键词 → API 条目 + 页面行级命中摘要，"built for small
+  context windows" 口径——返回摘要非全文）/ list_pages / get_page（宽松按节截取，如 "第 1 章"）/
+  list_api（模块过滤）/ get_api（全量 API JSON，无前缀自动宽松匹配）/ check_updates（离线版本 +
+  基线 + 指纹报告，"works offline, nothing to install" 口径——仅标准库零网络零依赖）。
+- ✅ stdio JSON-RPC 2.0（MCP 换行分隔传输）：initialize（protocolVersion/serverInfo）/ tools/list /
+  tools/call（content/isError 规范）/ notification 不回包；unknown tool → isError。
+- ⛔ @quasar/mcp 的 quasar/@quasar/app-vite 版本探测 ⛔（Nova 单包无多包构成，check_updates 报
+  单版本 + 基线）；`--project` 参数已对齐。
+
+> 测试口径：7 冒烟 + 7 行为（LT_EDITOR/LT_SLIDE/LT_MORPH 环境驱动代理 + IconGenie/MCP
+> subprocess 直退码核验），合计 0.15.0 新增 14 项（308 → 322）。

@@ -1,0 +1,58 @@
+{
+ "name": "Nova.Controls.NovaBanner",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBanner.qml",
+ "description": "NovaBanner 横幅：default/avatar/action 三槽、inline-actions 同行、dense、rounded（对标 QBanner）",
+ "properties": [
+  {
+   "name": "avatar",
+   "type": "alias",
+   "readonly": false,
+   "default": ": avatarSlot.data",
+   "doc": null,
+   "line": 11
+  },
+  {
+   "name": "action",
+   "type": "alias",
+   "readonly": false,
+   "default": ": actionSlot.data",
+   "doc": null,
+   "line": 12
+  },
+  {
+   "name": "inlineActions",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "动作与内容同行",
+   "line": 15
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "rounded",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.surfaceAlt",
+   "doc": null,
+   "line": 18
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

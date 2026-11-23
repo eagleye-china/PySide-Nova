@@ -1,0 +1,112 @@
+{
+ "name": "Nova.Controls.NovaTab",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaTab.qml",
+ "description": "NovaTab 标签页单项（对标 QTab）：name/label/icon/alert + default 槽自定义内容； 激活态由宿主 NovaTabs 下发（tabsRef 注入），点击经 requestClick 统一上报（受控契约， 坑位 22：Tab 自身不写 modelValue，宿主绑定 + updateModelValue 写回）",
+ "properties": [
+  {
+   "name": "name",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "面板寻址名；空则宿主以序号寻址",
+   "line": 14
+  },
+  {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "文案",
+   "line": 15
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "图标",
+   "line": 16
+  },
+  {
+   "name": "alert",
+   "type": "var",
+   "readonly": false,
+   "default": ": false",
+   "doc": "true→红点 | 字符串→徽标文案（对标 alert Boolean/String）",
+   "line": 17
+  },
+  {
+   "name": "alertIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "浮动图标提示（alert 为真且设置时显示）",
+   "line": 18
+  },
+  {
+   "name": "noCaps",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "不做全大写（QML 文本不做 CSS 大写变换，此属性仅透传口径）",
+   "line": 19
+  },
+  {
+   "name": "disable",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "tabsRef",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "isActive",
+   "type": "bool",
+   "readonly": true,
+   "default": ": tabsRef !== null && tabsRef._isActive(this)",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "isNovaTab",
+   "type": "bool",
+   "readonly": true,
+   "default": ": true",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "_tabH",
+   "type": "real",
+   "readonly": true,
+   "default": ": (tabsRef !== null && tabsRef.dense) ? 36 : 48",
+   "doc": null,
+   "line": 38
+  }
+ ],
+ "signals": [
+  {
+   "name": "clicked",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "requestClick",
+   "params": ""
+  },
+  {
+   "name": "contentChildrenPlaceholder",
+   "params": ""
+  }
+ ]
+}
