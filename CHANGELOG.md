@@ -50,7 +50,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - `Accessible.announce()` 在单例/`Connections` 作用域调用报 *"must be attached to an object deriving
   from Item or Action"* → 播报下沉到 `NovaLiveRegion.speak()`
 
-### Pitfalls（坑位 38~41）
+### Refactor（测试基建）
+
+- 新增 `tests/conftest.py`：**全测试进程共用「一个 QGuiApplication + 一个 QQmlEngine」**，
+  模块收尾只关闭窗口不析构引擎；`test_smoke` / `test_a11y` 的 `qml_engine` / `engine` 夹具改为复用。
+  原因见坑位 42——多引擎「一个销毁、另一个继续建组件」在 Qt 6.12 下会间歇 SIGSEGV
+  （343 项实测 20~60% 概率崩在 `component.create()`，与用例内容无关）；单引擎后连跑 10 次全绿
+
+### Pitfalls（坑位 38~42）
 
 38. `Accessible` 是附加属性，只能在 Item 作用域内调用——单例（QtObject）与 `Connections` 里都不行
 39. `Accessible` **没有** `disabled`/`defaultAction`/`ignoresAutomaticName`；禁用态唯一有效途径是
@@ -58,6 +65,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 40. `Keys.onEndPressed` 不存在（Qt 6.12）——`End` 走 `Keys.onPressed` + `ev.key === Qt.Key_End`
 41. `QTest` 键位测试必须同时强引用 `QQmlComponent`：组件 GC 后其创建出的 Window 立即析构
     （*Internal C++ object already deleted*）
+42. **多个 `QQmlEngine` 各自析构会在 Qt 6.12 引发间歇 SIGSEGV**：A 引擎销毁后 B 引擎再
+    `component.create()` 有 20~60% 概率崩（与用例内容无关，纯引擎数量相关）→ QML 测试全进程
+    共用单引擎（`tests/conftest.py`），模块收尾只 close 窗口、不删引擎；另：Window 活到解释器
+    退出而 `QGuiApplication` 已析构是第二类退出期崩溃，靠 session 收尾统一释放规避
 
 ## [0.15.0] - 2026-11-23
 

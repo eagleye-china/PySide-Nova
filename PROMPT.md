@@ -28,7 +28,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   `docs/A11Y_MATRIX.md`）+ `tests/test_a11y.py` 21 项（QAccessible 运行时矩阵/键盘/焦点环/播报）
 - **诚实边界**：令牌层对比度全覆盖，但组件内部拼的组合色（tinted Chip 等）尚无逐件像素采样；
   屏读器只做接口级验证（沙箱无 NVDA）——两项进 0.16.1
-- **测试 343 项全绿**（322 + 0.16.0 新增 21）
+- **测试 343 项全绿**（322 + 0.16.0 新增 21）；测试基建改为**全进程单 QML 引擎**（坑位 42），
+  连跑 10 次退出码全 0——多引擎析构是 Qt 6.12 的间歇崩溃源
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → 2 ✅(0.6.x) → 3 ✅(0.7.0) → 4 ✅(0.8.0)
   → 二期 A ✅(0.9.0) → 二期 B ✅(0.10.0) → 三期 A ✅(0.11.0) → 三期 B ✅(0.12.0)
   → 四期 A ✅(0.13.0) → 四期 B ✅(0.14.0) → 五期 A ✅(0.15.0)
@@ -176,6 +177,9 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     （`NovaUtils.colors.luminosity` 旧实现即踩此坑，0.16.0 已修 + `_channels255` 归一化）
 41. **`QTest` 键位测试必须同时强引用 `QQmlComponent`**：`component.create()` 出的 Window 所有权属于
     组件，组件被 GC 后窗口立即析构（*Internal C++ object already deleted*）（0.16.0 沉淀）
+42. **多个 `QQmlEngine` 各自析构在 Qt 6.12 会间歇 SIGSEGV**（A 销毁后 B 再建组件 20~60% 概率崩，
+    与用例无关）→ QML 测试全进程共用单引擎（`tests/conftest.py`），模块收尾只 close 窗口不删引擎；
+    Window 活到解释器退出而 app 已析构是第二类退出期崩溃，靠 session 收尾规避（0.16.0 沉淀）
 37. QML `Component.onCompleted` 按**创建完成逆序**执行（声明序最后的先 complete）——
     组内"首个完成注册者成为默认活动元素"通常是声明序最后的成员；依赖顺序的注册表
     语义须按此口径设计并写进测试（0.15.0 沉淀）
@@ -296,7 +300,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 ## 快照指纹
 
 - 快照版本：0.16.0（2026-11-23）
-- 内容指纹：`345745a35af4`
-- git HEAD：4631d3a
-- 生成时间：2026-11-23 13:38（星期一）
+- 内容指纹：`7eca0793e463`
+- git HEAD：648b268
+- 生成时间：2026-11-23 14:21（星期一）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

@@ -29,14 +29,24 @@ ROOT = Path(__file__).resolve().parent.parent
 _ALIVE = []
 
 
+@pytest.fixture(scope="module", autouse=True)
+def _a11y_teardown(engine):
+    """模块收尾：先释放本模块创建的 QML 对象（窗口/组件），再让引擎析构。
+
+    Qt 6.12 下「引擎先于其创建出的 Window 析构」会在解释器退出时 SIGSEGV
+    （0.16.0 实测：322 项时代不退，加入本模块后必现）——必须显式按创建逆序释放。
+    """
+    yield
+    from conftest import close_alive
+    close_alive()
+    _ALIVE.clear()
+    _pump(0.05)
+
+
 @pytest.fixture(scope="module")
-def engine():
-    app = QGuiApplication.instance() or QGuiApplication([])
-    assert app is not None
-    eng = QQmlEngine()
-    init_nova(eng)
-    yield eng
-    del eng
+def engine(qml_engine):
+    """复用 conftest 的会话级引擎（单引擎是全套测试稳定运行的前提）。"""
+    return qml_engine
 
 
 def _make(eng, code, wait=0.0):

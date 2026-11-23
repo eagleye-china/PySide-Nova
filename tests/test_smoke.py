@@ -496,14 +496,24 @@ def test_nova_visible_semantics(qml_engine):
     assert obj.property("vc") is False
 
 
+@pytest.fixture(scope="module", autouse=True)
+def _smoke_teardown(qml_engine):
+    """模块收尾：按创建逆序释放 QML 对象，再让引擎析构。
+
+    0.16.0 实测（Qt 6.12）：模块内创建的 Window 若活到解释器退出、而 QGuiApplication 已析构，
+    进程退出时会 SIGSEGV（间歇）；显式 close + 清引用可稳定退出码。
+    """
+    yield
+    from conftest import close_alive
+    close_alive()
+    _ALIVE.clear()
+    _pump(0.05)
+
+
 @pytest.fixture(scope="module")
-def qml_engine():
-    app = QGuiApplication.instance() or QGuiApplication([])
-    assert app is not None
-    engine = QQmlEngine()
-    init_nova(engine)
-    yield engine
-    del engine
+def qml_engine(qml_engine):
+    """复用 conftest 的会话级引擎（0.16.0：多引擎并存会在 Qt 6.12 间歇崩溃）。"""
+    return qml_engine
 
 
 def test_theme_dark_plugin_api(qml_engine):
