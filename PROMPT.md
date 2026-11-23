@@ -26,6 +26,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   键盘才画环、鼠标不画；`init_nova` 自动装配，业务侧零接入
 - **门禁双通道**：`scripts/check_a11y.py`（静态，未登记类型即 exit 1，`--matrix` 生成
   `docs/A11Y_MATRIX.md`）+ `tests/test_a11y.py` 21 项（QAccessible 运行时矩阵/键盘/焦点环/播报）
+- **诚实边界**：令牌层对比度全覆盖，但组件内部拼的组合色（tinted Chip 等）尚无逐件像素采样；
+  屏读器只做接口级验证（沙箱无 NVDA）——两项进 0.16.1
 - **测试 343 项全绿**（322 + 0.16.0 新增 21）
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → 2 ✅(0.6.x) → 3 ✅(0.7.0) → 4 ✅(0.8.0)
   → 二期 A ✅(0.9.0) → 二期 B ✅(0.10.0) → 三期 A ✅(0.11.0) → 三期 B ✅(0.12.0)
@@ -33,7 +35,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   → **五期 B1 ✅(0.16.0 可访问性)** → 五期 B2（0.16.1 i18n+RTL+性能+HiDPI）待开工
   → 五期 B3（0.16.2 文档站+视觉回归+打包+SBOM）待开工
 - **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / L2 70% / **L6 75%→80%**
-  （a11y 双门禁入工程化）；非功能性轴上「可访问性 0% → 95%」（余 5% = 真机屏读器回归 + Tree 游标）
+  （a11y 双门禁入工程化）；非功能性轴上「可访问性 0% → 90%」（余 10% = 组件内部组合色逐件采样 + 真机屏读器回归 + Tree 游标 + Dialog 焦点陷阱）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
   防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
@@ -294,7 +296,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 ## 快照指纹
 
 - 快照版本：0.16.0（2026-11-23）
-- 内容指纹：`e29eaf577e07`
-- git HEAD：c28b053
-- 生成时间：2026-11-23 13:35（星期一）
+- 内容指纹：`345745a35af4`
+- git HEAD：4631d3a
+- 生成时间：2026-11-23 13:38（星期一）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

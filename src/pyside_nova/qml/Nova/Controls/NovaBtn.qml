@@ -234,7 +234,7 @@ Rectangle {
     NovaFocusRing {
         target: root
         cornerRadius: root.radius
-        offset: 0
+        offset: 2                                   // 外扩 2px：与描边/填充底色拉开层次
         tint: root.variant === "filled" ? NovaTheme.textOnPrimary : NovaTheme.focusRing
     }
 }

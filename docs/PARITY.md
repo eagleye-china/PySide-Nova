@@ -902,7 +902,8 @@ M1/M2 排期在 ROADMAP 跟踪。
 | 门禁 | ⛔ Quasar 无 | `scripts/check_a11y.py`（静态，exit 1 阻断）+ `tests/test_a11y.py` 21 项（运行时 QAccessible 矩阵） |
 
 **已知差距（0.16.1 候选）**：Tree 方向键游标（现仅 Enter/Space 展开）、表格逐单元格语义、
-Dialog 焦点陷阱（Tab 循环）、真机屏读器（NVDA/VoiceOver）手工回归。详见 [A11Y.md](A11Y.md) §7。
+Dialog 焦点陷阱（Tab 循环）、**组件内部组合色逐件像素采样**（tinted Chip 等，令牌门禁只管令牌组合）、
+真机屏读器（NVDA/VoiceOver）手工回归。详见 [A11Y.md](A11Y.md) §7。
 
 > 测试口径：0.16.0 新增 21 项（322 → 343）——数学 2 / 令牌 4（明暗 × 文本·非文本）/
 > 运行时矩阵 2（19 类型 role·name·disabled·focusable）/ 键盘 8 / 焦点环 1 / 播报 1 /
