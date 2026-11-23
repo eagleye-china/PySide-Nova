@@ -19,6 +19,11 @@ import Nova.Design
 Item {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.Graphic
+    Accessible.name: a11yLabel
+
     // ── 槽机制（对标 QIcon 默认槽）────────────────────────────
     default property alias content: overlay.data
 

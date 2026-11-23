@@ -4,6 +4,7 @@
 // 1:1 语义：enter-from 与 leave-to 不对称（slide 进场从一侧推入、离场向另一侧推出），故用两组独立动画
 // reduced-motion：NovaMotion.reducedMotion 为真时时长归零（基线只覆盖 .animated，此处为 Nova 增强）
 // 用法：NovaTransition { name: "slide-right"; show: visibleFlag; NovaCard { ... } }
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Design
 

@@ -8,6 +8,11 @@ import Nova.Services
 Rectangle {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.Graphic
+    Accessible.name: a11yLabel !== "" ? a11yLabel : text
+
     // ── 槽机制（对标 QAvatar 默认槽）──────────────────────────
     // 默认子项挂载到覆盖层，可在头像之上叠加自定义内容
     default property alias content: extraHost.data

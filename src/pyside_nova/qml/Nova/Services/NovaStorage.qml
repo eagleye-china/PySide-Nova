@@ -7,6 +7,7 @@
 //     Quasar 的 localStorage 是浏览器原生实现（无命名空间概念）——命名空间与持久化后端为 **Nova 增强**。
 // 后端：Nova.Runtime.NovaRuntime（Python 侧 QSettings/IniFormat，不依赖 organizationName）；
 //     后端不可用时自动降级为进程内存（persistent=false），API 行为不变，绝不抛错。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 import Nova.Runtime

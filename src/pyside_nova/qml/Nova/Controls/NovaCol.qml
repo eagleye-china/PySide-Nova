@@ -3,6 +3,7 @@
 // NovaCol —— 栅格列（对标 Quasar col-*-n + offset-*）
 // 用法：置于 NovaRow 内；宽度 = 行宽 × cols/12（声明式绑定，随行宽实时变化）；
 //       offset 向右偏移 offset/12 行宽；gutter 为四周内边距
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaInfiniteScroll.qml
 // NovaInfiniteScroll 无限滚动（对标 QInfiniteScroll）
 // 滚动近底 emit load(index, done)：宿主追加内容后 done(false) 继续；done(true) 停止
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

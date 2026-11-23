@@ -2,9 +2,22 @@
 // NovaTh 表头单元格（对标 QTh）：文本/对齐/排序指示（受控模式：sortRequest 只上报）
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Rectangle {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.ColumnHeader
+    Accessible.name: a11yLabel !== "" ? a11yLabel : text
+    Accessible.focusable: sortable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: sortable
+    Keys.onReturnPressed: if (root.sortable) root.sortRequest()
+    Keys.onEnterPressed: if (root.sortable) root.sortRequest()
+    Keys.onSpacePressed: if (root.sortable) root.sortRequest()
 
     default property alias content: inner.data
 
@@ -55,4 +68,7 @@ Rectangle {
         cursorShape: root.sortable ? Qt.PointingHandCursor : Qt.ArrowCursor
         onClicked: if (root.sortable) root.sortRequest()
     }
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

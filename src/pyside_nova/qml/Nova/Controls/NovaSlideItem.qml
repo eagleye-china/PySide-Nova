@@ -6,9 +6,25 @@
 // 宿主经 slideLeft()/slideRight()/reset() 命令式驱动，侧板点击后 reset()
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Grouping
+    Accessible.name: a11yLabel
+    Accessible.focusable: true
+    Accessible.focused: activeFocus
+    activeFocusOnTab: true
+    // 键盘路径：左右滑出动作面板，Esc 归位（指针滑动的等价路径）
+    Keys.onPressed: function(ev) {
+        if (ev.key === Qt.Key_Left) { root.slideLeft(); ev.accepted = true }
+        else if (ev.key === Qt.Key_Right) { root.slideRight(); ev.accepted = true }
+        else if (ev.key === Qt.Key_Escape) { root.reset(); ev.accepted = true }
+    }
 
     // ── 槽 ────────────────────────────────────────────────────
     default property alias content: front.data                  // 正面内容
@@ -141,4 +157,8 @@ Item {
     function reset() { _closeSide() }
 
     Component.onCompleted: _rebuildPanels()
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

@@ -6,6 +6,7 @@
 //     默认 OK/Cancel 双按钮、focus=ok、transition scale、position standard；
 //     关闭原因 ok / cancel / backdrop / escape / api 属基线 2.28 真 parity（与 Notify 不同）。
 // 宿主：所有对话框挂到 NovaOverlayHost（zTop 层），与 NovaNotify（zNotify）互不打架。
+// a11y: decorative —— QtObject 单例（非视觉节点），语义经 NovaA11y.notice 播报
 pragma Singleton
 import QtQuick
 import Nova.Services

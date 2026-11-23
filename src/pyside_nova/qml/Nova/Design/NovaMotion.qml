@@ -6,6 +6,7 @@
 //   .q-animate--scale: q-scale .15s cubic-bezier(.25,.8,.25,1)；.q-animate--fade: q-fade .2s
 //   --animate-duration: .3s / --animate-delay: .3s / --animate-repeat: 1
 // Nova 增强：speedFactor 全局调速、reducedMotion 全链短路（基线只覆盖 .animated）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 

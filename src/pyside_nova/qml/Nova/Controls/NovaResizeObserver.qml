@@ -1,5 +1,6 @@
 // src/pyside_nova/qml/Nova/Controls/NovaResizeObserver.qml
 // NovaResizeObserver 尺寸观察：target（默认声明父项）尺寸变化 → debounce → resize(w,h)（对标 QResizeObserver）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 
 Item {   // 0 尺寸隐形根（QtObject 无默认属性，不能挂 Timer/Connections）

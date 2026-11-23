@@ -8,6 +8,11 @@ import Nova.Services
 Item {
     id: entry
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.ListItem
+    Accessible.name: a11yLabel !== "" ? a11yLabel : title
+
     // ── 默认槽：正文内容（对标 default slot） ────────────────
     default property alias content: bodyHost.data
 

@@ -6,6 +6,11 @@ import Nova.Services
 Rectangle {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.Table
+    Accessible.name: a11yLabel !== "" ? a11yLabel : title
+
     property string title: ""
     property var columns: []                // ["列A", "列B", ...]
     property var rows: []                   // [["a1","b1"], ["a2","b2"], ...]

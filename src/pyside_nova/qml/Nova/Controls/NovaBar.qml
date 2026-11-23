@@ -1,5 +1,6 @@
 // src/pyside_nova/qml/Nova/Controls/NovaBar.qml
 // NovaBar 顶栏：default 槽、dense、tint 默认主色（对标 QBar —— 默认背景 $primary、文字反转）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

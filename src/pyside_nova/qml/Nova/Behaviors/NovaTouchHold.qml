@@ -18,6 +18,7 @@
 //     修饰：capture / mouse / mouseCapture
 //
 // 语义要点：位移超过灵敏度即取消（防止"想拖却变成长按"）；到时只触发一次，松手不会重复。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 
 Item {

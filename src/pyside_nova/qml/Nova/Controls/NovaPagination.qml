@@ -3,9 +3,26 @@
 // 受控模式（坑位 22）：不自写 page —— pageRequested(next) 上报，宿主写回
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Rectangle {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Grouping
+    Accessible.name: a11yLabel            // 分页器无文案属性（label 属内部导航钮），可读名走 a11yLabel
+    Accessible.focusable: true
+    Accessible.focused: activeFocus
+    activeFocusOnTab: true
+    Keys.onRightPressed: root.nextPage()
+    Keys.onLeftPressed: root.prevPage()
+    // Home/End 走通用 onPressed：Qt 6.12 无 Keys.onEndPressed 专用信号
+    Keys.onPressed: function(ev) {
+        if (ev.key === Qt.Key_Home) { root.requestPage(1); ev.accepted = true }
+        else if (ev.key === Qt.Key_End) { root.requestPage(root.pages); ev.accepted = true }
+    }
 
     property int page: 1                    // 当前页（宿主写回）
     property int pages: 1                   // 总页数
@@ -118,4 +135,7 @@ Rectangle {
         NavBtn { visible: root.arrows; label: "›"; tag: -1 }
         NavBtn { visible: root.boundaryLinks; nav: false; label: "»"; tag: root.pages }
     }
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

@@ -2,6 +2,7 @@
 // NovaPopupProxy 弹层路由：窗口宽/高较小者 < breakpoint → Dialog 形态（全屏卡片），否则 Menu 形态（对标 QPopupProxy）
 // 内容槽共享：default 槽内容按当前形态 reparent 到对应形态容器；关闭后归还
 // 受控契约：modelValue（坑位 22）；target 触发语义与 NovaMenu 一致
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Controls
 import Nova.Services

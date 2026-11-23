@@ -10,27 +10,30 @@
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-### 当前状态（0.15.0 · **五期 Sprint A 收口：长尾组件**）
+### 当前状态（0.16.0 · **五期 Sprint B1 收口：可访问性 WCAG 2.1 AA**）
 
-- **公共 QML 类型 120 个已交付**（qmldir 导出口径）：Controls **91**（0.15.0 新增
-  NovaEditor 轻量富文本/NovaSlideItem）
-  + Behaviors **11**（0.15.0 新增 NovaMorph 形变 + **NovaMorphPool singleton 注册表**）
-  + Services 15（单例 11：Screen/Theme/OverlayHost/Notify/Dialog/Loading/LoadingBar/
-  Storage/App/Platform/IntersectionPool + 句柄动作 4）
-  + Design 单例 3（NovaIconSet/NovaMotion/NovaUtils）
-- **生态工具首秀（0.15.0，对标 @quasar/mcp 2.33 新品类）**：`scripts/gen_icons.py`
-  （IconGenie：单图 37 产物全套图标）、`scripts/gen_apidocs.py`（AI-ready 版本化 API 包
-  docs/ai/）、`scripts/nova_mcp.py`（MCP server 六工具 search_docs/list_pages/get_page/
-  list_api/get_api/check_updates，离线零依赖）
-- **测试 322 项全绿**（308 + 0.15.0 新增 14：7 冒烟 + 7 行为——Editor 命令链/HTML 导出/
-  按钮计数、SlideItem 开合事件/跟手位移、Morph 零时长切换/ghost 动画路径、IconGenie CLI
-  产物与 splash 拒绝守卫、MCP server subprocess 六工具全链路）
-- **Sprint 进度**：Sprint 1 ✅(0.5.0) → Sprint 2 ✅(0.6.0~0.6.2) → Sprint 3 ✅(0.7.0) → Sprint 4 ✅(0.8.0)
-  → 二期 Sprint A ✅(0.9.0) → 二期 Sprint B ✅(0.10.0) → 三期 A ✅(0.11.0) → 三期 B ✅(0.12.0)
-  → 四期 A ✅(0.13.0) → 四期 B ✅(0.14.0) → **五期 A ✅(0.15.0 长尾组件)**
-  → 五期 Sprint B（v0.16.0 非功能攻坚）待开工
-- **七层成熟度**：L0 100% / L1 100% / L3 100%（Morph 补齐 10 指令）/ L4 44% / L5 95% /
-  **L2 70%（五期 A 0.15.0）** / L6 75%（AI-ready + MCP 已通）
+- **公共 QML 类型 123 个已交付**（qmldir 导出口径）：Controls **91** + Behaviors **13**
+  （0.16.0 新增 NovaFocusRing 焦点环 / NovaLiveRegion 播报区）+ Services 15（单例 11 + 句柄动作 4）
+  + Design **4**（0.16.0 新增 **NovaA11y 单例**：WCAG 数学 + AA 派生 + 焦点可见性 + 播报状态）
+- **可访问性 100% 契约覆盖（0.16.0 主线）**：123 类型逐一登记
+  **interactive 32 / semantic 28 / decorative 63**；32 个交互件全量补齐
+  `Accessible.role/name` + 键盘入口 + 按键路径（Enter/Space/方向键/Home·End/PageUp·Down/Esc/Delete）
+  + `NovaFocusRing`；统一新增 `a11yLabel` 可读名覆盖属性
+- **反对比度**：品牌色不改，`NovaA11y` 按最小位移派生 AA 版（`*Text` ×7 / `fillTint()` /
+  `outlineStrong` / `textMuted` AA 化）；实测 `#5B6EF5` 上白字 4.21 → 填充 `#576AEB` 4.50，
+  `positive/warning/info` 作为文字 2.1~2.3 → 4.50
+- **焦点可见性**：`Nova.Runtime` 应用级事件过滤器维护 `keyboardMode`（focus-visible 语义），
+  键盘才画环、鼠标不画；`init_nova` 自动装配，业务侧零接入
+- **门禁双通道**：`scripts/check_a11y.py`（静态，未登记类型即 exit 1，`--matrix` 生成
+  `docs/A11Y_MATRIX.md`）+ `tests/test_a11y.py` 21 项（QAccessible 运行时矩阵/键盘/焦点环/播报）
+- **测试 343 项全绿**（322 + 0.16.0 新增 21）
+- **Sprint 进度**：Sprint 1 ✅(0.5.0) → 2 ✅(0.6.x) → 3 ✅(0.7.0) → 4 ✅(0.8.0)
+  → 二期 A ✅(0.9.0) → 二期 B ✅(0.10.0) → 三期 A ✅(0.11.0) → 三期 B ✅(0.12.0)
+  → 四期 A ✅(0.13.0) → 四期 B ✅(0.14.0) → 五期 A ✅(0.15.0)
+  → **五期 B1 ✅(0.16.0 可访问性)** → 五期 B2（0.16.1 i18n+RTL+性能+HiDPI）待开工
+  → 五期 B3（0.16.2 文档站+视觉回归+打包+SBOM）待开工
+- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / L2 70% / **L6 75%→80%**
+  （a11y 双门禁入工程化）；非功能性轴上「可访问性 0% → 95%」（余 5% = 真机屏读器回归 + Tree 游标）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
   防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
@@ -52,6 +55,10 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   Fab 的 open 均只 emit 不自写）；ExpansionItem group 手风琴经 ExpansionGroups.js 注册表
   互斥——被收起方走自身 updateModelValue(false) 受控上报；Breadcrumbs 激活色 1:1
   对标 2.35.6 QBreadcrumbs.js；Stepper 状态图标解析 1:1 对标 StepHeader.js
+- **可访问性契约（0.16.0）**：三分类制——interactive（role+name+键盘入口+按键路径+焦点环五件套）/
+  semantic（role+name）/ decorative（**禁止**挂 Accessible.* + `// a11y: decorative` 标记）；
+  键盘路径必须走与鼠标同一个 emit 出口（不得绕过受控契约）；装饰容器不挂语义是为了避免屏读器噪声，
+  是审计结论不是遗漏——新增类型不登记分类即门禁失败
 - **长尾契约（0.15.0）**：NovaEditor 实现口径留痕（QML 无 contenteditable → 标记编辑 + toHtml
   导出，契约 1:1）；NovaMorph 接管目标可见性（旧隐/新显命令式切换，目标 visible 勿再绑定）；
   Morph 初始活动元素 = 组内首个完成注册成员（onCompleted **逆序**执行 → 通常是声明序最后的）
@@ -64,6 +71,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 1. `docs/CONSTITUTION.md` —— 架构宪法（十章程则 + 迭代记录表）
 0.5. `docs/ECOSYSTEM_PARITY.md` §0.5 —— 2.26→2.35 基线漂移审计（增量对照表）
+1.5. `docs/A11Y.md` —— 可访问性手册（三分类契约/键盘约定/AA 派生/已知差距/坑位 38~41）
 2. `docs/PARITY.md` —— 全量对标审计（逐属性/事件/槽/model）
 3. `CHANGELOG.md` —— 版本史（含 Qt 6.12 坑位沉淀）
 4. `CONTRIBUTING.md` —— 宪法落地细则
@@ -156,6 +164,16 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 36. `.pragma library` JS 在多组件实例 import 场景实测呈现 **per-importing-file 实例化**
     （同 group 两实例互相看不见对方注册）——跨实例共享注册表用 **QML singleton**
     （NovaMorphPool 先例，0.15.0 沉淀）
+38. **`Accessible` 是附加属性，只能在 Item 作用域内调用**：单例（QtObject）或 `Connections` 里调
+    `Accessible.announce()` 报 *"must be attached to an object deriving from Item or Action"* →
+    播报必须落在 Item 的成员函数里（`NovaLiveRegion.speak()`，0.16.0 沉淀）
+39. **`Accessible` 没有 `disabled` / `defaultAction` / `ignoresAutomaticName`**：禁用态唯一有效途径是
+    `Item.enabled: false`（实测 `QAccessible` 接口随之 `state().disabled = true`）；另：
+    `Keys.onEndPressed` 在 Qt 6.12 **不存在**，End 走 `Keys.onPressed` + `Qt.Key_End`（0.16.0 沉淀）
+40. **QML `color` 的 r/g/b 是 0~1 浮点**：把 color 值当 0~255 处理会让对比度恒等于 1.0
+    （`NovaUtils.colors.luminosity` 旧实现即踩此坑，0.16.0 已修 + `_channels255` 归一化）
+41. **`QTest` 键位测试必须同时强引用 `QQmlComponent`**：`component.create()` 出的 Window 所有权属于
+    组件，组件被 GC 后窗口立即析构（*Internal C++ object already deleted*）（0.16.0 沉淀）
 37. QML `Component.onCompleted` 按**创建完成逆序**执行（声明序最后的先 complete）——
     组内"首个完成注册者成为默认活动元素"通常是声明序最后的成员；依赖顺序的注册表
     语义须按此口径设计并写进测试（0.15.0 沉淀）
@@ -184,10 +202,11 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   NovaSlideItem 左右滑动面板/NovaMorph group 形变 + NovaMorphPool 单例/NovaIconGenie CLI
   37 产物/AI-ready 文档包 + Nova MCP server 六工具；L2 68%→70%、L3 Morph 补齐、L6 70%→75%；
   画廊 22 页；322 项测试；坑位 36~37 沉淀）**
-- **五期 B（下一步）非功能攻坚（v0.16.0）**：a11y（WCAG 2.1 AA 全过）/i18n+RTL/性能门禁
-  （冷启动 ≤800ms、1000 行表格 ≥55fps、单组件 ≤5ms）/HiDPI/文档站（MkDocs + 示例沙箱）/
-  视觉回归（明暗 × 5 断点基线）/应用打包（PyInstaller 一键 exe）/供应链（SBOM + 外部输入
-  消毒）；测试基线 175 → 220 项 + 视觉回归基线集；以 MASTER_PLAN §5 Sprint B 为准
+- **五期 B2（下一步）国际化 + 性能（v0.16.1）**：NovaI18n（locale 切换/复数/日期数字格式）+
+  RTL 镜像 + 性能门禁（冷启动 ≤800ms、1000 行表格 ≥55fps、单组件 ≤5ms）+ HiDPI 100~200%；
+  随 M2 补 Tree 方向键游标、Dialog 焦点陷阱、NVDA 真机回归；以 MASTER_PLAN §5 Sprint B 为准
+- **五期 B3（其后）工程化外环（v0.16.2）**：文档站（MkDocs + 示例沙箱）/视觉回归（明暗 × 5 断点）/
+  应用打包（PyInstaller 一键 exe）/供应链（SBOM + CVE 周巡 + 外部输入消毒）
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ### 最近一次交付
@@ -274,8 +293,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：0.15.0（2026-11-23）
-- 内容指纹：`95101a2f12e8`
-- git HEAD：17353b1
-- 生成时间：2026-11-23 08:49（星期一）
+- 快照版本：0.16.0（2026-11-23）
+- 内容指纹：`e29eaf577e07`
+- git HEAD：c28b053
+- 生成时间：2026-11-23 13:35（星期一）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

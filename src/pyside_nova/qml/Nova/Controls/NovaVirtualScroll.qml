@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaVirtualScroll.qml
 // NovaVirtualScroll 虚拟滚动容器（对标 QVirtualScroll）
 // items 数组 + delegate 组件 → 内部 ListView 真虚拟化（仅渲染可视窗口 + reuseItems）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import QtQuick.Controls.Basic
 import Nova.Services

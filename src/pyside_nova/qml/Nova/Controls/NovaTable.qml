@@ -9,9 +9,51 @@
 import QtQuick
 import Nova.Controls
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Rectangle {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    property int _a11yRow: -1                // 键盘游标（-1 = 未定位）
+    Accessible.role: Accessible.Table
+    Accessible.name: a11yLabel
+    Accessible.focusable: true
+    Accessible.focused: activeFocus
+    activeFocusOnTab: true
+    // 键盘路径：上下移动行游标、Home/End 首尾、Enter 行点击、Space 切换勾选
+    Keys.onPressed: function(ev) {
+        var n = root.rows ? root.rows.length : 0
+        if (n === 0) return
+        if (ev.key === Qt.Key_Down) root._a11yMove(1, n)
+        else if (ev.key === Qt.Key_Up) root._a11yMove(-1, n)
+        else if (ev.key === Qt.Key_Home) root._a11ySet(0)
+        else if (ev.key === Qt.Key_End) root._a11ySet(n - 1)
+        else if (ev.key === Qt.Key_Return || ev.key === Qt.Key_Enter) root._a11yActivate()
+        else if (ev.key === Qt.Key_Space) root._a11yToggle()
+        else return
+        ev.accepted = true
+    }
+    function _a11ySet(i) {
+        var n = root.rows ? root.rows.length : 0
+        if (n === 0) return
+        root._a11yRow = Math.max(0, Math.min(n - 1, i))
+        root.scrollTo(root._a11yRow)
+    }
+    function _a11yMove(dir, n) {
+        if (root._a11yRow < 0) { root._a11ySet(dir > 0 ? 0 : n - 1); return }
+        root._a11ySet(root._a11yRow + dir)
+    }
+    function _a11yActivate() {
+        if (root._a11yRow >= 0 && root._a11yRow < root.rows.length)
+            root.rowClicked(root.rows[root._a11yRow], root._a11yRow)
+    }
+    function _a11yToggle() {
+        if (root._a11yRow >= 0 && root._a11yRow < root.rows.length)
+            root.toggleRowSelection(root.rows[root._a11yRow])
+    }
 
     // ── 数据 ────────────────────────────────────────────────
     property var columns: []               // [{name,label,field,align,sortable,cellStyle}] 或字符串
@@ -596,4 +638,8 @@ Rectangle {
             }
         }
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

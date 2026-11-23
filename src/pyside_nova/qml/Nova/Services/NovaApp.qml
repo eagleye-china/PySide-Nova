@@ -9,6 +9,7 @@
 //     document.title → 窗口 title；page URL / meta 标签 ⛔ 不适用；
 //     全屏/最大化/最小化统一走 Window.visibility（QML 无 "浏览器全屏" 概念）。
 // 窗口来源：NovaScreen.source（与 NovaOverlayHost 同一约定，单窗口跟踪）。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 import QtQuick.Window

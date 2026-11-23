@@ -16,6 +16,7 @@
 //
 // root 解析顺序：显式 root → 最近可滚动祖先（Flickable/ListView/GridView，有 contentY）→ 窗口视口
 // 驱动：NovaIntersectionPool 帧轮询（与 Intersection/ScrollFire 共用唯一驱动源，避免每个行为各自开定时器）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

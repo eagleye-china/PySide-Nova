@@ -7,6 +7,11 @@ import Nova.Services
 Item {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.ToolTip
+    Accessible.name: a11yLabel !== "" ? a11yLabel : text
+
     default property alias content: bubbleContent.data
 
     // ── 内容（default 槽优先，否则用 text 便捷属性） ────────────

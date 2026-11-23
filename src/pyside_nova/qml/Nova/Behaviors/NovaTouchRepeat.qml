@@ -19,6 +19,7 @@
 //
 // QML 映射：arg 字符串 → delays 属性（"0:600:300" 或 "400" 单值均支持）；
 //           键盘修饰 → keys（Qt.Key 值数组），keyRepeat: true 时接管键盘。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 
 Item {

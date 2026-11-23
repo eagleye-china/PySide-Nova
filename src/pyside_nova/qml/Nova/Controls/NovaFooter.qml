@@ -2,6 +2,7 @@
 // NovaFooter 底部应用栏：NovaLayout 四象限之底栏，tint 基调色 + 默认槽，高度隐式 48（对标 QFooter）
 // NovaFooter —— 底部应用栏（对标 QFooter）
 // 用法：作为 NovaLayout 直接子项声明即自动安置到底部；默认底色 primary
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

@@ -7,9 +7,25 @@
 import QtQuick
 import "ExpansionGroups.js" as ExpGroups
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Rectangle {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Button
+    Accessible.name: a11yLabel !== "" ? a11yLabel : label
+    Accessible.checkable: true
+    Accessible.checked: expanded
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: !disable
+    Keys.onReturnPressed: root.requestToggle()
+    Keys.onEnterPressed: root.requestToggle()
+    Keys.onSpacePressed: root.requestToggle()
+    Keys.onEscapePressed: root.hide()
 
     // ── 默认槽：展开内容 ────────────────────────────────────
     default property alias content: body.data
@@ -239,4 +255,8 @@ Rectangle {
         visible: root.popup && root.expanded
         radius: NovaTheme.radiusS
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

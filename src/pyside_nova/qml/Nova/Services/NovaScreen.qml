@@ -3,6 +3,7 @@
 // NovaScreen —— 屏幕断点单例（对标 Quasar Screen 插件）
 // 用法：在 ApplicationWindow 中绑定一次源窗口：NovaScreen.source: window
 // 断点阈值（对标 Quasar 默认值）：xs < 600 · sm < 1024 · md < 1440 · lg < 1920 · xl >= 1920
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 

@@ -5,9 +5,19 @@
 import QtQuick
 import QtQuick.Controls
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 NovaField {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.EditableText
+    Accessible.name: a11yLabel !== "" ? a11yLabel : (label !== "" ? label : placeholder)
+    Accessible.readOnly: readonly
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
 
     // ── 对标 QInput 8 props ───────────────────────────────────
     property var modelValue: ""              // 对标 modelValue（string/number）
@@ -181,4 +191,8 @@ NovaField {
         if (_isArea) area.forceActiveFocus()
         else input.forceActiveFocus()
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

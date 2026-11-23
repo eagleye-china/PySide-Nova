@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaSkeleton.qml
 // NovaSkeleton 骨架屏：type（rect/text/circle/square/badge/tag）× animation（wave/bounce/fade/none，对标 QSkeleton）
 // wave = 渐变横扫；bounce = 透明度脉冲；fade = 交替呼吸
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

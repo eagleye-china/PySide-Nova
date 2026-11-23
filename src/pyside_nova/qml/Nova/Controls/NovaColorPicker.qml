@@ -4,9 +4,36 @@
 // 契约统一：hint / error / readonly / disable
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.ColorChooser
+    Accessible.name: a11yLabel !== "" ? a11yLabel : hint
+    Accessible.readOnly: readonly
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: !disable
+    // 键盘路径：左右改色相、上下改明度、Shift+上下改饱和度
+    Keys.onPressed: function(ev) {
+        if (root.disable || root.readonly) return
+        var step = ev.modifiers & Qt.ShiftModifier ? 1 : 5
+        if (ev.key === Qt.Key_Left) { root.setHsv((root._hue + 359) % 360, root._sat, root._val); ev.accepted = true }
+        else if (ev.key === Qt.Key_Right) { root.setHsv((root._hue + 1) % 360, root._sat, root._val); ev.accepted = true }
+        else if (ev.key === Qt.Key_Up) {
+            if (ev.modifiers & Qt.ShiftModifier) root.setHsv(root._hue, Math.min(100, root._sat + step), root._val)
+            else root.setHsv(root._hue, root._sat, Math.min(100, root._val + step))
+            ev.accepted = true
+        } else if (ev.key === Qt.Key_Down) {
+            if (ev.modifiers & Qt.ShiftModifier) root.setHsv(root._hue, Math.max(0, root._sat - step), root._val)
+            else root.setHsv(root._hue, root._sat, Math.max(0, root._val - step))
+            ev.accepted = true
+        }
+    }
 
     // ── 值（对标 QColor） ──────────────────────────────────────
     property var modelValue: null            // "#RRGGBB"；未选= null（基线语义：无默认值不产出）
@@ -332,4 +359,8 @@ Item {
         color: NovaTheme.negative
         font.pixelSize: 11
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

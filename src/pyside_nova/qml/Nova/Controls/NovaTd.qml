@@ -1,5 +1,6 @@
 // src/pyside_nova/qml/Nova/Controls/NovaTd.qml
 // NovaTd 单元格（对标 QTd）：文本/对齐/自定义内容
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

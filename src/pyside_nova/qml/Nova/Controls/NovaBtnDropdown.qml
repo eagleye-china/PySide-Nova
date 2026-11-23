@@ -4,9 +4,27 @@
 import QtQuick
 import Nova.Controls
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.ButtonDropDown
+    Accessible.name: a11yLabel !== "" ? a11yLabel : label
+    Accessible.checkable: true
+    Accessible.checked: root._open
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: !disable
+    enabled: !disable
+    Keys.onReturnPressed: root.toggle()
+    Keys.onEnterPressed: root.toggle()
+    Keys.onSpacePressed: root.toggle()
+    Keys.onDownPressed: root.show()
+    Keys.onEscapePressed: root.hide()
 
     default property alias content: menuHost.data
 
@@ -105,4 +123,8 @@ Item {
     function show() { if (!_open) updateModelValue(true) }
     function hide() { if (_open) updateModelValue(false) }
     function toggle() { _open ? hide() : show() }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

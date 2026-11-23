@@ -8,6 +8,11 @@ import Nova.Services
 Rectangle {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.ProgressBar
+    Accessible.name: a11yLabel !== "" ? a11yLabel : label
+
     // ── 内容 ──────────────────────────────────────────────────
     default property alias content: slotBox.data
     property string label: ""                    // default 槽非空时被覆盖（对标 label prop）

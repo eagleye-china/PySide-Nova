@@ -5,6 +5,7 @@
 //     1) 声明式：actions: [ NovaNotifyAction { label: "撤销"; onTriggered: doUndo() } ]
 //     2) JS 配置：NovaNotify.show({ actions: [{ label: "撤销", handler: function() { doUndo() } }] })
 // 点击顺序契约（宪法语义）：triggered() / handler 先行，noDismiss 为假再走关闭流程。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 
 QtObject {

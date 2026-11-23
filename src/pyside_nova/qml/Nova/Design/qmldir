@@ -1,6 +1,7 @@
 # src/pyside_nova/qml/Nova/Design/qmldir
-# Nova.Design 模块导出清单（公共 API 面）：L0 设计语言层（图标集/图标 provider 注册表/动效令牌/工具层）
+# Nova.Design 模块导出清单（公共 API 面）：L0 设计语言层（图标集/图标 provider 注册表/动效令牌/工具层/可访问性基座）
 module Nova.Design
 singleton NovaIconSet 1.0 NovaIconSet.qml
 singleton NovaMotion 1.0 NovaMotion.qml
 singleton NovaUtils 1.0 NovaUtils.qml
+singleton NovaA11y 1.0 NovaA11y.qml

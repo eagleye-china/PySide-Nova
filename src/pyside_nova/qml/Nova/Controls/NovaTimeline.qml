@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaTimeline.qml
 // NovaTimeline 时间轴（对标 QTimeline）：tint 轴色 / side 左右停靠 / dense·comfortable·loose
 // 三布局；default 槽为 NovaTimelineEntry 序列，条目经 _timelineRef 反向取宿主布局参数
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Controls
 import Nova.Services

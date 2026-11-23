@@ -5,9 +5,28 @@
 import QtQuick
 import Nova.Controls
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Grouping
+    Accessible.name: a11yLabel
+    Accessible.focusable: true
+    Accessible.focused: activeFocus
+    activeFocusOnTab: true
+    // 键盘路径：方向键翻页（左右 / 垂直时上下），Home/End 跳首尾
+    Keys.onPressed: function(ev) {
+        var fwd = root.vertical ? Qt.Key_Down : Qt.Key_Right
+        var back = root.vertical ? Qt.Key_Up : Qt.Key_Left
+        if (ev.key === fwd) { root.next(); ev.accepted = true }
+        else if (ev.key === back) { root.previous(); ev.accepted = true }
+        else if (ev.key === Qt.Key_Home) { root.goTo(0, root.animated); ev.accepted = true }
+        else if (ev.key === Qt.Key_End) { root.goTo(root._collectSlides().length - 1, root.animated); ev.accepted = true }
+    }
 
     // ── 默认槽：轮播页集合（对标 default slot） ──────────────
     default property alias content: slideHost.data
@@ -348,4 +367,8 @@ Item {
             navRow.x = (width - navRow.width) / 2; navRow.y = height - navRow.height - m
         }
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

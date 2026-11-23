@@ -6,9 +6,31 @@
 // 在 NovaList.accordion 容器中自动收起兄弟
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Rectangle {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    readonly property bool _a11yActionable: clickable || expandable
+    Accessible.role: _a11yActionable ? Accessible.Button : Accessible.ListItem
+    Accessible.name: a11yLabel !== "" ? a11yLabel : label
+    Accessible.checkable: expandable
+    Accessible.checked: expandable && expanded
+    Accessible.focusable: _a11yActionable && !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: _a11yActionable && !disable
+    enabled: !disable
+    Keys.onReturnPressed: root._a11yActivate()
+    Keys.onEnterPressed: root._a11yActivate()
+    Keys.onSpacePressed: root._a11yActivate()
+    function _a11yActivate() {
+        if (root.disable) return
+        if (expandable) root.requestExpand()
+        else if (clickable) root.requestClick()
+    }
 
     default property alias content: mid.data
     // 坑位 25 同款：left 为 Item FINAL 属性不可覆盖 → leading
@@ -147,4 +169,7 @@ Rectangle {
         cursorShape: (clickable || expandable) ? Qt.PointingHandCursor : Qt.ArrowCursor
         onClicked: expandable ? requestExpand() : requestClick()
     }
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

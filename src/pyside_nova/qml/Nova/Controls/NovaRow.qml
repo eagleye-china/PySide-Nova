@@ -4,6 +4,7 @@
 // 用法：子项用 NovaCol（cols 1~12 占栅格数）；普通子项按自身 width 排布。
 //       justify: start|center|end|between；align: top|center|bottom；wrap 换行。
 //       宽度变化 / 子项增删 / NovaCol.cols 变化时自动重排
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

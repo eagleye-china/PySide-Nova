@@ -5,6 +5,7 @@
 //     hide()  = 释放本句柄持有的 **一份** 引用；同组还有其他持有者时遮罩继续显示（并发不互踩）
 //     update(props) → bool = 更新同组视觉配置（多持有者时后到者生效）
 //     valid / count = 句柄是否仍持有引用 / 该组当前引用计数
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 
 QtObject {

@@ -2,8 +2,10 @@
 // NovaTheme 设计令牌单例：三级令牌体系、明暗双主题一键切换、运行时品牌换肤、0~5 级阴影（对标 Quasar brand + Dark 插件）
 // NovaTheme —— 全局设计令牌单例（对标 Quasar brand 变量 + Dark 插件）
 // 三级令牌体系的第一层：品牌色 / 语义色 / 表面色 / 几何 / 字阶 / 阴影
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
+import Nova.Design
 
 QtObject {
     id: theme
@@ -39,7 +41,42 @@ QtObject {
     readonly property color surfaceAlt: isDark ? "#25252C" : "#F7F8FA"
     readonly property color outline: isDark ? "#38383F" : "#E3E5EB"
     readonly property color textColor: isDark ? "#E9EAEF" : "#1F2128"
-    readonly property color textMuted: isDark ? "#9DA0AB" : "#6E7380"
+    // 次要文本：AA 兜底派生（0.16.0）——原 #6E7380 在 page 上仅 4.31:1，压到 4.50 后肉眼无差
+    readonly property color textMuted: NovaA11y.aaText(isDark ? "#9DA0AB" : "#6E7380", a11yBase)
+
+    // ══════════════════════════════════════════════════════════
+    // 可访问性令牌（WCAG 2.1 AA · 0.16.0 新颁）
+    // ══════════════════════════════════════════════════════════
+    // a11yBase：三种表面中「对比度最不利」的一块，所有 AA 派生都以它为基准，
+    // 保证同一前景色在 page/surface/surfaceAlt 上都过 4.5:1（明暗各取最严者）
+    readonly property color a11yBase: {
+        var cands = [page, surface, surfaceAlt]
+        var worst = page, low = Number.MAX_VALUE
+        for (var i = 0; i < cands.length; ++i) {
+            var r = NovaA11y.contrast(textColor, cands[i])
+            if (r < low) { low = r; worst = cands[i] }
+        }
+        return worst
+    }
+    // 焦点环（1.4.11 非文本对比 ≥3:1）：外扩 2px 绘制，间隙露出表面色，填充态按钮上也可见
+    readonly property color focusRing: isDark ? Qt.lighter(primary, 1.25) : primary
+    readonly property int focusRingWidth: 2
+    readonly property int focusRingOffset: 2
+    // 控件边界（1.4.11）：输入框/可交互容器轮廓，AA 兜底到 3:1；装饰性分隔线仍用 outline
+    readonly property color outlineStrong: NovaA11y.aaText(outline, a11yBase, NovaA11y.uiComponentRatio)
+
+    // 语义色作为「文字/图标」时的 AA 兜底版（品牌本色仍用于填充面与大色块）
+    readonly property color primaryText: NovaA11y.aaText(primary, a11yBase)
+    readonly property color secondaryText: NovaA11y.aaText(secondary, a11yBase)
+    readonly property color accentText: NovaA11y.aaText(accent, a11yBase)
+    readonly property color positiveText: NovaA11y.aaText(positive, a11yBase)
+    readonly property color negativeText: NovaA11y.aaText(negative, a11yBase)
+    readonly property color warningText: NovaA11y.aaText(warning, a11yBase)
+    readonly property color infoText: NovaA11y.aaText(info, a11yBase)
+    // 填充面兜底：底色上压 textOnPrimary 时把底色压到 4.5:1（保品牌色相，不翻黑字）
+    function fillTint(color) {
+        return NovaA11y.aaFill(color, textOnPrimary)
+    }
 
     // 水波纹默认色（明暗自适应）
     readonly property color ripple: isDark ? Qt.rgba(1, 1, 1, 0.22)

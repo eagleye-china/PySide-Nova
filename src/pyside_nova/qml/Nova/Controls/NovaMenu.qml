@@ -8,9 +8,19 @@
 import QtQuick
 import Nova.Controls
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.PopupMenu
+    Accessible.name: a11yLabel
+    Accessible.focusable: true
+    Accessible.focused: activeFocus
+    activeFocusOnTab: true
 
     default property alias content: contentHost.data
 
@@ -226,4 +236,8 @@ Item {
             }
         }
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

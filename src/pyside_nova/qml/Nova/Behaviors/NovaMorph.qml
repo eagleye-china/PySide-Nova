@@ -4,6 +4,7 @@
 // 形变至新元素几何、新元素显示（卡片展开为详情）
 // 契约：morph 接管目标可见性（旧隐/新显，命令式切换），目标 visible 勿再绑定；
 // active 为快照语义（morph 生效即 true；注册表见 NovaMorphPool 单例）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

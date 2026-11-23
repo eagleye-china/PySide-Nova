@@ -4,8 +4,11 @@
 // variant: filled(默认) | outlined | flat；size: sm | md | lg；round 图形按钮
 // 内置：按压水波纹 / hover 反馈 / loading 旋转 / disable / 键盘 Enter 触发
 // tint 为基调色（对应 QBtn 的 color 属性；QML 中 color 与基类属性冲突故命名 tint）
+// 0.16.0 a11y：Accessible.Button + 可读名（a11yLabel → text）+ 焦点环；填充态底色经 aaFill 压到 4.5:1
 import QtQuick
 import Nova.Services
+import Nova.Design
+import Nova.Behaviors
 
 Rectangle {
     id: root
@@ -30,6 +33,16 @@ Rectangle {
     property bool disable: false
     property bool loading: false
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）──────────────────────────
+    // a11yLabel 是可读名覆盖（aria-label 等价）：图形按钮必填，文字按钮留空自动取 text
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Button
+    Accessible.name: a11yLabel !== "" ? a11yLabel : text
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    Accessible.pressed: isPressed
+    Accessible.checkable: false
+
     // ── 事件 ──
     signal clicked()
     signal pressed()
@@ -48,10 +61,14 @@ Rectangle {
                             : (dense ? 30 : 38)
     readonly property int _fs: size === "sm" ? 12 : (size === "lg" ? 16 : 14)
     readonly property real _padX: round ? 0 : (size === "sm" ? 10 : (size === "lg" ? 20 : 14))
-    readonly property color _fg: variant === "filled" ? NovaTheme.textOnPrimary : tint
+    // 前景：填充态白字（底色已由 _fillBase 压到 4.5:1）；描边/扁平态取 AA 兜底品牌色
+    readonly property color _fg: variant === "filled" ? NovaTheme.textOnPrimary
+                                                      : NovaA11y.aaText(tint, NovaTheme.a11yBase)
+    // 填充底色：品牌本色经 aaFill 最小位移压到与白字 4.5:1（#5B6EF5 → #576AEB，肉眼无差）
+    readonly property color _fillBase: NovaTheme.fillTint(tint)
     readonly property color _bg: variant === "filled"
-        ? (isPressed ? Qt.darker(tint, 1.15)
-           : (isHovered && !disable ? Qt.lighter(tint, 1.08) : tint))
+        ? (isPressed ? Qt.darker(_fillBase, 1.15)
+           : (isHovered && !disable ? NovaTheme.fillTint(Qt.lighter(_fillBase, 1.06)) : _fillBase))
         : (isHovered && !disable ? Qt.rgba(tint.r, tint.g, tint.b, 0.08) : "transparent")
 
     implicitHeight: _h
@@ -63,6 +80,8 @@ Rectangle {
     opacity: disable ? 0.45 : 1
     clip: waves.count > 0   // 仅波纹进行中裁剪，避免裁掉挂载的 NovaBadge
     activeFocusOnTab: !disable
+    // 禁用态映射到 Item.enabled：Qt 无障碍接口据此上报 disabled 状态（0.16.0 实测）
+    enabled: !disable
 
     Keys.onReturnPressed: _emitClick()
     Keys.onEnterPressed: _emitClick()
@@ -209,5 +228,13 @@ Rectangle {
                 onTriggered: waves.remove(waveCircle.index)
             }
         }
+    }
+
+    // ── 焦点环（键盘模态下可见；填充态用白环避免与底色撞车）──────
+    NovaFocusRing {
+        target: root
+        cornerRadius: root.radius
+        offset: 0
+        tint: root.variant === "filled" ? NovaTheme.textOnPrimary : NovaTheme.focusRing
     }
 }

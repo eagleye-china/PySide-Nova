@@ -13,4 +13,7 @@ NovaTouchSwipe 1.0 NovaTouchSwipe.qml
 NovaTouchHold 1.0 NovaTouchHold.qml
 NovaTouchRepeat 1.0 NovaTouchRepeat.qml
 NovaMorph 1.0 NovaMorph.qml
+# 0.16.0：可访问性行为（焦点环 / 状态播报区）
+NovaFocusRing 1.0 NovaFocusRing.qml
+NovaLiveRegion 1.0 NovaLiveRegion.qml
 internal NovaTouchCore NovaTouchCore.qml

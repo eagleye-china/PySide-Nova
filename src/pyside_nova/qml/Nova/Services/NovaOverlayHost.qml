@@ -6,6 +6,7 @@
 //     source 是 Window      → 挂到 window.contentItem
 //     source 是 Item        → 挂到 item.window.contentItem
 // 多窗口说明：与 NovaScreen 同一约定，单进程当前仅跟踪一个源窗口。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 

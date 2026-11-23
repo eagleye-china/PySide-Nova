@@ -11,6 +11,7 @@
 // 触发时机为点击完成（tapped），按压即起波的效果由 NovaBtn 内置实现。
 // 纯 QML 不支持自定义 attached property（需 C++/Python 注册），
 // attach 语法规划在 M1 通过 PySide6 QML_ATTACHED 补齐。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

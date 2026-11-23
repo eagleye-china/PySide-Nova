@@ -26,6 +26,7 @@
 //     up/right/down/left  → directions: ["up", ...]（空数组 = 全向）
 //     注意：行为层会接管指针（MouseArea 在宿主之上），宿主自己的点击逻辑请改用它给出的回调；
 //           这是"手势行为"的固有语义，不是缺陷——基线的 v-touch-pan 同样会 preventDefault。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 
 Item {

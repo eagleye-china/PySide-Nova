@@ -2,6 +2,7 @@
 // NovaCard 卡片容器：flat/elevated/bordered、elevation 0~5 级 MultiEffect 真实阴影（对标 QCard）
 // NovaCard —— 卡片容器（对标 QCard）
 // 内容区使用 NovaCardSection / NovaCardActions 组织；elevated 提供阴影
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import QtQuick.Effects
 import Nova.Services

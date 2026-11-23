@@ -8,6 +8,11 @@ import Nova.Services
 Column {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.Form
+    Accessible.name: a11yLabel
+
     // ── 对标 QForm props ───────────────────────────────────────
     property bool greedy: false              // true=全量校验（非短路）
     property bool autofocus: false           // 完成后聚焦首个可输入子件

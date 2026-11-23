@@ -4,6 +4,7 @@
 // ── 实现口径留痕：曾用 .pragma library JS 共享注册表，实测呈现
 // per-importing-file 实例化（同 group 两实例互相看不见对方的注册），
 // 改 QML 单例（Services 模块同款惯例）保证引擎级唯一（0.15.0 沉淀）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 

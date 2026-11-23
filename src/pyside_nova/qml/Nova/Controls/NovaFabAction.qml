@@ -4,9 +4,23 @@
 // to 路由语义 ⛔（无路由体系），点击统一 clicked 信号
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Button
+    Accessible.name: a11yLabel !== "" ? a11yLabel : label
+    Accessible.focusable: revealed && !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: revealed && !disable
+    enabled: !disable
+    Keys.onReturnPressed: root.click()
+    Keys.onEnterPressed: root.click()
+    Keys.onSpacePressed: root.click()
 
     // ── 默认槽：自定义内容（有则替代 icon） ──────────────────
     default property alias content: slotBox.data
@@ -94,4 +108,7 @@ Item {
             }
         }
     }
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

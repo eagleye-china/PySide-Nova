@@ -7,6 +7,7 @@
 //   event 14 项（listenOpts/getEventPath/stop/prevent/…）→ QML MouseArea 信号与 accepted
 //   scroll 12 项（getScrollHeight/animVerticalScrollTo/…）→ QML Flickable contentY/contentHeight
 //   colors.getPaletteColor（依赖 document+getComputedStyle）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 
@@ -178,8 +179,20 @@ QtObject {
             return "#" + root._hex2(r) + root._hex2(g) + root._hex2(b)
         },
 
+        // 0.16.0 修复：QML color 的 r/g/b 是 0~1 浮点，旧实现一律按 0~255 处理 →
+        // 传 color 值时对比度恒等于 1.0（a11y 派生必须能直接吃 color 值）
+        _channels255: function (color) {
+            if (typeof color === "string")
+                return root.colors.textToRgb(color)
+            if (!color || color.r === undefined)
+                return color
+            if (color.r <= 1 && color.g <= 1 && color.b <= 1)
+                return { r: color.r * 255, g: color.g * 255, b: color.b * 255 }
+            return color
+        },
+
         luminosity: function (color) {
-            var rgb = typeof color === "string" ? root.colors.textToRgb(color) : color
+            var rgb = root.colors._channels255(color)
             if (!rgb || rgb.r === undefined)
                 throw new TypeError("Expected a string or a {r, g, b} object as color")
             var r = rgb.r / 255, g = rgb.g / 255, b = rgb.b / 255
@@ -190,7 +203,7 @@ QtObject {
         },
 
         brightness: function (color) {
-            var rgb = typeof color === "string" ? root.colors.textToRgb(color) : color
+            var rgb = root.colors._channels255(color)
             if (!rgb || rgb.r === undefined)
                 throw new TypeError("Expected a string or a {r, g, b} object as color")
             return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000

@@ -3,6 +3,7 @@
 // NovaVisible —— 断点可见性包装器（对标 Quasar visible-* 工具类）
 // 用法：包裹任意子项；above: "md" 表示 ≥md 显示；below: "sm" 表示 <sm 显示；
 //       only: "xs sm" 表示仅这些断点显示；三属性可组合，均默认不限制
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

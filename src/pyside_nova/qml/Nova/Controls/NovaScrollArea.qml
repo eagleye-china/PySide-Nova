@@ -1,5 +1,6 @@
 // src/pyside_nova/qml/Nova/Controls/NovaScrollArea.qml
 // NovaScrollArea 滚动区域（对标 QScrollArea）：内容超界出主题化滚动条
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import QtQuick.Controls.Basic
 import Nova.Services

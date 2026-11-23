@@ -13,6 +13,7 @@
 //     · 引用计数：同组多次 show 不互踩，句柄 hide() 只释放自己那一份；
 //     · target：把加载层挂到任意 Item 内（局部加载），缺省全屏走 NovaOverlayHost zTop；
 //     · timeout：卡死兜底；increment/decrement/count/activeGroups/hideAll 内省面。
+// a11y: decorative —— QtObject 单例（非视觉节点），语义经 NovaA11y.notice 播报
 pragma Singleton
 import QtQuick
 import Nova.Services

@@ -7,6 +7,11 @@ import Nova.Services
 Rectangle {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.ToolBar
+    Accessible.name: a11yLabel
+
     // ── 默认槽：工具栏内容 ──────────────────────────────────
     default property alias content: row.data
 

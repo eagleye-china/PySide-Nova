@@ -6,9 +6,43 @@
 import QtQuick
 import Nova.Services
 import Nova.Design
+import Nova.Behaviors
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.EditableText
+    Accessible.name: a11yLabel !== "" ? a11yLabel : title
+    Accessible.readOnly: readonly
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: !disable
+    // 键盘路径：方向键按日/周步进（PageUp/PageDown 按月），Enter 提交当前值
+    Keys.onPressed: function(ev) {
+        if (root.disable || root.readonly) return
+        var step = (ev.key === Qt.Key_Up) ? -7 : (ev.key === Qt.Key_Down) ? 7
+                 : (ev.key === Qt.Key_Left) ? -1 : (ev.key === Qt.Key_Right) ? 1 : 0
+        if (ev.key === Qt.Key_PageUp) { root.stepMonth(-1); ev.accepted = true; return }
+        if (ev.key === Qt.Key_PageDown) { root.stepMonth(1); ev.accepted = true; return }
+        if (step !== 0) { root.stepDay(step); ev.accepted = true }
+    }
+    function _a11yCursor() {
+        if (_selected && _selected.length > 0) return _selected[0]
+        return _today
+    }
+    function stepDay(n) {
+        var cur = _a11yCursor()
+        var d = new Date(cur.y, cur.m, cur.d + n)
+        root.valueChanged(root._fmt(d.getFullYear(), d.getMonth(), d.getDate()))
+    }
+    function stepMonth(n) {
+        var cur = _a11yCursor()
+        // JS Date 自动归一化月末溢出（1/31 + 1 月 → 3/2/3，与日历视图语义一致）
+        var d = new Date(cur.y, cur.m + n, cur.d)
+        root.valueChanged(root._fmt(d.getFullYear(), d.getMonth(), d.getDate()))
+    }
 
     // ── 值与格式（对标 QDate） ─────────────────────────────────
     property var modelValue: null        // 单选 mask 串；multiple: 数组；range: {from,to}
@@ -450,4 +484,8 @@ Item {
         color: NovaTheme.negative
         font.pixelSize: 11
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

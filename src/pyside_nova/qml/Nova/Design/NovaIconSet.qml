@@ -6,6 +6,7 @@
 //            支持 mdi-home / mdi:home / fas fa-home / o_home / sym_r_home / img: / SVG path 等写法
 // 实测（2026-11-22）：mdi / material / material-symbols / ionicons v7 / eva / fontawesome v6 / bootstrap / line-awesome
 //            均有逐图标 SVG CDN；themify 只有 woff 无逐图标 SVG（留痕，需自备本地图标包）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 import "IconSets.js" as IconSets

@@ -7,6 +7,11 @@ import Nova.Services
 Row {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.Grouping
+    Accessible.name: a11yLabel
+
     // Row 自带 default data 槽——直接声明按钮子项即可
     spacing: NovaTheme.spacingM
 }

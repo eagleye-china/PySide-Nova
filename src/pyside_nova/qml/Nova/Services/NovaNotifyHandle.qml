@@ -5,6 +5,7 @@
 //     dismiss()                 —— 等价基线句柄函数无参调用
 //     update(props) → bool      —— 等价基线句柄函数传 props；分组通知禁止更新，返回 false
 //     valid                     —— Nova 增强：句柄是否仍指向活着的通知（基线 dismiss 后句柄变静默空函数，难排查）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 
 QtObject {

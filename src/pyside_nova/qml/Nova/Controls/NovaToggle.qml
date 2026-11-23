@@ -4,9 +4,22 @@
 // 契约统一：label / hint / error / readonly / disable
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 NovaCheckbox {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Switch
+    Accessible.name: a11yLabel !== "" ? a11yLabel : label
+    Accessible.checkable: true
+    Accessible.checked: checked
+    Accessible.readOnly: readonly
+    Accessible.focusable: root.activeTab && !disable
+    Accessible.focused: activeFocus
+    // 键盘入口与切换键继承自 NovaCheckbox（Tab / Space / Enter），此处只声明语义
 
     // ── 对标 QToggle 扩展 ─────────────────────────────────────
     property string icon: ""                 // 滑块内置图标（对标 icon）
@@ -59,4 +72,8 @@ NovaCheckbox {
             }
         }
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

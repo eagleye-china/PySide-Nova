@@ -4,9 +4,22 @@
 // 契约统一：label / hint / error / readonly / disable（clearable/rules 不适用已留痕）
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.CheckBox
+    Accessible.name: a11yLabel !== "" ? a11yLabel : label
+    Accessible.checkable: true
+    Accessible.checked: checked
+    Accessible.readOnly: readonly
+    Accessible.focusable: activeTab && !disable
+    Accessible.focused: activeFocus
+    enabled: !disable
 
     default property alias content: contentHost.data
 
@@ -220,4 +233,8 @@ Item {
     Keys.onReturnPressed: root.toggle()
     Keys.onEnterPressed: root.toggle()
     activeFocusOnTab: root.activeTab
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

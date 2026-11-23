@@ -1,5 +1,6 @@
 // src/pyside_nova/qml/Nova/Controls/NovaItemLabel.qml
 // NovaItemLabel 条目标签（对标 QItemLabel）：overline/caption/header/lines
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

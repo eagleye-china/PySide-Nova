@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaCarouselSlide.qml
 // NovaCarouselSlide 轮播页（对标 QCarouselSlide）：name 寻址 / disable / img-src 快速图片页，
 // default 槽为页内容；几何（位置/尺寸/显隐）由宿主 NovaCarousel 统一管理
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

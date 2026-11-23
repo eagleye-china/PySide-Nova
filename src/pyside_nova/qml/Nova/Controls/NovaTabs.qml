@@ -5,9 +5,33 @@
 import QtQuick
 import Nova.Controls
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: a11yLabel
+    Accessible.focusable: true
+    Accessible.focused: activeFocus
+    activeFocusOnTab: true
+    // 键盘路径：左右（垂直时上下）在标签间移动，Home/End 跳到首尾；受控契约不变（只 emit）
+    Keys.onPressed: function(ev) {
+        var tabs = root._collectTabs()
+        if (tabs.length === 0) return
+        var idx = root._indexOfValue(root.modelValue)
+        var next = -1
+        var fwd = root.vertical ? Qt.Key_Down : Qt.Key_Right
+        var back = root.vertical ? Qt.Key_Up : Qt.Key_Left
+        if (ev.key === fwd) next = idx < 0 ? 0 : (idx + 1) % tabs.length
+        else if (ev.key === back) next = idx < 0 ? tabs.length - 1 : (idx + tabs.length - 1) % tabs.length
+        else if (ev.key === Qt.Key_Home) next = 0
+        else if (ev.key === Qt.Key_End) next = tabs.length - 1
+        if (next >= 0) { root._goToTab(tabs[next]); ev.accepted = true }
+    }
 
     // ── 默认槽：NovaTab 集合 ────────────────────────────────
     default property alias content: tabHost.data
@@ -263,4 +287,8 @@ Item {
     function _updateOverflow() {
         // 触发 _overflow 重评（childrenRect 无独立变更通知口，此处为显式钩子）
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

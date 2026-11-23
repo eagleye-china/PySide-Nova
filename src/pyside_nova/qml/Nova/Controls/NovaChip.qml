@@ -5,9 +5,27 @@
 // filled / outlined / tinted 三形态，支持图标、可选中、可移除
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Rectangle {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    readonly property bool _a11yActionable: clickable || removable
+    Accessible.role: _a11yActionable ? Accessible.Button : Accessible.StaticText
+    Accessible.name: a11yLabel !== "" ? a11yLabel : text
+    Accessible.checkable: selected
+    Accessible.checked: selected
+    Accessible.focusable: _a11yActionable && !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: _a11yActionable && !disable
+    enabled: !disable
+    Keys.onReturnPressed: if (clickable) root.clicked()
+    Keys.onEnterPressed: if (clickable) root.clicked()
+    Keys.onSpacePressed: if (clickable) root.clicked()
+    Keys.onDeletePressed: if (removable) root.removed()
 
     // ── 槽机制（对标 QChip 默认槽）────────────────────────────
     // 默认子项挂载到标签覆盖层，可在标签之上叠加自定义内容
@@ -95,4 +113,7 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         onClicked: root.clicked()
     }
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

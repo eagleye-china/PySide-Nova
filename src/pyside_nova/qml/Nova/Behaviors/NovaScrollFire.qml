@@ -19,6 +19,7 @@
 // 语义要点（与基线一致）：
 //   · 触发一次后自动解除武装；中间禁用过再启用 = 重新武装（rearm() 亦可手动）
 //   · threshold: 0.5 表示至少露出一半才触发；1 表示完全可见才触发
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

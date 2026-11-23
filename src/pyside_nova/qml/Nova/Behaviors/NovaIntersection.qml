@@ -26,6 +26,7 @@
 //
 // 实现路径差异：基线走浏览器原生 IntersectionObserver（异步、阈值边界通知）；
 // Nova 走 NovaIntersectionPool 的帧轮询 + 自算矩形交集（含祖先 clip 链），故比例是精确值而非近似。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

@@ -2,6 +2,7 @@
 // NovaTabPanels 面板容器（对标 QTabPanels）：受控 modelValue / animated / infinite /
 // swipeable（DragHandler 被动抓取）/ vertical / transitionDuration；
 // 子项即面板（NovaTabPanel 优先，任意 Item 亦可）；条带平移过渡（对标 Carousel 口径）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

@@ -25,6 +25,7 @@
 //       depth 语义与基线完全一致（<0 全关 / 0 禁用 / N 关顶 N 层）。
 //     · 触发源：默认桥接宿主的 clicked 信号（NovaBtn / 未来的 NovaMenuItem 等都有），
 //       宿主要是普通 Item 没有 clicked，就把 usePointer 设 true 交给内部 MouseArea。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

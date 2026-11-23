@@ -13,6 +13,7 @@
 //
 // 实现路径差异（如实记录于 docs/PARITY.md）：基线是浏览器原生 IntersectionObserver（异步、按阈值边界通知）；
 // Nova 是"帧轮询 + 自算矩形交集"，因此 pollInterval 越小越灵敏、开销越大（默认 34ms ≈ 30fps）。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 import Nova.Services

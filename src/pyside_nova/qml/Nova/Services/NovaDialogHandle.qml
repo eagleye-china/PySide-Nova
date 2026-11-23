@@ -6,6 +6,7 @@
 //     update(props) → bool  —— 等价基线 handle.update(props)；句柄失效返回 false
 //     onOk/onCancel/onDismiss —— 基线为链式回调；QML 用 accepted/rejected/dismissed 三信号承载
 //     ok() / cancel()       —— Nova 增强：程序化触发主/次按钮（自动化测试友好）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 
 QtObject {

@@ -15,19 +15,30 @@
 from __future__ import annotations
 
 import sys
+import weakref
 from pathlib import Path
 
 from PySide6.QtCore import (
     Property,
+    QEvent,
     QObject,
     QSettings,
     QStandardPaths,
     QSysInfo,
+    Signal,
     Slot,
 )
-from PySide6.QtGui import QInputDevice
+from PySide6.QtGui import QGuiApplication, QInputDevice
 
-__all__ = ["NovaRuntime", "runtime_snapshot"]
+__all__ = ["NovaRuntime", "install_input_modality_filter", "runtime_snapshot",
+           "set_keyboard_mode"]
+
+# 输入模态（focus-visible 语义的判定依据）：最近一次输入是否来自键盘。
+# 默认 True —— 无输入历史时按键盘模态处理，首屏控件焦点环可见（WCAG 2.4.7 不赌运气）。
+_KEYBOARD_MODE = True
+# 存活的 NovaRuntime 实例（每个 QML 引擎一个，工厂式注册）；事件过滤器只广播给它们
+_INSTANCES: "weakref.WeakSet[NovaRuntime]" = weakref.WeakSet()
+_FILTER: "_InputModalityFilter | None" = None
 
 
 def _detect_os() -> str:
@@ -44,13 +55,38 @@ def _detect_os() -> str:
 
 
 class NovaRuntime(QObject):
-    """QML ``Nova.Runtime.NovaRuntime`` 单例：存储后端 + 平台探测。"""
+    """QML ``Nova.Runtime.NovaRuntime`` 单例：存储后端 + 平台探测 + 输入模态。"""
+
+    keyboardModeChanged = Signal()
 
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
         self._os = _detect_os()
         self._settings: QSettings | None = None
         self._path = self._resolve_path()
+        self._keyboard_mode = _KEYBOARD_MODE
+        _INSTANCES.add(self)
+
+    # ── 输入模态（focus-visible 语义）────────────────────────────────
+    @Property(bool, notify=keyboardModeChanged)
+    def keyboardMode(self) -> bool:
+        """最近一次输入是否来自键盘（True=键盘模态，焦点环应可见）。
+
+        由应用级事件过滤器维护（``install_input_modality_filter``）：KeyPress/KeyRelease
+        置 True，鼠标按下/触摸/滚轮置 False。QML 侧经 ``NovaA11y.keyboardMode`` 读取。
+        """
+        return self._keyboard_mode
+
+    def _apply_keyboard_mode(self, value: bool) -> None:
+        if self._keyboard_mode == value:
+            return
+        self._keyboard_mode = value
+        self.keyboardModeChanged.emit()
+
+    @Slot(bool)
+    def setKeyboardMode(self, value: bool) -> None:
+        """显式设置输入模态（测试/自动化脚本用，绕过事件流）。"""
+        self._apply_keyboard_mode(bool(value))
 
     # ── 存储路径（不依赖 organizationName，纯文件级 ini） ──────────────
     @staticmethod
@@ -170,3 +206,55 @@ class NovaRuntime(QObject):
 def runtime_snapshot() -> dict:
     """无 QML 语境下的平台快照（单元测试/脚本用）。"""
     return NovaRuntime().snapshot()
+
+
+# ══════════════════════════════════════════════════════════════════
+# 输入模态广播（focus-visible）
+# ══════════════════════════════════════════════════════════════════
+_KB_EVENTS = (QEvent.Type.KeyPress, QEvent.Type.KeyRelease)
+_POINTER_EVENTS = (QEvent.Type.MouseButtonPress, QEvent.Type.MouseButtonDblClick,
+                   QEvent.Type.TouchBegin, QEvent.Type.Wheel)
+
+
+class _InputModalityFilter(QObject):
+    """应用级事件过滤器：把「键盘 or 指针」这一事实广播给所有 NovaRuntime 实例。
+
+    只做类型判断后立刻返回 False（不拦截事件），开销仅一次整数比较。
+    """
+
+    def eventFilter(self, obj: QObject, event: QEvent) -> bool:
+        etype = event.type()
+        if etype in _KB_EVENTS:
+            _broadcast(True)
+        elif etype in _POINTER_EVENTS:
+            _broadcast(False)
+        return False
+
+
+def _broadcast(value: bool) -> None:
+    global _KEYBOARD_MODE
+    if _KEYBOARD_MODE == value:
+        return
+    _KEYBOARD_MODE = value
+    for inst in list(_INSTANCES):
+        try:
+            inst._apply_keyboard_mode(value)
+        except RuntimeError:  # pragma: no cover - 引擎已析构
+            pass
+
+
+def set_keyboard_mode(value: bool) -> None:
+    """以「真实输入」语义设置全局模态（测试用；等价于发生一次键盘/鼠标输入）。"""
+    _broadcast(bool(value))
+
+
+def install_input_modality_filter() -> None:
+    """安装输入模态事件过滤器（幂等）。无 GUI 应用实例时静默跳过。"""
+    global _FILTER
+    if _FILTER is not None:
+        return
+    app = QGuiApplication.instance()
+    if app is None:  # pragma: no cover - 纯 QCoreApplication 场景
+        return
+    _FILTER = _InputModalityFilter(app)
+    app.installEventFilter(_FILTER)

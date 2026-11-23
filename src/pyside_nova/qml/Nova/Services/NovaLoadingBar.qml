@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Services/NovaLoadingBar.qml
 // NovaLoadingBar 命令式顶部进度服务单例：start/increment/stop（对标 LoadingBar 插件）
 // 懒创建内部 NovaAjaxBar 挂 NovaOverlayHost（zTop 层）；无窗口时降级 no-op
+// a11y: decorative —— QtObject 单例（非视觉节点），语义经 NovaA11y.notice 播报
 pragma Singleton
 import QtQuick
 import Nova.Controls

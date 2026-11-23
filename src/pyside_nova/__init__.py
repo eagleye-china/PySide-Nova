@@ -25,7 +25,7 @@ from pathlib import Path
 from PySide6.QtQml import qmlRegisterSingletonType
 
 from .__about__ import __title__, __version__
-from .runtime import NovaRuntime
+from .runtime import NovaRuntime, install_input_modality_filter
 
 __all__ = ["__title__", "__version__", "init_nova", "QML_ROOT", "NovaRuntime"]
 
@@ -65,3 +65,5 @@ def init_nova(engine) -> None:
     """
     engine.addImportPath(QML_ROOT)
     _ensure_runtime()
+    # 0.16.0：输入模态（focus-visible）需要应用级事件过滤器，随 init_nova 一并装好
+    install_input_modality_filter()

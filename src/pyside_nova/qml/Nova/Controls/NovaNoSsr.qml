@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaNoSsr.qml
 // NovaNoSsr 延迟渲染壳：placeholder 文案/槽先显示，内容在 delay（默认下一帧）后切换（对标 QNoSsr）
 // Nova 口径：QML 无 SSR 环境，语义落位为"客户端就绪延迟渲染"（骨架占位→内容），PARITY §0.14 留痕
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

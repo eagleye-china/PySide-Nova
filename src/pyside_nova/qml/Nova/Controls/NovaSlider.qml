@@ -4,9 +4,21 @@
 // 契约统一：label（气泡沫）/ hint / error / readonly / disable
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Slider
+    // 注意：QSlider 语义的 label 是「显示值标签」布尔开关（对标 QSlider.label），不可当可读名
+    Accessible.name: a11yLabel
+    Accessible.readOnly: readonly
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    enabled: !disable
 
     // ── 值域（对标 use-slider） ────────────────────────────────
     property var modelValue: 0
@@ -262,4 +274,8 @@ Item {
         color: NovaTheme.negative
         font.pixelSize: 11
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

@@ -1,5 +1,5 @@
 // examples/gallery/main.qml
-// pyside-nova 组件画廊：侧边导航 + 15 页面覆盖组件/服务/行为/设计语言/工具层五层，明暗一键切换、断点实时监控
+// pyside-nova 组件画廊：侧边导航 + 23 页面覆盖组件/服务/行为/设计语言/工具层五层，明暗一键切换、断点实时监控
 // pyside-nova 组件画廊：左侧导航 + 右侧页面，覆盖全部已交付组件
 pragma ComponentBehavior: Bound
 import QtQuick
@@ -117,6 +117,7 @@ ApplicationWindow {
                     ListElement { label: "导航体系";            icon: "mdi:compass-outline" }
                     ListElement { label: "弹层与反馈";          icon: "mdi:layers-triple-outline" }
                     ListElement { label: "长尾组件";            icon: "mdi:alpha-t-circle-outline" }
+                    ListElement { label: "无障碍 a11y";          icon: "mdi:human-wheelchair" }
                 }
 
                 delegate: Rectangle {
@@ -166,7 +167,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail, pageA11y][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -3258,6 +3259,207 @@ ApplicationWindow {
                     }
                 }
             }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：无障碍 a11y（AA 派生令牌 / 焦点环 / 键盘全路径 / 状态播报）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageA11y
+        Item {
+            id: a11yPage
+            GalleryPage {
+                title: "无障碍 a11y · WCAG 2.1 AA"
+                desc: "0.16.0 新增：NovaA11y 基座（WCAG 对比度数学 + AA 兜底派生 + 焦点可见性语义 + 状态播报）、"
+                      + "NovaFocusRing 焦点环、NovaLiveRegion 播报区；123 个导出类型逐一登记 a11y 契约（32 interactive / 28 semantic / 63 decorative），"
+                      + "门禁命令 python scripts/check_a11y.py（缺项即阻断交付）。"
+
+                GalleryRow { label: "① AA 兜底派生：语义色当文字用时自动压到 4.5:1，本色仍用于填充面" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 132
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Row {
+                        id: swatches
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        spacing: NovaTheme.spacingL
+
+                        Repeater {
+                            model: [
+                                { name: "primary", base: NovaTheme.primary, safe: NovaTheme.primaryText },
+                                { name: "secondary", base: NovaTheme.secondary, safe: NovaTheme.secondaryText },
+                                { name: "accent", base: NovaTheme.accent, safe: NovaTheme.accentText },
+                                { name: "positive", base: NovaTheme.positive, safe: NovaTheme.positiveText },
+                                { name: "negative", base: NovaTheme.negative, safe: NovaTheme.negativeText },
+                                { name: "warning", base: NovaTheme.warning, safe: NovaTheme.warningText },
+                                { name: "info", base: NovaTheme.info, safe: NovaTheme.infoText }
+                            ]
+
+                            delegate: Column {
+                                required property var modelData
+                                spacing: 6
+
+                                Row {
+                                    spacing: 4
+                                    Rectangle {
+                                        width: 34; height: 22; radius: 5
+                                        color: modelData.base
+                                    }
+                                    Rectangle {
+                                        width: 34; height: 22; radius: 5
+                                        color: modelData.safe
+                                    }
+                                }
+                                Text {
+                                    text: modelData.name
+                                    color: NovaTheme.textColor
+                                    font.pixelSize: NovaTheme.fontXS
+                                }
+                                Text {
+                                    text: "本色 " + NovaA11y.contrast(modelData.base, NovaTheme.a11yBase).toFixed(2)
+                                    color: NovaTheme.textMuted
+                                    font.pixelSize: NovaTheme.fontXS
+                                }
+                                Text {
+                                    text: "AA " + NovaA11y.contrast(modelData.safe, NovaTheme.a11yBase).toFixed(2)
+                                    color: NovaTheme.positiveText
+                                    font.pixelSize: NovaTheme.fontXS
+                                    font.bold: true
+                                }
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "② 焦点环：按 Tab 逐个走查——键盘模态才画环，鼠标点击不画（focus-visible）" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 96
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Row {
+                        anchors.centerIn: parent
+                        spacing: NovaTheme.spacingM
+
+                        NovaBtn { text: "主按钮"; onClicked: a11yPage.send("已保存草稿") }
+                        NovaBtn { text: "描边"; variant: "outlined"; onClicked: a11yPage.send("已发布") }
+                        NovaBtn { text: "扁平"; variant: "flat" }
+                        NovaBtn { text: "禁用"; disable: true }
+                        NovaCheckbox { label: "接收通知"; modelValue: true }
+                        NovaToggle { label: "深色跟随"; modelValue: false }
+                        NovaInput { width: 150; label: "邮箱"; placeholder: "you@corp.com" }
+                        NovaSlider { width: 120; a11yLabel: "音量"; modelValue: 40 }
+                    }
+                }
+
+                GalleryRow { label: "③ 键盘全路径：Enter/Space 激活、方向键导航、Esc 归位（无需鼠标）" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 150
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Column {
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        spacing: NovaTheme.spacingS
+
+                        Row {
+                            spacing: NovaTheme.spacingS
+                            NovaChip { text: "可点标签"; clickable: true; onClicked: a11yPage.send("标签被激活") }
+                            NovaChip { text: "可删标签"; removable: true }
+                            NovaChip { text: "静态标签" }
+                        }
+                        NovaPagination { page: a11yPage.page; pages: 6
+                                          onPageRequested: (p) => a11yPage.page = p }
+                        Row {
+                            spacing: NovaTheme.spacingS
+                            NovaBtn { text: "上一页"; variant: "flat"; onClicked: a11yPage.page = Math.max(1, a11yPage.page - 1) }
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: "第 " + a11yPage.page + " / 6 页（分页器聚焦后按 ← → 也可翻页）"
+                                color: NovaTheme.textMuted
+                                font.pixelSize: NovaTheme.fontS
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "④ 状态播报：NovaA11y.notice → NovaLiveRegion 说给屏读器（WCAG 4.1.3）" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 96
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Row {
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        spacing: NovaTheme.spacingM
+
+                        NovaBtn { text: "播报一条状态"; onClicked: a11yPage.send("数据已同步，共 1,240 条") }
+                        Column {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 4
+                            Text {
+                                text: "已播报 " + NovaA11y.announcementCount + " 次"
+                                color: NovaTheme.textColor
+                                font.pixelSize: NovaTheme.fontS
+                            }
+                            Text {
+                                text: NovaA11y.lastAnnouncement === "" ? "（尚无播报）" : "最近：" + NovaA11y.lastAnnouncement
+                                color: NovaTheme.textMuted
+                                font.pixelSize: NovaTheme.fontXS
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "⑤ 契约矩阵与门禁：123 类型逐项登记，缺项阻断交付" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 84
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surfaceAlt
+                    border.color: NovaTheme.outline
+
+                    Column {
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        spacing: 4
+                        Text {
+                            text: "interactive 32 · semantic 28 · decorative 63   →   docs/A11Y_MATRIX.md（生成物，勿手改）"
+                            color: NovaTheme.textColor
+                            font.pixelSize: NovaTheme.fontS
+                        }
+                        Text {
+                            text: "python scripts/check_a11y.py --matrix docs/A11Y_MATRIX.md   # 静态门禁\n"
+                                  + "pytest tests/test_a11y.py -q                                  # 20 项：数学 / 令牌 / 角色矩阵 / 键盘 / 焦点环 / 播报"
+                            color: NovaTheme.textMuted
+                            font.pixelSize: NovaTheme.fontXS
+                            font.family: "monospace"
+                        }
+                    }
+                }
+            }
+
+            // 页面内状态：分页受控值 + 播报通道
+            property int page: 1
+            function send(text) { NovaA11y.notice(text) }
         }
     }
 

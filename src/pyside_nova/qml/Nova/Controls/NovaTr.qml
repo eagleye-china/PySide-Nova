@@ -1,5 +1,6 @@
 // src/pyside_nova/qml/Nova/Controls/NovaTr.qml
 // NovaTr 表格行（对标 QTr）：选中高亮/点击上报（受控：selection 由宿主写回）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

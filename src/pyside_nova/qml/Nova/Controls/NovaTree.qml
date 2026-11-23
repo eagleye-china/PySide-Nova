@@ -6,9 +6,27 @@
 import QtQuick
 import Nova.Controls
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Rectangle {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Tree
+    Accessible.name: a11yLabel
+    Accessible.focusable: true
+    Accessible.focused: activeFocus
+    activeFocusOnTab: true
+    // 键盘路径：Enter/Space 展开收起当前选中节点；方向键游标见 docs/A11Y.md「已知差距」
+    Keys.onReturnPressed: root._a11yActivate()
+    Keys.onEnterPressed: root._a11yActivate()
+    Keys.onSpacePressed: root._a11yActivate()
+    function _a11yActivate() {
+        if (root.selected === null || root.selected === undefined) return
+        root.tryExpand(root.selected)
+    }
 
     property var nodes: []                  // {label,icon,children,lazy,expandable,disabled,tickable,tickStrategy,caption}
     property string nodeKey: ""             // 键字段名；空则自动生成路径键 "0.1.2"
@@ -420,4 +438,8 @@ Rectangle {
             }
         }
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

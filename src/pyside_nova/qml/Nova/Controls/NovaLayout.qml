@@ -5,6 +5,7 @@
 //       NovaLayout 按类型扫描并安置到对应象限；其余子项进入页面区。
 //       push（推挤）与 overlay（悬浮）由 NovaDrawer 自身属性决定；
 //       窗口宽度小于 NovaDrawer.breakpoint 时自动转为 overlay 并收起。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

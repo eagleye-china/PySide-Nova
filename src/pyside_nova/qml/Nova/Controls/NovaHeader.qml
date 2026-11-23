@@ -2,6 +2,7 @@
 // NovaHeader 顶部应用栏：NovaLayout 四象限之顶栏，tint 基调色 + 默认槽，高度隐式 56（对标 QHeader）
 // NovaHeader —— 顶部应用栏（对标 QHeader）
 // 用法：作为 NovaLayout 直接子项声明即自动安置到顶部；默认底色 primary，字色用 NovaTheme.textOnPrimary
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

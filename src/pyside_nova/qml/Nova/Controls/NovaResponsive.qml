@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaResponsive.qml
 // NovaResponsive 等比例容器（对标 QResponsive）：ratio > 0 时强制 height = width / ratio，
 // 内容铺满容器（use-ratio 组合函数 1:1；ratio 缺省时高度交给宿主/内容自定）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

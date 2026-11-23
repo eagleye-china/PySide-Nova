@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaParallax.qml
 // NovaParallax 视差滚动容器（对标 QParallax）：媒体层随宿主滚动慢速位移（speed 因子），
 // scroll-target 缺省向上遍历找最近 Flickable（坑位 14：默认属性转交内部容器 parent 失真）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

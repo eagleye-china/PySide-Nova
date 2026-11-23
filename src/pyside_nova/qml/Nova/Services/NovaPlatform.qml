@@ -8,6 +8,7 @@
 //     · 浏览器专属项（has.webAuthn、within.iframe、is.pwa、is.electron、浏览器内核判定）⛔ 不适用；
 //     · 触摸能力改由 Python 侧枚举 QInputDevice 得出（Qt 6 无 QML 级 API）；
 //     · osVersion / cpuArch 为 Nova 增强（对标 Platform 无此二项，但"关于"页刚需）。
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma Singleton
 import QtQuick
 import Nova.Runtime

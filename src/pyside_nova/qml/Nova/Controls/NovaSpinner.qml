@@ -7,6 +7,11 @@ import Nova.Services
 Canvas {
     id: root
 
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""            // 可读名覆盖（aria-label 等价）
+    Accessible.role: Accessible.ProgressBar
+    Accessible.name: a11yLabel
+
     // ── 形态 ──────────────────────────────────────────────────
     property string variant: "ring"              // ring | ball | dots | hourglass | gears | grid | radio | comment
     property real size: 42

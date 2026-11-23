@@ -1,5 +1,6 @@
 // src/pyside_nova/qml/Nova/Controls/NovaItemSection.qml
 // NovaItemSection 条目分区（对标 QItemSection）：avatar/thumbnail/trailing/topAligned
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

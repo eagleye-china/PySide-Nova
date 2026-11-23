@@ -1,6 +1,7 @@
 // src/pyside_nova/qml/Nova/Controls/NovaCardSection.qml
 // NovaCardSection 卡片内容区：默认内容槽，padding 取 NovaTheme.spacingL
 // NovaCardSection —— 卡片内容分区（对标 QCardSection）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

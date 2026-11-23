@@ -6,9 +6,26 @@
 import QtQuick
 import QtQuick.Controls
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Button
+    Accessible.name: a11yLabel !== "" ? a11yLabel : title
+    Accessible.checkable: true
+    Accessible.checked: popup.opened
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: !disable
+    enabled: !disable
+    Keys.onReturnPressed: root.show()
+    Keys.onEnterPressed: root.show()
+    Keys.onSpacePressed: root.show()
+    Keys.onEscapePressed: root.hide()
 
     // ── 值（对标 QPopupEdit） ──────────────────────────────────
     property var modelValue: null
@@ -128,4 +145,8 @@ Item {
 
     // 弹层关闭即 hidden（autoSave 语义：值已在编辑过程中生效）
     onVisibleChanged: if (!visible) root.hidden()
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

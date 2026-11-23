@@ -6,6 +6,7 @@
 //     分组键 = message|caption|multiLine|label*icon… 再拼 |position；分组通知只能 dismiss 不能 update；
 //     计时器与进度条时长 = timeout + 1000（1000 为入场动效，基线 transition 1s）；
 //     基线 onDismiss() 无参数（"关闭原因上报"属 Dialog/BottomSheet）——Nova 的 dismissed(reason) 是增强。
+// a11y: decorative —— QtObject 单例（非视觉节点），语义经 NovaA11y.notice 播报
 pragma Singleton
 import QtQuick
 

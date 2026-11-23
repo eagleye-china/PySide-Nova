@@ -3,6 +3,7 @@
 // NovaDrawer —— 侧边抽屉（对标 QDrawer）
 // 用法：作为 NovaLayout 直接子项声明；open 控制展开；mini 模式收起为 miniWidth、悬停临时展开；
 //       宿主宽度 < breakpoint 时自动转 overlay 并收起（对标 QDrawer behavior/breakpoint）
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import QtQuick.Effects
 import Nova.Services

@@ -4,9 +4,31 @@
 // 契约统一：hint / error / readonly / disable
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.EditableText
+    Accessible.name: a11yLabel !== "" ? a11yLabel : hint
+    Accessible.readOnly: readonly
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: !disable
+    // 键盘路径：上下改小时、左右改分钟、Enter 提交、M 切换上下午、F 换面盘
+    Keys.onPressed: function(ev) {
+        if (root.disable || root.readonly) return
+        if (ev.key === Qt.Key_Up) { root.setHour((root._h + 1) % 24); ev.accepted = true }
+        else if (ev.key === Qt.Key_Down) { root.setHour((root._h + 23) % 24); ev.accepted = true }
+        else if (ev.key === Qt.Key_Right) { root.setMinute((root._m + 1) % 60); ev.accepted = true }
+        else if (ev.key === Qt.Key_Left) { root.setMinute((root._m + 59) % 60); ev.accepted = true }
+        else if (ev.key === Qt.Key_Return || ev.key === Qt.Key_Enter) { root._emit(); ev.accepted = true }
+        else if (ev.key === Qt.Key_M) { root.toggleAmPm(); ev.accepted = true }
+        else if (ev.key === Qt.Key_F) { root.cycleFace(); ev.accepted = true }
+    }
 
     // ── 值（对标 QTime） ───────────────────────────────────────
     property var modelValue: null            // "HH:mm(:ss)" 串（24h 制存储）
@@ -362,4 +384,8 @@ Item {
         color: NovaTheme.negative
         font.pixelSize: 11
     }
+
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

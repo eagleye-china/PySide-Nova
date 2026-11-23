@@ -2,6 +2,7 @@
 // NovaCardActions 卡片操作区：align 左/中/右对齐
 // NovaCardActions —— 卡片操作区（对标 QCardActions）
 // align: "left" | "center" | "right"
+// a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 import QtQuick
 import Nova.Services
 

@@ -4,9 +4,42 @@
 // 契约统一：disable / readonly
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    readonly property string _a11ySelLabel: {
+        var out = []
+        for (var i = 0; i < _normalized.length; ++i)
+            if (_isOn(_normalized[i].value)) out.push(_normalized[i].label)
+        return out.join(", ")
+    }
+    Accessible.role: multiple ? Accessible.Grouping : Accessible.RadioButton
+    Accessible.name: a11yLabel !== "" ? a11yLabel : _a11ySelLabel
+    Accessible.checkable: !multiple
+    Accessible.checked: multiple ? (Array.isArray(modelValue) && modelValue.length > 0)
+                                 : _isOn(modelValue)
+    Accessible.focusable: !disable
+    Accessible.focused: activeFocus
+    activeFocusOnTab: !disable
+    Keys.onRightPressed: root._a11yStep(1)
+    Keys.onLeftPressed: root._a11yStep(-1)
+    Keys.onDownPressed: root._a11yStep(1)
+    Keys.onUpPressed: root._a11yStep(-1)
+    Keys.onSpacePressed: root._a11yStep(1)
+    function _a11yStep(dir) {
+        if (disable || readonly || _normalized.length === 0) return
+        var idx = -1
+        for (var i = 0; i < _normalized.length; ++i)
+            if (_isOn(_normalized[i].value)) { idx = i; break }
+        var next = idx < 0 ? (dir > 0 ? 0 : _normalized.length - 1)
+                           : (idx + dir + _normalized.length) % _normalized.length
+        _pick(_normalized[next])
+    }
 
     // ── 值与选项（对标 QBtnToggle） ─────────────────────────────
     property var modelValue: null            // 标量（multiple 未开）或数组
@@ -187,4 +220,7 @@ Item {
         color: NovaTheme.negative
         font.pixelSize: 11
     }
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }

@@ -4,9 +4,25 @@
 // hoverHideDelay 离场宽限）/ external-label / 垂直动作对齐；受控 modelValue(bool)
 import QtQuick
 import Nova.Services
+import Nova.Behaviors
+import Nova.Design
 
 Item {
     id: root
+
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    property string a11yLabel: ""
+    Accessible.role: Accessible.Button
+    Accessible.name: a11yLabel !== "" ? a11yLabel : label
+    Accessible.checkable: true
+    Accessible.checked: modelValue
+    Accessible.focusable: true
+    Accessible.focused: activeFocus
+    activeFocusOnTab: true
+    Keys.onReturnPressed: root.requestToggle()
+    Keys.onEnterPressed: root.requestToggle()
+    Keys.onSpacePressed: root.requestToggle()
+    Keys.onEscapePressed: root.hide()
 
     // ── 默认槽：NovaFabAction 集合 ──────────────────────────
     default property alias content: actionHost.data
@@ -260,4 +276,7 @@ Item {
     }
 
     readonly property bool _open: open
+    // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
+    NovaFocusRing { target: root; offset: 0 }
+
 }
