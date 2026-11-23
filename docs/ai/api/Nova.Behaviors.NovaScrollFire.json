@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": parent",
    "doc": null,
-   "line": 28
+   "line": 29
   },
   {
    "name": "root",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 29
+   "line": 30
   },
   {
    "name": "threshold",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0~1，需可见比例 ≥ 该值才触发",
-   "line": 30
+   "line": 31
   },
   {
    "name": "armed",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "武装态：false = 不再触发（触发后自动置 false）",
-   "line": 31
+   "line": 32
   },
   {
    "name": "fired",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": _fired",
    "doc": null,
-   "line": 33
+   "line": 34
   },
   {
    "name": "_fired",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 34
+   "line": 35
   }
  ],
  "signals": [

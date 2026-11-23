@@ -20,9 +20,12 @@ Item {
     Accessible.focused: activeFocus
     activeFocusOnTab: true
     // 键盘路径：左右滑出动作面板，Esc 归位（指针滑动的等价路径）
+    // RTL（0.16.1）：物理方向键镜像——逻辑 left（视觉右）由 Key_Right 触发
     Keys.onPressed: function(ev) {
-        if (ev.key === Qt.Key_Left) { root.slideLeft(); ev.accepted = true }
-        else if (ev.key === Qt.Key_Right) { root.slideRight(); ev.accepted = true }
+        var leftKey = NovaTheme.isRtl ? Qt.Key_Right : Qt.Key_Left
+        var rightKey = NovaTheme.isRtl ? Qt.Key_Left : Qt.Key_Right
+        if (ev.key === leftKey) { root.slideLeft(); ev.accepted = true }
+        else if (ev.key === rightKey) { root.slideRight(); ev.accepted = true }
         else if (ev.key === Qt.Key_Escape) { root.reset(); ev.accepted = true }
     }
 
@@ -70,21 +73,26 @@ Item {
 
     Loader {
         id: leftLoader
+        objectName: "NovaSlideItem.leftLoader"
+        // RTL（0.16.1）：逻辑 left 面板挂到右缘（拖拽/吸附逻辑的 +x 语义随之自然成立）
+        x: NovaTheme.isRtl ? root.width - width : 0
         width: root.revealWidth
         height: root.height
         active: false
     }
     Loader {
         id: rightLoader
+        objectName: "NovaSlideItem.rightLoader"
+        x: NovaTheme.isRtl ? 0 : root.width - width
         width: root.revealWidth
         height: root.height
-        x: root.width - width
         active: false
     }
 
     // ── 正面（拖拽跟手 + Behavior 吸附） ──────────────────────
     Item {
         id: front
+        objectName: "NovaSlideItem.front"
         x: 0
         width: root.width
         height: root.height

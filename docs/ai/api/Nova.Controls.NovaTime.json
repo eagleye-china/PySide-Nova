@@ -5,12 +5,20 @@
  "description": "NovaTime 时钟面盘：时/分/秒三面切换、24h/12h(AM/PM)、options 过滤、nowBtn 对标 Quasar QTime（14 props；Nova 收口核心 12 项，validator/defaultDate 留痕见 PARITY） 契约统一：hint / error / readonly / disable",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
    "name": "modelValue",
    "type": "var",
    "readonly": false,
    "default": ": null",
    "doc": "\"HH:mm(:ss)\" 串（24h 制存储）",
-   "line": 12
+   "line": 34
   },
   {
    "name": "format24h",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 13
+   "line": 35
   },
   {
    "name": "withSeconds",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 14
+   "line": 36
   },
   {
    "name": "hourOptions",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "数组过滤（0-23）",
-   "line": 15
+   "line": 37
   },
   {
    "name": "minuteOptions",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "0-59",
-   "line": 16
+   "line": 38
   },
   {
    "name": "secondOptions",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 17
+   "line": 39
   },
   {
    "name": "nowBtn",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 18
+   "line": 40
   },
   {
    "name": "tint",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 21
+   "line": 43
   },
   {
    "name": "disable",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 44
   },
   {
    "name": "readonly",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 45
   },
   {
    "name": "hint",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 24
+   "line": 46
   },
   {
    "name": "error",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 25
+   "line": 47
   },
   {
    "name": "errorMessage",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 26
+   "line": 48
   },
   {
    "name": "hasError",
@@ -114,7 +122,7 @@
    "readonly": true,
    "default": ": error || errorMessage !== \"\"",
    "doc": null,
-   "line": 27
+   "line": 49
   },
   {
    "name": "_h",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0-23（内部恒 24h 制）",
-   "line": 32
+   "line": 54
   },
   {
    "name": "_m",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 33
+   "line": 55
   },
   {
    "name": "_s",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 34
+   "line": 56
   },
   {
    "name": "_isAm",
@@ -146,7 +154,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "显示侧状态（12h 模式）",
-   "line": 35
+   "line": 57
   },
   {
    "name": "_face",
@@ -154,7 +162,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0=时 1=分 2=秒",
-   "line": 36
+   "line": 58
   },
   {
    "name": "_touched",
@@ -162,7 +170,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "是否已选过（null → 值）",
-   "line": 37
+   "line": 59
   },
   {
    "name": "_fmt",
@@ -170,7 +178,7 @@
    "readonly": true,
    "default": ": withSeconds ? \"HH:mm:ss\" : \"HH:mm\"",
    "doc": null,
-   "line": 39
+   "line": 61
   },
   {
    "name": "_hDisplay",
@@ -178,7 +186,7 @@
    "readonly": true,
    "default": ": format24h ? _pad(_h)",
    "doc": null,
-   "line": 119
+   "line": 141
   },
   {
    "name": "_hDirty",
@@ -186,7 +194,7 @@
    "readonly": true,
    "default": ": _touched",
    "doc": null,
-   "line": 121
+   "line": 143
   },
   {
    "name": "cx",
@@ -194,7 +202,7 @@
    "readonly": true,
    "default": ": width / 2",
    "doc": null,
-   "line": 224
+   "line": 246
   },
   {
    "name": "cy",
@@ -202,7 +210,7 @@
    "readonly": true,
    "default": ": height / 2",
    "doc": null,
-   "line": 225
+   "line": 247
   },
   {
    "name": "rOuter",
@@ -210,7 +218,7 @@
    "readonly": true,
    "default": ": width / 2 - 8",
    "doc": null,
-   "line": 226
+   "line": 248
   }
  ],
  "signals": [

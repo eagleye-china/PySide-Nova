@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaResizeObserver",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaResizeObserver.qml",
- "description": "NovaResizeObserver 尺寸观察：target（默认声明父项）尺寸变化 → debounce → resize(w,h)（对标 QResizeObserver）",
+ "description": "NovaResizeObserver 尺寸观察：target（默认声明父项）尺寸变化 → debounce → resize(w,h)（对标 QResizeObserver） a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "debounce",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": 100",
    "doc": null,
-   "line": 10
+   "line": 11
   },
   {
    "name": "target",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "null = Component.onCompleted 时取 parent",
-   "line": 11
+   "line": 12
   },
   {
    "name": "_touched",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "初次绑定不触发（观察器语义：只报变化）",
-   "line": 12
+   "line": 13
   },
   {
    "name": "_lw",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 30
+   "line": 31
   },
   {
    "name": "_lh",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 31
+   "line": 32
   }
  ],
  "signals": [

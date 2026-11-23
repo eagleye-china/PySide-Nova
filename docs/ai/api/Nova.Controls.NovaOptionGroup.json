@@ -5,12 +5,20 @@
  "description": "NovaOptionGroup 选项组：checkbox/radio/toggle 三型统一、options 归一化、inline/纵向布局 对标 Quasar QOptionGroup（24 props 含继承 use-checkbox 18；Nova 收口核心 21 项， size/validator/name 留痕见 PARITY） 契约统一：hint / error / readonly / disable",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 13
+  },
+  {
    "name": "type",
    "type": "string",
    "readonly": false,
    "default": ": \"checkbox\"",
    "doc": "checkbox | radio | toggle",
-   "line": 13
+   "line": 18
   },
   {
    "name": "options",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "标量数组或 [{label, value, disable}]",
-   "line": 14
+   "line": 19
   },
   {
    "name": "optionValue",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": \"value\"",
    "doc": "值键名",
-   "line": 15
+   "line": 20
   },
   {
    "name": "optionLabel",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": \"label\"",
    "doc": "文案键名",
-   "line": 16
+   "line": 21
   },
   {
    "name": "optionDisable",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"disable\"",
    "doc": null,
-   "line": 17
+   "line": 22
   },
   {
    "name": "modelValue",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "checkbox/toggle: 数组；radio: 标量",
-   "line": 18
+   "line": 23
   },
   {
    "name": "inline",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "横排",
-   "line": 21
+   "line": 26
   },
   {
    "name": "leftLabel",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 27
   },
   {
    "name": "keepColor",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 28
   },
   {
    "name": "tint",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 color",
-   "line": 24
+   "line": 29
   },
   {
    "name": "dense",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 25
+   "line": 30
   },
   {
    "name": "disable",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 26
+   "line": 31
   },
   {
    "name": "readonly",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 27
+   "line": 32
   },
   {
    "name": "activeTab",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": !disable",
    "doc": null,
-   "line": 28
+   "line": 33
   },
   {
    "name": "hint",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 29
+   "line": 34
   },
   {
    "name": "error",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 30
+   "line": 35
   },
   {
    "name": "errorMessage",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 31
+   "line": 36
   },
   {
    "name": "hasError",
@@ -146,7 +154,7 @@
    "readonly": true,
    "default": ": error || errorMessage !== \"\"",
    "doc": null,
-   "line": 32
+   "line": 37
   },
   {
    "name": "_normalized",
@@ -154,7 +162,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 37
+   "line": 42
   },
   {
    "name": "_scalarMode",
@@ -162,7 +170,7 @@
    "readonly": true,
    "default": ": type === \"radio\"",
    "doc": null,
-   "line": 57
+   "line": 62
   },
   {
    "name": "opt",
@@ -170,7 +178,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 126
+   "line": 131
   },
   {
    "name": "on",
@@ -178,7 +186,7 @@
    "readonly": true,
    "default": ": root._has(opt ? opt.value : null)",
    "doc": null,
-   "line": 127
+   "line": 132
   }
  ],
  "signals": [

@@ -5,12 +5,20 @@
  "description": "NovaMenu 声明式菜单：target 触发（父项/右键/hover 契约）、auto-close、persistent 锁 ESC+外部点击、 fit/cover、anchor/self/offset 定位、受控 modelValue（对标 QMenu） Nova 口径（PARITY §0.14 留痕）： portal 语义降级为就地渲染 + z 提升（建议声明在页面根层，z 由宿主层级决定）；",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 18
+  },
+  {
    "name": "target",
    "type": "var",
    "readonly": false,
    "default": ": null",
    "doc": "null = 声明父项",
-   "line": 18
+   "line": 28
   },
   {
    "name": "contextMenu",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "右键打开",
-   "line": 19
+   "line": 29
   },
   {
    "name": "autoClose",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "点击菜单内任意处关闭（被动监听）",
-   "line": 20
+   "line": 30
   },
   {
    "name": "persistent",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "锁 ESC + 外部点击",
-   "line": 21
+   "line": 31
   },
   {
    "name": "noEscDismiss",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 32
   },
   {
    "name": "hover",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "悬停展开契约（离场宽限收起）",
-   "line": 23
+   "line": 33
   },
   {
    "name": "hoverDelay",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 24
+   "line": 34
   },
   {
    "name": "hoverHideDelay",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": 150",
    "doc": null,
-   "line": 25
+   "line": 35
   },
   {
    "name": "fit",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "菜单至少与 target 等宽",
-   "line": 28
+   "line": 38
   },
   {
    "name": "cover",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "菜单覆盖 target",
-   "line": 29
+   "line": 39
   },
   {
    "name": "anchor",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": \"bottom left\"",
    "doc": "target 的锚点（两词：纵 top/bottom/middle × 横 left/middle/right）",
-   "line": 30
+   "line": 40
   },
   {
    "name": "self",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": \"top left\"",
    "doc": "菜单自身对齐点",
-   "line": 31
+   "line": 41
   },
   {
    "name": "offset",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": [0, 0]",
    "doc": "[x, y] 外扩",
-   "line": 32
+   "line": 42
   },
   {
    "name": "tint",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": NovaTheme.surface",
    "doc": null,
-   "line": 35
+   "line": 45
   },
   {
    "name": "square",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 36
+   "line": 46
   },
   {
    "name": "maxHeight",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0 = 不限（超出裁剪）",
-   "line": 37
+   "line": 47
   },
   {
    "name": "maxWidth",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 38
+   "line": 48
   },
   {
    "name": "pad",
@@ -146,7 +154,7 @@
    "readonly": true,
    "default": ": 6",
    "doc": null,
-   "line": 39
+   "line": 49
   },
   {
    "name": "contentBox",
@@ -154,7 +162,7 @@
    "readonly": true,
    "default": ": contentHost",
    "doc": null,
-   "line": 42
+   "line": 52
   },
   {
    "name": "modelValue",
@@ -162,7 +170,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 45
+   "line": 55
   },
   {
    "name": "_open",
@@ -170,7 +178,7 @@
    "readonly": true,
    "default": ": modelValue",
    "doc": null,
-   "line": 54
+   "line": 64
   },
   {
    "name": "_tgt",
@@ -178,7 +186,7 @@
    "readonly": true,
    "default": ": target !== null ? target : parent",
    "doc": null,
-   "line": 88
+   "line": 98
   },
   {
    "name": "pendingShow",
@@ -186,7 +194,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 110
+   "line": 120
   },
   {
    "name": "_hookedItems",
@@ -194,7 +202,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 216
+   "line": 226
   }
  ],
  "signals": [

@@ -9,8 +9,16 @@
    "type": "string",
    "readonly": false,
    "default": ": \"left\"",
-   "doc": "left | right",
-   "line": 16
+   "doc": "left | right（逻辑侧；RTL 下 effectiveSide 自动镜像）",
+   "line": 17
+  },
+  {
+   "name": "effectiveSide",
+   "type": "string",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 19
   },
   {
    "name": "size",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": 280",
    "doc": "展开宽度（width 由展开状态驱动）",
-   "line": 17
+   "line": 21
   },
   {
    "name": "mini",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "mini 模式：收起为 miniWidth，悬停临时展开",
-   "line": 18
+   "line": 22
   },
   {
    "name": "miniWidth",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": 64",
    "doc": null,
-   "line": 19
+   "line": 23
   },
   {
    "name": "overlay",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "悬浮模式（不推挤页面区）",
-   "line": 20
+   "line": 24
   },
   {
    "name": "breakpoint",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": 1024",
    "doc": "宿主宽度小于该值 → 强制 overlay + 收起",
-   "line": 21
+   "line": 25
   },
   {
    "name": "autoCollapse",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "跨过 breakpoint 时是否自动收起",
-   "line": 22
+   "line": 26
   },
   {
    "name": "bordered",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 27
   },
   {
    "name": "open",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "展开状态（mini 模式下表示\"固定展开\"）",
-   "line": 24
+   "line": 28
   },
   {
    "name": "tint",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": NovaTheme.surface",
    "doc": null,
-   "line": 26
+   "line": 30
   },
   {
    "name": "layoutWidth",
@@ -90,7 +98,7 @@
    "readonly": true,
    "default": ": parent ? parent.width : NovaScreen.width",
    "doc": null,
-   "line": 32
+   "line": 36
   },
   {
    "name": "belowBreakpoint",
@@ -98,7 +106,7 @@
    "readonly": true,
    "default": ": layoutWidth < breakpoint",
    "doc": null,
-   "line": 33
+   "line": 37
   },
   {
    "name": "effectiveOverlay",
@@ -106,7 +114,7 @@
    "readonly": true,
    "default": ": overlay || belowBreakpoint",
    "doc": null,
-   "line": 34
+   "line": 38
   },
   {
    "name": "expanded",
@@ -114,7 +122,7 @@
    "readonly": true,
    "default": ": mini ? (hovered || open) : open",
    "doc": null,
-   "line": 35
+   "line": 39
   },
   {
    "name": "hovered",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 37
+   "line": 41
   }
  ],
  "signals": [],

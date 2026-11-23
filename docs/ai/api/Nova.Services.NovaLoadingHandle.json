@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 14
+   "line": 15
   },
   {
    "name": "item",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": entry ? entry.item : null",
    "doc": null,
-   "line": 17
+   "line": 18
   },
   {
    "name": "valid",
@@ -26,7 +26,7 @@
    "readonly": true,
    "default": ": entry !== null && !entry.dead",
    "doc": null,
-   "line": 20
+   "line": 21
   },
   {
    "name": "group",
@@ -34,7 +34,7 @@
    "readonly": true,
    "default": ": entry ? entry.group : \"\"",
    "doc": null,
-   "line": 21
+   "line": 22
   },
   {
    "name": "count",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": entry ? entry.count : 0",
    "doc": null,
-   "line": 22
+   "line": 23
   }
  ],
  "signals": [],

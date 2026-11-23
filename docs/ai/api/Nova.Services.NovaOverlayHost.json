@@ -10,7 +10,7 @@
    "readonly": true,
    "default": ": NovaTheme.zNotify",
    "doc": null,
-   "line": 16
+   "line": 17
   },
   {
    "name": "contentItem",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 19
+   "line": 20
   },
   {
    "name": "_popups",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 47
+   "line": 48
   }
  ],
  "signals": [],

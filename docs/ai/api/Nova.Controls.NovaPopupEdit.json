@@ -5,12 +5,20 @@
  "description": "NovaPopupEdit 就地编辑弹层：点击目标弹编辑器、autoSave、设置/取消按钮、校验 对标 Quasar QPopupEdit（13 props；Nova 收口核心 11 项，cover 覆盖定位留痕见 PARITY） 用法：默认内容=目标元素；editorData 挂编辑子件（绑 root.modelValue）；保存调 root.set(v) 或 autoSave=true 时编辑器直接改 root.modelValue 即生效",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 16
+  },
+  {
    "name": "modelValue",
    "type": "var",
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 14
+   "line": 31
   },
   {
    "name": "autoSave",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=无按钮（编辑即值，close 即提交）",
-   "line": 15
+   "line": 32
   },
   {
    "name": "buttons",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "显示 设置/取消 按钮",
-   "line": 16
+   "line": 33
   },
   {
    "name": "title",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 17
+   "line": 34
   },
   {
    "name": "labelSet",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"设置\"",
    "doc": null,
-   "line": 18
+   "line": 35
   },
   {
    "name": "labelCancel",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": \"取消\"",
    "doc": null,
-   "line": 19
+   "line": 36
   },
   {
    "name": "tint",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 color",
-   "line": 20
+   "line": 37
   },
   {
    "name": "cover",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "对标 cover（Nova 简化：向上弹）",
-   "line": 21
+   "line": 38
   },
   {
    "name": "disable",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 24
+   "line": 41
   },
   {
    "name": "readonly",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 25
+   "line": 42
   },
   {
    "name": "editorData",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": editorHost.data",
    "doc": "编辑器子件",
-   "line": 36
+   "line": 53
   }
  ],
  "signals": [

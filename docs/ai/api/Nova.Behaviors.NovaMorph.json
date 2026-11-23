@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": parent",
    "doc": "形变目标元素",
-   "line": 13
+   "line": 14
   },
   {
    "name": "group",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "形变组名（对标 v-morph group）",
-   "line": 14
+   "line": 15
   },
   {
    "name": "duration",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": 300",
    "doc": "ghost 形变动画时长",
-   "line": 15
+   "line": 16
   },
   {
    "name": "tint",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "ghost 影子颜色",
-   "line": 16
+   "line": 17
   },
   {
    "name": "radius",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": 4",
    "doc": "ghost 圆角",
-   "line": 17
+   "line": 18
   },
   {
    "name": "active",
@@ -50,7 +50,7 @@
    "readonly": true,
    "default": ": _active",
    "doc": "本实例最近一次 morph 是否生效",
-   "line": 22
+   "line": 23
   },
   {
    "name": "_active",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 24
   },
   {
    "name": "ghostComp",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 26
+   "line": 27
   }
  ],
  "signals": [

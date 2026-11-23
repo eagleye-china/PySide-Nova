@@ -4,7 +4,7 @@
 > 契约分类与门禁规则见 [A11Y.md](A11Y.md)；分类是审计结论：interactive=可操作控件，
 > semantic=只读语义元素，decorative=布局/装饰（**故意不挂** Accessible，避免屏读器噪声）。
 
-总计 123 个导出类型：interactive 32 · semantic 28 · decorative 63
+总计 124 个导出类型：interactive 32 · semantic 28 · decorative 64
 
 | 层 | 类型 | 分类 | Accessible.role | 可读名来源 | 键盘入口 | 按键路径 | 焦点环 | 门禁 |
 |---|---|---|---|---|---|---|---|---|
@@ -122,6 +122,7 @@
 | Services | `NovaStorage` | decorative | - | 无视觉节点（状态/平台/注册表） | ❌ | ❌ | ❌ | ✅ |
 | Services | `NovaApp` | decorative | - | 无视觉节点（状态/平台/注册表） | ❌ | ❌ | ❌ | ✅ |
 | Services | `NovaPlatform` | decorative | - | 无视觉节点（状态/平台/注册表） | ❌ | ❌ | ❌ | ✅ |
+| Services | `NovaI18n` | decorative | - | 无视觉节点（状态/平台/注册表） | ❌ | ❌ | ❌ | ✅ |
 | Services | `NovaNotifyAction` | decorative | - | 无视觉节点（状态/平台/注册表） | ❌ | ❌ | ❌ | ✅ |
 | Services | `NovaNotifyHandle` | decorative | - | 无视觉节点（状态/平台/注册表） | ❌ | ❌ | ❌ | ✅ |
 | Services | `NovaDialogHandle` | decorative | - | 无视觉节点（状态/平台/注册表） | ❌ | ❌ | ❌ | ✅ |

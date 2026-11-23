@@ -5,12 +5,28 @@
  "description": "NovaTree 树控件（对标 QTree） 受控模式（坑位 22）：expanded/ticked/selected 均不自写，只 emit 由宿主写回 勾选策略：none（仅自身）/ strict（上下级联动+半选）/ lazy（仅向下联动已加载层） 懒加载：lazy 节点首次展开 emit lazyLoad(node, done)，宿主 done(子节点数组)",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "_cursorKey",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 42
+  },
+  {
    "name": "nodes",
    "type": "var",
    "readonly": false,
    "default": ": []",
    "doc": "{label,icon,children,lazy,expandable,disabled,tickable,tickStrategy,caption}",
-   "line": 13
+   "line": 116
   },
   {
    "name": "nodeKey",
@@ -18,7 +34,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "键字段名；空则自动生成路径键 \"0.1.2\"",
-   "line": 14
+   "line": 117
   },
   {
    "name": "expanded",
@@ -26,7 +42,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "已展开 key 数组（受控）",
-   "line": 15
+   "line": 118
   },
   {
    "name": "selected",
@@ -34,7 +50,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "选中节点 key 或 null（受控）",
-   "line": 16
+   "line": 119
   },
   {
    "name": "ticked",
@@ -42,7 +58,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "勾选 key 数组（受控）",
-   "line": 17
+   "line": 120
   },
   {
    "name": "tickStrategy",
@@ -50,7 +66,7 @@
    "readonly": false,
    "default": ": \"none\"",
    "doc": "树级默认策略：none | strict | lazy",
-   "line": 18
+   "line": 121
   },
   {
    "name": "filter",
@@ -58,7 +74,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 19
+   "line": 122
   },
   {
    "name": "filterMethod",
@@ -66,7 +82,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "function(node) -> bool",
-   "line": 20
+   "line": 123
   },
   {
    "name": "defaultExpandAll",
@@ -74,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "默认全展开（不影响受控数组）",
-   "line": 21
+   "line": 124
   },
   {
    "name": "dense",
@@ -82,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 125
   },
   {
    "name": "_lazyStore",
@@ -90,7 +106,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": null,
-   "line": 38
+   "line": 141
   },
   {
    "name": "_rev",
@@ -98,7 +114,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 84
+   "line": 187
   },
   {
    "name": "_index",
@@ -106,7 +122,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": null,
-   "line": 88
+   "line": 191
   },
   {
    "name": "_visibleKeys",
@@ -114,7 +130,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 89
+   "line": 192
   },
   {
    "name": "parentNode",
@@ -122,7 +138,7 @@
    "readonly": false,
    "default": ": root.nodes[index]",
    "doc": null,
-   "line": 270
+   "line": 373
   },
   {
    "name": "parentKey",
@@ -130,7 +146,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 271
+   "line": 374
   },
   {
    "name": "depth",
@@ -138,7 +154,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 272
+   "line": 375
   },
   {
    "name": "ld",
@@ -146,7 +162,7 @@
    "readonly": false,
    "default": ": parent",
    "doc": null,
-   "line": 285
+   "line": 388
   },
   {
    "name": "nd",
@@ -154,7 +170,7 @@
    "readonly": false,
    "default": ": ld.parentNode",
    "doc": null,
-   "line": 286
+   "line": 389
   },
   {
    "name": "key",
@@ -162,7 +178,7 @@
    "readonly": false,
    "default": ": root._keyOf(nd, ld.parentKey, ld.index)",
    "doc": null,
-   "line": 287
+   "line": 390
   },
   {
    "name": "kids",
@@ -170,7 +186,7 @@
    "readonly": false,
    "default": ": { root._rev; root._kidsOf(nd, key) }",
    "doc": null,
-   "line": 289
+   "line": 392
   },
   {
    "name": "expandable",
@@ -178,7 +194,7 @@
    "readonly": false,
    "default": ": { root._rev; root._isExpandable(nd, key) }",
    "doc": null,
-   "line": 290
+   "line": 393
   },
   {
    "name": "open",
@@ -186,7 +202,7 @@
    "readonly": false,
    "default": ": { root._rev; root.isExpanded(key) }",
    "doc": null,
-   "line": 291
+   "line": 394
   },
   {
    "name": "strat",
@@ -194,7 +210,7 @@
    "readonly": false,
    "default": ": root._strategyOf(nd)",
    "doc": null,
-   "line": 292
+   "line": 395
   },
   {
    "name": "tickable",
@@ -202,7 +218,7 @@
    "readonly": false,
    "default": ": nd.tickable !== false && strat !== \"none\"",
    "doc": null,
-   "line": 293
+   "line": 396
   },
   {
    "name": "tickOn",
@@ -210,7 +226,7 @@
    "readonly": false,
    "default": ": { root._rev; tickable && (root.isTicked(key) || (strat === \"strict\" && kids.length > 0 && _allKidsOn())) }",
    "doc": null,
-   "line": 294
+   "line": 397
   },
   {
    "name": "half",
@@ -218,7 +234,7 @@
    "readonly": false,
    "default": ": { root._rev; tickable && !tickOn && root.tickHalf(key) }",
    "doc": null,
-   "line": 295
+   "line": 398
   },
   {
    "name": "shown",
@@ -226,7 +242,7 @@
    "readonly": false,
    "default": ": { root._rev; root._visibleKeys === null || root._visibleKeys[key] === true }",
    "doc": null,
-   "line": 296
+   "line": 399
   },
   {
    "name": "sel",
@@ -234,7 +250,7 @@
    "readonly": false,
    "default": ": { root._rev; root.selected === key }",
    "doc": null,
-   "line": 297
+   "line": 400
   },
   {
    "name": "parentNode",
@@ -242,7 +258,7 @@
    "readonly": false,
    "default": ": nodeRoot.kids[index]",
    "doc": null,
-   "line": 416
+   "line": 519
   },
   {
    "name": "parentKey",
@@ -250,7 +266,7 @@
    "readonly": false,
    "default": ": nodeRoot.key",
    "doc": null,
-   "line": 417
+   "line": 520
   },
   {
    "name": "depth",
@@ -258,7 +274,7 @@
    "readonly": false,
    "default": ": nodeRoot.ld.depth + 1",
    "doc": null,
-   "line": 418
+   "line": 521
   }
  ],
  "signals": [
@@ -284,6 +300,26 @@
   }
  ],
  "methods": [
+  {
+   "name": "_a11yActivate",
+   "params": ""
+  },
+  {
+   "name": "_flattenVisibleKeys",
+   "params": ""
+  },
+  {
+   "name": "_cursorMove",
+   "params": "delta"
+  },
+  {
+   "name": "_cursorForward",
+   "params": "expand"
+  },
+  {
+   "name": "_cursorBackward",
+   "params": ""
+  },
   {
    "name": "_resolveLazy",
    "params": "key, children"

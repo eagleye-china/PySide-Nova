@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 import weakref
 from pathlib import Path
@@ -25,6 +26,7 @@ from PySide6.QtCore import (
     QSettings,
     QStandardPaths,
     QSysInfo,
+    Qt,
     Signal,
     Slot,
 )
@@ -189,6 +191,29 @@ class NovaRuntime(QObject):
             pass
         return False
 
+    # ── HiDPI（0.16.1 · Nova 增强：缩放事实查询） ────────────────────
+    # Qt 6 默认启用高 DPI 缩放（AA_EnableHighDpiScaling），组件无需自行换算；
+    # 此处暴露「当前缩放事实」供焦点环/细线取整、密度分流等少数场景使用。
+    # 坑位 48：不可用 constant=True——单例构造期屏幕未就绪，dpr=0 会被永久缓存。
+    hidpiChanged = Signal()
+
+    @Property(float, notify=hidpiChanged)
+    def devicePixelRatio(self) -> float:
+        """主屏幕设备像素比（100%→1.0 / 150%→1.5 / 200%→2.0，含 QT_SCALE_FACTOR）。
+
+        offscreen 等无真实屏幕的平台 dpr 可能为 0：回落 1.0（100% 语义）。"""
+        screen = QGuiApplication.primaryScreen()
+        dpr = float(screen.devicePixelRatio()) if screen is not None else 1.0
+        return dpr if dpr > 0.0 else 1.0
+
+    @Property(float, notify=hidpiChanged)
+    def scaleFactor(self) -> float:
+        """QT_SCALE_FACTOR 环境因子（未设置返回 1.0；与 dpr 区分用于诊断）。"""
+        try:
+            return float(os.environ.get("QT_SCALE_FACTOR", "1.0"))
+        except ValueError:  # pragma: no cover
+            return 1.0
+
     @Slot(result="QVariantMap")
     def snapshot(self) -> dict:
         """一次性取回全部平台事实（测试与"关于"页用）。"""
@@ -200,7 +225,42 @@ class NovaRuntime(QObject):
             "isMobile": self.isMobile,
             "hasTouchscreen": self.hasTouchscreen,
             "storagePath": self.storagePath,
+            "devicePixelRatio": self.devicePixelRatio,
+            "scaleFactor": self.scaleFactor,
         }
+
+    # ── 焦点陷阱（a11y · Dialog Tab 循环，0.16.1） ──────────────────
+    # 为什么必须走应用级事件过滤器：Tab/Backtab 在 activeFocusItem 的
+    # QQuickItem::keyPressEvent C++ 默认实现中被消费（移动焦点并 accept），
+    # 事件不冒泡，QML Keys（含 Keys.BeforeItem——它只对「所在 item 自己」前置）
+    # 永远收不到（坑位 45）。过滤器在窗口级拦截，是唯一可靠断点。
+    @Slot(QObject)
+    def registerFocusTrap(self, trap: QObject) -> None:
+        """注册焦点陷阱容器（QML Item）。
+
+        必须强引用：QML→Python 的 QObject 参数 wrapper 是临时的（slot 返回即被 GC，
+        weakref 立刻失效，坑位 45）；C++ 对象归 QML 引擎所有，销毁后调用抛 RuntimeError，
+        由过滤器按僵尸清理。"""
+        if trap is None:
+            return
+        for t in _TRAPS:
+            if t is trap:
+                return
+        _TRAPS.append(trap)
+
+    @Slot(result=int)
+    def numTraps(self) -> int:
+        """调试/测试：当前注册的陷阱数（含未清理僵尸）。"""
+        return len(_TRAPS)
+
+    @Slot(QObject)
+    def unregisterFocusTrap(self, trap: QObject) -> None:
+        """注销焦点陷阱（陷阱关闭时由 QML 侧调用）。"""
+        if trap is None:
+            return
+        for t in list(_TRAPS):
+            if t is trap:
+                _TRAPS.remove(t)
 
 
 def runtime_snapshot() -> dict:
@@ -209,21 +269,60 @@ def runtime_snapshot() -> dict:
 
 
 # ══════════════════════════════════════════════════════════════════
-# 输入模态广播（focus-visible）
+# 输入模态广播（focus-visible）+ 焦点陷阱（Dialog Tab 循环）
 # ══════════════════════════════════════════════════════════════════
 _KB_EVENTS = (QEvent.Type.KeyPress, QEvent.Type.KeyRelease)
 _POINTER_EVENTS = (QEvent.Type.MouseButtonPress, QEvent.Type.MouseButtonDblClick,
                    QEvent.Type.TouchBegin, QEvent.Type.Wheel)
+_TRAPS: "list[QObject]" = []              # 存活的焦点陷阱容器（强引用 QML wrapper，见坑位 45）
+_TAB_KEYS = (Qt.Key.Key_Tab, Qt.Key.Key_Backtab)
+
+
+def _is_trap_ancestor(trap: QObject, item: QObject) -> bool:
+    """item 是否位于陷阱容器内（沿 parent 链上溯）。"""
+    p = item
+    while p is not None:
+        if p is trap:
+            return True
+        try:
+            p = p.parent()
+        except RuntimeError:  # pragma: no cover - 已析构
+            return False
+    return False
 
 
 class _InputModalityFilter(QObject):
-    """应用级事件过滤器：把「键盘 or 指针」这一事实广播给所有 NovaRuntime 实例。
+    """应用级事件过滤器：输入模态广播 + 焦点陷阱的 Tab 拦截。
 
-    只做类型判断后立刻返回 False（不拦截事件），开销仅一次整数比较。
+    模态判定只做类型判断后立刻返回 False（不拦截事件），开销极小；
+    焦点陷阱仅在存在注册容器时进入，逐个弱引用判活。
     """
 
     def eventFilter(self, obj: QObject, event: QEvent) -> bool:
         etype = event.type()
+        if etype == QEvent.Type.KeyPress and _TRAPS:
+            try:
+                ev = event
+                if ev.key() in _TAB_KEYS:
+                    # 焦点命中判定交给 QML（trapHitTest）：win.property("activeFocusItem")
+                    # 的 QQuickItem* 在 PySide 无 converter（坑位 45），Python 侧不可读。
+                    back = (ev.key() == Qt.Key.Key_Backtab
+                            or bool(ev.modifiers() & Qt.KeyboardModifier.ShiftModifier))
+                    for trap in reversed(_TRAPS):
+                        try:
+                            # 可见性/焦点命中判定全在 QML（wrapper 静态类型 QObject，
+                            # isVisible 等 QQuickItem 方法不可见，坑位 45）
+                            if bool(trap.trapHitTest()) and bool(trap.trapNext(back)):
+                                return True
+                        except RuntimeError:
+                            # 陷阱 C++ 对象已销毁（未走 unregister）：按僵尸清理
+                            try:
+                                _TRAPS.remove(trap)
+                            except ValueError:
+                                pass
+                            continue
+            except Exception:  # pragma: no cover - 陷阱链路兜底（不吞事件）
+                pass
         if etype in _KB_EVENTS:
             _broadcast(True)
         elif etype in _POINTER_EVENTS:

@@ -12,6 +12,7 @@ singleton NovaLoading 1.0 NovaLoading.qml
 singleton NovaStorage 1.0 NovaStorage.qml
 singleton NovaApp 1.0 NovaApp.qml
 singleton NovaPlatform 1.0 NovaPlatform.qml
+singleton NovaI18n 1.0 NovaI18n.qml
 NovaNotifyAction 1.0 NovaNotifyAction.qml
 NovaNotifyHandle 1.0 NovaNotifyHandle.qml
 NovaDialogHandle 1.0 NovaDialogHandle.qml

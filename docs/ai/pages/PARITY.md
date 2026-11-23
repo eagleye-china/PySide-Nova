@@ -881,3 +881,54 @@ M1/M2 排期在 ROADMAP 跟踪。
 
 > 测试口径：7 冒烟 + 7 行为（LT_EDITOR/LT_SLIDE/LT_MORPH 环境驱动代理 + IconGenie/MCP
 > subprocess 直退码核验），合计 0.15.0 新增 14 项（308 → 322）。
+
+---
+
+## 0.16.0 审计 —— 五期 Sprint B1 · 可访问性（**Quasar 无对应层，Nova 增强**）
+
+基线事实：npm `quasar@2.35.5` **没有 a11y 模块**——`Accessible` 语义靠模板里散写 `aria-*`，
+无统一令牌、无键盘路径约束、无对比度门禁。故本节全部为 ✅ Nova 增强（⛔ 无基线可 1:1），
+按"契约可验证"口径登记，避免把"没有对标"误读成"没有做"。
+
+| 交付物 | 对标情况 | 契约口径 |
+|---|---|---|
+| `NovaA11y`（Nova.Design 单例） | ⛔ Quasar 无（Vue 侧无公共 a11y API） | WCAG 2.1 数学（相对亮度/对比度/大文本判定/AA·AAA·UI 三档）+ AA 派生（`aaText` 双向最小位移、`aaFill` 单向压暗保色相）+ `ringVisible()` + `notice()` + 语义词汇表 |
+| `NovaFocusRing`（Behaviors） | ⛔ Quasar 无（Quasar 焦点态靠 CSS `:focus` 常显） | focus-visible 语义：仅键盘模态绘制；`target/tint/ringWidth/offset/cornerRadius` 五参数；只画不拦事 |
+| `NovaLiveRegion`（Behaviors） | ⛔ Quasar 无（Vue 侧靠第三方 aria-live） | 消费 `NovaA11y.notice()` → `Accessible.announce()`；WCAG 4.1.3 |
+| `Nova.Runtime.keyboardMode` | ⛔ 无（浏览器原生 `:focus-visible`） | 应用级事件过滤器维护输入模态；KeyPress→true / 指针→false；QML 经 `NovaA11y.keyboardMode` 读取 |
+| 组件 `a11yLabel` 属性（32 个 interactive 类型） | ⚠ Quasar 对应 `aria-label` 属性（Vue 模板字符串） | QML 化为一等属性：空则自动回落 `text`/`label`/`title`/`hint`，非空优先 |
+| `Accessible.*` 覆盖 | ⚠ Quasar 声明 WAI-ARIA 全覆盖 | **123 类型 100% 登记**：interactive 32（role+name+键盘入口+按键路径+焦点环）、semantic 28（role+name）、decorative 63（禁止挂载 + 标记留痕） |
+| 对比度令牌 | ⛔ Quasar 无派生（`text-primary` 在浅色面 4.21:1，不合 AA） | `a11yBase` / `*Text` ×7 / `fillTint()` / `outlineStrong` / `focusRing`，全部由 `NovaA11y` 运行时派生，`setBrand()` 换肤后仍合规 |
+| 门禁 | ⛔ Quasar 无 | `scripts/check_a11y.py`（静态，exit 1 阻断）+ `tests/test_a11y.py` 21 项（运行时 QAccessible 矩阵） |
+
+**已知差距（0.16.1 已补 Tree 游标 / Dialog 焦点陷阱；余项滚动）**：表格逐单元格语义、
+**组件内部组合色逐件像素采样**（tinted Chip 等，令牌门禁只管令牌组合）、
+真机屏读器（NVDA/VoiceOver）手工回归（B3）。详见 [A11Y.md](A11Y.md) §7。
+
+> 测试口径：0.16.0 新增 21 项（322 → 343）——数学 2 / 令牌 4（明暗 × 文本·非文本）/
+> 运行时矩阵 2（19 类型 role·name·disabled·focusable）/ 键盘 8 / 焦点环 1 / 播报 1 /
+> 画廊页实例化 1 / 静态门禁自检 1，另有 1 项测试内参数化展开。
+
+
+---
+
+## 0.16.1 审计 —— 五期 Sprint B2 · 国际化 + RTL + 性能 + HiDPI
+
+基线事实：npm `quasar@2.35.5` Lang 插件——`$q.lang.isoName/rtl/set(props)` + `lang:locale-change`
+事件；RTL 语言集合 ar/he/fa/ur/ps/sd/ug/yi/ckb（源码核实）。复数无对应（Vue 生态靠 vue-i18n
+`$tc` / Intl.PluralRules），格式化无对应（浏览器 Intl）——QML 语境裁定：全局词典包 + t()/tp()
+命令式查询 + JS 精简 CLDR + Qt.locale().toString。
+
+| 交付物 | 对标情况 | 契约口径 |
+|---|---|---|
+| `NovaI18n`（Nova.Services 单例，第 124 类型） | ✅ `$q.lang`（isoName/rtl/set）+ ⚠ vue-i18n（t/tp 语义，QML 无组件作用域词典改全局包） | locale 切换（属性信号即 `lang:locale-change`）、`t()` 插值三级回落（精确 → 主语言前缀 → en-US → key）、`tp()` CLDR 七语系（zh/ja/en/ru/ar/cs/pl）、`addBundle/addPluralBundle` 热注入（对标 props 合并）、formatNumber/Currency/Date/Relative、isRtl/direction |
+| RTL 双轨镜像 | ⚠ Quasar RTL Build 模式（编译期 `$q.lang.rtl` 注入 CSS） | QML 语境 = 运行期双轨：声明式 `LayoutMirroring.enabled: NovaTheme.isRtl`（首选）+ 手工布局组件 effectiveSide 反排（Drawer/Layout/SlideItem/Breadcrumbs/Pagination/StepperNavigation）；逻辑侧 API 语义恒定 |
+| 性能门禁 | ⛔ Quasar 无（Vue SFC 构建期收益不可比） | 冷启动 ≤800ms / 全类型实例化 ≤5ms（两遍测量 + KNOWN_HEAVY 白名单）/ 1000 行表格挂载 ≤1700ms；`scripts/check_perf.py` CLI 入口 |
+| HiDPI | ⛔ 无对标（浏览器 DPR 原生） | QT_SCALE_FACTOR 1.0/1.5/2.0 矩阵：dpr 联动 + 逻辑几何恒定；Nova.Runtime 上报 devicePixelRatio/scaleFactor |
+| a11y M2 补差 | ⚠ WAI-ARIA treeview/dialog 模式 | NovaTree roving cursor（Up/Down 移动、Right 展开/Left 收起、跳父、环绕；RTL 键互换）；NovaDialogShell 焦点陷阱（Tab 循环 + 还焦；应用级事件过滤器承载） |
+
+**已知差距（滚动）**：更多语言词典包（de/ja/ru/ar 由应用侧 addBundle 注入示范）、术语表管理、
+24h 内存长跑、真机多屏 HiDPI 抽查、NVDA 真机回归（均 B3）。详见 [I18N.md](I18N.md)。
+
+> 测试口径：0.16.1 新增 51 项（343 → 394）——i18n 41（含 RTL 几何断言）/ a11y 补差 3 /
+> perf 3 / hidpi 4。类型 123 → 124（NovaI18n decorative 单例）。

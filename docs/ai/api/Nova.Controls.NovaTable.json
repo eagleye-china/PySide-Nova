@@ -5,12 +5,28 @@
  "description": "NovaTable 数据表格（对标 QTable） v0.11.0 基础：列定义/排序/过滤/分页/多选/展开行/grid 模式 v0.12.0 增强：虚拟滚动（virtualScroll + ListView 真虚拟化）/ 服务端模式 （serverSide + rowsNumber + request 信号 + requestServerInteraction/setPagination/firstPage）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "_a11yRow",
+   "type": "int",
+   "readonly": false,
+   "default": ": -1",
+   "doc": "键盘游标（-1 = 未定位）",
+   "line": 20
+  },
+  {
    "name": "columns",
    "type": "var",
    "readonly": false,
    "default": ": []",
    "doc": "[{name,label,field,align,sortable,cellStyle}] 或字符串",
-   "line": 17
+   "line": 59
   },
   {
    "name": "rows",
@@ -18,7 +34,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 18
+   "line": 60
   },
   {
    "name": "rowKey",
@@ -26,7 +42,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "行键字段名；空则用原始行序号",
-   "line": 19
+   "line": 61
   },
   {
    "name": "filter",
@@ -34,7 +50,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "客户端过滤（全字段包含匹配）",
-   "line": 20
+   "line": 62
   },
   {
    "name": "filterMethod",
@@ -42,7 +58,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "自定义过滤 function(row, filter) -> bool",
-   "line": 21
+   "line": 63
   },
   {
    "name": "serverSide",
@@ -50,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=过滤/排序/分页均由宿主执行，rows 即当前页数据",
-   "line": 24
+   "line": 66
   },
   {
    "name": "rowsNumber",
@@ -58,7 +74,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": "服务端总行数（pageCount 依据；-1 回落 rows.length）",
-   "line": 25
+   "line": 67
   },
   {
    "name": "virtualScroll",
@@ -66,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "表体走 ListView 真虚拟化（建议 rowsPerPage: 0）",
-   "line": 28
+   "line": 70
   },
   {
    "name": "virtualScrollItemSize",
@@ -74,7 +90,7 @@
    "readonly": false,
    "default": ": 48",
    "doc": "行高（虚拟化估高）",
-   "line": 29
+   "line": 71
   },
   {
    "name": "loading",
@@ -82,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "loading 覆盖层（对标 loading）",
-   "line": 32
+   "line": 74
   },
   {
    "name": "loadingLabel",
@@ -90,7 +106,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "loading 文案（对标 loading-label）",
-   "line": 33
+   "line": 75
   },
   {
    "name": "noDataLabel",
@@ -98,7 +114,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "空态文案（对标 no-data-label；空用内置文案）",
-   "line": 34
+   "line": 76
   },
   {
    "name": "sortBy",
@@ -106,7 +122,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 37
+   "line": 79
   },
   {
    "name": "descending",
@@ -114,7 +130,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 38
+   "line": 80
   },
   {
    "name": "binaryStateSort",
@@ -122,7 +138,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=升↔降两态；false=三态（无序→升→降→无序）",
-   "line": 39
+   "line": 81
   },
   {
    "name": "selected",
@@ -130,7 +146,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "选中行对象数组（single 时长度 0/1）",
-   "line": 42
+   "line": 84
   },
   {
    "name": "singleSelection",
@@ -138,7 +154,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=单选（点新行替换）",
-   "line": 43
+   "line": 85
   },
   {
    "name": "rowsPerPage",
@@ -146,7 +162,7 @@
    "readonly": false,
    "default": ": 10",
    "doc": null,
-   "line": 46
+   "line": 88
   },
   {
    "name": "page",
@@ -154,7 +170,7 @@
    "readonly": false,
    "default": ": 1",
    "doc": null,
-   "line": 47
+   "line": 89
   },
   {
    "name": "rowsPerPageOptions",
@@ -162,7 +178,7 @@
    "readonly": false,
    "default": ": [5, 10, 20, 50]",
    "doc": null,
-   "line": 48
+   "line": 90
   },
   {
    "name": "hideBottom",
@@ -170,7 +186,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 49
+   "line": 91
   },
   {
    "name": "expanded",
@@ -178,7 +194,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "展开行 key 数组",
-   "line": 52
+   "line": 94
   },
   {
    "name": "expandSlot",
@@ -186,7 +202,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "展开区渲染组件（上下文 row/index/expand）",
-   "line": 53
+   "line": 95
   },
   {
    "name": "title",
@@ -194,7 +210,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 56
+   "line": 98
   },
   {
    "name": "hideHeader",
@@ -202,7 +218,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 57
+   "line": 99
   },
   {
    "name": "grid",
@@ -210,7 +226,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "网格模式（单元格描边）",
-   "line": 58
+   "line": 100
   },
   {
    "name": "flat",
@@ -218,7 +234,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 59
+   "line": 101
   },
   {
    "name": "bordered",
@@ -226,7 +242,7 @@
    "readonly": false,
    "default": ": !flat",
    "doc": null,
-   "line": 60
+   "line": 102
   },
   {
    "name": "filteredRows",
@@ -234,7 +250,7 @@
    "readonly": true,
    "default": ": serverSide ? rows : _filterRows()",
    "doc": null,
-   "line": 63
+   "line": 105
   },
   {
    "name": "sortedRows",
@@ -242,7 +258,7 @@
    "readonly": true,
    "default": ": serverSide ? rows : _sortRows(filteredRows)",
    "doc": null,
-   "line": 64
+   "line": 106
   },
   {
    "name": "rowCount",
@@ -250,7 +266,7 @@
    "readonly": true,
    "default": ": serverSide && rowsNumber >= 0 ? rowsNumber : sortedRows.length",
    "doc": null,
-   "line": 65
+   "line": 107
   },
   {
    "name": "pageCount",
@@ -258,7 +274,7 @@
    "readonly": true,
    "default": ": rowsPerPage > 0 ? Math.max(1, Math.ceil(rowCount / rowsPerPage)) : 1",
    "doc": null,
-   "line": 66
+   "line": 108
   },
   {
    "name": "visibleRows",
@@ -266,7 +282,7 @@
    "readonly": true,
    "default": ": serverSide ? rows",
    "doc": null,
-   "line": 68
+   "line": 110
   },
   {
    "name": "allVisibleSelected",
@@ -274,7 +290,7 @@
    "readonly": true,
    "default": ": visibleRows.length > 0 && _allSelected()",
    "doc": null,
-   "line": 71
+   "line": 113
   },
   {
    "name": "someSelected",
@@ -282,7 +298,7 @@
    "readonly": true,
    "default": ": selected.length > 0 && !allVisibleSelected",
    "doc": null,
-   "line": 72
+   "line": 114
   },
   {
    "name": "_bodyViewport",
@@ -290,7 +306,7 @@
    "readonly": true,
    "default": ": Math.max(virtualScrollItemSize,",
    "doc": null,
-   "line": 91
+   "line": 133
   },
   {
    "name": "virtualRowCount",
@@ -298,7 +314,7 @@
    "readonly": true,
    "default": ": virtualBody.count",
    "doc": null,
-   "line": 104
+   "line": 146
   },
   {
    "name": "virtualContentY",
@@ -306,7 +322,7 @@
    "readonly": true,
    "default": ": virtualBody.contentY",
    "doc": null,
-   "line": 105
+   "line": 147
   },
   {
    "name": "virtualContentHeight",
@@ -314,7 +330,7 @@
    "readonly": true,
    "default": ": virtualBody.contentHeight",
    "doc": null,
-   "line": 106
+   "line": 148
   },
   {
    "name": "normColumns",
@@ -322,7 +338,7 @@
    "readonly": true,
    "default": ": columns.map(_normCol)",
    "doc": null,
-   "line": 120
+   "line": 162
   },
   {
    "name": "_selectedKeys",
@@ -330,7 +346,7 @@
    "readonly": true,
    "default": ": selected.map(function (r) { return _keyVal(r) })",
    "doc": null,
-   "line": 178
+   "line": 220
   },
   {
    "name": "rowData",
@@ -338,7 +354,7 @@
    "readonly": false,
    "default": ": modelData",
    "doc": null,
-   "line": 320
+   "line": 362
   },
   {
    "name": "rowIdx",
@@ -346,7 +362,7 @@
    "readonly": false,
    "default": ": index",
    "doc": null,
-   "line": 321
+   "line": 363
   },
   {
    "name": "rowK",
@@ -354,7 +370,7 @@
    "readonly": false,
    "default": ": root._keyOf(modelData, index)",
    "doc": null,
-   "line": 322
+   "line": 364
   },
   {
    "name": "rowExpanded",
@@ -362,7 +378,7 @@
    "readonly": false,
    "default": ": root.expanded.indexOf(rowK) !== -1",
    "doc": null,
-   "line": 323
+   "line": 365
   },
   {
    "name": "rowSelected",
@@ -370,7 +386,7 @@
    "readonly": false,
    "default": ": root.isRowSelected(modelData)",
    "doc": null,
-   "line": 324
+   "line": 366
   }
  ],
  "signals": [
@@ -404,6 +420,22 @@
   }
  ],
  "methods": [
+  {
+   "name": "_a11ySet",
+   "params": "i"
+  },
+  {
+   "name": "_a11yMove",
+   "params": "dir, n"
+  },
+  {
+   "name": "_a11yActivate",
+   "params": ""
+  },
+  {
+   "name": "_a11yToggle",
+   "params": ""
+  },
   {
    "name": "scrollTo",
    "params": "i"

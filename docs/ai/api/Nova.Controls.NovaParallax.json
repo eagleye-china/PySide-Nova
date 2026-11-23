@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaParallax",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaParallax.qml",
- "description": "NovaParallax 视差滚动容器（对标 QParallax）：媒体层随宿主滚动慢速位移（speed 因子）， scroll-target 缺省向上遍历找最近 Flickable（坑位 14：默认属性转交内部容器 parent 失真）",
+ "description": "NovaParallax 视差滚动容器（对标 QParallax）：媒体层随宿主滚动慢速位移（speed 因子）， scroll-target 缺省向上遍历找最近 Flickable（坑位 14：默认属性转交内部容器 parent 失真） a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "src",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": null,
    "doc": "媒体图（mediaSlot 缺省时渲染）",
-   "line": 14
+   "line": 15
   },
   {
    "name": "speed",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": 1.0",
    "doc": "视差速度 0<speed<1（官方默认 1；越小球动越慢）",
-   "line": 15
+   "line": 16
   },
   {
    "name": "scrollTarget",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "滚动宿主（Flickable/ScrollView）；null 自动向上探测",
-   "line": 16
+   "line": 17
   },
   {
    "name": "mediaSlot",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 25
+   "line": 26
   },
   {
    "name": "_flick",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": scrollTarget !== null ? scrollTarget : _findFlick(root)",
    "doc": null,
-   "line": 32
+   "line": 33
   },
   {
    "name": "_topInContent",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 44
+   "line": 45
   },
   {
    "name": "progress",
@@ -58,7 +58,7 @@
    "readonly": true,
    "default": ": _flick === null ? 0",
    "doc": null,
-   "line": 62
+   "line": 63
   },
   {
    "name": "_speed",
@@ -66,7 +66,7 @@
    "readonly": true,
    "default": ": Math.min(1, Math.max(0, speed))",
    "doc": null,
-   "line": 82
+   "line": 83
   },
   {
    "name": "extra",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": root._speed * root.height",
    "doc": null,
-   "line": 89
+   "line": 90
   }
  ],
  "signals": [

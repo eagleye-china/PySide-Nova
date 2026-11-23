@@ -5,12 +5,20 @@
  "description": "NovaChatMessage 聊天气泡（对标 QChatMessage）：sent 收发镜像 / name·avatar·text[]·stamp / label 分组标签 + size 栅格宽（1~12）；slots：default 正文 / avatarSlot / nameSlot / stampSlot / labelSlot；⛔ *-html 系（QML 不解析 HTML，走 default 槽）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 12
+  },
+  {
    "name": "sent",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": "true=当前用户发出（镜像右侧）",
-   "line": 15
+   "line": 20
   },
   {
    "name": "label",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "分组标签（气泡组上方居中）",
-   "line": 16
+   "line": 21
   },
   {
    "name": "tint",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": sent ? NovaTheme.primary : NovaTheme.surfaceAlt",
    "doc": "对标 bg-color",
-   "line": 17
+   "line": 22
   },
   {
    "name": "textColor",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": sent ? NovaTheme.textOnPrimary : NovaTheme.textColor",
    "doc": "对标 text-color",
-   "line": 18
+   "line": 23
   },
   {
    "name": "name",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "发送者名",
-   "line": 19
+   "line": 24
   },
   {
    "name": "avatar",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "头像",
-   "line": 20
+   "line": 25
   },
   {
    "name": "text",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "字符串或字符串数组（多条气泡）",
-   "line": 21
+   "line": 26
   },
   {
    "name": "stamp",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "时间戳（尾条气泡右下角）",
-   "line": 22
+   "line": 27
   },
   {
    "name": "size",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": 12",
    "doc": "1~12（栅格宽语义：气泡区宽 = size/12 × 容器宽）",
-   "line": 23
+   "line": 28
   },
   {
    "name": "avatarSlot",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 28
+   "line": 33
   },
   {
    "name": "nameSlot",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 29
+   "line": 34
   },
   {
    "name": "stampSlot",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 30
+   "line": 35
   },
   {
    "name": "labelSlot",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 31
+   "line": 36
   },
   {
    "name": "_lines",
@@ -114,7 +122,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 34
+   "line": 39
   },
   {
    "name": "_unit",
@@ -122,7 +130,7 @@
    "readonly": true,
    "default": ": width > 0 ? width : implicitWidth",
    "doc": null,
-   "line": 41
+   "line": 46
   },
   {
    "name": "_bubbleZone",
@@ -130,7 +138,7 @@
    "readonly": true,
    "default": ": Math.max(60, _unit * Math.min(Math.max(size, 1), 12) / 12)",
    "doc": null,
-   "line": 42
+   "line": 47
   },
   {
    "name": "_avatarW",
@@ -138,7 +146,7 @@
    "readonly": true,
    "default": ": (avatarSlot !== null || avatar.toString() !== \"\") ? 34 : 0",
    "doc": null,
-   "line": 43
+   "line": 48
   },
   {
    "name": "isLast",
@@ -146,7 +154,7 @@
    "readonly": true,
    "default": ": index === root._lines.length - 1",
    "doc": null,
-   "line": 137
+   "line": 142
   }
  ],
  "signals": [],

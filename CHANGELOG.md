@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.16.1] - 2026-11-23
+
+### Added（五期 Sprint B 第二交付单元 · **i18n + RTL + 性能 + HiDPI 非功能攻坚**：类型 123 → 124、测试 343 → 394）
+
+- **NovaI18n 服务单例**（Nova.Services，第 124 个公共类型；对标 Quasar Lang 插件 `$q.lang` +
+  vue-i18n 语义）：`locale/setLocale()` 全局切换、`t()` 词典翻译（`{name}` 插值；三级回落链
+  locale 精确 → 主语言码前缀 → en-US → key 本身）、`tp()` CLDR 复数（JS 精简实现七语系：
+  zh/ja/ko/th/vi 恒 other、en/de one-other、ru one-few-many、ar 六类别、cs/sk、pl）、
+  `addBundle()/addPluralBundle()` 运行时热注入（幂等覆盖）、`formatNumber/formatCurrency`
+  （分隔符/货币符号表随 locale）、`formatDate`（命名样式 + 自定义 pattern，
+  `Qt.locale(name).toString` 渲染）、`formatRelative`（复数联动）
+- **RTL 镜像双轨适配**：`NovaTheme.isRtl/direction` 方向令牌（随 NovaI18n 联动）；
+  `NovaPagination`（LayoutMirroring + 箭头字符取反）、`NovaDrawer`/`NovaLayout`
+  （`effectiveSide` 逻辑侧换边）、`NovaSlideItem`（loader 镜像 + Left/Right 物理键互换）、
+  `NovaBreadcrumbs`（反排重布局）、`NovaStepperNavigation`（LayoutMirroring）；
+  **逻辑侧 API 语义恒定**——RTL 只换物理方向，不换语义
+- **性能门禁三指标**（`tests/test_perf.py` 3 项 + `scripts/check_perf.py` CLI 包装）：
+  冷启动 ≤800ms、全导出类型实例化 ≤5ms/个（预热后两遍测量 + KNOWN_HEAVY 白名单）、
+  1000 行 NovaTable 挂载 ≤1700ms
+- **HiDPI 门禁**（`tests/test_hidpi.py` 4 项）：QT_SCALE_FACTOR 1.0/1.5/2.0 矩阵下
+  devicePixelRatio 联动、逻辑几何恒定；Nova.Runtime 上报 `devicePixelRatio/scaleFactor`
+- **a11y 补差**（M2 清单）：`NovaTree` 方向键游标（roving cursor：Up/Down 移动、
+  Right 展开 / Left 收起、收起态跳父、环绕式移动；RTL 时 Left/Right 语义互换）；
+  `NovaDialogShell` WAI-ARIA 焦点陷阱（打开记录来源焦点并聚焦首项、Tab/Shift+Tab 循环困于
+  陷阱内、关闭还焦来源；runtime 应用级事件过滤器承载 Tab 拦截——QML Keys 层收不到 Tab）
+- **画廊第 24 页「国际化 i18n」**：locale 切换按钮组、t/tp/复数类别实时联动、
+  数字/货币/日期/相对时间格式化、RTL 镜像演示（含 de/ja/ru/ar 四语热注入词典示范）
+- **`docs/I18N.md`** 国际化指南（API 一览/词典回落链/复数规则表/RTL 双轨/坑位 43）
+
+### Fixed
+
+- `qrc://` 双斜杠 URL 经 shiboken 解析为带 authority 的路径，`QQmlComponent.setData` 间歇性
+  SIGSEGV——**全局替换为 `qrc:/` 单斜杠**（独立脚本/pytest 交错崩溃的总根因，坑位 48 前因）
+
+### 坑位沉淀（43~48，详见 docs/SESSION_HANDOFF.md）
+
+- **43**：Qt 6.12 `Qt.formatDate` 三参重载不存在（pattern 被丢弃）→ `Qt.locale(name).toString(date, pattern)`
+- **44**：QQmlExpression + creationContext 对非 Item 对象间歇 SIGSEGV → QML 内定义 helper + Python 直调
+- **45**：Tab 在 QQuickItem::keyPressEvent C++ 默认实现被消费不冒泡（Keys.BeforeItem 也拦不到）
+  → 应用级事件过滤器；PySide slot 的 QObject 参数 wrapper 是临时的（须强引用）；
+  `Item.window` 普通属性 JS 层 undefined → attached `Item.Window.window`
+- **46**：QML 函数从 wrapper 调用返回未求值 MetaFunction → 改 `readonly property int` 承载
+- **47**：性能测量须两遍法（首建含 QML 编译冷缓存）；NovaDate/NovaEditor 首建 11~15ms 属固有成本
+- **48**：干净引擎早期 setData 组件 SIGSEGV（实为坑位 qrc:// 双斜杠）→ 全局 `qrc:/` 单斜杠 + 探针纪律
+
 ## [0.16.0] - 2026-11-23
 
 ### Added（五期 Sprint B 第一交付单元 · **可访问性攻坚 WCAG 2.1 AA**：类型 120 → 123、测试 322 → 343）

@@ -5,12 +5,20 @@
  "description": "NovaToolbar 工具栏（对标 QToolbar）：水平排布行、min-height 50、inset 内容缩进； 默认槽为工具栏内容（常配 NovaToolbarTitle / NovaBtn / NovaChip）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 11
+  },
+  {
    "name": "inset",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 14
+   "line": 19
   }
  ],
  "signals": [],

@@ -1,0 +1,151 @@
+{
+ "name": "Nova.Design.NovaA11y",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Design/NovaA11y.qml",
+ "description": "NovaA11y 可访问性单例：WCAG 2.1 AA 对比度数学、AA 兜底派生令牌、键盘焦点可见性语义、状态播报与语义词汇表（对标 Quasar 无——Nova 增强） NovaA11y —— L0 设计语言层的可访问性基座（0.16.0 五期 Sprint B） 基线留痕：Quasar 2.35.5 无 a11y 模块（Vue 侧靠 aria-* 属性散写，无统一令牌与门禁）； Nova 以此为差异化能力：Accessible.* 逐组件 1:1 覆盖 + AA 兜底派生 + 静态/运行时双门禁。",
+ "properties": [
+  {
+   "name": "aaTextRatio",
+   "type": "real",
+   "readonly": true,
+   "default": ": 4.5",
+   "doc": "常规文本 AA",
+   "line": 22
+  },
+  {
+   "name": "aaLargeTextRatio",
+   "type": "real",
+   "readonly": true,
+   "default": ": 3.0",
+   "doc": "大号文本 AA（≥18.66px 粗体 / ≥24px 常规）",
+   "line": 23
+  },
+  {
+   "name": "aaaTextRatio",
+   "type": "real",
+   "readonly": true,
+   "default": ": 7.0",
+   "doc": "常规文本 AAA",
+   "line": 24
+  },
+  {
+   "name": "uiComponentRatio",
+   "type": "real",
+   "readonly": true,
+   "default": ": 3.0",
+   "doc": "控件边界/图标/焦点指示（1.4.11）",
+   "line": 25
+  },
+  {
+   "name": "keyboardMode",
+   "type": "bool",
+   "readonly": true,
+   "default": ": NovaRuntime.keyboardMode",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "visibleFocus",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "lastAnnouncement",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 163
+  },
+  {
+   "name": "announcementCount",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 164
+  },
+  {
+   "name": "semanticColors",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"primary\", \"secondary\", \"accent\",",
+   "doc": null,
+   "line": 179
+  },
+  {
+   "name": "requiredInteractive",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"role\", \"name\", \"focusable\"]",
+   "doc": null,
+   "line": 182
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "ringVisible",
+   "params": "target"
+  },
+  {
+   "name": "channels",
+   "params": "color"
+  },
+  {
+   "name": "luminance",
+   "params": "color"
+  },
+  {
+   "name": "contrast",
+   "params": "a, b"
+  },
+  {
+   "name": "isLargeText",
+   "params": "pixelSize, bold"
+  },
+  {
+   "name": "passesAA",
+   "params": "fg, bg, large"
+  },
+  {
+   "name": "passesAAA",
+   "params": "fg, bg, large"
+  },
+  {
+   "name": "passesUI",
+   "params": "fg, bg"
+  },
+  {
+   "name": "mix",
+   "params": "a, b, k"
+  },
+  {
+   "name": "_minMix",
+   "params": "color, toward, bg, target"
+  },
+  {
+   "name": "aaText",
+   "params": "color, bg, target"
+  },
+  {
+   "name": "aaFill",
+   "params": "fill, textOn, target"
+  },
+  {
+   "name": "contrastColor",
+   "params": "bg, light, dark"
+  },
+  {
+   "name": "notice",
+   "params": "text"
+  },
+  {
+   "name": "clearAnnouncement",
+   "params": ""
+  }
+ ]
+}

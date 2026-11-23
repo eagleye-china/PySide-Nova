@@ -5,12 +5,20 @@
  "description": "NovaIcon —— 图标（对标 QIcon）：八通道归一化解析 + provider 注册表 + 本地图标包优先/CDN 回落 + MultiEffect 单色化 支持写法（NovaIconSet.resolve 归一化）： home / o_home / r_home / s_home        → 当前图标集（material 系变体前缀 1:1） mdi-home / mdi:home / eva-home         → 前缀库映射（对标 QIcon.libMap）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 23
+  },
+  {
    "name": "icon",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 26
+   "line": 31
   },
   {
    "name": "source",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "直接指定图片地址（优先级最高）",
-   "line": 27
+   "line": 32
   },
   {
    "name": "size",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": 24",
    "doc": null,
-   "line": 28
+   "line": 33
   },
   {
    "name": "color",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": NovaTheme.textColor",
    "doc": null,
-   "line": 31
+   "line": 36
   },
   {
    "name": "monochrome",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "单色化（跟随 color）；false 保留原 SVG 彩色",
-   "line": 32
+   "line": 37
   },
   {
    "name": "cloudFallback",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "本地缺失时回落云端",
-   "line": 35
+   "line": 40
   },
   {
    "name": "parsed",
@@ -58,7 +66,7 @@
    "readonly": true,
    "default": ": NovaIconSet.resolve(icon)",
    "doc": null,
-   "line": 41
+   "line": 46
   },
   {
    "name": "kind",
@@ -66,7 +74,7 @@
    "readonly": true,
    "default": ": parsed.kind !== undefined ? parsed.kind : \"none\"",
    "doc": null,
-   "line": 42
+   "line": 47
   },
   {
    "name": "providerId",
@@ -74,7 +82,7 @@
    "readonly": true,
    "default": ": parsed.provider !== undefined ? parsed.provider : \"\"",
    "doc": null,
-   "line": 43
+   "line": 48
   },
   {
    "name": "iconName",
@@ -82,7 +90,7 @@
    "readonly": true,
    "default": ": parsed.name !== undefined ? parsed.name : \"\"",
    "doc": null,
-   "line": 44
+   "line": 49
   },
   {
    "name": "provider",
@@ -90,7 +98,7 @@
    "readonly": true,
    "default": ": providerId !== \"\" ? NovaIconSet.provider(providerId) : null",
    "doc": null,
-   "line": 45
+   "line": 50
   },
   {
    "name": "_useCloud",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 48
+   "line": 53
   },
   {
    "name": "_remote",
@@ -106,7 +114,7 @@
    "readonly": true,
    "default": ": providerId !== \"\"",
    "doc": null,
-   "line": 57
+   "line": 62
   },
   {
    "name": "_local",
@@ -114,7 +122,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 60
+   "line": 65
   },
   {
    "name": "_url",
@@ -122,7 +130,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 66
+   "line": 71
   },
   {
    "name": "_nodes",
@@ -130,7 +138,7 @@
    "readonly": true,
    "default": ": kind === \"path\" && parsed.nodes !== undefined ? parsed.nodes : []",
    "doc": null,
-   "line": 135
+   "line": 140
   },
   {
    "name": "_pathScale",
@@ -138,7 +146,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 136
+   "line": 141
   }
  ],
  "signals": [],

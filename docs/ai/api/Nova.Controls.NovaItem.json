@@ -5,12 +5,28 @@
  "description": "NovaItem 列表条目（对标 QItem） 槽：default（主内容）/ leading（左头像图标区，对标 QItemSection left）/ trailing（右侧区）/ expandContent（展开内容区，仅 expanded 时显示） 可展开模式（expandable）：expandRequested(bool) 受控上报，宿主写回 expanded；",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "_a11yActionable",
+   "type": "bool",
+   "readonly": true,
+   "default": ": clickable || expandable",
+   "doc": null,
+   "line": 17
+  },
+  {
    "name": "leading",
    "type": "alias",
    "readonly": false,
    "default": ": leftSlot.data",
    "doc": null,
-   "line": 15
+   "line": 37
   },
   {
    "name": "trailing",
@@ -18,7 +34,7 @@
    "readonly": false,
    "default": ": sideSlot.data",
    "doc": "对标 QItemSection side",
-   "line": 16
+   "line": 38
   },
   {
    "name": "expandContent",
@@ -26,7 +42,7 @@
    "readonly": false,
    "default": ": expandBody.data",
    "doc": null,
-   "line": 17
+   "line": 39
   },
   {
    "name": "label",
@@ -34,7 +50,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "便捷主文案",
-   "line": 19
+   "line": 41
   },
   {
    "name": "caption",
@@ -42,7 +58,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "便捷副文案",
-   "line": 20
+   "line": 42
   },
   {
    "name": "icon",
@@ -50,7 +66,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "便捷左图标",
-   "line": 21
+   "line": 43
   },
   {
    "name": "clickable",
@@ -58,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 44
   },
   {
    "name": "active",
@@ -66,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "激活高亮",
-   "line": 23
+   "line": 45
   },
   {
    "name": "disable",
@@ -74,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 24
+   "line": 46
   },
   {
    "name": "expandable",
@@ -82,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "可展开（点击切换）",
-   "line": 25
+   "line": 47
   },
   {
    "name": "expanded",
@@ -90,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "受控",
-   "line": 26
+   "line": 48
   },
   {
    "name": "manualExpand",
@@ -98,7 +114,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=展开状态完全由宿主管（点击只上报）",
-   "line": 27
+   "line": 49
   },
   {
    "name": "listRef",
@@ -106,7 +122,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 30
+   "line": 52
   }
  ],
  "signals": [
@@ -120,6 +136,10 @@
   }
  ],
  "methods": [
+  {
+   "name": "_a11yActivate",
+   "params": ""
+  },
   {
    "name": "requestExpand",
    "params": ""

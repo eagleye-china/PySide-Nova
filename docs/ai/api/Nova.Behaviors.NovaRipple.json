@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": NovaTheme.ripple",
    "doc": null,
-   "line": 20
+   "line": 21
   },
   {
    "name": "duration",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": 550",
    "doc": null,
-   "line": 21
+   "line": 22
   }
  ],
  "signals": [],

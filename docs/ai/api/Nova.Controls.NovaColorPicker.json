@@ -5,12 +5,20 @@
  "description": "NovaColorPicker 取色器：SV 色域盘 + 色相条 + 调色板(palette) + HEX 编辑 + footer 值显示 对标 Quasar QColor（16 props；Nova 收口核心 13 项，rgb/hsl 编辑器与 alpha 通道留痕见 PARITY） 契约统一：hint / error / readonly / disable",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
    "name": "modelValue",
    "type": "var",
    "readonly": false,
    "default": ": null",
    "doc": "\"#RRGGBB\"；未选= null（基线语义：无默认值不产出）",
-   "line": 12
+   "line": 39
   },
   {
    "name": "defaultValue",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "对标 default-value（null 时显示占位）",
-   "line": 13
+   "line": 40
   },
   {
    "name": "formatModel",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": \"hex\"",
    "doc": "hex | rgb（rgb 输出 \"rgb(r,g,b)\"）",
-   "line": 14
+   "line": 41
   },
   {
    "name": "paletteColors",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": [",
    "doc": "对标 palette（Item.palette 内建撞名，宪法坑位：改名留痕）",
-   "line": 15
+   "line": 42
   },
   {
    "name": "noFooter",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 20
+   "line": 47
   },
   {
    "name": "noHeader",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 21
+   "line": 48
   },
   {
    "name": "flat",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "对标 flat/bordered（视觉令牌化）",
-   "line": 22
+   "line": 49
   },
   {
    "name": "bordered",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 50
   },
   {
    "name": "disable",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 26
+   "line": 53
   },
   {
    "name": "readonly",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 27
+   "line": 54
   },
   {
    "name": "hint",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 28
+   "line": 55
   },
   {
    "name": "error",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 29
+   "line": 56
   },
   {
    "name": "errorMessage",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 30
+   "line": 57
   },
   {
    "name": "hasError",
@@ -114,7 +122,7 @@
    "readonly": true,
    "default": ": error || errorMessage !== \"\"",
    "doc": null,
-   "line": 31
+   "line": 58
   },
   {
    "name": "_hue",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": 210",
    "doc": "0-360",
-   "line": 36
+   "line": 63
   },
   {
    "name": "_sat",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": 85",
    "doc": "0-100",
-   "line": 37
+   "line": 64
   },
   {
    "name": "_val",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": 90",
    "doc": "0-100",
-   "line": 38
+   "line": 65
   },
   {
    "name": "_touched",
@@ -146,7 +154,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 39
+   "line": 66
   }
  ],
  "signals": [

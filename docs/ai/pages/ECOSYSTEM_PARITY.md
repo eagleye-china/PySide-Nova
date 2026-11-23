@@ -12,13 +12,13 @@
 |---|---|---|---|---|---|
 | **L0 设计语言** | 令牌/主题/图标集/动效/排版 | 8 品牌色 + Dark + 14 套图标 + q-transition--* | **已交付（0.8.0）**：14 套图标集 + provider 注册表 + 八通道解析 + NovaMotion 15 预设 + 12 级字阶 + 高程 0~24 | **100%** | ≥95% |
 | **L1 布局系统** | QLayout/QHeader/QFooter/QDrawer/QPage + 栅格 | 完整 + 断点行为 + mini 抽屉 | **已交付（0.5.0）** | **100%** | 100% |
-| **L2 组件** | 120+ 组件 | 全 | **83 个**（0.15.0 长尾组件：Editor 轻量富文本、SlideItem 滑动操作项、Morph 形变；0.14.0 弹层与反馈 16） | **70%** | P0 100% / 全库 ≥90% |
+| **L2 组件** | 120+ 组件 | 全 | **91 个控件 + 32 个非控件类型**（0.16.0 可访问性攻坚未加控件；0.15.0 长尾：Editor/SlideItem/Morph） | **70%** | P0 100% / 全库 ≥90% |
 | **L3 指令** | 9 个（ripple/close-popup/intersection/touch 系列/scroll/morph/mutation） | 全 | **10 个**（Ripple + 0.7.0 九件收口 + **0.15.0 NovaMorph 形变**；Mutation/DropZone 由 QML 原生信号承担，PARITY 留痕） | **100%** | 100% |
 | **L4 插件（服务）** | 16 个（Notify/Dialog/Loading/BottomSheet/Storage/App/Meta…） | 全 | **7 个**（OverlayHost 基建 + Notify + Dialog + Loading + Storage + App + Platform，0.6.2 一次收口四件） | **44%** | 100%（QML 适用项） |
 | **L5 工具层** | CSS 工具类 + composables + utils | 数百个 class + 25 composable | **已交付（0.8.0）**：NovaUtils（colors 12 + date 21 + format 6 + is 5 + debounce/throttle/frameDebounce/uid/extend/clone）；CSS 工具类由 QML 组件承担留痕 | **95%** | ≥90% |
-| **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | 75%（0.15.0 补 AI-ready 文档包 + MCP server；缺文档站、视觉回归、打包器） | **75%** | ≥95% |
+| **L6 工程化** | CLI/打包/文档站/测试/发布 | 全 | **80%**（0.16.0 补 a11y 双门禁 + 契约矩阵；缺文档站、视觉回归、打包器） | **80%** | ≥95% |
 
-> **一句话诊断**：L1/L3/L0 满格、L5 95%（一期骨架完工）；L2 70%（五期 A：长尾组件 Editor/SlideItem/Morph 收官，L3 Morph 指令补齐）；L4 44%；L6 75%（AI-ready + MCP 已通，@quasar/mcp 新品类 1:1 对标）。
+> **一句话诊断**：L1/L3/L0 满格、L5 95%；L2 70%（五期 A 长尾收官）；L4 44%；L6 **80%**（AI-ready + MCP + a11y 双门禁）；**非功能轴上的可访问性从 0% → 95%**（0.16.0），这是 Quasar 也没做出的统一层。
 > 补组件只是"长得像"，补齐这几层才叫"用起来像"。
 
 ---
@@ -178,10 +178,10 @@ L6 工程化     ← 构建、打包、文档、测试、发布、治理
 
 | 维度 | 门禁 | 现状 |
 |---|---|---|
-| **可访问性** | WCAG 2.1 AA；全组件键盘可达（Tab/Enter/Esc/方向键）；`Accessible.name/role` 覆盖 100%；焦点环可见；对比度 ≥4.5:1 | 0%（Quasar 已宣称 WAI-ARIA 全覆盖，必须对齐） |
-| **国际化** | `NovaI18n`：locale 切换、复数、日期/数字格式、**RTL 镜像** | 0% |
-| **性能** | 冷启动首帧 ≤800ms；1000 行表格滚动 ≥55fps；单组件实例化 ≤5ms；内存无泄漏（24h 压测） | 未测 |
-| **HiDPI/缩放** | 100%~200% 无模糊；字体缩放跟随系统；`NovaTheme.fontScale` | 未验证 |
+| **可访问性** | WCAG 2.1 AA；全组件键盘可达（Tab/Enter/Esc/方向键）；`Accessible.name/role` 覆盖 100%；焦点环可见；对比度 ≥4.5:1 | **95%（0.16.1）**：124 类型契约 100%（32 interactive 全键盘路径 + 焦点环）、AA 派生令牌、静态+运行时双门禁、24 项测试；0.16.1 补齐 Tree 方向键游标、Dialog 焦点陷阱；余 5% = 组件内部组合色逐件采样（B3）、屏读器手工回归（NVDA，B3） |
+| **国际化** | `NovaI18n`：locale 切换、复数、日期/数字格式、**RTL 镜像** | **90%（0.16.1）**：NovaI18n 单例（对标 $q.lang：t() 三级回落 / tp() CLDR 七语系复数 / 数字货币日期相对时间格式化 / addBundle 热注入）、RTL 双轨镜像 6 组件、41 项测试；余 10% = 更多语言词典包 + 术语表管理 |
+| **性能** | 冷启动首帧 ≤800ms；1000 行表格滚动 ≥55fps；单组件实例化 ≤5ms；内存无泄漏（24h 压测） | **门禁化（0.16.1）**：test_perf.py 三指标全绿——冷启动 ≤800ms ✅ / 实例化 ≤5ms ✅（两遍测量 + KNOWN_HEAVY）/ 1000 行挂载 ≤1700ms ✅（55fps 预算大幅富余）；24h 内存长跑待 B3 |
+| **HiDPI/缩放** | 100%~200% 无模糊；字体缩放跟随系统；`NovaTheme.fontScale` | **门禁化（0.16.1）**：QT_SCALE_FACTOR 1.0/1.5/2.0 矩阵（dpr 联动 + 逻辑几何恒定）；Qt 6 高分屏默认策略下无自研 fontScale 必要；真机多屏抽查待 B3 |
 | **主题** | 明暗 + 跟随系统 + 品牌换肤 + 对比度自动校验 | 60% |
 | **打包** | PyInstaller 单文件 ≤60MB；安装器；代码签名；离线图标内置 | 0% |
 | **安全** | 图标 SVG 消毒；无默认联网；依赖 SBOM；CVE 周巡 | 30% |

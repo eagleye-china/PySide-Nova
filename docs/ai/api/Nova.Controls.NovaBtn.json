@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 18
+   "line": 21
   },
   {
    "name": "icon",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 19
+   "line": 22
   },
   {
    "name": "iconRight",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 20
+   "line": 23
   },
   {
    "name": "variant",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": \"filled\"",
    "doc": null,
-   "line": 23
+   "line": 26
   },
   {
    "name": "size",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": \"md\"",
    "doc": null,
-   "line": 24
+   "line": 27
   },
   {
    "name": "round",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 25
+   "line": 28
   },
   {
    "name": "dense",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 26
+   "line": 29
   },
   {
    "name": "tint",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 27
+   "line": 30
   },
   {
    "name": "disable",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 30
+   "line": 33
   },
   {
    "name": "loading",
@@ -82,7 +82,15 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 31
+   "line": 34
+  },
+  {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 38
   },
   {
    "name": "isPressed",
@@ -90,7 +98,7 @@
    "readonly": true,
    "default": ": ma.pressed",
    "doc": null,
-   "line": 38
+   "line": 51
   },
   {
    "name": "isHovered",
@@ -98,7 +106,7 @@
    "readonly": true,
    "default": ": ma.containsMouse",
    "doc": null,
-   "line": 39
+   "line": 52
   },
   {
    "name": "_iconIsRef",
@@ -106,7 +114,7 @@
    "readonly": true,
    "default": ": icon.indexOf(\":\") > -1",
    "doc": null,
-   "line": 42
+   "line": 55
   },
   {
    "name": "_h",
@@ -114,7 +122,7 @@
    "readonly": true,
    "default": ": size === \"sm\" ? 28",
    "doc": null,
-   "line": 46
+   "line": 59
   },
   {
    "name": "_fs",
@@ -122,7 +130,7 @@
    "readonly": true,
    "default": ": size === \"sm\" ? 12 : (size === \"lg\" ? 16 : 14)",
    "doc": null,
-   "line": 49
+   "line": 62
   },
   {
    "name": "_padX",
@@ -130,15 +138,23 @@
    "readonly": true,
    "default": ": round ? 0 : (size === \"sm\" ? 10 : (size === \"lg\" ? 20 : 14))",
    "doc": null,
-   "line": 50
+   "line": 63
   },
   {
    "name": "_fg",
    "type": "color",
    "readonly": true,
-   "default": ": variant === \"filled\" ? NovaTheme.textOnPrimary : tint",
+   "default": ": variant === \"filled\" ? NovaTheme.textOnPrimary",
    "doc": null,
-   "line": 51
+   "line": 65
+  },
+  {
+   "name": "_fillBase",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.fillTint(tint)",
+   "doc": null,
+   "line": 68
   },
   {
    "name": "_bg",
@@ -146,7 +162,7 @@
    "readonly": true,
    "default": ": variant === \"filled\"",
    "doc": null,
-   "line": 52
+   "line": 69
   }
  ],
  "signals": [

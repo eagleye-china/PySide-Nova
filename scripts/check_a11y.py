@@ -161,6 +161,7 @@ SERVICES: dict[str, tuple[str, str, str]] = {
     name: (DECORATIVE, "-", "无视觉节点（状态/平台/注册表）")
     for name in ("NovaScreen", "NovaTheme", "NovaOverlayHost", "NovaStorage",
                  "NovaApp", "NovaPlatform", "NovaIntersectionPool",
+                 "NovaI18n",
                  "NovaNotifyAction", "NovaNotifyHandle", "NovaDialogHandle",
                  "NovaLoadingHandle")
 }

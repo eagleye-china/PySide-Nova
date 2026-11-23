@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": NovaTheme.spacingM",
    "doc": null,
-   "line": 15
+   "line": 16
   },
   {
    "name": "justify",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": \"start\"",
    "doc": "start | center | end | between",
-   "line": 16
+   "line": 17
   },
   {
    "name": "align",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": \"top\"",
    "doc": "top | center | bottom",
-   "line": 17
+   "line": 18
   },
   {
    "name": "wrap",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 18
+   "line": 19
   }
  ],
  "signals": [],

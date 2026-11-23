@@ -5,12 +5,20 @@
  "description": "NovaSelect 下拉选择：options 归一化 / single+multiple / emitValue / useInput 过滤 / 下拉弹层 对标 Quasar QSelect（47 props；Nova 收口核心 24 项，其余留痕见 PARITY） 契约统一：label / hint / error / readonly / disable / clearable / rules",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 15
+  },
+  {
    "name": "options",
    "type": "var",
    "readonly": false,
    "default": ": []",
    "doc": "[{label,value,disable}] 或标量数组",
-   "line": 13
+   "line": 23
   },
   {
    "name": "optionValue",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"value\"",
    "doc": "值键名",
-   "line": 14
+   "line": 24
   },
   {
    "name": "optionLabel",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": \"label\"",
    "doc": "文案键名",
-   "line": 15
+   "line": 25
   },
   {
    "name": "optionDisable",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": \"disable\"",
    "doc": null,
-   "line": 16
+   "line": 26
   },
   {
    "name": "modelValue",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "单选：值/对象；多选：数组",
-   "line": 17
+   "line": 27
   },
   {
    "name": "multiple",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 18
+   "line": 28
   },
   {
    "name": "emitValue",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=模型取原始值；false=取选项对象（对标语义）",
-   "line": 19
+   "line": 29
   },
   {
    "name": "displayValue",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "自定义展示文案（对标 display-value）",
-   "line": 20
+   "line": 30
   },
   {
    "name": "hideDropdownIcon",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 21
+   "line": 31
   },
   {
    "name": "dropdownIcon",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": \"mdi:menu-down\"",
    "doc": null,
-   "line": 22
+   "line": 32
   },
   {
    "name": "optionsDense",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 33
   },
   {
    "name": "optionsCover",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "Nova 简化：true=向上弹（近似 cover 语义）",
-   "line": 24
+   "line": 34
   },
   {
    "name": "noOptionLabel",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "空选项文案（对标 no-option-label）",
-   "line": 25
+   "line": 35
   },
   {
    "name": "maxValues",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "多选上限（0=不限）",
-   "line": 26
+   "line": 36
   },
   {
    "name": "useInput",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "键入过滤（对标 use-input）",
-   "line": 27
+   "line": 37
   },
   {
    "name": "inputPlaceholder",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "useInput 占位",
-   "line": 28
+   "line": 38
   },
   {
    "name": "_normalized",
@@ -138,7 +146,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 36
+   "line": 46
   },
   {
    "name": "_selectedValues",
@@ -146,7 +154,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 54
+   "line": 64
   },
   {
    "name": "_displayText",
@@ -154,7 +162,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 59
+   "line": 69
   },
   {
    "name": "filterText",
@@ -162,7 +170,7 @@
    "readonly": true,
    "default": ": useInput ? filterInput.text : \"\"",
    "doc": null,
-   "line": 77
+   "line": 87
   }
  ],
  "signals": [

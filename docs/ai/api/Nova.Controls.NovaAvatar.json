@@ -5,12 +5,20 @@
  "description": "NovaAvatar 头像：文字哈希自动配色 / 图片 / square / size 可调（对标 QAvatar） NovaAvatar —— 头像（对标 QAvatar） 文字头像（按内容自动配色）/ emoji / 图片三态",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 12
+  },
+  {
    "name": "text",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 15
+   "line": 20
   },
   {
    "name": "source",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 16
+   "line": 21
   },
   {
    "name": "size",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": 44",
    "doc": null,
-   "line": 17
+   "line": 22
   },
   {
    "name": "square",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 18
+   "line": 23
   },
   {
    "name": "tint",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": root.autoColor",
    "doc": "基调色（QML 中 color 与基类属性冲突故命名 tint）",
-   "line": 19
+   "line": 24
   },
   {
    "name": "textColor",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": \"#FFFFFF\"",
    "doc": null,
-   "line": 20
+   "line": 25
   },
   {
    "name": "autoColor",
@@ -58,7 +66,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 23
+   "line": 28
   },
   {
    "name": "_hasImage",
@@ -66,7 +74,7 @@
    "readonly": true,
    "default": ": root.source.toString() !== \"\"",
    "doc": null,
-   "line": 39
+   "line": 44
   }
  ],
  "signals": [],

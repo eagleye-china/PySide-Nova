@@ -5,12 +5,28 @@
  "description": "NovaChip 标签：filled/outlined/tinted、可选中、可移除、dense（对标 QChip） NovaChip —— 标签/片（对标 QChip） tint 为基调色（对应 QChip 的 color 属性；QML 中 color 与基类属性冲突故命名 tint） filled / outlined / tinted 三形态，支持图标、可选中、可移除",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "_a11yActionable",
+   "type": "bool",
+   "readonly": true,
+   "default": ": clickable || removable",
+   "doc": null,
+   "line": 16
+  },
+  {
    "name": "text",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 17
+   "line": 35
   },
   {
    "name": "icon",
@@ -18,7 +34,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 18
+   "line": 36
   },
   {
    "name": "filled",
@@ -26,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 21
+   "line": 39
   },
   {
    "name": "outlined",
@@ -34,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 40
   },
   {
    "name": "dense",
@@ -42,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 41
   },
   {
    "name": "selected",
@@ -50,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 24
+   "line": 42
   },
   {
    "name": "tint",
@@ -58,7 +74,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 25
+   "line": 43
   },
   {
    "name": "clickable",
@@ -66,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 28
+   "line": 46
   },
   {
    "name": "removable",
@@ -74,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 29
+   "line": 47
   },
   {
    "name": "disable",
@@ -82,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 30
+   "line": 48
   },
   {
    "name": "_h",
@@ -90,7 +106,7 @@
    "readonly": true,
    "default": ": dense ? 26 : 34",
    "doc": null,
-   "line": 36
+   "line": 54
   },
   {
    "name": "_fg",
@@ -98,7 +114,7 @@
    "readonly": true,
    "default": ": filled ? \"#FFFFFF\" : tint",
    "doc": null,
-   "line": 37
+   "line": 55
   }
  ],
  "signals": [

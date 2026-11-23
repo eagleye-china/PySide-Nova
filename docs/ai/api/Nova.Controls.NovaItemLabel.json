@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaItemLabel",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaItemLabel.qml",
- "description": "NovaItemLabel 条目标签（对标 QItemLabel）：overline/caption/header/lines",
+ "description": "NovaItemLabel 条目标签（对标 QItemLabel）：overline/caption/header/lines a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "overline",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "上标签样式（小号大写字距）",
-   "line": 9
+   "line": 10
   },
   {
    "name": "caption",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "辅助文字（小号灰）",
-   "line": 10
+   "line": 11
   },
   {
    "name": "header",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "列表分节标题",
-   "line": 11
+   "line": 12
   },
   {
    "name": "lines",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0=不省略；>0=ellipsis 行数",
-   "line": 12
+   "line": 13
   }
  ],
  "signals": [],

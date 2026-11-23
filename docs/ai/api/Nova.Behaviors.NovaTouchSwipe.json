@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": parent",
    "doc": null,
-   "line": 29
+   "line": 30
   },
   {
    "name": "minVelocity",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": 0.06",
    "doc": "px/ms",
-   "line": 31
+   "line": 32
   },
   {
    "name": "touchMinDistance",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": 6",
    "doc": null,
-   "line": 32
+   "line": 33
   },
   {
    "name": "mouseMinDistance",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": 50",
    "doc": null,
-   "line": 33
+   "line": 34
   },
   {
    "name": "horizontal",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 34
+   "line": 35
   },
   {
    "name": "vertical",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 35
+   "line": 36
   },
   {
    "name": "directions",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "空 = 全向",
-   "line": 36
+   "line": 37
   },
   {
    "name": "_fired",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 38
+   "line": 39
   }
  ],
  "signals": [

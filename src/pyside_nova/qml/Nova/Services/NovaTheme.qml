@@ -6,6 +6,7 @@
 pragma Singleton
 import QtQuick
 import Nova.Design
+import Nova.Services
 
 QtObject {
     id: theme
@@ -107,6 +108,12 @@ QtObject {
     readonly property int radiusS: 6
     readonly property int radiusM: 10
     readonly property int radiusL: 14
+
+    // ── 方向令牌（0.16.1 新颁 · RTL 镜像） ──────────────────────
+    // 事实源在 NovaI18n（isRtl/direction）；主题层派生只读别名，供组件统一取用。
+    // 方向性组件一律 LayoutMirroring.enabled: NovaTheme.isRtl，禁止手写翻转分支。
+    readonly property bool isRtl: NovaI18n.isRtl
+    readonly property string direction: NovaI18n.direction
 
     // ── 字体令牌 ──────────────────────────────────────────────
     property string fontFamily: "Segoe UI"

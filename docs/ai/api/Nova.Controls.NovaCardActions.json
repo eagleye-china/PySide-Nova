@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaCardActions",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaCardActions.qml",
- "description": "NovaCardActions 卡片操作区：align 左/中/右对齐 NovaCardActions —— 卡片操作区（对标 QCardActions） align: \"left\" | \"center\" | \"right\"",
+ "description": "NovaCardActions 卡片操作区：align 左/中/右对齐 NovaCardActions —— 卡片操作区（对标 QCardActions） align: \"left\" | \"center\" | \"right\" a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "align",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"right\"",
    "doc": null,
-   "line": 13
+   "line": 14
   },
   {
    "name": "_pad",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": 8",
    "doc": null,
-   "line": 15
+   "line": 16
   }
  ],
  "signals": [],

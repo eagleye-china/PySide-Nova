@@ -5,12 +5,20 @@
  "description": "NovaExpansionItem 展开项（对标 QExpansionItem）：header（icon/label/caption 或 header 命名槽）+ 动画展开内容；group 手风琴（ExpansionGroups.js 注册表互斥收起）； 受控契约（坑位 22）：expanded 默认绑定 defaultOpened（宿主未绑时的初值），组件自身 只 emit updateModelValue(bool) 不自写；show/beforeShow/hide/beforeHide/afterShow/",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 17
+  },
+  {
    "name": "header",
    "type": "alias",
    "readonly": false,
    "default": ": headerSlot.data",
    "doc": null,
-   "line": 18
+   "line": 34
   },
   {
    "name": "defaultOpened",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "初始展开（宿主未绑 expanded 时的初值）",
-   "line": 21
+   "line": 37
   },
   {
    "name": "expanded",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": defaultOpened",
    "doc": "宿主绑定后以宿主为准",
-   "line": 22
+   "line": 38
   },
   {
    "name": "label",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 35
+   "line": 51
   },
   {
    "name": "caption",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 36
+   "line": 52
   },
   {
    "name": "labelLines",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0 = 不限行（单行省略）",
-   "line": 37
+   "line": 53
   },
   {
    "name": "captionLines",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 38
+   "line": 54
   },
   {
    "name": "icon",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 39
+   "line": 55
   },
   {
    "name": "expandIcon",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": \"mdi:chevron-down\"",
    "doc": null,
-   "line": 40
+   "line": 56
   },
   {
    "name": "expandedIcon",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "展开态替换图标；空则沿用 expandIcon",
-   "line": 41
+   "line": 57
   },
   {
    "name": "hideExpandIcon",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 42
+   "line": 58
   },
   {
    "name": "expandIconToggle",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "仅图标区响应切换（头部其余区域不触发）",
-   "line": 43
+   "line": 59
   },
   {
    "name": "switchToggleSide",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "展开图标换到左侧（默认右侧）",
-   "line": 44
+   "line": 60
   },
   {
    "name": "denseToggle",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 45
+   "line": 61
   },
   {
    "name": "dense",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 46
+   "line": 62
   },
   {
    "name": "duration",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": 300",
    "doc": null,
-   "line": 47
+   "line": 63
   },
   {
    "name": "headerInsetLevel",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 48
+   "line": 64
   },
   {
    "name": "contentInsetLevel",
@@ -146,7 +154,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 49
+   "line": 65
   },
   {
    "name": "expandSeparator",
@@ -154,7 +162,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "展开时上下分隔线",
-   "line": 50
+   "line": 66
   },
   {
    "name": "group",
@@ -162,7 +170,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "手风琴组名（同名互斥）",
-   "line": 51
+   "line": 67
   },
   {
    "name": "popup",
@@ -170,7 +178,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "popup 模式：展开区浮出描边",
-   "line": 52
+   "line": 68
   },
   {
    "name": "disable",
@@ -178,7 +186,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 53
+   "line": 69
   },
   {
    "name": "tint",
@@ -186,7 +194,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 QItem color 口径（基调色红线）",
-   "line": 54
+   "line": 70
   },
   {
    "name": "insetX",
@@ -194,7 +202,7 @@
    "readonly": true,
    "default": ": NovaTheme.spacingM + root.headerInsetLevel * 24",
    "doc": null,
-   "line": 117
+   "line": 133
   },
   {
    "name": "iconW",
@@ -202,7 +210,7 @@
    "readonly": true,
    "default": ": root.hideExpandIcon ? 0 : (root.denseToggle ? 24 : 32)",
    "doc": null,
-   "line": 118
+   "line": 134
   }
  ],
  "signals": [

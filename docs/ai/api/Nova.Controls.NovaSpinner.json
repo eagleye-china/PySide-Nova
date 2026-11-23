@@ -5,12 +5,20 @@
  "description": "NovaSpinner 加载指示器：variant 八变体（ring/ball/dots/hourglass/gears/grid/radio/comment，对标 QSpinner 系列） Canvas 逐帧绘制口径：统一 Timer 驱动 phase ∈ [0,1)，onPhaseChanged → requestPaint（坑位 28 显式失效口径）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 11
+  },
+  {
    "name": "variant",
    "type": "string",
    "readonly": false,
    "default": ": \"ring\"",
    "doc": "ring | ball | dots | hourglass | gears | grid | radio | comment",
-   "line": 11
+   "line": 16
   },
   {
    "name": "size",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": 42",
    "doc": null,
-   "line": 12
+   "line": 17
   },
   {
    "name": "tint",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 13
+   "line": 18
   },
   {
    "name": "thickness",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": 5",
    "doc": "ring/radio 口径：描边宽度",
-   "line": 14
+   "line": 19
   },
   {
    "name": "_variants",
@@ -42,7 +50,7 @@
    "readonly": true,
    "default": ": [\"ring\", \"ball\", \"dots\", \"hourglass\", \"gears\", \"grid\", \"radio\", \"comment\"]",
    "doc": null,
-   "line": 16
+   "line": 21
   },
   {
    "name": "phase",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 22
+   "line": 27
   }
  ],
  "signals": [],

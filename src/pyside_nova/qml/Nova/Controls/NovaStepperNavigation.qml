@@ -14,4 +14,6 @@ Row {
 
     // Row 自带 default data 槽——直接声明按钮子项即可
     spacing: NovaTheme.spacingM
+    // RTL（0.16.1）：位置器自动镜像（步骤流从右往左）
+    LayoutMirroring.enabled: NovaTheme.isRtl
 }

@@ -119,10 +119,46 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 3. **审计义务**：每层差距维护于 `docs/ECOSYSTEM_PARITY.md`，每次交付复核一次
 4. **禁止"生态空心"**：组件堆满而 L1/L3/L4/L5 为 0 时，不得宣称"生态化完成"
 
+## 第 11 章 可访问性（0.16.0 新颁，封版门禁条款）
+
+1. **三分类契约制**：每个 qmldir 导出类型必须在 `scripts/check_a11y.py` 的契约表登记为
+   `interactive` / `semantic` / `decorative`；未登记即门禁失败（新增类型不补分类不得交付）
+2. **interactive 五件套**：`Accessible.role` + `Accessible.name`（或 `a11yLabel` 覆盖）+
+   `activeFocusOnTab`（或继承自 Nova 组件）+ 至少一条 `Keys.on*` 路径 + `NovaFocusRing`
+3. **decorative 禁令**：布局/装饰容器**禁止**挂 `Accessible.*`（屏读器噪声），源码须带
+   `// a11y: decorative` 标记；这是审计结论，不是遗漏
+4. **对比度门禁**：文本 ≥4.5:1、控件边界与焦点指示 ≥3:1（WCAG 1.4.3 / 1.4.11）；
+   品牌色不改，需要承载文字/边界时用 `NovaA11y` 派生（`*Text` / `fillTint` / `outlineStrong`）
+5. **焦点可见性**：键盘模态才画焦点环（focus-visible 语义）；任何新增可聚焦控件不得自绘另一套
+6. **键盘等价**：鼠标可达即键盘可达；键盘路径必须走与鼠标相同的 emit 出口，
+   **不得**绕过受控契约（组件只 emit 不自写宿主状态）
+7. **状态播报**：命令式服务的状态消息经 `NovaA11y.notice()`，由 `NovaLiveRegion` 播报（WCAG 4.1.3）
+8. **交付验证**：`python scripts/check_a11y.py --matrix docs/A11Y_MATRIX.md` + `pytest tests/test_a11y.py`
+   必须全绿；矩阵文件为生成物，禁止手改
+
+## 第 12 章 国际化与非功能性（0.16.1 新颁，封版门禁条款）
+
+1. **i18n 契约**：用户可见字符串必须经 `NovaI18n.t()`（复数 `tp()`）取词，禁止硬编码于组件；
+   词典包内置 en-US/zh-CN，其余语言经 `addBundle()` 热注入（幂等、可增量）
+2. **缺译回落显式化**：查找链 locale 精确 → 主语言码前缀 → en-US → key 本身；
+   兜底返回 key 而非空串/英文硬译，缺译必须在运行界面可见
+3. **复数零依赖**：CLDR 卡片规则走 JS 精简实现（七语系），不引 ICU/后端
+4. **RTL 双轨纪律**：声明式容器优先 `LayoutMirroring.enabled: NovaTheme.isRtl`；
+   手工布局组件必须提供 `effectiveSide` 或布局期反排，逻辑侧 API 语义恒定（RTL 只换物理方向）
+5. **性能门禁**（`pytest tests/test_perf.py`，CLI 包装 `scripts/check_perf.py`）：
+   冷启动 ≤800ms、组件实例化 ≤5ms/个（预热后两遍测量，KNOWN_HEAVY 白名单显式登记）、
+   1000 行表格挂载 ≤1700ms；任一超预算不得交付
+6. **HiDPI 契约**：全部几何走逻辑像素（devicePixelRatio 由 Qt 合成），Nova.Runtime 上报
+   `devicePixelRatio/scaleFactor`；scale factor 1.0~2.0 矩阵下逻辑几何必须恒定
+7. **崩溃红线**：测试进程任何 SIGSEGV/exit 139 视为阻断级缺陷，先定位根因
+   （沉淀进 SESSION_HANDOFF 坑位表）再交付，禁止用"重试/跳过"掩盖
+
 ## 迭代记录表（每次交付必须更新）
 
 | 版本 | 日期 | 条款变更 |
 |---|---|---|
+| 0.16.1 | 2026-11-23 | 五期 Sprint B2 收口：**i18n + RTL + 性能 + HiDPI 非功能攻坚**（新颁第 12 章）；新增 NovaI18n 服务单例（对标 Quasar Lang：locale 切换 / t() 插值与三级回落 / tp() CLDR 七语系复数 / 数字货币日期相对时间格式化 / addBundle 热注入）；RTL 双轨镜像（Pagination/Drawer/Layout/SlideItem/Breadcrumbs/StepperNavigation，逻辑侧语义恒定）；性能门禁三指标（冷启动 ≤800ms / 组件 ≤5ms / 1000 行表格 ≤1700ms）+ HiDPI 矩阵 1.0~2.0；补 a11y 差距：NovaTree 方向键游标（roving cursor，RTL 键互换）、NovaDialogShell 焦点陷阱（Tab 循环 + Esc 还焦，runtime 应用级过滤器）；新增 I18N.md + 画廊第 24 页 i18n；类型 123→124，测试 343→394；坑位沉淀 43~48（Qt.formatDate 三参不存在 / QQmlExpression 非 Item SIGSEGV / Tab 不冒泡→应用级过滤器 / Item.window undefined→attached / qrc:// 双斜杠 shiboken 段错误总根因→全局 qrc:/ / setData 探针纪律） |
+| 0.16.0 | 2026-11-23 | 五期 Sprint B 第一交付单元：**可访问性攻坚**（新颁第 11 章 a11y 八条门禁）；新增 NovaA11y 单例 / NovaFocusRing / NovaLiveRegion / Nova.Runtime 输入模态（focus-visible）；NovaTheme 增 a11yBase·focusRing·outlineStrong·七个 *Text 派生·fillTint，textMuted AA 化；123 导出类型 100% 登记契约（32 interactive / 28 semantic / 63 decorative），32 个交互件补齐全键盘路径与焦点环；新增静态门禁 check_a11y.py + A11Y.md/A11Y_MATRIX.md + 测试 21 项；类型 120→123，测试 322→343；坑位沉淀 38~42（Accessible 作用域 / 无 disabled 属性 / 无 Keys.onEndPressed / QTest 需强引用组件 / 多引擎析构间歇崩溃→测试单引擎） |
 | 0.15.0 | 2026-11-23 | 五期 Sprint A 收口：长尾组件一次交付（Editor 轻量富文本——DOM contenteditable 无 QML 等价物以标记编辑+HTML 导出实现同语义、SlideItem 左右滑动面板、Morph group 形变、IconGenie 图标全套 CLI、AI-ready 文档包 + Nova MCP server 六工具对标 @quasar/mcp 2.33 新品类），类型 117→120，测试 308→322；坑位沉淀 36（pragma library JS 注册表 per-importing-file 实例化→QML singleton）；基线开工复核：@quasar/mcp v1.x Active、quasar 2.33.0 AI-ready 口径核实 |
 | 0.14.0 | 2026-11-23 | 四期 Sprint B 收口：弹层与反馈一次交付（Menu、DialogShell 关闭原因上报、PopupProxy 断点路由、Tooltip、BottomSheet、Spinner×8、Skeleton、InnerLoading、AjaxBar+LoadingBar 服务、Banner/Bar、NoSsr、PullToRefresh 四边、ResizeObserver），L2 54%→68%，类型 100→117；规划核对：ScrollObserver 已于 Behaviors 0.7.0 交付不重复；坑位沉淀 35（TapHandler 被子项 MouseArea 饿死→动态挂接 clicked）；弹层栈析构注销纪律（onDestruction）；受控契约沿用（Menu/DialogShell/BottomSheet/PTR 均 emit-only） |
 | 0.13.0 | 2026-11-23 | 四期 Sprint A 收口：导航体系 14 类型一次交付（Tabs/Tab/TabPanel/TabPanels、Breadcrumbs/El、Stepper/Step/StepperNavigation、ExpansionItem、Toolbar/Title、Fab/FabAction），L2 43%→54%；基线复核 2.35.6（API 零漂移）；坑位沉淀 33~34（析构钩子 onDestruction / 基元无 background）；坑位 24/28 再验证（NovaStepper 状态绑定直读依赖 + _rev 显式失效）；受控契约沿用（Tabs/Panels/Stepper/Fab 均 emit-only） |

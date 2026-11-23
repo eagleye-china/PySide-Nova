@@ -10,7 +10,7 @@
    "readonly": true,
    "default": ": NovaRuntime ? NovaRuntime.storagePath : \"\"",
    "doc": null,
-   "line": 18
+   "line": 19
   },
   {
    "name": "persistent",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": NovaRuntime !== null && NovaRuntime !== undefined",
    "doc": null,
-   "line": 19
+   "line": 20
   },
   {
    "name": "backend",
@@ -26,7 +26,7 @@
    "readonly": true,
    "default": ": db.persistent ? \"ini\" : \"memory\"",
    "doc": null,
-   "line": 20
+   "line": 21
   },
   {
    "name": "namespace",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": \"default\"",
    "doc": null,
-   "line": 23
+   "line": 24
   },
   {
    "name": "_data",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": null,
-   "line": 26
+   "line": 27
   },
   {
    "name": "_loaded",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 27
+   "line": 28
   }
  ],
  "signals": [],

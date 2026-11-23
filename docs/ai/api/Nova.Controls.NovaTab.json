@@ -5,12 +5,20 @@
  "description": "NovaTab 标签页单项（对标 QTab）：name/label/icon/alert + default 槽自定义内容； 激活态由宿主 NovaTabs 下发（tabsRef 注入），点击经 requestClick 统一上报（受控契约， 坑位 22：Tab 自身不写 modelValue，宿主绑定 + updateModelValue 写回）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
    "name": "name",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": "面板寻址名；空则宿主以序号寻址",
-   "line": 14
+   "line": 28
   },
   {
    "name": "label",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "文案",
-   "line": 15
+   "line": 29
   },
   {
    "name": "icon",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "图标",
-   "line": 16
+   "line": 30
   },
   {
    "name": "alert",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true→红点 | 字符串→徽标文案（对标 alert Boolean/String）",
-   "line": 17
+   "line": 31
   },
   {
    "name": "alertIcon",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "浮动图标提示（alert 为真且设置时显示）",
-   "line": 18
+   "line": 32
   },
   {
    "name": "noCaps",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "不做全大写（QML 文本不做 CSS 大写变换，此属性仅透传口径）",
-   "line": 19
+   "line": 33
   },
   {
    "name": "disable",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 20
+   "line": 34
   },
   {
    "name": "tabsRef",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 23
+   "line": 37
   },
   {
    "name": "isActive",
@@ -74,7 +82,7 @@
    "readonly": true,
    "default": ": tabsRef !== null && tabsRef._isActive(this)",
    "doc": null,
-   "line": 24
+   "line": 38
   },
   {
    "name": "isNovaTab",
@@ -82,7 +90,7 @@
    "readonly": true,
    "default": ": true",
    "doc": null,
-   "line": 26
+   "line": 40
   },
   {
    "name": "_tabH",
@@ -90,7 +98,7 @@
    "readonly": true,
    "default": ": (tabsRef !== null && tabsRef.dense) ? 36 : 48",
    "doc": null,
-   "line": 38
+   "line": 52
   }
  ],
  "signals": [

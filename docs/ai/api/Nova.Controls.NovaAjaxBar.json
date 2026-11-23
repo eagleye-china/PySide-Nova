@@ -5,12 +5,20 @@
  "description": "NovaAjaxBar 顶部进度条：start/increment/stop 命令式 API + 渐进模拟（越接近完成越慢，对标 QAjaxBar） 四向 position（top/bottom/left/right）+ reverse；进度语义：start 后自动渐进至 progressCap，stop 冲刺收尾",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 11
+  },
+  {
    "name": "position",
    "type": "string",
    "readonly": false,
    "default": ": \"top\"",
    "doc": "top | bottom | left | right",
-   "line": 11
+   "line": 16
   },
   {
    "name": "size",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": 2",
    "doc": "条厚度 px",
-   "line": 12
+   "line": 17
   },
   {
    "name": "tint",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 13
+   "line": 18
   },
   {
    "name": "reverse",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "反向行进",
-   "line": 14
+   "line": 19
   },
   {
    "name": "progressCap",
@@ -42,7 +50,7 @@
    "readonly": true,
    "default": ": 90",
    "doc": "未 stop 前渐进上限（对标 QAjaxBar 行为口径）",
-   "line": 15
+   "line": 20
   },
   {
    "name": "progress",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0~100",
-   "line": 18
+   "line": 23
   },
   {
    "name": "active",
@@ -58,7 +66,7 @@
    "readonly": true,
    "default": ": _waiters > 0",
    "doc": null,
-   "line": 19
+   "line": 24
   },
   {
    "name": "_waiters",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 29
+   "line": 34
   }
  ],
  "signals": [

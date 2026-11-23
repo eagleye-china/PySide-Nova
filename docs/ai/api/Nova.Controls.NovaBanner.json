@@ -5,12 +5,20 @@
  "description": "NovaBanner 横幅：default/avatar/action 三槽、inline-actions 同行、dense、rounded（对标 QBanner）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 11
+  },
+  {
    "name": "avatar",
    "type": "alias",
    "readonly": false,
    "default": ": avatarSlot.data",
    "doc": null,
-   "line": 11
+   "line": 16
   },
   {
    "name": "action",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": actionSlot.data",
    "doc": null,
-   "line": 12
+   "line": 17
   },
   {
    "name": "inlineActions",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "动作与内容同行",
-   "line": 15
+   "line": 20
   },
   {
    "name": "dense",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 16
+   "line": 21
   },
   {
    "name": "rounded",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 17
+   "line": 22
   },
   {
    "name": "tint",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": NovaTheme.surfaceAlt",
    "doc": null,
-   "line": 18
+   "line": 23
   }
  ],
  "signals": [],

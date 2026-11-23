@@ -5,12 +5,20 @@
  "description": "NovaInnerLoading 局部加载遮罩：半透明蒙层 + Spinner（或 default 槽替换）+ label（对标 QInnerLoading） 用法：anchors.fill: parent 覆盖宿主区域；default 槽非空时替换 Spinner（如自定义动画）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 12
+  },
+  {
    "name": "label",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": "default 槽非空时被覆盖（对标 label prop）",
-   "line": 13
+   "line": 18
   },
   {
    "name": "showing",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "loading 态",
-   "line": 16
+   "line": 21
   },
   {
    "name": "size",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": 42",
    "doc": "spinner 直径",
-   "line": 17
+   "line": 22
   },
   {
    "name": "tint",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 18
+   "line": 23
   },
   {
    "name": "spinnerVariant",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"ring\"",
    "doc": null,
-   "line": 19
+   "line": 24
   },
   {
    "name": "dark",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "深底蒙层口径（宿主自选）",
-   "line": 20
+   "line": 25
   },
   {
    "name": "_hasSlot",
@@ -58,7 +66,7 @@
    "readonly": true,
    "default": ": slotBox.children.length > 0",
    "doc": null,
-   "line": 28
+   "line": 33
   }
  ],
  "signals": [],

@@ -118,6 +118,7 @@ ApplicationWindow {
                     ListElement { label: "弹层与反馈";          icon: "mdi:layers-triple-outline" }
                     ListElement { label: "长尾组件";            icon: "mdi:alpha-t-circle-outline" }
                     ListElement { label: "无障碍 a11y";          icon: "mdi:human-wheelchair" }
+                    ListElement { label: "国际化 i18n";          icon: "mdi:translate" }
                 }
 
                 delegate: Rectangle {
@@ -167,7 +168,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail, pageA11y][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail, pageA11y, pageI18n][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -3500,6 +3501,323 @@ ApplicationWindow {
                     width: parent.width
                     wrapMode: Text.WordWrap
                 }
+                Item { width: 1; height: NovaTheme.spacingM }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：国际化 i18n（NovaI18n · locale 切换 / 复数 / 格式化 / RTL 镜像）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageI18n
+        Item {
+            id: i18nPage
+            objectName: "pageI18n"
+
+            // 演示 addBundle 运行时热注入：de/ja/ar/ru 词典不在内置包里，
+            // 应用可在任意时机注入（幂等覆盖）；ar 复数六类别、ru 三类别
+            Component.onCompleted: {
+                NovaI18n.addBundle("de-DE", {
+                    confirm: "Bestätigen", cancel: "Abbrechen", submit: "Absenden",
+                    save: "Speichern", close: "Schließen", search: "Suchen",
+                    selected: "{n} ausgewählt", emptyText: "Keine Daten",
+                    dayAgo: "vor {n} Tag", monthAgo: "vor {n} Monat", yearAgo: "vor {n} Jahr"
+                })
+                NovaI18n.addPluralBundle("de-DE", {
+                    apple: { one: "{n} Apfel", other: "{n} Äpfel" },
+                    message: { one: "{n} Nachricht", other: "{n} Nachrichten" },
+                    dayAgo: { one: "vor {n} Tag", other: "vor {n} Tagen" }
+                })
+                NovaI18n.addBundle("ja-JP", {
+                    confirm: "確認", cancel: "キャンセル", submit: "送信",
+                    save: "保存", close: "閉じる", search: "検索",
+                    selected: "{n} 件選択", emptyText: "データがありません",
+                    dayAgo: "{n}日前", monthAgo: "{n}ヶ月前", yearAgo: "{n}年前"
+                })
+                NovaI18n.addPluralBundle("ja-JP", {
+                    apple: { other: "りんご {n} 個" },
+                    message: { other: "メッセージ {n} 件" },
+                    dayAgo: { other: "{n}日前" }
+                })
+                NovaI18n.addBundle("ru-RU", {
+                    confirm: "Подтвердить", cancel: "Отмена", submit: "Отправить",
+                    save: "Сохранить", close: "Закрыть", search: "Поиск",
+                    selected: "Выбрано: {n}", emptyText: "Нет данных",
+                    dayAgo: "{n} дн. назад", monthAgo: "{n} мес. назад", yearAgo: "{n} г. назад"
+                })
+                NovaI18n.addPluralBundle("ru-RU", {
+                    apple: { one: "{n} яблоко", few: "{n} яблока", many: "{n} яблок", other: "{n} яблока" },
+                    message: { one: "{n} сообщение", few: "{n} сообщения", many: "{n} сообщений", other: "{n} сообщения" },
+                    dayAgo: { one: "{n} день назад", few: "{n} дня назад", many: "{n} дней назад", other: "{n} дня назад" }
+                })
+                NovaI18n.addBundle("ar-EG", {
+                    confirm: "تأكيد", cancel: "إلغاء", submit: "إرسال",
+                    save: "حفظ", close: "إغلاق", search: "بحث",
+                    selected: "تم اختيار {n}", emptyText: "لا توجد بيانات",
+                    dayAgo: "قبل {n} يوم", monthAgo: "قبل {n} شهر", yearAgo: "قبل {n} سنة"
+                })
+                NovaI18n.addPluralBundle("ar-EG", {
+                    apple: { zero: "لا تفاحات", one: "تفاحة واحدة", two: "تفاحتان",
+                             few: "{n} تفاحات", many: "{n} تفاحة", other: "{n} تفاحة" },
+                    message: { zero: "لا رسائل", one: "رسالة واحدة", two: "رسالتان",
+                               few: "{n} رسائل", many: "{n} رسالة", other: "{n} رسالة" },
+                    dayAgo: { zero: "اليوم", one: "قبل يوم", two: "قبل يومين",
+                              few: "قبل {n} أيام", many: "قبل {n} يومًا", other: "قبل {n} يوم" }
+                })
+            }
+
+            GalleryPage {
+                title: "国际化 i18n · NovaI18n"
+                desc: "0.16.1 新增：NovaI18n 服务单例（对标 Quasar Lang 插件 + vue-i18n 语义）——locale 切换、词典 t() 插值与缺词回落、"
+                      + "CLDR 复数规则 tp()（en/zh/ja/ru/ar/cs/pl 七语系）、数字/货币/日期/相对时间本地化格式化、RTL 语言集合判定（isRtl/direction）；"
+                      + "RTL 布局镜像由 LayoutMirroring + 逻辑侧/物理侧分离双轨承载（Drawer/SlideItem/Pagination/Breadcrumbs 已适配）。"
+
+                GalleryRow { label: "① locale 切换：点击按钮切全局 locale，下方所有绑定自动重求值（ar-EG 触发 RTL 镜像）" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 108
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Column {
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        spacing: NovaTheme.spacingS
+
+                        Row {
+                            spacing: NovaTheme.spacingS
+                            Repeater {
+                                model: ["en-US", "zh-CN", "de-DE", "ja-JP", "ru-RU", "ar-EG"]
+                                delegate: NovaBtn {
+                                    required property string modelData
+                                    text: modelData
+                                    variant: NovaI18n.locale === modelData ? "filled" : "outline"
+                                    onClicked: NovaI18n.setLocale(modelData)
+                                }
+                            }
+                        }
+
+                        Rectangle {
+                            width: 340
+                            height: 30
+                            radius: NovaTheme.radiusS
+                            color: NovaTheme.surfaceAlt
+                            Text {
+                                x: 10
+                                anchors.verticalCenter: parent.verticalCenter
+                                // 引用 locale 属性确保 locale 变化时本行重求值
+                                text: "locale = " + NovaI18n.locale
+                                      + "   baseLang = " + NovaI18n.baseLang
+                                      + "   direction = " + NovaI18n.direction
+                                color: NovaI18n.isRtl ? NovaTheme.warning : NovaTheme.positiveText
+                                font.pixelSize: NovaTheme.fontS
+                                font.bold: true
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "② t() 词典翻译 + 插值 + 缺词回落（not.in.bundle 原样返回 key）" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 128
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Grid {
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        columns: 3
+                        columnSpacing: NovaTheme.spacingL
+                        rowSpacing: NovaTheme.spacingS
+
+                        Repeater {
+                            model: [
+                                { k: "confirm", demo: "NovaI18n.t(\"confirm\")" },
+                                { k: "cancel",  demo: "t(\"cancel\")" },
+                                { k: "save",    demo: "t(\"save\")" },
+                                { k: "search",  demo: "t(\"search\")" },
+                                { k: "selected", demo: "t(\"selected\", {n: 5})" },
+                                { k: "not.in.bundle", demo: "t(\"not.in.bundle\")" }
+                            ]
+                            delegate: Column {
+                                required property var modelData
+                                spacing: 2
+                                Text {
+                                    text: modelData.demo
+                                    color: NovaTheme.textMuted
+                                    font.pixelSize: NovaTheme.fontXS
+                                    font.family: "Monospace"
+                                }
+                                Text {
+                                    text: modelData.k.indexOf("{n}") !== -1
+                                          ? NovaI18n.t(modelData.k, { n: 5 })
+                                          : NovaI18n.t(modelData.k)
+                                    color: modelData.k === "not.in.bundle" ? NovaTheme.warning : NovaTheme.textColor
+                                    font.pixelSize: NovaTheme.fontM
+                                    font.bold: true
+                                }
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "③ tp() CLDR 复数：同一 key 随 locale 切换复数类别（zh 恒 other / en one-other / ru one-few-many / ar 六类别）" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 190
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Column {
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        spacing: 6
+
+                        Repeater {
+                            model: [0, 1, 2, 3, 5, 11, 21, 100]
+                            delegate: Row {
+                                required property int modelData
+                                width: parent.width
+                                spacing: NovaTheme.spacingM
+                                Rectangle {
+                                    width: 46; height: 24; radius: 5
+                                    color: NovaTheme.surfaceAlt
+                                    border.color: NovaTheme.outline
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: modelData
+                                        color: NovaTheme.textColor
+                                        font.pixelSize: NovaTheme.fontS
+                                        font.bold: true
+                                    }
+                                }
+                                Text {
+                                    width: 130
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: "cat = " + NovaI18n.pluralCategory(modelData)
+                                    color: NovaTheme.textMuted
+                                    font.pixelSize: NovaTheme.fontXS
+                                }
+                                Text {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: NovaI18n.tp("apple", modelData)
+                                    color: NovaTheme.textColor
+                                    font.pixelSize: NovaTheme.fontM
+                                }
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "④ 格式化：数字分组 / 货币符号 / 日期时间 / 相对时间——分隔符表与符号表随 locale（de 千分位是点、ar 用阿拉伯分隔符）" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 168
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Grid {
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        columns: 2
+                        columnSpacing: NovaTheme.spacingXL
+                        rowSpacing: NovaTheme.spacingS
+
+                        Repeater {
+                            model: [
+                                { demo: "formatNumber(1234567.89)", calc: function() { return NovaI18n.formatNumber(1234567.89) } },
+                                { demo: "formatNumber(1234.5, 2)",  calc: function() { return NovaI18n.formatNumber(1234.5, 2) } },
+                                { demo: "formatCurrency(9876.54)",  calc: function() { return NovaI18n.formatCurrency(9876.54) } },
+                                { demo: "formatDate(now, \"shortDate\")", calc: function() { return NovaI18n.formatDate(new Date(), "shortDate") } },
+                                { demo: "formatDate(now, \"longDateTime\")", calc: function() { return NovaI18n.formatDate(new Date(), "longDateTime") } },
+                                { demo: "formatRelative(now - 3d)", calc: function() { return NovaI18n.formatRelative(new Date(Date.now() - 3 * 86400000), new Date()) } }
+                            ]
+                            delegate: Row {
+                                required property var modelData
+                                width: (parent.width - parent.columnSpacing) / 2
+                                spacing: 8
+                                Text {
+                                    width: parent.width * 0.52
+                                    text: modelData.demo
+                                    color: NovaTheme.textMuted
+                                    font.pixelSize: NovaTheme.fontXS
+                                    font.family: "Monospace"
+                                    elide: Text.ElideRight
+                                }
+                                Text {
+                                    width: parent.width * 0.48
+                                    text: modelData.calc()
+                                    color: NovaTheme.textColor
+                                    font.pixelSize: NovaTheme.fontS
+                                    font.bold: true
+                                    elide: Text.ElideRight
+                                }
+                            }
+                        }
+                    }
+                }
+
+                GalleryRow { label: "⑤ RTL 镜像：切到 ar-EG 后——Row 顺序翻转（LayoutMirroring）、Drawer/SlideItem 逻辑侧换边、Pagination 箭头取反" }
+
+                Rectangle {
+                    width: parent.width
+                    height: 96
+                    radius: NovaTheme.radiusM
+                    color: NovaTheme.surface
+                    border.color: NovaTheme.outline
+
+                    Row {
+                        LayoutMirroring.enabled: NovaTheme.isRtl
+                        anchors.fill: parent
+                        anchors.margins: NovaTheme.spacingM
+                        spacing: NovaTheme.spacingM
+
+                        Repeater {
+                            model: ["A", "B", "C", "D"]
+                            delegate: Rectangle {
+                                required property string modelData
+                                width: 52; height: 52; radius: 8
+                                color: NovaTheme.primary
+                                opacity: 0.85
+                                Text { anchors.centerIn: parent; text: parent.modelData; color: "#fff"; font.pixelSize: NovaTheme.fontL; font.bold: true }
+                            }
+                        }
+
+                        Rectangle {
+                            width: 150; height: 52; radius: 8
+                            color: NovaTheme.surfaceAlt
+                            border.color: NovaTheme.outline
+                            Column {
+                                anchors.centerIn: parent
+                                spacing: 2
+                                Text {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: NovaI18n.direction
+                                    color: NovaI18n.isRtl ? NovaTheme.warning : NovaTheme.positiveText
+                                    font.pixelSize: NovaTheme.fontM
+                                    font.bold: true
+                                }
+                                Text {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: NovaI18n.isRtl ? "镜像已启用" : "正常布局"
+                                    color: NovaTheme.textMuted
+                                    font.pixelSize: NovaTheme.fontXS
+                                }
+                            }
+                        }
+                    }
+                }
+
                 Item { width: 1; height: NovaTheme.spacingM }
             }
         }

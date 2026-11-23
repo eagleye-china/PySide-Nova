@@ -1,0 +1,66 @@
+{
+ "name": "Nova.Behaviors.NovaFocusRing",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaFocusRing.qml",
+ "description": "NovaFocusRing 焦点环行为：键盘模态下为可聚焦控件绘制焦点环（WCAG 2.4.7 焦点可见 / 1.4.11 非文本对比）——Quasar 无对应，Nova 增强 NovaFocusRing —— 可挂载行为：NovaFocusRing { target: root }，只画不拦事 设计要点： 1. 可见性由 NovaA11y.ringVisible(target) 统一裁决（键盘模态 + activeFocus），",
+ "properties": [
+  {
+   "name": "target",
+   "type": "Item",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "tint",
+   "type": "color",
+   "readonly": false,
+   "default": ": NovaTheme.focusRing",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "ringWidth",
+   "type": "int",
+   "readonly": false,
+   "default": ": NovaTheme.focusRingWidth",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "offset",
+   "type": "int",
+   "readonly": false,
+   "default": ": NovaTheme.focusRingOffset",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "cornerRadius",
+   "type": "real",
+   "readonly": false,
+   "default": ": -1",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "active",
+   "type": "bool",
+   "readonly": true,
+   "default": ": NovaA11y.ringVisible(root.target)",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "_targetRadius",
+   "type": "real",
+   "readonly": true,
+   "default": ": (root.target && root.target.radius !== undefined)",
+   "doc": null,
+   "line": 32
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

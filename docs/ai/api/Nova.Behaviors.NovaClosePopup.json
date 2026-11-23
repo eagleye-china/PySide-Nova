@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "默认自动：向上找带 clicked 信号的宿主（NovaBtn 把子项转交给内部 contentHost）",
-   "line": 34
+   "line": 35
   },
   {
    "name": "depth",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": 1",
    "doc": "<0 全关；0 禁用；>0 关 N 层",
-   "line": 35
+   "line": 36
   },
   {
    "name": "reason",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": \"api\"",
    "doc": "传给弹层的关闭原因（NovaDialog 五值之一）",
-   "line": 36
+   "line": 37
   },
   {
    "name": "usePointer",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true = 用内部 MouseArea 接管点击（宿主无 clicked 信号时）",
-   "line": 37
+   "line": 38
   },
   {
    "name": "keyboard",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "Enter 键也触发（对标 keyup 13）",
-   "line": 38
+   "line": 39
   },
   {
    "name": "popupCount",
@@ -50,7 +50,7 @@
    "readonly": true,
    "default": ": NovaOverlayHost.popupCount()",
    "doc": null,
-   "line": 40
+   "line": 41
   },
   {
    "name": "host",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "解析出的宿主（clicked 信号所在对象）",
-   "line": 41
+   "line": 42
   }
  ],
  "signals": [

@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 13
+   "line": 14
   },
   {
    "name": "icon",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "参与分组键计算；按钮内图标渲染随 Sprint 4 图标 provider 收口",
-   "line": 14
+   "line": 15
   },
   {
    "name": "tint",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": \"transparent\"",
    "doc": "预留（对标 action.color）",
-   "line": 15
+   "line": 16
   },
   {
    "name": "textTint",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": \"transparent\"",
    "doc": "透明 = 跟随通知正文 textTint",
-   "line": 16
+   "line": 17
   },
   {
    "name": "noDismiss",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true = 点击后不自动关闭（对标 no-closable 语义）",
-   "line": 17
+   "line": 18
   },
   {
    "name": "handler",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "JS 回调形态（对标 actions[].handler）",
-   "line": 18
+   "line": 19
   },
   {
    "name": "closeReason",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": \"action\"",
    "doc": "关闭原因上报归属：动作按钮 action / 关闭按钮 user（内部字段）",
-   "line": 19
+   "line": 20
   }
  ],
  "signals": [

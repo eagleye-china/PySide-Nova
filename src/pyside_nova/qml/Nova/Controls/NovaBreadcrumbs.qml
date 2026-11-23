@@ -22,6 +22,10 @@ Item {
     property string align: "left"                  // left/center/right
     property Component separatorDelegate: null     // 自定义分隔符模板（对标 separator 槽）
 
+    // RTL（0.16.1）：手动布局从右往左排布；align 的用户语义（起点侧）随之镜像
+    readonly property bool _rtl: NovaTheme.isRtl
+    on_RtlChanged: Qt.callLater(_layout)
+
     // ⛔ separatorColor 的 Quasar 命名色字符串口径：Nova 用 color 类型直传
     // ⛔ to/href/active-class 系：无路由体系，条目点击统一 clicked 信号
 
@@ -99,23 +103,25 @@ Item {
         for (var e = 0; e < n; e++)
             totalW += els[e].implicitWidth
         totalW += sepW
-        var x0 = root.align === "center" ? Math.max(0, (root.width - totalW) / 2)
-                : root.align === "right" ? Math.max(0, root.width - totalW) : 0
-        var cx = x0
+        var rtl = root._rtl
+        // 起点 x：LTR 左起 / RTL 右起；align 表达用户意图的「起点侧」
+        var startX = root.align === "center" ? Math.max(0, (root.width - totalW) / 2)
+                : (root.align === "right") !== rtl ? Math.max(0, root.width - totalW) : 0
+        var cx = startX
         var sepIdx = 0
         for (var i = 0; i < n; i++) {
             var el = els[i]
             el.crumbsRef = root
             el.width = el.implicitWidth
             el.height = el.implicitHeight
-            el.x = cx
+            el.x = rtl ? cx - el.implicitWidth : cx
             el.y = (root.height - el.implicitHeight) / 2
-            cx += el.implicitWidth
+            cx += rtl ? -el.implicitWidth : el.implicitWidth
             if (i < n - 1 && sepIdx < _seps.length) {
                 var sep = _seps[sepIdx]
-                sep.x = cx + _gap
+                sep.x = rtl ? cx - _gap - sep.width : cx + _gap
                 sep.y = (root.height - sep.implicitHeight) / 2
-                cx += sep.width + _gap * 2
+                cx += rtl ? -(sep.width + _gap * 2) : (sep.width + _gap * 2)
                 sepIdx++
             }
         }

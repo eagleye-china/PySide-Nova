@@ -5,6 +5,7 @@
 // 就地渲染口径：anchors.fill 父级（建议声明在页面根层）；modelValue 受控（坑位 22）
 import QtQuick
 import QtQuick.Effects
+import Nova.Runtime
 import Nova.Controls
 import Nova.Services
 import Nova.Behaviors
@@ -13,13 +14,92 @@ import Nova.Design
 Item {
     id: root
 
-    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0 / 0.16.1 焦点陷阱）──────────
     property string a11yLabel: ""
     Accessible.role: Accessible.Dialog
     Accessible.name: a11yLabel
     Accessible.focusable: true
     Accessible.focused: activeFocus
     activeFocusOnTab: true
+    // 焦点陷阱（0.16.1，对标 WAI-ARIA dialog 惯例）：
+    //   打开 → 焦点进入卡片首个可聚焦项（无则落壳自身），Tab/Shift+Tab 在陷阱内循环；
+    //   关闭 → 焦点还回打开前持有者。
+    //   拦截由 NovaRuntime 应用级过滤器承担：Tab 在 Item C++ 默认实现中被消费且不冒泡，
+    //   QML Keys（含 BeforeItem）收不到（坑位 45）→ 过滤器命中陷阱容器后回调 trapNext()。
+    property Item _prevFocusItem: null
+
+    // 宿主窗口：Item.window 普通属性在 Qt 6.12 JS 层返回 undefined（坑位 45），
+    // 必须走 attached：Item.Window.window
+    readonly property var _win: root.Window.window
+
+    function _focusables() {
+        // 卡片内容内收集可 Tab 聚焦的可见项（含壳自身兜底）
+        var out = []
+        var walk = function (item) {
+            var kids = item.children
+            for (var i = 0; i < kids.length; i++) {
+                var c = kids[i]
+                if (c.visible !== undefined && !c.visible)
+                    continue
+                if (c.activeFocusOnTab === true && c.enabled !== false)
+                    out.push(c)
+                walk(c)
+            }
+        }
+        walk(cardBody)
+        if (out.length === 0)
+            out.push(root)
+        return out
+    }
+
+    // 当前焦点项在陷阱序列中的序号：自身命中或为某项的后代（NovaBtn 等复合控件
+    // 的焦点常落在内部子项上，必须沿 parent 链上溯匹配）
+    function _indexOfFocus(items, cur) {
+        for (var i = 0; i < items.length; i++) {
+            if (items[i] === cur)
+                return i
+            var p = cur
+            while (p !== null && p !== undefined) {
+                p = p.parent
+                if (p === items[i])
+                    return i
+            }
+        }
+        return -1
+    }
+
+    // 过滤器回调：焦点是否在陷阱容器内（Python 侧读 QQuickItem* 无 converter，
+    // 命中判定必须在 QML 完成 —— 坑位 45）
+    function trapHitTest() {
+        if (!root.visible)
+            return false
+        var win = root._win
+        if (!win)
+            return false
+        var cur = win.activeFocusItem
+        if (!cur)
+            return false
+        return root._indexOfFocus(root._focusables(), cur) !== -1
+    }
+
+    // 过滤器回调：在卡片可聚焦项中循环移动焦点（back=true 为 Shift+Tab 反向）
+    function trapNext(back) {
+        var items = root._focusables()
+        var win = root._win
+        var cur = win ? win.activeFocusItem : null
+        var at = root._indexOfFocus(items, cur)
+        var next
+        if (at === -1)
+            next = back ? items[items.length - 1] : items[0]
+        else {
+            var i = at + (back ? -1 : 1)
+            if (i < 0) i = items.length - 1
+            if (i >= items.length) i = 0
+            next = items[i]
+        }
+        next.forceActiveFocus()
+        return true
+    }
 
     default property alias content: cardBody.data
 
@@ -66,13 +146,27 @@ Item {
     onVisibleChanged: {
         if (visible) {
             beforeShow()
-            forceActiveFocus()
+            // 焦点陷阱：记住打开前焦点持有者 → 进入卡片首个可聚焦项 → 注册过滤器陷阱
+            root._prevFocusItem = root._win ? root._win.activeFocusItem : null
+            var firsts = root._focusables()
+            if (firsts.length > 0)
+                firsts[0].forceActiveFocus()
+            else
+                forceActiveFocus()
+            NovaRuntime.registerFocusTrap(root)
             NovaOverlayHost.registerPopup(root, function(reason) { requestDismiss("api") })
             _playEnter()
             shown()
         } else {
             beforeHide()
             NovaOverlayHost.unregisterPopup(root)
+            NovaRuntime.unregisterFocusTrap(root)
+            // 关闭还焦：焦点交还打开前持有者（WAI-ARIA dialog 惯例）
+            if (root._prevFocusItem !== null && root._prevFocusItem !== undefined
+                    && root._prevFocusItem.visible !== false) {
+                root._prevFocusItem.forceActiveFocus()
+            }
+            root._prevFocusItem = null
             hidden()
         }
     }
@@ -84,6 +178,8 @@ Item {
         else
             _doShake()
     }
+
+    // Escape 并入前置 handler（Keys attached 单实例，与 Tab 陷阱共用 priority）
 
     // ── 遮罩 ──────────────────────────────────────────────────
     Rectangle {

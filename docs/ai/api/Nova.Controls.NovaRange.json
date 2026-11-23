@@ -5,12 +5,20 @@
  "description": "NovaRange 双值范围滑杆：左右滑块、step 量化、min/maxRange 约束、markers、气泡 对标 Quasar QRange（20 props；Nova 收口核心 17 项，aria/img 类留痕见 PARITY） 契约统一：hint / error / readonly / disable",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
    "name": "modelValue",
    "type": "var",
    "readonly": false,
    "default": ": ({ min: 0, max: 50 })",
    "doc": "{ min, max }",
-   "line": 12
+   "line": 24
   },
   {
    "name": "min",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 13
+   "line": 25
   },
   {
    "name": "max",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": 100",
    "doc": null,
-   "line": 14
+   "line": 26
   },
   {
    "name": "step",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": 1",
    "doc": null,
-   "line": 15
+   "line": 27
   },
   {
    "name": "snap",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 16
+   "line": 28
   },
   {
    "name": "reverse",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 17
+   "line": 29
   },
   {
    "name": "vertical",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 18
+   "line": 30
   },
   {
    "name": "minRange",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "两滑块最小间距",
-   "line": 19
+   "line": 31
   },
   {
    "name": "maxRange",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0=不限制；>0 最大间距",
-   "line": 20
+   "line": 32
   },
   {
    "name": "dragRange",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "整段拖动（Nova：拖右滑块同移）",
-   "line": 21
+   "line": 33
   },
   {
    "name": "tint",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 24
+   "line": 36
   },
   {
    "name": "trackColor",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": NovaTheme.outline",
    "doc": null,
-   "line": 25
+   "line": 37
   },
   {
    "name": "selectionColor",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": tint",
    "doc": null,
-   "line": 26
+   "line": 38
   },
   {
    "name": "leftThumbColor",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": tint",
    "doc": "对标 left-thumb-color",
-   "line": 27
+   "line": 39
   },
   {
    "name": "rightThumbColor",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": tint",
    "doc": "对标 right-thumb-color",
-   "line": 28
+   "line": 40
   },
   {
    "name": "trackSize",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": dense ? 2 : 4",
    "doc": null,
-   "line": 29
+   "line": 41
   },
   {
    "name": "thumbSize",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": dense ? 14 : 20",
    "doc": null,
-   "line": 30
+   "line": 42
   },
   {
    "name": "dense",
@@ -146,7 +154,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 31
+   "line": 43
   },
   {
    "name": "dark",
@@ -154,7 +162,7 @@
    "readonly": false,
    "default": ": NovaTheme.isDark",
    "doc": null,
-   "line": 32
+   "line": 44
   },
   {
    "name": "label",
@@ -162,7 +170,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 35
+   "line": 47
   },
   {
    "name": "labelAlways",
@@ -170,7 +178,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 36
+   "line": 48
   },
   {
    "name": "leftLabelValue",
@@ -178,7 +186,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "对标 left-label-value",
-   "line": 37
+   "line": 49
   },
   {
    "name": "rightLabelValue",
@@ -186,7 +194,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 38
+   "line": 50
   },
   {
    "name": "markers",
@@ -194,7 +202,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 41
+   "line": 53
   },
   {
    "name": "markerLabels",
@@ -202,7 +210,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 42
+   "line": 54
   },
   {
    "name": "disable",
@@ -210,7 +218,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 45
+   "line": 57
   },
   {
    "name": "readonly",
@@ -218,7 +226,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 46
+   "line": 58
   },
   {
    "name": "activeTab",
@@ -226,7 +234,7 @@
    "readonly": false,
    "default": ": !disable",
    "doc": null,
-   "line": 47
+   "line": 59
   },
   {
    "name": "hint",
@@ -234,7 +242,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 48
+   "line": 60
   },
   {
    "name": "error",
@@ -242,7 +250,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 49
+   "line": 61
   },
   {
    "name": "errorMessage",
@@ -250,7 +258,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 50
+   "line": 62
   },
   {
    "name": "hasError",
@@ -258,7 +266,7 @@
    "readonly": true,
    "default": ": error || errorMessage !== \"\"",
    "doc": null,
-   "line": 52
+   "line": 64
   },
   {
    "name": "_lo",
@@ -266,7 +274,7 @@
    "readonly": true,
    "default": ": min",
    "doc": null,
-   "line": 58
+   "line": 70
   },
   {
    "name": "_hi",
@@ -274,7 +282,7 @@
    "readonly": true,
    "default": ": max",
    "doc": null,
-   "line": 59
+   "line": 71
   },
   {
    "name": "_left",
@@ -282,7 +290,7 @@
    "readonly": true,
    "default": ": Number(_norm.min)",
    "doc": null,
-   "line": 60
+   "line": 72
   },
   {
    "name": "_right",
@@ -290,7 +298,7 @@
    "readonly": true,
    "default": ": Number(_norm.max)",
    "doc": null,
-   "line": 61
+   "line": 73
   },
   {
    "name": "_norm",
@@ -298,7 +306,7 @@
    "readonly": true,
    "default": ": _normalize(modelValue)",
    "doc": null,
-   "line": 62
+   "line": 74
   },
   {
    "name": "updatingFromDrag",
@@ -306,7 +314,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 63
+   "line": 75
   },
   {
    "name": "_trackLen",
@@ -314,7 +322,7 @@
    "readonly": true,
    "default": ": (vertical ? height : width) - thumbSize",
    "doc": null,
-   "line": 130
+   "line": 142
   },
   {
    "name": "_leftPos",
@@ -322,7 +330,7 @@
    "readonly": true,
    "default": ": thumbSize / 2 + _pct(_left) * _trackLen",
    "doc": null,
-   "line": 135
+   "line": 147
   },
   {
    "name": "_rightPos",
@@ -330,7 +338,7 @@
    "readonly": true,
    "default": ": thumbSize / 2 + _pct(_right) * _trackLen",
    "doc": null,
-   "line": 136
+   "line": 148
   },
   {
    "name": "_leftText",
@@ -338,7 +346,7 @@
    "readonly": true,
    "default": ": leftLabelValue !== \"\" ? leftLabelValue : String(_left)",
    "doc": null,
-   "line": 137
+   "line": 149
   },
   {
    "name": "_rightText",
@@ -346,7 +354,7 @@
    "readonly": true,
    "default": ": rightLabelValue !== \"\" ? rightLabelValue : String(_right)",
    "doc": null,
-   "line": 138
+   "line": 150
   },
   {
    "name": "_markerCount",
@@ -354,7 +362,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 165
+   "line": 177
   },
   {
    "name": "_markerEvery",
@@ -362,7 +370,7 @@
    "readonly": true,
    "default": ": typeof markers === \"number\" && markers > 1 ? markers : 1",
    "doc": null,
-   "line": 170
+   "line": 182
   },
   {
    "name": "t",
@@ -370,7 +378,7 @@
    "readonly": true,
    "default": ": index / (root._markerCount - 1)",
    "doc": null,
-   "line": 175
+   "line": 187
   },
   {
    "name": "p",
@@ -378,7 +386,7 @@
    "readonly": true,
    "default": ": root.reverse ? 1 - t : t",
    "doc": null,
-   "line": 176
+   "line": 188
   },
   {
    "name": "t",
@@ -386,7 +394,7 @@
    "readonly": true,
    "default": ": index / (root._markerCount - 1)",
    "doc": null,
-   "line": 190
+   "line": 202
   },
   {
    "name": "p",
@@ -394,7 +402,7 @@
    "readonly": true,
    "default": ": root.reverse ? 1 - t : t",
    "doc": null,
-   "line": 191
+   "line": 203
   },
   {
    "name": "txt",
@@ -402,7 +410,7 @@
    "readonly": true,
    "default": ": Array.isArray(root.markerLabels)",
    "doc": null,
-   "line": 192
+   "line": 204
   },
   {
    "name": "isLeft",
@@ -410,7 +418,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 207
+   "line": 219
   },
   {
    "name": "pos",
@@ -418,7 +426,7 @@
    "readonly": true,
    "default": ": isLeft ? root._leftPos : root._rightPos",
    "doc": null,
-   "line": 208
+   "line": 220
   },
   {
    "name": "dragging",
@@ -426,7 +434,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 244
+   "line": 256
   },
   {
    "name": "_dragging",
@@ -434,7 +442,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 257
+   "line": 269
   },
   {
    "name": "_dragLeft",
@@ -442,7 +450,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 258
+   "line": 270
   }
  ],
  "signals": [

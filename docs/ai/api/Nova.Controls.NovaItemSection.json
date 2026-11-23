@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaItemSection",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaItemSection.qml",
- "description": "NovaItemSection 条目分区（对标 QItemSection）：avatar/thumbnail/trailing/topAligned",
+ "description": "NovaItemSection 条目分区（对标 QItemSection）：avatar/thumbnail/trailing/topAligned a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "avatar",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "48px 圆形头像区",
-   "line": 11
+   "line": 12
   },
   {
    "name": "thumbnail",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "56px 缩略图区",
-   "line": 12
+   "line": 13
   },
   {
    "name": "trailing",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "右侧分区（对标 side）",
-   "line": 13
+   "line": 14
   },
   {
    "name": "topAligned",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "顶部对齐分区（对标 top；top 为 Item FINAL 属性）",
-   "line": 14
+   "line": 15
   }
  ],
  "signals": [],

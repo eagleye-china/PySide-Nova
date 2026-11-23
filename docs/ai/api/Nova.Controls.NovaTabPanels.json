@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaTabPanels",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaTabPanels.qml",
- "description": "NovaTabPanels 面板容器（对标 QTabPanels）：受控 modelValue / animated / infinite / swipeable（DragHandler 被动抓取）/ vertical / transitionDuration； 子项即面板（NovaTabPanel 优先，任意 Item 亦可）；条带平移过渡（对标 Carousel 口径）",
+ "description": "NovaTabPanels 面板容器（对标 QTabPanels）：受控 modelValue / animated / infinite / swipeable（DragHandler 被动抓取）/ vertical / transitionDuration； 子项即面板（NovaTabPanel 优先，任意 Item 亦可）；条带平移过渡（对标 Carousel 口径） a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "modelValue",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 15
+   "line": 16
   },
   {
    "name": "animated",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 21
+   "line": 22
   },
   {
    "name": "infinite",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 23
   },
   {
    "name": "swipeable",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 24
   },
   {
    "name": "vertical",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 24
+   "line": 25
   },
   {
    "name": "transitionDuration",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": 300",
    "doc": null,
-   "line": 25
+   "line": 26
   },
   {
    "name": "_panels",
@@ -58,7 +58,7 @@
    "readonly": true,
    "default": ": _collectPanels()",
    "doc": null,
-   "line": 31
+   "line": 32
   },
   {
    "name": "count",
@@ -66,7 +66,7 @@
    "readonly": true,
    "default": ": _panels.length",
    "doc": null,
-   "line": 32
+   "line": 33
   },
   {
    "name": "currentIndex",
@@ -74,7 +74,7 @@
    "readonly": true,
    "default": ": _indexOfValue(modelValue)",
    "doc": null,
-   "line": 33
+   "line": 34
   },
   {
    "name": "_snap",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "infinite 回绕瞬移时暂停动画",
-   "line": 35
+   "line": 36
   }
  ],
  "signals": [

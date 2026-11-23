@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaCardSection",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaCardSection.qml",
- "description": "NovaCardSection 卡片内容区：默认内容槽，padding 取 NovaTheme.spacingL NovaCardSection —— 卡片内容分区（对标 QCardSection）",
+ "description": "NovaCardSection 卡片内容区：默认内容槽，padding 取 NovaTheme.spacingL NovaCardSection —— 卡片内容分区（对标 QCardSection） a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "padding",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": NovaTheme.spacingL",
    "doc": null,
-   "line": 12
+   "line": 13
   }
  ],
  "signals": [],

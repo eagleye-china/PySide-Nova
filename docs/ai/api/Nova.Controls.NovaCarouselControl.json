@@ -5,12 +5,20 @@
  "description": "NovaCarouselControl 轮播覆盖控件（对标 QCarouselControl）：声明于 NovaCarousel 内部， 完成后自动挂载到轮播覆盖层并按 position/offset 锚定；default 槽为控件内容",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 11
+  },
+  {
    "name": "position",
    "type": "string",
    "readonly": false,
    "default": ": \"bottom-right\"",
    "doc": "top-left/top/top-right/left/right/bottom-left/bottom/bottom-right",
-   "line": 14
+   "line": 19
   },
   {
    "name": "offset",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": 16",
    "doc": "距覆盖层边缘像素",
-   "line": 15
+   "line": 20
   },
   {
    "name": "_isNovaCarouselControl",
@@ -26,7 +34,7 @@
    "readonly": true,
    "default": ": true",
    "doc": null,
-   "line": 18
+   "line": 23
   },
   {
    "name": "_host",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 24
+   "line": 29
   }
  ],
  "signals": [],

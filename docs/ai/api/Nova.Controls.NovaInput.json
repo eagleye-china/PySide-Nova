@@ -5,12 +5,20 @@
  "description": "NovaInput 文本输入：单行/密码/多行/数字、modelModifiers、debounce、autogrow、clearable 对标 Quasar QInput（input 8 props + use-field + use-validate；NovaField 之下的控制层） 契约统一：label / hint / error / readonly / disable / clearable / rules",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 15
+  },
+  {
    "name": "modelValue",
    "type": "var",
    "readonly": false,
    "default": ": \"\"",
    "doc": "对标 modelValue（string/number）",
-   "line": 13
+   "line": 23
   },
   {
    "name": "modelModifiers",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "number | trim | capitalize",
-   "line": 14
+   "line": 24
   },
   {
    "name": "shadowText",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "空值且未聚焦时的影子文本（对标 shadowText）",
-   "line": 15
+   "line": 25
   },
   {
    "name": "type",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": \"text\"",
    "doc": "text|password|number|int|textarea|search|email|tel|url",
-   "line": 16
+   "line": 26
   },
   {
    "name": "debounce",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "valueChanged 防抖毫秒（对标 debounce）",
-   "line": 17
+   "line": 27
   },
   {
    "name": "autogrow",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "textarea 自增高（对标 autogrow）",
-   "line": 18
+   "line": 28
   },
   {
    "name": "maxLength",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "Nova 增强（HTML maxlength 语义）",
-   "line": 19
+   "line": 29
   },
   {
    "name": "placeholder",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "Nova 增强：原生 placeholder",
-   "line": 20
+   "line": 30
   },
   {
    "name": "_emitting",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "内部提交旗标：避免 number 模式改写用户输入",
-   "line": 26
+   "line": 36
   },
   {
    "name": "_isArea",
@@ -82,7 +90,7 @@
    "readonly": true,
    "default": ": type === \"textarea\"",
    "doc": null,
-   "line": 29
+   "line": 39
   },
   {
    "name": "_isPassword",
@@ -90,7 +98,7 @@
    "readonly": true,
    "default": ": type === \"password\"",
    "doc": null,
-   "line": 30
+   "line": 40
   },
   {
    "name": "_text",
@@ -98,7 +106,7 @@
    "readonly": true,
    "default": ": _isArea ? area.text : input.text",
    "doc": null,
-   "line": 31
+   "line": 41
   },
   {
    "name": "_mods",
@@ -106,7 +114,7 @@
    "readonly": true,
    "default": ": Array.isArray(modelModifiers) ? modelModifiers : []",
    "doc": null,
-   "line": 32
+   "line": 42
   },
   {
    "name": "typedValue",
@@ -114,7 +122,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 34
+   "line": 44
   }
  ],
  "signals": [

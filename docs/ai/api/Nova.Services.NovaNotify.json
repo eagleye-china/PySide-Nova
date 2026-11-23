@@ -10,7 +10,7 @@
    "readonly": true,
    "default": ": [\"top-left\", \"top-right\", \"bottom-left\", \"bottom-right\",",
    "doc": null,
-   "line": 16
+   "line": 17
   },
   {
    "name": "enterMs",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": 1000",
    "doc": "进出场动效时长 = 基线 transition 1s；计时器/进度条共用本常量",
-   "line": 18
+   "line": 19
   },
   {
    "name": "defaultTimeout",
@@ -26,7 +26,7 @@
    "readonly": true,
    "default": ": 5000",
    "doc": "基线默认显示时长",
-   "line": 19
+   "line": 20
   },
   {
    "name": "maxVisible",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": 5",
    "doc": "同屏上限（MASTER_PLAN Sprint 2 验收，Nova 增强）",
-   "line": 20
+   "line": 21
   },
   {
    "name": "dismissReasons",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": [\"timeout\", \"user\", \"action\", \"api\", \"replaced\", \"overflow\"]",
    "doc": null,
-   "line": 24
+   "line": 25
   },
   {
    "name": "_defaults",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": null,
-   "line": 27
+   "line": 28
   },
   {
    "name": "_registeredTypes",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": null,
-   "line": 28
+   "line": 29
   },
   {
    "name": "_stacks",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": "position → Item 数组",
-   "line": 29
+   "line": 30
   },
   {
    "name": "_groups",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": "运行时分组键 → Item",
-   "line": 30
+   "line": 31
   },
   {
    "name": "_conn",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "窗口尺寸监听",
-   "line": 31
+   "line": 32
   },
   {
    "name": "connComp",
@@ -90,7 +90,7 @@
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 377
+   "line": 378
   },
   {
    "name": "itemComp",
@@ -98,7 +98,7 @@
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 384
+   "line": 385
   },
   {
    "name": "actionComp",
@@ -106,7 +106,7 @@
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 388
+   "line": 389
   },
   {
    "name": "handleComp",
@@ -114,7 +114,7 @@
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 392
+   "line": 393
   }
  ],
  "signals": [],

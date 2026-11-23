@@ -5,12 +5,20 @@
  "description": "NovaMarkupTable 标记表格（对标 QMarkupTable）：columns/rows 数组直渲 + 标题",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 10
+  },
+  {
    "name": "title",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 9
+   "line": 14
   },
   {
    "name": "columns",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "[\"列A\", \"列B\", ...]",
-   "line": 10
+   "line": 15
   },
   {
    "name": "rows",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "[[\"a1\",\"b1\"], [\"a2\",\"b2\"], ...]",
-   "line": 11
+   "line": 16
   },
   {
    "name": "flat",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 12
+   "line": 17
   },
   {
    "name": "dense",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 13
+   "line": 18
   }
  ],
  "signals": [],

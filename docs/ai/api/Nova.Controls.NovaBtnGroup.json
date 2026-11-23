@@ -5,12 +5,20 @@
  "description": "NovaBtnGroup 按钮组样式壳：spread/vertical、outline/flat/push 形态统一下发（对标 QBtnGroup） 子项为 NovaBtn；组内间距归零（并接）；vertical 切换时槽内容 reparent 到对应布局容器",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 11
+  },
+  {
    "name": "vertical",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 13
+   "line": 18
   },
   {
    "name": "spread",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "撑满可用空间",
-   "line": 14
+   "line": 19
   },
   {
    "name": "outline",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 15
+   "line": 20
   },
   {
    "name": "flat",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 16
+   "line": 21
   },
   {
    "name": "push",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 17
+   "line": 22
   },
   {
    "name": "_gap",
@@ -50,7 +58,7 @@
    "readonly": true,
    "default": ": 1",
    "doc": null,
-   "line": 29
+   "line": 34
   }
  ],
  "signals": [],

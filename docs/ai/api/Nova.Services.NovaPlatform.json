@@ -10,7 +10,7 @@
    "readonly": true,
    "default": ": NovaRuntime ? NovaRuntime.osName : Qt.platform.os",
    "doc": null,
-   "line": 19
+   "line": 20
   },
   {
    "name": "osVersion",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": NovaRuntime ? NovaRuntime.osVersion : \"\"",
    "doc": null,
-   "line": 20
+   "line": 21
   },
   {
    "name": "cpuArch",
@@ -26,7 +26,7 @@
    "readonly": true,
    "default": ": NovaRuntime ? NovaRuntime.cpuArch : \"\"",
    "doc": null,
-   "line": 21
+   "line": 22
   },
   {
    "name": "isWindows",
@@ -34,7 +34,7 @@
    "readonly": true,
    "default": ": pf.os === \"windows\"",
    "doc": null,
-   "line": 24
+   "line": 25
   },
   {
    "name": "isMac",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": pf.os === \"osx\"",
    "doc": null,
-   "line": 25
+   "line": 26
   },
   {
    "name": "isLinux",
@@ -50,7 +50,7 @@
    "readonly": true,
    "default": ": pf.os === \"linux\"",
    "doc": null,
-   "line": 26
+   "line": 27
   },
   {
    "name": "isAndroid",
@@ -58,7 +58,7 @@
    "readonly": true,
    "default": ": pf.os === \"android\"",
    "doc": null,
-   "line": 27
+   "line": 28
   },
   {
    "name": "isIOS",
@@ -66,7 +66,7 @@
    "readonly": true,
    "default": ": pf.os === \"ios\"",
    "doc": null,
-   "line": 28
+   "line": 29
   },
   {
    "name": "isWasm",
@@ -74,7 +74,7 @@
    "readonly": true,
    "default": ": pf.os === \"wasm\"",
    "doc": null,
-   "line": 29
+   "line": 30
   },
   {
    "name": "isMobile",
@@ -82,7 +82,7 @@
    "readonly": true,
    "default": ": pf.isAndroid || pf.isIOS",
    "doc": null,
-   "line": 31
+   "line": 32
   },
   {
    "name": "isDesktop",
@@ -90,7 +90,7 @@
    "readonly": true,
    "default": ": !pf.isMobile && !pf.isWasm",
    "doc": null,
-   "line": 32
+   "line": 33
   },
   {
    "name": "hasTouch",
@@ -98,7 +98,7 @@
    "readonly": true,
    "default": ": novaRuntimeReady ? NovaRuntime.hasTouchscreen : pf.isMobile",
    "doc": null,
-   "line": 36
+   "line": 37
   },
   {
    "name": "novaRuntimeReady",
@@ -106,7 +106,7 @@
    "readonly": true,
    "default": ": NovaRuntime !== null && NovaRuntime !== undefined",
    "doc": null,
-   "line": 39
+   "line": 40
   },
   {
    "name": "reducedMotion",
@@ -114,7 +114,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 42
+   "line": 43
   }
  ],
  "signals": [],

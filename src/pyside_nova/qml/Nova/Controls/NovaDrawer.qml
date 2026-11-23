@@ -14,7 +14,10 @@ Item {
     default property alias content: body.data
 
     // ── 几何与行为 ──
-    property string side: "left"        // left | right
+    property string side: "left"        // left | right（逻辑侧；RTL 下 effectiveSide 自动镜像）
+    // RTL（0.16.1）：逻辑 left 在 RTL 布局中挂在右缘（对标 Quasar drawer side RTL 行为）
+    readonly property string effectiveSide:
+        NovaTheme.isRtl ? (side === "left" ? "right" : "left") : side
     property real size: 280             // 展开宽度（width 由展开状态驱动）
     property bool mini: false           // mini 模式：收起为 miniWidth，悬停临时展开
     property real miniWidth: 64

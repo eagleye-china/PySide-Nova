@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 14
+   "line": 15
   },
   {
    "name": "valid",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": item !== null",
    "doc": null,
-   "line": 16
+   "line": 17
   }
  ],
  "signals": [],

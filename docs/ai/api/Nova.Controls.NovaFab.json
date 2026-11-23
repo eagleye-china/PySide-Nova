@@ -5,79 +5,15 @@
  "description": "NovaFab 悬浮按钮组（对标 QFab）：主圆钮 + NovaFabAction 子项；direction 展开方向 / stagger 级联动画（逐个 delay=idx×stagger 显现）/ hover 打开契约（hoverDelay 进入 / hoverHideDelay 离场宽限）/ external-label / 垂直动作对齐；受控 modelValue(bool)",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
    "name": "modelValue",
-   "type": "bool",
-   "readonly": false,
-   "default": ": false",
-   "doc": null,
-   "line": 15
-  },
-  {
-   "name": "hover",
-   "type": "bool",
-   "readonly": false,
-   "default": ": false",
-   "doc": "悬停展开/离场收起",
-   "line": 23
-  },
-  {
-   "name": "hoverDelay",
-   "type": "int",
-   "readonly": false,
-   "default": ": 0",
-   "doc": "进入→展开延迟 ms",
-   "line": 24
-  },
-  {
-   "name": "hoverHideDelay",
-   "type": "int",
-   "readonly": false,
-   "default": ": 150",
-   "doc": "离场宽限 ms",
-   "line": 25
-  },
-  {
-   "name": "direction",
-   "type": "string",
-   "readonly": false,
-   "default": ": \"right\"",
-   "doc": "right/left/up/down",
-   "line": 26
-  },
-  {
-   "name": "verticalActionsAlign",
-   "type": "string",
-   "readonly": false,
-   "default": ": \"center\"",
-   "doc": "up/down 时水平对齐 left/center/right",
-   "line": 27
-  },
-  {
-   "name": "stagger",
-   "type": "int",
-   "readonly": false,
-   "default": ": 40",
-   "doc": "级联节拍 ms",
-   "line": 28
-  },
-  {
-   "name": "icon",
-   "type": "string",
-   "readonly": false,
-   "default": ": \"mdi:plus\"",
-   "doc": null,
-   "line": 29
-  },
-  {
-   "name": "activeIcon",
-   "type": "string",
-   "readonly": false,
-   "default": ": \"mdi:close\"",
-   "doc": null,
-   "line": 30
-  },
-  {
-   "name": "hideIcon",
    "type": "bool",
    "readonly": false,
    "default": ": false",
@@ -85,12 +21,84 @@
    "line": 31
   },
   {
+   "name": "hover",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "悬停展开/离场收起",
+   "line": 39
+  },
+  {
+   "name": "hoverDelay",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": "进入→展开延迟 ms",
+   "line": 40
+  },
+  {
+   "name": "hoverHideDelay",
+   "type": "int",
+   "readonly": false,
+   "default": ": 150",
+   "doc": "离场宽限 ms",
+   "line": 41
+  },
+  {
+   "name": "direction",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"right\"",
+   "doc": "right/left/up/down",
+   "line": 42
+  },
+  {
+   "name": "verticalActionsAlign",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"center\"",
+   "doc": "up/down 时水平对齐 left/center/right",
+   "line": 43
+  },
+  {
+   "name": "stagger",
+   "type": "int",
+   "readonly": false,
+   "default": ": 40",
+   "doc": "级联节拍 ms",
+   "line": 44
+  },
+  {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"mdi:plus\"",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "activeIcon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"mdi:close\"",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "hideIcon",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 47
+  },
+  {
    "name": "label",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 32
+   "line": 48
   },
   {
    "name": "externalLabel",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "label 外置于按钮旁（展开常显口径）",
-   "line": 33
+   "line": 49
   },
   {
    "name": "labelPosition",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": \"right\"",
    "doc": "left/right/top/bottom",
-   "line": 34
+   "line": 50
   },
   {
    "name": "hideLabel",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 35
+   "line": 51
   },
   {
    "name": "square",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 36
+   "line": 52
   },
   {
    "name": "disable",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 37
+   "line": 53
   },
   {
    "name": "tint",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "基调色红线",
-   "line": 38
+   "line": 54
   },
   {
    "name": "textColor",
@@ -146,7 +154,7 @@
    "readonly": false,
    "default": ": NovaTheme.textOnPrimary",
    "doc": null,
-   "line": 39
+   "line": 55
   },
   {
    "name": "open",
@@ -154,7 +162,7 @@
    "readonly": true,
    "default": ": modelValue",
    "doc": null,
-   "line": 48
+   "line": 64
   },
   {
    "name": "_timers",
@@ -162,7 +170,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 74
+   "line": 90
   },
   {
    "name": "target",
@@ -170,7 +178,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 104
+   "line": 120
   },
   {
    "name": "pendingReveal",
@@ -178,7 +186,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 198
+   "line": 214
   },
   {
    "name": "_open",
@@ -186,7 +194,7 @@
    "readonly": true,
    "default": ": open",
    "doc": null,
-   "line": 262
+   "line": 278
   }
  ],
  "signals": [

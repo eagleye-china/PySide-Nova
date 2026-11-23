@@ -5,12 +5,20 @@
  "description": "NovaTooltip 工具提示：target 悬停（delay/hideDelay）、anchor/self/offset 定位、text 便捷或 default 槽（对标 QTooltip） 就地渲染口径：z 提升于声明处（PARITY §0.14 留痕：非 portal，建议声明在页面根层）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 11
+  },
+  {
    "name": "text",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": "Nova 增强：单行便捷文案",
-   "line": 13
+   "line": 18
   },
   {
    "name": "_useText",
@@ -18,7 +26,7 @@
    "readonly": true,
    "default": ": text !== \"\" && bubbleContent.children.length === 0",
    "doc": null,
-   "line": 14
+   "line": 19
   },
   {
    "name": "target",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "null = 声明父项",
-   "line": 17
+   "line": 22
   },
   {
    "name": "delay",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "显示延迟 ms",
-   "line": 18
+   "line": 23
   },
   {
    "name": "hideDelay",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "消失延迟 ms",
-   "line": 19
+   "line": 24
   },
   {
    "name": "offset",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": [14, 14]",
    "doc": "对标默认 [14, 14]",
-   "line": 20
+   "line": 25
   },
   {
    "name": "anchor",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": \"bottom middle\"",
    "doc": "target 锚点",
-   "line": 21
+   "line": 26
   },
   {
    "name": "self",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": \"top middle\"",
    "doc": "气泡对齐点",
-   "line": 22
+   "line": 27
   },
   {
    "name": "maxWidth",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": 280",
    "doc": null,
-   "line": 25
+   "line": 30
   },
   {
    "name": "tint",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": isDark ? \"#3A3A44\" : \"#2A2A32\"",
    "doc": null,
-   "line": 26
+   "line": 31
   },
   {
    "name": "isDark",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": NovaTheme.isDark",
    "doc": null,
-   "line": 27
+   "line": 32
   },
   {
    "name": "modelValue",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 30
+   "line": 35
   },
   {
    "name": "_open",
@@ -106,7 +114,7 @@
    "readonly": true,
    "default": ": modelValue",
    "doc": null,
-   "line": 37
+   "line": 42
   },
   {
    "name": "_tgt",
@@ -114,7 +122,7 @@
    "readonly": true,
    "default": ": target !== null ? target : parent",
    "doc": null,
-   "line": 42
+   "line": 47
   },
   {
    "name": "pendingShow",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 58
+   "line": 63
   }
  ],
  "signals": [

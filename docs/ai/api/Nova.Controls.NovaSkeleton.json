@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaSkeleton",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaSkeleton.qml",
- "description": "NovaSkeleton 骨架屏：type（rect/text/circle/square/badge/tag）× animation（wave/bounce/fade/none，对标 QSkeleton） wave = 渐变横扫；bounce = 透明度脉冲；fade = 交替呼吸",
+ "description": "NovaSkeleton 骨架屏：type（rect/text/circle/square/badge/tag）× animation（wave/bounce/fade/none，对标 QSkeleton） wave = 渐变横扫；bounce = 透明度脉冲；fade = 交替呼吸 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "type",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"rect\"",
    "doc": "rect | text | circle | square | badge | tag",
-   "line": 11
+   "line": 12
   },
   {
    "name": "animation",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": \"wave\"",
    "doc": "wave | bounce | fade | none",
-   "line": 12
+   "line": 13
   },
   {
    "name": "animationSpeed",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": 1500",
    "doc": "周期 ms",
-   "line": 13
+   "line": 14
   },
   {
    "name": "bordered",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 14
+   "line": 15
   },
   {
    "name": "_base",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": NovaTheme.surfaceAlt",
    "doc": null,
-   "line": 19
+   "line": 20
   },
   {
    "name": "_hi",
@@ -50,7 +50,7 @@
    "readonly": true,
    "default": ": NovaTheme.isDark ? \"#32323A\" : \"#EDEFF4\"",
    "doc": null,
-   "line": 20
+   "line": 21
   }
  ],
  "signals": [],

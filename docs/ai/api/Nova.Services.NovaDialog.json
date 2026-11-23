@@ -10,7 +10,7 @@
    "readonly": true,
    "default": ": [\"standard\", \"top\", \"right\", \"bottom\", \"left\"]",
    "doc": null,
-   "line": 17
+   "line": 18
   },
   {
    "name": "dismissReasons",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": [\"ok\", \"cancel\", \"backdrop\", \"escape\", \"api\"]",
    "doc": null,
-   "line": 18
+   "line": 19
   },
   {
    "name": "zLayer",
@@ -26,7 +26,7 @@
    "readonly": true,
    "default": ": NovaTheme.zTop",
    "doc": null,
-   "line": 19
+   "line": 20
   },
   {
    "name": "_defaults",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": "setDefaults 合并源",
-   "line": 22
+   "line": 23
   },
   {
    "name": "_dialogs",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "活动对话框（按创建顺序，支持多层堆叠）",
-   "line": 23
+   "line": 24
   },
   {
    "name": "dialogComp",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 170
+   "line": 171
   },
   {
    "name": "handleComp",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 174
+   "line": 175
   }
  ],
  "signals": [],

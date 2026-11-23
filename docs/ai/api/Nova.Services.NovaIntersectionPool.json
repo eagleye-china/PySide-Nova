@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": 34",
    "doc": null,
-   "line": 25
+   "line": 26
   },
   {
    "name": "_subs",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 28
+   "line": 29
   },
   {
    "name": "count",
@@ -26,7 +26,7 @@
    "readonly": true,
    "default": ": _subs.length",
    "doc": null,
-   "line": 29
+   "line": 30
   },
   {
    "name": "ticker",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": Timer {",
    "doc": null,
-   "line": 32
+   "line": 33
   }
  ],
  "signals": [],

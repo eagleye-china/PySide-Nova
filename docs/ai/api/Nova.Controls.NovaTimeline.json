@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaTimeline",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaTimeline.qml",
- "description": "NovaTimeline 时间轴（对标 QTimeline）：tint 轴色 / side 左右停靠 / dense·comfortable·loose 三布局；default 槽为 NovaTimelineEntry 序列，条目经 _timelineRef 反向取宿主布局参数",
+ "description": "NovaTimeline 时间轴（对标 QTimeline）：tint 轴色 / side 左右停靠 / dense·comfortable·loose 三布局；default 槽为 NovaTimelineEntry 序列，条目经 _timelineRef 反向取宿主布局参数 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "_isNovaTimeline",
@@ -10,7 +10,7 @@
    "readonly": true,
    "default": ": true",
    "doc": null,
-   "line": 15
+   "line": 16
   },
   {
    "name": "tint",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 color（tint 命名红线）",
-   "line": 18
+   "line": 19
   },
   {
    "name": "side",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": \"left\"",
    "doc": "left/right（dense/comfortable 的停靠边）",
-   "line": 19
+   "line": 20
   },
   {
    "name": "layout",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": \"dense\"",
    "doc": "dense/comfortable/loose",
-   "line": 20
+   "line": 21
   },
   {
    "name": "_axisOnLeft",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": side === \"left\"",
    "doc": null,
-   "line": 36
+   "line": 37
   }
  ],
  "signals": [],

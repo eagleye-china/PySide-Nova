@@ -5,12 +5,20 @@
  "description": "NovaBadge 徽标：红点（text 留空）/数值/浮动三种模式，作为子项挂载到任意 Item（对标 QBadge） NovaBadge —— 徽标（对标 QBadge） 用法：作为子项放在任意 Item 内，自动吸附到父级右上角；text 为空 = 红点模式 NovaAvatar {",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 18
+  },
+  {
    "name": "text",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 20
+   "line": 25
   },
   {
    "name": "tint",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": NovaTheme.negative",
    "doc": null,
-   "line": 21
+   "line": 26
   },
   {
    "name": "textColor",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": \"#FFFFFF\"",
    "doc": null,
-   "line": 22
+   "line": 27
   },
   {
    "name": "offsetX",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 23
+   "line": 28
   },
   {
    "name": "offsetY",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 24
+   "line": 29
   },
   {
    "name": "floating",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 25
+   "line": 30
   },
   {
    "name": "dot",
@@ -58,7 +66,7 @@
    "readonly": true,
    "default": ": text === \"\"",
    "doc": null,
-   "line": 27
+   "line": 32
   }
  ],
  "signals": [],

@@ -5,12 +5,20 @@
  "description": "NovaTabs 标签页容器（对标 QTabs）：受控 modelValue、横向滚动 + 溢出箭头 （outside-arrows/mobile-arrows）、align（left/center/right/justify）、breakpoint 自动 justify、垂直模式、指示条（narrow/switch）、dense；Tab 激活态由本组件下发",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 15
+  },
+  {
    "name": "modelValue",
    "type": "var",
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 16
+   "line": 40
   },
   {
    "name": "vertical",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 20
+   "line": 44
   },
   {
    "name": "outsideArrows",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "溢出箭头占位两侧（常显）",
-   "line": 21
+   "line": 45
   },
   {
    "name": "mobileArrows",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "窄容器强制显示箭头",
-   "line": 22
+   "line": 46
   },
   {
    "name": "align",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"center\"",
    "doc": "left/center/right/justify",
-   "line": 23
+   "line": 47
   },
   {
    "name": "breakpoint",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": 600",
    "doc": "容器宽低于此值自动 justify",
-   "line": 24
+   "line": 48
   },
   {
    "name": "activeColor",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 active-color（tint 红线）",
-   "line": 25
+   "line": 49
   },
   {
    "name": "activeBgColor",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": \"transparent\"",
    "doc": "对标 active-bg-color",
-   "line": 26
+   "line": 50
   },
   {
    "name": "indicatorColor",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 indicator-color",
-   "line": 27
+   "line": 51
   },
   {
    "name": "leftIcon",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": \"mdi:chevron-left\"",
    "doc": null,
-   "line": 28
+   "line": 52
   },
   {
    "name": "rightIcon",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": \"mdi:chevron-right\"",
    "doc": null,
-   "line": 29
+   "line": 53
   },
   {
    "name": "stretch",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "Tab 纵向拉伸填满容器",
-   "line": 30
+   "line": 54
   },
   {
    "name": "shrink",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "容器收缩为内容宽（默认撑满）",
-   "line": 31
+   "line": 55
   },
   {
    "name": "switchIndicator",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "指示条换侧（横→上沿 / 纵→右侧）",
-   "line": 32
+   "line": 56
   },
   {
    "name": "narrowIndicator",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "指示条同 Tab 内容宽",
-   "line": 33
+   "line": 57
   },
   {
    "name": "inlineLabel",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "图标文案同行（默认垂直堆叠近似——横向模式即同行）",
-   "line": 34
+   "line": 58
   },
   {
    "name": "noCaps",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 35
+   "line": 59
   },
   {
    "name": "dense",
@@ -146,7 +154,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 36
+   "line": 60
   },
   {
    "name": "_tabs",
@@ -154,7 +162,7 @@
    "readonly": true,
    "default": ": _collectTabs()",
    "doc": null,
-   "line": 42
+   "line": 66
   },
   {
    "name": "count",
@@ -162,7 +170,7 @@
    "readonly": true,
    "default": ": _tabs.length",
    "doc": null,
-   "line": 43
+   "line": 67
   },
   {
    "name": "currentIndex",
@@ -170,7 +178,7 @@
    "readonly": true,
    "default": ": _indexOfValue(modelValue)",
    "doc": null,
-   "line": 44
+   "line": 68
   },
   {
    "name": "currentName",
@@ -178,7 +186,7 @@
    "readonly": true,
    "default": ": currentIndex >= 0 ? _nameOf(currentIndex) : \"\"",
    "doc": null,
-   "line": 45
+   "line": 69
   },
   {
    "name": "_justify",
@@ -186,7 +194,7 @@
    "readonly": true,
    "default": ": align === \"justify\" || (!vertical && width < breakpoint)",
    "doc": null,
-   "line": 103
+   "line": 127
   },
   {
    "name": "_overflow",
@@ -194,7 +202,7 @@
    "readonly": true,
    "default": ": vertical",
    "doc": null,
-   "line": 159
+   "line": 183
   },
   {
    "name": "_arrowsVisible",
@@ -202,7 +210,7 @@
    "readonly": true,
    "default": ": !_overflowBlocked",
    "doc": null,
-   "line": 162
+   "line": 186
   },
   {
    "name": "_overflowBlocked",
@@ -210,7 +218,7 @@
    "readonly": true,
    "default": ": false",
    "doc": null,
-   "line": 164
+   "line": 188
   },
   {
    "name": "_edge",
@@ -218,7 +226,7 @@
    "readonly": true,
    "default": ": _arrowsVisible && outsideArrows ? 40 : 0",
    "doc": null,
-   "line": 175
+   "line": 199
   },
   {
    "name": "act",
@@ -226,7 +234,7 @@
    "readonly": true,
    "default": ": root.currentIndex >= 0 ? root._tabs[root.currentIndex] : null",
    "doc": null,
-   "line": 205
+   "line": 229
   },
   {
    "name": "narrowW",
@@ -234,7 +242,7 @@
    "readonly": true,
    "default": ": act !== null",
    "doc": null,
-   "line": 206
+   "line": 230
   }
  ],
  "signals": [

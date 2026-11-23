@@ -10,7 +10,7 @@
    "readonly": true,
    "default": ": _headerItem",
    "doc": null,
-   "line": 18
+   "line": 19
   },
   {
    "name": "footerItem",
@@ -18,7 +18,7 @@
    "readonly": true,
    "default": ": _footerItem",
    "doc": null,
-   "line": 19
+   "line": 20
   },
   {
    "name": "drawerItem",
@@ -26,7 +26,7 @@
    "readonly": true,
    "default": ": _drawerItem",
    "doc": null,
-   "line": 20
+   "line": 21
   },
   {
    "name": "pageArea",
@@ -34,7 +34,7 @@
    "readonly": true,
    "default": ": pageHost",
    "doc": null,
-   "line": 21
+   "line": 22
   },
   {
    "name": "drawerOpen",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": _drawerItem ? _drawerItem.open : false",
    "doc": null,
-   "line": 24
+   "line": 25
   },
   {
    "name": "pageColor",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": NovaTheme.page",
    "doc": null,
-   "line": 30
+   "line": 31
   },
   {
    "name": "_headerItem",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 32
+   "line": 33
   },
   {
    "name": "_footerItem",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 33
+   "line": 34
   },
   {
    "name": "_drawerItem",
@@ -74,23 +74,23 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 34
+   "line": 35
   },
   {
    "name": "pushLeft",
    "type": "real",
    "readonly": true,
-   "default": ": _drawerItem && _drawerItem.side === \"left\" && !_drawerItem.effectiveOverlay",
+   "default": ": _drawerItem && _drawerItem.effectiveSide === \"left\" && !_drawerItem.effectiveOverlay",
    "doc": null,
-   "line": 58
+   "line": 59
   },
   {
    "name": "pushRight",
    "type": "real",
    "readonly": true,
-   "default": ": _drawerItem && _drawerItem.side === \"right\" && !_drawerItem.effectiveOverlay",
+   "default": ": _drawerItem && _drawerItem.effectiveSide === \"right\" && !_drawerItem.effectiveOverlay",
    "doc": null,
-   "line": 60
+   "line": 61
   }
  ],
  "signals": [],

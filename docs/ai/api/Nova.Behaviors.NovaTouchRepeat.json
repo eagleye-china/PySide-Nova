@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": parent",
    "doc": null,
-   "line": 27
+   "line": 28
   },
   {
    "name": "delays",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": \"0:600:300\"",
    "doc": null,
-   "line": 30
+   "line": 31
   },
   {
    "name": "keyRepeat",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true = 键盘也参与连发",
-   "line": 31
+   "line": 32
   },
   {
    "name": "keys",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "空 = 默认 Space / Enter",
-   "line": 32
+   "line": 33
   },
   {
    "name": "pressed",
@@ -42,7 +42,7 @@
    "readonly": true,
    "default": ": core.pressed",
    "doc": null,
-   "line": 34
+   "line": 35
   },
   {
    "name": "repeating",
@@ -50,7 +50,7 @@
    "readonly": true,
    "default": ": rep.running && _active",
    "doc": null,
-   "line": 35
+   "line": 36
   },
   {
    "name": "repeatCount",
@@ -58,7 +58,7 @@
    "readonly": true,
    "default": ": _count",
    "doc": null,
-   "line": 36
+   "line": 37
   },
   {
    "name": "_active",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 38
+   "line": 39
   },
   {
    "name": "_count",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 39
+   "line": 40
   },
   {
    "name": "_startTime",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 40
+   "line": 41
   },
   {
    "name": "_kb",
@@ -90,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "本次连发的通道（timer 接力时不能丢）",
-   "line": 41
+   "line": 42
   },
   {
    "name": "_keyCode",
@@ -98,7 +98,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 42
+   "line": 43
   }
  ],
  "signals": [

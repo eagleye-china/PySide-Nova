@@ -5,12 +5,20 @@
  "description": "NovaStep 步骤面板（对标 QStep）：name/title/caption/icon/prefix/done/error/disable + 状态图标覆盖（done/active/error 的 icon+color，'none' 退让 prefix→icon）；default 槽 为步骤内容；几何与激活态由宿主 NovaStepper 统一管理（stepperRef 注入）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 12
+  },
+  {
    "name": "name",
    "type": "var",
    "readonly": false,
    "default": ": \"\"",
    "doc": "步骤寻址名；空则宿主以序号寻址",
-   "line": 15
+   "line": 20
   },
   {
    "name": "title",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 16
+   "line": 21
   },
   {
    "name": "caption",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 17
+   "line": 22
   },
   {
    "name": "icon",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "无状态时圆点内图标",
-   "line": 18
+   "line": 23
   },
   {
    "name": "prefix",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "圆点内编号文案（覆盖 icon，有状态图标时让位）",
-   "line": 19
+   "line": 24
   },
   {
    "name": "done",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 20
+   "line": 25
   },
   {
    "name": "error",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 21
+   "line": 26
   },
   {
    "name": "disable",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 27
   },
   {
    "name": "headerNav",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "允许头部导航跳到本步骤",
-   "line": 23
+   "line": 28
   },
   {
    "name": "color",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "Quasar 命名色字符串口径（Item 基类无冲突）",
-   "line": 24
+   "line": 29
   },
   {
    "name": "doneIcon",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 27
+   "line": 32
   },
   {
    "name": "doneColor",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 28
+   "line": 33
   },
   {
    "name": "activeIcon",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 29
+   "line": 34
   },
   {
    "name": "activeColor",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 30
+   "line": 35
   },
   {
    "name": "errorIcon",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 31
+   "line": 36
   },
   {
    "name": "errorColor",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 32
+   "line": 37
   },
   {
    "name": "isNovaStep",
@@ -138,7 +146,7 @@
    "readonly": true,
    "default": ": true",
    "doc": null,
-   "line": 34
+   "line": 39
   }
  ],
  "signals": [],

@@ -5,12 +5,20 @@
  "description": "NovaToggle 开关：轨道+滑块换装 NovaCheckbox（复用三态/toggleOrder/val 全部值语义） 对标 Quasar QToggle（use-checkbox 18 + icon/iconColor） 契约统一：label / hint / error / readonly / disable",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
    "name": "icon",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": "滑块内置图标（对标 icon）",
-   "line": 12
+   "line": 25
   },
   {
    "name": "iconColor",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"#FFFFFF\"",
    "doc": "对标 icon-color",
-   "line": 13
+   "line": 26
   },
   {
    "name": "_trackW",
@@ -26,7 +34,7 @@
    "readonly": true,
    "default": ": dense ? 30 : 36",
    "doc": null,
-   "line": 16
+   "line": 29
   },
   {
    "name": "_trackH",
@@ -34,7 +42,7 @@
    "readonly": true,
    "default": ": dense ? 16 : 20",
    "doc": null,
-   "line": 17
+   "line": 30
   },
   {
    "name": "_thumbD",
@@ -42,7 +50,7 @@
    "readonly": true,
    "default": ": dense ? 12 : 14",
    "doc": null,
-   "line": 18
+   "line": 31
   }
  ],
  "signals": [],

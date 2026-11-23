@@ -5,12 +5,20 @@
  "description": "NovaTh 表头单元格（对标 QTh）：文本/对齐/排序指示（受控模式：sortRequest 只上报）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 12
+  },
+  {
    "name": "text",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 11
+   "line": 24
   },
   {
    "name": "align",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"left\"",
    "doc": "left | center | right",
-   "line": 12
+   "line": 25
   },
   {
    "name": "sortable",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 13
+   "line": 26
   },
   {
    "name": "sorted",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 15
+   "line": 28
   },
   {
    "name": "descending",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 16
+   "line": 29
   }
  ],
  "signals": [

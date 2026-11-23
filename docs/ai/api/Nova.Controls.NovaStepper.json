@@ -5,12 +5,20 @@
  "description": "NovaStepper 步骤条（对标 QStepper）：受控 modelValue / 头部导航（headerNav 逐项开关）/ 状态图标解析 1:1 对标 2.35.6 StepHeader.js（active > error > done；step 级优先； 'none' 退让 prefix→icon/inactiveIcon）/ 垂直模式 / flat-bordered / alternative-labels / contracted；navigation/message 命名槽",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 14
+  },
+  {
    "name": "navigation",
    "type": "alias",
    "readonly": false,
    "default": ": navSlot.data",
    "doc": "对标 navigation 槽（NovaStepperNavigation）",
-   "line": 17
+   "line": 22
   },
   {
    "name": "message",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "对标 message 槽（头部消息区模板）",
-   "line": 18
+   "line": 23
   },
   {
    "name": "modelValue",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 21
+   "line": 26
   },
   {
    "name": "vertical",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 27
+   "line": 32
   },
   {
    "name": "headerNav",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "总开关；逐步骤 NovaStep.headerNav 可关",
-   "line": 28
+   "line": 33
   },
   {
    "name": "animated",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 29
+   "line": 34
   },
   {
    "name": "infinite",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 30
+   "line": 35
   },
   {
    "name": "flat",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 31
+   "line": 36
   },
   {
    "name": "bordered",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 32
+   "line": 37
   },
   {
    "name": "alternativeLabels",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "图标叠文案（仅水平）",
-   "line": 33
+   "line": 38
   },
   {
    "name": "contracted",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "头部只画圆点（窄窗口口径）",
-   "line": 34
+   "line": 39
   },
   {
    "name": "inactiveIcon",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 35
+   "line": 40
   },
   {
    "name": "inactiveColor",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": NovaTheme.textMuted",
    "doc": null,
-   "line": 36
+   "line": 41
   },
   {
    "name": "doneColor",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 37
+   "line": 42
   },
   {
    "name": "activeColor",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 38
+   "line": 43
   },
   {
    "name": "errorColor",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": NovaTheme.negative",
    "doc": null,
-   "line": 39
+   "line": 44
   },
   {
    "name": "doneIcon",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": \"mdi:check\"",
    "doc": null,
-   "line": 40
+   "line": 45
   },
   {
    "name": "activeIcon",
@@ -146,7 +154,7 @@
    "readonly": false,
    "default": ": \"mdi:pencil\"",
    "doc": null,
-   "line": 41
+   "line": 46
   },
   {
    "name": "errorIcon",
@@ -154,7 +162,7 @@
    "readonly": false,
    "default": ": \"mdi:alert\"",
    "doc": null,
-   "line": 42
+   "line": 47
   },
   {
    "name": "transitionDuration",
@@ -162,7 +170,7 @@
    "readonly": false,
    "default": ": 300",
    "doc": null,
-   "line": 43
+   "line": 48
   },
   {
    "name": "_steps",
@@ -170,7 +178,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 55
+   "line": 60
   },
   {
    "name": "_rev",
@@ -178,7 +186,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 56
+   "line": 61
   },
   {
    "name": "count",
@@ -186,7 +194,7 @@
    "readonly": true,
    "default": ": _steps.length",
    "doc": null,
-   "line": 57
+   "line": 62
   },
   {
    "name": "currentIndex",
@@ -194,7 +202,7 @@
    "readonly": true,
    "default": ": _rev >= 0 ? _indexOfValue(modelValue) : -1",
    "doc": null,
-   "line": 58
+   "line": 63
   },
   {
    "name": "headerH",
@@ -202,7 +210,7 @@
    "readonly": true,
    "default": ": vertical",
    "doc": null,
-   "line": 59
+   "line": 64
   },
   {
    "name": "st",
@@ -210,7 +218,7 @@
    "readonly": true,
    "default": ": root._steps[index]",
    "doc": null,
-   "line": 232
+   "line": 237
   },
   {
    "name": "active",
@@ -218,7 +226,7 @@
    "readonly": true,
    "default": ": index === root.currentIndex",
    "doc": null,
-   "line": 233
+   "line": 238
   },
   {
    "name": "dotC",
@@ -226,7 +234,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 236
+   "line": 241
   },
   {
    "name": "icon",
@@ -234,7 +242,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 244
+   "line": 249
   },
   {
    "name": "usePrefix",
@@ -242,7 +250,7 @@
    "readonly": true,
    "default": ": icon === \"\"",
    "doc": null,
-   "line": 251
+   "line": 256
   },
   {
    "name": "navOk",
@@ -250,7 +258,7 @@
    "readonly": true,
    "default": ": root.headerNav && st.headerNav",
    "doc": null,
-   "line": 253
+   "line": 258
   }
  ],
  "signals": [

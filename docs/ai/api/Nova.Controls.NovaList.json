@@ -5,12 +5,20 @@
  "description": "NovaList 列表容器（对标 QList）：separator/dense/padding、accordion 手风琴协调",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 10
+  },
+  {
    "name": "separator",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": "子项之间画分隔线（由 NovaItem 消费）",
-   "line": 11
+   "line": 16
   },
   {
    "name": "dense",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "紧凑行高（由 NovaItem 消费）",
-   "line": 12
+   "line": 17
   },
   {
    "name": "padding",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 13
+   "line": 18
   },
   {
    "name": "accordion",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "手风琴：子 NovaItem 展开时收起兄弟",
-   "line": 14
+   "line": 19
   }
  ],
  "signals": [],

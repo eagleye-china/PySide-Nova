@@ -12,20 +12,105 @@ import Nova.Design
 Rectangle {
     id: root
 
-    // ── 可访问性（WCAG 2.1 AA · 0.16.0）────────────────────────────
+    // ── 可访问性（WCAG 2.1 AA · 0.16.0 / 0.16.1 键盘游标）───────────
     property string a11yLabel: ""
     Accessible.role: Accessible.Tree
     Accessible.name: a11yLabel
     Accessible.focusable: true
     Accessible.focused: activeFocus
     activeFocusOnTab: true
-    // 键盘路径：Enter/Space 展开收起当前选中节点；方向键游标见 docs/A11Y.md「已知差距」
+    // 键盘路径（0.16.1 补齐方向键游标，对标 ARIA treeview 惯例）：
+    //   Up/Down 沿「当前展开+过滤后的可见序列」移动游标（游标=选择，emit updateSelected）
+    //   Right 展开/进入子节点、Left 收起/跳父节点（RTL 下物理方向互换）
+    //   Enter/Space 激活当前节点（tryExpand）
     Keys.onReturnPressed: root._a11yActivate()
     Keys.onEnterPressed: root._a11yActivate()
     Keys.onSpacePressed: root._a11yActivate()
+    Keys.onPressed: function(ev) {
+        var rtl = NovaTheme.isRtl
+        if (ev.key === Qt.Key_Up) { root._cursorMove(-1); ev.accepted = true }
+        else if (ev.key === Qt.Key_Down) { root._cursorMove(1); ev.accepted = true }
+        else if (ev.key === (rtl ? Qt.Key_Left : Qt.Key_Right)) { root._cursorForward(true); ev.accepted = true }
+        else if (ev.key === (rtl ? Qt.Key_Right : Qt.Key_Left)) { root._cursorBackward(); ev.accepted = true }
+    }
     function _a11yActivate() {
         if (root.selected === null || root.selected === undefined) return
         root.tryExpand(root.selected)
+    }
+
+    // 键盘游标（roving）：最后到达的 key；初始跟随 selected
+    property string _cursorKey: ""
+
+    // 可见节点平铺序列（展开分支下钻、过滤剔除隐藏），与渲染顺序一致
+    function _flattenVisibleKeys() {
+        var out = []
+        var walk = function (list, parentKey) {
+            for (var i = 0; i < list.length; i++) {
+                var n = list[i]
+                var k = _keyOf(n, parentKey, i)
+                if (_visibleKeys !== null && _visibleKeys[k] !== true)
+                    continue
+                out.push(k)
+                if (isExpanded(k))
+                    walk(_kidsOf(n, k), k)
+            }
+        }
+        walk(nodes, "")
+        return out
+    }
+
+    function _cursorMove(delta) {
+        var keys = _flattenVisibleKeys()
+        if (keys.length === 0)
+            return
+        var cur = _cursorKey !== "" ? _cursorKey
+                : (selected !== null && selected !== undefined ? String(selected) : "")
+        var at = keys.indexOf(cur)
+        if (at === -1) {
+            // 无游标：Down 进首个、Up 进末个
+            _cursorKey = keys[delta > 0 ? 0 : keys.length - 1]
+        } else {
+            // 环绕（对标 ARIA treeview 惯例：Up 在首个回绕到末个）
+            var i = (at + delta + keys.length) % keys.length
+            _cursorKey = keys[i]
+        }
+        selectNode(_cursorKey)
+    }
+
+    // Right（LTR）：可展开未展开 → 展开；已展开 → 进入第一个子节点
+    function _cursorForward(expand) {
+        var cur = _cursorKey !== "" ? _cursorKey
+                : (selected !== null && selected !== undefined ? String(selected) : "")
+        if (cur === "")
+            return
+        if (!_isExpandable(getNodeByKey(cur), cur))
+            return
+        if (!isExpanded(cur)) {
+            tryExpand(cur, true)
+            return
+        }
+        var kids = _index[cur] ? _index[cur].children : []
+        if (kids.length > 0) {
+            _cursorKey = kids[0]
+            selectNode(kids[0])
+        }
+    }
+
+    // Left（LTR）：已展开 → 收起；未展开/叶子 → 跳父节点
+    function _cursorBackward() {
+        var cur = _cursorKey !== "" ? _cursorKey
+                : (selected !== null && selected !== undefined ? String(selected) : "")
+        if (cur === "")
+            return
+        if (_isExpandable(getNodeByKey(cur), cur) && isExpanded(cur)) {
+            tryExpand(cur, false)
+            return
+        }
+        var parent = _index[cur] ? _index[cur].parent : ""
+        if (parent !== "") {
+            _cursorKey = parent
+            selectNode(parent)
+        }
     }
 
     property var nodes: []                  // {label,icon,children,lazy,expandable,disabled,tickable,tickStrategy,caption}

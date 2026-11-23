@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"fade\"",
    "doc": null,
-   "line": 14
+   "line": 15
   },
   {
    "name": "show",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 15
+   "line": 16
   },
   {
    "name": "duration",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
    "doc": null,
-   "line": 16
+   "line": 17
   },
   {
    "name": "easing",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": NovaMotion.easingStandard",
    "doc": null,
-   "line": 17
+   "line": 18
   },
   {
    "name": "clipContent",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 18
+   "line": 19
   },
   {
    "name": "preset",
@@ -50,7 +50,7 @@
    "readonly": true,
    "default": ": NovaMotion.preset(name)",
    "doc": null,
-   "line": 25
+   "line": 26
   },
   {
    "name": "axis",
@@ -58,7 +58,7 @@
    "readonly": true,
    "default": ": preset.axis !== undefined ? preset.axis : \"y\"",
    "doc": null,
-   "line": 26
+   "line": 27
   },
   {
    "name": "_hasOpacity",
@@ -66,7 +66,7 @@
    "readonly": true,
    "default": ": preset.opacityIn !== undefined || preset.opacityOut !== undefined",
    "doc": null,
-   "line": 29
+   "line": 30
   },
   {
    "name": "_hasScale",
@@ -74,7 +74,7 @@
    "readonly": true,
    "default": ": preset.scaleIn !== undefined || preset.scaleOut !== undefined",
    "doc": null,
-   "line": 30
+   "line": 31
   },
   {
    "name": "_hasMoveX",
@@ -82,7 +82,7 @@
    "readonly": true,
    "default": ": preset.xIn !== undefined || preset.xOut !== undefined",
    "doc": null,
-   "line": 31
+   "line": 32
   },
   {
    "name": "_hasMoveY",
@@ -90,7 +90,7 @@
    "readonly": true,
    "default": ": preset.yIn !== undefined || preset.yOut !== undefined",
    "doc": null,
-   "line": 33
+   "line": 34
   },
   {
    "name": "_hasAngle",
@@ -98,7 +98,7 @@
    "readonly": true,
    "default": ": preset.angleIn !== undefined || preset.angleOut !== undefined",
    "doc": null,
-   "line": 35
+   "line": 36
   },
   {
    "name": "_inOpacity",
@@ -106,7 +106,7 @@
    "readonly": true,
    "default": ": preset.opacityIn !== undefined ? preset.opacityIn : 1",
    "doc": null,
-   "line": 37
+   "line": 38
   },
   {
    "name": "_outOpacity",
@@ -114,7 +114,7 @@
    "readonly": true,
    "default": ": preset.opacityOut !== undefined ? preset.opacityOut : 1",
    "doc": null,
-   "line": 38
+   "line": 39
   },
   {
    "name": "_inScale",
@@ -122,7 +122,7 @@
    "readonly": true,
    "default": ": preset.scaleIn !== undefined ? preset.scaleIn : 1",
    "doc": null,
-   "line": 39
+   "line": 40
   },
   {
    "name": "_outScale",
@@ -130,7 +130,7 @@
    "readonly": true,
    "default": ": preset.scaleOut !== undefined ? preset.scaleOut : 1",
    "doc": null,
-   "line": 40
+   "line": 41
   },
   {
    "name": "_inX",
@@ -138,7 +138,7 @@
    "readonly": true,
    "default": ": (preset.xIn !== undefined ? preset.xIn : 0) * width",
    "doc": null,
-   "line": 41
+   "line": 42
   },
   {
    "name": "_outX",
@@ -146,7 +146,7 @@
    "readonly": true,
    "default": ": (preset.xOut !== undefined ? preset.xOut : 0) * width",
    "doc": null,
-   "line": 43
+   "line": 44
   },
   {
    "name": "_inY",
@@ -154,7 +154,7 @@
    "readonly": true,
    "default": ": (preset.yIn !== undefined ? preset.yIn : 0) * height",
    "doc": null,
-   "line": 45
+   "line": 46
   },
   {
    "name": "_outY",
@@ -162,7 +162,7 @@
    "readonly": true,
    "default": ": (preset.yOut !== undefined ? preset.yOut : 0) * height",
    "doc": null,
-   "line": 47
+   "line": 48
   },
   {
    "name": "_inAngle",
@@ -170,7 +170,7 @@
    "readonly": true,
    "default": ": preset.angleIn !== undefined ? preset.angleIn : 0",
    "doc": null,
-   "line": 49
+   "line": 50
   },
   {
    "name": "_outAngle",
@@ -178,7 +178,7 @@
    "readonly": true,
    "default": ": preset.angleOut !== undefined ? preset.angleOut : 0",
    "doc": null,
-   "line": 50
+   "line": 51
   },
   {
    "name": "_visible",
@@ -186,7 +186,7 @@
    "readonly": false,
    "default": ": show",
    "doc": null,
-   "line": 52
+   "line": 53
   }
  ],
  "signals": [

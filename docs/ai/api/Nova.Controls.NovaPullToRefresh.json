@@ -5,12 +5,20 @@
  "description": "NovaPullToRefresh 下拉刷新：side 四边拉动（top/bottom/left/right，对标 2.30）、refresh 事件、trigger() 方法 拉动数学：从 side 边缘向内容方向拖拽 dist；pullProgress = dist / threshold（钳制 0~1） refreshing 受控口径：宿主在 refresh 处理器里置 true，数据就绪后置 false 复位（对标事件驱动语义）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 13
+  },
+  {
    "name": "side",
    "type": "string",
    "readonly": false,
    "default": ": \"top\"",
    "doc": "top | bottom | left | right",
-   "line": 15
+   "line": 20
   },
   {
    "name": "disable",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 16
+   "line": 21
   },
   {
    "name": "tint",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 17
+   "line": 22
   },
   {
    "name": "bgColor",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": NovaTheme.surface",
    "doc": null,
-   "line": 18
+   "line": 23
   },
   {
    "name": "icon",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"mdi:refresh\"",
    "doc": null,
-   "line": 19
+   "line": 24
   },
   {
    "name": "threshold",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": 80",
    "doc": "触发拉动距离 px",
-   "line": 20
+   "line": 25
   },
   {
    "name": "refreshing",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "受控：宿主数据加载中（拉动动画保持）",
-   "line": 21
+   "line": 26
   },
   {
    "name": "_horizontal",
@@ -66,7 +74,7 @@
    "readonly": true,
    "default": ": side === \"left\" || side === \"right\"",
    "doc": null,
-   "line": 26
+   "line": 31
   },
   {
    "name": "_fromStart",
@@ -74,7 +82,7 @@
    "readonly": true,
    "default": ": side === \"top\" || side === \"left\"",
    "doc": null,
-   "line": 27
+   "line": 32
   },
   {
    "name": "pullProgress",
@@ -82,7 +90,7 @@
    "readonly": true,
    "default": ": pullDist / threshold",
    "doc": null,
-   "line": 28
+   "line": 33
   },
   {
    "name": "pullDist",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "当前拉动距离（0 = 静止）",
-   "line": 29
+   "line": 34
   },
   {
    "name": "_indOffset",
@@ -98,7 +106,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 35
+   "line": 40
   }
  ],
  "signals": [

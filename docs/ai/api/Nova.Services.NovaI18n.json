@@ -1,0 +1,151 @@
+{
+ "name": "Nova.Services.NovaI18n",
+ "kind": "singleton",
+ "source": "src/pyside_nova/qml/Nova/Services/NovaI18n.qml",
+ "description": "NovaI18n 国际化服务单例（对标 Quasar Lang 插件 $q.lang + vue-i18n 语义） 基线事实（npm quasar@2.35.5 Lang 源码核实）： $q.lang.isoName / $q.lang.rtl / $q.lang.set(locale) / $q.lang.props（词典包） 事件 lang:locale-change；RTL 由语言集合判定（ar/he/fa/ur...）",
+ "properties": [
+  {
+   "name": "locale",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"en-US\"",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "isoName",
+   "type": "string",
+   "readonly": true,
+   "default": ": locale",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "baseLang",
+   "type": "string",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "_rtlLangs",
+   "type": "var",
+   "readonly": true,
+   "default": ": [\"ar\", \"he\", \"fa\", \"ur\", \"ps\", \"sd\", \"ug\", \"yi\", \"ckb\"]",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "isRtl",
+   "type": "bool",
+   "readonly": true,
+   "default": ": _rtlLangs.indexOf(baseLang) !== -1",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "direction",
+   "type": "string",
+   "readonly": true,
+   "default": ": isRtl ? \"rtl\" : \"ltr\"",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "bundles",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "pluralBundles",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({",
+   "doc": null,
+   "line": 69
+  },
+  {
+   "name": "_separators",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 208
+  },
+  {
+   "name": "_currencySymbols",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 229
+  },
+  {
+   "name": "_dateStyles",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 246
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "setLocale",
+   "params": "name"
+  },
+  {
+   "name": "addBundle",
+   "params": "localeName, dict"
+  },
+  {
+   "name": "addPluralBundle",
+   "params": "localeName, dict"
+  },
+  {
+   "name": "_bundleFor",
+   "params": "localeName"
+  },
+  {
+   "name": "_pluralBundleFor",
+   "params": "localeName"
+  },
+  {
+   "name": "_interpolate",
+   "params": "tpl, params"
+  },
+  {
+   "name": "t",
+   "params": "key, params"
+  },
+  {
+   "name": "pluralCategory",
+   "params": "n"
+  },
+  {
+   "name": "tp",
+   "params": "key, n, params"
+  },
+  {
+   "name": "formatNumber",
+   "params": "n, decimals"
+  },
+  {
+   "name": "formatCurrency",
+   "params": "n, decimals"
+  },
+  {
+   "name": "formatDate",
+   "params": "date, style"
+  },
+  {
+   "name": "formatRelative",
+   "params": "date, now"
+  }
+ ]
+}

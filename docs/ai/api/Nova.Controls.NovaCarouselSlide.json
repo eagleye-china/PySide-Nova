@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaCarouselSlide",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaCarouselSlide.qml",
- "description": "NovaCarouselSlide 轮播页（对标 QCarouselSlide）：name 寻址 / disable / img-src 快速图片页， default 槽为页内容；几何（位置/尺寸/显隐）由宿主 NovaCarousel 统一管理",
+ "description": "NovaCarouselSlide 轮播页（对标 QCarouselSlide）：name 寻址 / disable / img-src 快速图片页， default 槽为页内容；几何（位置/尺寸/显隐）由宿主 NovaCarousel 统一管理 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "name",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "页寻址名；空则由宿主以序号寻址",
-   "line": 14
+   "line": 15
   },
   {
    "name": "disable",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "禁用页（不可被 goTo 选中）",
-   "line": 15
+   "line": 16
   },
   {
    "name": "imgSrc",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "快速图片页：填充即渲染",
-   "line": 16
+   "line": 17
   }
  ],
  "signals": [],

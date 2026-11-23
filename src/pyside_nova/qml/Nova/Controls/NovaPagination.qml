@@ -78,6 +78,8 @@ Rectangle {
 
     Row {
         anchors { left: parent.left; verticalCenter: parent.verticalCenter }
+        // RTL（0.16.1）：位置器自动镜像（首按钮排到右侧），箭头字符随之取反
+        LayoutMirroring.enabled: NovaTheme.isRtl
         spacing: 4
 
         component NavBtn: Rectangle {
@@ -122,8 +124,8 @@ Rectangle {
             }
         }
 
-        NavBtn { visible: root.boundaryLinks; nav: false; label: "«"; tag: 1 }
-        NavBtn { visible: root.arrows; label: "‹"; tag: -2 }
+        NavBtn { visible: root.boundaryLinks; nav: false; label: NovaTheme.isRtl ? "»" : "«"; tag: 1 }
+        NavBtn { visible: root.arrows; label: NovaTheme.isRtl ? "›" : "‹"; tag: -2 }
         Repeater {
             model: root.visiblePages()
             NavBtn {
@@ -132,8 +134,8 @@ Rectangle {
                 tag: typeof modelData === "number" ? modelData : null
             }
         }
-        NavBtn { visible: root.arrows; label: "›"; tag: -1 }
-        NavBtn { visible: root.boundaryLinks; nav: false; label: "»"; tag: root.pages }
+        NavBtn { visible: root.arrows; label: NovaTheme.isRtl ? "‹" : "›"; tag: -1 }
+        NavBtn { visible: root.boundaryLinks; nav: false; label: NovaTheme.isRtl ? "«" : "»"; tag: root.pages }
     }
     // 焦点环（键盘模态可见；offset 0 = 贴边环，零尺寸增量）
     NovaFocusRing { target: root; offset: 0 }

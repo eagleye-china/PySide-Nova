@@ -493,6 +493,168 @@ def test_static_gate_reports_zero_gaps():
     assert "门禁通过" in proc.stdout
 
 
+# ══════════════════════════════════════════════════════════════
+# 0.16.1 a11y 补差：Tree 方向键游标 + Dialog 焦点陷阱
+# ══════════════════════════════════════════════════════════════
+def test_tree_arrow_cursor_moves_selection(engine):
+    """NovaTree 方向键游标：Up/Down 沿可见序列移动并驱动选择（受控 emit）；
+    Left 收起/跳父、Right 展开/进子；平铺序列与渲染顺序一致。"""
+    obj = _make(engine, """
+import QtQuick
+import Nova.Controls
+Item {
+    id: host
+    width: 400; height: 400
+    NovaTree {
+        id: tree
+        width: 300
+        nodes: [
+            { label: "A" },
+            { label: "B", children: [{ label: "B1" }, { label: "B2" }] },
+            { label: "C" }
+        ]
+        selected: selBox.v
+        expanded: expBox.v
+        onUpdateSelected: function(k) { selBox.v = k }
+        onUpdateExpanded: function(k) { expBox.v = k }
+    }
+    QtObject { id: selBox; property var v: null }
+    QtObject { id: expBox; property var v: [] }
+    function cur() { return tree._cursorKey }
+    function sel() { return tree.selected }
+    function flat() { return tree._flattenVisibleKeys().join(",") }
+    function down() { tree._cursorMove(1) }
+    function up() { tree._cursorMove(-1) }
+    function fwd() { tree._cursorForward(true) }
+    function back() { tree._cursorBackward() }
+    function expandB() { tree.tryExpand("1", true) }
+}
+""")
+    assert obj.flat() == "0,1,2"
+    # Down 两次：无游标 → 首个；再下一个
+    obj.down()
+    assert obj.cur() == "0" and obj.sel() == "0"
+    obj.down()
+    assert obj.cur() == "1" and obj.sel() == "1"
+    # Right on B（可展开未展开）→ 展开（可见序列追加 1.0 / 1.1）
+    obj.fwd()
+    assert obj.flat() == "0,1,1.0,1.1,2"
+    # Right 已展开 → 进入第一个子节点
+    obj.fwd()
+    assert obj.cur() == "1.0" and obj.sel() == "1.0"
+    # Down 到 B2；Left on B2（叶子）→ 跳父
+    obj.down()
+    assert obj.cur() == "1.1"
+    obj.back()
+    assert obj.cur() == "1"
+    # Left on B（已展开）→ 收起
+    obj.back()
+    assert obj.flat() == "0,1,2"
+    # 此时游标在 "1"；Up → 回绕链：1 → 0；再 Up → 从首个回绕到末个
+    obj.up()
+    assert obj.cur() == "0"
+    obj.up()
+    assert obj.cur() == "2"
+
+
+def test_tree_arrow_keys_rtl_swap(engine):
+    """NovaTree RTL：物理 Left/Right 语义互换（Left 展开、Right 收起），
+    用真实按键事件验证 Keys.onPressed 的方向映射。"""
+    win = _make(engine, """
+import QtQuick
+import QtQuick.Controls
+import Nova.Services
+import Nova.Controls
+ApplicationWindow {
+    id: win
+    width: 400; height: 400; visible: true
+    NovaTree {
+        id: tree
+        width: 300; height: 200
+        nodes: [{ label: "B", children: [{ label: "B1" }] }]
+        selected: selBox.v
+        expanded: expBox.v
+        onUpdateSelected: function(k) { selBox.v = k }
+        onUpdateExpanded: function(k) { expBox.v = k }
+    }
+    QtObject { id: selBox; property var v: null }
+    QtObject { id: expBox; property var v: [] }
+    function rtlOn() { NovaI18n.setLocale("ar-EG") }
+    function rtlOff() { NovaI18n.setLocale("en-US") }
+    function flat() { return tree._flattenVisibleKeys().join(",") }
+    function down() { tree._cursorMove(1) }
+    function giveFocus() { tree.forceActiveFocus() }
+}
+""")
+    _pump(0.05)
+    win.rtlOff()
+    win.down()            # 游标 → "0"（B）
+    win.giveFocus()
+    QTest.keyClick(win, Qt.Key_Right)   # LTR：Right 展开
+    _pump(0.05)
+    assert win.flat() == "0,0.0", f"LTR Right 应展开，实际 {win.flat()}"
+    QTest.keyClick(win, Qt.Key_Left)    # LTR：Left 收起
+    _pump(0.05)
+    assert win.flat() == "0", f"LTR Left 应收起，实际 {win.flat()}"
+    win.rtlOn()
+    _pump(0.05)
+    win.giveFocus()
+    QTest.keyClick(win, Qt.Key_Left)    # RTL：物理 Left = 展开
+    _pump(0.05)
+    assert win.flat() == "0,0.0", f"RTL Left 应展开，实际 {win.flat()}"
+    QTest.keyClick(win, Qt.Key_Right)   # RTL：物理 Right = 收起
+    _pump(0.05)
+    assert win.flat() == "0", f"RTL Right 应收起，实际 {win.flat()}"
+    win.rtlOff()
+
+
+def test_dialog_focus_trap_cycles_tab(engine):
+    """NovaDialogShell 焦点陷阱：打开 → 焦点进卡片首项；Tab 循环不逃逸；
+    Shift+Tab 反向；关闭 → 焦点还回打开前持有者。"""
+    win = _make(engine, """
+import QtQuick
+import QtQuick.Controls
+import Nova.Controls
+ApplicationWindow {
+    id: win
+    width: 400; height: 300; visible: true
+    Item { id: opener; objectName: "opener"; width: 10; height: 10; activeFocusOnTab: true; focus: true }
+    NovaDialogShell {
+        id: dlg
+        anchors.fill: parent
+        a11yLabel: "Trap Demo"
+        NovaBtn { id: b1; text: "OK"; width: 80; height: 32; objectName: "b1" }
+        NovaBtn { id: b2; text: "Cancel"; width: 80; height: 32; objectName: "b2" }
+        onUpdateModelValue: function(v) { dlg.modelValue = v }
+    }
+    function openDlg() { dlg.modelValue = true }
+    function closeDlg() { dlg.modelValue = false }
+    function focusName() { return win.activeFocusItem ? (win.activeFocusItem.objectName || "?") : "null" }
+}
+""")
+    _pump(0.05)
+    assert win.focusName() == "opener"
+    win.openDlg()
+    _pump(0.05)
+    # 打开 → 焦点进卡片首项
+    assert win.focusName() == "b1"
+    # Tab 循环：b1 → b2 → b1（不逃逸出对话框）
+    QTest.keyClick(win, Qt.Key_Tab)
+    _pump(0.05)
+    assert win.focusName() == "b2"
+    QTest.keyClick(win, Qt.Key_Tab)
+    _pump(0.05)
+    assert win.focusName() == "b1", f"Tab 应回绕到 b1，实际 {win.focusName()}"
+    # Shift+Tab 反向
+    QTest.keyClick(win, Qt.Key_Tab, Qt.ShiftModifier)
+    _pump(0.05)
+    assert win.focusName() == "b2"
+    # Escape 关闭 → 焦点还回 opener
+    QTest.keyClick(win, Qt.Key_Escape)
+    _pump(0.1)
+    assert win.focusName() == "opener", f"关闭后焦点应还回 opener，实际 {win.focusName()}"
+
+
 def test_gallery_a11y_page_instantiates(engine):
     """画廊「无障碍 a11y」页可实例化且无 QML 运行时错误（ReferenceError 类会静默降级，必须抓）。"""
     from PySide6.QtCore import qInstallMessageHandler

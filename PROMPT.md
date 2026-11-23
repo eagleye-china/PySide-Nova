@@ -10,33 +10,38 @@
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-### 当前状态（0.16.0 · **五期 Sprint B1 收口：可访问性 WCAG 2.1 AA**）
+### 当前状态（0.16.1 · **五期 Sprint B2 收口：i18n + RTL + 性能 + HiDPI**）
 
-- **公共 QML 类型 123 个已交付**（qmldir 导出口径）：Controls **91** + Behaviors **13**
-  （0.16.0 新增 NovaFocusRing 焦点环 / NovaLiveRegion 播报区）+ Services 15（单例 11 + 句柄动作 4）
-  + Design **4**（0.16.0 新增 **NovaA11y 单例**：WCAG 数学 + AA 派生 + 焦点可见性 + 播报状态）
-- **可访问性 100% 契约覆盖（0.16.0 主线）**：123 类型逐一登记
-  **interactive 32 / semantic 28 / decorative 63**；32 个交互件全量补齐
-  `Accessible.role/name` + 键盘入口 + 按键路径（Enter/Space/方向键/Home·End/PageUp·Down/Esc/Delete）
-  + `NovaFocusRing`；统一新增 `a11yLabel` 可读名覆盖属性
-- **反对比度**：品牌色不改，`NovaA11y` 按最小位移派生 AA 版（`*Text` ×7 / `fillTint()` /
-  `outlineStrong` / `textMuted` AA 化）；实测 `#5B6EF5` 上白字 4.21 → 填充 `#576AEB` 4.50，
-  `positive/warning/info` 作为文字 2.1~2.3 → 4.50
-- **焦点可见性**：`Nova.Runtime` 应用级事件过滤器维护 `keyboardMode`（focus-visible 语义），
-  键盘才画环、鼠标不画；`init_nova` 自动装配，业务侧零接入
-- **门禁双通道**：`scripts/check_a11y.py`（静态，未登记类型即 exit 1，`--matrix` 生成
-  `docs/A11Y_MATRIX.md`）+ `tests/test_a11y.py` 21 项（QAccessible 运行时矩阵/键盘/焦点环/播报）
-- **诚实边界**：令牌层对比度全覆盖，但组件内部拼的组合色（tinted Chip 等）尚无逐件像素采样；
-  屏读器只做接口级验证（沙箱无 NVDA）——两项进 0.16.1
-- **测试 343 项全绿**（322 + 0.16.0 新增 21）；测试基建改为**全进程单 QML 引擎**（坑位 42），
+- **公共 QML 类型 124 个已交付**（qmldir 导出口径）：Controls **91** + Behaviors **13**
+  + Services **16**（单例 12 + 句柄动作 4，0.16.1 新增 **NovaI18n 单例**，对标 Quasar Lang）+ Design **4**
+- **国际化（0.16.1 主线）**：NovaI18n——locale 切换、`t()` 插值与三级回落（精确 → 主语言前缀 →
+  en-US → key）、`tp()` CLDR 七语系复数（zh/ja/en/ru/ar/cs/pl 28 组参数化验证）、
+  数字/货币/日期/相对时间格式化、`addBundle()` 热注入；内置 en-US/zh-CN 词典；指南见 `docs/I18N.md`
+- **RTL 双轨镜像**：NovaTheme 方向令牌（isRtl/direction 联动）+ 6 组件适配
+  （Pagination/Drawer/Layout/SlideItem/Breadcrumbs/StepperNavigation）；**逻辑侧语义恒定**
+- **性能门禁全绿**（test_perf.py 3 项）：冷启动 ≤800ms / 全类型实例化 ≤5ms（两遍测量法 +
+  KNOWN_HEAVY 白名单）/ 1000 行表格 ≤1700ms（实测大幅富余）
+- **HiDPI 门禁全绿**（test_hidpi.py 4 项）：QT_SCALE_FACTOR 1.0/1.5/2.0 矩阵，dpr 联动 +
+  逻辑几何恒定；Nova.Runtime 上报 devicePixelRatio/scaleFactor
+- **a11y M2 补差完成**：NovaTree 方向键游标（roving cursor，RTL 键互换）、NovaDialogShell
+  焦点陷阱（Tab 循环 + Esc 还焦，应用级事件过滤器承载——坑位 45）
+- **可访问性契约（0.16.0 建立，0.16.1 维持）**：124 类型登记 **interactive 32 / semantic 28 /
+  decorative 64**（NovaI18n 为 decorative 单例）；门禁双通道 `scripts/check_a11y.py` +
+  `tests/test_a11y.py` 24 项
+- **诚实边界**：复数为 CLDR 精简实现（七语系，未覆盖全部语言卡片）；性能为门禁口径
+  （24h 内存长跑移入 B3）；屏读器真机回归（NVDA）随 B3 安排；组件内部组合色逐件像素采样未做
+- **测试 394 项全绿**（343 + 0.16.1 新增 51：i18n 41 / a11y 3 / perf 3 / hidpi 4）；测试基建维持
+  **全进程单 QML 引擎**（坑位 42）+ **qrc:/ 单斜杠纪律**（坑位 48，SIGSEGV 总根因），
   连跑 10 次退出码全 0——多引擎析构是 Qt 6.12 的间歇崩溃源
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → 2 ✅(0.6.x) → 3 ✅(0.7.0) → 4 ✅(0.8.0)
   → 二期 A ✅(0.9.0) → 二期 B ✅(0.10.0) → 三期 A ✅(0.11.0) → 三期 B ✅(0.12.0)
   → 四期 A ✅(0.13.0) → 四期 B ✅(0.14.0) → 五期 A ✅(0.15.0)
-  → **五期 B1 ✅(0.16.0 可访问性)** → 五期 B2（0.16.1 i18n+RTL+性能+HiDPI）待开工
+  → 五期 B1 ✅(0.16.0 可访问性) → **五期 B2 ✅(0.16.1 i18n+RTL+性能+HiDPI)**
   → 五期 B3（0.16.2 文档站+视觉回归+打包+SBOM）待开工
 - **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / L2 70% / **L6 75%→80%**
-  （a11y 双门禁入工程化）；非功能性轴上「可访问性 0% → 90%」（余 10% = 组件内部组合色逐件采样 + 真机屏读器回归 + Tree 游标 + Dialog 焦点陷阱）
+  （a11y 双门禁 + perf/hidpi 门禁入工程化）；非功能性轴：可访问性 90%→**95%**（余 5% = 组合色
+  逐件采样 + NVDA 真机回归）、国际化 0%→**90%**（余 10% = 更多语言词典包 + 术语表管理）、
+  性能 **门禁化**（24h 内存长跑待 B3）、HiDPI **门禁化**（真机多屏抽查待 B3）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
   防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
@@ -180,6 +185,32 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 42. **多个 `QQmlEngine` 各自析构在 Qt 6.12 会间歇 SIGSEGV**（A 销毁后 B 再建组件 20~60% 概率崩，
     与用例无关）→ QML 测试全进程共用单引擎（`tests/conftest.py`），模块收尾只 close 窗口不删引擎；
     Window 活到解释器退出而 app 已析构是第二类退出期崩溃，靠 session 收尾规避（0.16.0 沉淀）
+43. **Qt 6.12 的 `Qt.formatDate` 三参重载实际不存在**：`Qt.formatDate(date, localeName, pattern)`
+    被解析为 `(date, locale)` 两参版、pattern 静默丢弃 → 自定义 pattern + 自定义 locale 必须走
+    **`Qt.locale(name).toString(date, pattern)`**（本地化字段齐全，NovaI18n.formatDate 即此实现，
+    0.16.1 沉淀）
+44. **`QQmlExpression` + `creationContext` 对非 Item 对象间歇 SIGSEGV**：用组件的 creationContext
+    求值含单例名的表达式，对象非 Item 时崩溃概率高 → 统一「**QML 内定义 helper 函数/只读属性 +
+    Python 直调/直读**」模式，Python 侧不构造表达式（0.16.1 沉淀）
+45. **Tab 键在 QML Keys 层拦不到**：Tab 在 `QQuickItem::keyPressEvent` 的 C++ 默认实现中被消费，
+    不冒泡（`Keys.BeforeItem` 也拦不到）→ **应用级事件过滤器**（`QGuiApplication.installEventFilter`
+    拦 KeyPress+Tab/Backtab，DialogShell 焦点陷阱方案）。
+    同批沉淀：PySide slot 的 QObject 参数 wrapper 是**临时的**（weakref 立即失效，注册表须强引用）；
+    wrapper 静态类型 QObject（QQuickItem 方法不可见，判定逻辑移 QML 内）；
+    `win.property("activeFocusItem")` 的 QQuickItem* 无 converter；
+    **`Item.window` 普通属性在 JS 层返回 undefined** → 必须用 attached **`Item.Window.window`**
+    （0.16.1 沉淀）
+46. **QML 函数从 Python wrapper 调用返回未求值 MetaFunction**：`host.someFunc()` 拿到的是
+    MetaFunction 对象而非结果 → 承载结果的用 `readonly property int xxx`，Python
+    `setProperty`/直读属性（0.16.1 沉淀）
+47. **性能测量须两遍法**：首建含 QML 编译冷缓存（同一进程内同类型第二次才是纯实例化成本）；
+    NovaDate/NovaEditor 首建 11~15ms 属日历/文档网格固有成本，白名单显式登记（KNOWN_HEAVY），
+    不静默放行（0.16.1 沉淀）
+48. **`qrc://` 双斜杠 URL 是间歇 SIGSEGV 总根因**：shiboken 把 `qrc://xxx.qml` 解析为带 authority
+    的路径，`QQmlComponent.setData(data, QUrl("qrc://…"))` 在干净引擎早期确定性段错误
+    （exit 139，独立脚本与 pytest 交错复现，历劫多引擎/import 顺序/NovaTheme 热身等假设全部排除后定位）
+    → **全部测试代码统一 `qrc:/` 单斜杠**；纪律：test_smoke 首两个 case 先建 NovaTheme 探针
+    （0.16.1 沉淀）
 37. QML `Component.onCompleted` 按**创建完成逆序**执行（声明序最后的先 complete）——
     组内"首个完成注册者成为默认活动元素"通常是声明序最后的成员；依赖顺序的注册表
     语义须按此口径设计并写进测试（0.15.0 沉淀）
@@ -208,15 +239,22 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   NovaSlideItem 左右滑动面板/NovaMorph group 形变 + NovaMorphPool 单例/NovaIconGenie CLI
   37 产物/AI-ready 文档包 + Nova MCP server 六工具；L2 68%→70%、L3 Morph 补齐、L6 70%→75%；
   画廊 22 页；322 项测试；坑位 36~37 沉淀）**
-- **五期 B2（下一步）国际化 + 性能（v0.16.1）**：NovaI18n（locale 切换/复数/日期数字格式）+
-  RTL 镜像 + 性能门禁（冷启动 ≤800ms、1000 行表格 ≥55fps、单组件 ≤5ms）+ HiDPI 100~200%；
-  随 M2 补 Tree 方向键游标、Dialog 焦点陷阱、NVDA 真机回归；以 MASTER_PLAN §5 Sprint B 为准
+- **五期 B2（下一步）国际化 + 性能（v0.16.1）** ✅ **0.16.1 收口（NovaI18n 单例 + RTL 双轨镜像
+  6 组件 + 性能门禁三指标（冷启动 ≤800ms / 组件 ≤5ms / 1000 行表格 ≤1700ms）+ HiDPI 1.0~2.0 矩阵；
+  a11y M2 补差：Tree 方向键游标、Dialog 焦点陷阱（NVDA 真机回归移 B3）；画廊 23 页；394 项测试；
+  坑位 43~48 沉淀，其中 48（qrc:// 双斜杠段错误）为间歇崩溃总根因）**
 - **五期 B3（其后）工程化外环（v0.16.2）**：文档站（MkDocs + 示例沙箱）/视觉回归（明暗 × 5 断点）/
-  应用打包（PyInstaller 一键 exe）/供应链（SBOM + CVE 周巡 + 外部输入消毒）
+  应用打包（PyInstaller 一键 exe）/供应链（SBOM + CVE 周巡 + 外部输入消毒）/24h 内存长跑/NVDA 真机回归
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ### 最近一次交付
 
+- **0.16.1：五期 Sprint B2 收口 · i18n + RTL + 性能 + HiDPI 一次交付**
+  （NovaI18n 服务单例（locale 切换/t() 三级回落/tp() CLDR 七语系复数/formatNumber·Currency·
+  Date·Relative/addBundle 热注入）+ RTL 双轨镜像（Pagination/Drawer/Layout/SlideItem/
+  Breadcrumbs/StepperNavigation，逻辑侧语义恒定）+ 性能门禁 test_perf.py 三指标 + HiDPI 门禁
+  test_hidpi.py 矩阵 + a11y 补差（Tree roving cursor / DialogShell 焦点陷阱）+ docs/I18N.md +
+  画廊第 24 页；测试 343→394；类型 123→124）
 - **0.15.0：五期 Sprint A 收口 · 长尾组件一次交付**
   （NovaEditor 轻量富文本（toolbar 分组/execCmd 命令族/toHtml 导出/受控 guard）+
   NovaSlideItem 左右滑动动作面板 + NovaMorph 元素形变（ghost 几何过渡）+ NovaMorphPool
@@ -299,8 +337,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：0.16.0（2026-11-23）
-- 内容指纹：`7eca0793e463`
-- git HEAD：648b268
-- 生成时间：2026-11-23 14:21（星期一）
+- 快照版本：0.16.1（2026-11-23）
+- 内容指纹：`6c5ab6ea0ddf`
+- git HEAD：c2be63b
+- 生成时间：2026-11-23 16:28（星期一）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

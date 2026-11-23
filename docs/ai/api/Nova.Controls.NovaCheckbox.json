@@ -5,12 +5,20 @@
  "description": "NovaCheckbox 复选：true/false/indeterminate 三态、toggleOrder、val 模式、leftLabel、键盘切换 对标 Quasar QCheckbox（use-checkbox 18 props）；visual 插槽供 NovaToggle 换装开关外观 契约统一：label / hint / error / readonly / disable（clearable/rules 不适用已留痕）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 14
+  },
+  {
    "name": "modelValue",
    "type": "var",
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 14
+   "line": 27
   },
   {
    "name": "val",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "非 null：checked = modelValue === val",
-   "line": 15
+   "line": 28
   },
   {
    "name": "trueValue",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "对标 true-value",
-   "line": 16
+   "line": 29
   },
   {
    "name": "falseValue",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "对标 false-value",
-   "line": 17
+   "line": 30
   },
   {
    "name": "indeterminateValue",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "对标 indeterminate-value",
-   "line": 18
+   "line": 31
   },
   {
    "name": "toggleIndeterminate",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "对标 toggle-indeterminate（把半选入循环）",
-   "line": 19
+   "line": 32
   },
   {
    "name": "toggleOrder",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0=true→false；1=false→true（半选居间）",
-   "line": 20
+   "line": 33
   },
   {
    "name": "checked",
@@ -66,7 +74,7 @@
    "readonly": true,
    "default": ": _valMode ? modelValue === val",
    "doc": null,
-   "line": 21
+   "line": 34
   },
   {
    "name": "indeterminate",
@@ -74,7 +82,7 @@
    "readonly": true,
    "default": ": !_valMode && indeterminateValue !== null",
    "doc": null,
-   "line": 23
+   "line": 36
   },
   {
    "name": "label",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 27
+   "line": 40
   },
   {
    "name": "leftLabel",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 28
+   "line": 41
   },
   {
    "name": "checkedIcon",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "对标 checked-icon（空=内置绘制勾）",
-   "line": 29
+   "line": 42
   },
   {
    "name": "uncheckedIcon",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 30
+   "line": 43
   },
   {
    "name": "indeterminateIcon",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 31
+   "line": 44
   },
   {
    "name": "tint",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 color",
-   "line": 32
+   "line": 45
   },
   {
    "name": "keepColor",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "对标 keep-color（未选中仍着色）",
-   "line": 33
+   "line": 46
   },
   {
    "name": "dense",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 34
+   "line": 47
   },
   {
    "name": "disable",
@@ -146,7 +154,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 35
+   "line": 48
   },
   {
    "name": "readonly",
@@ -154,7 +162,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 36
+   "line": 49
   },
   {
    "name": "activeTab",
@@ -162,7 +170,7 @@
    "readonly": false,
    "default": ": !disable",
    "doc": "对标 tabindex（QML 化：是否入 Tab 链）",
-   "line": 37
+   "line": 50
   },
   {
    "name": "hint",
@@ -170,7 +178,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "契约统一",
-   "line": 38
+   "line": 51
   },
   {
    "name": "error",
@@ -178,7 +186,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 39
+   "line": 52
   },
   {
    "name": "errorMessage",
@@ -186,7 +194,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 40
+   "line": 53
   },
   {
    "name": "hasError",
@@ -194,7 +202,7 @@
    "readonly": true,
    "default": ": error || errorMessage !== \"\"",
    "doc": null,
-   "line": 42
+   "line": 55
   },
   {
    "name": "_boxSize",
@@ -202,7 +210,7 @@
    "readonly": true,
    "default": ": dense ? 16 : 18",
    "doc": null,
-   "line": 43
+   "line": 56
   },
   {
    "name": "_fs",
@@ -210,7 +218,7 @@
    "readonly": true,
    "default": ": dense ? 12 : 14",
    "doc": null,
-   "line": 44
+   "line": 57
   },
   {
    "name": "visualWidth",
@@ -218,7 +226,7 @@
    "readonly": false,
    "default": ": _boxSize",
    "doc": null,
-   "line": 46
+   "line": 59
   },
   {
    "name": "visual",
@@ -226,7 +234,7 @@
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 52
+   "line": 65
   },
   {
    "name": "chk",
@@ -234,7 +242,7 @@
    "readonly": true,
    "default": ": root.checked",
    "doc": null,
-   "line": 54
+   "line": 67
   },
   {
    "name": "ind",
@@ -242,7 +250,7 @@
    "readonly": true,
    "default": ": root.indeterminate",
    "doc": null,
-   "line": 55
+   "line": 68
   },
   {
    "name": "_borderBox",
@@ -250,7 +258,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 119
+   "line": 132
   },
   {
    "name": "_fgBox",
@@ -258,7 +266,7 @@
    "readonly": true,
    "default": ": (root.checked || root.indeterminate) && !root.readonly",
    "doc": null,
-   "line": 124
+   "line": 137
   },
   {
    "name": "_valMode",
@@ -266,7 +274,7 @@
    "readonly": true,
    "default": ": val !== null && val !== undefined",
    "doc": null,
-   "line": 149
+   "line": 162
   },
   {
    "name": "_hasInd",
@@ -274,7 +282,7 @@
    "readonly": true,
    "default": ": indeterminateValue !== null && !_valMode",
    "doc": null,
-   "line": 150
+   "line": 163
   }
  ],
  "signals": [

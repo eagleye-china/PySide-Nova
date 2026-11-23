@@ -2,7 +2,7 @@
  "name": "Nova.Services.NovaTheme",
  "kind": "singleton",
  "source": "src/pyside_nova/qml/Nova/Services/NovaTheme.qml",
- "description": "NovaTheme 设计令牌单例：三级令牌体系、明暗双主题一键切换、运行时品牌换肤、0~5 级阴影（对标 Quasar brand + Dark 插件） NovaTheme —— 全局设计令牌单例（对标 Quasar brand 变量 + Dark 插件） 三级令牌体系的第一层：品牌色 / 语义色 / 表面色 / 几何 / 字阶 / 阴影",
+ "description": "NovaTheme 设计令牌单例：三级令牌体系、明暗双主题一键切换、运行时品牌换肤、0~5 级阴影（对标 Quasar brand + Dark 插件） NovaTheme —— 全局设计令牌单例（对标 Quasar brand 变量 + Dark 插件） 三级令牌体系的第一层：品牌色 / 语义色 / 表面色 / 几何 / 字阶 / 阴影 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "isDark",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 13
+   "line": 16
   },
   {
    "name": "primary",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": \"#5B6EF5\"",
    "doc": null,
-   "line": 19
+   "line": 22
   },
   {
    "name": "secondary",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": \"#26A69A\"",
    "doc": null,
-   "line": 20
+   "line": 23
   },
   {
    "name": "accent",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": \"#FF7043\"",
    "doc": null,
-   "line": 21
+   "line": 24
   },
   {
    "name": "dark",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": \"#1D1D1D\"",
    "doc": "Quasar $dark 品牌色 1:1",
-   "line": 22
+   "line": 25
   },
   {
    "name": "textOnPrimary",
@@ -50,7 +50,7 @@
    "readonly": true,
    "default": ": \"#FFFFFF\"",
    "doc": null,
-   "line": 30
+   "line": 33
   },
   {
    "name": "positive",
@@ -58,7 +58,7 @@
    "readonly": true,
    "default": ": \"#22C55E\"",
    "doc": null,
-   "line": 31
+   "line": 34
   },
   {
    "name": "negative",
@@ -66,7 +66,7 @@
    "readonly": true,
    "default": ": \"#EF4444\"",
    "doc": null,
-   "line": 32
+   "line": 35
   },
   {
    "name": "warning",
@@ -74,7 +74,7 @@
    "readonly": true,
    "default": ": \"#F59E0B\"",
    "doc": null,
-   "line": 33
+   "line": 36
   },
   {
    "name": "info",
@@ -82,7 +82,7 @@
    "readonly": true,
    "default": ": \"#38BDF8\"",
    "doc": null,
-   "line": 34
+   "line": 37
   },
   {
    "name": "page",
@@ -90,7 +90,7 @@
    "readonly": true,
    "default": ": isDark ? \"#121216\" : \"#F2F4F7\"",
    "doc": null,
-   "line": 37
+   "line": 40
   },
   {
    "name": "surface",
@@ -98,7 +98,7 @@
    "readonly": true,
    "default": ": isDark ? \"#1C1C21\" : \"#FFFFFF\"",
    "doc": null,
-   "line": 38
+   "line": 41
   },
   {
    "name": "surfaceAlt",
@@ -106,7 +106,7 @@
    "readonly": true,
    "default": ": isDark ? \"#25252C\" : \"#F7F8FA\"",
    "doc": null,
-   "line": 39
+   "line": 42
   },
   {
    "name": "outline",
@@ -114,7 +114,7 @@
    "readonly": true,
    "default": ": isDark ? \"#38383F\" : \"#E3E5EB\"",
    "doc": null,
-   "line": 40
+   "line": 43
   },
   {
    "name": "textColor",
@@ -122,15 +122,111 @@
    "readonly": true,
    "default": ": isDark ? \"#E9EAEF\" : \"#1F2128\"",
    "doc": null,
-   "line": 41
+   "line": 44
   },
   {
    "name": "textMuted",
    "type": "color",
    "readonly": true,
-   "default": ": isDark ? \"#9DA0AB\" : \"#6E7380\"",
+   "default": ": NovaA11y.aaText(isDark ? \"#9DA0AB\" : \"#6E7380\", a11yBase)",
    "doc": null,
-   "line": 42
+   "line": 46
+  },
+  {
+   "name": "a11yBase",
+   "type": "color",
+   "readonly": true,
+   "default": ": {",
+   "doc": null,
+   "line": 53
+  },
+  {
+   "name": "focusRing",
+   "type": "color",
+   "readonly": true,
+   "default": ": isDark ? Qt.lighter(primary, 1.25) : primary",
+   "doc": null,
+   "line": 63
+  },
+  {
+   "name": "focusRingWidth",
+   "type": "int",
+   "readonly": true,
+   "default": ": 2",
+   "doc": null,
+   "line": 64
+  },
+  {
+   "name": "focusRingOffset",
+   "type": "int",
+   "readonly": true,
+   "default": ": 2",
+   "doc": null,
+   "line": 65
+  },
+  {
+   "name": "outlineStrong",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaA11y.aaText(outline, a11yBase, NovaA11y.uiComponentRatio)",
+   "doc": null,
+   "line": 67
+  },
+  {
+   "name": "primaryText",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaA11y.aaText(primary, a11yBase)",
+   "doc": null,
+   "line": 70
+  },
+  {
+   "name": "secondaryText",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaA11y.aaText(secondary, a11yBase)",
+   "doc": null,
+   "line": 71
+  },
+  {
+   "name": "accentText",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaA11y.aaText(accent, a11yBase)",
+   "doc": null,
+   "line": 72
+  },
+  {
+   "name": "positiveText",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaA11y.aaText(positive, a11yBase)",
+   "doc": null,
+   "line": 73
+  },
+  {
+   "name": "negativeText",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaA11y.aaText(negative, a11yBase)",
+   "doc": null,
+   "line": 74
+  },
+  {
+   "name": "warningText",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaA11y.aaText(warning, a11yBase)",
+   "doc": null,
+   "line": 75
+  },
+  {
+   "name": "infoText",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaA11y.aaText(info, a11yBase)",
+   "doc": null,
+   "line": 76
   },
   {
    "name": "ripple",
@@ -138,7 +234,7 @@
    "readonly": true,
    "default": ": isDark ? Qt.rgba(1, 1, 1, 0.22)",
    "doc": null,
-   "line": 45
+   "line": 83
   },
   {
    "name": "iconLocalRoot",
@@ -146,7 +242,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 51
+   "line": 89
   },
   {
    "name": "zFab",
@@ -154,7 +250,7 @@
    "readonly": true,
    "default": ": 990",
    "doc": null,
-   "line": 55
+   "line": 93
   },
   {
    "name": "zSide",
@@ -162,7 +258,7 @@
    "readonly": true,
    "default": ": 1000",
    "doc": null,
-   "line": 56
+   "line": 94
   },
   {
    "name": "zMarginals",
@@ -170,7 +266,7 @@
    "readonly": true,
    "default": ": 2000",
    "doc": null,
-   "line": 57
+   "line": 95
   },
   {
    "name": "zFixedDrawer",
@@ -178,7 +274,7 @@
    "readonly": true,
    "default": ": 3000",
    "doc": null,
-   "line": 58
+   "line": 96
   },
   {
    "name": "zFullscreen",
@@ -186,7 +282,7 @@
    "readonly": true,
    "default": ": 6000",
    "doc": null,
-   "line": 59
+   "line": 97
   },
   {
    "name": "zMenu",
@@ -194,7 +290,7 @@
    "readonly": true,
    "default": ": 6000",
    "doc": null,
-   "line": 60
+   "line": 98
   },
   {
    "name": "zTop",
@@ -202,7 +298,7 @@
    "readonly": true,
    "default": ": 7000",
    "doc": null,
-   "line": 61
+   "line": 99
   },
   {
    "name": "zTooltip",
@@ -210,7 +306,7 @@
    "readonly": true,
    "default": ": 9000",
    "doc": null,
-   "line": 62
+   "line": 100
   },
   {
    "name": "zNotify",
@@ -218,7 +314,7 @@
    "readonly": true,
    "default": ": 9500",
    "doc": null,
-   "line": 63
+   "line": 101
   },
   {
    "name": "zMax",
@@ -226,7 +322,7 @@
    "readonly": true,
    "default": ": 9998",
    "doc": null,
-   "line": 64
+   "line": 102
   },
   {
    "name": "spacingS",
@@ -234,7 +330,7 @@
    "readonly": true,
    "default": ": 6",
    "doc": null,
-   "line": 67
+   "line": 105
   },
   {
    "name": "spacingM",
@@ -242,7 +338,7 @@
    "readonly": true,
    "default": ": 12",
    "doc": null,
-   "line": 68
+   "line": 106
   },
   {
    "name": "spacingL",
@@ -250,7 +346,7 @@
    "readonly": true,
    "default": ": 24",
    "doc": null,
-   "line": 69
+   "line": 107
   },
   {
    "name": "radiusS",
@@ -258,7 +354,7 @@
    "readonly": true,
    "default": ": 6",
    "doc": null,
-   "line": 70
+   "line": 108
   },
   {
    "name": "radiusM",
@@ -266,7 +362,7 @@
    "readonly": true,
    "default": ": 10",
    "doc": null,
-   "line": 71
+   "line": 109
   },
   {
    "name": "radiusL",
@@ -274,7 +370,23 @@
    "readonly": true,
    "default": ": 14",
    "doc": null,
-   "line": 72
+   "line": 110
+  },
+  {
+   "name": "isRtl",
+   "type": "bool",
+   "readonly": true,
+   "default": ": NovaI18n.isRtl",
+   "doc": null,
+   "line": 115
+  },
+  {
+   "name": "direction",
+   "type": "string",
+   "readonly": true,
+   "default": ": NovaI18n.direction",
+   "doc": null,
+   "line": 116
   },
   {
    "name": "fontFamily",
@@ -282,7 +394,7 @@
    "readonly": false,
    "default": ": \"Segoe UI\"",
    "doc": null,
-   "line": 75
+   "line": 119
   },
   {
    "name": "fontXS",
@@ -290,7 +402,7 @@
    "readonly": true,
    "default": ": 11",
    "doc": null,
-   "line": 76
+   "line": 120
   },
   {
    "name": "fontS",
@@ -298,7 +410,7 @@
    "readonly": true,
    "default": ": 13",
    "doc": null,
-   "line": 77
+   "line": 121
   },
   {
    "name": "fontM",
@@ -306,7 +418,7 @@
    "readonly": true,
    "default": ": 15",
    "doc": null,
-   "line": 78
+   "line": 122
   },
   {
    "name": "fontL",
@@ -314,7 +426,7 @@
    "readonly": true,
    "default": ": 18",
    "doc": null,
-   "line": 79
+   "line": 123
   },
   {
    "name": "fontXL",
@@ -322,7 +434,7 @@
    "readonly": true,
    "default": ": 24",
    "doc": null,
-   "line": 80
+   "line": 124
   },
   {
    "name": "typeScale",
@@ -330,7 +442,7 @@
    "readonly": true,
    "default": ": ({",
    "doc": null,
-   "line": 85
+   "line": 129
   },
   {
    "name": "bodyFontSize",
@@ -338,7 +450,7 @@
    "readonly": true,
    "default": ": 14",
    "doc": null,
-   "line": 101
+   "line": 145
   },
   {
    "name": "bodyLineHeight",
@@ -346,7 +458,7 @@
    "readonly": true,
    "default": ": 1.5",
    "doc": null,
-   "line": 102
+   "line": 146
   },
   {
    "name": "typeNames",
@@ -354,7 +466,7 @@
    "readonly": true,
    "default": ": [\"h1\", \"h2\", \"h3\", \"h4\", \"h5\", \"h6\",",
    "doc": null,
-   "line": 104
+   "line": 148
   },
   {
    "name": "weightThin",
@@ -362,7 +474,7 @@
    "readonly": true,
    "default": ": Font.Thin",
    "doc": null,
-   "line": 115
+   "line": 159
   },
   {
    "name": "weightLight",
@@ -370,7 +482,7 @@
    "readonly": true,
    "default": ": Font.Light",
    "doc": null,
-   "line": 116
+   "line": 160
   },
   {
    "name": "weightRegular",
@@ -378,7 +490,7 @@
    "readonly": true,
    "default": ": Font.Normal",
    "doc": null,
-   "line": 117
+   "line": 161
   },
   {
    "name": "weightMedium",
@@ -386,7 +498,7 @@
    "readonly": true,
    "default": ": Font.Medium",
    "doc": null,
-   "line": 118
+   "line": 162
   },
   {
    "name": "weightBold",
@@ -394,7 +506,7 @@
    "readonly": true,
    "default": ": Font.Bold",
    "doc": null,
-   "line": 119
+   "line": 163
   },
   {
    "name": "weightBolder",
@@ -402,7 +514,7 @@
    "readonly": true,
    "default": ": Font.Black",
    "doc": null,
-   "line": 120
+   "line": 164
   },
   {
    "name": "elevation",
@@ -410,7 +522,7 @@
    "readonly": true,
    "default": ": ({",
    "doc": null,
-   "line": 133
+   "line": 177
   }
  ],
  "signals": [],
@@ -426,6 +538,10 @@
   {
    "name": "setBrand",
    "params": "primaryColor"
+  },
+  {
+   "name": "fillTint",
+   "params": "color"
   },
   {
    "name": "textStyle",

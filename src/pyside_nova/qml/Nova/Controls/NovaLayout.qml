@@ -55,10 +55,10 @@ Item {
         onChildrenChanged: root._scan()
     }
 
-    // push 模式让位宽度（抽屉自身 width 动画时自动跟随）
-    readonly property real pushLeft: _drawerItem && _drawerItem.side === "left" && !_drawerItem.effectiveOverlay
+    // push 模式让位宽度（抽屉自身 width 动画时自动跟随；RTL 用 effectiveSide）
+    readonly property real pushLeft: _drawerItem && _drawerItem.effectiveSide === "left" && !_drawerItem.effectiveOverlay
                                      ? _drawerItem.width : 0
-    readonly property real pushRight: _drawerItem && _drawerItem.side === "right" && !_drawerItem.effectiveOverlay
+    readonly property real pushRight: _drawerItem && _drawerItem.effectiveSide === "right" && !_drawerItem.effectiveOverlay
                                       ? _drawerItem.width : 0
 
     // ── 类型扫描与归位 ──
@@ -86,10 +86,9 @@ Item {
                 child.parent = root
                 child.anchors.top = _headerItem ? _headerItem.bottom : root.top
                 child.anchors.bottom = _footerItem ? _footerItem.top : root.bottom
-                if (child.side === "right")
-                    child.anchors.right = root.right
-                else
-                    child.anchors.left = root.left
+                // RTL（0.16.1）：挂缘跟随 effectiveSide（绑定式，locale 切换时自动重挂）
+                child.anchors.left = child.effectiveSide === "left" ? root.left : undefined
+                child.anchors.right = child.effectiveSide === "right" ? root.right : undefined
                 child.z = 10
                 _drawerItem = child
             } else if (child instanceof NovaPage) {

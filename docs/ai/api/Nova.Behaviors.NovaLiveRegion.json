@@ -1,0 +1,35 @@
+{
+ "name": "Nova.Behaviors.NovaLiveRegion",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Behaviors/NovaLiveRegion.qml",
+ "description": "NovaLiveRegion 状态播报区：把 NovaA11y.notice() 的状态消息真正说给屏读器（WCAG 4.1.3 Status Messages）——Quasar 无对应，Nova 增强 NovaLiveRegion —— 宿主根节点放一个即可：NovaLiveRegion { }（零尺寸、零视觉、不参与事件分发） 背景：QML 的 Accessible.announce() 是附加方法，只能从 Item 作用域调用；单例调用会报 \"Accessible attached property must be attached to an object deriving from Item\"（0.16.0 实测）。",
+ "properties": [
+  {
+   "name": "politeness",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"polite\"",
+   "doc": "polite | assertive",
+   "line": 15
+  },
+  {
+   "name": "lastSpoken",
+   "type": "string",
+   "readonly": true,
+   "default": ": NovaA11y.lastAnnouncement",
+   "doc": null,
+   "line": 16
+  }
+ ],
+ "signals": [],
+ "methods": [
+  {
+   "name": "speak",
+   "params": "text"
+  },
+  {
+   "name": "onAnnouncementCountChanged",
+   "params": ""
+  }
+ ]
+}

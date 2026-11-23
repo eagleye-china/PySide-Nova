@@ -5,7 +5,7 @@
  "description": "NovaBtnDropdown 下拉按钮：NovaBtn 主钮 + 内嵌 NovaMenu、split 分体、cover/persistent/auto-close（对标 QBtnDropdown） 受控契约：modelValue（菜单开合，坑位 22）",
  "properties": [
   {
-   "name": "label",
+   "name": "a11yLabel",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
@@ -13,12 +13,20 @@
    "line": 14
   },
   {
+   "name": "label",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 32
+  },
+  {
    "name": "icon",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 15
+   "line": 33
   },
   {
    "name": "iconRight",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 16
+   "line": 34
   },
   {
    "name": "variant",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": \"filled\"",
    "doc": "filled | outline | flat（NovaBtn 口径）",
-   "line": 17
+   "line": 35
   },
   {
    "name": "tint",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": null,
-   "line": 18
+   "line": 36
   },
   {
    "name": "size",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": \"md\"",
    "doc": null,
-   "line": 19
+   "line": 37
   },
   {
    "name": "disable",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 20
+   "line": 38
   },
   {
    "name": "split",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "下拉图标独立按钮",
-   "line": 21
+   "line": 39
   },
   {
    "name": "disableMainBtn",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 40
   },
   {
    "name": "disableDropdown",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 41
   },
   {
    "name": "dropdownIcon",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": \"mdi:menu-down\"",
    "doc": null,
-   "line": 24
+   "line": 42
   },
   {
    "name": "noIconAnimation",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 25
+   "line": 43
   },
   {
    "name": "persistent",
@@ -106,7 +114,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 28
+   "line": 46
   },
   {
    "name": "autoClose",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 29
+   "line": 47
   },
   {
    "name": "cover",
@@ -122,7 +130,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 30
+   "line": 48
   },
   {
    "name": "fit",
@@ -130,7 +138,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 31
+   "line": 49
   },
   {
    "name": "modelValue",
@@ -138,7 +146,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 34
+   "line": 52
   },
   {
    "name": "_open",
@@ -146,7 +154,7 @@
    "readonly": true,
    "default": ": modelValue",
    "doc": null,
-   "line": 42
+   "line": 60
   }
  ],
  "signals": [

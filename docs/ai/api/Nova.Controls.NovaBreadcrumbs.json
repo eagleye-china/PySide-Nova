@@ -5,12 +5,20 @@
  "description": "NovaBreadcrumbs 面包屑容器（对标 QBreadcrumbs）：在条目之间自动插分隔符； activeColor 语义对标 2.35.6 源码——作用于「中间的、未禁用」条目（最后一个为当前页不吃激活色）",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "可读名覆盖（aria-label 等价）",
+   "line": 11
+  },
+  {
    "name": "separator",
    "type": "string",
    "readonly": false,
    "default": ": \"/\"",
    "doc": "分隔符文本",
-   "line": 13
+   "line": 18
   },
   {
    "name": "separatorColor",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": NovaTheme.textMuted",
    "doc": null,
-   "line": 14
+   "line": 19
   },
   {
    "name": "activeTint",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 active-color（tint 命名红线）",
-   "line": 15
+   "line": 20
   },
   {
    "name": "gutter",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": \"sm\"",
    "doc": "none/xs/sm/md/lg/xl → 0/4/8/16/24/48",
-   "line": 16
+   "line": 21
   },
   {
    "name": "align",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": \"left\"",
    "doc": "left/center/right",
-   "line": 17
+   "line": 22
   },
   {
    "name": "separatorDelegate",
@@ -50,7 +58,15 @@
    "readonly": false,
    "default": ": null",
    "doc": "自定义分隔符模板（对标 separator 槽）",
-   "line": 18
+   "line": 23
+  },
+  {
+   "name": "_rtl",
+   "type": "bool",
+   "readonly": true,
+   "default": ": NovaTheme.isRtl",
+   "doc": null,
+   "line": 26
   },
   {
    "name": "_gap",
@@ -58,7 +74,7 @@
    "readonly": true,
    "default": ": gutter === \"xs\" ? 4",
    "doc": null,
-   "line": 23
+   "line": 32
   },
   {
    "name": "_seps",
@@ -66,7 +82,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 46
+   "line": 55
   },
   {
    "name": "isCrumbsSeparator",
@@ -74,7 +90,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 62
+   "line": 71
   },
   {
    "name": "_building",
@@ -82,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 133
+   "line": 144
   }
  ],
  "signals": [],

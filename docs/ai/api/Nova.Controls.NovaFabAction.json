@@ -5,7 +5,7 @@
  "description": "NovaFabAction 悬浮按钮动作（对标 QFabAction）：圆钮 + 外置 label；revealed/_delay 由宿主 NovaFab 级联下发（stagger 节拍），本组件只做渐显/缩放响应； to 路由语义 ⛔（无路由体系），点击统一 clicked 信号",
  "properties": [
   {
-   "name": "icon",
+   "name": "a11yLabel",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
@@ -13,12 +13,20 @@
    "line": 14
   },
   {
+   "name": "icon",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 28
+  },
+  {
    "name": "label",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": "外置标签文案（externalLabel 语义恒定：宿主侧展开）",
-   "line": 15
+   "line": 29
   },
   {
    "name": "hideLabel",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 16
+   "line": 30
   },
   {
    "name": "tint",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "基调色红线",
-   "line": 17
+   "line": 31
   },
   {
    "name": "textColor",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": NovaTheme.textOnPrimary",
    "doc": null,
-   "line": 18
+   "line": 32
   },
   {
    "name": "square",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 19
+   "line": 33
   },
   {
    "name": "disable",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 20
+   "line": 34
   },
   {
    "name": "anchor",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "对齐锚（空=沿用宿主方向）",
-   "line": 21
+   "line": 35
   },
   {
    "name": "revealed",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "展开态（宿主按 stagger 节拍逐个置真）",
-   "line": 24
+   "line": 38
   },
   {
    "name": "delay",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "本动作的级联延迟（ms）",
-   "line": 25
+   "line": 39
   }
  ],
  "signals": [

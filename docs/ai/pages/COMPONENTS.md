@@ -159,6 +159,22 @@ NovaBtn { icon: "🔔"; round: true; NovaBadge { text: "99+" } }
 Rectangle { NovaRipple { } }   // 挂载到任意 Item；NovaBtn 内置按压波纹
 ```
 
+### NovaFocusRing（焦点环 · 0.16.0，可访问性）
+
+| 属性 | 默认 | 说明 |
+|---|---|---|
+| `target` | null | 宿主（必填）：`NovaFocusRing { target: root }` |
+| `tint` | `NovaTheme.focusRing` | 环色（填充态控件建议改用 `textOnPrimary` 以免与底色撞车） |
+| `ringWidth` / `offset` | 2 / 2 | 线宽与向外偏移；宿主 `clip` 或依赖 `childrenRect` 时传 `offset: 0` |
+| `cornerRadius` | -1 | -1 = 跟随宿主圆角 |
+
+只在**键盘模态**下可见（`NovaA11y.ringVisible()`），鼠标点击不画环。
+
+### NovaLiveRegion（状态播报 · 0.16.0，可访问性）
+
+宿主根节点放一个即可（零尺寸、零视觉）：`NovaLiveRegion { }`；配合 `NovaA11y.notice("已保存")`
+把状态消息说给屏读器（WCAG 4.1.3）。`politeness` 仅作调用意图留痕（Qt 无 polite/assertive 区分）。
+
 ## API 约定汇总
 
 | 约定 | 原因 |
@@ -166,3 +182,6 @@ Rectangle { NovaRipple { } }   // 挂载到任意 Item；NovaBtn 内置按压波
 | 基调色属性命名 `tint` | `color` 与 Rectangle 基类冲突 |
 | 挂载式组件以子项形式使用 | Qt 6.12 纯 QML 不支持自定义 attached property（M1 经 `QML_ATTACHED` 补齐） |
 | 语义文本色 `textOnPrimary / textColor / textMuted` | 禁用 `on*` 前缀属性名 |
+| 可读名覆盖属性 `a11yLabel` | aria-label 等价；图形按钮必填，文字控件留空自动取 `text`/`label` |
+| 语义色作为文字用 `*Text` 派生（`primaryText` … `infoText`） | 本色饱和度不足以过 AA 4.5:1；填充面用 `fillTint()` |
+| 全部类型的 a11y 契约（角色/可读名/键盘/焦点环） | 见 [A11Y_MATRIX.md](A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成） |

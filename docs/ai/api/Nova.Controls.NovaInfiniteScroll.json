@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaInfiniteScroll",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaInfiniteScroll.qml",
- "description": "NovaInfiniteScroll 无限滚动（对标 QInfiniteScroll） 滚动近底 emit load(index, done)：宿主追加内容后 done(false) 继续；done(true) 停止",
+ "description": "NovaInfiniteScroll 无限滚动（对标 QInfiniteScroll） 滚动近底 emit load(index, done)：宿主追加内容后 done(false) 继续；done(true) 停止 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "offset",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": 100",
    "doc": "触底提前量（px）",
-   "line": 12
+   "line": 13
   },
   {
    "name": "disable",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 13
+   "line": 14
   },
   {
    "name": "_batch",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 21
+   "line": 22
   },
   {
    "name": "_stop",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 22
+   "line": 23
   },
   {
    "name": "_busy",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 24
   }
  ],
  "signals": [

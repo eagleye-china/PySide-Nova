@@ -2,7 +2,7 @@
  "name": "Nova.Services.NovaLoadingBar",
  "kind": "singleton",
  "source": "src/pyside_nova/qml/Nova/Services/NovaLoadingBar.qml",
- "description": "NovaLoadingBar 命令式顶部进度服务单例：start/increment/stop（对标 LoadingBar 插件） 懒创建内部 NovaAjaxBar 挂 NovaOverlayHost（zTop 层）；无窗口时降级 no-op",
+ "description": "NovaLoadingBar 命令式顶部进度服务单例：start/increment/stop（对标 LoadingBar 插件） 懒创建内部 NovaAjaxBar 挂 NovaOverlayHost（zTop 层）；无窗口时降级 no-op a11y: decorative —— QtObject 单例（非视觉节点），语义经 NovaA11y.notice 播报",
  "properties": [
   {
    "name": "_bar",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "懒创建的 NovaAjaxBar 实例",
-   "line": 11
+   "line": 12
   }
  ],
  "signals": [],

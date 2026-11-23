@@ -5,12 +5,20 @@
  "description": "NovaBreadcrumbsEl 面包屑条目（对标 QBreadcrumbsEl）：label/icon/disable + default 槽； to/href 路由语义 ⛔（无路由体系），点击统一 clicked 信号由宿主处理",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 13
+  },
+  {
    "name": "label",
    "type": "string",
    "readonly": false,
    "default": ": \"\"",
    "doc": "条目文案",
-   "line": 13
+   "line": 27
   },
   {
    "name": "icon",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "条目图标",
-   "line": 14
+   "line": 28
   },
   {
    "name": "disable",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "禁用（不可点击）",
-   "line": 15
+   "line": 29
   },
   {
    "name": "crumbsRef",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 18
+   "line": 32
   },
   {
    "name": "isActiveColor",
@@ -42,7 +50,7 @@
    "readonly": true,
    "default": ": crumbsRef !== null",
    "doc": null,
-   "line": 19
+   "line": 33
   }
  ],
  "signals": [

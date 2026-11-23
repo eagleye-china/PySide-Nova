@@ -5,12 +5,20 @@
  "description": "NovaSlideItem 滑动操作项（对标 QSlideItem · 基线 2.35.5 语义）： 正面内容（default 槽）左右滑动露出动作面板（leftSlot/rightSlot Component 槽（QSlideItem 的 left/right 撞 Item FINAL 成员改名，坑位 12））， 拖拽跟手 + 释放越阈值吸附打开；dense 紧凑侧板 契约：开合是内部动画状态（QSlideItem 本身无 v-model，指令型组件）；",
  "properties": [
   {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 16
+  },
+  {
    "name": "leftSlot",
    "type": "Component",
    "readonly": false,
    "default": ": null",
    "doc": "左滑露出的动作面板",
-   "line": 15
+   "line": 34
   },
   {
    "name": "rightSlot",
@@ -18,7 +26,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "右滑露出的动作面板",
-   "line": 16
+   "line": 35
   },
   {
    "name": "dense",
@@ -26,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "侧板紧凑宽度",
-   "line": 17
+   "line": 36
   },
   {
    "name": "revealWidth",
@@ -34,7 +42,7 @@
    "readonly": false,
    "default": ": dense ? 56 : 72",
    "doc": "侧板露出宽度",
-   "line": 20
+   "line": 39
   },
   {
    "name": "duration",
@@ -42,7 +50,7 @@
    "readonly": false,
    "default": ": 240",
    "doc": "吸附动画时长",
-   "line": 21
+   "line": 40
   },
   {
    "name": "openThreshold",
@@ -50,7 +58,7 @@
    "readonly": false,
    "default": ": 0.4",
    "doc": "释放时打开所需进度（0~1）",
-   "line": 22
+   "line": 41
   },
   {
    "name": "opened",
@@ -58,7 +66,7 @@
    "readonly": true,
    "default": ": _side !== \"\"",
    "doc": null,
-   "line": 29
+   "line": 48
   },
   {
    "name": "_side",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "当前打开侧：\"\" | \"left\" | \"right\"",
-   "line": 32
+   "line": 51
   },
   {
    "name": "_startX",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 91
+   "line": 115
   },
   {
    "name": "_baseX",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 92
+   "line": 116
   },
   {
    "name": "_dir",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 93
+   "line": 117
   }
  ],
  "signals": [

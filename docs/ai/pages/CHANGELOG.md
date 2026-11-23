@@ -3,6 +3,118 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.16.1] - 2026-11-23
+
+### Added（五期 Sprint B 第二交付单元 · **i18n + RTL + 性能 + HiDPI 非功能攻坚**：类型 123 → 124、测试 343 → 394）
+
+- **NovaI18n 服务单例**（Nova.Services，第 124 个公共类型；对标 Quasar Lang 插件 `$q.lang` +
+  vue-i18n 语义）：`locale/setLocale()` 全局切换、`t()` 词典翻译（`{name}` 插值；三级回落链
+  locale 精确 → 主语言码前缀 → en-US → key 本身）、`tp()` CLDR 复数（JS 精简实现七语系：
+  zh/ja/ko/th/vi 恒 other、en/de one-other、ru one-few-many、ar 六类别、cs/sk、pl）、
+  `addBundle()/addPluralBundle()` 运行时热注入（幂等覆盖）、`formatNumber/formatCurrency`
+  （分隔符/货币符号表随 locale）、`formatDate`（命名样式 + 自定义 pattern，
+  `Qt.locale(name).toString` 渲染）、`formatRelative`（复数联动）
+- **RTL 镜像双轨适配**：`NovaTheme.isRtl/direction` 方向令牌（随 NovaI18n 联动）；
+  `NovaPagination`（LayoutMirroring + 箭头字符取反）、`NovaDrawer`/`NovaLayout`
+  （`effectiveSide` 逻辑侧换边）、`NovaSlideItem`（loader 镜像 + Left/Right 物理键互换）、
+  `NovaBreadcrumbs`（反排重布局）、`NovaStepperNavigation`（LayoutMirroring）；
+  **逻辑侧 API 语义恒定**——RTL 只换物理方向，不换语义
+- **性能门禁三指标**（`tests/test_perf.py` 3 项 + `scripts/check_perf.py` CLI 包装）：
+  冷启动 ≤800ms、全导出类型实例化 ≤5ms/个（预热后两遍测量 + KNOWN_HEAVY 白名单）、
+  1000 行 NovaTable 挂载 ≤1700ms
+- **HiDPI 门禁**（`tests/test_hidpi.py` 4 项）：QT_SCALE_FACTOR 1.0/1.5/2.0 矩阵下
+  devicePixelRatio 联动、逻辑几何恒定；Nova.Runtime 上报 `devicePixelRatio/scaleFactor`
+- **a11y 补差**（M2 清单）：`NovaTree` 方向键游标（roving cursor：Up/Down 移动、
+  Right 展开 / Left 收起、收起态跳父、环绕式移动；RTL 时 Left/Right 语义互换）；
+  `NovaDialogShell` WAI-ARIA 焦点陷阱（打开记录来源焦点并聚焦首项、Tab/Shift+Tab 循环困于
+  陷阱内、关闭还焦来源；runtime 应用级事件过滤器承载 Tab 拦截——QML Keys 层收不到 Tab）
+- **画廊第 24 页「国际化 i18n」**：locale 切换按钮组、t/tp/复数类别实时联动、
+  数字/货币/日期/相对时间格式化、RTL 镜像演示（含 de/ja/ru/ar 四语热注入词典示范）
+- **`docs/I18N.md`** 国际化指南（API 一览/词典回落链/复数规则表/RTL 双轨/坑位 43）
+
+### Fixed
+
+- `qrc://` 双斜杠 URL 经 shiboken 解析为带 authority 的路径，`QQmlComponent.setData` 间歇性
+  SIGSEGV——**全局替换为 `qrc:/` 单斜杠**（独立脚本/pytest 交错崩溃的总根因，坑位 48 前因）
+
+### 坑位沉淀（43~48，详见 docs/SESSION_HANDOFF.md）
+
+- **43**：Qt 6.12 `Qt.formatDate` 三参重载不存在（pattern 被丢弃）→ `Qt.locale(name).toString(date, pattern)`
+- **44**：QQmlExpression + creationContext 对非 Item 对象间歇 SIGSEGV → QML 内定义 helper + Python 直调
+- **45**：Tab 在 QQuickItem::keyPressEvent C++ 默认实现被消费不冒泡（Keys.BeforeItem 也拦不到）
+  → 应用级事件过滤器；PySide slot 的 QObject 参数 wrapper 是临时的（须强引用）；
+  `Item.window` 普通属性 JS 层 undefined → attached `Item.Window.window`
+- **46**：QML 函数从 wrapper 调用返回未求值 MetaFunction → 改 `readonly property int` 承载
+- **47**：性能测量须两遍法（首建含 QML 编译冷缓存）；NovaDate/NovaEditor 首建 11~15ms 属固有成本
+- **48**：干净引擎早期 setData 组件 SIGSEGV（实为坑位 qrc:// 双斜杠）→ 全局 `qrc:/` 单斜杠 + 探针纪律
+
+## [0.16.0] - 2026-11-23
+
+### Added（五期 Sprint B 第一交付单元 · **可访问性攻坚 WCAG 2.1 AA**：类型 120 → 123、测试 322 → 343）
+
+- **NovaA11y 单例**（Nova.Design，第 123 个公共类型）：WCAG 2.1 对比度数学（相对亮度/对比度/
+  大小文本判定/AA·AAA·UI 三档门禁）、**AA 兜底派生**（`aaText` 双向取最小位移、`aaFill` 单向压暗
+  保品牌色相，二分 22 次收敛）、focus-visible 裁决 `ringVisible()`、状态播报状态机
+  `notice()/announcementCount`、语义词汇表。Quasar 2.35.5 无对应模块——Nova 差异化能力
+- **NovaFocusRing 行为**（Nova.Behaviors）：键盘模态下为宿主画焦点环（外扩 offset、间隙露表面色、
+  填充态按钮上不撞色）；只画不拦事，无指针通道
+- **NovaLiveRegion**（Nova.Behaviors）：`NovaA11y.notice()` 的真正播报出口
+  （WCAG 4.1.3 Status Messages），宿主根节点放一个即可
+- **Nova.Runtime 输入模态**：应用级事件过滤器（`install_input_modality_filter`，随 `init_nova` 幂等安装）
+  维护 `keyboardMode`，KeyPress→true / 鼠标·触摸·滚轮→false；QML 侧经 `NovaA11y.keyboardMode` 读取
+- **NovaTheme a11y 令牌**：`a11yBase`（最不利表面，派生基准）、`focusRing` + `focusRingWidth/Offset`、
+  `outlineStrong`（1.4.11 控件边界 3:1）、`primaryText…infoText` 七个文字安全版、`fillTint()`、
+  `textMuted` AA 化
+- **123 个导出类型 100% 登记 a11y 契约**：interactive **32**（role + 可读名 + 键盘入口 + 按键路径 +
+  焦点环全齐）/ semantic **28** / decorative **63**（故意不挂 Accessible + `// a11y: decorative` 标记）；
+  32 个 interactive 全量补齐键盘路径（Enter/Space 激活、方向键组内导航与值步进、Home/End、
+  PageUp/Down 月步进、Esc 关闭归位、Delete 移除）；统一新增 `a11yLabel` 可读名覆盖属性
+- **`scripts/check_a11y.py`** 静态门禁：解析四个 qmldir × 契约表，逐类型核对 role/name/键盘/焦点环/
+  装饰标记，未登记类型直接报错；`--matrix` 生成 `docs/A11Y_MATRIX.md`；退出码可直接入 CI
+- **`tests/test_a11y.py` 21 项**：WCAG 数学（黑白 21:1/对称/亮度边界）、AA 派生最小性与色相保持、
+  9 文本令牌 × 3 表面 × 明暗双主题全过 4.5:1、边界与焦点环 3:1、QAccessible 运行时角色矩阵
+  （19 类型 role/name/disabled 逐项）、键盘激活/切换/翻页/行游标/标签切换/时间步进、焦点环
+  键盘可见·指针隐藏、播报计数、静态门禁自检、画廊 a11y 页实例化无运行时错误
+- **画廊第 23 页「无障碍 a11y」**：AA 派生色板（本色 vs AA 版实时对比度）、焦点环 Tab 走查、
+  键盘全路径演示、播报演示、契约矩阵与门禁命令
+
+### Changed
+
+- `NovaTheme.textMuted` 改为 AA 兜底派生：浅色在 page 上由 **4.31 → 4.50**（`#6E7380 → #6B707C`，
+  肉眼无差；暗色不变）
+- 填充态按钮底色经 `fillTint()` 压到白字 **4.50:1**（`#5B6EF5 → #576AEB`，色相不变）
+- 新增 `outlineStrong` 作为**可交互控件**边界（3:1）；`outline` 保留给装饰性分隔线（1.4.11 只约束
+  控件边界，不是所有线条）
+- `NovaChip/NovaItem/NovaTab/NovaFabAction/NovaBtnDropdown` 等按 `!disable` 映射 `enabled`，
+  使 Qt 无障碍接口能上报 disabled 状态（视觉不变）
+
+### Fixed
+
+- `NovaUtils.colors.luminosity/brightness` 传 QML `color` 值（r/g/b 为 0~1 浮点）时被按 0~255 处理，
+  对比度恒为 **1.0**——新增 `_channels255` 归一化（字符串路径不变）；a11y 派生必须能直接吃 color 值
+- `Accessible.announce()` 在单例/`Connections` 作用域调用报 *"must be attached to an object deriving
+  from Item or Action"* → 播报下沉到 `NovaLiveRegion.speak()`
+
+### Refactor（测试基建）
+
+- 新增 `tests/conftest.py`：**全测试进程共用「一个 QGuiApplication + 一个 QQmlEngine」**，
+  模块收尾只关闭窗口不析构引擎；`test_smoke` / `test_a11y` 的 `qml_engine` / `engine` 夹具改为复用。
+  原因见坑位 42——多引擎「一个销毁、另一个继续建组件」在 Qt 6.12 下会间歇 SIGSEGV
+  （343 项实测 20~60% 概率崩在 `component.create()`，与用例内容无关）；单引擎后连跑 10 次全绿
+
+### Pitfalls（坑位 38~42）
+
+38. `Accessible` 是附加属性，只能在 Item 作用域内调用——单例（QtObject）与 `Connections` 里都不行
+39. `Accessible` **没有** `disabled`/`defaultAction`/`ignoresAutomaticName`；禁用态唯一有效途径是
+    `Item.enabled: false`（实测 `QAccessible` 接口随之 `state().disabled = true`）
+40. `Keys.onEndPressed` 不存在（Qt 6.12）——`End` 走 `Keys.onPressed` + `ev.key === Qt.Key_End`
+41. `QTest` 键位测试必须同时强引用 `QQmlComponent`：组件 GC 后其创建出的 Window 立即析构
+    （*Internal C++ object already deleted*）
+42. **多个 `QQmlEngine` 各自析构会在 Qt 6.12 引发间歇 SIGSEGV**：A 引擎销毁后 B 引擎再
+    `component.create()` 有 20~60% 概率崩（与用例内容无关，纯引擎数量相关）→ QML 测试全进程
+    共用单引擎（`tests/conftest.py`），模块收尾只 close 窗口、不删引擎；另：Window 活到解释器
+    退出而 `QGuiApplication` 已析构是第二类退出期崩溃，靠 session 收尾统一释放规避
+
 ## [0.15.0] - 2026-11-23
 
 ### Added（五期 Sprint A · **长尾组件一次收口**：Controls 89 → 91、Behaviors 10 → 11 + 新 singleton）
