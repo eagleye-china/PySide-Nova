@@ -59,6 +59,7 @@ nav:
   - 画廊预览: GALLERY.md
   - 工程纪律:
       - 架构宪法: CONSTITUTION.md
+      - API 冻结清单: API_FREEZE.md
       - 总规划: MASTER_PLAN.md
       - 路线图: ROADMAP.md
       - 交接快照: SESSION_HANDOFF.md

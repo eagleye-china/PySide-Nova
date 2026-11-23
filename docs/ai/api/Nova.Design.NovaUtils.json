@@ -2,7 +2,7 @@
  "name": "Nova.Design.NovaUtils",
  "kind": "singleton",
  "source": "src/pyside_nova/qml/Nova/Design/NovaUtils.qml",
- "description": "NovaUtils 工具层单例（对标 Quasar utils）：colors 12 / date 21（formatDate 44 token）/ format 6 / is 5 / debounce / throttle / frameDebounce / uid / extend NovaUtils —— L5 工具层（对标 Quasar `import { colors, date, format, is, extend, debounce, throttle, uid } from 'quasar'`） 1:1 对账基线：npm quasar@2.35.5 src/utils/{colors,date,format,is,extend,debounce,throttle,frame-debounce,uid} QML 不适用项（留痕，见 docs/PARITY.md L5 节）：",
+ "description": "NovaUtils 工具层单例（对标 Quasar utils）：colors 12 / date 21（formatDate 44 token）/ format 6 / is 5 / debounce / throttle / frameDebounce / uid / extend / logOnce·deprecate NovaUtils —— L5 工具层（对标 Quasar `import { colors, date, format, is, extend, debounce, throttle, uid } from 'quasar'`） 1:1 对账基线：npm quasar@2.35.5 src/utils/{colors,date,format,is,extend,debounce,throttle,frame-debounce,uid} QML 不适用项（留痕，见 docs/PARITY.md L5 节）：",
  "properties": [
   {
    "name": "colors",
@@ -77,12 +77,20 @@
    "line": 1108
   },
   {
+   "name": "_warned",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({})",
+   "doc": "{key: true} 只记已播，不做变化通知",
+   "line": 1121
+  },
+  {
    "name": "_uidCounter",
    "type": "int",
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 1117
+   "line": 1139
   }
  ],
  "signals": [],
@@ -178,6 +186,14 @@
   {
    "name": "clampLength",
    "params": "s, max"
+  },
+  {
+   "name": "logOnce",
+   "params": "key, message"
+  },
+  {
+   "name": "deprecate",
+   "params": "typeName, apiName, replacement, removedIn"
   },
   {
    "name": "uid",

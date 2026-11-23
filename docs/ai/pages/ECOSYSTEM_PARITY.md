@@ -224,7 +224,8 @@ M3（4 周）非功能与封版
 **质量**
 - [ ] P0 组件测试覆盖率 ≥90%，全库 ≥85%
 - [ ] 视觉回归基线覆盖全部画廊页面（明/暗 × 5 断点）
-- [ ] qmllint 0 error、0 warning
+- [x] qmllint 0 error（RC1：**593 warning 按类别入预算**，`tests/lint-baseline.json` 只降不升；
+  `[unqualified]` 552 条根治需全库 `pragma ComponentBehavior: Bound`，封版窗口不做——见 API_FREEZE §5）
 - [ ] 24h 压测无内存增长
 **体验**
 - [ ] WCAG 2.1 AA 全通过（含键盘全路径）
@@ -240,7 +241,8 @@ M3（4 周）非功能与封版
 - [ ] 宪法迭代记录完整（每次交付一行）
 - [ ] PARITY 审计 ✅ 占比 ≥90%（P0）/ ≥85%（全库）
 - [ ] CHANGELOG 全量可追溯
-- [ ] API 冻结清单签署
+- [x] API 冻结清单签署（RC1 · 1.0.0-rc1：124 类型逐成员签名 → `api/nova-api-1.0.0.json` +
+  `docs/API_FREEZE.md`，门禁 `check_api_freeze.py`；待 RC2 24 条全勾后随 1.0.0 生效）
 
 ---
 

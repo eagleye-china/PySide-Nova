@@ -2124,13 +2124,13 @@ ApplicationWindow {
                         labelSet: "保存"; labelCancel: "取消"
                         Rectangle {
                             width: 200; height: 34; radius: NovaTheme.radiusS
-                            color: NovaTheme.background
+                            color: NovaTheme.surface
                             border.width: 1; border.color: NovaTheme.outline
                             Text { x: 8; anchors.verticalCenter: parent.verticalCenter; text: f2.peVal; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS; elide: Text.ElideRight }
                         }
                         editorData: Column {
                             spacing: 8
-                            Rectangle { width: 200; height: 28; radius: NovaTheme.radiusS; color: NovaTheme.background; border.width: 1; border.color: NovaTheme.outline
+                            Rectangle { width: 200; height: 28; radius: NovaTheme.radiusS; color: NovaTheme.surface; border.width: 1; border.color: NovaTheme.outline
                                 TextInput { x: 8; anchors.verticalCenter: parent.verticalCenter; width: 184; text: f2.peVal; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS; onTextChanged: if (text !== f2.peVal) f2.peVal = text }
                             }
                         }

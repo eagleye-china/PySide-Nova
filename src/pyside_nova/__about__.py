@@ -3,4 +3,4 @@
 """pyside-nova 版本信息（唯一版本来源，hatchling 从此读取动态版本号）。"""
 
 __title__ = "pyside-nova"
-__version__ = "0.16.2"
+__version__ = "1.0.0rc1"

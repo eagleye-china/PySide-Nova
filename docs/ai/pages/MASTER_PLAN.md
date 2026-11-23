@@ -239,7 +239,12 @@
 
 ## 6. 六期：封版 `1.0.0-flagship`（约 2 周）
 
-1. **RC1**（0.16.x 后）：API 冻结审查——qmldir 导出清单 = 冻结公共 API 面，签署冻结清单
+1. **RC1** ✅ **1.0.0rc1 收口（2026-11-23）**：API 冻结审查——qmldir 导出清单 = 冻结公共 API 面；
+   124 类型逐成员签名快照 `api/nova-api-1.0.0.json`（指纹 f2fd1b0eacf665f2）+ 签署件
+   `docs/API_FREEZE.md`；新增门禁 `check_api_freeze.py`（破坏性/增量/纪律三分桶）与
+   `check_qmllint.py`（error 零容忍 + warning 分类预算）；冻结审查修掉 3 处真实缺陷
+   （ColorPicker 幽灵令牌与无主 tint / NovaText.style 覆盖 Text.style）；落地废弃机制
+   `NovaUtils.logOnce/deprecate`；测试 427→454
 2. **RC2**：24 条封版验收清单全勾（ECOSYSTEM_PARITY 第 6 节）；迁移指南 + 废弃策略 + LTS 承诺书
 3. **1.0.0-flagship 正式封版**：
    - 封版后仅 bug 修复 / 72h 安全热修 / 性能优化；新特性进 minor、破坏性进 major

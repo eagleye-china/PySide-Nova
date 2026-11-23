@@ -1,5 +1,5 @@
 // src/pyside_nova/qml/Nova/Design/NovaUtils.qml
-// NovaUtils 工具层单例（对标 Quasar utils）：colors 12 / date 21（formatDate 44 token）/ format 6 / is 5 / debounce / throttle / frameDebounce / uid / extend
+// NovaUtils 工具层单例（对标 Quasar utils）：colors 12 / date 21（formatDate 44 token）/ format 6 / is 5 / debounce / throttle / frameDebounce / uid / extend / logOnce·deprecate
 // NovaUtils —— L5 工具层（对标 Quasar `import { colors, date, format, is, extend, debounce, throttle, uid } from 'quasar'`）
 // 1:1 对账基线：npm quasar@2.35.5 src/utils/{colors,date,format,is,extend,debounce,throttle,frame-debounce,uid}
 // QML 不适用项（留痕，见 docs/PARITY.md L5 节）：
@@ -1112,6 +1112,28 @@ QtObject {
         clampLength: function (s, max) { return root.clampLength(s, max) },
         safeText: function (s, max) { return root.clampLength(root.escapeHtml(root.stripControlChars(s)), max) }
     })
+
+    // ══════════════════════════════════════════════════════════
+    // 废弃告警（1.0 冻结策略的运行时载体 · RC1）
+    // QML 没有 `@deprecated` 运行时，废弃只能靠「第一次用到时喊一声」：
+    // 同一 key 只播一次（不刷屏），不影响绑定求值（console 不返回值参与计算）。
+    // ══════════════════════════════════════════════════════════
+    readonly property var _warned: ({})     // {key: true} 只记已播，不做变化通知
+
+    function logOnce(key, message) {
+        if (root._warned[key] === true)
+            return false
+        root._warned[key] = true
+        console.warn("[Nova] " + message)
+        return true
+    }
+
+    // 弃用登记：类型/属性 + 取代者 + 移除版本（默认 2.0）
+    function deprecate(typeName, apiName, replacement, removedIn) {
+        return root.logOnce(typeName + "." + apiName,
+            "DEPRECATED " + typeName + "." + apiName + " —— 请改用 " + replacement +
+            "；" + (removedIn || "2.0") + " 移除")
+    }
 
     // uid()：QML 无 crypto.randomUUID，用时间戳 + 计数器 + 随机段生成 v4 形态（碰撞抗性弱于基线，见 PARITY）
     property int _uidCounter: 0

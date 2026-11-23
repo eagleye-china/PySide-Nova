@@ -1,0 +1,15 @@
+{
+ "tool": "pyside6-qmllint",
+ "scope": "src/pyside_nova/qml/**/*.qml",
+ "total": 593,
+ "budget": {
+  "id-shadows-member": 4,
+  "import": 1,
+  "missing-property": 24,
+  "other": 10,
+  "property-override": 2,
+  "unqualified": 552
+ },
+ "policy": "error 零容忍；warning 按类别预算，只降不升（--update 只允许下调）",
+ "note": "预算内告警以 [unqualified] 为主（嵌套组件引用外层 id），根治需全库 pragma ComponentBehavior: Bound，封版窗口内不做"
+}

@@ -96,7 +96,7 @@ def main() -> int:
                 "version": __about__.__version__,
                 "purl": f"pkg:pypi/{__about__.__title__}@{__about__.__version__}",
             },
-            "tools": [{"name": "gen_sbom.py", "version": "0.16.2"}],
+            "tools": [{"name": "gen_sbom.py", "version": __about__.__version__}],
         },
         "components": components,
     }

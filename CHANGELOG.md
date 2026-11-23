@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.0.0rc1] - 2026-11-23
+
+### Added（六期 RC1 收口 · **API 冻结审查**：测试 427 → 454、类型 124 不变）
+
+- **冻结清单双件制**：`api/nova-api-1.0.0.json`（schema `nova-api-freeze/1`，124 类型逐成员
+  签名——`props`/`signals`/`methods` 以 `名字:类型` / `名字(参数)` 串快照，`_` 前缀私有成员
+  **不进面**；内容指纹 `f2fd1b0eacf665f2`）+ `docs/API_FREEZE.md`（口径表 / 统计 / 语义化
+  变更政策 / 签署六勾 / 例外登记 / 124 行全量明细）。两者均由 `scripts/gen_api_freeze.py`
+  生成，**禁止手改**
+- **API 冻结门禁** `scripts/check_api_freeze.py`：现网面 vs 清单**逐成员**比对，结果分三桶
+  ——破坏性（删类型 / 改签名 / 移模块 / 改 a11y）/ 增量（新类型 / 新公共成员）/ 纪律
+  （`on*` 前缀、基类成员撞名、qmldir `//`、版本非 1.0、文件名不符、缺 `pragma Singleton`、
+  `Component.onDestroyed`）；另校验**清单指纹自洽**（手改清单绕过门禁也会红）
+- **qmllint 门禁** `scripts/check_qmllint.py`：error **零容忍** + warning **分类预算制**
+  （`tests/lint-baseline.json`：unqualified 552 / missing-property 24 / 其他 10 /
+  id-shadows-member 4 / property-override 2 / import 1，共 593），`--update` 只允许下调
+- **交付前串跑三道门禁**：`local_deploy.py` 新增第 0 步——`check_a11y` → `check_api_freeze`
+  → `check_qmllint`，任一红即拒绝出包（`--no-gates` 仅限应急）
+- **废弃机制落地**（第 13 章政策 4 的运行时载体）：`NovaUtils.logOnce(key, msg)` +
+  `NovaUtils.deprecate(type, api, replacement, removedIn)`——同一 key 只播一次，不刷屏、
+  不污染绑定
+
+### Fixed（冻结审查抓出的真实缺陷，静态门禁与逐文件审阅交叉命中）
+
+- **NovaColorPicker**：HEX 输入框底色写 `NovaTheme.background`——该令牌**不存在**（主题令牌
+  为 `page`/`surface`/`surfaceAlt`），赋值 undefined 导致输入框底色丢失 → 改 `NovaTheme.surface`；
+  焦点边框写 `root.tint`——该组件无 `tint` 属性（非 NovaField 派生）→ 改
+  `hasError ? negative : primary`（并保留未聚焦时的 `outline`）
+- **NovaText**：`readonly property var style` **覆盖了 `Text.style` 枚举**（基类成员撞名，
+  outline/stroke 渲染语义被吃掉）→ 更名私有 `_style`，`Text.style` 原生语义归还
+- **examples/gallery**：同款幽灵令牌 `NovaTheme.background` 2 处 → `surface`
+
+### 变更政策（1.0 起生效，宪法第 13 章）
+
+| 变更 | 版本动作 | 门禁 |
+|---|---|---|
+| 删类型 / 改签名 / 移模块 / 改 a11y 分类 | 仅 major | 红，须重签清单 |
+| 新增类型 / 新增公共成员 | minor + 重签 | 红，重签后绿 |
+| 私有成员 / 默认值 / 内部结构 | patch | 绿，不重签 |
+
+### 坑位沉淀（50~51）
+
+- **50**：`qmllint` 的诊断**全部写到 stderr**（stdout 只有源码片段），用 `capture_output`
+  只读 stdout 会得到「0 warning」的假绿灯——预算门禁必须合并两股流（`stderr=STDOUT`）
+- **51**：解析模块限定类型名（`Nova.Behaviors.NovaMorph`）用 `split(".", 1)` 会切出
+  `Behaviors.NovaMorph`——模块名自身带点，**必须 `rsplit(".", 1)`**；同批：qmldir
+  `singleton <名> <版本> <文件>` 的版本位比普通行右移一格，正则要按 `singleton` 前缀偏移
+
+### 诚实边界（RC2 待办，与 API 面解耦）
+
+24h 内存长跑 / NVDA 真机回归 / 安装器与代码签名（需平台证书）/ 迁移指南 + LTS 承诺书；
+`[unqualified]` 552 条按预算挂账（根治需全库 `pragma ComponentBehavior: Bound`）；
+应用包 185.7MB 未达 ≤60MB（Qt 运行时物理下限）。
+
 ## [0.16.2] - 2026-11-23
 
 ### Added（五期 Sprint B3 收口 · **工程化外环**：测试 394 → 427、类型 124 不变）

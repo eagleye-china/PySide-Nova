@@ -31,7 +31,7 @@ QML_ROOT = PROJECT / "src" / "pyside_nova" / "qml" / "Nova"
 PAGES = [
     "README_zh.md", "CHANGELOG.md", "COMPONENTS.md", "ARCHITECTURE.md",
     "CONSTITUTION.md", "PARITY.md", "ECOSYSTEM_PARITY.md", "DESIGN_TOKENS.md",
-    "MASTER_PLAN.md", "ROADMAP.md",
+    "MASTER_PLAN.md", "ROADMAP.md", "API_FREEZE.md",
 ]
 
 PROP_RE = re.compile(

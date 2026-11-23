@@ -25,17 +25,19 @@ Text {
     // 大写字阶（Quasar 的 overline 组件层带 uppercase；这里显式开关，不隐式改）
     property bool upper: false
 
-    readonly property var style: NovaTheme.textStyle(typography)
+    // 私有：排版令牌对象（0.16.2 前名为 `style`，与 Text.style 枚举撞名——RC1 冻结审查改名，
+    // 保留 Text.style 的原生语义：outline/stroke 等渲染模式仍可用）
+    readonly property var _style: NovaTheme.textStyle(typography)
 
     font.family: NovaTheme.fontFamily
-    font.pixelSize: style.size
-    font.weight: style.weight
-    font.letterSpacing: style.letterSpacing
+    font.pixelSize: _style.size
+    font.weight: _style.weight
+    font.letterSpacing: _style.letterSpacing
     font.strikeout: strike
     font.italic: italic
     font.capitalization: upper ? Font.AllUppercase : Font.MixedCase
 
-    lineHeight: style.lineHeight
+    lineHeight: _style.lineHeight
     lineHeightMode: Text.FixedHeight
 
     color: muted ? NovaTheme.textMuted : NovaTheme.textColor

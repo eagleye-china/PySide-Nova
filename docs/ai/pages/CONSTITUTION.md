@@ -153,10 +153,33 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 7. **崩溃红线**：测试进程任何 SIGSEGV/exit 139 视为阻断级缺陷，先定位根因
    （沉淀进 SESSION_HANDOFF 坑位表）再交付，禁止用"重试/跳过"掩盖
 
+## 第 13 章 API 冻结与废弃政策（1.0.0-rc1 新颁，封版门禁条款）
+
+1. **冻结面定义**：公共 API 面 = 四个 `qmldir` 的导出行。类型名 / 模块归属 / 单例性 /
+   公共 `property`（名字·类型·只读性）/ 公共 `signal` 与 `function` 签名 / a11y 分类
+   进冻结面；`_` 前缀成员、默认值、内部结构、视觉令牌取值**不进**（可自由重构）
+2. **双件制**：机器清单 `api/nova-api-<apiVersion>.json`（逐成员签名 + 内容指纹）与
+   人读签署件 `docs/API_FREEZE.md`（口径 + 统计 + 政策 + 例外 + 全量明细）必须同源同指纹；
+   **两者均为 `scripts/gen_api_freeze.py` 生成物，禁止手改**
+3. **变更分级**：破坏性（删类型/改签名/移模块/改分类）只能随 major；增量（新类型/新公共成员）
+   随 minor 且必须重签；实现级改动随 patch 不重签。判定由 `scripts/check_api_freeze.py` 机判，
+   任何漂移都变红——不允许"先在文档里记一笔"绕过
+4. **废弃机制**：属性上一行写 `// DEPRECATED 1.x: 用 xxx 取代，2.0 移除`，并在创建时经
+   `NovaUtils.deprecate(type, api, replacement, removedIn)` 播报一次（同一 key 不重复刷屏）；
+   废弃项保留**两个版本周期**后于 major 移除。1.0 封版时清单内无废弃项
+5. **命名红线随冻结加固**：新类型不得使用 `on*` 前缀属性（坑位 1）、不得与基类内建成员撞名
+   （坑位 2/25）、导出文件名必须与类型名一致、qmldir 只认 `#` 注释且导出版本恒为 `1.0`
+6. **静态检查预算制**：`qmllint` 的 **error 零容忍**；warning 按类别记录预算
+   （`tests/lint-baseline.json`），现网数只允许 ≤ 预算，修正后必须 `--update` 下调预算——
+   欠债有账，不允许变多
+7. **交付验证三连**（`scripts/local_deploy.py` 已内置，任一红即拒绝出包）：
+   `python scripts/check_a11y.py` → `python scripts/check_api_freeze.py` → `python scripts/check_qmllint.py`
+
 ## 迭代记录表（每次交付必须更新）
 
 | 版本 | 日期 | 条款变更 |
 |---|---|---|
+| 1.0.0rc1 | 2026-11-23 | 六期 RC1 收口：**API 冻结审查**（新颁第 13 章七条）；124 类型逐成员签名快照入库（api/nova-api-1.0.0.json，指纹 f2fd1b0eacf665f2）+ 签署件 docs/API_FREEZE.md（口径/统计/变更分级/例外登记/全量明细）；新增门禁 check_api_freeze.py（破坏性·增量·纪律三分桶 + 清单指纹自洽）与 check_qmllint.py（error 零容忍 + warning 分类预算 594 条）；local_deploy 交付前串跑三道门禁；**冻结审查修掉 3 处真实缺陷**：NovaColorPicker 幽灵令牌 NovaTheme.background→surface、root.tint 不存在→primary/hasError、NovaText.style 覆盖 Text.style 枚举→私有 _style；落地废弃机制 NovaUtils.logOnce/deprecate；测试 427→454；坑位 50~51 |
 | 0.16.2 | 2026-11-23 | 五期 Sprint B3 收口：**工程化外环**（L6 80%→90%）；视觉回归门禁（明暗 × 5 断点 × 全画廊 240 基线 + check_visual.py 像素 diff）；外部输入消毒（NovaUtils.sanitize 五函数 + runtime 四 Slot + 组件 textFormat 加固 9 处 + 32 项测试，对标 2.32~2.35 安全硬化）；CycloneDX SBOM（gen_sbom.py 零依赖离线）+ OSV CVE 周巡（check_cve.py，.cve-ignore 带理由）；一键打包 build_app.py（PyInstaller onefile 185.7MB 启动自检过，≤60MB 目标诚实边界）；MkDocs 文档站（material 可搜索 15 页 + 画廊预览 24 图）；测试 394→427；坑位沉淀 49（视觉长跑后收尾期 GC 崩溃→pytest_unconfigure 硬退出） |
 | 0.16.1 | 2026-11-23 | 五期 Sprint B2 收口：**i18n + RTL + 性能 + HiDPI 非功能攻坚**（新颁第 12 章）；新增 NovaI18n 服务单例（对标 Quasar Lang：locale 切换 / t() 插值与三级回落 / tp() CLDR 七语系复数 / 数字货币日期相对时间格式化 / addBundle 热注入）；RTL 双轨镜像（Pagination/Drawer/Layout/SlideItem/Breadcrumbs/StepperNavigation，逻辑侧语义恒定）；性能门禁三指标（冷启动 ≤800ms / 组件 ≤5ms / 1000 行表格 ≤1700ms）+ HiDPI 矩阵 1.0~2.0；补 a11y 差距：NovaTree 方向键游标（roving cursor，RTL 键互换）、NovaDialogShell 焦点陷阱（Tab 循环 + Esc 还焦，runtime 应用级过滤器）；新增 I18N.md + 画廊第 24 页 i18n；类型 123→124，测试 343→394；坑位沉淀 43~48（Qt.formatDate 三参不存在 / QQmlExpression 非 Item SIGSEGV / Tab 不冒泡→应用级过滤器 / Item.window undefined→attached / qrc:// 双斜杠 shiboken 段错误总根因→全局 qrc:/ / setData 探针纪律） |
 | 0.16.0 | 2026-11-23 | 五期 Sprint B 第一交付单元：**可访问性攻坚**（新颁第 11 章 a11y 八条门禁）；新增 NovaA11y 单例 / NovaFocusRing / NovaLiveRegion / Nova.Runtime 输入模态（focus-visible）；NovaTheme 增 a11yBase·focusRing·outlineStrong·七个 *Text 派生·fillTint，textMuted AA 化；123 导出类型 100% 登记契约（32 interactive / 28 semantic / 63 decorative），32 个交互件补齐全键盘路径与焦点环；新增静态门禁 check_a11y.py + A11Y.md/A11Y_MATRIX.md + 测试 21 项；类型 120→123，测试 322→343；坑位沉淀 38~42（Accessible 作用域 / 无 disabled 属性 / 无 Keys.onEndPressed / QTest 需强引用组件 / 多引擎析构间歇崩溃→测试单引擎） |

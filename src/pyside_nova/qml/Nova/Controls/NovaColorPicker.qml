@@ -328,9 +328,11 @@ Item {
                 width: parent.width
                 height: 28
                 radius: NovaTheme.radiusS
-                color: NovaTheme.background
+                color: NovaTheme.surface
                 border.width: 1
-                border.color: hexInput.activeFocus ? root.tint : NovaTheme.outline
+                border.color: hexInput.activeFocus
+                              ? (root.hasError ? NovaTheme.negative : NovaTheme.primary)
+                              : NovaTheme.outline
                 TextInput {
                     id: hexInput
                     anchors.fill: parent

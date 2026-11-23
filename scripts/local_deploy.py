@@ -34,7 +34,7 @@ ZIP_ENTRIES = [
     "pyproject.toml", "README.md", "README_zh.md", "CHANGELOG.md",
     "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md", "LICENSE",
     ".gitignore", "PROMPT.md",
-    "src", "examples", "docs", "scripts", "tests", ".github",
+    "src", "examples", "docs", "scripts", "tests", "api", ".github",
 ]
 
 SKIP_PARTS = {"__pycache__", ".pytest_cache", "egg-info"}
@@ -163,7 +163,14 @@ def main() -> None:
     ap.add_argument("--bundle", action="store_true",
                     help="ZIP 内附加 icons/ 离线图标全量包（约 30MB，用于完全离线部署）")
     ap.add_argument("--no-git", action="store_true", help="ZIP 内不附 .git 历史（默认附带）")
+    ap.add_argument("--no-gates", action="store_true",
+                    help="跳过静态门禁（仅应急用；正常交付必须过 a11y/API 冻结/qmllint 三道）")
     args = ap.parse_args()
+
+    # 0. 静态门禁（RC1 起：a11y 契约 / API 冻结 / qmllint 预算——任一红即拒绝交付）
+    if not args.no_gates:
+        for gate in ("check_a11y.py", "check_api_freeze.py", "check_qmllint.py"):
+            run([sys.executable, str(ROOT / "scripts" / gate)])
 
     # 1. 清理构建产物
     for d in ("dist", "build"):

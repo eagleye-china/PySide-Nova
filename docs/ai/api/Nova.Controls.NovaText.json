@@ -53,12 +53,12 @@
    "line": 26
   },
   {
-   "name": "style",
+   "name": "_style",
    "type": "var",
    "readonly": true,
    "default": ": NovaTheme.textStyle(typography)",
    "doc": null,
-   "line": 28
+   "line": 30
   }
  ],
  "signals": [],

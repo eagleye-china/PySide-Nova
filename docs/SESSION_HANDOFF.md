@@ -2,17 +2,28 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.16.2 · 2026-11-23）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.0.0rc1 · 2026-11-23）
 
 ## 一句话定位
 
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-## 当前状态（0.16.2 · **五期 Sprint B3 收口：工程化外环——五期全部完成**）
+## 当前状态（1.0.0rc1 · **六期 RC1 收口：API 冻结审查——最后一公里已上道**）
 
 - **公共 QML 类型 124 个已交付**（qmldir 导出口径）：Controls **91** + Behaviors **13**
   + Services **16**（单例 12 + 句柄动作 4）+ Design **4**
+- **API 冻结（1.0.0rc1 · RC1 主线）**：`qmldir` 导出清单 = 冻结公共 API 面。双件制——
+  `api/nova-api-1.0.0.json`（124 类型逐成员签名：`名字:类型` / `名字(参数)`，`_` 前缀私有成员
+  不进面；指纹 **f2fd1b0eacf665f2**）+ `docs/API_FREEZE.md`（口径/统计/变更分级/例外/全量明细），
+  均由 `gen_api_freeze.py` 生成**禁止手改**；门禁 `check_api_freeze.py` 三桶判定
+  （破坏性 / 增量 / 纪律）+ 指纹自洽；`check_qmllint.py` 预算制（**0 error** + 593 warning
+  分类挂账，只降不升）；`local_deploy.py` 交付前串跑 a11y → API 冻结 → qmllint 三道，红即拒包
+- **冻结审查修掉 3 处真实缺陷**：NovaColorPicker 幽灵令牌 `NovaTheme.background`（不存在）→
+  `surface`、`root.tint`（组件无此属性）→ `hasError ? negative : primary`；NovaText
+  `readonly property var style` 覆盖 `Text.style` 枚举 → 私有 `_style`；画廊同款令牌 2 处
+- **废弃机制落地**（宪法第 13 章政策 4）：`NovaUtils.logOnce(key,msg)` +
+  `NovaUtils.deprecate(type, api, replacement, removedIn)`，同一 key 只播一次
 - **国际化（0.16.1 主线）**：NovaI18n——locale 切换、`t()` 插值与三级回落（精确 → 主语言前缀 →
   en-US → key）、`tp()` CLDR 七语系复数（zh/ja/en/ru/ar/cs/pl 28 组参数化验证）、
   数字/货币/日期/相对时间格式化、`addBundle()` 热注入；内置 en-US/zh-CN 词典；指南见 `docs/I18N.md`
@@ -43,16 +54,17 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   可用 test_perf 门禁与视觉矩阵替代部分置信度）；屏读器真机回归（NVDA）封版前人工安排；
   应用打包 ≤60MB 未达（Qt 物理下限 185MB，方向：upx / QML 预编译 / 插件裁剪）；安装器与
   代码签名需平台证书
-- **测试 427 项全绿**（394 + 0.16.2 新增 33：消毒 32 / 视觉 smoke 1；全矩阵 1 项由
-  check_visual.py CLI 承载）+ 视觉基线 240 张；测试基建维持
+- **测试 454 项全绿**（427 + 1.0.0rc1 新增 27：冻结面/反例三连/纪律/qmllint 预算/废弃机制/
+  三处缺陷回归；全矩阵 1 项由 check_visual.py CLI 承载、视觉 smoke 1 项跳过为设计如此）
+  + 视觉基线 240 张；测试基建维持
   **全进程单 QML 引擎**（坑位 42）+ **qrc:/ 单斜杠纪律**（坑位 48，SIGSEGV 总根因）
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → 2 ✅(0.6.x) → 3 ✅(0.7.0) → 4 ✅(0.8.0)
   → 二期 A ✅(0.9.0) → 二期 B ✅(0.10.0) → 三期 A ✅(0.11.0) → 三期 B ✅(0.12.0)
   → 四期 A ✅(0.13.0) → 四期 B ✅(0.14.0) → 五期 A ✅(0.15.0)
   → 五期 B1 ✅(0.16.0 可访问性) → 五期 B2 ✅(0.16.1 i18n+RTL+性能+HiDPI)
   → **五期 B3 ✅(0.16.2 工程化外环：视觉回归+消毒+SBOM/CVE+打包+文档站)**
-  → **六期：RC1 API 冻结审查 → RC2 24 条验收 → 1.0.0-flagship 封版**
-- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / L2 70% / **L6 75%→80%**
+  → **六期 RC1 ✅(1.0.0rc1 API 冻结审查) → RC2 24 条验收 → 1.0.0-flagship 封版**
+- **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / L2 70% / **L6 90%（RC1 冻结治理入册）→ 封版目标 95%**
   （a11y 双门禁 + perf/hidpi 门禁入工程化）；非功能性轴：可访问性 90%→**95%**（余 5% = 组合色
   逐件采样 + NVDA 真机回归）、国际化 0%→**90%**（余 10% = 更多语言词典包 + 术语表管理）、
   性能 **门禁化**（24h 内存长跑待 B3）、HiDPI **门禁化**（真机多屏抽查待 B3）
@@ -95,6 +107,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 0.5. `docs/ECOSYSTEM_PARITY.md` §0.5 —— 2.26→2.35 基线漂移审计（增量对照表）
 1.5. `docs/A11Y.md` —— 可访问性手册（三分类契约/键盘约定/AA 派生/已知差距/坑位 38~41）
 2. `docs/PARITY.md` —— 全量对标审计（逐属性/事件/槽/model）
+2.5. `docs/API_FREEZE.md` —— **1.0 冻结清单签署件**（口径/变更分级/例外/124 类型明细）
 3. `CHANGELOG.md` —— 版本史（含 Qt 6.12 坑位沉淀）
 4. `CONTRIBUTING.md` —— 宪法落地细则
 
@@ -104,6 +117,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - 命名红线：基调色 `tint`；禁 `on*` 属性；主题模式 `isDark` / `setDark()` / `toggleDark()`；品牌色 `dark`（$dark 1:1）
 - 槽机制：默认槽 `default property alias`、命名槽组合子组件、作用域槽 `Component delegate`
 - 断点接入唯一方式：`Component.onCompleted: NovaScreen.source = window`
+- API 冻结纪律：`api/nova-api-*.json` 与 `docs/API_FREEZE.md` 是生成物**禁止手改**；
+  公共面任何变化必须走 `check_api_freeze.py` 红 → 评估分级 → 重签 → CHANGELOG（宪法第 13 章）
 - 交付纪律：升版 → CHANGELOG → 宪法记录表 → 本文件 → `gen_prompt.py` 刷新 PROMPT → `local_deploy.py --zip`
 
 ## 已知坑位（Qt 6.12 实战沉淀）
@@ -214,6 +229,13 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     `win.property("activeFocusItem")` 的 QQuickItem* 无 converter；
     **`Item.window` 普通属性在 JS 层返回 undefined** → 必须用 attached **`Item.Window.window`**
     （0.16.1 沉淀）
+50. **`qmllint` 诊断全部走 stderr**（stdout 只剩源码片段）：`capture_output=True` 只读 stdout
+    会得到「0 warning」的假绿灯——预算门禁必须 `stderr=subprocess.STDOUT` 合并两股流
+    （1.0.0rc1 沉淀；同批：该版本对 block-scope var 告警**不带 `[category]` 尾缀**，按消息归类）
+51. **模块限定类型名不能 `split(".", 1)`**：`Nova.Behaviors.NovaMorph` 会切成
+    `Behaviors.NovaMorph`（模块名自身带点）→ 一律 `rsplit(".", 1)`；qmldir 的
+    `singleton <名> <版本> <文件>` 版本位比普通行右移一格，解析要按 `singleton` 前缀偏移
+    （1.0.0rc1 沉淀；两处都曾让冻结清单/文档表格悄悄写错名字）
 49. **全矩阵视觉长跑后解释器收尾期 GC 崩溃**：240 截图 × 150s 跑完 pytest 报告后，
     finalizing GC 触发 `none_dealloc: refcount error in a C extension`
     （deleteLater / 显式 close / gc.collect 均无效）→ conftest `pytest_unconfigure`
@@ -268,12 +290,19 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - ~~五期 B3 工程化外环（v0.16.2）~~ ✅ **0.16.2 收口（视觉回归 240 基线 + 外部输入消毒 32 项
   + SBOM/CVE 周巡 + PyInstaller 打包自检 + MkDocs 文档站可搜索；画廊预览页 = 在线示例等价；
   L6 80%→90%；427 项测试；坑位 49 沉淀）**——**五期全部完成**
-- **六期（下一步）封版 1.0.0-flagship**：RC1 API 冻结审查（qmldir 导出清单 = 冻结 API 面）→
-  RC2 24 条封版验收清单全勾（ECOSYSTEM_PARITY 第 6 节；余项：24h 压测 / NVDA 真机 /
+- **六期（下一步）封版 1.0.0-flagship**：~~RC1 API 冻结审查~~ ✅ 1.0.0rc1 →
+  **RC2 24 条封版验收清单全勾**（ECOSYSTEM_PARITY 第 6 节；余项 4 条：24h 压测 / NVDA 真机 /
   安装器签名 / 迁移指南 + LTS）→ 1.0.0 正式封版
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ## 最近一次交付
+
+- **1.0.0rc1：六期 RC1 收口 · API 冻结审查**
+  （124 类型逐成员签名快照 `api/nova-api-1.0.0.json` + 签署件 `docs/API_FREEZE.md`；
+  新增门禁 `check_api_freeze.py`（三桶 + 指纹自洽）与 `check_qmllint.py`（0 error + 593
+  warning 分类预算）；local_deploy 交付前三门禁串跑；冻结审查修掉 3 处真实缺陷
+  （ColorPicker 幽灵令牌/无主 tint、NovaText.style 覆盖 Text.style）；
+  废弃机制 NovaUtils.logOnce·deprecate；测试 427→454；坑位 50~51）
 
 - **0.16.2：五期 Sprint B3 收口 · 工程化外环一次交付**
   （视觉回归门禁 240 基线明暗 × 5 断点 + 外部输入消毒 NovaUtils.sanitize/runtime Slot/
@@ -336,6 +365,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 交付物通道
 
+- 门禁：`check_a11y.py` → `check_api_freeze.py` → `check_qmllint.py`（local_deploy 第 0 步，红即拒包）
 - 本地：`python scripts/local_deploy.py --zip --allinone` → release.zip + ALL-IN-ONE.zip
   （--allinone 必须在最终 git 提交之后运行，保证包内历史与 HEAD 一致——0.8.0 教训）
 - PyPI：打 `v*` 标签 → GitHub Actions Trusted Publishing 自动发布
