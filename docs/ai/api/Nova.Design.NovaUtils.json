@@ -69,12 +69,20 @@
    "line": 882
   },
   {
+   "name": "sanitize",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 1108
+  },
+  {
    "name": "_uidCounter",
    "type": "int",
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 1064
+   "line": 1117
   }
  ],
  "signals": [],
@@ -154,6 +162,22 @@
   {
    "name": "frameDebounce",
    "params": "fn"
+  },
+  {
+   "name": "escapeHtml",
+   "params": "s"
+  },
+  {
+   "name": "stripControlChars",
+   "params": "s"
+  },
+  {
+   "name": "sanitizeUrl",
+   "params": "url"
+  },
+  {
+   "name": "clampLength",
+   "params": "s, max"
   },
   {
    "name": "uid",

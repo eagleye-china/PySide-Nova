@@ -40,6 +40,18 @@ def qml_engine(qapp):
     yield eng
 
 
+def pytest_configure(config):
+    config.addinivalue_line("markers", "visual: 全矩阵视觉回归门禁（scripts/check_visual.py 承载）")
+
+
+def pytest_addoption(parser):
+    """0.16.2 视觉回归开关（scripts/check_visual.py 传入）。"""
+    parser.addoption("--visual-full", action="store_true", default=False,
+                     help="跑全矩阵视觉门禁（明暗 × 5 断点 × 24 页）")
+    parser.addoption("--snapshot-update", action="store_true", default=False,
+                     help="重建视觉基线（tests/baselines/visual/）")
+
+
 def close_alive() -> None:
     """关闭并释放登记表内的 QML 对象（按创建逆序）；引擎与应用保持存活。"""
     for obj in reversed(ALIVE):
@@ -49,6 +61,17 @@ def close_alive() -> None:
         except RuntimeError:
             pass
     ALIVE.clear()
+
+
+def pytest_unconfigure(config):  # noqa: ARG001
+    """坑位 49：视觉全矩阵长跑后解释器收尾期 GC 崩溃（shiboken refcount）——
+    报告输出已完成后硬退出，规避收尾期隐式析构，保 CI 退出码语义。"""
+    if getattr(config, "_nova_visual_hard_exit", False):
+        import os
+        import sys
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(0)
 
 
 def pytest_sessionfinish(session, exitstatus):  # noqa: ARG001

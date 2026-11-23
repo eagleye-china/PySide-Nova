@@ -932,3 +932,28 @@ M1/M2 排期在 ROADMAP 跟踪。
 
 > 测试口径：0.16.1 新增 51 项（343 → 394）——i18n 41（含 RTL 几何断言）/ a11y 补差 3 /
 > perf 3 / hidpi 4。类型 123 → 124（NovaI18n decorative 单例）。
+
+
+---
+
+## 0.16.2 审计 —— 五期 Sprint B3 · 工程化外环（L6 80%→90%）
+
+基线事实：npm `quasar@2.32~2.35` 安全硬化（SSR 品牌色注入 / Lang isoName 注入 / DOM clobbering
+防护）与 Icon Genie 的应用图标/打包辅助。QML 语境裁定：无 DOM → 注入面收敛为
+Text 富文本解析 / 控制字符 / URL scheme 三类；视觉回归与打包属 Quasar 无对应层（Vue
+SFC 构建链差异），Nova 增强口径。
+
+| 交付物 | 对标情况 | 契约口径 |
+|---|---|---|
+| 视觉回归门禁 | ⛔ Quasar 无（浏览器端靠 Percy/Chromatic 外部服务） | 明暗 × 5 断点（480/800/1200/1600/1920）× 24 页 = **240 基线**；256 色量化 PNG（12MB）；check_visual.py diff 容差（单通道 >12 / 占比 >1%）；smoke 秒级随全量、全矩阵 CLI ~150s |
+| 外部输入消毒 | ⚠ 2.32~2.35 SSR/DOM 硬化 | NovaUtils.sanitize（escapeHtml/stripControlChars/sanitizeUrl/clampLength/safeText）+ runtime 四 Slot 语义 1:1 + 组件 textFormat: PlainText 加固 9 处 + 32 项测试（XSS/ANSI/零宽/scheme 白名单/钳制） |
+| SBOM | ⚠ Quasar 无（npm 生态靠 lockfile 审计） | gen_sbom.py CycloneDX 1.5（零第三方依赖离线生成，许可证逐包读取，生成物禁手改） |
+| CVE 周巡 | ⚠ npm audit 对应物 | check_cve.py（OSV.dev querybatch / --offline 缓存 / --fail-on 阈值 / .cve-ignore 带理由）；首轮 3 组件 0 未忽略漏洞（pytest 2 项 dev-only 经评估登记） |
+| 一键打包 | ⚠ Icon Genie 辅助产出图标，打包无对应 | build_app.py（PyInstaller onefile + gallery_launch.py 入口 + 启动自检）；实测 185.7MB（诚实边界：Qt 运行时物理下限）；exe/签名需对应平台 |
+| 文档站 | ⚠ Quasar 文档站为 Vue 前端 | MkDocs material（可搜索 15 页 + 明暗切换 + 搜索索引）+ **画廊预览页 24 张真实渲染截图**（"在线示例"等价呈现） |
+
+**已知差距（滚动）**：应用打包 ≤60MB 未达（Qt 物理下限 185MB）；安装器与代码签名需平台
+证书（封版后置）；24h 内存长跑、NVDA 真机回归、RC1 API 冻结审查进六期。
+
+> 测试口径：0.16.2 新增 33 项（394 → 427）——消毒 32 / 视觉 smoke 1；全矩阵视觉 1 项由
+> check_visual.py CLI 承载（不计入 pytest 默认收集）。

@@ -2,17 +2,17 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.16.1 · 2026-11-23）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 0.16.2 · 2026-11-23）
 
 ## 一句话定位
 
 pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生态化，
 对标 **Quasar 2.35.5**（2026-11-22 复核纠正，原 2.26.0 过期），目标 `1.0.0-flagship` 封版（API 冻结 + LTS 24 个月）。
 
-## 当前状态（0.16.1 · **五期 Sprint B2 收口：i18n + RTL + 性能 + HiDPI**）
+## 当前状态（0.16.2 · **五期 Sprint B3 收口：工程化外环——五期全部完成**）
 
 - **公共 QML 类型 124 个已交付**（qmldir 导出口径）：Controls **91** + Behaviors **13**
-  + Services **16**（单例 12 + 句柄动作 4，0.16.1 新增 **NovaI18n 单例**，对标 Quasar Lang）+ Design **4**
+  + Services **16**（单例 12 + 句柄动作 4）+ Design **4**
 - **国际化（0.16.1 主线）**：NovaI18n——locale 切换、`t()` 插值与三级回落（精确 → 主语言前缀 →
   en-US → key）、`tp()` CLDR 七语系复数（zh/ja/en/ru/ar/cs/pl 28 组参数化验证）、
   数字/货币/日期/相对时间格式化、`addBundle()` 热注入；内置 en-US/zh-CN 词典；指南见 `docs/I18N.md`
@@ -29,14 +29,29 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   `tests/test_a11y.py` 24 项
 - **诚实边界**：复数为 CLDR 精简实现（七语系，未覆盖全部语言卡片）；性能为门禁口径
   （24h 内存长跑移入 B3）；屏读器真机回归（NVDA）随 B3 安排；组件内部组合色逐件像素采样未做
-- **测试 394 项全绿**（343 + 0.16.1 新增 51：i18n 41 / a11y 3 / perf 3 / hidpi 4）；测试基建维持
-  **全进程单 QML 引擎**（坑位 42）+ **qrc:/ 单斜杠纪律**（坑位 48，SIGSEGV 总根因），
-  连跑 10 次退出码全 0——多引擎析构是 Qt 6.12 的间歇崩溃源
+- **工程化外环（0.16.2 主线）**：
+  视觉回归门禁（明暗 × 5 断点 × 24 页 **240 基线**，check_visual.py 像素 diff 容差 12/1%，
+  默认 smoke 秒级、CLI --visual-full 全矩阵 ~150s）；
+  外部输入消毒（NovaUtils.sanitize 五函数 + runtime 四 Slot + 9 处 textFormat: PlainText
+  组件加固 + 32 项测试，对标 2.32~2.35 安全硬化）；
+  CycloneDX SBOM（gen_sbom.py 零依赖离线）+ OSV CVE 周巡（check_cve.py + .cve-ignore
+  带理由，首轮 0 未忽略漏洞）；
+  一键打包 build_app.py（PyInstaller onefile 185.7MB 启动自检过；≤60MB 为诚实边界——
+  Qt 运行时物理下限，uv shared-python 构建路径已记录）；
+  MkDocs 文档站（material 可搜索 15 页 + 画廊预览 24 图 = "在线示例"等价呈现）
+- **诚实边界**：复数为 CLDR 精简实现（七语系）；性能为门禁口径（24h 内存长跑仍待做——
+  可用 test_perf 门禁与视觉矩阵替代部分置信度）；屏读器真机回归（NVDA）封版前人工安排；
+  应用打包 ≤60MB 未达（Qt 物理下限 185MB，方向：upx / QML 预编译 / 插件裁剪）；安装器与
+  代码签名需平台证书
+- **测试 427 项全绿**（394 + 0.16.2 新增 33：消毒 32 / 视觉 smoke 1；全矩阵 1 项由
+  check_visual.py CLI 承载）+ 视觉基线 240 张；测试基建维持
+  **全进程单 QML 引擎**（坑位 42）+ **qrc:/ 单斜杠纪律**（坑位 48，SIGSEGV 总根因）
 - **Sprint 进度**：Sprint 1 ✅(0.5.0) → 2 ✅(0.6.x) → 3 ✅(0.7.0) → 4 ✅(0.8.0)
   → 二期 A ✅(0.9.0) → 二期 B ✅(0.10.0) → 三期 A ✅(0.11.0) → 三期 B ✅(0.12.0)
   → 四期 A ✅(0.13.0) → 四期 B ✅(0.14.0) → 五期 A ✅(0.15.0)
-  → 五期 B1 ✅(0.16.0 可访问性) → **五期 B2 ✅(0.16.1 i18n+RTL+性能+HiDPI)**
-  → 五期 B3（0.16.2 文档站+视觉回归+打包+SBOM）待开工
+  → 五期 B1 ✅(0.16.0 可访问性) → 五期 B2 ✅(0.16.1 i18n+RTL+性能+HiDPI)
+  → **五期 B3 ✅(0.16.2 工程化外环：视觉回归+消毒+SBOM/CVE+打包+文档站)**
+  → **六期：RC1 API 冻结审查 → RC2 24 条验收 → 1.0.0-flagship 封版**
 - **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / L2 70% / **L6 75%→80%**
   （a11y 双门禁 + perf/hidpi 门禁入工程化）；非功能性轴：可访问性 90%→**95%**（余 5% = 组合色
   逐件采样 + NVDA 真机回归）、国际化 0%→**90%**（余 10% = 更多语言词典包 + 术语表管理）、
@@ -199,6 +214,10 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     `win.property("activeFocusItem")` 的 QQuickItem* 无 converter；
     **`Item.window` 普通属性在 JS 层返回 undefined** → 必须用 attached **`Item.Window.window`**
     （0.16.1 沉淀）
+49. **全矩阵视觉长跑后解释器收尾期 GC 崩溃**：240 截图 × 150s 跑完 pytest 报告后，
+    finalizing GC 触发 `none_dealloc: refcount error in a C extension`
+    （deleteLater / 显式 close / gc.collect 均无效）→ conftest `pytest_unconfigure`
+    硬退出（`os._exit(0)`，报告输出已完成，保 CI 退出码语义）（0.16.2 沉淀）
 46. **QML 函数从 Python wrapper 调用返回未求值 MetaFunction**：`host.someFunc()` 拿到的是
     MetaFunction 对象而非结果 → 承载结果的用 `readonly property int xxx`，Python
     `setProperty`/直读属性（0.16.1 沉淀）
@@ -210,6 +229,10 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     （exit 139，独立脚本与 pytest 交错复现，历劫多引擎/import 顺序/NovaTheme 热身等假设全部排除后定位）
     → **全部测试代码统一 `qrc:/` 单斜杠**；纪律：test_smoke 首两个 case 先建 NovaTheme 探针
     （0.16.1 沉淀）
+49. **全矩阵视觉长跑后解释器收尾期 GC 崩溃**：240 截图 × 150s 跑完 pytest 报告后，
+    finalizing GC 触发 `none_dealloc: refcount error in a C extension`
+    （deleteLater / 显式 close / gc.collect 均无效）→ conftest `pytest_unconfigure`
+    硬退出（`os._exit(0)`，报告输出已完成，保 CI 退出码语义）（0.16.2 沉淀）
 37. QML `Component.onCompleted` 按**创建完成逆序**执行（声明序最后的先 complete）——
     组内"首个完成注册者成为默认活动元素"通常是声明序最后的成员；依赖顺序的注册表
     语义须按此口径设计并写进测试（0.15.0 沉淀）
@@ -242,11 +265,20 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   6 组件 + 性能门禁三指标（冷启动 ≤800ms / 组件 ≤5ms / 1000 行表格 ≤1700ms）+ HiDPI 1.0~2.0 矩阵；
   a11y M2 补差：Tree 方向键游标、Dialog 焦点陷阱（NVDA 真机回归移 B3）；画廊 23 页；394 项测试；
   坑位 43~48 沉淀，其中 48（qrc:// 双斜杠段错误）为间歇崩溃总根因）**
-- **五期 B3（其后）工程化外环（v0.16.2）**：文档站（MkDocs + 示例沙箱）/视觉回归（明暗 × 5 断点）/
-  应用打包（PyInstaller 一键 exe）/供应链（SBOM + CVE 周巡 + 外部输入消毒）/24h 内存长跑/NVDA 真机回归
+- ~~五期 B3 工程化外环（v0.16.2）~~ ✅ **0.16.2 收口（视觉回归 240 基线 + 外部输入消毒 32 项
+  + SBOM/CVE 周巡 + PyInstaller 打包自检 + MkDocs 文档站可搜索；画廊预览页 = 在线示例等价；
+  L6 80%→90%；427 项测试；坑位 49 沉淀）**——**五期全部完成**
+- **六期（下一步）封版 1.0.0-flagship**：RC1 API 冻结审查（qmldir 导出清单 = 冻结 API 面）→
+  RC2 24 条封版验收清单全勾（ECOSYSTEM_PARITY 第 6 节；余项：24h 压测 / NVDA 真机 /
+  安装器签名 / 迁移指南 + LTS）→ 1.0.0 正式封版
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ## 最近一次交付
+
+- **0.16.2：五期 Sprint B3 收口 · 工程化外环一次交付**
+  （视觉回归门禁 240 基线明暗 × 5 断点 + 外部输入消毒 NovaUtils.sanitize/runtime Slot/
+  textFormat 加固 9 处 + CycloneDX SBOM + OSV CVE 周巡 + build_app.py 打包自检 +
+  MkDocs 可搜索文档站 + 画廊在线预览页；测试 394→427；坑位 49 沉淀）
 
 - **0.16.1：五期 Sprint B2 收口 · i18n + RTL + 性能 + HiDPI 一次交付**
   （NovaI18n 服务单例（locale 切换/t() 三级回落/tp() CLDR 七语系复数/formatNumber·Currency·

@@ -227,6 +227,7 @@ Item {
                 model: root.actions
 
                 delegate: Text {
+                    textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
                     id: btn
                     required property int index
                     required property var modelData
@@ -259,6 +260,7 @@ Item {
             spacing: 2
 
             Text {
+                textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
                 visible: root.message !== "" && root.contentDelegate === null
                 text: root.message
                 color: root.textTint
@@ -269,6 +271,7 @@ Item {
                 elide: Text.ElideRight
             }
             Text {
+                textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
                 visible: root.caption !== "" && root.contentDelegate === null
                 text: root.caption
                 color: root.textTint
@@ -356,6 +359,7 @@ Item {
         y: root.badgePosition.indexOf("top") !== -1 ? 6 : parent.height - height - 6
 
         Text {
+            textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
             id: badgeLabel
             anchors.centerIn: parent
             text: root.badge > 99 ? "99+" : String(root.badge)

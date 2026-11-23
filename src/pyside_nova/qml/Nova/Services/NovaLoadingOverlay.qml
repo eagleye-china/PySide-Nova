@@ -184,6 +184,7 @@ Item {
 
         // ── 消息 ──────────────────────────────────────────────
         Text {
+            textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
             id: msg
             anchors.horizontalCenter: parent.horizontalCenter
             visible: root.message !== ""

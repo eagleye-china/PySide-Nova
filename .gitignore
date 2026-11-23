@@ -26,3 +26,9 @@ Thumbs.db
 
 # 本地下载的图标包（fetch_icons.py 产出，不入库）
 icons/
+
+# MkDocs 构建产物（0.16.2）
+site/
+
+# PyInstaller 自动生成 spec（build_app.py 每次重建）
+nova-gallery.spec

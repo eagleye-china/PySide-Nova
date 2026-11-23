@@ -121,6 +121,7 @@ Item {
             spacing: 6
 
             Text {
+                textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
                 visible: root._useText
                 text: root.text
                 color: "#FFFFFF"

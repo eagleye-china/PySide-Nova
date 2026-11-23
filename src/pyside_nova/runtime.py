@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 import weakref
 from pathlib import Path
@@ -229,7 +230,59 @@ class NovaRuntime(QObject):
             "scaleFactor": self.scaleFactor,
         }
 
-    # ── 焦点陷阱（a11y · Dialog Tab 循环，0.16.1） ──────────────────
+    # ── 外部输入消毒（0.16.2 B3 供应链门禁） ──────────────────────
+    # QML 侧等价实现在 NovaUtils.sanitize（语义 1:1）；本段供 Python 驱动的
+    # 字符串路径使用（MCP server / CLI / 存储回读）。注入面与裁定见 NovaUtils 头注释。
+
+    _CONTROL_RE = re.compile(
+        "[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F"
+        "\u200B-\u200D\u2028\u2029\uFEFF]"
+    )
+    _SAFE_URL_SCHEMES = ("http:", "https:", "qrc:", "file:")
+
+    @Slot(str, result=str)
+    def sanitizeText(self, text: str, maxLen: int = 0) -> str:
+        """组合消毒：剥控制字符 → HTML 实体转义 →（可选）长度钳制。
+
+        maxLen <= 0 时不钳制。外部文案入库/展示前的标准口径。
+        """
+        s = self.stripControlChars(text)
+        s = self.escapeHtml(s)
+        if maxLen and maxLen > 0 and len(s) > maxLen:
+            s = s[:maxLen] + "…"
+        return s
+
+    @Slot(str, result=str)
+    def escapeHtml(self, text: str) -> str:
+        """HTML 实体转义（& 先行防二次转义；< > " ' 全覆盖）。"""
+        if not text:
+            return ""
+        return (
+            text.replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace('"', "&quot;")
+            .replace("'", "&#39;")
+        )
+
+    @Slot(str, result=str)
+    def stripControlChars(self, text: str) -> str:
+        """剥离 C0/C1 控制字符与零宽字符（保留 \t \n \r）。"""
+        if not text:
+            return ""
+        return self._CONTROL_RE.sub("", text)
+
+    @Slot(str, result=str)
+    def sanitizeUrl(self, url: str) -> str:
+        """URL scheme 白名单：http/https/qrc/file（含相对路径）；其余返回空串。"""
+        if not url:
+            return ""
+        low = url.strip().lower()
+        if low.startswith(self._SAFE_URL_SCHEMES) or low.startswith(("/", "#")):
+            return url
+        return ""
+
+        # ── 焦点陷阱（a11y · Dialog Tab 循环，0.16.1） ──────────────────
     # 为什么必须走应用级事件过滤器：Tab/Backtab 在 activeFocusItem 的
     # QQuickItem::keyPressEvent C++ 默认实现中被消费（移动焦点并 accept），
     # 事件不冒泡，QML Keys（含 Keys.BeforeItem——它只对「所在 item 自己」前置）

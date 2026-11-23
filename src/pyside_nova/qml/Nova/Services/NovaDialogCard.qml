@@ -125,6 +125,7 @@ Item {
             spacing: NovaTheme.spacingL
 
             Text {
+                textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
                 width: parent.width
                 visible: root.title !== ""
                 text: root.title
@@ -135,6 +136,7 @@ Item {
             }
 
             Text {
+                textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
                 width: parent.width
                 visible: root.message !== ""
                 text: root.message
@@ -163,6 +165,7 @@ Item {
                 }
 
                 Text {
+                    textFormat: Text.PlainText  // 外部文案消毒：禁 AutoText 富文本解析（0.16.2）
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.progressMessage !== ""
                     text: root.progressMessage

@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.16.2] - 2026-11-23
+
+### Added（五期 Sprint B3 收口 · **工程化外环**：测试 394 → 427、类型 124 不变）
+
+- **视觉回归门禁**（`tests/test_visual.py` + `scripts/check_visual.py`）：**明/暗 × 5 断点
+  （xs=480/sm=800/md=1200/lg=1600/xl=1920）× 全画廊 24 页 = 240 张基线**（256 色量化 PNG，
+  12MB）；diff 口径单通道差 >12 / 占比 >1%（容忍反走样 + 量化噪声）；默认全量只跑 smoke
+  抽检（秒级），全矩阵由 CLI `--visual-full` 承载（~150s）
+- **画廊在线预览页**（docs/GALLERY.md + 24 张真实离屏渲染截图）：QML 无法浏览器运行的
+  "在线示例"等价呈现（视觉回归基线集抽帧）
+- **外部输入消毒**（供应链门禁，对标 Quasar 2.32~2.35 安全硬化）：
+  - `NovaUtils.sanitize` 组（escapeHtml / stripControlChars / sanitizeUrl / clampLength /
+    safeText 组合拳）——注入面裁定：Text 默认 AutoText 会把含 HTML 字符串按富文本解析
+    （RichText 走 QTextDocument 可外联资源）
+  - `NovaRuntime.sanitizeText/escapeHtml/stripControlChars/sanitizeUrl` Python 侧 Slot
+    （语义 1:1，供 MCP/CLI/存储回读路径）
+  - **组件加固 9 处**：NovaNotificationItem ×4 / NovaDialogCard ×3 / NovaLoadingOverlay /
+    NovaTooltip 文案 Text 显式 `textFormat: Text.PlainText`
+  - `tests/test_sanitize.py` 32 项（XSS 样本 / ANSI 转义 / 零宽字符 / scheme 白名单
+    javascript:data:vbscript: / 长度钳制 / Python 镜像 / 组件静态门禁）
+- **CycloneDX SBOM + CVE 周巡**：`scripts/gen_sbom.py`（零第三方依赖离线生成，许可证逐包
+  读取）+ `scripts/check_cve.py`（OSV.dev querybatch 联网查询 / --offline 缓存 /
+  --fail-on 阈值入 CI / `.cve-ignore` 忽略清单带理由）；首轮巡检 3 组件 0 未忽略漏洞
+  （pytest 2 项 dev-only 漏洞经评估登记不随运行时分发）
+- **一键应用打包**：`scripts/build_app.py`（PyInstaller onefile，gallery_launch.py 入口）+
+  `examples/gallery_launch.py`（打包后从 sys._MEIPASS 解析 QML 资源）；Linux 产物
+  `dist/nova-gallery`（185.7MB，PySide6 全运行时物理下限）**启动自检通过**；
+  uv venv（shared python）构建路径与 Windows exe / 代码签名边界已记录
+- **MkDocs 文档站**（可搜索 + 在线示例，material 主题明暗切换）：15 页 / 搜索索引 /
+  全画廊预览页；`mkdocs.yml` + `docs/index.md` 首页；构建 1.3s / 产物 4.9MB
+
+### 坑位沉淀（49）
+
+- **49**：全矩阵视觉长跑（240 截图 × 150s）后解释器收尾期 GC 触发 shiboken refcount 崩溃
+  （`none_dealloc`，deleteLater / 显式 close / gc.collect 均无效）→
+  `pytest_unconfigure` 中硬退出（报告已输出完成，保 CI 退出码语义）
+
 ## [0.16.1] - 2026-11-23
 
 ### Added（五期 Sprint B 第二交付单元 · **i18n + RTL + 性能 + HiDPI 非功能攻坚**：类型 123 → 124、测试 343 → 394）

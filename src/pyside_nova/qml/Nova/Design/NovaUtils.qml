@@ -1060,6 +1060,59 @@ QtObject {
         return wrapper
     }
 
+    // ── sanitize：外部输入消毒（0.16.2 B3 供应链门禁；Quasar 对应 2.32~2.35 安全硬化——
+    // SSR 品牌色注入 / DOM clobbering；QML 语境无 DOM，注入面收敛为三类：
+    // ① Text 默认 textFormat: AutoText 会把含 HTML 的字符串按富文本解析（RichText 路径走
+    //    QTextDocument，可外联资源）→ escapeHtml + 组件侧 textFormat: PlainText 双保险；
+    // ② 控制字符（终端转义序列/零宽字符）→ stripControlChars；
+    // ③ URL scheme 注入（javascript:/data:/file:）→ sanitizeUrl 白名单 ──
+    // 基础消毒四函数（root 级；sanitize 组引用同实现，safeText 不依赖 this 作用域）
+    // ① HTML 实体转义（& 先行防二次转义；< > " ' 全覆盖）
+    function escapeHtml(s) {
+        if (s === null || s === undefined)
+            return ""
+        return String(s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;")
+    }
+
+    // ② 剥离 C0/C1 控制字符与零宽字符（保留 \t \n \r）
+    function stripControlChars(s) {
+        if (s === null || s === undefined)
+            return ""
+        return String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F\u200B-\u200D\u2028\u2029\uFEFF]/g, "")
+    }
+
+    // ③ URL scheme 白名单：http/https/qrc/file；其余（javascript:/data:/vbscript:…）返回空串
+    function sanitizeUrl(url) {
+        if (url === null || url === undefined || url === "")
+            return ""
+        var u = String(url).trim().toLowerCase()
+        if (/^(https?:|qrc:|file:)/.test(u) || u.indexOf("/") === 0 || u.indexOf("#") === 0)
+            return String(url)
+        return ""
+    }
+
+    // ④ 长度钳制（超限截断 + 省略号标记，保证可辨识）
+    function clampLength(s, max) {
+        var str = (s === null || s === undefined) ? "" : String(s)
+        if (!max || max <= 0 || str.length <= max)
+            return str
+        return str.substring(0, max) + "…"
+    }
+
+    // sanitize 组（对外稳定入口；语义同上，safeText = strip → escape → clamp 组合拳）
+    readonly property var sanitize: ({
+        escapeHtml: function (s) { return root.escapeHtml(s) },
+        stripControlChars: function (s) { return root.stripControlChars(s) },
+        sanitizeUrl: function (url) { return root.sanitizeUrl(url) },
+        clampLength: function (s, max) { return root.clampLength(s, max) },
+        safeText: function (s, max) { return root.clampLength(root.escapeHtml(root.stripControlChars(s)), max) }
+    })
+
     // uid()：QML 无 crypto.randomUUID，用时间戳 + 计数器 + 随机段生成 v4 形态（碰撞抗性弱于基线，见 PARITY）
     property int _uidCounter: 0
 

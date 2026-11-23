@@ -1,0 +1,74 @@
+# MkDocs 文档站配置（0.16.2 B3 · L6 工程化：可搜索文档站）
+# 构建验证：python -m mkdocs build；本地预览：python -m mkdocs serve
+site_name: pyside-nova
+site_description: 面向 PySide6 的企业级 QML 组件库（对标 Quasar Framework）
+site_url: https://pyside-nova.example.com
+repo_url: https://github.com/pyside-nova/pyside-nova
+repo_name: pyside-nova
+edit_uri: ""
+
+docs_dir: docs
+site_dir: site
+
+exclude_docs: |
+  templates/
+  ai/
+  MASTER_PLAN.md.bak
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: 切换暗色
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: 切换亮色
+
+plugins:
+  - search               # 可搜索（门禁口径：可搜索 + 在线示例）
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - 首页: index.md
+  - 画廊预览: GALLERY.md
+  - 工程纪律:
+      - 架构宪法: CONSTITUTION.md
+      - 总规划: MASTER_PLAN.md
+      - 路线图: ROADMAP.md
+      - 交接快照: SESSION_HANDOFF.md
+  - 体系:
+      - 架构说明: ARCHITECTURE.md
+      - 组件清单: COMPONENTS.md
+      - 设计令牌: DESIGN_TOKENS.md
+      - 国际化指南: I18N.md
+      - 无障碍: A11Y.md
+      - 无障碍矩阵: A11Y_MATRIX.md
+  - 对账:
+      - Quasar 逐项对账: PARITY.md
+      - 生态七层对账: ECOSYSTEM_PARITY.md
