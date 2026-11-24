@@ -1,0 +1,105 @@
+﻿pyside-nova/
+├─ docs/
+|   ├─ templates/
+|   |   ├─ PROMPT_TEMPLATE.md
+|   |   └─ SESSION_HANDOFF_TEMPLATE.md
+|   ├─ ARCHITECTURE.md
+|   ├─ COMPONENTS.md
+|   ├─ CONSTITUTION.md
+|   ├─ DESIGN_TOKENS.md
+|   ├─ ECOSYSTEM_PARITY.md
+|   ├─ MASTER_PLAN.md
+|   ├─ PARITY.md
+|   ├─ ROADMAP.md
+|   └─ SESSION_HANDOFF.md
+├─ examples/
+|   ├─ demo/
+|   |   ├─ main.py
+|   |   └─ main.qml
+|   └─ gallery/
+|       ├─ main.py
+|       └─ main.qml
+├─ scripts/
+|   ├─ fetch_icons.py
+|   ├─ gen_iconsets.py
+|   ├─ gen_prompt.py
+|   └─ local_deploy.py
+├─ src/
+|   └─ pyside_nova/
+|       ├─ qml/
+|       |   └─ Nova/
+|       |       ├─ Behaviors/
+|       |       |   ├─ NovaClosePopup.qml
+|       |       |   ├─ NovaIntersection.qml
+|       |       |   ├─ NovaRipple.qml
+|       |       |   ├─ NovaScrollFire.qml
+|       |       |   ├─ NovaScrollObserver.qml
+|       |       |   ├─ NovaTouchCore.qml
+|       |       |   ├─ NovaTouchHold.qml
+|       |       |   ├─ NovaTouchPan.qml
+|       |       |   ├─ NovaTouchRepeat.qml
+|       |       |   ├─ NovaTouchSwipe.qml
+|       |       |   └─ qmldir
+|       |       ├─ Controls/
+|       |       |   ├─ NovaAvatar.qml
+|       |       |   ├─ NovaBadge.qml
+|       |       |   ├─ NovaBtn.qml
+|       |       |   ├─ NovaCard.qml
+|       |       |   ├─ NovaCardActions.qml
+|       |       |   ├─ NovaCardSection.qml
+|       |       |   ├─ NovaChip.qml
+|       |       |   ├─ NovaCol.qml
+|       |       |   ├─ NovaDrawer.qml
+|       |       |   ├─ NovaFooter.qml
+|       |       |   ├─ NovaHeader.qml
+|       |       |   ├─ NovaIcon.qml
+|       |       |   ├─ NovaLayout.qml
+|       |       |   ├─ NovaPage.qml
+|       |       |   ├─ NovaRow.qml
+|       |       |   ├─ NovaSeparator.qml
+|       |       |   ├─ NovaSpace.qml
+|       |       |   ├─ NovaText.qml
+|       |       |   ├─ NovaTransition.qml
+|       |       |   ├─ NovaVisible.qml
+|       |       |   └─ qmldir
+|       |       ├─ Design/
+|       |       |   ├─ IconSets.js
+|       |       |   ├─ NovaIconSet.qml
+|       |       |   ├─ NovaMotion.qml
+|       |       |   ├─ NovaUtils.qml
+|       |       |   └─ qmldir
+|       |       └─ Services/
+|       |           ├─ NovaApp.qml
+|       |           ├─ NovaDialog.qml
+|       |           ├─ NovaDialogCard.qml
+|       |           ├─ NovaDialogHandle.qml
+|       |           ├─ NovaIntersectionPool.qml
+|       |           ├─ NovaLoading.qml
+|       |           ├─ NovaLoadingHandle.qml
+|       |           ├─ NovaLoadingOverlay.qml
+|       |           ├─ NovaNotificationItem.qml
+|       |           ├─ NovaNotify.qml
+|       |           ├─ NovaNotifyAction.qml
+|       |           ├─ NovaNotifyHandle.qml
+|       |           ├─ NovaOverlayHost.qml
+|       |           ├─ NovaPlatform.qml
+|       |           ├─ NovaScreen.qml
+|       |           ├─ NovaStorage.qml
+|       |           ├─ NovaTheme.qml
+|       |           └─ qmldir
+|       ├─ __about__.py
+|       ├─ __init__.py
+|       └─ runtime.py
+├─ tests/
+|   └─ test_smoke.py
+├─ BUILD_INFO.txt
+├─ CHANGELOG.md
+├─ CODE_OF_CONDUCT.md
+├─ CONTRIBUTING.md
+├─ LICENSE
+├─ project_structure.txt
+├─ PROMPT.md
+├─ pyproject.toml
+├─ README.md
+├─ README_zh.md
+└─ SECURITY.md
