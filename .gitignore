@@ -32,3 +32,6 @@ site/
 
 # PyInstaller 自动生成 spec（build_app.py 每次重建）
 nova-gallery.spec
+
+# 门禁测试报告（check_soak / check_visual 产出，不入库）
+reports/

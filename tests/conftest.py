@@ -42,14 +42,21 @@ def qml_engine(qapp):
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "visual: 全矩阵视觉回归门禁（scripts/check_visual.py 承载）")
+    config.addinivalue_line("markers", "soak: 24h 内存长跑（scripts/check_soak.py 承载）")
 
 
 def pytest_addoption(parser):
-    """0.16.2 视觉回归开关（scripts/check_visual.py 传入）。"""
+    """0.16.2 视觉回归开关 + 1.0.0 24h 压测开关（对应 CLI 传入）。"""
     parser.addoption("--visual-full", action="store_true", default=False,
                      help="跑全矩阵视觉门禁（明暗 × 5 断点 × 24 页）")
     parser.addoption("--snapshot-update", action="store_true", default=False,
                      help="重建视觉基线（tests/baselines/visual/）")
+    parser.addoption("--soak-hours", type=float, default=24.0,
+                     help="24h 压测时长（小时）；默认 24，冒烟 0.02")
+    parser.addoption("--soak-interval", type=float, default=300.0,
+                     help="内存采样间隔（秒）；默认 300（24h 得 288+ 样本）")
+    parser.addoption("--soak-report", default="",
+                     help="压测报告 JSON 输出路径（可选）")
 
 
 def close_alive() -> None:
@@ -64,18 +71,22 @@ def close_alive() -> None:
 
 
 def pytest_unconfigure(config):  # noqa: ARG001
-    """坑位 49：视觉全矩阵长跑后解释器收尾期 GC 崩溃（shiboken refcount）——
+    """坑位 49：长跑（视觉全矩阵 / 24h soak）后解释器收尾期 GC 崩溃（shiboken refcount）——
     报告输出已完成后硬退出，规避收尾期隐式析构，保 CI 退出码语义。"""
-    if getattr(config, "_nova_visual_hard_exit", False):
-        import os
+    if getattr(config, "_nova_visual_hard_exit", False) or \
+       getattr(config, "_nova_soak_hard_exit", False):
         import sys
+        # 失败用例必须以非零码退出：sessionfinish 已记录 exitstatus
+        code = int(getattr(config, "_nova_exit_code", 0))
         sys.stdout.flush()
         sys.stderr.flush()
-        os._exit(0)
+        os._exit(code)
 
 
 def pytest_sessionfinish(session, exitstatus):  # noqa: ARG001
-    """进程收尾：先释放窗口，再让 Qt 正常析构（避免退出期 SIGSEGV）。"""
+    """进程收尾：先释放窗口，再让 Qt 正常析构（避免退出期 SIGSEGV）。
+    同时记录退出码供 unconfigure 硬退出时还原（坑位 49 的 CI 语义）。"""
+    session.config._nova_exit_code = int(exitstatus)
     close_alive()
     app = QGuiApplication.instance()
     if app is not None:

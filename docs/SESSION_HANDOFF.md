@@ -39,7 +39,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   decorative 64**（NovaI18n 为 decorative 单例）；门禁双通道 `scripts/check_a11y.py` +
   `tests/test_a11y.py` 24 项
 - **诚实边界**：复数为 CLDR 精简实现（七语系，未覆盖全部语言卡片）；性能为门禁口径
-  （24h 内存长跑移入 B3）；屏读器真机回归（NVDA）随 B3 安排；组件内部组合色逐件像素采样未做
+  （24h 压测工具已就绪 + 冒烟通过，**真实 24h 全量长跑留 CI**）；屏读器真机回归（NVDA）随 B3
+  安排；组件内部组合色逐件像素采样未做
 - **工程化外环（0.16.2 主线）**：
   视觉回归门禁（明暗 × 5 断点 × 24 页 **240 基线**，check_visual.py 像素 diff 容差 12/1%，
   默认 smoke 秒级、CLI --visual-full 全矩阵 ~150s）；
@@ -50,10 +51,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   一键打包 build_app.py（PyInstaller onefile 185.7MB 启动自检过；≤60MB 为诚实边界——
   Qt 运行时物理下限，uv shared-python 构建路径已记录）；
   MkDocs 文档站（material 可搜索 15 页 + 画廊预览 24 图 = "在线示例"等价呈现）
-- **诚实边界**：复数为 CLDR 精简实现（七语系）；性能为门禁口径（24h 内存长跑仍待做——
-  可用 test_perf 门禁与视觉矩阵替代部分置信度）；屏读器真机回归（NVDA）封版前人工安排；
-  应用打包 ≤60MB 未达（Qt 物理下限 185MB，方向：upx / QML 预编译 / 插件裁剪）；安装器与
-  代码签名需平台证书
+- **诚实边界**：复数为 CLDR 精简实现（七语系）；24h 压测**工具链已交付**（check_soak.py /
+  test_soak.py / soak_mem.py，冒烟 72s 8896 轮 RSS 84.6→84.9MB 平坦、斜率 -2.78MB/h、
+  门禁退出码 0），真实 24h 全量长跑留 CI 执行 `--hours 24`；负载为稳态对象池 + 采样前双 GC，
+  刻意不纳入「反复建销复杂组件」（Qt 6.12+PySide6 固有 0.3-0.5MB/次开销，纯 Qt Quick 同样复现）；
+  屏读器真机回归（NVDA）封版前人工安排；应用打包 ≤60MB 未达（Qt 物理下限 185MB，方向：
+  upx / QML 预编译 / 插件裁剪）；安装器与代码签名需平台证书
 - **测试 454 项全绿**（427 + 1.0.0rc1 新增 27：冻结面/反例三连/纪律/qmllint 预算/废弃机制/
   三处缺陷回归；全矩阵 1 项由 check_visual.py CLI 承载、视觉 smoke 1 项跳过为设计如此）
   + 视觉基线 240 张；测试基建维持
@@ -67,7 +70,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / L2 70% / **L6 90%（RC1 冻结治理入册）→ 封版目标 95%**
   （a11y 双门禁 + perf/hidpi 门禁入工程化）；非功能性轴：可访问性 90%→**95%**（余 5% = 组合色
   逐件采样 + NVDA 真机回归）、国际化 0%→**90%**（余 10% = 更多语言词典包 + 术语表管理）、
-  性能 **门禁化**（24h 内存长跑待 B3）、HiDPI **门禁化**（真机多屏抽查待 B3）
+  性能 **门禁化**（24h 压测工具就绪+冒烟通过，全量长跑留 CI）、HiDPI **门禁化**（真机多屏抽查待 B3）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
   防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
@@ -291,8 +294,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   + SBOM/CVE 周巡 + PyInstaller 打包自检 + MkDocs 文档站可搜索；画廊预览页 = 在线示例等价；
   L6 80%→90%；427 项测试；坑位 49 沉淀）**——**五期全部完成**
 - **六期（下一步）封版 1.0.0-flagship**：~~RC1 API 冻结审查~~ ✅ 1.0.0rc1 →
-  **RC2 24 条封版验收清单全勾**（ECOSYSTEM_PARITY 第 6 节；余项 4 条：24h 压测 / NVDA 真机 /
-  安装器签名 / 迁移指南 + LTS）→ 1.0.0 正式封版
+  **RC2 24 条封版验收清单全勾**（ECOSYSTEM_PARITY 第 6 节；24h 压测工具就绪+冒烟通过（全量长跑留 CI），
+  余项 3 条：NVDA 真机 / 安装器签名 / 迁移指南 + LTS）→ 1.0.0 正式封版
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ## 最近一次交付

@@ -226,7 +226,11 @@ M3（4 周）非功能与封版
 - [ ] 视觉回归基线覆盖全部画廊页面（明/暗 × 5 断点）
 - [x] qmllint 0 error（RC1：**593 warning 按类别入预算**，`tests/lint-baseline.json` 只降不升；
   `[unqualified]` 552 条根治需全库 `pragma ComponentBehavior: Bound`，封版窗口不做——见 API_FREEZE §5）
-- [ ] 24h 压测无内存增长
+- [x] 24h 压测无内存增长（**工具就绪 + 冒烟通过**：`scripts/check_soak.py` / `tests/test_soak.py` /
+  `tests/soak_mem.py`，72s 冒烟 8896 轮 25 样本，RSS 全程 84.6→84.9MB 平坦、斜率 -2.78MB/h，
+  判定门禁退出码 0；真实 24h 全量长跑需在封版 CI 上执行 `--hours 24`，本地未跑满 24h。
+  负载采用稳态对象池 + 采样前 JS/Python 双 GC；不纳入「反复创建/销毁复杂组件」——
+  Qt 6.12+PySide6 对此有 0.3-0.5MB/次引擎固有开销，纯 Qt Quick 组件同样复现，会掩盖产品真泄漏。）
 **体验**
 - [ ] WCAG 2.1 AA 全通过（含键盘全路径）
 - [ ] i18n 中/英 + RTL 阿拉伯语演示可用

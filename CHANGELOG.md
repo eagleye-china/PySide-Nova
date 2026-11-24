@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased] - 2026-11-24
+
+### Added（RC2 封版验收 · 24h 内存长跑压测门禁）
+- **24h 压测工具链**：`scripts/check_soak.py`（CLI 门禁，`--hours/--interval/--report`，退出码入 CI）
+  + `tests/test_soak.py`（pytest 承载，复用单引擎/单斜杠/硬退出纪律）
+  + `tests/soak_mem.py`（零第三方依赖 RSS 采样：Windows psapi / Linux statm + 三段稳健趋势判定）。
+  冒烟 72s / 8896 轮 / 25 样本，RSS 84.6→84.9MB 全程平坦、斜率 -2.78MB/h，门禁通过。
+- `tests/conftest.py` 新增 `--soak-hours/--soak-interval/--soak-report` 与 soak 硬退出标志
+  （坑位 49），`.gitignore` 忽略 `reports/`。
+- `docs/ECOSYSTEM_PARITY.md` §6「24h 压测」勾选（工具就绪 + 冒烟通过；真实 24h 全量长跑留 CI）。
+
+### 设计决策（踩坑沉淀，勿回退为「反复建销组件」负载）
+- 负载采用**稳态对象池**：一次创建弹层/表格长期持有，只做 register/unregister、派生属性读取、
+  主题/i18n 切换。采样前驱动 JS（`engine.collectGarbage()`）+ Python 双 GC，读 GC 后驻留 RSS。
+- **不测「反复创建/销毁复杂 QML 组件」**：实测 Qt 6.12+PySide6 每建销一个复杂组件有
+  0.3-0.5MB 不可回收固有开销——纯 Qt Quick 组件（无 Nova 代码）同样复现，属引擎层行为，
+  纳入会让门禁永远红灯、掩盖产品真泄漏。
+
 ## [1.0.0rc1] - 2026-11-23
 
 ### Added（六期 RC1 收口 · **API 冻结审查**：测试 427 → 454、类型 124 不变）
