@@ -45,14 +45,22 @@ KNOWN_CATEGORIES = [
 
 
 def find_qmllint() -> str:
-    """优先 PATH 上的 pyside6-qmllint；退化为 PySide6 包内二进制。"""
+    """优先 PATH 上的 pyside6-qmllint；退化为 PySide6 包内二进制。
+
+    Windows 注意（坑位 52）：PySide6 包内是 ``qmllint.exe``，``Path.exists()``
+    不会补 ``.exe`` 后缀，且部分环境 Scripts/ 下没有 ``pyside6-qmllint`` 入口脚本——
+    必须把带后缀的候选显式列出，否则门禁在中文 Windows 交付机上假红灯。
+    """
     exe = shutil.which("pyside6-qmllint") or shutil.which("qmllint")
     if exe:
         return exe
     import PySide6
-    cand = Path(PySide6.__file__).parent / "qmllint"
-    if cand.exists():
-        return str(cand)
+    pkg = Path(PySide6.__file__).parent
+    # POSIX 无后缀 / Windows 带 .exe，两者都试；顺序保证跨平台确定性
+    for name in ("qmllint", "qmllint.exe"):
+        cand = pkg / name
+        if cand.exists():
+            return str(cand)
     raise SystemExit("找不到 qmllint（需 PySide6 ≥ 6.4）")
 
 
@@ -60,8 +68,11 @@ def run_lint() -> tuple[dict[str, int], list[str], list[str]]:
     """返回 (类别计数, error 明细, warning 明细)。"""
     files = sorted(str(p) for p in QML_ROOT.rglob("*.qml"))
     cmd = [find_qmllint(), "-I", str(QML_ROOT), *files]
-    # qmllint 把诊断写到 stderr（stdout 只留源码片段），两股流合并解析
-    proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    # qmllint 把诊断写到 stderr（stdout 只留源码片段），两股流合并解析。
+    # 坑位 52：text=True 走 locale 默认编码，中文 Windows 是 GBK，而诊断含 UTF-8 路径
+    # 时解码崩 UnicodeDecodeError——显式 utf-8 + replace，脏字节不致命、正文照常解析。
+    proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                          encoding="utf-8", errors="replace")
     counts: dict[str, int] = {}
     errors: list[str] = []
     warnings: list[str] = []

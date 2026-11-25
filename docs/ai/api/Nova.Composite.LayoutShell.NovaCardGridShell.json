@@ -1,0 +1,82 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaCardGridShell",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaCardGridShell.qml",
+ "description": "NovaCardGridShell 卡片网格壳：顶部筛选栏 + 自适应卡片网格 + 底部分页状态栏（对标组件画廊 / 模板市场） NovaCardGridShell —— 画廊首页 / 素材库组合根容器 用法：向 filterSlot/gridSlot/footerSlot/overlaySlot 注入业务内容；Shell 只托管布局，卡片由业务用 NovaCard 注入 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "filterSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _filter.data",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "gridSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _grid.data",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "footerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _footer.data",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "showFilter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "showFooter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "filterHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 52",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "footerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "padding",
+   "type": "int",
+   "readonly": false,
+   "default": ": 12",
+   "doc": null,
+   "line": 23
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

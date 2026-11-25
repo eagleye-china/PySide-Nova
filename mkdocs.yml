@@ -59,13 +59,15 @@ nav:
   - 画廊预览: GALLERY.md
   - 工程纪律:
       - 架构宪法: CONSTITUTION.md
+      - 组合组件宪法: COMPOSITION_CONSTITUTION.md
       - API 冻结清单: API_FREEZE.md
       - 总规划: MASTER_PLAN.md
       - 路线图: ROADMAP.md
       - 交接快照: SESSION_HANDOFF.md
   - 体系:
       - 架构说明: ARCHITECTURE.md
-      - 组件清单: COMPONENTS.md
+      - 组件清单（124 项）: COMPONENT_LIST.md
+      - 组件详解（历史稿）: COMPONENTS.md
       - 设计令牌: DESIGN_TOKENS.md
       - 国际化指南: I18N.md
       - 无障碍: A11Y.md

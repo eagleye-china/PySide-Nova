@@ -183,7 +183,7 @@ def check_hygiene(current: dict, rep: Report, root: Path | None = None) -> None:
                         f"（{parts[offset]}）")
 
     if not rep.hygiene:
-        rep.ok(f"命名红线与清单纪律扫描通过（{len(current['types'])} 类型 / 4 qmldir）")
+        rep.ok(f"命名红线与清单纪律扫描通过（{len(current['types'])} 类型 / {len(freeze.LAYERS)} qmldir）")
 
 
 def _root_type(text: str) -> str:

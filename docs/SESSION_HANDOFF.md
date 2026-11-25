@@ -106,7 +106,10 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 0. `docs/MASTER_PLAN.md` —— **全生态六期总规划**（排期与验收以它为准）
 
-1. `docs/CONSTITUTION.md` —— 架构宪法（十章程则 + 迭代记录表）
+1. `docs/CONSTITUTION.md` —— 架构宪法（第 0~13 章准则 + 迭代记录表，工程纪律最高法源）
+1.2. `docs/COMPOSITION_CONSTITUTION.md` —— 组合组件宪法（Layout Shell 子法，第 0~9 章）：
+  凡新增/改造 Shell 类组合组件必读；令牌·目录·冻结援引母法，本文件只定义组合纪律；
+  `docs/layout_shell/` 历史四稿的 FROZEN 表述与虚构 API 已作废，勿再参考
 0.5. `docs/ECOSYSTEM_PARITY.md` §0.5 —— 2.26→2.35 基线漂移审计（增量对照表）
 1.5. `docs/A11Y.md` —— 可访问性手册（三分类契约/键盘约定/AA 派生/已知差距/坑位 38~41）
 2. `docs/PARITY.md` —— 全量对标审计（逐属性/事件/槽/model）
@@ -119,6 +122,9 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - 头注释：第 1 行 `src/` 起始子路径，第 2 行文档素材说明；qmldir 只用 `#`
 - 命名红线：基调色 `tint`；禁 `on*` 属性；主题模式 `isDark` / `setDark()` / `toggleDark()`；品牌色 `dark`（$dark 1:1）
 - 槽机制：默认槽 `default property alias`、命名槽组合子组件、作用域槽 `Component delegate`
+- 组合组件：五标准槽位 `headerSlot/sidebarSlot/contentSlot/footerSlot/overlaySlot` 一律 alias 映射；
+  令牌唯一门面 `NovaTheme`（无 `Theme` 单例），真名 `NovaBtn`/`NovaText`/`NovaMotion`；
+  Shell 必须进 qmldir 入冻结面，`Composite/` 黑户文件与日期流水头注释禁止（组合组件宪法第 2/6/9 章）
 - 断点接入唯一方式：`Component.onCompleted: NovaScreen.source = window`
 - API 冻结纪律：`api/nova-api-*.json` 与 `docs/API_FREEZE.md` 是生成物**禁止手改**；
   公共面任何变化必须走 `check_api_freeze.py` 红 → 评估分级 → 重签 → CHANGELOG（宪法第 13 章）
@@ -239,6 +245,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     `Behaviors.NovaMorph`（模块名自身带点）→ 一律 `rsplit(".", 1)`；qmldir 的
     `singleton <名> <版本> <文件>` 版本位比普通行右移一格，解析要按 `singleton` 前缀偏移
     （1.0.0rc1 沉淀；两处都曾让冻结清单/文档表格悄悄写错名字）
+52. **`check_qmllint.py` 在中文 Windows 交付机假红灯**：① PySide6 包内是 `qmllint.exe`，
+    `Path.exists()` 不补后缀且 Scripts/ 无 `pyside6-qmllint` 入口 → 显式列 `qmllint`/`qmllint.exe`
+    两种候选；② `subprocess.run(text=True)` 走 locale 默认编码（中文 Windows=GBK），诊断含
+    UTF-8 路径时解码崩 → 显式 `encoding="utf-8", errors="replace"`。两者都让门禁"环境问题"
+    与"产品问题"混淆——**门禁红灯先分清是工具/环境还是产品，勿据假红灯判产品缺陷**
+    （1.0.0rc1 交付后验收实战沉淀；修复后真实退出码 0）
 49. **全矩阵视觉长跑后解释器收尾期 GC 崩溃**：240 截图 × 150s 跑完 pytest 报告后，
     finalizing GC 触发 `none_dealloc: refcount error in a C extension`
     （deleteLater / 显式 close / gc.collect 均无效）→ conftest `pytest_unconfigure`
@@ -369,6 +381,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 ## 交付物通道
 
 - 门禁：`check_a11y.py` → `check_api_freeze.py` → `check_qmllint.py`（local_deploy 第 0 步，红即拒包）
+- **一键总验收 `scripts/check_all.py`**（库管员+验收员入口，分层，统一退出码 0 全绿/1 产品红或工具 ERROR/2 未执行门禁）：
+  `--tier static`（默认，秒级三静态门禁）· `--tier dynamic`（perf/visual smoke/soak 冒烟/hidpi）·
+  `--tier supply`（cve）· `--tier all`（全部 8 道；封版加 `--soak-24 --visual-full --cve-online`）；
+  `--brief` 摘要、`--report PATH` 落 JSON。内置环境预检：无 PySide6 的解释器直接判 ERROR(码2)，
+  不把"环境问题"误报成产品红。子门禁与总入口共用 `sys.executable`，必须用
+  `miniconda3/envs/pyside6_nova/python.exe` 运行。
 - 本地：`python scripts/local_deploy.py --zip --allinone` → release.zip + ALL-IN-ONE.zip
   （--allinone 必须在最终 git 提交之后运行，保证包内历史与 HEAD 一致——0.8.0 教训）
 - PyPI：打 `v*` 标签 → GitHub Actions Trusted Publishing 自动发布

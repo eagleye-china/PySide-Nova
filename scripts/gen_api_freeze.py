@@ -4,7 +4,7 @@
 # 产物：api/nova-api-<apiVersion>.json（机器可校验）+ docs/API_FREEZE.md（人读签署文档）
 """生成 Nova 1.0 API 冻结清单。
 
-**冻结口径（宪法第 13 章）**：公共 API 面 = 四个 qmldir 的导出行。冻结清单逐类型记录
+**冻结口径（宪法第 13 章）**：公共 API 面 = 五个 qmldir 的导出行。冻结清单逐类型记录
 模块归属 / 文件 / 单例与否 / a11y 分类 / 公共成员签名（props / signals / methods）。
 以 `_` 开头的成员是私有实现，**不进冻结面**（可自由重构）。
 
@@ -41,8 +41,8 @@ SCHEMA = "nova-api-freeze/1"
 BASELINE = "Quasar 2.35.5"
 SIGNERS = "小伙（产品/验收）· 小诺（架构/实现）"
 
-# 模块声明顺序（文档与控制台输出稳定）
-LAYERS = ["Controls", "Behaviors", "Services", "Design"]
+# 模块声明顺序（文档与控制台输出稳定）；Composite/LayoutShell 为组合组件专属第五模块（宪法 0.3.0）
+LAYERS = ["Controls", "Behaviors", "Services", "Design", "Composite/LayoutShell"]
 
 
 def _about() -> tuple[str, str]:
@@ -55,10 +55,10 @@ def _about() -> tuple[str, str]:
 
 
 def _a11y_table() -> dict[str, tuple[str, str, str]]:
-    """合并 check_a11y 的四张契约表 → {类型名: (分类, 角色, 名称来源)}。"""
-    from check_a11y import BEHAVIORS, CONTROLS, DESIGN, SERVICES
+    """合并 check_a11y 的五张契约表 → {类型名: (分类, 角色, 名称来源)}。"""
+    from check_a11y import BEHAVIORS, CONTROLS, DESIGN, LAYOUTSHELL, SERVICES
     merged: dict[str, tuple[str, str, str]] = {}
-    for table in (CONTROLS, BEHAVIORS, SERVICES, DESIGN):
+    for table in (CONTROLS, BEHAVIORS, SERVICES, DESIGN, LAYOUTSHELL):
         merged.update(table)
     return merged
 
@@ -82,7 +82,7 @@ def _members(info: dict) -> dict:
 
 
 def collect() -> dict:
-    """扫描四个 qmldir → 冻结面数据结构（不含时间戳，便于指纹稳定）。"""
+    """扫描五个 qmldir → 冻结面数据结构（不含时间戳，便于指纹稳定）。"""
     a11y = _a11y_table()
     types: dict[str, dict] = {}
     modules: dict[str, dict] = {}
@@ -185,8 +185,9 @@ def render_doc(man: dict) -> str:
 
 ## 1. 冻结口径
 
-**公共 API 面 = 四个 `qmldir` 的导出行**。这是本库对外的唯一契约来源：QML 侧
-`import Nova.Controls 1.0` 能拿到的每个类型名，就是 1.0 承诺稳定的全部内容。
+**公共 API 面 = 五个 `qmldir` 的导出行**。这是本库对外的唯一契约来源：QML 侧
+`import Nova.Controls 1.0` / `import Nova.Composite.LayoutShell 1.0` 能拿到的每个类型名，
+就是 1.0 承诺稳定的全部内容。
 
 | 进冻结面 | 不进冻结面 |
 |---|---|
@@ -208,6 +209,7 @@ def render_doc(man: dict) -> str:
 | Nova.Behaviors | {len(mods['Nova.Behaviors']['types'])} | {len(mods['Nova.Behaviors']['singletons'])} | {len(mods['Nova.Behaviors']['types']) + len(mods['Nova.Behaviors']['singletons'])} |
 | Nova.Services | {len(mods['Nova.Services']['types'])} | {len(mods['Nova.Services']['singletons'])} | {len(mods['Nova.Services']['types']) + len(mods['Nova.Services']['singletons'])} |
 | Nova.Design | {len(mods['Nova.Design']['types'])} | {len(mods['Nova.Design']['singletons'])} | {len(mods['Nova.Design']['types']) + len(mods['Nova.Design']['singletons'])} |
+| Nova.Composite.LayoutShell | {len(mods['Nova.Composite.LayoutShell']['types'])} | {len(mods['Nova.Composite.LayoutShell']['singletons'])} | {len(mods['Nova.Composite.LayoutShell']['types']) + len(mods['Nova.Composite.LayoutShell']['singletons'])} |
 | **合计** | **{sum(len(v['types']) for v in mods.values())}** | **{sum(len(v['singletons']) for v in mods.values())}** | **{man['counts']['total']}** |
 
 a11y 分类：interactive **{a11y.get('interactive', 0)}** / semantic **{a11y.get('semantic', 0)}** /
@@ -228,7 +230,7 @@ console.warn（不污染绑定、不刷屏）。1.0 封版时清单内**无废�
 
 ## 4. 签署
 
-- [x] 导出清单清点完毕（{man['counts']['total']} 类型，四模块）
+- [x] 导出清单清点完毕（{man['counts']['total']} 类型，五模块）
 - [x] 每类型文件存在、文件名与类型名一致、qmldir 版本 `1.0`
 - [x] a11y 分类 100% 登记（三分类制，见 `docs/A11Y.md`）
 - [x] 无跨模块重名（同名类型必须全库唯一，否则 QML 侧歧义）

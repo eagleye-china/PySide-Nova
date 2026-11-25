@@ -136,6 +136,24 @@ CONTROLS: dict[str, tuple[str, str, str]] = {
     "NovaResizeObserver": (DECORATIVE, "-", "尺寸观察行为"),
 }
 
+# 组合组件专属模块（宪法 0.3.0，从 Controls 迁出）：14 项 Prescient Layout Shell
+LAYOUTSHELL: dict[str, tuple[str, str, str]] = {
+    "NovaSidebarShell":     (DECORATIVE, "-", "侧边导航工作台骨架，语义由注入槽位承担"),
+    "NovaTopNavShell":      (DECORATIVE, "-", "顶部导航工作台骨架"),
+    "NovaDualSideShell":    (DECORATIVE, "-", "双侧边三栏工作台骨架"),
+    "NovaTabShell":         (DECORATIVE, "-", "标签页工作台骨架"),
+    "NovaThreeColumnShell": (DECORATIVE, "-", "三栏工作台骨架"),
+    "NovaCompareShell":     (DECORATIVE, "-", "双栏对比骨架"),
+    "NovaCardGridShell":    (DECORATIVE, "-", "卡片网格骨架"),
+    "NovaModalShell":       (DECORATIVE, "-", "模态弹窗容器骨架，焦点由内部交互件承担"),
+    "NovaDrawerPanelShell": (DECORATIVE, "-", "侧滑面板容器骨架"),
+    "NovaWizardShell":      (DECORATIVE, "-", "分步向导骨架"),
+    "NovaBlankPageShell":   (DECORATIVE, "-", "纯净单页骨架"),
+    "NovaDesktop":          (DECORATIVE, "-", "桌面应用顶层根壳"),
+    "NovaMobile":           (DECORATIVE, "-", "移动应用顶层根壳"),
+    "NovaFlexLayout":       (DECORATIVE, "-", "企业大屏弹性布局根壳"),
+}
+
 BEHAVIORS: dict[str, tuple[str, str, str]] = {
     "NovaRipple":         (DECORATIVE, "-", "纯视觉反馈，无信息量"),
     "NovaIntersection":   (DECORATIVE, "-", "观察器行为"),
@@ -174,7 +192,8 @@ DESIGN: dict[str, tuple[str, str, str]] = {
 }
 
 TABLE = {"Controls": CONTROLS, "Behaviors": BEHAVIORS,
-         "Services": SERVICES, "Design": DESIGN}
+         "Services": SERVICES, "Design": DESIGN,
+         "Composite/LayoutShell": LAYOUTSHELL}
 
 MARKER = "a11y: decorative"
 

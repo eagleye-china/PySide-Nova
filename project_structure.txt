@@ -1,13 +1,168 @@
 ﻿pyside-nova/
+├─ api/
+|   └─ nova-api-1.0.0.json
 ├─ docs/
+|   ├─ ai/
+|   |   ├─ api/
+|   |   |   ├─ Nova.Behaviors.NovaClosePopup.json
+|   |   |   ├─ Nova.Behaviors.NovaFocusRing.json
+|   |   |   ├─ Nova.Behaviors.NovaIntersection.json
+|   |   |   ├─ Nova.Behaviors.NovaLiveRegion.json
+|   |   |   ├─ Nova.Behaviors.NovaMorph.json
+|   |   |   ├─ Nova.Behaviors.NovaMorphPool.json
+|   |   |   ├─ Nova.Behaviors.NovaRipple.json
+|   |   |   ├─ Nova.Behaviors.NovaScrollFire.json
+|   |   |   ├─ Nova.Behaviors.NovaScrollObserver.json
+|   |   |   ├─ Nova.Behaviors.NovaTouchHold.json
+|   |   |   ├─ Nova.Behaviors.NovaTouchPan.json
+|   |   |   ├─ Nova.Behaviors.NovaTouchRepeat.json
+|   |   |   ├─ Nova.Behaviors.NovaTouchSwipe.json
+|   |   |   ├─ Nova.Controls.NovaAjaxBar.json
+|   |   |   ├─ Nova.Controls.NovaAvatar.json
+|   |   |   ├─ Nova.Controls.NovaBadge.json
+|   |   |   ├─ Nova.Controls.NovaBanner.json
+|   |   |   ├─ Nova.Controls.NovaBar.json
+|   |   |   ├─ Nova.Controls.NovaBottomSheet.json
+|   |   |   ├─ Nova.Controls.NovaBreadcrumbs.json
+|   |   |   ├─ Nova.Controls.NovaBreadcrumbsEl.json
+|   |   |   ├─ Nova.Controls.NovaBtn.json
+|   |   |   ├─ Nova.Controls.NovaBtnDropdown.json
+|   |   |   ├─ Nova.Controls.NovaBtnGroup.json
+|   |   |   ├─ Nova.Controls.NovaBtnToggle.json
+|   |   |   ├─ Nova.Controls.NovaCard.json
+|   |   |   ├─ Nova.Controls.NovaCardActions.json
+|   |   |   ├─ Nova.Controls.NovaCardSection.json
+|   |   |   ├─ Nova.Controls.NovaCarousel.json
+|   |   |   ├─ Nova.Controls.NovaCarouselControl.json
+|   |   |   ├─ Nova.Controls.NovaCarouselSlide.json
+|   |   |   ├─ Nova.Controls.NovaChatMessage.json
+|   |   |   ├─ Nova.Controls.NovaCheckbox.json
+|   |   |   ├─ Nova.Controls.NovaChip.json
+|   |   |   ├─ Nova.Controls.NovaCol.json
+|   |   |   ├─ Nova.Controls.NovaColorPicker.json
+|   |   |   ├─ Nova.Controls.NovaDate.json
+|   |   |   ├─ Nova.Controls.NovaDialogShell.json
+|   |   |   ├─ Nova.Controls.NovaDrawer.json
+|   |   |   ├─ Nova.Controls.NovaEditor.json
+|   |   |   ├─ Nova.Controls.NovaExpansionItem.json
+|   |   |   ├─ Nova.Controls.NovaFab.json
+|   |   |   ├─ Nova.Controls.NovaFabAction.json
+|   |   |   ├─ Nova.Controls.NovaField.json
+|   |   |   ├─ Nova.Controls.NovaFooter.json
+|   |   |   ├─ Nova.Controls.NovaForm.json
+|   |   |   ├─ Nova.Controls.NovaHeader.json
+|   |   |   ├─ Nova.Controls.NovaIcon.json
+|   |   |   ├─ Nova.Controls.NovaImg.json
+|   |   |   ├─ Nova.Controls.NovaInfiniteScroll.json
+|   |   |   ├─ Nova.Controls.NovaInnerLoading.json
+|   |   |   ├─ Nova.Controls.NovaInput.json
+|   |   |   ├─ Nova.Controls.NovaItem.json
+|   |   |   ├─ Nova.Controls.NovaItemLabel.json
+|   |   |   ├─ Nova.Controls.NovaItemSection.json
+|   |   |   ├─ Nova.Controls.NovaLayout.json
+|   |   |   ├─ Nova.Controls.NovaList.json
+|   |   |   ├─ Nova.Controls.NovaMarkupTable.json
+|   |   |   ├─ Nova.Controls.NovaMenu.json
+|   |   |   ├─ Nova.Controls.NovaNoSsr.json
+|   |   |   ├─ Nova.Controls.NovaOptionGroup.json
+|   |   |   ├─ Nova.Controls.NovaPage.json
+|   |   |   ├─ Nova.Controls.NovaPagination.json
+|   |   |   ├─ Nova.Controls.NovaParallax.json
+|   |   |   ├─ Nova.Controls.NovaPopupEdit.json
+|   |   |   ├─ Nova.Controls.NovaPopupProxy.json
+|   |   |   ├─ Nova.Controls.NovaPullToRefresh.json
+|   |   |   ├─ Nova.Controls.NovaRadio.json
+|   |   |   ├─ Nova.Controls.NovaRange.json
+|   |   |   ├─ Nova.Controls.NovaResizeObserver.json
+|   |   |   ├─ Nova.Controls.NovaResponsive.json
+|   |   |   ├─ Nova.Controls.NovaRow.json
+|   |   |   ├─ Nova.Controls.NovaScrollArea.json
+|   |   |   ├─ Nova.Controls.NovaSelect.json
+|   |   |   ├─ Nova.Controls.NovaSeparator.json
+|   |   |   ├─ Nova.Controls.NovaSkeleton.json
+|   |   |   ├─ Nova.Controls.NovaSlideItem.json
+|   |   |   ├─ Nova.Controls.NovaSlider.json
+|   |   |   ├─ Nova.Controls.NovaSpace.json
+|   |   |   ├─ Nova.Controls.NovaSpinner.json
+|   |   |   ├─ Nova.Controls.NovaStep.json
+|   |   |   ├─ Nova.Controls.NovaStepper.json
+|   |   |   ├─ Nova.Controls.NovaStepperNavigation.json
+|   |   |   ├─ Nova.Controls.NovaTab.json
+|   |   |   ├─ Nova.Controls.NovaTable.json
+|   |   |   ├─ Nova.Controls.NovaTabPanel.json
+|   |   |   ├─ Nova.Controls.NovaTabPanels.json
+|   |   |   ├─ Nova.Controls.NovaTabs.json
+|   |   |   ├─ Nova.Controls.NovaTd.json
+|   |   |   ├─ Nova.Controls.NovaText.json
+|   |   |   ├─ Nova.Controls.NovaTh.json
+|   |   |   ├─ Nova.Controls.NovaTime.json
+|   |   |   ├─ Nova.Controls.NovaTimeline.json
+|   |   |   ├─ Nova.Controls.NovaTimelineEntry.json
+|   |   |   ├─ Nova.Controls.NovaToggle.json
+|   |   |   ├─ Nova.Controls.NovaToolbar.json
+|   |   |   ├─ Nova.Controls.NovaToolbarTitle.json
+|   |   |   ├─ Nova.Controls.NovaTooltip.json
+|   |   |   ├─ Nova.Controls.NovaTr.json
+|   |   |   ├─ Nova.Controls.NovaTransition.json
+|   |   |   ├─ Nova.Controls.NovaTree.json
+|   |   |   ├─ Nova.Controls.NovaVideo.json
+|   |   |   ├─ Nova.Controls.NovaVirtualScroll.json
+|   |   |   ├─ Nova.Controls.NovaVisible.json
+|   |   |   ├─ Nova.Design.NovaA11y.json
+|   |   |   ├─ Nova.Design.NovaIconSet.json
+|   |   |   ├─ Nova.Design.NovaMotion.json
+|   |   |   ├─ Nova.Design.NovaUtils.json
+|   |   |   ├─ Nova.Services.NovaApp.json
+|   |   |   ├─ Nova.Services.NovaDialog.json
+|   |   |   ├─ Nova.Services.NovaDialogHandle.json
+|   |   |   ├─ Nova.Services.NovaI18n.json
+|   |   |   ├─ Nova.Services.NovaIntersectionPool.json
+|   |   |   ├─ Nova.Services.NovaLoading.json
+|   |   |   ├─ Nova.Services.NovaLoadingBar.json
+|   |   |   ├─ Nova.Services.NovaLoadingHandle.json
+|   |   |   ├─ Nova.Services.NovaNotify.json
+|   |   |   ├─ Nova.Services.NovaNotifyAction.json
+|   |   |   ├─ Nova.Services.NovaNotifyHandle.json
+|   |   |   ├─ Nova.Services.NovaOverlayHost.json
+|   |   |   ├─ Nova.Services.NovaPlatform.json
+|   |   |   ├─ Nova.Services.NovaScreen.json
+|   |   |   ├─ Nova.Services.NovaStorage.json
+|   |   |   └─ Nova.Services.NovaTheme.json
+|   |   ├─ pages/
+|   |   |   ├─ API_FREEZE.md
+|   |   |   ├─ ARCHITECTURE.md
+|   |   |   ├─ CHANGELOG.md
+|   |   |   ├─ COMPONENT_LIST.md
+|   |   |   ├─ COMPONENTS.md
+|   |   |   ├─ CONSTITUTION.md
+|   |   |   ├─ DESIGN_TOKENS.md
+|   |   |   ├─ ECOSYSTEM_PARITY.md
+|   |   |   ├─ MASTER_PLAN.md
+|   |   |   ├─ PARITY.md
+|   |   |   ├─ README_zh.md
+|   |   |   └─ ROADMAP.md
+|   |   └─ index.json
+|   ├─ assets/
+|   |   └─ gallery/
+|   ├─ layout_shell/
+|   |   ├─ LayoutShell.md
+|   |   ├─ LayoutShellPrompt.md
+|   |   └─ PrescientLayoutShell.md
 |   ├─ templates/
 |   |   ├─ PROMPT_TEMPLATE.md
 |   |   └─ SESSION_HANDOFF_TEMPLATE.md
+|   ├─ A11Y.md
+|   ├─ A11Y_MATRIX.md
+|   ├─ API_FREEZE.md
 |   ├─ ARCHITECTURE.md
+|   ├─ COMPONENT_LIST.md
 |   ├─ COMPONENTS.md
 |   ├─ CONSTITUTION.md
 |   ├─ DESIGN_TOKENS.md
 |   ├─ ECOSYSTEM_PARITY.md
+|   ├─ GALLERY.md
+|   ├─ I18N.md
+|   ├─ index.md
 |   ├─ MASTER_PLAN.md
 |   ├─ PARITY.md
 |   ├─ ROADMAP.md
@@ -16,21 +171,42 @@
 |   ├─ demo/
 |   |   ├─ main.py
 |   |   └─ main.qml
-|   └─ gallery/
-|       ├─ main.py
-|       └─ main.qml
+|   ├─ gallery/
+|   |   ├─ main.py
+|   |   └─ main.qml
+|   └─ gallery_launch.py
+├─ reports/
+|   └─ soak-smoke.json
 ├─ scripts/
+|   ├─ build_app.py
+|   ├─ check_a11y.py
+|   ├─ check_api_freeze.py
+|   ├─ check_cve.py
+|   ├─ check_perf.py
+|   ├─ check_qmllint.py
+|   ├─ check_soak.py
+|   ├─ check_visual.py
 |   ├─ fetch_icons.py
+|   ├─ gen_api_freeze.py
+|   ├─ gen_apidocs.py
+|   ├─ gen_component_list.py
+|   ├─ gen_icons.py
 |   ├─ gen_iconsets.py
 |   ├─ gen_prompt.py
-|   └─ local_deploy.py
+|   ├─ gen_sbom.py
+|   ├─ local_deploy.py
+|   └─ nova_mcp.py
 ├─ src/
 |   └─ pyside_nova/
 |       ├─ qml/
 |       |   └─ Nova/
 |       |       ├─ Behaviors/
 |       |       |   ├─ NovaClosePopup.qml
+|       |       |   ├─ NovaFocusRing.qml
 |       |       |   ├─ NovaIntersection.qml
+|       |       |   ├─ NovaLiveRegion.qml
+|       |       |   ├─ NovaMorph.qml
+|       |       |   ├─ NovaMorphPool.qml
 |       |       |   ├─ NovaRipple.qml
 |       |       |   ├─ NovaScrollFire.qml
 |       |       |   ├─ NovaScrollObserver.qml
@@ -40,30 +216,106 @@
 |       |       |   ├─ NovaTouchRepeat.qml
 |       |       |   ├─ NovaTouchSwipe.qml
 |       |       |   └─ qmldir
+|       |       ├─ Composite/
+|       |       |   └─ LayoutShell/
+|       |       |       └─ NovaSidebarShell.qml
 |       |       ├─ Controls/
+|       |       |   ├─ ExpansionGroups.js
+|       |       |   ├─ NovaAjaxBar.qml
 |       |       |   ├─ NovaAvatar.qml
 |       |       |   ├─ NovaBadge.qml
+|       |       |   ├─ NovaBanner.qml
+|       |       |   ├─ NovaBar.qml
+|       |       |   ├─ NovaBottomSheet.qml
+|       |       |   ├─ NovaBreadcrumbs.qml
+|       |       |   ├─ NovaBreadcrumbsEl.qml
 |       |       |   ├─ NovaBtn.qml
+|       |       |   ├─ NovaBtnDropdown.qml
+|       |       |   ├─ NovaBtnGroup.qml
+|       |       |   ├─ NovaBtnToggle.qml
 |       |       |   ├─ NovaCard.qml
 |       |       |   ├─ NovaCardActions.qml
 |       |       |   ├─ NovaCardSection.qml
+|       |       |   ├─ NovaCarousel.qml
+|       |       |   ├─ NovaCarouselControl.qml
+|       |       |   ├─ NovaCarouselSlide.qml
+|       |       |   ├─ NovaChatMessage.qml
+|       |       |   ├─ NovaCheckbox.qml
 |       |       |   ├─ NovaChip.qml
 |       |       |   ├─ NovaCol.qml
+|       |       |   ├─ NovaColorPicker.qml
+|       |       |   ├─ NovaDate.qml
+|       |       |   ├─ NovaDialogShell.qml
 |       |       |   ├─ NovaDrawer.qml
+|       |       |   ├─ NovaEditor.qml
+|       |       |   ├─ NovaExpansionItem.qml
+|       |       |   ├─ NovaFab.qml
+|       |       |   ├─ NovaFabAction.qml
+|       |       |   ├─ NovaField.qml
 |       |       |   ├─ NovaFooter.qml
+|       |       |   ├─ NovaForm.qml
 |       |       |   ├─ NovaHeader.qml
 |       |       |   ├─ NovaIcon.qml
+|       |       |   ├─ NovaImg.qml
+|       |       |   ├─ NovaInfiniteScroll.qml
+|       |       |   ├─ NovaInnerLoading.qml
+|       |       |   ├─ NovaInput.qml
+|       |       |   ├─ NovaItem.qml
+|       |       |   ├─ NovaItemLabel.qml
+|       |       |   ├─ NovaItemSection.qml
 |       |       |   ├─ NovaLayout.qml
+|       |       |   ├─ NovaList.qml
+|       |       |   ├─ NovaMarkupTable.qml
+|       |       |   ├─ NovaMenu.qml
+|       |       |   ├─ NovaNoSsr.qml
+|       |       |   ├─ NovaOptionGroup.qml
 |       |       |   ├─ NovaPage.qml
+|       |       |   ├─ NovaPagination.qml
+|       |       |   ├─ NovaParallax.qml
+|       |       |   ├─ NovaPopupEdit.qml
+|       |       |   ├─ NovaPopupProxy.qml
+|       |       |   ├─ NovaPullToRefresh.qml
+|       |       |   ├─ NovaRadio.qml
+|       |       |   ├─ NovaRange.qml
+|       |       |   ├─ NovaResizeObserver.qml
+|       |       |   ├─ NovaResponsive.qml
 |       |       |   ├─ NovaRow.qml
+|       |       |   ├─ NovaScrollArea.qml
+|       |       |   ├─ NovaSelect.qml
 |       |       |   ├─ NovaSeparator.qml
+|       |       |   ├─ NovaSkeleton.qml
+|       |       |   ├─ NovaSlideItem.qml
+|       |       |   ├─ NovaSlider.qml
 |       |       |   ├─ NovaSpace.qml
+|       |       |   ├─ NovaSpinner.qml
+|       |       |   ├─ NovaStep.qml
+|       |       |   ├─ NovaStepper.qml
+|       |       |   ├─ NovaStepperNavigation.qml
+|       |       |   ├─ NovaTab.qml
+|       |       |   ├─ NovaTable.qml
+|       |       |   ├─ NovaTabPanel.qml
+|       |       |   ├─ NovaTabPanels.qml
+|       |       |   ├─ NovaTabs.qml
+|       |       |   ├─ NovaTd.qml
 |       |       |   ├─ NovaText.qml
+|       |       |   ├─ NovaTh.qml
+|       |       |   ├─ NovaTime.qml
+|       |       |   ├─ NovaTimeline.qml
+|       |       |   ├─ NovaTimelineEntry.qml
+|       |       |   ├─ NovaToggle.qml
+|       |       |   ├─ NovaToolbar.qml
+|       |       |   ├─ NovaToolbarTitle.qml
+|       |       |   ├─ NovaTooltip.qml
+|       |       |   ├─ NovaTr.qml
 |       |       |   ├─ NovaTransition.qml
+|       |       |   ├─ NovaTree.qml
+|       |       |   ├─ NovaVideo.qml
+|       |       |   ├─ NovaVirtualScroll.qml
 |       |       |   ├─ NovaVisible.qml
 |       |       |   └─ qmldir
 |       |       ├─ Design/
 |       |       |   ├─ IconSets.js
+|       |       |   ├─ NovaA11y.qml
 |       |       |   ├─ NovaIconSet.qml
 |       |       |   ├─ NovaMotion.qml
 |       |       |   ├─ NovaUtils.qml
@@ -73,8 +325,10 @@
 |       |           ├─ NovaDialog.qml
 |       |           ├─ NovaDialogCard.qml
 |       |           ├─ NovaDialogHandle.qml
+|       |           ├─ NovaI18n.qml
 |       |           ├─ NovaIntersectionPool.qml
 |       |           ├─ NovaLoading.qml
+|       |           ├─ NovaLoadingBar.qml
 |       |           ├─ NovaLoadingHandle.qml
 |       |           ├─ NovaLoadingOverlay.qml
 |       |           ├─ NovaNotificationItem.qml
@@ -87,16 +341,38 @@
 |       |           ├─ NovaStorage.qml
 |       |           ├─ NovaTheme.qml
 |       |           └─ qmldir
+|       ├─ resources/
+|       |   ├─ icons/
+|       |   ├─ resources.qrc
+|       |   └─ resources_rc.py
 |       ├─ __about__.py
 |       ├─ __init__.py
 |       └─ runtime.py
 ├─ tests/
-|   └─ test_smoke.py
+|   ├─ baselines/
+|   |   └─ visual/
+|   |       ├─ dark/
+|   |       └─ light/
+|   ├─ conftest.py
+|   ├─ lint-baseline.json
+|   ├─ soak_mem.py
+|   ├─ test_a11y.py
+|   ├─ test_api_freeze.py
+|   ├─ test_hidpi.py
+|   ├─ test_i18n.py
+|   ├─ test_perf.py
+|   ├─ test_sanitize.py
+|   ├─ test_smoke.py
+|   ├─ test_soak.py
+|   └─ test_visual.py
 ├─ BUILD_INFO.txt
 ├─ CHANGELOG.md
 ├─ CODE_OF_CONDUCT.md
+├─ CONSTITUTION.md
 ├─ CONTRIBUTING.md
 ├─ LICENSE
+├─ mkdocs.yml
+├─ nova-gallery.spec
 ├─ project_structure.txt
 ├─ PROMPT.md
 ├─ pyproject.toml

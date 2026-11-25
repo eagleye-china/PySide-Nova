@@ -1,0 +1,18 @@
+# src/pyside_nova/qml/Nova/Composite/LayoutShell/qmldir
+# 组合组件专属模块：14 项 Prescient Layout Shell（宪法 0.3.0 合法第五模块）
+module Nova.Composite.LayoutShell
+
+NovaSidebarShell 1.0 NovaSidebarShell.qml
+NovaTopNavShell 1.0 NovaTopNavShell.qml
+NovaDualSideShell 1.0 NovaDualSideShell.qml
+NovaTabShell 1.0 NovaTabShell.qml
+NovaThreeColumnShell 1.0 NovaThreeColumnShell.qml
+NovaCompareShell 1.0 NovaCompareShell.qml
+NovaCardGridShell 1.0 NovaCardGridShell.qml
+NovaModalShell 1.0 NovaModalShell.qml
+NovaDrawerPanelShell 1.0 NovaDrawerPanelShell.qml
+NovaWizardShell 1.0 NovaWizardShell.qml
+NovaBlankPageShell 1.0 NovaBlankPageShell.qml
+NovaDesktop 1.0 NovaDesktop.qml
+NovaMobile 1.0 NovaMobile.qml
+NovaFlexLayout 1.0 NovaFlexLayout.qml

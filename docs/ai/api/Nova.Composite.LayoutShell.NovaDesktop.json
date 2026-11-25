@@ -1,0 +1,103 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaDesktop",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaDesktop.qml",
+ "description": "NovaDesktop 桌面应用根壳：菜单栏 + 工具栏 + 多页面管理 + 状态栏，PC 桌面应用顶层根容器（对标 QMainWindow） NovaDesktop —— 多端根壳之桌面端（无 Shell 后缀，按组合宪法 0.2.0 同样受约束） 用法：向 menuSlot/toolbarSlot/pageSlot/statusSlot/overlaySlot 注入业务内容；根节点为应用窗口内容根，不含 ApplicationWindow a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "menuSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _menu.data",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "toolbarSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _toolbar.data",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "pageSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _page.content",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "statusSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _status.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "showMenu",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "showToolbar",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "showStatus",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "menuHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 32",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "toolbarHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "statusHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 28",
+   "doc": null,
+   "line": 25
+  }
+ ],
+ "signals": [
+  {
+   "name": "windowCloseRequested",
+   "params": ""
+  }
+ ],
+ "methods": []
+}

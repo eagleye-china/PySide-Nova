@@ -1,0 +1,108 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaTopNavShell",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaTopNavShell.qml",
+ "description": "NovaTopNavShell 顶部导航工作台壳：一级导航 + 下拉区 + 主内容 + 状态栏，无常驻侧栏（对标 Quasar QLayout header 导航） NovaTopNavShell —— 轻量化主导航组合根容器 用法：向 headerSlot/menuSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；Shell 只托管布局与下拉显隐 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "headerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _header.data",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "menuSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _menu.data",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "contentSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _body.content",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "footerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _footer.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "showHeader",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "showFooter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "menuOpen",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "headerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 56",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "footerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "menuHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 160",
+   "doc": null,
+   "line": 25
+  }
+ ],
+ "signals": [
+  {
+   "name": "menuToggled",
+   "params": "bool open"
+  }
+ ],
+ "methods": [
+  {
+   "name": "toggleMenu",
+   "params": ""
+  }
+ ]
+}

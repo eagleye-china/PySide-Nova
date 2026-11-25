@@ -957,3 +957,27 @@ SFC 构建链差异），Nova 增强口径。
 
 > 测试口径：0.16.2 新增 33 项（394 → 427）——消毒 32 / 视觉 smoke 1；全矩阵视觉 1 项由
 > check_visual.py CLI 承载（不计入 pytest 默认收集）。
+
+---
+
+## 0.17.0 审计 —— 14 项 Prescient Layout Shell（组合根容器）
+
+对标裁定：Quasar 交付的是 Vue 指令/组件与 QLayout 骨架，其"布局壳"由开发者在 Vue SFC 中组合；
+pyside-nova 将企业级桌面布局范式**预先沉淀为 14 个可复用公共根容器**（组合宪法 0.2.0），
+属 **Nova 增强 / QML 语境新品类**——Quasar 无同名一对一类型，故逐项标 ⛔（非 ❌ 缺口）。
+
+| 类别 | 14 项 | 对标情况 | 契约口径 |
+|---|---|---|---|
+| 主导航（4） | NovaSidebarShell / NovaTopNavShell / NovaDualSideShell / NovaTabShell | ⛔ Quasar 为 QLayout + QDrawer/QTabs 自由组合 | 复用 NovaLayout/NovaHeader/NovaFooter/NovaDrawer/NovaTabs 真实公共类型；五槽/按需槽 alias；折叠只 emit |
+| 多栏工作台（3） | NovaThreeColumnShell / NovaCompareShell / NovaCardGridShell | ⛔ Quasar 无预置三栏/对比/画廊壳 | NovaRow/Col/Separator/Page 组合；栏宽受控（非法入参钳制）；分割条 HoverHandler 提示 |
+| 弹窗浮层（2） | NovaModalShell / NovaDrawerPanelShell | ⚠ 对标 QDialog / QDrawer 语义 | ESC + 点遮罩关闭（emit closeRequested(reason)）；z 取 NovaTheme.z*；RTL side 镜像 |
+| 极简独立页（2） | NovaWizardShell / NovaBlankPageShell | ⚠ 对标 QStepper / 单页布局 | 步骤状态受控（只 emit 导航意图）；Header/Content/Footer 最小骨架 |
+| 多端根壳（3） | NovaDesktop / NovaMobile / NovaFlexLayout | ⛔ Quasar 为 Web 响应式，无桌面/安卓/HMI 顶层壳 | 桌面（菜单/状态栏）、移动（安全区/底部导航）、大屏（1~4 栏钳制）；无 Shell 后缀但受组合宪法约束 |
+
+**验收口径**：14 项全部进 `Nova.Composite.LayoutShell` qmldir（宪法 0.3.0 专属模块，非黑户；
+0.2.0 时曾在 `Nova.Controls`）、全部 a11y decorative 登记、
+独立 Gallery（`examples/gallery/layout_shells.qml`，14 页逐项调参）、14 目录独立演示
+（`examples/layout_shell/*/main.qml`）、20 项专项测试（实例化/槽/主题/边界）；
+整批单次重签 API 冻结（124→138，指纹 `3bc0fb035fa927ab` → 迁模块后 `a8859ec8fc5720bf`）。
+静态三门禁 3/3 PASS；既有 test_perf / test_a11y 的 Windows GC 崩溃与
+test_i18n RTL Breadcrumbs 失败均为改动前既存，详见 SESSION_HANDOFF 坑位 42/49。

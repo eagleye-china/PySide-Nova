@@ -3,6 +3,91 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased] - 2026-11-25
+
+### Changed（治理 · 组合组件专属模块升格 · 宪法 0.3.0 · 伙伴拍板）
+- 应伙伴要求，14 项组合组件从 `Nova.Controls` 物理迁至新模块
+  `src/pyside_nova/qml/Nova/Composite/LayoutShell/`（URI `Nova.Composite.LayoutShell`），
+  独立 `qmldir` 导出 14 项——**合法模块、非黑户**，冻结面与门禁纪律不变。
+- 组合宪法升 **0.3.0**：第 2 章目录纪律将该目录升格为合法专属模块、坑位 7 与准入清单同步；
+  母法 `docs/CONSTITUTION.md` 第 1 章补第五模块 URI。14 项类型名不变，整批单次重签冻结面。
+- `examples/layout_shell/` 14 个子目录演示 + Gallery 的 import 同步改为新 URI；
+  生成器（冻结/清单/AI 文档）、门禁、测试模块注册全量同步。
+
+### Added（14 项 Prescient Layout Shell · 一次交付 · 组合宪法 0.2.0 合规重签）
+- **14 个组合根容器 QML 一次落地**，全部进 `Nova.Controls` qmldir（合法导出、非黑户）：
+  - 主导航 4：`NovaSidebarShell` / `NovaTopNavShell` / `NovaDualSideShell` / `NovaTabShell`
+  - 多栏工作台 3：`NovaThreeColumnShell` / `NovaCompareShell` / `NovaCardGridShell`
+  - 弹窗浮层 2：`NovaModalShell` / `NovaDrawerPanelShell`
+  - 极简独立页 2：`NovaWizardShell` / `NovaBlankPageShell`
+  - 多端根壳 3：`NovaDesktop` / `NovaMobile` / `NovaFlexLayout`（保留权威清单原名）
+- 全部遵循组合宪法：≥2 个已导出公共类型组合、标准槽 alias、单向数据流（只 emit）、
+  `NovaTheme` 令牌驱动、`// a11y: decorative` 标记、非法入参钳制、`pragma ComponentBehavior: Bound`
+  零新增 warning、两行头注释无日期流水。
+- **整批单次重签 API 冻结**：124→138 类型（Controls 91→105），指纹
+  `f2fd1b0eacf665f2`→`3bc0fb035fa927ab`；同步 `API_FREEZE.md` / COMPONENT_LIST /
+  A11Y_MATRIX（decorative 64→78）/ AI 文档；`test_api_freeze` 常量同步。
+- 独立 Gallery `examples/gallery/layout_shells.qml` + `layout_shells.py`：14 页逐项真实预览、
+  调参面板（折叠/显示栏/尺寸）、明暗切换，零运行时警告；不侵入主画廊。
+- 新增 `tests/test_layout_shells.py` 20 项（14 实例化 / 槽位 / 主题 / 边界 / 列数钳制）。
+- 静态三门禁 3/3 PASS；qmllint `import` 预算校准（RC1 漏记 `Nova.Runtime` 一条，1→2，非新增欠债）。
+
+### Changed（治理 · 组合组件宪法 0.2.0 · 14 项一次交付适配）
+- `docs/COMPOSITION_CONSTITUTION.md` 升 0.2.0：抬头新增**母法权威版本声明**（唯一法源 =
+  `docs/CONSTITUTION.md` 0~13 章；根目录 0~10 章副本不得援引），法源补第 11/12 章；
+  第 0 章明确 `NovaDesktop`/`NovaMobile`/`NovaFlexLayout` 三个无 `Shell` 后缀的多端根壳同样受约束；
+  第 1 章语义分类由 3 类扩为**与 14 项权威清单对齐的 5 类**（逐类型核实为真实导出，无虚构 API）；
+  第 8 章新颁**批量交付纪律**（整批登记 → 单次重签 → 整批验收，禁止逐个重签产生中间指纹）
+  与生成物保护条款；坑位表补第 9/10 条。
+
+## [Unreleased] - 2026-11-24
+
+### Added（治理 · 组合组件宪法首颁）
+- **新增 `docs/COMPOSITION_CONSTITUTION.md`**：《组合组件宪法 — pyside-nova Layout Shell
+  Constitution》，母法《架构宪法》的子法，第 0~9 章——三要素定义 / 四模块目录与黑户禁令 /
+  三层边界与单向数据流 / 五标准槽位 alias 契约 / D-013 组合完整性 / 真实令牌白名单 /
+  鲁棒性与 a11y / 准入门禁清单 / 8 条反模式坑位。只定义在母法 L1 之上的组合纪律，
+  令牌·目录·命名·冻结一律援引母法，不另立门面。
+- 明确 `docs/layout_shell/` 历史四稿中的 "v1.0.0 FROZEN / 已封版" 表述与
+  `Theme.*` / `NovaButton` / `NovaLabel` / `NovaAnimation` 等虚构 API **一律作废**；
+  吸收其三层边界·槽位语义·组合优于继承·D-013 精华并校正为真实 API 面。
+- 接入 mkdocs「工程纪律」导航、首页文档导航；`scripts/gen_apidocs.py` 的 PAGES 清单加入新页，
+  重跑 AI 索引（13 页，指纹 0ffe8bd37c9827dd）。
+
+### Added（库管员 + 成品验收员工具 · 一键总验收入口）
+- **新增 `scripts/check_all.py`**：分层串跑全部门禁的统一入口。四层——`static`（默认，
+  a11y/api/qmllint 三道秒级门禁，与 local_deploy 交付链一致）/ `dynamic`（perf + visual
+  smoke + soak 冒烟 + hidpi）/ `supply`（cve）/ `all`（8 道全覆盖；封版加 `--soak-24
+  --visual-full --cve-online` 为完全体）。`--brief` 摘要模式、`--report PATH` 落验收 JSON、
+  `--list` 列举门禁。
+- **统一退出码语义**：0=全绿（含 WARN 有条件通过）/ 1=至少一道产品红或工具 ERROR /
+  2=未执行门禁（参数错误或环境缺失）。红灯先定性：cve 缺 SBOM/缓存(码2)判 WARN 前置缺失，
+  不计产品红；环境预检发现无 PySide6 的解释器直接判 ERROR(码2)终止，杜绝假绿灯/假红灯混淆；
+  子门禁统一用 `sys.executable` 启动保证解释器一致性。
+
+### Added（RC2 封版验收 · 24h 内存长跑压测门禁）
+- **24h 压测工具链**：`scripts/check_soak.py`（CLI 门禁，`--hours/--interval/--report`，退出码入 CI）
+  + `tests/test_soak.py`（pytest 承载，复用单引擎/单斜杠/硬退出纪律）
+  + `tests/soak_mem.py`（零第三方依赖 RSS 采样：Windows psapi / Linux statm + 三段稳健趋势判定）。
+  冒烟 72s / 8896 轮 / 25 样本，RSS 84.6→84.9MB 全程平坦、斜率 -2.78MB/h，门禁通过。
+- `tests/conftest.py` 新增 `--soak-hours/--soak-interval/--soak-report` 与 soak 硬退出标志
+  （坑位 49），`.gitignore` 忽略 `reports/`。
+- `docs/ECOSYSTEM_PARITY.md` §6「24h 压测」勾选（工具就绪 + 冒烟通过；真实 24h 全量长跑留 CI）。
+
+### Fixed（验收工具链 · 中文 Windows 兼容性）
+- `scripts/check_qmllint.py` 两处 Windows 假红灯修复（坑位 52）：① `find_qmllint()` 包内
+  只找无后缀 `qmllint`，而 Windows 实际是 `qmllint.exe` 且 Scripts/ 无入口脚本 → 显式列
+  两种后缀候选；② `subprocess.run(text=True)` 走 locale 默认编码（中文 Windows=GBK），
+  诊断含 UTF-8 路径时 `UnicodeDecodeError` 崩溃 → 改 `encoding="utf-8", errors="replace"`。
+  修复前门禁在交付机假红灯，修复后真实退出码 0（0 error / 593 warning 全在预算内）。
+
+### 设计决策（踩坑沉淀，勿回退为「反复建销组件」负载）
+- 负载采用**稳态对象池**：一次创建弹层/表格长期持有，只做 register/unregister、派生属性读取、
+  主题/i18n 切换。采样前驱动 JS（`engine.collectGarbage()`）+ Python 双 GC，读 GC 后驻留 RSS。
+- **不测「反复创建/销毁复杂 QML 组件」**：实测 Qt 6.12+PySide6 每建销一个复杂组件有
+  0.3-0.5MB 不可回收固有开销——纯 Qt Quick 组件（无 Nova 代码）同样复现，属引擎层行为，
+  纳入会让门禁永远红灯、掩盖产品真泄漏。
+
 ## [1.0.0rc1] - 2026-11-23
 
 ### Added（六期 RC1 收口 · **API 冻结审查**：测试 427 → 454、类型 124 不变）

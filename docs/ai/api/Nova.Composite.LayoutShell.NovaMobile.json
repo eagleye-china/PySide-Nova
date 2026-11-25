@@ -1,0 +1,103 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaMobile",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaMobile.qml",
+ "description": "NovaMobile 移动应用根壳：系统安全区 + 顶栏 + 内容 + 底部导航，适配安卓触摸与 PySide6 移动打包（对标 Quasar QLayout mobile） NovaMobile —— 多端根壳之移动端（无 Shell 后缀，按组合宪法 0.2.0 同样受约束） 用法：向 headerSlot/contentSlot/bottomNavSlot/overlaySlot 注入业务内容；安全区由 safeTop/safeBottom 属性注入 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "headerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _header.data",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "contentSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _body.content",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "bottomNavSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _bottomNav.data",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "showHeader",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "showBottomNav",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "safeTop",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "safeBottom",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "headerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 56",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "bottomNavHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 60",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "isTouch",
+   "type": "bool",
+   "readonly": false,
+   "default": ": NovaPlatform.isMobile",
+   "doc": null,
+   "line": 25
+  }
+ ],
+ "signals": [
+  {
+   "name": "backRequested",
+   "params": ""
+  }
+ ],
+ "methods": []
+}

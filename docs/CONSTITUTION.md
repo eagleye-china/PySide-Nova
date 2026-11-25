@@ -13,8 +13,8 @@
 ## 第 1 章 工程结构（冻结条款）
 
 1. 项目根目录名为 `pyside-nova`（建项目/仓库时使用）
-2. **src 布局**：Python 包固定 `src/pyside_nova`，QML 模块固定 `src/pyside_nova/qml/Nova/{Services,Controls,Behaviors}`
-3. QML 模块 URI 固定：`Nova.Services` / `Nova.Controls` / `Nova.Behaviors`；`qmldir` 导出清单即公共 API 面
+2. **src 布局**：Python 包固定 `src/pyside_nova`，QML 模块固定 `src/pyside_nova/qml/Nova/{Services,Controls,Behaviors,Design,Composite/LayoutShell}`
+3. QML 模块 URI 固定：`Nova.Services` / `Nova.Controls` / `Nova.Behaviors` / `Nova.Design` / `Nova.Composite.LayoutShell`（末者为组合组件专属模块，见组合宪法）；`qmldir` 导出清单即公共 API 面
 4. Python 接入层唯一入口：`from pyside_nova import init_nova`；版本唯一来源 `src/pyside_nova/__about__.py`
 5. wheel 必须完整携带 QML 资源（qmldir + .qml），pip 安装即用
 

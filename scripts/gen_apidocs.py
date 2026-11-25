@@ -29,8 +29,8 @@ QML_ROOT = PROJECT / "src" / "pyside_nova" / "qml" / "Nova"
 
 # 核心文档离线拷贝清单（pages）
 PAGES = [
-    "README_zh.md", "CHANGELOG.md", "COMPONENTS.md", "ARCHITECTURE.md",
-    "CONSTITUTION.md", "PARITY.md", "ECOSYSTEM_PARITY.md", "DESIGN_TOKENS.md",
+    "README_zh.md", "CHANGELOG.md", "COMPONENT_LIST.md", "COMPONENTS.md", "ARCHITECTURE.md",
+    "CONSTITUTION.md", "COMPOSITION_CONSTITUTION.md", "PARITY.md", "ECOSYSTEM_PARITY.md", "DESIGN_TOKENS.md",
     "MASTER_PLAN.md", "ROADMAP.md", "API_FREEZE.md",
 ]
 
@@ -117,7 +117,7 @@ def build(project: Path) -> dict:
 
     modules = {}
     api_files: list[Path] = []
-    for qmldir in sorted(qml_root.glob("*/qmldir")):
+    for qmldir in sorted(qml_root.glob("**/qmldir")):  # 递归：含 Composite/LayoutShell 嵌套模块
         module, types = read_qmldir(qmldir)
         mod_entry = {"types": [], "singletons": [], "count": 0}
         for t in types:
@@ -128,7 +128,7 @@ def build(project: Path) -> dict:
             doc = {
                 "name": f"{module}.{t['name']}",
                 "kind": t["kind"],
-                "source": f"src/pyside_nova/qml/Nova/{qmldir.parent.name}/{t['file']}",
+                "source": str(src.relative_to(project)).replace("\\", "/"),
                 **info,
             }
             fp = out_api / f"{module}.{t['name']}.json"

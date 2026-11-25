@@ -1,6 +1,10 @@
 # 组件 API 参考 — pyside-nova Components
 
-> 0.2.1 已交付 12 个组件。API 与 Quasar 1:1 对齐（对标基线 **2.26.0**），例外均有注明。
+> ⚠️ **本文档是 0.2.1 时代的历史详解稿，仅覆盖早期 12 个组件，已不完整。**
+> **完整清单见 [COMPONENT_LIST.md](COMPONENT_LIST.md)** —— 1.0.0rc1 全部 **124 个**
+> 公共 QML 类型的顺序编号一览（含中文说明、对标 Quasar、a11y 类别、属性统计、QML 路径）。
+> 本文档保留的理由：其中的槽机制总览、`NovaTheme` / `NovaScreen` 令牌表、API 命名约定仍有参考价值。
+> API 与 Quasar 1:1 对齐（对标基线 **2.26.0**，当前全量基线已升至 **2.35.5**），例外均有注明。
 > 每个组件在 `examples/gallery/` 中均有实机展示页面。槽机制详见《架构宪法》第 4 章
 > （[CONSTITUTION.md](CONSTITUTION.md)）。
 

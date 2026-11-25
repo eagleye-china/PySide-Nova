@@ -1,0 +1,82 @@
+{
+ "name": "Nova.Controls.NovaBlankPageShell",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaBlankPageShell.qml",
+ "description": "NovaBlankPageShell 纯净单页壳：Header + Content + Footer，无任何侧栏/标签导航，最小可定制骨架 NovaBlankPageShell —— 独立小工具 / 子页面 / 高级用户自定义布局基底 用法：向 headerSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；Shell 仅提供三区布局与令牌底色 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "headerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _header.data",
+   "doc": null,
+   "line": 13
+  },
+  {
+   "name": "contentSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _body.content",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "footerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _footer.data",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "showHeader",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "showFooter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "headerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 56",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "footerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "padding",
+   "type": "int",
+   "readonly": false,
+   "default": ": 24",
+   "doc": null,
+   "line": 22
+  }
+ ],
+ "signals": [],
+ "methods": []
+}

@@ -29,9 +29,10 @@ engine.load("main.qml")    # QML 里: import Nova.Controls
 
 ## 文档导航
 
-- [架构宪法](CONSTITUTION.md) —— 工程纪律唯一权威（12 章）
+- [架构宪法](CONSTITUTION.md) —— 工程纪律唯一权威（第 0~13 章）
+- [组合组件宪法](COMPOSITION_CONSTITUTION.md) —— Layout Shell 类组合组件的子法（第 0~9 章）
 - [总规划](MASTER_PLAN.md) / [路线图](ROADMAP.md)
-- [组件清单](COMPONENTS.md) / [设计令牌](DESIGN_TOKENS.md)
+- [组件清单（124 项）](COMPONENT_LIST.md) / [设计令牌](DESIGN_TOKENS.md)
 - [国际化指南](I18N.md) · [无障碍](A11Y.md) · [画廊预览](GALLERY.md)
 - [Quasar 对账](PARITY.md) / [生态对账](ECOSYSTEM_PARITY.md)
 

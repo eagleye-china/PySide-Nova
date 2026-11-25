@@ -16,9 +16,16 @@ from pyside_nova import init_nova
 
 
 def resource_root() -> Path:
-    """开发期 = examples/；打包后 = 解包目录下的 examples/。"""
-    base = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
-    return base / "examples"
+    """返回 examples/ 资源根目录（其下直接是 gallery/main.qml）。
+
+    开发期：本文件位于 <repo>/examples/gallery_launch.py，根 = 文件所在目录；
+    打包后：--add-data examples->examples，根 = sys._MEIPASS/examples。
+    历史 bug（0.16.2 B3）：开发期曾用文件所在目录再拼一层 examples/，
+    得到不存在的 examples/examples/gallery/main.qml。
+    """
+    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+        return Path(sys._MEIPASS) / "examples"
+    return Path(__file__).resolve().parent
 
 
 def main() -> int:

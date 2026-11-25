@@ -1,0 +1,135 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaWizardShell",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaWizardShell.qml",
+ "description": "NovaWizardShell 分步向导壳：步骤指示器 + 当前步内容 + 上一步/下一步控制区，内置步骤状态骨架（对标 Quasar QStepper） NovaWizardShell —— 新建工程 / 打包 / 初始化配置向导组合根容器 用法：向 stepsSlot/contentSlot/controlsSlot/footerSlot 注入业务内容；currentStep 受控，Shell 只 emit 导航意图 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "stepsSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _steps.data",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "contentSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _body.content",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "controlsSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _controls.data",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "footerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _footer.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "currentStep",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "stepCount",
+   "type": "int",
+   "readonly": false,
+   "default": ": 3",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "showSteps",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "showFooter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "stepsHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 64",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "controlsHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 56",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "footerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "canGoPrevious",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.currentStep > 0",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "canGoNext",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.currentStep < root.stepCount - 1",
+   "doc": null,
+   "line": 33
+  }
+ ],
+ "signals": [
+  {
+   "name": "previousRequested",
+   "params": ""
+  },
+  {
+   "name": "nextRequested",
+   "params": ""
+  },
+  {
+   "name": "stepSelected",
+   "params": "int index"
+  }
+ ],
+ "methods": []
+}

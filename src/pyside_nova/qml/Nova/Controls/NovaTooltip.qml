@@ -54,9 +54,10 @@ Item {
 
     // ── 悬停触发（target 上挂 HoverHandler + 延迟 Timer） ──────
     HoverHandler {
+        id: hoverHandler
         enabled: root._tgt !== null
         target: root._tgt
-        onHoveredChanged: root.updateHover(isHovered)
+        onHoveredChanged: root.updateHover(hoverHandler.hovered)
     }
     Timer {
         id: tipTimer

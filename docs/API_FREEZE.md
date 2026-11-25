@@ -1,13 +1,14 @@
 # Nova 1.0 API 冻结清单（RC1 签署件）
 
-> **冻结日期**：2026-11-23　**包版本**：`1.0.0rc1`　
+> **冻结日期**：2026-11-25　**包版本**：`1.0.0rc1`　
 > **API 版本**：`1.0.0`　**对标基线**：Quasar 2.35.5
-> **内容指纹**：`f2fd1b0eacf665f2`　**签署人**：小伙（产品/验收）· 小诺（架构/实现）
+> **内容指纹**：`a8859ec8fc5720bf`　**签署人**：小伙（产品/验收）· 小诺（架构/实现）
 
 ## 1. 冻结口径
 
-**公共 API 面 = 四个 `qmldir` 的导出行**。这是本库对外的唯一契约来源：QML 侧
-`import Nova.Controls 1.0` 能拿到的每个类型名，就是 1.0 承诺稳定的全部内容。
+**公共 API 面 = 五个 `qmldir` 的导出行**。这是本库对外的唯一契约来源：QML 侧
+`import Nova.Controls 1.0` / `import Nova.Composite.LayoutShell 1.0` 能拿到的每个类型名，
+就是 1.0 承诺稳定的全部内容。
 
 | 进冻结面 | 不进冻结面 |
 |---|---|
@@ -21,7 +22,7 @@
 其 `types` 里每个公共成员都是 `名字:类型` / `名字(参数)` 的签名串，任何增删改都会让
 `scripts/check_api_freeze.py` 变红。
 
-## 2. 冻结统计（124 类型）
+## 2. 冻结统计（138 类型）
 
 | 模块 | 组件 | 单例 | 合计 |
 |---|---|---|---|
@@ -29,10 +30,11 @@
 | Nova.Behaviors | 12 | 1 | 13 |
 | Nova.Services | 4 | 12 | 16 |
 | Nova.Design | 0 | 4 | 4 |
-| **合计** | **107** | **17** | **124** |
+| Nova.Composite.LayoutShell | 14 | 0 | 14 |
+| **合计** | **121** | **17** | **138** |
 
 a11y 分类：interactive **32** / semantic **28** /
-decorative **64**（与 `scripts/check_a11y.py` 同一契约表，双通道一致才放行）。
+decorative **78**（与 `scripts/check_a11y.py` 同一契约表，双通道一致才放行）。
 
 ## 3. 冻结后的变更政策（语义化版本）
 
@@ -49,7 +51,7 @@ console.warn（不污染绑定、不刷屏）。1.0 封版时清单内**无废�
 
 ## 4. 签署
 
-- [x] 导出清单清点完毕（124 类型，四模块）
+- [x] 导出清单清点完毕（138 类型，五模块）
 - [x] 每类型文件存在、文件名与类型名一致、qmldir 版本 `1.0`
 - [x] a11y 分类 100% 登记（三分类制，见 `docs/A11Y.md`）
 - [x] 无跨模块重名（同名类型必须全库唯一，否则 QML 侧歧义）
@@ -57,8 +59,8 @@ console.warn（不污染绑定、不刷屏）。1.0 封版时清单内**无废�
 - [x] 命名红线扫描通过（无 `on*` 前缀属性 / 无 `color` 撞名 / 无 `palette`·`show`·`hide`）
 - [ ] RC2：24 条验收清单（`docs/ECOSYSTEM_PARITY.md` §6）全勾后随 1.0.0 正式生效
 
-**签署结论**：自 2026-11-23 起，上表 124 个类型的公共面视为
-**冻结**；后续任何公共面变化都必须走第 3 节流程并重签本文件（指纹 `f2fd1b0eacf665f2` → 新指纹）。
+**签署结论**：自 2026-11-25 起，上表 138 个类型的公共面视为
+**冻结**；后续任何公共面变化都必须走第 3 节流程并重签本文件（指纹 `a8859ec8fc5720bf` → 新指纹）。
 
 ## 5. 已知偏差与例外（冻结保留，2.0 再谈）
 
@@ -92,6 +94,20 @@ RC2 仍欠的四项（与 API 面解耦，不阻断冻结）：24h 内存长跑�
 | `NovaTouchPan` | Nova.Behaviors | 组件 | decorative | 10 | 1 | 0 |
 | `NovaTouchRepeat` | Nova.Behaviors | 组件 | decorative | 7 | 1 | 0 |
 | `NovaTouchSwipe` | Nova.Behaviors | 组件 | decorative | 7 | 1 | 0 |
+| `NovaBlankPageShell` | Nova.Composite.LayoutShell | 组件 | decorative | 9 | 0 | 0 |
+| `NovaCardGridShell` | Nova.Composite.LayoutShell | 组件 | decorative | 9 | 0 | 0 |
+| `NovaCompareShell` | Nova.Composite.LayoutShell | 组件 | decorative | 11 | 1 | 1 |
+| `NovaDesktop` | Nova.Composite.LayoutShell | 组件 | decorative | 11 | 1 | 0 |
+| `NovaDrawerPanelShell` | Nova.Composite.LayoutShell | 组件 | decorative | 12 | 1 | 1 |
+| `NovaDualSideShell` | Nova.Composite.LayoutShell | 组件 | decorative | 12 | 2 | 2 |
+| `NovaFlexLayout` | Nova.Composite.LayoutShell | 组件 | decorative | 11 | 1 | 0 |
+| `NovaMobile` | Nova.Composite.LayoutShell | 组件 | decorative | 11 | 1 | 0 |
+| `NovaModalShell` | Nova.Composite.LayoutShell | 组件 | decorative | 11 | 1 | 1 |
+| `NovaSidebarShell` | Nova.Composite.LayoutShell | 组件 | decorative | 14 | 1 | 1 |
+| `NovaTabShell` | Nova.Composite.LayoutShell | 组件 | decorative | 8 | 3 | 0 |
+| `NovaThreeColumnShell` | Nova.Composite.LayoutShell | 组件 | decorative | 13 | 1 | 0 |
+| `NovaTopNavShell` | Nova.Composite.LayoutShell | 组件 | decorative | 11 | 1 | 1 |
+| `NovaWizardShell` | Nova.Composite.LayoutShell | 组件 | decorative | 14 | 3 | 0 |
 | `NovaAjaxBar` | Nova.Controls | 组件 | semantic | 8 | 2 | 3 |
 | `NovaAvatar` | Nova.Controls | 组件 | semantic | 8 | 0 | 0 |
 | `NovaBadge` | Nova.Controls | 组件 | semantic | 8 | 0 | 0 |

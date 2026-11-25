@@ -4,7 +4,7 @@
 
 三道闸的自动化验收：
 1. **清单自洽**：`api/nova-api-1.0.0.json` 的指纹必须能由内容重算得出（防手改绕过）；
-2. **面零漂移**：现网 124 类型逐成员（props/signals/methods）与清单一致；
+2. **面零漂移**：现网 138 类型逐成员（props/signals/methods）与清单一致；
    并验证门禁**能真的变红**（删类型/加成员/改签名三类反例，防「永远绿」的假门禁）；
 3. **命名与纪律**：`on*` 前缀、基类成员撞名、qmldir `//` 注释、版本 1.0、头注释、
    `Component.onDestroyed` 等红线零违规；
@@ -36,9 +36,11 @@ import gen_api_freeze as gaf  # noqa: E402
 MANIFEST = ROOT / "api" / "nova-api-1.0.0.json"
 DOC = ROOT / "docs" / "API_FREEZE.md"
 
+# 0.18.0：14 项迁至独立模块 Nova.Composite.LayoutShell（宪法 0.3.0）；总数仍 138
 EXPECTED_MODULES = {"Nova.Controls": 91, "Nova.Behaviors": 13,
-                    "Nova.Services": 16, "Nova.Design": 4}
-EXPECTED_TOTAL = 124
+                    "Nova.Services": 16, "Nova.Design": 4,
+                    "Nova.Composite.LayoutShell": 14}
+EXPECTED_TOTAL = 138
 
 
 @pytest.fixture(scope="module")
@@ -65,7 +67,7 @@ def test_manifest_counts(manifest):
     assert manifest["counts"]["modules"] == EXPECTED_MODULES
     a11y = manifest["counts"]["a11y"]
     assert sum(a11y.values()) == EXPECTED_TOTAL
-    assert a11y == {"decorative": 64, "interactive": 32, "semantic": 28}
+    assert a11y == {"decorative": 78, "interactive": 32, "semantic": 28}
 
 
 def test_manifest_fingerprint_self_consistent(manifest):
