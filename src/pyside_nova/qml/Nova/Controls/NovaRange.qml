@@ -40,6 +40,10 @@ Item {
     property color rightThumbColor: tint             // 对标 right-thumb-color
     property real trackSize: dense ? 2 : 4
     property real thumbSize: dense ? 14 : 20
+    // CARF 基础组件 Robustness：thumb/track 尺寸非法入参钳制，几何恒非负且不超父短边。
+    readonly property real _dim: Math.min(root.width, root.height)
+    readonly property real _thumbSize: Math.max(0, Math.min(root.thumbSize, root._dim))
+    readonly property real _trackSize: Math.max(0, Math.min(root.trackSize, root._dim))
     property bool dense: false
     property bool dark: NovaTheme.isDark
 
@@ -92,7 +96,7 @@ Item {
     }
 
     function posToValue(pos) {
-        var len = vertical ? height - thumbSize : width - thumbSize
+        var len = vertical ? height - _thumbSize : width - _thumbSize
         if (len <= 0) return _lo
         var t = pos / len
         if (reverse) t = 1 - t
@@ -135,41 +139,41 @@ Item {
     }
 
     // ── 布局 ──────────────────────────────────────────────────
-    implicitWidth: vertical ? Math.max(thumbSize, 24) : 200
-    implicitHeight: vertical ? 200 : Math.max(thumbSize, 24)
+    implicitWidth: vertical ? Math.max(_thumbSize, 24) : 200
+    implicitHeight: vertical ? 200 : Math.max(_thumbSize, 24)
                     + ((hint !== "" && !hasError) || hasError ? 16 : 0)
 
-    readonly property real _trackLen: (vertical ? height : width) - thumbSize
+    readonly property real _trackLen: (vertical ? height : width) - _thumbSize
     function _pct(v) {
         var p = (v - _lo) / Math.max(_hi - _lo, 1e-9)
         return reverse ? 1 - Math.max(0, Math.min(1, p)) : Math.max(0, Math.min(1, p))
     }
-    readonly property real _leftPos: thumbSize / 2 + _pct(_left) * _trackLen
-    readonly property real _rightPos: thumbSize / 2 + _pct(_right) * _trackLen
+    readonly property real _leftPos: _thumbSize / 2 + _pct(_left) * _trackLen
+    readonly property real _rightPos: _thumbSize / 2 + _pct(_right) * _trackLen
     readonly property string _leftText: leftLabelValue !== "" ? leftLabelValue : String(_left)
     readonly property string _rightText: rightLabelValue !== "" ? rightLabelValue : String(_right)
 
     // ── 轨道 ──────────────────────────────────────────────────
     Rectangle {
         color: root.trackColor
-        radius: root.trackSize / 2
-        x: root.vertical ? (root.width - root.trackSize) / 2 : root.thumbSize / 2
-        y: root.vertical ? root.thumbSize / 2 : (root.height - root.trackSize) / 2
-        width: root.vertical ? root.trackSize : root._trackLen
-        height: root.vertical ? root._trackLen : root.trackSize
+        radius: root._trackSize / 2
+        x: root.vertical ? (root.width - root._trackSize) / 2 : root._thumbSize / 2
+        y: root.vertical ? root._thumbSize / 2 : (root.height - root._trackSize) / 2
+        width: root.vertical ? root._trackSize : root._trackLen
+        height: root.vertical ? root._trackLen : root._trackSize
         opacity: root.disable ? 0.4 : 1
     }
     Rectangle {
         color: root.hasError ? NovaTheme.negative : root.selectionColor
-        radius: root.trackSize / 2
-        x: root.vertical ? (root.width - root.trackSize) / 2
+        radius: root._trackSize / 2
+        x: root.vertical ? (root.width - root._trackSize) / 2
            : Math.min(root._leftPos, root._rightPos)
         y: root.vertical ? Math.min(root._leftPos, root._rightPos)
-           : (root.height - root.trackSize) / 2
-        width: root.vertical ? root.trackSize
+           : (root.height - root._trackSize) / 2
+        width: root.vertical ? root._trackSize
            : Math.abs(root._rightPos - root._leftPos)
         height: root.vertical ? Math.abs(root._rightPos - root._leftPos)
-           : root.trackSize
+           : root._trackSize
         opacity: root.disable ? 0.4 : 1
     }
 
@@ -186,9 +190,9 @@ Item {
             required property int index
             readonly property real t: index / (root._markerCount - 1)
             readonly property real p: root.reverse ? 1 - t : t
-            x: root.vertical ? (root.width - 2) / 2 : root.thumbSize / 2 + p * root._trackLen - 1
-            y: root.vertical ? root.thumbSize / 2 + p * root._trackLen - 1
-               : (root.height - root.trackSize) / 2 - 4
+            x: root.vertical ? (root.width - 2) / 2 : root._thumbSize / 2 + p * root._trackLen - 1
+            y: root.vertical ? root._thumbSize / 2 + p * root._trackLen - 1
+               : (root.height - root._trackSize) / 2 - 4
             width: 2; height: 2; radius: 1
             color: root.dark ? Qt.rgba(1, 1, 1, 0.35) : Qt.rgba(0, 0, 0, 0.3)
             visible: root._markerCount > 1 && index % root._markerEvery === 0
@@ -204,9 +208,9 @@ Item {
             readonly property string txt: Array.isArray(root.markerLabels)
                                           ? String(root.markerLabels[index])
                                           : String(root._quantize(root._lo + index * root.step))
-            x: root.vertical ? root.width + 4 : root.thumbSize / 2 + p * root._trackLen - width / 2
-            y: root.vertical ? root.thumbSize / 2 + p * root._trackLen - height / 2
-               : (root.height - root.trackSize) / 2 + root.trackSize + 4
+            x: root.vertical ? root.width + 4 : root._thumbSize / 2 + p * root._trackLen - width / 2
+            y: root.vertical ? root._thumbSize / 2 + p * root._trackLen - height / 2
+               : (root.height - root._trackSize) / 2 + root._trackSize + 4
             text: txt
             color: NovaTheme.textMuted
             font.pixelSize: 9
@@ -218,10 +222,10 @@ Item {
         id: th
         property bool isLeft: false
         readonly property real pos: isLeft ? root._leftPos : root._rightPos
-        x: root.vertical ? (root.width - root.thumbSize) / 2 : pos - root.thumbSize / 2
-        y: root.vertical ? pos - root.thumbSize / 2
-           : (root.height - root.trackSize) / 2 - (root.thumbSize - root.trackSize) / 2
-        width: root.thumbSize; height: root.thumbSize; radius: root.thumbSize / 2
+        x: root.vertical ? (root.width - root._thumbSize) / 2 : pos - root._thumbSize / 2
+        y: root.vertical ? pos - root._thumbSize / 2
+           : (root.height - root._trackSize) / 2 - (root._thumbSize - root._trackSize) / 2
+        width: root._thumbSize; height: root._thumbSize; radius: root._thumbSize / 2
         color: root.hasError ? NovaTheme.negative
              : (isLeft ? root.leftThumbColor : root.rightThumbColor)
         border.width: 2
@@ -230,7 +234,7 @@ Item {
         scale: ma.containsMouse || root._dragLeft === isLeft && root._dragging ? 1.15 : 1
         Rectangle {
             id: bubble
-            x: root.vertical ? (root.thumbSize - width) / 2 + 8 : (root.thumbSize - width) / 2
+            x: root.vertical ? (root._thumbSize - width) / 2 + 8 : (root._thumbSize - width) / 2
             y: root.vertical ? -height + 4 : -height - 4
             width: bt.implicitWidth + 12
             height: 20
@@ -259,8 +263,8 @@ Item {
             onPositionChanged: (m) => {
                 if (!dragging) return
                 var g = mapToItem(root, m.x + th.x, m.y + th.y)
-                var v = root.posToValue(root.vertical ? g.y - root.thumbSize / 2
-                                                      : g.x - root.thumbSize / 2)
+                var v = root.posToValue(root.vertical ? g.y - root._thumbSize / 2
+                                                      : g.x - root._thumbSize / 2)
                 if (th.isLeft) root.setValueLeft(v)
                 else root.setValueRight(v)
             }
@@ -278,8 +282,8 @@ Item {
         z: -1
         cursorShape: Qt.PointingHandCursor
         onPressed: (m) => {
-            var v = root.posToValue(root.vertical ? m.y - root.thumbSize / 2
-                                                  : m.x - root.thumbSize / 2)
+            var v = root.posToValue(root.vertical ? m.y - root._thumbSize / 2
+                                                  : m.x - root._thumbSize / 2)
             if (Math.abs(v - root._left) <= Math.abs(v - root._right))
                 root.setValueLeft(v)
             else root.setValueRight(v)

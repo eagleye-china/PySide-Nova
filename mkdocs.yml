@@ -1,11 +1,14 @@
-# MkDocs 文档站配置（0.16.2 B3 · L6 工程化：可搜索文档站）
+# MkDocs 文档站配置（pyside-nova 1.0.0 GA · L6 工程化：可搜索文档站）
 # 构建验证：python -m mkdocs build；本地预览：python -m mkdocs serve
+# ⚠️ 站点部署 / GitHub Pages / 正式域名属发布边界，归 CSA（伙伴）。
+#    site_url 为按 repo_url 推导的 GitHub Pages 规范值（去 example.com 占位）；
+#    若 CSA 采用自定义域名，仅需改 site_url 一行，部署动作本轮不执行。
 site_name: pyside-nova
 site_description: 面向 PySide6 的企业级 QML 组件库（对标 Quasar Framework）
-site_url: https://pyside-nova.example.com
-repo_url: https://github.com/pyside-nova/pyside-nova
-repo_name: pyside-nova
-edit_uri: ""
+site_url: https://eagleye-china.github.io/pyside-nova/
+repo_url: https://github.com/eagleye-china/pyside-nova
+repo_name: eagleye-china/pyside-nova
+edit_uri: edit/main/docs/
 
 docs_dir: docs
 site_dir: site
@@ -14,6 +17,28 @@ exclude_docs: |
   templates/
   ai/
   MASTER_PLAN.md.bak
+
+# T9/P1+P2 文档站产品化层
+# extra_css / extra_javascript：手写交互资产 + 生成物 nova-data.js（版本/组件唯一事实源）
+extra_css:
+  - assets/css/extra.css
+extra_javascript:
+  - assets/js/nova-data.js
+  - assets/js/nova-common.js
+  - assets/js/version-switcher.js
+  - assets/js/playground.js
+  - assets/js/layout-builder.js
+  - assets/js/examples.js
+
+extra:
+  # Material 官方语言切换器（中文站 / 英文骨架站）；站点部署归 CSA
+  alternate:
+    - name: 简体中文
+      link: ./
+      lang: zh
+    - name: English
+      link: en/
+      lang: en
 
 theme:
   name: material
@@ -40,7 +65,7 @@ theme:
         name: 切换亮色
 
 plugins:
-  - search               # 可搜索（门禁口径：可搜索 + 在线示例）
+  - search               # 全站搜索（随站点上线生效）
   - minify:
       minify_html: true
 
@@ -53,10 +78,42 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+      # 中文标题锚点：默认 slugify 会剥离非 ASCII，导致白皮书 25 处手写锚点失配
+      slugify: !!python/name:markdown.extensions.toc.slugify_unicode
+      toc_depth: 4          # 右侧页内 TOC 允许 h2/h3/h4 三级嵌套（配合 extra.css 编号）
 
 nav:
   - 首页: index.md
   - 画廊预览: GALLERY.md
+  - 组合根容器（15 项）:
+      - 总览: components/index.md
+      - NovaSidebar: components/NovaSidebar.md
+      - NovaTopNavigation: components/NovaTopNavigation.md
+      - NovaDualSide: components/NovaDualSide.md
+      - NovaTabShell: components/NovaTabShell.md
+      - NovaThreeColumn: components/NovaThreeColumn.md
+      - NovaCompare: components/NovaCompare.md
+      - NovaCardGrid: components/NovaCardGrid.md
+      - NovaModal: components/NovaModal.md
+      - NovaDrawerPanel: components/NovaDrawerPanel.md
+      - NovaSetupWizard: components/NovaSetupWizard.md
+      - NovaBlankPage: components/NovaBlankPage.md
+      - NovaDesktop: components/NovaDesktop.md
+      - NovaMobile: components/NovaMobile.md
+      - NovaFlexLayout: components/NovaFlexLayout.md
+      - NovaChat: components/NovaChat.md
+  - 白皮书（3 篇）:
+      - 旗舰组件库白皮书: white_paper/pyside-nova-旗舰组件库白皮书.md
+      - Prescient Layout Shell 封版规范: white_paper/Prescient-LayoutShell-封版规范.md
+      - 营销版 README 素材: white_paper/pyside-nova-README.md
+  - 天花板台账:
+      - CARF-R 15/15 销号台账: layout_shell/CEILING_AUDIT.md
+  - 装配态图（45 张）:
+      - 三态装配图索引: components/showcase.md
+  - 在线工具（T9 / P1+P2）:
+      - 在线可调参 Playground: tools/playground.md
+      - Layout Builder: tools/layout-builder.md
+      - 在线示例浏览器: tools/examples.md
   - 工程纪律:
       - 架构宪法: CONSTITUTION.md
       - 组合组件宪法: COMPOSITION_CONSTITUTION.md
@@ -66,7 +123,7 @@ nav:
       - 交接快照: SESSION_HANDOFF.md
   - 体系:
       - 架构说明: ARCHITECTURE.md
-      - 组件清单（124 项）: COMPONENT_LIST.md
+      - 组件清单（139 项）: COMPONENT_LIST.md
       - 组件详解（历史稿）: COMPONENTS.md
       - 设计令牌: DESIGN_TOKENS.md
       - 国际化指南: I18N.md
@@ -74,4 +131,28 @@ nav:
       - 无障碍矩阵: A11Y_MATRIX.md
   - 对账:
       - Quasar 逐项对账: PARITY.md
-      - 生态七层对账: ECOSYSTEM_PARITY.md
+      - 生态七层对账（历史档案）: ECOSYSTEM_PARITY.md
+  - 历史档案与附录:
+      - 预构范式封版方案: white_paper/PRESCRIPT.md
+      - 预构范式封版方案（中文稿）: white_paper/PRESCRIPT1.md
+      - 旗舰版封版徽标规范: white_paper/pyside-nova-logo.md
+      - Layout Shell 四稿 · 总纲: layout_shell/LayoutShell.md
+      - Layout Shell 四稿 · 规划: layout_shell/LayoutShellPlan.md
+      - Layout Shell 四稿 · 提示词: layout_shell/LayoutShellPrompt.md
+      - Prescient Layout Shell 四稿: layout_shell/PrescientLayoutShell.md
+      - 术语与范式封版规范: white_paper/PRESCRIPT2.md
+      - Quasar 对标口径: "white_paper/PySide‑Nova-Quasar.md"
+      - NovaAgent / NovaDE / NovaCopilot 封版方案: layout_shell/NovaAgent-NovaDE-NovaCopilot.md
+  - 社区（T9 / P2）:
+      - 社区与贡献: community/index.md
+      - 贡献指南: community/contributing.md
+      - 行为准则: community/code-of-conduct.md
+      - 安全策略: community/security.md
+      - 赞助（入口预留）: community/sponsors.md
+      - 博客（入口预留）: community/blog.md
+  - English（T9 / P1 i18n）:
+      - Home: en/index.md
+      - Composite containers: en/components.md
+      - Playground: en/playground.md
+      - Layout Builder: en/layout-builder.md
+      - Community: en/community.md

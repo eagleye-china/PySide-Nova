@@ -1,12 +1,12 @@
 # 组件 API 参考 — pyside-nova Components
 
 > ⚠️ **本文档是 0.2.1 时代的历史详解稿，仅覆盖早期 12 个组件，已不完整。**
-> **完整清单见 [COMPONENT_LIST.md](COMPONENT_LIST.md)** —— 1.0.0rc1 全部 **124 个**
+> **完整清单见 [COMPONENT_LIST.md](../../COMPONENT_LIST.md)** —— 1.0.0rc1 全部 **124 个**
 > 公共 QML 类型的顺序编号一览（含中文说明、对标 Quasar、a11y 类别、属性统计、QML 路径）。
 > 本文档保留的理由：其中的槽机制总览、`NovaTheme` / `NovaScreen` 令牌表、API 命名约定仍有参考价值。
 > API 与 Quasar 1:1 对齐（对标基线 **2.26.0**，当前全量基线已升至 **2.35.5**），例外均有注明。
 > 每个组件在 `examples/gallery/` 中均有实机展示页面。槽机制详见《架构宪法》第 4 章
-> （[CONSTITUTION.md](CONSTITUTION.md)）。
+> （[CONSTITUTION.md](../../CONSTITUTION.md)）。
 
 ## 槽机制总览（Quasar 槽 → QML 映射）
 
@@ -33,7 +33,7 @@ NovaBtn {
 
 ### NovaTheme
 
-设计令牌单例。完整令牌表见 [DESIGN_TOKENS.md](DESIGN_TOKENS.md)。
+设计令牌单例。完整令牌表见 [DESIGN_TOKENS.md](../../DESIGN_TOKENS.md)。
 
 | 成员 | 类型 | 说明 |
 |---|---|---|
@@ -188,4 +188,4 @@ Rectangle { NovaRipple { } }   // 挂载到任意 Item；NovaBtn 内置按压波
 | 语义文本色 `textOnPrimary / textColor / textMuted` | 禁用 `on*` 前缀属性名 |
 | 可读名覆盖属性 `a11yLabel` | aria-label 等价；图形按钮必填，文字控件留空自动取 `text`/`label` |
 | 语义色作为文字用 `*Text` 派生（`primaryText` … `infoText`） | 本色饱和度不足以过 AA 4.5:1；填充面用 `fillTint()` |
-| 全部类型的 a11y 契约（角色/可读名/键盘/焦点环） | 见 [A11Y_MATRIX.md](A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成） |
+| 全部类型的 a11y 契约（角色/可读名/键盘/焦点环） | 见 [A11Y_MATRIX.md](../../A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成） |

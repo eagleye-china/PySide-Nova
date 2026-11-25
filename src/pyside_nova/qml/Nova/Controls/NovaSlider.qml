@@ -38,6 +38,10 @@ Item {
     property color thumbColor: tint          // 对标 thumb-color
     property real trackSize: dense ? 2 : 4   // 对标 track-size
     property real thumbSize: dense ? 14 : 20 // 对标 thumb-size
+    // CARF 基础组件 Robustness：thumb/track 尺寸非法入参钳制，几何恒非负且不超父短边。
+    readonly property real _dim: Math.min(root.width, root.height)
+    readonly property real _thumbSize: Math.max(0, Math.min(root.thumbSize, root._dim))
+    readonly property real _trackSize: Math.max(0, Math.min(root.trackSize, root._dim))
     property bool dense: false
     property bool dark: NovaTheme.isDark
 
@@ -80,7 +84,7 @@ Item {
     }
 
     function posToValue(pos) {
-        var len = vertical ? height - thumbSize : width - thumbSize
+        var len = vertical ? height - _thumbSize : width - _thumbSize
         if (len <= 0) return _lo
         var t = pos / len
         if (reverse) t = 1 - t
@@ -108,37 +112,37 @@ Item {
     property bool updatingFromDrag: false
 
     // ── 布局 ──────────────────────────────────────────────────
-    implicitWidth: vertical ? Math.max(thumbSize, 24) : 200
-    implicitHeight: vertical ? 200 : Math.max(thumbSize, 24)
+    implicitWidth: vertical ? Math.max(_thumbSize, 24) : 200
+    implicitHeight: vertical ? 200 : Math.max(_thumbSize, 24)
                     + ((hint !== "" && !hasError) || hasError ? 16 : 0)
 
     // 轨道坐标（vertical：y 轴）
-    readonly property real _trackLen: (vertical ? height : width) - thumbSize
-    readonly property real _thumbPos: thumbSize / 2 + (reverse ? 1 - Math.max(0, Math.min(1, _pct)) : Math.max(0, Math.min(1, _pct))) * _trackLen
+    readonly property real _trackLen: (vertical ? height : width) - _thumbSize
+    readonly property real _thumbPos: _thumbSize / 2 + (reverse ? 1 - Math.max(0, Math.min(1, _pct)) : Math.max(0, Math.min(1, _pct))) * _trackLen
     readonly property real _selLen: Math.max(0, Math.min(1, _pct)) * _trackLen
 
     // ── 轨道 ──────────────────────────────────────────────────
     Rectangle {
         id: track
         color: root.trackColor
-        radius: root.trackSize / 2
-        x: root.vertical ? (root.width - root.trackSize) / 2 : root.thumbSize / 2
-        y: root.vertical ? root.thumbSize / 2 : (root.height - root.trackSize) / 2
-        width: root.vertical ? root.trackSize : root._trackLen
-        height: root.vertical ? root._trackLen : root.trackSize
+        radius: root._trackSize / 2
+        x: root.vertical ? (root.width - root._trackSize) / 2 : root._thumbSize / 2
+        y: root.vertical ? root._thumbSize / 2 : (root.height - root._trackSize) / 2
+        width: root.vertical ? root._trackSize : root._trackLen
+        height: root.vertical ? root._trackLen : root._trackSize
         opacity: root.disable ? 0.4 : 1
     }
 
     // 已选段
     Rectangle {
         color: root.hasError ? NovaTheme.negative : root.selectionColor
-        radius: root.trackSize / 2
-        x: root.vertical ? (root.width - root.trackSize) / 2
-           : (root.reverse ? root._thumbPos : root.thumbSize / 2)
-        y: root.vertical ? (root.reverse ? root.thumbSize / 2 : root._thumbPos)
-           : (root.height - root.trackSize) / 2
-        width: root.vertical ? root.trackSize : root._selLen
-        height: root.vertical ? root._selLen : root.trackSize
+        radius: root._trackSize / 2
+        x: root.vertical ? (root.width - root._trackSize) / 2
+           : (root.reverse ? root._thumbPos : root._thumbSize / 2)
+        y: root.vertical ? (root.reverse ? root._thumbSize / 2 : root._thumbPos)
+           : (root.height - root._trackSize) / 2
+        width: root.vertical ? root._trackSize : root._selLen
+        height: root.vertical ? root._selLen : root._trackSize
         visible: root._selLen > 0
         opacity: root.disable ? 0.4 : 1
     }
@@ -158,9 +162,9 @@ Item {
             readonly property real t: root.reverse ? 1 - index / (root._markerCount - 1)
                                                    : index / (root._markerCount - 1)
             x: root.vertical ? (root.width - 2) / 2
-               : root.thumbSize / 2 + t * root._trackLen - 1
-            y: root.vertical ? root.thumbSize / 2 + t * root._trackLen - 1
-               : (root.height - root.trackSize) / 2 - 4
+               : root._thumbSize / 2 + t * root._trackLen - 1
+            y: root.vertical ? root._thumbSize / 2 + t * root._trackLen - 1
+               : (root.height - root._trackSize) / 2 - 4
             width: root.vertical ? 2 : 2
             height: root.vertical ? 2 : 2
             radius: 1
@@ -181,9 +185,9 @@ Item {
                                           ? String(root.markerLabels[index])
                                           : String(root._quantize(root._lo + index * root.step))
             x: root.vertical ? root.width + 4
-               : root.thumbSize / 2 + t * root._trackLen - width / 2
-            y: root.vertical ? root.thumbSize / 2 + t * root._trackLen - height / 2
-               : (root.height - root.trackSize) / 2 + root.trackSize + 4
+               : root._thumbSize / 2 + t * root._trackLen - width / 2
+            y: root.vertical ? root._thumbSize / 2 + t * root._trackLen - height / 2
+               : (root.height - root._trackSize) / 2 + root._trackSize + 4
             text: txt
             color: NovaTheme.textMuted
             font.pixelSize: 9
@@ -193,10 +197,10 @@ Item {
     // ── 滑块 ──────────────────────────────────────────────────
     Rectangle {
         id: thumb
-        x: root.vertical ? (root.width - root.thumbSize) / 2 : root._thumbPos - root.thumbSize / 2
-        y: root.vertical ? root._thumbPos - root.thumbSize / 2
-           : (root.height - root.trackSize) / 2 - (root.thumbSize - root.trackSize) / 2
-        width: root.thumbSize; height: root.thumbSize; radius: root.thumbSize / 2
+        x: root.vertical ? (root.width - root._thumbSize) / 2 : root._thumbPos - root._thumbSize / 2
+        y: root.vertical ? root._thumbPos - root._thumbSize / 2
+           : (root.height - root._trackSize) / 2 - (root._thumbSize - root._trackSize) / 2
+        width: root._thumbSize; height: root._thumbSize; radius: root._thumbSize / 2
         color: root.hasError ? NovaTheme.negative : root.thumbColor
         border.width: 2
         border.color: NovaTheme.surface
@@ -207,7 +211,7 @@ Item {
         // label 气泡（拖拽/键盘/labelAlways 显示）
         Rectangle {
             id: bubble
-            x: root.vertical ? (root.thumbSize - width) / 2 + 8 : (root.thumbSize - width) / 2
+            x: root.vertical ? (root._thumbSize - width) / 2 + 8 : (root._thumbSize - width) / 2
             y: root.vertical ? -height + 4 : -height - 4
             width: bubbleText.implicitWidth + 12
             height: 20
@@ -234,15 +238,15 @@ Item {
         hoverEnabled: true
         onPressed: (m) => {
             root.updatingFromDrag = true
-            root.setValue(root.posToValue(root.vertical ? m.y - root.thumbSize / 2
-                                                        : m.x - root.thumbSize / 2))
+            root.setValue(root.posToValue(root.vertical ? m.y - root._thumbSize / 2
+                                                        : m.x - root._thumbSize / 2))
             root.updatingFromDrag = false
         }
         onPositionChanged: (m) => {
             if (!pressed) return
             root.updatingFromDrag = true
-            root.setValue(root.posToValue(root.vertical ? m.y - root.thumbSize / 2
-                                                        : m.x - root.thumbSize / 2))
+            root.setValue(root.posToValue(root.vertical ? m.y - root._thumbSize / 2
+                                                        : m.x - root._thumbSize / 2))
             root.updatingFromDrag = false
         }
         onReleased: root.changed()

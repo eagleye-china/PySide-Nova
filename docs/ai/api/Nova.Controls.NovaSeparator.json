@@ -43,6 +43,14 @@
    "default": ": NovaTheme.outline",
    "doc": null,
    "line": 19
+  },
+  {
+   "name": "_size",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, root.size)",
+   "doc": null,
+   "line": 22
   }
  ],
  "signals": [],

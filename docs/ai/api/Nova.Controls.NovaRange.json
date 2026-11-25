@@ -149,23 +149,31 @@
    "line": 42
   },
   {
-   "name": "dense",
-   "type": "bool",
-   "readonly": false,
-   "default": ": false",
-   "doc": null,
-   "line": 43
-  },
-  {
-   "name": "dark",
-   "type": "bool",
-   "readonly": false,
-   "default": ": NovaTheme.isDark",
+   "name": "_dim",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.min(root.width, root.height)",
    "doc": null,
    "line": 44
   },
   {
-   "name": "label",
+   "name": "_thumbSize",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.thumbSize, root._dim))",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "_trackSize",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.trackSize, root._dim))",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "dense",
    "type": "bool",
    "readonly": false,
    "default": ": false",
@@ -173,12 +181,28 @@
    "line": 47
   },
   {
+   "name": "dark",
+   "type": "bool",
+   "readonly": false,
+   "default": ": NovaTheme.isDark",
+   "doc": null,
+   "line": 48
+  },
+  {
+   "name": "label",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 51
+  },
+  {
    "name": "labelAlways",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 48
+   "line": 52
   },
   {
    "name": "leftLabelValue",
@@ -186,7 +210,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "对标 left-label-value",
-   "line": 49
+   "line": 53
   },
   {
    "name": "rightLabelValue",
@@ -194,7 +218,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 50
+   "line": 54
   },
   {
    "name": "markers",
@@ -202,7 +226,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 53
+   "line": 57
   },
   {
    "name": "markerLabels",
@@ -210,7 +234,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 54
+   "line": 58
   },
   {
    "name": "disable",
@@ -218,7 +242,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 57
+   "line": 61
   },
   {
    "name": "readonly",
@@ -226,7 +250,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 58
+   "line": 62
   },
   {
    "name": "activeTab",
@@ -234,7 +258,7 @@
    "readonly": false,
    "default": ": !disable",
    "doc": null,
-   "line": 59
+   "line": 63
   },
   {
    "name": "hint",
@@ -242,7 +266,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 60
+   "line": 64
   },
   {
    "name": "error",
@@ -250,7 +274,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 61
+   "line": 65
   },
   {
    "name": "errorMessage",
@@ -258,7 +282,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 62
+   "line": 66
   },
   {
    "name": "hasError",
@@ -266,7 +290,7 @@
    "readonly": true,
    "default": ": error || errorMessage !== \"\"",
    "doc": null,
-   "line": 64
+   "line": 68
   },
   {
    "name": "_lo",
@@ -274,7 +298,7 @@
    "readonly": true,
    "default": ": min",
    "doc": null,
-   "line": 70
+   "line": 74
   },
   {
    "name": "_hi",
@@ -282,7 +306,7 @@
    "readonly": true,
    "default": ": max",
    "doc": null,
-   "line": 71
+   "line": 75
   },
   {
    "name": "_left",
@@ -290,7 +314,7 @@
    "readonly": true,
    "default": ": Number(_norm.min)",
    "doc": null,
-   "line": 72
+   "line": 76
   },
   {
    "name": "_right",
@@ -298,7 +322,7 @@
    "readonly": true,
    "default": ": Number(_norm.max)",
    "doc": null,
-   "line": 73
+   "line": 77
   },
   {
    "name": "_norm",
@@ -306,7 +330,7 @@
    "readonly": true,
    "default": ": _normalize(modelValue)",
    "doc": null,
-   "line": 74
+   "line": 78
   },
   {
    "name": "updatingFromDrag",
@@ -314,31 +338,31 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 75
+   "line": 79
   },
   {
    "name": "_trackLen",
    "type": "real",
    "readonly": true,
-   "default": ": (vertical ? height : width) - thumbSize",
+   "default": ": (vertical ? height : width) - _thumbSize",
    "doc": null,
-   "line": 142
+   "line": 146
   },
   {
    "name": "_leftPos",
    "type": "real",
    "readonly": true,
-   "default": ": thumbSize / 2 + _pct(_left) * _trackLen",
+   "default": ": _thumbSize / 2 + _pct(_left) * _trackLen",
    "doc": null,
-   "line": 147
+   "line": 151
   },
   {
    "name": "_rightPos",
    "type": "real",
    "readonly": true,
-   "default": ": thumbSize / 2 + _pct(_right) * _trackLen",
+   "default": ": _thumbSize / 2 + _pct(_right) * _trackLen",
    "doc": null,
-   "line": 148
+   "line": 152
   },
   {
    "name": "_leftText",
@@ -346,7 +370,7 @@
    "readonly": true,
    "default": ": leftLabelValue !== \"\" ? leftLabelValue : String(_left)",
    "doc": null,
-   "line": 149
+   "line": 153
   },
   {
    "name": "_rightText",
@@ -354,7 +378,7 @@
    "readonly": true,
    "default": ": rightLabelValue !== \"\" ? rightLabelValue : String(_right)",
    "doc": null,
-   "line": 150
+   "line": 154
   },
   {
    "name": "_markerCount",
@@ -362,7 +386,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 177
+   "line": 181
   },
   {
    "name": "_markerEvery",
@@ -370,7 +394,7 @@
    "readonly": true,
    "default": ": typeof markers === \"number\" && markers > 1 ? markers : 1",
    "doc": null,
-   "line": 182
+   "line": 186
   },
   {
    "name": "t",
@@ -378,7 +402,7 @@
    "readonly": true,
    "default": ": index / (root._markerCount - 1)",
    "doc": null,
-   "line": 187
+   "line": 191
   },
   {
    "name": "p",
@@ -386,7 +410,7 @@
    "readonly": true,
    "default": ": root.reverse ? 1 - t : t",
    "doc": null,
-   "line": 188
+   "line": 192
   },
   {
    "name": "t",
@@ -394,7 +418,7 @@
    "readonly": true,
    "default": ": index / (root._markerCount - 1)",
    "doc": null,
-   "line": 202
+   "line": 206
   },
   {
    "name": "p",
@@ -402,7 +426,7 @@
    "readonly": true,
    "default": ": root.reverse ? 1 - t : t",
    "doc": null,
-   "line": 203
+   "line": 207
   },
   {
    "name": "txt",
@@ -410,7 +434,7 @@
    "readonly": true,
    "default": ": Array.isArray(root.markerLabels)",
    "doc": null,
-   "line": 204
+   "line": 208
   },
   {
    "name": "isLeft",
@@ -418,7 +442,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 219
+   "line": 223
   },
   {
    "name": "pos",
@@ -426,7 +450,7 @@
    "readonly": true,
    "default": ": isLeft ? root._leftPos : root._rightPos",
    "doc": null,
-   "line": 220
+   "line": 224
   },
   {
    "name": "dragging",
@@ -434,7 +458,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 256
+   "line": 260
   },
   {
    "name": "_dragging",
@@ -442,7 +466,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 269
+   "line": 273
   },
   {
    "name": "_dragLeft",
@@ -450,7 +474,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 270
+   "line": 274
   }
  ],
  "signals": [

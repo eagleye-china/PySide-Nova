@@ -167,9 +167,9 @@ pyside-nova/
 
 - [旗舰组件库白皮书](pyside-nova-旗舰组件库白皮书.md) — 品牌宣言、架构体系与全端方案
 - [Prescient Layout Shell 封版规范](Prescient-LayoutShell-封版规范.md) — 准入红线、槽位规范与四性验收
-- [布局壳模块 README](../../src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) — 15 项完整契约与依赖组件清单
-- [组件索引](../../docs/COMPONENT_LIST.md) — 139 类型，生成器产物（权威事实源）
-- [架构宪法](../../docs/CONSTITUTION.md) · [组合组件宪法](../../docs/COMPOSITION_CONSTITUTION.md)
+- [组合根容器逐组件 API 页](../components/index.md) — 15 项 Props / Slots / Events 完整契约与依赖组件清单
+- [组件索引](../COMPONENT_LIST.md) — 139 类型，生成器产物（权威事实源）
+- [架构宪法](../CONSTITUTION.md) · [组合组件宪法](../COMPOSITION_CONSTITUTION.md)
 
 ---
 
@@ -208,6 +208,9 @@ pyside-nova/
 | qmllint | **0 error**，warning 在预算内 |
 | 专项测试 | **48/48** |
 | 无头实例化 | **31/31**（15 组件 + Gallery + 15 演示） |
+| 四性全库回扫（宪法 0.8.1 / 封版规范 v2.0.1） | **15/15** 极端非法入参稳态几何非负 · **15/15** 声明式 RTL · 双主题实心注入渲染 PASS · `reducedMotion` 300→0ms PASS |
+| 组合态一致性契约（宪法 0.9.0 / 封版规范 v2.1.0） | **NovaChat 六轨装配首例**：唯一密度源、单一分隔源、抽象几何装饰、动效同步、槽位 `anchors.fill` 契约、成品级 showcase；浅色 / 深色 / 折叠三态渲染审计通过，QML 零错误、指纹不变 |
+| CC 迁移批次 2（宪法 0.9.1） | **NovaDesktop / NovaMobile / NovaFlexLayout 三大根壳**：栏高归零恒定锚链（消除布局跳变）、主色系抽象几何、成品级 showcase；12 张浅 / 深 / 变体渲染审计图全通过、API 冻结零漂移、**4/15 天花板销号** |
 
 ---
 

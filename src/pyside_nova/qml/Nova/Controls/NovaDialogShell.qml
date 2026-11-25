@@ -123,6 +123,8 @@ Item {
     property color tint: NovaTheme.surface
     readonly property real margin: 24
     property real maxWidth: 560
+    // CARF 基础组件 Robustness：maxWidth 非法入参钳制，卡片宽度恒非负。
+    readonly property real _maxWidth: Math.max(0, root.maxWidth)
 
     // ── 事件（对标 QDialog；dismissed(reason) 关闭原因上报） ──
     signal beforeShow()
@@ -206,7 +208,7 @@ Item {
         id: card
         width: root.maximized ? root.width
              : root.fullWidth ? Math.max(0, root.width - 2 * root.margin)
-             : Math.min(root.maxWidth, Math.max(0, root.width - 2 * root.margin))
+             : Math.min(root._maxWidth, Math.max(0, root.width - 2 * root.margin))
         height: root.maximized ? root.height
               : root.fullHeight ? Math.max(0, root.height - 2 * root.margin)
               : Math.min(Math.max(implicitHeight, 120), Math.max(0, root.height - 2 * root.margin))

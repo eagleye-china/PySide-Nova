@@ -252,9 +252,12 @@ Item {
 
             Item {
                 id: controlHost
-                width: parent.width - x - (suffixText.visible ? suffixText.width + 6 : 0)
+                // CARF 基础组件 Robustness：prefix/label/suffix 为超长文本时，
+                // 其 Row 内 Text 的隐式宽度会反噬本宽度计算产生负几何（布局塌陷）。
+                // 钳到非负——对外公开属性签名不变，仅内部几何出口守护。
+                width: Math.max(0, parent.width - x - (suffixText.visible ? suffixText.width + 6 : 0)
                      - (clearBtn.visible ? clearBtn.width + 4 : 0)
-                     - (loadingSpin.visible ? loadingSpin.width + 4 : 0)
+                     - (loadingSpin.visible ? loadingSpin.width + 4 : 0))
                 height: parent.height
                 clip: true
             }

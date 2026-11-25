@@ -1,0 +1,286 @@
+/* pyside-nova 文档站扩展样式（T9/P1+P2）
+   手写资产，非生成物；配合 docs/assets/js/ 下交互逻辑使用。
+   颜色一律取 Material CSS 变量，自动适配浅/深主题。 */
+
+/* ---------------------------------------------------------------------------
+   P1-② 右侧页内 TOC：嵌套编号（1 / 1.1 / 1.1.1）
+   Material 9.x DOM: nav.md-nav--secondary > ul > li > a > span.md-ellipsis
+                     嵌套层经 nav.md-nav > ul > li 中转
+   --------------------------------------------------------------------------- */
+.md-nav--secondary > .md-nav__list {
+  counter-reset: nova-toc-1;
+}
+.md-nav--secondary > .md-nav__list > .md-nav__item {
+  counter-increment: nova-toc-1;
+  counter-reset: nova-toc-2;
+}
+.md-nav--secondary > .md-nav__list > .md-nav__item > .md-nav__link .md-ellipsis::before {
+  content: counter(nova-toc-1) ". ";
+  color: var(--md-default-fg-color--lighter);
+  font-variant-numeric: tabular-nums;
+  font-size: .72rem;
+  margin-right: .18rem;
+}
+.md-nav--secondary > .md-nav__list > .md-nav__item > .md-nav > .md-nav__list > .md-nav__item {
+  counter-increment: nova-toc-2;
+  counter-reset: nova-toc-3;
+}
+.md-nav--secondary > .md-nav__list > .md-nav__item > .md-nav > .md-nav__list > .md-nav__item > .md-nav__link .md-ellipsis::before {
+  content: counter(nova-toc-1) "." counter(nova-toc-2) " ";
+  color: var(--md-default-fg-color--lighter);
+  font-variant-numeric: tabular-nums;
+  font-size: .68rem;
+  margin-right: .18rem;
+}
+.md-nav--secondary > .md-nav__list > .md-nav__item > .md-nav > .md-nav__list > .md-nav__item > .md-nav > .md-nav__list > .md-nav__item {
+  counter-increment: nova-toc-3;
+}
+.md-nav--secondary > .md-nav__list > .md-nav__item > .md-nav > .md-nav__list > .md-nav__item > .md-nav > .md-nav__list > .md-nav__item > .md-nav__link .md-ellipsis::before {
+  content: counter(nova-toc-1) "." counter(nova-toc-2) "." counter(nova-toc-3) " ";
+  color: var(--md-default-fg-color--lighter);
+  font-variant-numeric: tabular-nums;
+  font-size: .66rem;
+  margin-right: .18rem;
+}
+/* 嵌套层级缩进更明显，对齐「嵌套 TOC」观感 */
+.md-nav--secondary .md-nav .md-nav__link {
+  padding-left: 1.4rem;
+}
+.md-nav--secondary .md-nav .md-nav .md-nav__link {
+  padding-left: 2.2rem;
+}
+
+/* ---------------------------------------------------------------------------
+   P1-① 站点版本切换器
+   --------------------------------------------------------------------------- */
+.nova-version {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin-left: .6rem;
+  font-size: .68rem;
+  white-space: nowrap;
+}
+.nova-version label {
+  color: var(--md-default-fg-color--light);
+}
+.nova-version select {
+  max-width: 13rem;
+  padding: .2rem .4rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .2rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font-size: .68rem;
+  cursor: pointer;
+}
+.nova-version select:focus-visible {
+  outline: 2px solid var(--md-primary-fg-color);
+  outline-offset: 1px;
+}
+
+/* ---------------------------------------------------------------------------
+   P1-③ / P2 工具页通用
+   --------------------------------------------------------------------------- */
+.nova-tool {
+  margin: 1.2rem 0;
+  font-size: .8rem;
+}
+.nova-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .9rem;
+}
+.nova-toolbar label {
+  font-weight: 600;
+  color: var(--md-default-fg-color--light);
+}
+.nova-tool select,
+.nova-tool input[type="text"],
+.nova-tool input[type="number"] {
+  padding: .32rem .45rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .2rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font-size: .78rem;
+  max-width: 100%;
+}
+.nova-tool select:focus-visible,
+.nova-tool input:focus-visible {
+  outline: 2px solid var(--md-primary-fg-color);
+  outline-offset: 1px;
+}
+.nova-btn {
+  display: inline-block;
+  padding: .32rem .7rem;
+  border: 1px solid var(--md-primary-fg-color);
+  border-radius: .2rem;
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  font-size: .75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.nova-btn:hover { opacity: .88; }
+.nova-btn--ghost {
+  background: transparent;
+  color: var(--md-primary-fg-color);
+}
+.nova-btn:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+.nova-seg {
+  display: inline-flex;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .2rem;
+  overflow: hidden;
+}
+.nova-seg button {
+  border: 0;
+  border-right: 1px solid var(--md-default-fg-color--lightest);
+  background: transparent;
+  color: var(--md-default-fg-color);
+  padding: .3rem .6rem;
+  font-size: .74rem;
+  cursor: pointer;
+}
+.nova-seg button:last-child { border-right: 0; }
+.nova-seg button[aria-pressed="true"] {
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
+.nova-grid {
+  display: grid;
+  grid-template-columns: minmax(15rem, 1fr) minmax(18rem, 1.25fr);
+  gap: .9rem;
+  align-items: start;
+}
+@media (max-width: 60rem) {
+  .nova-grid { grid-template-columns: 1fr; }
+}
+.nova-panel {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .3rem;
+  padding: .8rem;
+  background: var(--md-code-bg-color);
+  min-width: 0;
+}
+.nova-panel h3,
+.nova-panel h4 {
+  margin: 0 0 .6rem;
+  font-size: .82rem;
+}
+.nova-field {
+  display: grid;
+  grid-template-columns: minmax(6rem, 1fr) minmax(6rem, 1fr);
+  gap: .4rem;
+  align-items: center;
+  padding: .28rem 0;
+  border-bottom: 1px dashed var(--md-default-fg-color--lightest);
+}
+.nova-field:last-child { border-bottom: 0; }
+.nova-field code {
+  font-size: .72rem;
+  word-break: break-all;
+}
+.nova-field .nova-type {
+  color: var(--md-default-fg-color--light);
+  font-size: .68rem;
+}
+.nova-field--ro { opacity: .72; }
+.nova-hint {
+  color: var(--md-default-fg-color--light);
+  font-size: .72rem;
+  line-height: 1.5;
+}
+.nova-preview {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .25rem;
+  background: var(--md-default-bg-color);
+}
+.nova-code {
+  margin: 0;
+  padding: .7rem;
+  border-radius: .25rem;
+  background: var(--md-code-bg-color);
+  color: var(--md-default-fg-color);
+  font-size: .72rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre;
+}
+.nova-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .72rem;
+}
+.nova-table th,
+.nova-table td {
+  padding: .28rem .4rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  text-align: left;
+  vertical-align: top;
+}
+.nova-table th { color: var(--md-default-fg-color--light); }
+.nova-stack {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  margin: .5rem 0;
+}
+.nova-stack > div {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .2rem;
+  padding: .45rem .6rem;
+  background: var(--md-default-bg-color);
+  font-size: .72rem;
+}
+.nova-stack > div[data-hidden="true"] {
+  opacity: .35;
+  border-style: dashed;
+  text-decoration: line-through;
+}
+.nova-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: .6rem;
+}
+.nova-thumbs figure { margin: 0; }
+.nova-thumbs img {
+  width: 100%;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .2rem;
+  cursor: zoom-in;
+  background: var(--md-default-bg-color);
+}
+.nova-thumbs figcaption {
+  font-size: .68rem;
+  color: var(--md-default-fg-color--light);
+  word-break: break-all;
+}
+.nova-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .82);
+  cursor: zoom-out;
+}
+.nova-lightbox img {
+  max-width: 94vw;
+  max-height: 92vh;
+  border-radius: .3rem;
+}
+.nova-status {
+  min-height: 1.1rem;
+  font-size: .7rem;
+  color: var(--md-default-fg-color--light);
+}

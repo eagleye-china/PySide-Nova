@@ -19,6 +19,11 @@ Item {
     // 四周内边距（替代 q-gutter 的列内实现）
     property int gutter: 0
 
+    // CARF 基础组件 Robustness：gutter 极端非法入参钳制，body margins 恒非负且不超父半尺寸。
+    readonly property int _gutter: Math.max(0, Math.min(root.gutter,
+                                                       Math.floor(root.width / 2),
+                                                       Math.floor(root.height / 2)))
+
     implicitWidth: 100
 
     width: parent && parent instanceof NovaRow ? parent.width * cols / 12 : implicitWidth
@@ -30,7 +35,7 @@ Item {
         id: body
         anchors {
             fill: parent
-            margins: root.gutter
+            margins: root._gutter
         }
     }
 }

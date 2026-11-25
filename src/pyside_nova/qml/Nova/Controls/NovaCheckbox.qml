@@ -57,6 +57,8 @@ Item {
     readonly property int _fs: dense ? 12 : 14
     // visual 插槽宿主宽度（NovaToggle 换装为开关轨道宽度）
     property real visualWidth: _boxSize
+    // CARF 基础组件 Robustness：visualWidth 非法入参钳制，Loader 宽度恒非负。
+    readonly property real _visualWidth: Math.max(0, root.visualWidth)
 
     signal valueChanged(var value)           // 对标 update:model-value
     signal toggled(bool checked)
@@ -185,7 +187,7 @@ Item {
             id: visualLoader
             anchors.verticalCenter: parent.verticalCenter
             sourceComponent: root.visual
-            width: root.visualWidth
+            width: root._visualWidth
             height: root._boxSize
             opacity: root.disable ? 0.5 : 1
         }

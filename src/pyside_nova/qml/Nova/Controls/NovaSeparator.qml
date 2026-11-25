@@ -18,15 +18,18 @@ Item {
     property real size: 1
     property color color: NovaTheme.outline
 
-    implicitWidth: vertical ? root.size : 8
-    implicitHeight: vertical ? 8 : root.size
+    // CARF 基础组件 Robustness：size 非法入参钳制，分隔线厚度恒非负。
+    readonly property real _size: Math.max(0, root.size)
+
+    implicitWidth: vertical ? root._size : 8
+    implicitHeight: vertical ? 8 : root._size
 
     Rectangle {
         anchors.centerIn: parent
-        width: root.vertical ? root.size
+        width: root.vertical ? root._size
                              : Math.max(0, root.width - (root.spaced ? NovaTheme.spacingL : 0))
         height: root.vertical ? Math.max(0, root.height - (root.spaced ? NovaTheme.spacingL : 0))
-                              : root.size
+                              : root._size
         color: root.color
     }
 }

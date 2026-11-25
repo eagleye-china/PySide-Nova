@@ -27,6 +27,14 @@
    "default": ": 0",
    "doc": null,
    "line": 20
+  },
+  {
+   "name": "_gutter",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.gutter,",
+   "doc": null,
+   "line": 23
   }
  ],
  "signals": [],

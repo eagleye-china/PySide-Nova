@@ -2,7 +2,7 @@
  "name": "Nova.Composite.LayoutShell.NovaChat",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaChat.qml",
- "description": "NovaChat AI 对话主窗口壳：品牌化多轨工作台 —— 导航轨 / 会话列 / 对话区 / 输入区 / 详情栏 / 浮层六槽骨架（对标 WorkBuddy 桌面端主窗口） 身份体系（0.7.1）：顶层三段品牌线 + 五轨各自独占的前景结构签名 —— 图标 rail（品牌徽记/激活点/账户锚）、 会话栈（搜索胶囊/激活竖条/新建圆钮）、AI 画布（四角取景框）、输入区（浮起胶囊/附加点/发送钮）、 详情栏（分段 tab/渐变缘轨）。全部为下划线私有纯几何装饰、零业务语义、只用 NovaTheme 真实令牌，",
+ "description": "NovaChat AI 对话主窗口壳：六槽多轨工作台（对标 WorkBuddy 桌面端主窗口），组合态一致性契约（CC）落地标杆 组合态（宪法 0.9.0）：根内以 _ 私有 readonly 声明唯一组合上下文（密度/层级/动效/品牌色），六轨共享； 相邻边界只有一条分隔源；身份装饰一律抽象几何、禁止仿交互控件、同屏品牌色收敛为主色系； 折叠锚链恒定不依赖 visible 三元切换。全部为 _ 私有 PATCH，公共 API 签名逐字不变、冻结指纹不变。",
  "properties": [
   {
    "name": "navSlot",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": _nav.data",
    "doc": null,
-   "line": 20
+   "line": 19
   },
   {
    "name": "conversationSlot",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": _conversation.data",
    "doc": null,
-   "line": 21
+   "line": 20
   },
   {
    "name": "headerSlot",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": _header.data",
    "doc": null,
-   "line": 22
+   "line": 21
   },
   {
    "name": "contentSlot",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": _body.content",
    "doc": null,
-   "line": 23
+   "line": 22
   },
   {
    "name": "composerSlot",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": _composer.data",
    "doc": null,
-   "line": 24
+   "line": 23
   },
   {
    "name": "detailSlot",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": _detail.data",
    "doc": null,
-   "line": 25
+   "line": 24
   },
   {
    "name": "overlaySlot",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": _overlay.data",
    "doc": null,
-   "line": 26
+   "line": 25
   },
   {
    "name": "navSize",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": 64",
    "doc": null,
-   "line": 29
+   "line": 28
   },
   {
    "name": "conversationSize",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": 300",
    "doc": null,
-   "line": 30
+   "line": 29
   },
   {
    "name": "detailSize",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": 320",
    "doc": null,
-   "line": 31
+   "line": 30
   },
   {
    "name": "headerHeight",
@@ -90,7 +90,7 @@
    "readonly": false,
    "default": ": 52",
    "doc": null,
-   "line": 32
+   "line": 31
   },
   {
    "name": "composerHeight",
@@ -98,7 +98,7 @@
    "readonly": false,
    "default": ": 132",
    "doc": null,
-   "line": 33
+   "line": 32
   },
   {
    "name": "showNav",
@@ -106,7 +106,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 34
+   "line": 33
   },
   {
    "name": "showConversation",
@@ -114,7 +114,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 35
+   "line": 34
   },
   {
    "name": "showDetail",
@@ -122,7 +122,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 36
+   "line": 35
   },
   {
    "name": "showHeader",
@@ -130,7 +130,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 37
+   "line": 36
   },
   {
    "name": "showComposer",
@@ -138,7 +138,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 38
+   "line": 37
   },
   {
    "name": "navCollapsed",
@@ -146,7 +146,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 39
+   "line": 38
   },
   {
    "name": "conversationCollapsed",
@@ -154,7 +154,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 40
+   "line": 39
   },
   {
    "name": "detailCollapsed",
@@ -162,7 +162,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 41
+   "line": 40
   },
   {
    "name": "breakpoint",
@@ -170,7 +170,7 @@
    "readonly": false,
    "default": ": 960",
    "doc": null,
-   "line": 42
+   "line": 41
   },
   {
    "name": "bordered",
@@ -178,7 +178,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 43
+   "line": 42
   },
   {
    "name": "belowBreakpoint",
@@ -186,7 +186,7 @@
    "readonly": true,
    "default": ": width > 0 && width < root.breakpoint",
    "doc": null,
-   "line": 53
+   "line": 52
   },
   {
    "name": "_navW",
@@ -194,7 +194,7 @@
    "readonly": true,
    "default": ": Math.max(48, Math.min(root.navSize, 160))",
    "doc": null,
-   "line": 59
+   "line": 58
   },
   {
    "name": "_convW",
@@ -202,7 +202,7 @@
    "readonly": true,
    "default": ": Math.max(180, Math.min(root.conversationSize, width / 2 || root.conversationSize))",
    "doc": null,
-   "line": 60
+   "line": 59
   },
   {
    "name": "_detailW",
@@ -210,15 +210,119 @@
    "readonly": true,
    "default": ": Math.max(200, Math.min(root.detailSize, width / 3 || root.detailSize))",
    "doc": null,
+   "line": 60
+  },
+  {
+   "name": "_headerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.headerHeight, 240))",
+   "doc": null,
    "line": 61
+  },
+  {
+   "name": "_composerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.composerHeight, 360))",
+   "doc": null,
+   "line": 62
+  },
+  {
+   "name": "_unit",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.spacingS",
+   "doc": "6px 密度栅格基元",
+   "line": 66
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": "12 轨内统一边距",
+   "line": 67
+  },
+  {
+   "name": "_railPad",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": null,
+   "line": 68
+  },
+  {
+   "name": "_radius",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.radiusM",
+   "doc": null,
+   "line": 69
+  },
+  {
+   "name": "_dur",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
+   "doc": null,
+   "line": 70
+  },
+  {
+   "name": "_ease",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.easingStandard",
+   "doc": null,
+   "line": 71
+  },
+  {
+   "name": "_divider",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 72
+  },
+  {
+   "name": "_rail",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surfaceAlt",
+   "doc": null,
+   "line": 73
+  },
+  {
+   "name": "_panel",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 74
+  },
+  {
+   "name": "_ink",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 75
+  },
+  {
+   "name": "_inkSoft",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(NovaTheme.primary, 1.35)",
+   "doc": null,
+   "line": 77
   },
   {
    "name": "_arm",
    "type": "int",
    "readonly": true,
-   "default": ": 14",
+   "default": ": 10",
    "doc": null,
-   "line": 274
+   "line": 314
   }
  ],
  "signals": [

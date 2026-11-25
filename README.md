@@ -33,6 +33,9 @@ stable, industrial-grade interfaces.
 | **Quality gates** | static 3/3 PASS · 478 pytest cases · 31/31 headless instantiation · qmllint 0 error |
 
 - **Flagship Standard**: Robustness · Solidity · Aesthetics · Prescience
+- **Methodology**: **CARF** — Conceive, Achieve, Refine, Freeze — Culminate to the peak
+  ([母法卷首宣言](docs/CONSTITUTION.md)) · all 15 composite root containers audited to the ceiling
+  ([ceiling ledger](docs/layout_shell/CEILING_AUDIT.md))
 - **Constitution**: [docs/CONSTITUTION.md](docs/CONSTITUTION.md) (mother law) + [docs/COMPOSITION_CONSTITUTION.md](docs/COMPOSITION_CONSTITUTION.md) (Layout Shell sub-law)
 - **White papers**: [Flagship White Paper](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) · [Prescient Layout Shell Frozen Spec](docs/white_paper/Prescient-LayoutShell-封版规范.md)
 - **Authoritative index**: [docs/COMPONENT_LIST.md](docs/COMPONENT_LIST.md) — generated, never hand-edited

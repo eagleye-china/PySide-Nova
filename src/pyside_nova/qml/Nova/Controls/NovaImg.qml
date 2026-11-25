@@ -26,6 +26,8 @@ Item {
     property string position: "center"    // 对标 object-position（简化方位枚举）
     property color spinnerTint: NovaTheme.primary  // 对标 spinner-color（tint 命名红线）
     property real spinnerSize: 42                  // 对标 spinner-size
+    // CARF 基础组件 Robustness：spinnerSize 非法入参钳制，spinner 直径恒非负。
+    readonly property real _spinnerSize: Math.max(0, root.spinnerSize)
     property bool noSpinner: false
     property bool noTransition: false
     property int loadingShowDelay: 400             // 防缓存图闪 spinner（对标 loading-show-delay）
@@ -135,8 +137,8 @@ Item {
 
         // 环形 spinner：旋转 Item + Canvas 270° 弧（令牌取色，无魔法色值）
         Item {
-            width: root.spinnerSize
-            height: root.spinnerSize
+            width: root._spinnerSize
+            height: root._spinnerSize
             anchors.centerIn: parent
 
             RotationAnimation on rotation {

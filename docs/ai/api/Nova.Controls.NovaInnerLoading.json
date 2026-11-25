@@ -61,12 +61,20 @@
    "line": 25
   },
   {
+   "name": "_size",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, root.size)",
+   "doc": null,
+   "line": 28
+  },
+  {
    "name": "_hasSlot",
    "type": "bool",
    "readonly": true,
    "default": ": slotBox.children.length > 0",
    "doc": null,
-   "line": 33
+   "line": 36
   }
  ],
  "signals": [],

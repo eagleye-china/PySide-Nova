@@ -37,6 +37,9 @@ Item {
 
     // ── 配置 ──────────────────────────────────────────────────
     property int revealWidth: dense ? 56 : 72                   // 侧板露出宽度
+    // CARF 基础组件 Robustness：revealWidth 非法入参钳制，侧板宽度恒非负且不超父半宽。
+    readonly property int _revealWidth: Math.max(0, Math.min(root.revealWidth,
+                                                            Math.floor(root.width / 2)))
     property int duration: 240                                  // 吸附动画时长
     property real openThreshold: 0.4                            // 释放时打开所需进度（0~1）
 
@@ -76,7 +79,7 @@ Item {
         objectName: "NovaSlideItem.leftLoader"
         // RTL（0.16.1）：逻辑 left 面板挂到右缘（拖拽/吸附逻辑的 +x 语义随之自然成立）
         x: NovaTheme.isRtl ? root.width - width : 0
-        width: root.revealWidth
+        width: root._revealWidth
         height: root.height
         active: false
     }
@@ -84,7 +87,7 @@ Item {
         id: rightLoader
         objectName: "NovaSlideItem.rightLoader"
         x: NovaTheme.isRtl ? 0 : root.width - width
-        width: root.revealWidth
+        width: root._revealWidth
         height: root.height
         active: false
     }
@@ -128,7 +131,7 @@ Item {
                     _dir = dx > 0 ? "right" : "left"
                 }
                 var off = _baseX + dx
-                front.x = Math.max(-root.revealWidth, Math.min(root.revealWidth, off))
+                front.x = Math.max(-root._revealWidth, Math.min(root._revealWidth, off))
             }
             onReleased: root._settle()
             onCanceled: root._settle()
@@ -137,7 +140,7 @@ Item {
 
     // 释放吸附：越过阈值打开对应侧，否则闭合
     function _settle() {
-        var prog = Math.abs(front.x) / revealWidth
+        var prog = root._revealWidth > 0 ? Math.abs(front.x) / root._revealWidth : 0
         if (prog >= openThreshold && front.x > 0 && leftSlot !== null) _openSide("left")
         else if (prog >= openThreshold && front.x < 0 && rightSlot !== null) _openSide("right")
         else _closeSide()
@@ -148,7 +151,7 @@ Item {
             _side = side
             slideOpened(side)
         }
-        front.x = side === "left" ? revealWidth : -revealWidth
+        front.x = side === "left" ? root._revealWidth : -root._revealWidth
     }
 
     function _closeSide() {

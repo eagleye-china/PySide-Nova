@@ -7,7 +7,7 @@
 
 | 项目 | 内容 |
 |---|---|
-| **法源** | `docs/CONSTITUTION.md`（母法）· `docs/COMPOSITION_CONSTITUTION.md`（组合组件宪法 0.8.0）· `docs/white_paper/Prescient-LayoutShell-封版规范.md`（技术红线 v2.0.0） |
+| **法源** | `docs/CONSTITUTION.md`（母法）· `docs/COMPOSITION_CONSTITUTION.md`（组合组件宪法 0.9.1）· `docs/white_paper/Prescient-LayoutShell-封版规范.md`（技术红线 v2.1.0） |
 | **权威事实源** | `docs/COMPONENT_LIST.md` + `api/nova-api-1.0.0.json`（均为生成器产物，禁止手改） |
 | **性质** | 无业务语义的复合根容器骨架；填业务即交付 |
 | **状态** | ✅ 15/15 已封版 · Gallery 15 页独立预览 · 15 个独立演示 · 静态门禁 3/3 |
@@ -143,7 +143,7 @@
 - **依赖**：Theme · Footer · Page · Separator
 
 #### `NovaCardGrid` — 卡片网格壳
-- **身份**：工具条胶囊占位（筛选 / 视图切换）+ Flow 网格骨架
+- **身份**：工具条抽象几何标识（筛选 / 视图切换）+ Flow 网格骨架
 - **配置**：`showFilter` · `showFooter` · `filterHeight` · `footerHeight` · `padding`
 - **槽位**：`filterSlot` · `gridSlot` · `footerSlot` · `overlaySlot`
 - **依赖**：Theme · Footer · Separator ｜ **推荐注入**：`NovaCard`
@@ -293,8 +293,30 @@ PATCH 实现变更，**公共 API 签名逐字不变、指纹不变**。
 5. **a11y**：容器根标 `// a11y: decorative`，不挂 `Accessible.*`；纯几何装饰逐块标注；
 6. **动效**：一律 `NovaMotion.duration(NovaMotion.transitionDuration)` +
    `NovaMotion.easingStandard`，禁止散落 `duration: 240`；
-7. **槽位宿主隔离**：装饰层与业务注入层分离，装饰用 `NovaTheme.z*` 提级。
+7. **槽位宿主隔离**：装饰层与业务注入层分离，装饰用 `NovaTheme.z*` 提级；
+8. **槽位内容基线（宪法 0.9.0 CC-6）**：`xxxSlot` 注入的顶层 `Item` 默认 0×0，
+   **必须显式 `anchors.fill: parent`**，否则内部 anchors 算出负宽高被裁（中央空板）；
+   消息流 / 输入区等长内容须限宽居中，避免宽屏被拉成超长条。
 
-> 本模块 README 是《Prescient Layout Shell 封版规范 v2.0.0》第 9 章「入库交付物清单」的
+> 本模块 README 是《Prescient Layout Shell 封版规范 v2.1.0》第 9 章「入库交付物清单」的
 > 集中承载形式（单一模块平铺，不按组件拆子目录——宪法 0.3.0）。技术红线以封版规范与
 > 组合组件宪法为准；成熟度以 `docs/COMPONENT_LIST.md` 为准。
+>
+> **0.8.1 四性全库回扫已过**：装饰实心度 ≥0.85（15/15）、声明式 RTL（15/15）、几何入参
+> `_` 私有钳制（39 属性 / 54 引用）、身份装饰 `zMarginals` 提级（17 处）；15/15 极端
+> 非法入参稳态几何非负、双主题实心注入渲染 PASS、`reducedMotion` 短路 PASS。全为
+> `_` 私有 PATCH，公共 API 与指纹零漂移。
+
+> **0.9.0 组合态一致性契约已落地（NovaChat 首例）**：第 9 章 CC-1~CC-8 定义 L1 装配层；
+> 本模块 `NovaChat.qml` 已用 13 个 `_` 私有组合上下文常量统一六轨密度 / 层级 / 动效，
+> 边界收敛为唯一分隔源、装饰改抽象几何、折叠锚链恒定；独立演示改为成品 showcase
+> （六槽真实业务注入、调参面板默认收起、消息与输入限宽居中）。浅色 / 深色 / 折叠
+> 三态渲染审计通过、QML 零错误、公共 API 与指纹 `bfd3d938a2fab7be` 零漂移。
+
+> **0.9.1 CC 迁移批次 2 已落地（3 项销号）**：`NovaDesktop` / `NovaMobile` /
+> `NovaFlexLayout` 逐项完成 CC-1~CC-8——三元锚链改「栏高归零 + 恒定锚链 + 同步动效」、
+> 三色撞色与伪控件收敛主色系抽象几何、槽位宿主独立铺满（注入顶层一律
+> `anchors.fill: parent`）、独立演示改成品级 showcase 且调参面板默认收起。
+> 深色装配态审计反向修复 `NovaMobile` 灵动岛可见性。12 张三态渲染审计图全通过、
+> 静态 3/3、专项 48/48、31/31 实例化、极端非法入参 0 负几何、RTL 4/4、
+> 指纹 `bfd3d938a2fab7be` 不变。逐项台账见 `docs/layout_shell/CEILING_AUDIT.md`（**4/15**）。

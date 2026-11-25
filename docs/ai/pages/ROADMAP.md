@@ -1,6 +1,6 @@
 # 路线图 — pyside-nova Roadmap
 
-> **进度排期以 [MASTER_PLAN.md](MASTER_PLAN.md) 全生态六期总规划为准**；本文件保留 P0/P1/P2 分级视角。
+> **进度排期以 [MASTER_PLAN.md](../../MASTER_PLAN.md) 全生态六期总规划为准**；本文件保留 P0/P1/P2 分级视角。
 
 > 对标 Quasar v2 官方组件目录（70+ 组件）与 Qt Quick Controls（Qt 6.8/6.12）官方类型清单
 > 逐项比对后的差距清单。QML 已有 40+ 基础控件（Button/CheckBox/ComboBox/Slider/Menu/

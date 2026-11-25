@@ -229,12 +229,20 @@
    "line": 59
   },
   {
+   "name": "_visualWidth",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, root.visualWidth)",
+   "doc": null,
+   "line": 61
+  },
+  {
    "name": "visual",
    "type": "Component",
    "readonly": false,
    "default": ": Component {",
    "doc": null,
-   "line": 65
+   "line": 67
   },
   {
    "name": "chk",
@@ -242,7 +250,7 @@
    "readonly": true,
    "default": ": root.checked",
    "doc": null,
-   "line": 67
+   "line": 69
   },
   {
    "name": "ind",
@@ -250,7 +258,7 @@
    "readonly": true,
    "default": ": root.indeterminate",
    "doc": null,
-   "line": 68
+   "line": 70
   },
   {
    "name": "_borderBox",
@@ -258,7 +266,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 132
+   "line": 134
   },
   {
    "name": "_fgBox",
@@ -266,7 +274,7 @@
    "readonly": true,
    "default": ": (root.checked || root.indeterminate) && !root.readonly",
    "doc": null,
-   "line": 137
+   "line": 139
   },
   {
    "name": "_valMode",
@@ -274,7 +282,7 @@
    "readonly": true,
    "default": ": val !== null && val !== undefined",
    "doc": null,
-   "line": 162
+   "line": 164
   },
   {
    "name": "_hasInd",
@@ -282,7 +290,7 @@
    "readonly": true,
    "default": ": indeterminateValue !== null && !_valMode",
    "doc": null,
-   "line": 163
+   "line": 165
   }
  ],
  "signals": [

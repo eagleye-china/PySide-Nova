@@ -1,6 +1,6 @@
 # pyside-nova 旗舰组合根容器｜权威清单（整合完整版）
-> 封版规范：组合宪法 **0.8.0** · 包版本 **1.0.0 GA** · **15 项全部已封版**（API 冻结指纹 `bfd3d938a2fab7be`）
-> 技术红线：`docs/white_paper/Prescient-LayoutShell-封版规范.md` v2.0.0 ·
+> 封版规范：组合宪法 **0.9.1** · 包版本 **1.0.0 GA** · **15 项全部已封版**（API 冻结指纹 `bfd3d938a2fab7be`）
+> 技术红线：`docs/white_paper/Prescient-LayoutShell-封版规范.md` v2.1.0 ·
 > 契约交付物：`src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md`（15 项属性/信号/槽位 + 依赖组件清单）
 > 定位：主打工业桌面工具、HMI、IDE类、配置管理、AI助手、文档工作台；精而不繁、正交无冗余，一个业务场景优先匹配一个根容器，不重复造同结构骨架
 > 命名纪律（0.6.0）：能去则去、必要则留；缩写一律全称——优先不带 `Shell`；撞 Controls 同名时保留（`NovaTabShell`）；用途收窄者语义正名（`NovaSetupWizard`）；`NovaTopNavigation`（原 `NovaTopNav`）
@@ -110,7 +110,7 @@ AI 对话主窗口（导航轨 + 会话列 + 对话区 + 输入区 + 详情栏�
 15. NovaChat               AI 对话主窗口（WorkBuddy 桌面端对标）
 
 ## 📄 仓库简介（README 可用）
-pyside-nova 组合根容器体系是一套对标 Quasar 2.35.5、面向 PySide6 QML 的旗舰布局壳体系，包含 15 个正交无冗余的组合根容器，全部落在第五 QML 模块 `Nova.Composite.LayoutShell` 并于 1.0.0 GA 封版。覆盖工作台导航、多栏预览对比、弹窗浮层、向导、独立单页，同时配套 **NovaDesktop 桌面根壳、NovaMobile 移动端根壳、NovaFlexLayout 企业大屏布局** 与 **NovaChat AI 对话主窗口**，一套布局体系同时适配 PC 桌面软件、安卓移动端、工业 HMI 大屏与 AI 工作台场景。所有组件遵循组合宪法（0.8.0）、**统一槽位机制与语义（槽位名按骨架场景化）**、唯一 `NovaTheme` 视觉令牌门面与 `NovaMotion` 动效令牌门面、独立 Gallery Demo 与独立演示，适合企业级工具、IDE、配置平台、AI 工作台快速落地。
+pyside-nova 组合根容器体系是一套对标 Quasar 2.35.5、面向 PySide6 QML 的旗舰布局壳体系，包含 15 个正交无冗余的组合根容器，全部落在第五 QML 模块 `Nova.Composite.LayoutShell` 并于 1.0.0 GA 封版。覆盖工作台导航、多栏预览对比、弹窗浮层、向导、独立单页，同时配套 **NovaDesktop 桌面根壳、NovaMobile 移动端根壳、NovaFlexLayout 企业大屏布局** 与 **NovaChat AI 对话主窗口**，一套布局体系同时适配 PC 桌面软件、安卓移动端、工业 HMI 大屏与 AI 工作台场景。所有组件遵循组合宪法（0.9.0）、**统一槽位机制与语义（槽位名按骨架场景化）**、唯一 `NovaTheme` 视觉令牌门面与 `NovaMotion` 动效令牌门面、独立 Gallery Demo 与独立演示，适合企业级工具、IDE、配置平台、AI 工作台快速落地。
 
 ## ✅ 封版状态（1.0.0 GA · 15/15 全部已交付）
 
@@ -128,7 +128,7 @@ pyside-nova 组合根容器体系是一套对标 Quasar 2.35.5、面向 PySide6 
 > `examples/layout_shell/` 独立演示、全部通过 `check_all.py --tier static` 3/3 门禁。
 >
 > 统一的是**槽位机制（`property alias`）、单向数据流与纯布局托管语义**，槽位名按骨架范式
-> **场景化命名**（完整 15 项真实槽位表见模块 README 与《封版规范 v2.0.0》§4.2）；
+> **场景化命名**（完整 15 项真实槽位表见模块 README 与《封版规范 v2.1.0》§4.2）；
 > 视觉取 `NovaTheme`、动效取 `NovaMotion`（0.8.0 全量令牌化）、装饰容器标 `// a11y: decorative`。
 > 交付物以**模块级 `README.md` 集中承载**，不按组件拆独立子目录（宪法 0.3.0）。
 
@@ -150,3 +150,52 @@ pyside-nova 组合根容器体系是一套对标 Quasar 2.35.5、面向 PySide6 
   `README.md` / `README_zh.md` 汲取营销稿营养并校准 1.0.0 GA 真实现状。
 - **契约零漂移**：以上全为 `_` 私有 / 注释 / 内部实现变更，公共 API 签名逐字不变、
   指纹 `bfd3d938a2fab7be` 不变（PATCH，无需重签）。
+
+## 🛡️ 0.8.1 四性标准全库回扫（封版规范 v2.0.1）
+
+伙伴点名"其余 6 个组件也按四性标准过一遍"——经全量机检厘定为**全库 15 项回扫**
+（0.7.1 / 0.8.0 立规后只修单点，其余组件从未按新规复核；宪法坑位 18：新条款入宪即
+全库回扫，无"其余免检"）。四类合规债全清，全为 `_` 私有 PATCH、指纹零漂移：
+
+- **装饰实心度**：20 余处 `opacity: 0.18~0.7` 身份装饰统一 ≥ **0.85**（三类显式注释例外：
+  功能性遮罩 `_mask` / `_scrim`、交互禁用态、阴影层）；
+- **RTL**：14 项根 Item 补 `LayoutMirroring.enabled: NovaTheme.isRtl`（**15/15**）；
+- **几何入参钳制**：新增 **39 个** `_` 私有 `readonly` 钳制属性、**54 处**几何引用改走
+  钳制值；栏高下界 **24**；`NovaModal` 补 `_maxW` / `_maxH` / `_chromeH` 修内容区负高；
+- **身份装饰层叠**：17 处补 `z: zMarginals` 提级；**中央底纹不得提级**（DualSide 网格
+  点阵留在业务注入之下）。
+
+> 实测基线：**15/15 极端非法入参稳态几何非负**（每项 34 组，等 Behavior 动画收敛后测）、
+> 31/31 无头实例化、明暗令牌实时切换 PASS、`reducedMotion` 300→0ms PASS、双主题实心
+> 注入审计图 15/15 重渲染（`docs/screenshots/composition_identity_audit*.png`）、
+> 静态门禁 3/3、专项 48/48、qmllint 0 error（593 warning 与基线一致）。
+## 0.9.0 组合态一致性契约（2026-11-25 · NovaChat 首例）
+
+伙伴点名「单个旗舰封版组件组合到一起就掉链子、没有 Quasar 丝滑」→ 诊断结论：
+**`NovaTheme`（L0 令牌）与业务注入（L2）之间缺 L1 装配层**。宪法新增第 9 章 CC-1~CC-8
+（组合上下文唯一密度源 / 唯一分隔源 / 装饰预算与禁止仿交互控件 / 层级色阶 / 动效同步与
+恒定锚链 / 槽位内容基线 / 装配态验收 / 参考实现纪律），封版规范升 v2.1.0。
+
+**最硬的一条实测发现**：`property alias xxxSlot: _host.data` 只保证「放得进」，
+注入的顶层 `Item` 默认 **0×0**，内部 anchors 算出负宽高被裁——这正是「中央永远空板」
+的真因。故槽位注入顶层一律 `anchors.fill: parent`，内容限宽居中。
+
+`NovaChat` 首例落地（全 `_` 私有 PATCH、公共 API 逐字不变、指纹 `bfd3d938a2fab7be` 不变）：
+13 个组合上下文常量六轨共享、边界收敛为唯一分隔源 + 主色系顶层线、20+ 仿控件装饰
+改为抽象几何、三段折叠共用 `_dur`/`_ease`、showcase 六槽真实业务注入 + 调参面板默认收起。
+验收：浅色 / 深色 / 折叠三态渲染审计（`docs/screenshots/chat_showcase_*.png`）、
+QML 零错误、对象树无 0×0 / 负宽高。其余 14 项按「稳步推进、逐个打磨」分阶段迁移。
+
+## 0.9.1 CC 迁移批次 2（2026-11-25 · 三大多端根壳销号）
+
+伙伴立节奏「**优先组合组件 → 组合打磨中若暴露单个组件问题再反向打磨**」，点名
+`NovaChat` 评估 → `NovaDesktop` → `NovaMobile` → `NovaFlexLayout`。逐项完成 CC-1~CC-8
+迁移：三元锚链改「栏高归零 + 恒定锚链 + 同步 `Behavior`」；三色撞色 / 伪按钮收敛主色系
+抽象几何；槽位宿主铺满 + 注入顶层 `anchors.fill: parent`；三个演示重做成品级 showcase
+（调参面板默认收起）。**反向打磨仅 1 次**：深色出图审计暴露 `NovaMobile` 灵动岛融合，
+直接修该组合组件，未改 Controls 基础组件。
+
+验收：4 × 浅 / 深 / 变体共 12 张三态渲染图、QML 零错误、静态 3/3、专项 48/48、
+31/31 实例化、4 组件极端非法入参 0 负几何、RTL 4/4、reducedMotion 300→0ms、
+qmllint 0 error / 593 warning、**139 类型零漂移 · 指纹 `bfd3d938a2fab7be` 不变**。
+逐项销号台账见 `CEILING_AUDIT.md`（**4/15 已销号**），其余 11 项按节奏推进。

@@ -1,9 +1,8 @@
 // src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaChat.qml
-// NovaChat AI 对话主窗口壳：品牌化多轨工作台 —— 导航轨 / 会话列 / 对话区 / 输入区 / 详情栏 / 浮层六槽骨架（对标 WorkBuddy 桌面端主窗口）
-// 身份体系（0.7.1）：顶层三段品牌线 + 五轨各自独占的前景结构签名 —— 图标 rail（品牌徽记/激活点/账户锚）、
-//   会话栈（搜索胶囊/激活竖条/新建圆钮）、AI 画布（四角取景框）、输入区（浮起胶囊/附加点/发送钮）、
-//   详情栏（分段 tab/渐变缘轨）。全部为下划线私有纯几何装饰、零业务语义、只用 NovaTheme 真实令牌，
-//   声明于注入槽位之后以浮于业务之上且只占边缘/角标（不遮挡中央内容）。
+// NovaChat AI 对话主窗口壳：六槽多轨工作台（对标 WorkBuddy 桌面端主窗口），组合态一致性契约（CC）落地标杆
+// 组合态（宪法 0.9.0）：根内以 _ 私有 readonly 声明唯一组合上下文（密度/层级/动效/品牌色），六轨共享；
+//   相邻边界只有一条分隔源；身份装饰一律抽象几何、禁止仿交互控件、同屏品牌色收敛为主色系；
+//   折叠锚链恒定不依赖 visible 三元切换。全部为 _ 私有 PATCH，公共 API 签名逐字不变、冻结指纹不变。
 // 用法：向 navSlot/conversationSlot/headerSlot/contentSlot/composerSlot/detailSlot/overlaySlot 注入业务内容；Shell 只托管布局与折叠状态，不含会话数据与业务文案
 // a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）；气泡语义由注入的 NovaChatMessage 承担
 pragma ComponentBehavior: Bound
@@ -55,12 +54,27 @@ Item {
     implicitWidth: 1280
     implicitHeight: 800
 
-    // 非法入参钳制：窄窗下各栏最多占容器一半，杜绝溢出
+    // 非法入参钳制：窄窗下各栏最多占容器一半，杜绝溢出（0.8.1）
     readonly property real _navW: Math.max(48, Math.min(root.navSize, 160))
     readonly property real _convW: Math.max(180, Math.min(root.conversationSize, width / 2 || root.conversationSize))
     readonly property real _detailW: Math.max(200, Math.min(root.detailSize, width / 3 || root.detailSize))
     readonly property int _headerH: Math.max(24, Math.min(root.headerHeight, 240))
     readonly property int _composerH: Math.max(24, Math.min(root.composerHeight, 360))
+
+    // ── 组合上下文 CC-1（宪法 0.9.0）：六轨唯一密度/层级/动效/品牌色基准 ──
+    // 禁止各轨散用 NovaTheme.spacing* 造成 padding 叠加；所有轨道一律引用本组常量。
+    readonly property real _unit: NovaTheme.spacingS             // 6px 密度栅格基元
+    readonly property real _gap: root._unit * 2                   // 12 轨内统一边距
+    readonly property real _railPad: root._unit * 2
+    readonly property real _radius: NovaTheme.radiusM
+    readonly property int _dur: NovaMotion.duration(NovaMotion.transitionDuration)
+    readonly property int _ease: NovaMotion.easingStandard
+    readonly property color _divider: NovaTheme.outline
+    readonly property color _rail: NovaTheme.surfaceAlt
+    readonly property color _panel: NovaTheme.surface
+    readonly property color _ink: NovaTheme.primary
+    // 单色系派生：同屏只出现主色系，secondary / accent 不再与 primary 撞色（CC-3）
+    readonly property color _inkSoft: Qt.lighter(NovaTheme.primary, 1.35)
 
     Rectangle { anchors.fill: parent; color: NovaTheme.page }
 
@@ -69,67 +83,56 @@ Item {
         id: _navWrap
         anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
         width: (root.showNav && !root.navCollapsed) ? root._navW : 0
-        color: NovaTheme.surfaceAlt
+        color: root._rail
         clip: true
         visible: width > 0
         Behavior on width {
-            NumberAnimation { duration: NovaMotion.duration(NovaMotion.transitionDuration); easing.type: NovaMotion.easingStandard }
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
         }
         Item { id: _nav; anchors.fill: parent }
 
-        // 身份 A：图标 rail —— 品牌徽记 + 三级激活点 + 账户锚 + 内侧渐变缘轨
-        // a11y: decorative（纯几何，声明于 _nav 之后浮于业务注入之上，仅占 rail 边缘与中轴）
+        // 身份 A（抽象几何，CC-3：不仿按钮/图标）；声明于 _nav 之后浮于业务注入之上且只占边缘/列首
+        // a11y: decorative
         Item {
             id: _navIdentity
             anchors.fill: parent
-            // 内侧竖向品牌渐变缘轨
+            z: NovaTheme.zMarginals
+            // 内侧竖向主色渐变缘轨：该轨唯一边界签名，不与 separator 叠在同一像素
             Rectangle {
-                anchors { top: parent.top; bottom: parent.bottom; right: parent.right }
-                width: 3
+                anchors { top: parent.top; bottom: parent.bottom; right: parent.right; rightMargin: 1 }
+                width: 2
                 gradient: Gradient {
-                    GradientStop { position: 0.0; color: NovaTheme.primary }
-                    GradientStop { position: 1.0; color: NovaTheme.secondary }
+                    GradientStop { position: 0.0; color: root._ink }
+                    GradientStop { position: 1.0; color: root._inkSoft }
                 }
-            }
-            // 顶部品牌徽记（渐变圆 + 外圈光晕环）
-            Rectangle {
-                anchors { top: parent.top; topMargin: NovaTheme.spacingL; horizontalCenter: parent.horizontalCenter }
-                width: 34; height: 34; radius: 17
-                color: "transparent"
-                border { width: 2; color: NovaTheme.primary }
                 opacity: 0.9
             }
+            // 列首品牌徽记（渐变实心圆 + 内环）
             Rectangle {
-                anchors { top: parent.top; topMargin: NovaTheme.spacingL + 5; horizontalCenter: parent.horizontalCenter }
-                width: 24; height: 24; radius: 12
+                anchors { top: parent.top; topMargin: root._gap; horizontalCenter: parent.horizontalCenter }
+                width: 28; height: 28; radius: 14
                 gradient: Gradient {
-                    GradientStop { position: 0.0; color: NovaTheme.primary }
-                    GradientStop { position: 1.0; color: NovaTheme.secondary }
+                    GradientStop { position: 0.0; color: root._ink }
+                    GradientStop { position: 1.0; color: root._inkSoft }
+                }
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: 10; height: 10; radius: 5
+                    color: root._panel
+                    opacity: 0.9
                 }
             }
-            // 三级图标位：第一个品牌激活（实心 + 左指示条），其余 outlined
-            Column {
-                anchors { top: parent.top; topMargin: NovaTheme.spacingL * 4; horizontalCenter: parent.horizontalCenter }
-                spacing: NovaTheme.spacingM
-                Rectangle { width: 20; height: 20; radius: NovaTheme.radiusS; color: NovaTheme.primary; opacity: 0.9
-                    Rectangle { anchors { left: parent.left; leftMargin: -NovaTheme.spacingS - 6; verticalCenter: parent.verticalCenter }
-                        width: 3; height: 16; radius: 1.5; color: NovaTheme.primary } }
-                Rectangle { width: 20; height: 20; radius: NovaTheme.radiusS; color: "transparent"
-                    border { width: 1; color: NovaTheme.outline } }
-                Rectangle { width: 20; height: 20; radius: NovaTheme.radiusS; color: "transparent"
-                    border { width: 1; color: NovaTheme.outline } }
-            }
-            // 底部账户锚（outlined 圆 + 内点）
+            // 列尾抽象锚点（纯几何圆点，不做成可点击头像）
             Rectangle {
-                anchors { bottom: parent.bottom; bottomMargin: NovaTheme.spacingL; horizontalCenter: parent.horizontalCenter }
-                width: 26; height: 26; radius: 13
-                color: "transparent"
-                border { width: 1; color: NovaTheme.outline }
-                Rectangle { anchors.centerIn: parent; width: 8; height: 8; radius: 4; color: NovaTheme.secondary; opacity: 0.9 }
+                anchors { bottom: parent.bottom; bottomMargin: root._gap; horizontalCenter: parent.horizontalCenter }
+                width: 6; height: 6; radius: 3
+                color: root._ink
+                opacity: 0.9
             }
         }
     }
 
+    // 边界唯一分隔源 CC-2：整条边界只此一条，不再叠加渐变缘轨 / 发丝线 / 顶层色带
     NovaSeparator {
         id: _navSep
         anchors { top: parent.top; bottom: parent.bottom; left: _navWrap.right }
@@ -141,48 +144,41 @@ Item {
     // ── 2. 会话列（会话列表宿主；窄屏自动收起）──
     Rectangle {
         id: _convWrap
-        anchors { top: parent.top; bottom: parent.bottom; left: _navSep.visible ? _navSep.right : _navWrap.right }
+        // CC-5：锚链恒定指向 _navWrap.right，不用 visible 三元切换，避免折叠瞬间布局跳变
+        anchors { top: parent.top; bottom: parent.bottom; left: _navWrap.right }
         width: (root.showConversation && !root.conversationCollapsed && !root.belowBreakpoint) ? root._convW : 0
-        color: NovaTheme.surfaceAlt
+        color: root._rail
         clip: true
         visible: width > 0
         Behavior on width {
-            NumberAnimation { duration: NovaMotion.duration(NovaMotion.transitionDuration); easing.type: NovaMotion.easingStandard }
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
         }
         Item { id: _conversation; anchors.fill: parent }
 
-        // 身份 B：会话栈 —— 搜索胶囊 + 激活竖条 + 新建圆钮（只占列首/左缘/列尾）
+        // 身份 B（抽象几何）：列首短色带 + 左缘激活竖条 + 列尾角标
         // a11y: decorative
         Item {
             id: _convIdentity
             anchors.fill: parent
-            // 顶部搜索胶囊（outlined 圆角条 + 左放大镜点）
+            z: NovaTheme.zMarginals
             Rectangle {
-                anchors { top: parent.top; topMargin: NovaTheme.spacingM; left: parent.left; leftMargin: NovaTheme.spacingM; right: parent.right; rightMargin: NovaTheme.spacingM }
-                height: 30
-                radius: 15
-                color: "transparent"
-                border { width: 1; color: NovaTheme.outline }
-                Rectangle {
-                    anchors { left: parent.left; leftMargin: NovaTheme.spacingM; verticalCenter: parent.verticalCenter }
-                    width: 8; height: 8; radius: 4
-                    color: "transparent"
-                    border { width: 1.5; color: NovaTheme.primary }
-                }
+                anchors { top: parent.top; topMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                width: 36; height: 3; radius: 1.5
+                color: root._ink
+                opacity: 0.9
             }
-            // 激活会话左缘品牌竖条
+            // 列尾 L 形角标（纯几何，不仿新建按钮）
             Rectangle {
-                anchors { top: parent.top; topMargin: NovaTheme.spacingM * 5; left: parent.left }
-                width: 3; height: 44; radius: 1.5
-                color: NovaTheme.primary
+                anchors { bottom: parent.bottom; bottomMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                width: 10; height: 2
+                color: root._inkSoft
+                opacity: 0.9
             }
-            // 列尾新建圆钮（primary 圆 + 十字）
             Rectangle {
-                anchors { right: parent.right; rightMargin: NovaTheme.spacingM; bottom: parent.bottom; bottomMargin: NovaTheme.spacingM }
-                width: 32; height: 32; radius: 16
-                color: NovaTheme.primary
-                Rectangle { anchors.centerIn: parent; width: 12; height: 2; radius: 1; color: NovaTheme.textOnPrimary }
-                Rectangle { anchors.centerIn: parent; width: 2; height: 12; radius: 1; color: NovaTheme.textOnPrimary }
+                anchors { bottom: parent.bottom; bottomMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                width: 2; height: 10
+                color: root._inkSoft
+                opacity: 0.9
             }
         }
     }
@@ -198,128 +194,130 @@ Item {
     // ── 3. 中间对话区：header + 消息内容 + 输入区 ──
     Item {
         id: _center
+        // CC-5：左右锚定恒定，折叠时只由轨宽动画驱动，不因 separator visible 突变而重排
         anchors {
             top: parent.top
             bottom: parent.bottom
-            left: _convSep.visible ? _convSep.right : _convWrap.right
-            right: _detailSep.visible ? _detailSep.left : _detailWrap.left
+            left: _convWrap.right
+            right: _detailWrap.left
         }
 
-        NovaHeader {
-            id: _header
-            visible: root.showHeader
-            height: root._headerH
+        // ── 3a. 会话头（栏高归零 + 恒定锚链 CC-5；内层 NovaHeader 固定高度规避 0 高内部 padding 反噬，坑位 19）──
+        Item {
+            id: _headerBar
             anchors { top: parent.top; left: parent.left; right: parent.right }
-            tint: NovaTheme.surface
+            height: root.showHeader ? root._headerH : 0
+            clip: true
+            z: NovaTheme.zMarginals
+            Behavior on height {
+                NumberAnimation { duration: root._dur; easing.type: root._ease }
+            }
+
+            NovaHeader {
+                id: _header
+                anchors { top: parent.top; left: parent.left; right: parent.right }
+                height: root._headerH
+                tint: root._panel
+            }
+
+            // header / body 的唯一边界：2px 主色渐变细线（随栏收起，不再另挂 separator）
+            Rectangle {
+                anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+                height: 2
+                z: NovaTheme.zMarginals
+                gradient: Gradient {
+                    orientation: Gradient.Horizontal
+                    GradientStop { position: 0.0; color: root._ink }
+                    GradientStop { position: 1.0; color: root._divider }
+                }
+                opacity: 0.9
+            }
+
+            // 身份 C-1：在线状态点（语义色实心，非交互控件）
+            // a11y: decorative
+            Rectangle {
+                anchors { left: parent.left; leftMargin: root._gap; verticalCenter: parent.verticalCenter }
+                width: 8; height: 8; radius: 4
+                color: NovaTheme.positive
+                z: NovaTheme.zMarginals
+            }
         }
 
         NovaPage {
             id: _body
+            // CC-5：锚链恒指栏底 / 栏顶，栏高归零驱动，不用 showX 三元切换
             anchors {
-                top: root.showHeader ? _header.bottom : parent.top
-                bottom: root.showComposer ? _composer.top : parent.bottom
+                top: _headerBar.bottom
+                bottom: _composerBar.top
                 left: parent.left
                 right: parent.right
             }
-            padding: NovaTheme.spacingM
+            // CC-1：轨内边距统一走组合上下文，与角标内缩同值对齐，消除三层 padding 叠加
+            padding: root._gap
         }
 
-        NovaFooter {
-            id: _composer
-            visible: root.showComposer
-            height: root._composerH
-            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-            tint: NovaTheme.surface
-        }
-
-        // 身份 C-1：会话头 —— 在线状态点（positive + 光晕环）+ 底缘品牌细线 + 右缘三点位
-        // a11y: decorative
+        // ── 3b. 输入区（栏高归零 + 恒定锚链；内层 NovaFooter 固定高度规避 0 高反噬）──
         Item {
-            id: _headerIdentity
-            anchors { top: _header.top; bottom: _header.bottom; left: _header.left; right: _header.right }
-            visible: root.showHeader
-            Rectangle {
-                anchors { left: parent.left; leftMargin: NovaTheme.spacingM; verticalCenter: parent.verticalCenter }
-                width: 18; height: 18; radius: 9
-                color: NovaTheme.positive
-                opacity: 0.9
+            id: _composerBar
+            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+            height: root.showComposer ? root._composerH : 0
+            clip: true
+            z: NovaTheme.zMarginals
+            Behavior on height {
+                NumberAnimation { duration: root._dur; easing.type: root._ease }
             }
-            Rectangle {
-                anchors { left: parent.left; leftMargin: NovaTheme.spacingM + 5; verticalCenter: parent.verticalCenter }
-                width: 8; height: 8; radius: 4
-                color: NovaTheme.positive
+
+            NovaFooter {
+                id: _composer
+                anchors { top: parent.top; left: parent.left; right: parent.right }
+                height: root._composerH
+                tint: root._panel
             }
-            Row {
-                anchors { right: parent.right; rightMargin: NovaTheme.spacingM; verticalCenter: parent.verticalCenter }
-                spacing: 5
-                Rectangle { width: 4; height: 4; radius: 2; color: NovaTheme.textMuted; opacity: 0.9 }
-                Rectangle { width: 4; height: 4; radius: 2; color: NovaTheme.textMuted; opacity: 0.9 }
-                Rectangle { width: 4; height: 4; radius: 2; color: NovaTheme.textMuted; opacity: 0.9 }
-            }
+
+            // body / composer 的唯一边界：1px 中性分隔
             Rectangle {
-                anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-                height: 2
-                gradient: Gradient {
-                    orientation: Gradient.Horizontal
-                    GradientStop { position: 0.0; color: NovaTheme.primary }
-                    GradientStop { position: 1.0; color: NovaTheme.surface }
+                anchors { left: parent.left; right: parent.right; top: parent.top }
+                height: 1
+                color: root._divider
+                z: NovaTheme.zMarginals
+            }
+
+            // 身份 C-3：输入区 —— 顶部短色带 + 左缘圆点（抽象几何；不仿输入框/发送按钮）
+            // a11y: decorative
+            Item {
+                anchors.fill: parent
+                z: NovaTheme.zMarginals
+                Rectangle {
+                    anchors { top: parent.top; topMargin: root._unit; horizontalCenter: parent.horizontalCenter }
+                    width: 48; height: 2; radius: 1
+                    color: root._ink
+                    opacity: 0.9
                 }
-                opacity: 0.9
+                Rectangle {
+                    anchors { left: parent.left; leftMargin: root._gap; top: parent.top; topMargin: root._gap }
+                    width: 6; height: 6; radius: 3
+                    color: root._inkSoft
+                    opacity: 0.9
+                }
             }
         }
 
-        // 身份 C-2：AI 画布四角取景框（只占 body 四角，中央消息区完全留给业务注入）
-        // a11y: decorative
+        // 身份 C-2：AI 画布对角双角标（只占内容区对角，中央消息区完全留给业务注入）
+        // a11y: decorative；margins 钳制避免极端入参下父区过小导致负几何
         Item {
             id: _canvasIdentity
-            anchors { fill: _body; margins: NovaTheme.spacingM }
-            readonly property int _arm: 14
+            anchors {
+                fill: _body
+                margins: Math.max(0, Math.min(root._gap, Math.min(_body.width, _body.height) / 2))
+            }
+            z: NovaTheme.zMarginals
+            readonly property int _arm: 10
             // 左上
-            Rectangle { anchors { top: parent.top; left: parent.left } width: _canvasIdentity._arm; height: 2; color: NovaTheme.primary; opacity: 0.85 }
-            Rectangle { anchors { top: parent.top; left: parent.left } width: 2; height: _canvasIdentity._arm; color: NovaTheme.primary; opacity: 0.85 }
-            // 右上
-            Rectangle { anchors { top: parent.top; right: parent.right } width: _canvasIdentity._arm; height: 2; color: NovaTheme.primary; opacity: 0.85 }
-            Rectangle { anchors { top: parent.top; right: parent.right } width: 2; height: _canvasIdentity._arm; color: NovaTheme.primary; opacity: 0.85 }
-            // 左下
-            Rectangle { anchors { bottom: parent.bottom; left: parent.left } width: _canvasIdentity._arm; height: 2; color: NovaTheme.secondary; opacity: 0.85 }
-            Rectangle { anchors { bottom: parent.bottom; left: parent.left } width: 2; height: _canvasIdentity._arm; color: NovaTheme.secondary; opacity: 0.85 }
+            Rectangle { anchors { top: parent.top; left: parent.left } width: _canvasIdentity._arm; height: 1; color: root._ink; opacity: 0.9 }
+            Rectangle { anchors { top: parent.top; left: parent.left } width: 1; height: _canvasIdentity._arm; color: root._ink; opacity: 0.9 }
             // 右下
-            Rectangle { anchors { bottom: parent.bottom; right: parent.right } width: _canvasIdentity._arm; height: 2; color: NovaTheme.secondary; opacity: 0.85 }
-            Rectangle { anchors { bottom: parent.bottom; right: parent.right } width: 2; height: _canvasIdentity._arm; color: NovaTheme.secondary; opacity: 0.85 }
-        }
-
-        // 身份 C-3：浮起输入胶囊 —— outlined 透明胶囊轮廓（不遮挡业务输入框）+ 附加圆点 + 发送圆钮
-        // a11y: decorative
-        Item {
-            id: _composerIdentity
-            anchors { fill: _composer; margins: NovaTheme.spacingM }
-            visible: root.showComposer
-            Rectangle {
-                anchors { fill: parent; leftMargin: NovaTheme.spacingL; rightMargin: 46 }
-                radius: NovaTheme.radiusL
-                color: "transparent"
-                border { width: 1; color: NovaTheme.outline }
-            }
-            // 附加点（outlined 圆 + 十字）
-            Rectangle {
-                anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-                width: 24; height: 24; radius: 12
-                color: "transparent"
-                border { width: 1; color: NovaTheme.outline }
-                Rectangle { anchors.centerIn: parent; width: 9; height: 1.5; radius: 1; color: NovaTheme.textMuted }
-                Rectangle { anchors.centerIn: parent; width: 1.5; height: 9; radius: 1; color: NovaTheme.textMuted }
-            }
-            // 发送圆钮（primary 圆 + 纯几何右向箭头；rotation 组合，零字体依赖）
-            Rectangle {
-                anchors { right: parent.right; verticalCenter: parent.verticalCenter }
-                width: 34; height: 34; radius: 17
-                color: NovaTheme.primary
-                Rectangle { anchors.centerIn: parent; width: 12; height: 2; radius: 1; color: NovaTheme.textOnPrimary }
-                Rectangle { anchors.centerIn: parent; anchors.horizontalCenterOffset: 5; anchors.verticalCenterOffset: -3
-                    width: 7; height: 2; radius: 1; rotation: 45; color: NovaTheme.textOnPrimary }
-                Rectangle { anchors.centerIn: parent; anchors.horizontalCenterOffset: 5; anchors.verticalCenterOffset: 3
-                    width: 7; height: 2; radius: 1; rotation: -45; color: NovaTheme.textOnPrimary }
-            }
+            Rectangle { anchors { bottom: parent.bottom; right: parent.right } width: _canvasIdentity._arm; height: 1; color: root._inkSoft; opacity: 0.9 }
+            Rectangle { anchors { bottom: parent.bottom; right: parent.right } width: 1; height: _canvasIdentity._arm; color: root._inkSoft; opacity: 0.9 }
         }
     }
 
@@ -336,40 +334,32 @@ Item {
         id: _detailWrap
         anchors { top: parent.top; bottom: parent.bottom; right: parent.right }
         width: (root.showDetail && !root.detailCollapsed && !root.belowBreakpoint) ? root._detailW : 0
-        color: NovaTheme.surfaceAlt
+        color: root._rail
         clip: true
         visible: width > 0
         Behavior on width {
-            NumberAnimation { duration: NovaMotion.duration(NovaMotion.transitionDuration); easing.type: NovaMotion.easingStandard }
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
         }
         Item { id: _detail; anchors.fill: parent }
 
-        // 身份 D：详情栏 —— 三段分段 tab（首个激活）+ 内侧渐变缘轨 + 底部信息点
+        // 身份 D（抽象几何）：列首三段递减几何条 + 列尾圆点；不仿分段 tab / 菜单
         // a11y: decorative
         Item {
             id: _detailIdentity
             anchors.fill: parent
+            z: NovaTheme.zMarginals
+            Row {
+                anchors { top: parent.top; topMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                spacing: root._unit
+                Rectangle { width: 24; height: 3; radius: 1.5; color: root._ink; opacity: 0.9 }
+                Rectangle { width: 14; height: 3; radius: 1.5; color: root._inkSoft; opacity: 0.9 }
+                Rectangle { width: 8; height: 3; radius: 1.5; color: root._divider }
+            }
             Rectangle {
-                anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
-                width: 3
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: NovaTheme.secondary }
-                    GradientStop { position: 1.0; color: NovaTheme.accent }
-                }
-            }
-            Row {
-                anchors { top: parent.top; topMargin: NovaTheme.spacingM; left: parent.left; leftMargin: NovaTheme.spacingM }
-                spacing: NovaTheme.spacingS
-                Rectangle { width: 40; height: 22; radius: 11; color: NovaTheme.primary; opacity: 0.85 }
-                Rectangle { width: 40; height: 22; radius: 11; color: "transparent"; border { width: 1; color: NovaTheme.outline } }
-                Rectangle { width: 40; height: 22; radius: 11; color: "transparent"; border { width: 1; color: NovaTheme.outline } }
-            }
-            Row {
-                anchors { bottom: parent.bottom; bottomMargin: NovaTheme.spacingM; left: parent.left; leftMargin: NovaTheme.spacingM }
-                spacing: 5
-                Rectangle { width: 4; height: 4; radius: 2; color: NovaTheme.textMuted; opacity: 0.9 }
-                Rectangle { width: 4; height: 4; radius: 2; color: NovaTheme.textMuted; opacity: 0.9 }
-                Rectangle { width: 4; height: 4; radius: 2; color: NovaTheme.textMuted; opacity: 0.9 }
+                anchors { bottom: parent.bottom; bottomMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                width: 6; height: 6; radius: 3
+                color: root._inkSoft
+                opacity: 0.9
             }
         }
     }
@@ -381,15 +371,18 @@ Item {
         z: NovaTheme.zFixedDrawer
     }
 
-    // ── 顶层品牌签名线：三段品牌色发丝线横跨全宽（最后声明 → 恒在最上层，仅占顶部 2px）──
+    // 顶层品牌签名：2px 单色系发丝线（CC-3：不再三段撞色），恒在最上层且只占顶部 2px
     // a11y: decorative
-    Row {
+    Rectangle {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         height: 2
         z: NovaTheme.zMarginals
-        Rectangle { width: parent.width / 3; height: 2; color: NovaTheme.primary }
-        Rectangle { width: parent.width / 3; height: 2; color: NovaTheme.secondary }
-        Rectangle { width: parent.width / 3; height: 2; color: NovaTheme.accent }
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop { position: 0.0; color: root._ink }
+            GradientStop { position: 1.0; color: root._inkSoft }
+        }
+        opacity: 0.9
     }
 
     // 前置预判性：Esc 收起三条可折叠轨（只 emit 意图，宿主受控改 *Collapsed）

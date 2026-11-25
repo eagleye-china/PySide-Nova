@@ -2,15 +2,15 @@
  "name": "Nova.Composite.LayoutShell.NovaCardGrid",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaCardGrid.qml",
- "description": "NovaCardGrid 卡片网格壳：筛选工具条 + Flow 网格骨架 + 分页状态栏（对标组件画廊 / 模板市场） NovaCardGrid —— 画廊首页 / 素材库组合根容器；以\"Flow 网格骨架\"为身份语言 用法：向 filterSlot/gridSlot/footerSlot/overlaySlot 注入业务内容；卡片由业务用 NovaCard 注入 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "description": "NovaCardGrid 卡片网格壳：筛选工具条 + 网格骨架 + 分页状态栏（对标组件画廊 / 模板市场） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）； 伪筛选胶囊 / 伪视图切换钮改为主色系抽象几何（CC-3）；槽位宿主独立铺满（CC-6）。 用法：向 filterSlot/gridSlot/footerSlot/overlaySlot 注入业务内容；注入顶层须 anchors.fill: parent",
  "properties": [
   {
    "name": "filterSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _filter.data",
+   "default": ": _filterHost.data",
    "doc": null,
-   "line": 14
+   "line": 17
   },
   {
    "name": "gridSlot",
@@ -18,15 +18,15 @@
    "readonly": false,
    "default": ": _grid.data",
    "doc": null,
-   "line": 15
+   "line": 18
   },
   {
    "name": "footerSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _footer.data",
+   "default": ": _footerHost.data",
    "doc": null,
-   "line": 16
+   "line": 19
   },
   {
    "name": "overlaySlot",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": _overlay.data",
    "doc": null,
-   "line": 17
+   "line": 20
   },
   {
    "name": "showFilter",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 19
+   "line": 22
   },
   {
    "name": "showFooter",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 20
+   "line": 23
   },
   {
    "name": "filterHeight",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": 52",
    "doc": null,
-   "line": 21
+   "line": 24
   },
   {
    "name": "footerHeight",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": 48",
    "doc": null,
-   "line": 22
+   "line": 25
   },
   {
    "name": "padding",
@@ -74,7 +74,103 @@
    "readonly": false,
    "default": ": 12",
    "doc": null,
-   "line": 23
+   "line": 26
+  },
+  {
+   "name": "_filterH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.filterHeight, 240))",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "_footerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.footerHeight, 240))",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "_pad",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.padding, 96))",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "_unit",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.spacingS",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "_dur",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_ease",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.easingStandard",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "_divider",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "_panel",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_ink",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_inkSoft",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(NovaTheme.primary, 1.35)",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "_inkPale",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(NovaTheme.primary, 1.7)",
+   "doc": null,
+   "line": 42
   }
  ],
  "signals": [],

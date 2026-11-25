@@ -31,6 +31,7 @@
 | **质量门禁** | 静态 3/3 PASS · 478 项 pytest · 31/31 无头实例化 · qmllint 0 error |
 
 - **旗舰四性**：鲁棒性 Robustness · 健壮性 Solidity · 艺术性 Aesthetics · 前置预判性 Prescience
+- **方法论**：**CARF** —— 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）（[母法卷首](docs/CONSTITUTION.md)）· 15/15 组合根容器天花板全量销号（[逐项台账](docs/layout_shell/CEILING_AUDIT.md)）
 - **架构宪法**：[docs/CONSTITUTION.md](docs/CONSTITUTION.md)（母法）+ [docs/COMPOSITION_CONSTITUTION.md](docs/COMPOSITION_CONSTITUTION.md)（组合组件子法）
 - **白皮书**：[旗舰组件库白皮书](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) · [Prescient Layout Shell 封版规范](docs/white_paper/Prescient-LayoutShell-封版规范.md)
 - **权威清单**：[docs/COMPONENT_LIST.md](docs/COMPONENT_LIST.md)（生成器产物，禁止手改）

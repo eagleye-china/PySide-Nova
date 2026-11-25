@@ -141,12 +141,20 @@
    "line": 125
   },
   {
+   "name": "_maxWidth",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, root.maxWidth)",
+   "doc": null,
+   "line": 127
+  },
+  {
    "name": "_open",
    "type": "bool",
    "readonly": true,
    "default": ": modelValue",
    "doc": null,
-   "line": 139
+   "line": 141
   },
   {
    "name": "implicitHeight",
@@ -154,7 +162,7 @@
    "readonly": true,
    "default": ": cardBody.childrenRect.height + 2 * NovaTheme.spacingL",
    "doc": null,
-   "line": 213
+   "line": 215
   },
   {
    "name": "contentBox",
@@ -162,7 +170,7 @@
    "readonly": true,
    "default": ": cardBody",
    "doc": null,
-   "line": 246
+   "line": 248
   }
  ],
  "signals": [

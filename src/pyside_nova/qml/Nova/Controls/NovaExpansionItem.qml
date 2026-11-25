@@ -63,6 +63,9 @@ Rectangle {
     property int duration: 300
     property real headerInsetLevel: 0
     property real contentInsetLevel: 0
+    // CARF 基础组件 Robustness：层级缩进非法入参钳制，避免 x 超父宽算出负内容宽。
+    readonly property real _headerInset: Math.max(0, Math.min(root.headerInsetLevel, 12))
+    readonly property real _contentInset: Math.max(0, Math.min(root.contentInsetLevel, 12))
     property bool expandSeparator: false  // 展开时上下分隔线
     property string group: ""             // 手风琴组名（同名互斥）
     property bool popup: false            // popup 模式：展开区浮出描边
@@ -130,7 +133,7 @@ Rectangle {
         height: Math.max(root.dense ? 32 : 44,
                          contentCol.implicitHeight)
 
-        readonly property real insetX: NovaTheme.spacingM + root.headerInsetLevel * 24
+        readonly property real insetX: NovaTheme.spacingM + root._headerInset * 24
         readonly property real iconW: root.hideExpandIcon ? 0 : (root.denseToggle ? 24 : 32)
 
         // 头部主体：自定义 header 命名槽优先，否则便捷 label/caption
@@ -232,9 +235,9 @@ Rectangle {
 
         Item {
             id: body
-            x: NovaTheme.spacingM + root.contentInsetLevel * 24
+            x: NovaTheme.spacingM + root._contentInset * 24
             y: NovaTheme.spacingS
-            width: parent.width - x - NovaTheme.spacingM
+            width: Math.max(0, parent.width - x - NovaTheme.spacingM)
             height: implicitHeight
         }
     }

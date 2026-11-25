@@ -2,15 +2,15 @@
  "name": "Nova.Composite.LayoutShell.NovaDrawerPanel",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaDrawerPanel.qml",
- "description": "NovaDrawerPanel 侧边滑出面板壳：侧缘轨 + grabber 把手 + 滑入动画 + 非模态临时面板（区别于常驻 Sidebar） NovaDrawerPanel —— 属性面板 / 详情面板 / 临时表单组合根容器；以\"侧缘轨 + 滑入动画\"为身份语言 用法：向 titleSlot/contentSlot/actionsSlot 注入业务内容；open/side 受控，Shell 只 emit 关闭与侧别意图 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "description": "NovaDrawerPanel 侧边滑出面板壳：单色系侧缘轨 + 抽象短条 + 非模态临时面板（区别于常驻 Sidebar） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）； primary→secondary 撞色轨收敛主色系、伪 grabber 把手改抽象几何（CC-3）；槽位宿主独立铺满（CC-6）。 用法：向 titleSlot/contentSlot/actionsSlot 注入业务内容；注入顶层须 anchors.fill: parent",
  "properties": [
   {
    "name": "titleSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _title.data",
+   "default": ": _titleHost.data",
    "doc": null,
-   "line": 14
+   "line": 17
   },
   {
    "name": "contentSlot",
@@ -18,15 +18,15 @@
    "readonly": false,
    "default": ": _body.content",
    "doc": null,
-   "line": 15
+   "line": 18
   },
   {
    "name": "actionsSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _actions.data",
+   "default": ": _actionsHost.data",
    "doc": null,
-   "line": 16
+   "line": 19
   },
   {
    "name": "open",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 18
+   "line": 21
   },
   {
    "name": "side",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": \"right\"",
    "doc": "left | right（逻辑侧；RTL 下 bySide 自动镜像）",
-   "line": 19
+   "line": 22
   },
   {
    "name": "bySide",
@@ -50,7 +50,7 @@
    "readonly": true,
    "default": ": NovaTheme.isRtl ? (root.side === \"left\" ? \"right\" : \"left\") : root.side",
    "doc": null,
-   "line": 20
+   "line": 23
   },
   {
    "name": "size",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": 360",
    "doc": null,
-   "line": 21
+   "line": 24
   },
   {
    "name": "titleHeight",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": 52",
    "doc": null,
-   "line": 22
+   "line": 25
   },
   {
    "name": "showTitle",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 23
+   "line": 26
   },
   {
    "name": "showActions",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 24
+   "line": 27
   },
   {
    "name": "actionsHeight",
@@ -90,7 +90,7 @@
    "readonly": false,
    "default": ": 56",
    "doc": null,
-   "line": 25
+   "line": 28
   },
   {
    "name": "scrim",
@@ -98,7 +98,95 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 26
+   "line": 29
+  },
+  {
+   "name": "_titleH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.titleHeight, 240))",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "_actionsH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.actionsHeight, 240))",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_unit",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.spacingS",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_dur",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "_ease",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.easingStandard",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_divider",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "_panel",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "_rail",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surfaceAlt",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "_ink",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "_inkSoft",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(NovaTheme.primary, 1.35)",
+   "doc": null,
+   "line": 47
   }
  ],
  "signals": [

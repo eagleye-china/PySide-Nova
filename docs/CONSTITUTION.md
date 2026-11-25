@@ -3,6 +3,35 @@
 > 本宪法是 pyside-nova 的最高工程准则。**每次产品交付都必须随版本迭代更新本文件**
 > （见文末迭代记录表），条款变更须在 CHANGELOG 同步说明。与任何其他文档冲突时，以本宪法为准。
 
+---
+
+## 卷首 · CARF 宣言（Manifesto · 最高方法论 · 1.0.1 入宪）
+
+> **CARF — Conceive, Achieve, Refine, Freeze — Culminate to the peak.**
+> **构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）。**
+>
+> 本宣言位列第 0 章之前，是 pyside-nova 的**最高方法论与最终目的**；其后一切条款、门禁、
+> 验收与发布纪律，均为四阶段之一的具体化。条款解释发生歧义时，以「终抵巅峰」为准绳。
+
+| 阶段 | 英文 | 本项目落地 | 责任 |
+| :--- | :--- | :--- | :--- |
+| **C** | **Conceive 构想** | 立方向、定标准、**法源先行**（母法 → 组合宪法 → CC 契约 → 封版规范）；奇思妙想与验收拍板 | CSA（伙伴） |
+| **A** | **Achieve 实现** | 把设想落成可交付、可验证的工程现实：组合三要素 / 槽位 alias / 唯一令牌源 / 冻结面登记 / 自检 | 完现者（小诺） |
+| **R** | **Refine 打磨** | **六维天花板**（功能 · 质量 · 观感 · 友好度 · 四性）逐项评估；CC-1~CC-8 装配态验收；**「现有再优、稳步推进、逐个打磨」**，一次一项（或同族一组），逐项验收、逐项销号 | 完现者（小诺） |
+| **F** | **Freeze 封版** | API 冻结指纹零漂移、生成物保护、宪法 / CHANGELOG / 权威清单 / 账本 / AI 离线副本闭环；**commit / push / tag / PyPI 一律归 CSA** | CSA（伙伴） |
+
+1. **终抵峰值（天花板铁律）**：每一个组件、每一个 15 项组合根容器，都必须是各自领域内的
+   「组件的天花板」——**功能 / 质量 / 观感 / 友好度 / 四性**（Robustness 鲁棒性 ·
+   Solidity 坚实性 · Aesthetics 艺术性 · Prescience 预判性）**六维缺一不可**。
+2. **CARF 是循环，不是一次性流程**：F 之后以复评回到 C，但**禁止推倒重来**；每一轮 R
+   在既有基座上再优化，不批量扫荡。第 9 章 CC-7 已确立「单组件 PASS 不等于装配 PASS」，
+   装配态出图审计是 R 阶段的强制动作。
+3. **执行版**：组合组件领域的 CARF 执行细则见
+   `docs/COMPOSITION_CONSTITUTION.md` 卷首与 `docs/layout_shell/CEILING_AUDIT.md`（逐项销号台账）。
+   CSA = Chief Solution Architect；完现者 = 拥有世界超脑、把设想落成现实的交付方。
+
+---
+
 ## 第 0 章 宗旨
 
 以 **Quasar Framework 最新稳定版**为对标本源，为 PySide6 / Qt Quick 构建
@@ -179,6 +208,7 @@ Quasar 组件的 Vue 槽必须映射为 QML 等价机制；**凡 Quasar 组件�
 
 | 版本 | 日期 | 条款变更 |
 |---|---|---|
+| **1.0.0 · 卷首 CARF** | 2026-11-25 | **CARF 宣言入宪**（伙伴：「加入咱们的宪法？还是哪儿？你定合适的地方，15 项组合组件全部打磨一遍，你自己定节奏」）：卷首立 **Conceive / Achieve / Refine / Freeze — Culminate to the peak（构想 · 实现 · 打磨 · 封版，终抵巅峰）** 为**最高方法论与最终目的**，位列第 0 章之前；C 构想由 CSA 立方向 / 标准 / 法源，A 实现由完现者落成可交付、可验证的工程现实，R 打磨按**六维天花板**（功能 / 质量 / 观感 / 友好度 / 四性）逐项销号，F 封版 API 冻结零漂移且发布边界归 CSA；CARF 是循环、不推倒重来、不批量扫荡。援引组合宪法 **1.0.0** 卷首执行版 + 第 0 章第 5 条销号纪律，`docs/layout_shell/CEILING_AUDIT.md` 为 CARF-R 活台账。**15 项组合根容器全量打磨销号 15/15**：按语义分类批次 3~6 完成十一项 CC-1~CC-8 迁移与成品级 showcase，批次 1~2 四项 CARF 复评；新建 `scripts/audit_showcase.py`（15×3=**45 张**三态装配图）与 `scripts/audit_ceiling.py`（静态契约 + 31/31 实例化 + **45/45 组**极端非法入参稳态几何 + RTL 15/15 + reducedMotion + 断链扫描）机检 **PASS**；修复 5 处真实稳态几何缺陷、`NovaChat` 残留三元锚链、`NovaDrawerPanel` 装配态对侧拉伸与 `id-shadows-member` 红灯；`gen_apidocs.py` 离线副本改链接重写，断链 **21→0**。全程 `_` 私有 PATCH：**139 类型零漂移 · 冻结指纹 `bfd3d938a2fab7be` 不变**；静态门禁 3/3、专项 48/48、qmllint 0 error / 593 warning。发布边界归 CSA。 |
 | 1.0.0rc1 | 2026-11-23 | 六期 RC1 收口：**API 冻结审查**（新颁第 13 章七条）；124 类型逐成员签名快照入库（api/nova-api-1.0.0.json，指纹 f2fd1b0eacf665f2）+ 签署件 docs/API_FREEZE.md（口径/统计/变更分级/例外登记/全量明细）；新增门禁 check_api_freeze.py（破坏性·增量·纪律三分桶 + 清单指纹自洽）与 check_qmllint.py（error 零容忍 + warning 分类预算 594 条）；local_deploy 交付前串跑三道门禁；**冻结审查修掉 3 处真实缺陷**：NovaColorPicker 幽灵令牌 NovaTheme.background→surface、root.tint 不存在→primary/hasError、NovaText.style 覆盖 Text.style 枚举→私有 _style；落地废弃机制 NovaUtils.logOnce/deprecate；测试 427→454；坑位 50~51 |
 | 0.16.2 | 2026-11-23 | 五期 Sprint B3 收口：**工程化外环**（L6 80%→90%）；视觉回归门禁（明暗 × 5 断点 × 全画廊 240 基线 + check_visual.py 像素 diff）；外部输入消毒（NovaUtils.sanitize 五函数 + runtime 四 Slot + 组件 textFormat 加固 9 处 + 32 项测试，对标 2.32~2.35 安全硬化）；CycloneDX SBOM（gen_sbom.py 零依赖离线）+ OSV CVE 周巡（check_cve.py，.cve-ignore 带理由）；一键打包 build_app.py（PyInstaller onefile 185.7MB 启动自检过，≤60MB 目标诚实边界）；MkDocs 文档站（material 可搜索 15 页 + 画廊预览 24 图）；测试 394→427；坑位沉淀 49（视觉长跑后收尾期 GC 崩溃→pytest_unconfigure 硬退出） |
 | 0.16.1 | 2026-11-23 | 五期 Sprint B2 收口：**i18n + RTL + 性能 + HiDPI 非功能攻坚**（新颁第 12 章）；新增 NovaI18n 服务单例（对标 Quasar Lang：locale 切换 / t() 插值与三级回落 / tp() CLDR 七语系复数 / 数字货币日期相对时间格式化 / addBundle 热注入）；RTL 双轨镜像（Pagination/Drawer/Layout/SlideItem/Breadcrumbs/StepperNavigation，逻辑侧语义恒定）；性能门禁三指标（冷启动 ≤800ms / 组件 ≤5ms / 1000 行表格 ≤1700ms）+ HiDPI 矩阵 1.0~2.0；补 a11y 差距：NovaTree 方向键游标（roving cursor，RTL 键互换）、NovaDialogShell 焦点陷阱（Tab 循环 + Esc 还焦，runtime 应用级过滤器）；新增 I18N.md + 画廊第 24 页 i18n；类型 123→124，测试 343→394；坑位沉淀 43~48（Qt.formatDate 三参不存在 / QQmlExpression 非 Item SIGSEGV / Tab 不冒泡→应用级过滤器 / Item.window undefined→attached / qrc:// 双斜杠 shiboken 段错误总根因→全局 qrc:/ / setData 探针纪律） |

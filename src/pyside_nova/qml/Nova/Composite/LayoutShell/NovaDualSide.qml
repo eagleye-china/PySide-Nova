@@ -1,7 +1,8 @@
 // src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaDualSide.qml
 // NovaDualSide 双侧边工作台壳：左导航 + 中央画布 + 右属性，两侧独立折叠（对标 Qt Designer / VSCode 三栏布局）
-// NovaDualSide —— 工业配置软件高频三栏组合根容器；以"中央画布 + 双栏浮起"为身份语言
-// 用法：向 leftSlot/contentSlot/rightSlot/footerSlot/overlaySlot 注入业务内容；两侧宽度受控、只 emit 折叠事件
+// 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；两侧宽度归零 + 恒定锚链（CC-5）；
+//   primary/secondary 撞色标识收敛主色系角标（CC-3）；每边界唯一分隔源；槽位宿主独立铺满（CC-6）。
+// 用法：向 leftSlot/contentSlot/rightSlot/footerSlot/overlaySlot 注入业务内容；注入顶层须 anchors.fill: parent
 // a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma ComponentBehavior: Bound
 import QtQuick
@@ -11,13 +12,12 @@ import Nova.Design
 
 Item {
     id: root
-    // 鲁棒性 / i18n：声明式容器随 RTL 镜像；逻辑侧槽位语义恒定（宪法第 7 章第 3 条）
     LayoutMirroring.enabled: NovaTheme.isRtl
 
-    property alias leftSlot: _left.data
+    property alias leftSlot: _leftHost.data
     property alias contentSlot: _body.content
-    property alias rightSlot: _right.data
-    property alias footerSlot: _footer.data
+    property alias rightSlot: _rightHost.data
+    property alias footerSlot: _footerHost.data
     property alias overlaySlot: _overlay.data
 
     property real leftSize: 240
@@ -33,74 +33,90 @@ Item {
     function toggleLeft() { root.leftToggled(!root.leftCollapsed) }
     function toggleRight() { root.rightToggled(!root.rightCollapsed) }
 
+    // 鲁棒性：几何入参只读钳制（宪法第 7 章第 1 条 / 封版规范 §2.1）
     readonly property real _lw: Math.max(80, Math.min(root.leftSize, width / 3 || root.leftSize))
     readonly property real _rw: Math.max(80, Math.min(root.rightSize, width / 3 || root.rightSize))
-
-    // 鲁棒性：几何入参只读钳制（非法 / 空值回退安全范围，禁止裸用外部值做几何计算；
-    // 宪法第 7 章第 1 条 / 封版规范 §2.1）。_ 私有，不进 API 冻结面。
     readonly property int _footerH: Math.max(24, Math.min(root.footerHeight, 240))
+
+    // ── 组合上下文 CC-1 ──
+    readonly property real _unit: NovaTheme.spacingS
+    readonly property real _gap: root._unit * 2
+    readonly property real _radius: NovaTheme.radiusM
+    readonly property int _dur: NovaMotion.duration(NovaMotion.transitionDuration)
+    readonly property int _ease: NovaMotion.easingStandard
+    readonly property color _divider: NovaTheme.outline
+    readonly property color _rail: NovaTheme.surfaceAlt
+    readonly property color _panel: NovaTheme.surface
+    readonly property color _ink: NovaTheme.primary
+    readonly property color _inkSoft: Qt.lighter(NovaTheme.primary, 1.35)
+    readonly property color _inkPale: Qt.lighter(NovaTheme.primary, 1.7)
 
     implicitWidth: 1280
     implicitHeight: 800
 
     Rectangle { anchors.fill: parent; color: NovaTheme.page }
 
-    // ── 身份元素 ①：左侧轨（primary 竖色条，折叠时仍保留视觉锚）──
+    // ── 身份 A（主签名）：左侧单色系渐变轨，折叠时仍保留视觉锚 ──
     // a11y: decorative
     Rectangle {
         id: _leftRail
-        anchors { top: parent.top; bottom: root.showFooter ? _footer.top : parent.bottom; left: parent.left }
+        anchors { top: parent.top; bottom: _footerBar.top; left: parent.left }
         width: 3
-        color: NovaTheme.primary
-        opacity: 0.85
+        z: NovaTheme.zMarginals
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: root._ink }
+            GradientStop { position: 1.0; color: root._inkSoft }
+        }
+        opacity: 0.9
     }
 
-    // 左侧浮起卡
+    // ── 左栏（宽度归零 + 恒定锚链 + 共用动效；clip 保证折叠动画全程可见）──
     Rectangle {
         id: _leftCard
         anchors {
-            top: parent.top; topMargin: NovaTheme.spacingS
-            bottom: root.showFooter ? _footer.top : parent.bottom; bottomMargin: NovaTheme.spacingS
-            left: _leftRail.right; leftMargin: NovaTheme.spacingS
+            top: parent.top; topMargin: root._gap
+            bottom: _footerBar.top; bottomMargin: root._gap
+            left: _leftRail.right; leftMargin: root._gap
         }
         width: root.leftCollapsed ? 0 : root._lw
-        radius: NovaTheme.radiusM
-        color: NovaTheme.surface
-        border { width: root.bordered ? 1 : 0; color: NovaTheme.outline }
+        radius: root._radius
+        color: root._rail
+        border { width: root.bordered && _leftCard.width > 0 ? 1 : 0; color: root._divider }
         clip: true
-        visible: width > 0
-        Behavior on width { NumberAnimation { duration: NovaMotion.duration(NovaMotion.transitionDuration); easing.type: NovaMotion.easingStandard } }
-        // a11y: decorative —— 顶部栏目标识发丝
-        Rectangle {
-            anchors { top: parent.top; left: parent.left; right: parent.right; margins: 0 }
-            height: 3
-            color: NovaTheme.primary
-            opacity: 0.9
-            z: NovaTheme.zMarginals
+        Behavior on width {
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
         }
-        Item { id: _left; anchors { fill: parent; margins: NovaTheme.spacingS; topMargin: NovaTheme.spacingS + 3 } }
+        // a11y: decorative —— 右上角主色系角标（抽象几何，非整条色带，避免边界叠线 CC-2）
+        Row {
+            anchors { top: parent.top; right: parent.right; topMargin: root._unit; rightMargin: root._gap }
+            spacing: root._unit
+            z: NovaTheme.zMarginals
+            Rectangle { width: 16; height: 3; radius: 1.5; color: root._ink; opacity: 0.9 }
+            Rectangle { width: 8; height: 3; radius: 1.5; color: root._inkSoft; opacity: 0.9 }
+        }
+        Item {
+            id: _leftHost
+            anchors { fill: parent; margins: root._gap }
+        }
     }
 
-    // ── 身份元素 ②：中央画布（圆角表面 + 网格底纹，区别于普通内容页）──
-    // a11y: decorative
+    // ── 身份 B：中央画布（圆角表面 + 网格点阵底纹；底纹留在业务注入之下，不提级）──
     Rectangle {
         id: _canvas
         anchors {
-            top: parent.top; topMargin: NovaTheme.spacingS
-            bottom: root.showFooter ? _footer.top : parent.bottom; bottomMargin: NovaTheme.spacingS
-            left: _leftCard.visible ? _leftCard.right : _leftRail.right
-            right: _rightCard.visible ? _rightCard.left : parent.right
-            leftMargin: NovaTheme.spacingS
-            rightMargin: NovaTheme.spacingS
+            top: parent.top; topMargin: root._gap
+            bottom: _footerBar.top; bottomMargin: root._gap
+            left: _leftCard.right
+            right: _rightCard.left
+            leftMargin: root._gap
+            rightMargin: root._gap
         }
-        radius: NovaTheme.radiusM
-        color: NovaTheme.surface
-        border { width: 1; color: NovaTheme.outline }
+        radius: root._radius
+        color: root._panel
+        border { width: 1; color: root._divider }
 
-        // 网格底纹：低透明度点阵（纯装饰，不承载语义）
         // a11y: decorative
         Grid {
-            // 底纹须留在业务注入之下（中央内容区完全留给业务，宪法 0.7.1 多轨分治）
             anchors.centerIn: parent
             rows: 8; columns: 12
             rowSpacing: 28; columnSpacing: 28
@@ -108,7 +124,7 @@ Item {
                 model: 96
                 Rectangle {
                     width: 2; height: 2; radius: 1
-                    color: NovaTheme.outline
+                    color: root._divider
                     opacity: 0.9
                 }
             }
@@ -117,42 +133,63 @@ Item {
         NovaPage {
             id: _body
             anchors.fill: parent
-            padding: NovaTheme.spacingM
+            padding: 0
         }
     }
 
-    // 右侧浮起卡
+    // ── 右栏（宽度归零 + 恒定锚链；角标用主色系浅档，消除 secondary 撞色 CC-3）──
     Rectangle {
         id: _rightCard
         anchors {
-            top: parent.top; topMargin: NovaTheme.spacingS
-            bottom: root.showFooter ? _footer.top : parent.bottom; bottomMargin: NovaTheme.spacingS
-            right: parent.right; rightMargin: NovaTheme.spacingS
+            top: parent.top; topMargin: root._gap
+            bottom: _footerBar.top; bottomMargin: root._gap
+            right: parent.right; rightMargin: root._gap
         }
         width: root.rightCollapsed ? 0 : root._rw
-        radius: NovaTheme.radiusM
-        color: NovaTheme.surface
-        border { width: root.bordered ? 1 : 0; color: NovaTheme.outline }
+        radius: root._radius
+        color: root._rail
+        border { width: root.bordered && _rightCard.width > 0 ? 1 : 0; color: root._divider }
         clip: true
-        visible: width > 0
-        Behavior on width { NumberAnimation { duration: NovaMotion.duration(NovaMotion.transitionDuration); easing.type: NovaMotion.easingStandard } }
-        // a11y: decorative —— 顶部栏目标识发丝（secondary 区分左右）
-        Rectangle {
-            anchors { top: parent.top; left: parent.left; right: parent.right }
-            height: 3
-            color: NovaTheme.secondary
-            opacity: 0.9
-            z: NovaTheme.zMarginals
+        Behavior on width {
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
         }
-        Item { id: _right; anchors { fill: parent; margins: NovaTheme.spacingS; topMargin: NovaTheme.spacingS + 3 } }
+        // a11y: decorative
+        Row {
+            anchors { top: parent.top; left: parent.left; topMargin: root._unit; leftMargin: root._gap }
+            spacing: root._unit
+            z: NovaTheme.zMarginals
+            Rectangle { width: 8; height: 3; radius: 1.5; color: root._inkPale; opacity: 0.9 }
+            Rectangle { width: 16; height: 3; radius: 1.5; color: root._inkSoft; opacity: 0.9 }
+        }
+        Item {
+            id: _rightHost
+            anchors { fill: parent; margins: root._gap }
+        }
     }
 
-    NovaFooter {
-        id: _footer
-        visible: root.showFooter
-        height: root._footerH
+    // ── 底栏（高度归零 + 恒定锚链；该边界唯一分隔源）──
+    Rectangle {
+        id: _footerBar
         anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-        tint: NovaTheme.surface
+        height: root.showFooter ? root._footerH : 0
+        clip: true
+        color: root._panel
+        z: NovaTheme.zMarginals
+        Behavior on height {
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
+        }
+        NovaSeparator { anchors { top: parent.top; left: parent.left; right: parent.right } }
+
+        NovaFooter {
+            id: _footer
+            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+            height: root._footerH
+            tint: root._panel
+        }
+        Item {
+            id: _footerHost
+            anchors { fill: _footer; leftMargin: root._gap; rightMargin: root._gap }
+        }
     }
 
     Item { id: _overlay; anchors.fill: parent; z: NovaTheme.zFixedDrawer }

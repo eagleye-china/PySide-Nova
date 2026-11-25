@@ -16,6 +16,10 @@ Item {
     property string position: "top"              // top | bottom | left | right
     property real size: 2                        // 条厚度 px
     property color tint: NovaTheme.primary
+
+    // CARF 基础组件 Robustness：size 非法入参钳制，track 厚度恒非负且不超父尺寸。
+    readonly property real _size: Math.max(0, Math.min(root.size,
+                                                       Math.min(root.width, root.height)))
     property bool reverse: false                 // 反向行进
     readonly property real progressCap: 90       // 未 stop 前渐进上限（对标 QAjaxBar 行为口径）
 
@@ -59,13 +63,13 @@ Item {
         states: [
             State {
                 name: "h"; when: root.position === "top" || root.position === "bottom"
-                PropertyChanges { target: track; x: 0; width: root.width * root.progress / 100; height: root.size }
-                PropertyChanges { target: track; y: root.position === "top" ? 0 : root.height - root.size }
+                PropertyChanges { target: track; x: 0; width: root.width * root.progress / 100; height: root._size }
+                PropertyChanges { target: track; y: root.position === "top" ? 0 : root.height - root._size }
             },
             State {
                 name: "v"; when: root.position === "left" || root.position === "right"
-                PropertyChanges { target: track; y: 0; height: root.height * root.progress / 100; width: root.size }
-                PropertyChanges { target: track; x: root.position === "left" ? 0 : root.width - root.size }
+                PropertyChanges { target: track; y: 0; height: root.height * root.progress / 100; width: root._size }
+                PropertyChanges { target: track; x: root.position === "left" ? 0 : root.width - root._size }
             }
         ]
 

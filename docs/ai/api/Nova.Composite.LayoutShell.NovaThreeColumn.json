@@ -2,15 +2,15 @@
  "name": "Nova.Composite.LayoutShell.NovaThreeColumn",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaThreeColumn.qml",
- "description": "NovaThreeColumn 三栏工作台壳：目录树 / 中列表 / 详情，三级深度色阶 + 可拖拽分隔（对标资源管理器布局） NovaThreeColumn —— 文档阅读器 / 图标画廊 / API 工作台组合根容器；以\"三级色阶\"为身份语言 用法：向 treeSlot/listSlot/detailSlot/headerSlot/footerSlot/overlaySlot 注入业务内容；宽度变化时 emit columnResized a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "description": "NovaThreeColumn 三栏工作台壳：目录树 / 中列表 / 详情，三级深度色阶（对标资源管理器布局） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）； 深色顶条与 primary→secondary 渐变收敛主色系、伪 grip 改抽象短条（CC-3）；槽位宿主独立铺满（CC-6）。 用法：向 treeSlot/listSlot/detailSlot/headerSlot/footerSlot/overlaySlot 注入业务内容；注入顶层须 anchors.fill: parent",
  "properties": [
   {
    "name": "treeSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _tree.data",
+   "default": ": _treeHost.data",
    "doc": null,
-   "line": 14
+   "line": 17
   },
   {
    "name": "listSlot",
@@ -18,31 +18,31 @@
    "readonly": false,
    "default": ": _list.content",
    "doc": null,
-   "line": 15
+   "line": 18
   },
   {
    "name": "detailSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _detail.data",
+   "default": ": _detailHost.data",
    "doc": null,
-   "line": 16
+   "line": 19
   },
   {
    "name": "headerSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _header.data",
+   "default": ": _headerHost.data",
    "doc": null,
-   "line": 17
+   "line": 20
   },
   {
    "name": "footerSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _footer.data",
+   "default": ": _footerHost.data",
    "doc": null,
-   "line": 18
+   "line": 21
   },
   {
    "name": "overlaySlot",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": _overlay.data",
    "doc": null,
-   "line": 19
+   "line": 22
   },
   {
    "name": "treeSize",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": 220",
    "doc": null,
-   "line": 21
+   "line": 24
   },
   {
    "name": "detailSize",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": 320",
    "doc": null,
-   "line": 22
+   "line": 25
   },
   {
    "name": "showHeader",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 23
+   "line": 26
   },
   {
    "name": "showFooter",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 24
+   "line": 27
   },
   {
    "name": "headerHeight",
@@ -90,7 +90,7 @@
    "readonly": false,
    "default": ": 56",
    "doc": null,
-   "line": 25
+   "line": 28
   },
   {
    "name": "footerHeight",
@@ -98,7 +98,7 @@
    "readonly": false,
    "default": ": 48",
    "doc": null,
-   "line": 26
+   "line": 29
   },
   {
    "name": "bordered",
@@ -106,7 +106,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 27
+   "line": 30
   },
   {
    "name": "_tw",
@@ -114,7 +114,7 @@
    "readonly": true,
    "default": ": Math.max(120, Math.min(root.treeSize, width / 4 || root.treeSize))",
    "doc": null,
-   "line": 31
+   "line": 35
   },
   {
    "name": "_dw",
@@ -122,7 +122,95 @@
    "readonly": true,
    "default": ": Math.max(160, Math.min(root.detailSize, width / 3 || root.detailSize))",
    "doc": null,
-   "line": 32
+   "line": 36
+  },
+  {
+   "name": "_headerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.headerHeight, 240))",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "_footerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.footerHeight, 240))",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "_unit",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.spacingS",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_dur",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "_ease",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.easingStandard",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "_divider",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "_rail",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surfaceAlt",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "_panel",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 47
+  },
+  {
+   "name": "_ink",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 48
+  },
+  {
+   "name": "_inkSoft",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(NovaTheme.primary, 1.35)",
+   "doc": null,
+   "line": 49
   }
  ],
  "signals": [

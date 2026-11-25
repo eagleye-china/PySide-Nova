@@ -1,12 +1,14 @@
 // src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaDesktop.qml
-// NovaDesktop 桌面应用根壳：窗口控制点 + 菜单栏 + 工具栏 + 多页面 + 状态栏（对标 QMainWindow）
-// NovaDesktop —— 多端根壳之桌面端；以"窗口控制点 + 分层栏"为身份语言，区别于移动与大屏根壳
+// NovaDesktop 桌面应用根壳：窗口控制点 + 菜单栏 + 工具栏 + 页面 + 状态栏（对标 QMainWindow），组合态一致性契约（CC）落地
+// 组合态（宪法 0.9.0）：_ 私有组合上下文统一三栏密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 visible 三元跳变）；
+//   每边界唯一分隔源；三色控制点收敛主色系、仿交互控件方块改抽象几何（CC-3）；槽位宿主铺满（CC-6）。
 // 用法：向 menuSlot/toolbarSlot/pageSlot/statusSlot/overlaySlot 注入业务内容；根节点为应用窗口内容根，不含 ApplicationWindow
 // a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）
 pragma ComponentBehavior: Bound
 import QtQuick
 import Nova.Controls
 import Nova.Services
+import Nova.Design
 
 Item {
     id: root
@@ -16,7 +18,7 @@ Item {
     property alias menuSlot: _menu.data
     property alias toolbarSlot: _toolbarHost.data
     property alias pageSlot: _page.content
-    property alias statusSlot: _status.data
+    property alias statusSlot: _statusHost.data
     property alias overlaySlot: _overlay.data
 
     property bool showMenu: true
@@ -28,107 +30,136 @@ Item {
 
     signal windowCloseRequested()
 
-    // 鲁棒性：几何入参只读钳制（非法 / 空值回退安全范围，禁止裸用外部值做几何计算；
-    // 宪法第 7 章第 1 条 / 封版规范 §2.1）。_ 私有，不进 API 冻结面。
+    // 鲁棒性：几何入参只读钳制（宪法第 7 章第 1 条 / 封版规范 §2.1）。_ 私有，不进 API 冻结面
     readonly property int _menuH: Math.max(24, Math.min(root.menuHeight, 120))
     readonly property int _toolbarH: Math.max(24, Math.min(root.toolbarHeight, 240))
     readonly property int _statusH: Math.max(24, Math.min(root.statusHeight, 120))
+
+    // ── 组合上下文 CC-1（宪法 0.9.0）：三栏唯一密度 / 层级 / 动效 / 品牌色基准 ──
+    // 禁止各栏散用 NovaTheme.spacing* 造成 padding 叠加；所有轨道一律引用本组常量
+    readonly property real _unit: NovaTheme.spacingS              // 6px 密度栅格基元
+    readonly property real _gap: root._unit * 2                    // 12 栏内统一边距
+    readonly property real _radius: NovaTheme.radiusS
+    readonly property int _dur: NovaMotion.duration(NovaMotion.transitionDuration)
+    readonly property int _ease: NovaMotion.easingStandard
+    readonly property color _divider: NovaTheme.outline
+    readonly property color _rail: NovaTheme.surfaceAlt
+    readonly property color _panel: NovaTheme.surface
+    readonly property color _ink: NovaTheme.primary
+    // 单色系派生：同屏只出现主色系，消除红 / 黄 / 绿三色控制点撞色（CC-3）
+    readonly property color _inkSoft: Qt.lighter(NovaTheme.primary, 1.35)
+    readonly property color _inkPale: Qt.lighter(NovaTheme.primary, 1.7)
 
     implicitWidth: 1280
     implicitHeight: 800
 
     Rectangle { anchors.fill: parent; color: NovaTheme.page }
 
-    // ── 身份元素 ①：菜单栏 + 三色窗口控制点（左端红黄绿，纯装饰）──
+    // ── 1. 菜单栏（高度归零 + 恒定锚链 CC-5；clip 保证收起动画全程可见）──
     Rectangle {
         id: _menuBar
-        visible: root.showMenu
-        height: root._menuH
         anchors { top: parent.top; left: parent.left; right: parent.right }
-        color: NovaTheme.surface
+        height: root.showMenu ? root._menuH : 0
+        clip: true
+        color: root._panel
         z: NovaTheme.zMarginals
+        Behavior on height {
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
+        }
+        // 该边界唯一分隔源（CC-2）：不再叠加缘轨 / 发丝线 / 顶层色带
         NovaSeparator { anchors { bottom: parent.bottom; left: parent.left; right: parent.right } }
 
+        // 身份 A：窗口控制点（主色系三档深浅的抽象几何，CC-3 不仿按钮 / 不撞色）
         // a11y: decorative
         Row {
+            anchors { left: parent.left; leftMargin: root._gap; verticalCenter: parent.verticalCenter }
+            spacing: root._unit
             z: NovaTheme.zMarginals
-            anchors { left: parent.left; leftMargin: NovaTheme.spacingM; verticalCenter: parent.verticalCenter }
-            spacing: 8
-            Rectangle { width: 10; height: 10; radius: 5; color: NovaTheme.negative; opacity: 0.85 }
-            Rectangle { width: 10; height: 10; radius: 5; color: NovaTheme.warning; opacity: 0.85 }
-            Rectangle { width: 10; height: 10; radius: 5; color: NovaTheme.positive; opacity: 0.85 }
+            Rectangle { width: 8; height: 8; radius: 4; color: root._ink; opacity: 0.9 }
+            Rectangle { width: 8; height: 8; radius: 4; color: root._inkSoft; opacity: 0.9 }
+            Rectangle { width: 8; height: 8; radius: 4; color: root._inkPale; opacity: 0.9 }
         }
 
-        // 业务菜单注入区（避开左端控制点）
+        // 业务菜单注入宿主：铺满菜单栏、避开左端控制点；注入顶层须 anchors.fill: parent（CC-6）
         Item {
             id: _menu
             anchors {
                 top: parent.top; bottom: parent.bottom
-                left: parent.left; leftMargin: NovaTheme.spacingL * 2
+                left: parent.left; leftMargin: root._gap * 5
                 right: parent.right
             }
         }
     }
 
-    // ── 身份元素 ②：工具栏（section 分隔 + 提亮底面）──
+    // ── 2. 工具栏（锚链恒指 _menuBar.bottom，栏高归零驱动，不用 visible 三元）──
     Rectangle {
         id: _toolbar
-        visible: root.showToolbar
-        height: root._toolbarH
-        anchors {
-            top: root.showMenu ? _menuBar.bottom : parent.top
-            left: parent.left; right: parent.right
+        anchors { top: _menuBar.bottom; left: parent.left; right: parent.right }
+        height: root.showToolbar ? root._toolbarH : 0
+        clip: true
+        color: root._rail
+        z: NovaTheme.zMarginals
+        Behavior on height {
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
         }
-        color: NovaTheme.surfaceAlt
         NovaSeparator { anchors { bottom: parent.bottom; left: parent.left; right: parent.right } }
 
-        // 工具段分隔点（纯装饰；z 提级确保业务注入铺满时身份仍可见）
+        // 身份 B：段位递减条（抽象几何；替换原 26×26「看着能点却不能点」的仿交互控件方块）
         // a11y: decorative
         Row {
+            anchors { left: parent.left; leftMargin: root._gap; verticalCenter: parent.verticalCenter }
+            spacing: root._unit
             z: NovaTheme.zMarginals
-            anchors { left: parent.left; leftMargin: NovaTheme.spacingM; verticalCenter: parent.verticalCenter }
-            spacing: NovaTheme.spacingS
-            Rectangle { width: 26; height: 26; radius: NovaTheme.radiusS; color: NovaTheme.primary; opacity: 0.9 }
-            Rectangle { width: 26; height: 26; radius: NovaTheme.radiusS; color: NovaTheme.surface; border { width: 1; color: NovaTheme.outline } }
-            Rectangle { width: 26; height: 26; radius: NovaTheme.radiusS; color: NovaTheme.surface; border { width: 1; color: NovaTheme.outline } }
-            Rectangle { width: 1; height: 20; color: NovaTheme.outline; anchors { verticalCenter: parent.verticalCenter } }
-            Rectangle { width: 26; height: 26; radius: NovaTheme.radiusS; color: NovaTheme.surface; border { width: 1; color: NovaTheme.outline } }
+            Rectangle { width: 28; height: 4; radius: 2; color: root._ink; opacity: 0.9 }
+            Rectangle { width: 18; height: 4; radius: 2; color: root._inkSoft; opacity: 0.9 }
+            Rectangle { width: 10; height: 4; radius: 2; color: root._divider }
         }
 
-        // 业务工具条注入宿主：独立于装饰层，避开左端段位标识
         Item {
             id: _toolbarHost
-            anchors {
-                fill: parent
-                leftMargin: NovaTheme.spacingL * 3
-            }
+            anchors { fill: parent; leftMargin: root._gap * 8 }
         }
     }
 
+    // ── 3. 页面（CC-1：padding 归零，轨内边距由业务注入承担，消除三层叠加）──
     NovaPage {
         id: _page
         anchors {
-            top: root.showToolbar ? _toolbar.bottom : (root.showMenu ? _menuBar.bottom : parent.top)
-            bottom: root.showStatus ? _status.top : parent.bottom
-            left: parent.left; right: parent.right
+            top: _toolbar.bottom
+            bottom: _status.top
+            left: parent.left
+            right: parent.right
         }
         padding: 0
     }
 
-    NovaFooter {
+    // ── 4. 状态栏（锚链恒指 _status.top，栏高归零驱动）──
+    Rectangle {
         id: _status
-        visible: root.showStatus
-        height: root._statusH
         anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-        tint: NovaTheme.surface
+        height: root.showStatus ? root._statusH : 0
+        clip: true
+        color: root._panel
+        z: NovaTheme.zMarginals
+        Behavior on height {
+            NumberAnimation { duration: root._dur; easing.type: root._ease }
+        }
+        NovaSeparator { anchors { top: parent.top; left: parent.left; right: parent.right } }
 
-        // 状态指示点（左端，纯装饰）
+        // 身份 C：状态指示点（主色系，抽象几何）
         // a11y: decorative
         Rectangle {
-            anchors { left: parent.left; leftMargin: NovaTheme.spacingM; verticalCenter: parent.verticalCenter }
+            anchors { left: parent.left; leftMargin: root._gap; verticalCenter: parent.verticalCenter }
             width: 6; height: 6; radius: 3
-            color: NovaTheme.positive
+            color: root._ink
+            opacity: 0.9
             z: NovaTheme.zMarginals
+        }
+
+        // 状态槽独立宿主：装饰层与业务注入层分离（CC-6）
+        Item {
+            id: _statusHost
+            anchors { fill: parent; leftMargin: root._gap * 3 }
         }
     }
 
@@ -136,6 +167,20 @@ Item {
         id: _overlay
         anchors.fill: parent
         z: NovaTheme.zMax
+    }
+
+    // 顶层品牌签名：2px 单色系发丝线（CC-3 主签名，只占顶部 2px）
+    // a11y: decorative
+    Rectangle {
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        height: 2
+        z: NovaTheme.zMarginals
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop { position: 0.0; color: root._ink }
+            GradientStop { position: 1.0; color: root._inkSoft }
+        }
+        opacity: 0.9
     }
 
     Keys.onEscapePressed: root.windowCloseRequested()

@@ -13,6 +13,12 @@ Item {
 
     property int padding: NovaTheme.spacingL
 
+    // CARF 基础组件 Robustness：padding 极端非法入参（负数 / 超大值）钳制，
+    // 保证 body 稳态几何非负；公共 API padding 签名逐字不变（仅 `_` 私有 PATCH）。
+    readonly property int _pad: Math.max(0, Math.min(root.padding,
+                                                     Math.floor(root.width / 2),
+                                                     Math.floor(root.height / 2)))
+
     implicitWidth: 400
     implicitHeight: 300
 
@@ -20,7 +26,7 @@ Item {
         id: body
         anchors {
             fill: parent
-            margins: root.padding
+            margins: root._pad
         }
     }
 }

@@ -12,14 +12,19 @@ Item {
 
     property int padding: NovaTheme.spacingL
 
+    // CARF 基础组件 Robustness：padding 极端非法入参钳制，避免 column 负宽 / 负 implicitHeight。
+    readonly property int _pad: Math.max(0, Math.min(root.padding,
+                                                     Math.floor(root.width / 2),
+                                                     Math.floor(root.height / 2)))
+
     implicitWidth: 360
-    implicitHeight: column.implicitHeight + padding * 2
+    implicitHeight: column.implicitHeight + _pad * 2
 
     Column {
         id: column
-        x: root.padding
-        y: root.padding
-        width: root.width - root.padding * 2
+        x: root._pad
+        y: root._pad
+        width: Math.max(0, root.width - root._pad * 2)
         spacing: NovaTheme.spacingS
     }
 }

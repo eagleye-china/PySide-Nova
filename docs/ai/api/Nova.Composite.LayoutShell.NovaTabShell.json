@@ -2,15 +2,15 @@
  "name": "Nova.Composite.LayoutShell.NovaTabShell",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaTabShell.qml",
- "description": "NovaTabShell 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏（对标 Quasar QTabs） NovaTabShell —— 多文档并行工作台组合根容器；以\"下划线指示条\"为身份语言 用法：向 tabBarSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；Tab 状态由宿主受控，Shell 只 emit 意图 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "description": "NovaTabShell 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏（对标 Quasar QTabs） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）； 三色段落收敛主色系递减条、删底边重复分隔线（CC-2/CC-3）；槽位宿主独立铺满（CC-6）。 用法：向 tabBarSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；注入顶层须 anchors.fill: parent",
  "properties": [
   {
    "name": "tabBarSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _tabBar.data",
+   "default": ": _tabBarHost.data",
    "doc": null,
-   "line": 14
+   "line": 17
   },
   {
    "name": "contentSlot",
@@ -18,15 +18,15 @@
    "readonly": false,
    "default": ": _body.content",
    "doc": null,
-   "line": 15
+   "line": 18
   },
   {
    "name": "footerSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _footer.data",
+   "default": ": _footerHost.data",
    "doc": null,
-   "line": 16
+   "line": 19
   },
   {
    "name": "overlaySlot",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": _overlay.data",
    "doc": null,
-   "line": 17
+   "line": 20
   },
   {
    "name": "showTabBar",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 19
+   "line": 22
   },
   {
    "name": "showFooter",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 20
+   "line": 23
   },
   {
    "name": "tabBarHeight",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": 44",
    "doc": null,
-   "line": 21
+   "line": 24
   },
   {
    "name": "footerHeight",
@@ -66,7 +66,103 @@
    "readonly": false,
    "default": ": 48",
    "doc": null,
-   "line": 22
+   "line": 25
+  },
+  {
+   "name": "_tabBarH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.tabBarHeight, 240))",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "_footerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.footerHeight, 240))",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "_unit",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.spacingS",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "_dur",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "_ease",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.easingStandard",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_divider",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_rail",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surfaceAlt",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "_panel",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_ink",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "_inkSoft",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(NovaTheme.primary, 1.35)",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "_inkPale",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(NovaTheme.primary, 1.7)",
+   "doc": null,
+   "line": 45
   }
  ],
  "signals": [

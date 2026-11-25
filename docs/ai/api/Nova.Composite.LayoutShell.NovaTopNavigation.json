@@ -2,23 +2,23 @@
  "name": "Nova.Composite.LayoutShell.NovaTopNavigation",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaTopNavigation.qml",
- "description": "NovaTopNavigation 顶部导航工作台壳：胶囊导航条 + 悬浮下拉 + 主内容 + 状态栏（对标 Quasar QLayout header 导航） NovaTopNavigation —— 轻量化主导航组合根容器；以\"胶囊 + 悬浮卡\"为身份语言 用法：向 headerSlot/menuSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；Shell 只托管布局与下拉显隐 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "description": "NovaTopNavigation 顶部导航工作台壳：胶囊导航台 + 悬浮下拉 + 主内容 + 状态栏（对标 Quasar QLayout header 导航） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）； 单一分隔源、装饰收敛主色系抽象几何（CC-3）；槽位宿主独立铺满（CC-6）。 用法：向 headerSlot/menuSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；注入顶层须 anchors.fill: parent",
  "properties": [
   {
    "name": "headerSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _header.data",
+   "default": ": _headerHost.data",
    "doc": null,
-   "line": 15
+   "line": 17
   },
   {
    "name": "menuSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _menu.data",
+   "default": ": _menuHost.data",
    "doc": null,
-   "line": 16
+   "line": 18
   },
   {
    "name": "contentSlot",
@@ -26,15 +26,15 @@
    "readonly": false,
    "default": ": _body.content",
    "doc": null,
-   "line": 17
+   "line": 19
   },
   {
    "name": "footerSlot",
    "type": "alias",
    "readonly": false,
-   "default": ": _footer.data",
+   "default": ": _footerHost.data",
    "doc": null,
-   "line": 18
+   "line": 20
   },
   {
    "name": "overlaySlot",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": _overlay.data",
    "doc": null,
-   "line": 19
+   "line": 21
   },
   {
    "name": "showHeader",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 21
+   "line": 23
   },
   {
    "name": "showFooter",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 22
+   "line": 24
   },
   {
    "name": "menuOpen",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 23
+   "line": 25
   },
   {
    "name": "headerHeight",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": 56",
    "doc": null,
-   "line": 24
+   "line": 26
   },
   {
    "name": "footerHeight",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": 48",
    "doc": null,
-   "line": 25
+   "line": 27
   },
   {
    "name": "menuHeight",
@@ -90,7 +90,103 @@
    "readonly": false,
    "default": ": 160",
    "doc": null,
-   "line": 26
+   "line": 28
+  },
+  {
+   "name": "_headerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.headerHeight, 240))",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_footerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.footerHeight, 240))",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "_menuH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.menuHeight, 480))",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_unit",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.spacingS",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "_radius",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.radiusM",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "_dur",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_ease",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.easingStandard",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "_divider",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 44
+  },
+  {
+   "name": "_panel",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 45
+  },
+  {
+   "name": "_ink",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.primary",
+   "doc": null,
+   "line": 46
+  },
+  {
+   "name": "_inkSoft",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(NovaTheme.primary, 1.35)",
+   "doc": null,
+   "line": 47
   }
  ],
  "signals": [

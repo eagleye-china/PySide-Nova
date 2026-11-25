@@ -193,4 +193,4 @@
 | Composite/LayoutShell · 组合组件（15 项根容器） | 15 | 10.8% |
 | **合计** | **139** | **100%** |
 
-a11y 契约分布：decorative 79 / interactive 32 / semantic 28。完整契约见 [A11Y_MATRIX.md](A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成）。
+a11y 契约分布：decorative 79 / interactive 32 / semantic 28。完整契约见 [A11Y_MATRIX.md](../../A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成）。

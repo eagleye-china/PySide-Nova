@@ -53,12 +53,20 @@
    "line": 37
   },
   {
+   "name": "_minHeight",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(0, root.minHeight)",
+   "doc": null,
+   "line": 39
+  },
+  {
    "name": "disable",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 38
+   "line": 40
   },
   {
    "name": "readonly",
@@ -66,7 +74,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "只读（对标 QEditor readonly）",
-   "line": 39
+   "line": 41
   },
   {
    "name": "_commands",
@@ -74,7 +82,7 @@
    "readonly": true,
    "default": ": ({",
    "doc": "命令 → 行内包裹标记（null = 行前缀型命令，见 _commands2）",
-   "line": 48
+   "line": 50
   },
   {
    "name": "_commands2",
@@ -82,7 +90,7 @@
    "readonly": true,
    "default": ": ({",
    "doc": "行前缀型命令 → 每行前缀（对标 QEditor 命令名 1:1）",
-   "line": 51
+   "line": 53
   },
   {
    "name": "_labels",
@@ -90,7 +98,7 @@
    "readonly": true,
    "default": ": ({",
    "doc": "工具栏按钮标签（无 DOM 字体图标，用语义缩写）",
-   "line": 55
+   "line": 57
   },
   {
    "name": "_text",
@@ -98,7 +106,7 @@
    "readonly": true,
    "default": ": area.text",
    "doc": null,
-   "line": 62
+   "line": 64
   },
   {
    "name": "buttonCount",
@@ -106,7 +114,7 @@
    "readonly": true,
    "default": ": toolRepeater.count",
    "doc": "工具栏命令按钮数（不含 separator）",
-   "line": 63
+   "line": 65
   },
   {
    "name": "_syncing",
@@ -114,7 +122,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "guard 防回环（NovaInput 同款）",
-   "line": 64
+   "line": 66
   },
   {
    "name": "isSep",
@@ -122,7 +130,7 @@
    "readonly": true,
    "default": ": modelData === \"separator\"",
    "doc": null,
-   "line": 109
+   "line": 111
   }
  ],
  "signals": [

@@ -157,12 +157,28 @@
    "line": 65
   },
   {
+   "name": "_headerInset",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.headerInsetLevel, 12))",
+   "doc": null,
+   "line": 67
+  },
+  {
+   "name": "_contentInset",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.contentInsetLevel, 12))",
+   "doc": null,
+   "line": 68
+  },
+  {
    "name": "expandSeparator",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": "展开时上下分隔线",
-   "line": 66
+   "line": 69
   },
   {
    "name": "group",
@@ -170,7 +186,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "手风琴组名（同名互斥）",
-   "line": 67
+   "line": 70
   },
   {
    "name": "popup",
@@ -178,7 +194,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "popup 模式：展开区浮出描边",
-   "line": 68
+   "line": 71
   },
   {
    "name": "disable",
@@ -186,7 +202,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 69
+   "line": 72
   },
   {
    "name": "tint",
@@ -194,15 +210,15 @@
    "readonly": false,
    "default": ": NovaTheme.primary",
    "doc": "对标 QItem color 口径（基调色红线）",
-   "line": 70
+   "line": 73
   },
   {
    "name": "insetX",
    "type": "real",
    "readonly": true,
-   "default": ": NovaTheme.spacingM + root.headerInsetLevel * 24",
+   "default": ": NovaTheme.spacingM + root._headerInset * 24",
    "doc": null,
-   "line": 133
+   "line": 136
   },
   {
    "name": "iconW",
@@ -210,7 +226,7 @@
    "readonly": true,
    "default": ": root.hideExpandIcon ? 0 : (root.denseToggle ? 24 : 32)",
    "doc": null,
-   "line": 134
+   "line": 137
   }
  ],
  "signals": [

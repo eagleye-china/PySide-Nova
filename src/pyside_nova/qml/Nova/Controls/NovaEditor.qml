@@ -35,6 +35,8 @@ NovaField {
     property string placeholder: ""
     property bool flat: false                                    // 无边框模式（对标 flat）
     property int minHeight: 96                                   // 内容区最小高度（Nova 增强）
+    // CARF 基础组件 Robustness：minHeight 非法入参钳制，内容区高度恒非负。
+    readonly property int _minHeight: Math.max(0, root.minHeight)
     property bool disable: false
     property bool readonly: false                                // 只读（对标 QEditor readonly）
 
@@ -66,7 +68,7 @@ NovaField {
     // 校验取值接线
     value: _text
     // 控件区高度 = 工具栏 + 内容区（NovaField 固定高度裁剪区需显式覆盖）
-    customControlH: toolbarRow.height + minHeight + 8
+    customControlH: toolbarRow.height + _minHeight + 16
 
     // ── 双向同步（受控 + guard） ──────────────────────────────
     onModelValueChanged: {
@@ -148,7 +150,9 @@ NovaField {
         id: body
         y: toolbarRow.height
         width: parent.width
-        height: parent.height - toolbarRow.height
+        // CARF 基础组件 Robustness：父高被 toolbar 反噬时钳到内容最小高度，
+        // 且至少留足 ScrollView 的上下 margins(8×2)，避免 Qt 内部装饰负几何。
+        height: Math.max(_minHeight + 16, parent.height - toolbarRow.height)
 
         ScrollView {
             id: sv
@@ -159,7 +163,7 @@ NovaField {
             TextArea {
                 id: area
                 width: sv.width - 8
-                height: Math.max(root.minHeight, sv.height - 8)
+                height: Math.max(root._minHeight, sv.height - 8)
                 textFormat: TextEdit.PlainText
                 wrapMode: TextEdit.Wrap
                 color: NovaTheme.textColor

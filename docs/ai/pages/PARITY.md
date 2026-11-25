@@ -903,7 +903,7 @@ M1/M2 排期在 ROADMAP 跟踪。
 
 **已知差距（0.16.1 已补 Tree 游标 / Dialog 焦点陷阱；余项滚动）**：表格逐单元格语义、
 **组件内部组合色逐件像素采样**（tinted Chip 等，令牌门禁只管令牌组合）、
-真机屏读器（NVDA/VoiceOver）手工回归（B3）。详见 [A11Y.md](A11Y.md) §7。
+真机屏读器（NVDA/VoiceOver）手工回归（B3）。详见 [A11Y.md](../../A11Y.md) §7。
 
 > 测试口径：0.16.0 新增 21 项（322 → 343）——数学 2 / 令牌 4（明暗 × 文本·非文本）/
 > 运行时矩阵 2（19 类型 role·name·disabled·focusable）/ 键盘 8 / 焦点环 1 / 播报 1 /
@@ -928,7 +928,7 @@ M1/M2 排期在 ROADMAP 跟踪。
 | a11y M2 补差 | ⚠ WAI-ARIA treeview/dialog 模式 | NovaTree roving cursor（Up/Down 移动、Right 展开/Left 收起、跳父、环绕；RTL 键互换）；NovaDialogShell 焦点陷阱（Tab 循环 + 还焦；应用级事件过滤器承载） |
 
 **已知差距（滚动）**：更多语言词典包（de/ja/ru/ar 由应用侧 addBundle 注入示范）、术语表管理、
-24h 内存长跑、真机多屏 HiDPI 抽查、NVDA 真机回归（均 B3）。详见 [I18N.md](I18N.md)。
+24h 内存长跑、真机多屏 HiDPI 抽查、NVDA 真机回归（均 B3）。详见 [I18N.md](../../I18N.md)。
 
 > 测试口径：0.16.1 新增 51 项（343 → 394）——i18n 41（含 RTL 几何断言）/ a11y 补差 3 /
 > perf 3 / hidpi 4。类型 123 → 124（NovaI18n decorative 单例）。

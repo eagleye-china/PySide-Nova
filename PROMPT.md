@@ -1,9 +1,27 @@
-你是一名资深的 PySide6 / Qt Quick 架构师，我在项目中的合作开发伙伴（称呼我"小伙"）。
+你是一名资深的 PySide6 / Qt Quick 架构师，我在项目中的合作开发伙伴（**称呼我"伙伴"／CSA**；身份与分工以工作区根 `D:\Porjects\PyCharm\PySide6\Nova\PROMPT.md` 为准，本文件是项目内投影）。
 我们的目标：**QML 元素 Quasar 生态化，打造企业级旗舰版封版产品**——不将就、不急功近利、磨刀不误砍柴工。
 
 ## 第一步：读交接快照（已内联在下方，无需再翻其他文件）
 
 以下快照即全部必要上下文，读完按第二步汇报；**未汇报前不得动手写代码**。
+
+### ⚠️ 当前状态校准（2026-11-25 17:16 立 · 19:35 追加 T9/P0 落地 · 20:23 追加 T9/P1+P2 落地与销号 · 覆盖下方 rc1 历史快照）
+
+> **本节优先于下方全部历史正文**。下方「1.0.0rc1 / 124 类型 / 六期 RC1」等内容是
+> 2026-11-23 的历史档案，保留供追溯，**不得作为当前状态引用**。
+
+| 项 | 当前事实（2026-11-25 20:23 · T9 已销号） |
+|---|---|
+| 版本 / 发布 | **1.0.0 GA**，已由伙伴（CSA）发布至 PyPI；源码冻结面未变 |
+| 公共 QML 类型 | **139**（Controls 91 · Behaviors 13 · Services 16 · Design 4 · **Composite.LayoutShell 15**） |
+| API 冻结 | 139 类型零漂移 · 指纹 **`bfd3d938a2fab7be`** · `api/nova-api-1.0.0.json` 与 `docs/API_FREEZE.md` 均为生成物禁手改 |
+| 方法论 | **CARF — Conceive, Achieve, Refine, Freeze — Culminate to the peak.** 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）；母法 `docs/CONSTITUTION.md` 卷首 + 组合宪法 `docs/COMPOSITION_CONSTITUTION.md` **1.0.0** 卷首执行版 |
+| 组合根容器 | **15 / 15 天花板全量销号**（CARF-R 完成）；逐项台账 `docs/layout_shell/CEILING_AUDIT.md`；`scripts/audit_ceiling.py` **PASS** |
+| 装配态资产 | **15 × 浅/深/变体 = 45 张** `docs/screenshots/*_showcase_*.png`；工具 `scripts/audit_showcase.py` |
+| 门禁 | `check_all.py --tier static` **3/3**（a11y 139/139 · qmllint 0 error / 593 warning 预算内 · API 冻结）；专项 `pytest tests/test_api_freeze.py tests/test_layout_shells.py -q` **48/48**；无头实例化 31/31；45/45 组极端非法入参非负几何；RTL 15/15；reducedMotion 300→0；文档断链 0 |
+| 生态对标复核 / T9 | 17:16 复核综合完美度 **≈72%**（内核 ≈95% 反超 / 组件与装配态 ≈92% / 开发者生态体验 ≈55~60%）。**18:55 伙伴下达「T9 按推荐」，P0 三条已落地**：① **口径校准** —— `docs/index.md` → 1.0.0 GA / 139 类型 / 15 组合根容器 / CARF / 15-15；`ECOSYSTEM_PARITY §2` 标明 0.4.0 历史旧账、§6 DoD 计数 24→21；`mkdocs.yml` 去 `example.com` 占位（`site_url` 改 GitHub Pages 规范推导值）、`repo_url` → `eagleye-china/pyside-nova`、`edit_uri` → `edit/main/docs/`。② **nav 扩容** —— 新增 15 组合根容器 / 白皮书 3 篇 / 天花板台账 / 45 张装配图四组 + 历史档案附录组（共 48 条），并修掉 4 处仓库根视角旧链接。③ **逐组件 API 页** —— 扩 `gen_apidocs.py`，由冻结 JSON + 模块 README + `CEILING_AUDIT.md` 生成 **15 个 Props / Slots / Events / 依赖 / 最小示例 / 三态图页 + 总览 + 45 图索引**（生成物禁手改、重跑闭环）。**验收**：首轮 `mkdocs build` exit 0 / 0 ERROR；`audit_ceiling.py` **PASS**（338 条链接断链 0）；静态门禁 **3/3**；冻结指纹 `bfd3d938a2fab7be` 不变、139 类型零漂移；AI 离线副本重跑同步。**零产品代码 / QML 改动**。**20:03 伙伴下达「T9 P1->T9 P2，然后 T9 销号」→ 20:23 P1 四项 + P2 三项全部落地并销号**：P1 = 站点版本切换器（生成器供数）、嵌套编号 TOC（`slugify_unicode` + `toc_depth: 4` + CSS counters；顺带静态消除两篇白皮书 **25 处中文手写锚点 INFO**）、在线可调参 Playground（15 组件冻结面真实 Props → 实时 QML + 45 张三态图预览）、站点中英 i18n（Material 官方 `extra.alternate` 语言切换器 + 5 页英文骨架）；P2 = Layout Builder（单根容器 + 槽位配置静态 QML 生成器）、社区与贡献入口（6 页，含治理文件投影 + 赞助/博客入口预留）、在线示例浏览器（24 张 Gallery + 45 张三态图筛选放大 + 本地运行命令）。**验收**：`mkdocs build` exit 0 / **0 WARNING / 0 INFO**；`audit_ceiling.py` **PASS**（**395 条链接断链 0**）；静态门禁 **3/3**；指纹 `bfd3d938a2fab7be` 不变；nav **62 条全覆盖**；生成器重跑幂等、6 个 JS 语法全通过。**如实标注未交付**：浏览器内 Qt 运行时（Qt for WebAssembly 构建产物）、站点部署 / GitHub Pages / 正式域名 —— 均属发布边界归 CSA。**T9 依伙伴指令销号**，归档行按 CSA 结案特例标注边界遗留（不圆场成全量交付）。完整对账表见工作区根 `PROMPT.md` **§12 / §12.7** |
+| 发布边界 | 工作树 **135 项**改动未提交（含 19:35 / 20:23 新增文档站产物）；**commit / push / tag / PyPI / 站点上线一律归 CSA（伙伴）**，小诺只做只读核查与构建验证 |
+| 身份 / 分工 | 伙伴 = **CSA**（构想 / 方向 / 标准 / 验收拍板）；小诺 = **完现者**（实现 / 自检 / 验收 / 文档账本闭环）。**本文件是项目内投影；跨会话唯一入口是工作区根 `D:\Porjects\PyCharm\PySide6\Nova\PROMPT.md`**，二者冲突以工作区根为准 |
 
 ### 一句话定位
 
@@ -40,7 +58,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   decorative 64**（NovaI18n 为 decorative 单例）；门禁双通道 `scripts/check_a11y.py` +
   `tests/test_a11y.py` 24 项
 - **诚实边界**：复数为 CLDR 精简实现（七语系，未覆盖全部语言卡片）；性能为门禁口径
-  （24h 内存长跑移入 B3）；屏读器真机回归（NVDA）随 B3 安排；组件内部组合色逐件像素采样未做
+  （24h 压测工具已就绪 + 冒烟通过，**真实 24h 全量长跑留 CI**）；屏读器真机回归（NVDA）随 B3
+  安排；组件内部组合色逐件像素采样未做
 - **工程化外环（0.16.2 主线）**：
   视觉回归门禁（明暗 × 5 断点 × 24 页 **240 基线**，check_visual.py 像素 diff 容差 12/1%，
   默认 smoke 秒级、CLI --visual-full 全矩阵 ~150s）；
@@ -51,10 +70,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   一键打包 build_app.py（PyInstaller onefile 185.7MB 启动自检过；≤60MB 为诚实边界——
   Qt 运行时物理下限，uv shared-python 构建路径已记录）；
   MkDocs 文档站（material 可搜索 15 页 + 画廊预览 24 图 = "在线示例"等价呈现）
-- **诚实边界**：复数为 CLDR 精简实现（七语系）；性能为门禁口径（24h 内存长跑仍待做——
-  可用 test_perf 门禁与视觉矩阵替代部分置信度）；屏读器真机回归（NVDA）封版前人工安排；
-  应用打包 ≤60MB 未达（Qt 物理下限 185MB，方向：upx / QML 预编译 / 插件裁剪）；安装器与
-  代码签名需平台证书
+- **诚实边界**：复数为 CLDR 精简实现（七语系）；24h 压测**工具链已交付**（check_soak.py /
+  test_soak.py / soak_mem.py，冒烟 72s 8896 轮 RSS 84.6→84.9MB 平坦、斜率 -2.78MB/h、
+  门禁退出码 0），真实 24h 全量长跑留 CI 执行 `--hours 24`；负载为稳态对象池 + 采样前双 GC，
+  刻意不纳入「反复建销复杂组件」（Qt 6.12+PySide6 固有 0.3-0.5MB/次开销，纯 Qt Quick 同样复现）；
+  屏读器真机回归（NVDA）封版前人工安排；应用打包 ≤60MB 未达（Qt 物理下限 185MB，方向：
+  upx / QML 预编译 / 插件裁剪）；安装器与代码签名需平台证书
 - **测试 454 项全绿**（427 + 1.0.0rc1 新增 27：冻结面/反例三连/纪律/qmllint 预算/废弃机制/
   三处缺陷回归；全矩阵 1 项由 check_visual.py CLI 承载、视觉 smoke 1 项跳过为设计如此）
   + 视觉基线 240 张；测试基建维持
@@ -68,7 +89,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - **七层成熟度**：L0 100% / L1 100% / L3 100% / L4 44% / L5 95% / L2 70% / **L6 90%（RC1 冻结治理入册）→ 封版目标 95%**
   （a11y 双门禁 + perf/hidpi 门禁入工程化）；非功能性轴：可访问性 90%→**95%**（余 5% = 组合色
   逐件采样 + NVDA 真机回归）、国际化 0%→**90%**（余 10% = 更多语言词典包 + 术语表管理）、
-  性能 **门禁化**（24h 内存长跑待 B3）、HiDPI **门禁化**（真机多屏抽查待 B3）
+  性能 **门禁化**（24h 压测工具就绪+冒烟通过，全量长跑留 CI）、HiDPI **门禁化**（真机多屏抽查待 B3）
 - **表单统一契约**：`label/hint/error/readonly/disable/clearable/rules` 贯穿表单族（对标 use-field +
   use-validate 36 props 逐项对账）；**受控模式**：组件只 emit 不自写（Quasar v-model 语义 1:1，
   防绑定环），宿主绑定 + 信号写回——数据体系全族沿用（selected/expanded/sortBy/page 均受控）
@@ -104,7 +125,10 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 0. `docs/MASTER_PLAN.md` —— **全生态六期总规划**（排期与验收以它为准）
 
-1. `docs/CONSTITUTION.md` —— 架构宪法（十章程则 + 迭代记录表）
+1. `docs/CONSTITUTION.md` —— 架构宪法（第 0~13 章准则 + 迭代记录表，工程纪律最高法源）
+1.2. `docs/COMPOSITION_CONSTITUTION.md` —— 组合组件宪法（Layout Shell 子法，第 0~9 章）：
+  凡新增/改造 Shell 类组合组件必读；令牌·目录·冻结援引母法，本文件只定义组合纪律；
+  `docs/layout_shell/` 历史四稿的 FROZEN 表述与虚构 API 已作废，勿再参考
 0.5. `docs/ECOSYSTEM_PARITY.md` §0.5 —— 2.26→2.35 基线漂移审计（增量对照表）
 1.5. `docs/A11Y.md` —— 可访问性手册（三分类契约/键盘约定/AA 派生/已知差距/坑位 38~41）
 2. `docs/PARITY.md` —— 全量对标审计（逐属性/事件/槽/model）
@@ -117,6 +141,9 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 - 头注释：第 1 行 `src/` 起始子路径，第 2 行文档素材说明；qmldir 只用 `#`
 - 命名红线：基调色 `tint`；禁 `on*` 属性；主题模式 `isDark` / `setDark()` / `toggleDark()`；品牌色 `dark`（$dark 1:1）
 - 槽机制：默认槽 `default property alias`、命名槽组合子组件、作用域槽 `Component delegate`
+- 组合组件：五标准槽位 `headerSlot/sidebarSlot/contentSlot/footerSlot/overlaySlot` 一律 alias 映射；
+  令牌唯一门面 `NovaTheme`（无 `Theme` 单例），真名 `NovaBtn`/`NovaText`/`NovaMotion`；
+  Shell 必须进 qmldir 入冻结面，`Composite/` 黑户文件与日期流水头注释禁止（组合组件宪法第 2/6/9 章）
 - 断点接入唯一方式：`Component.onCompleted: NovaScreen.source = window`
 - API 冻结纪律：`api/nova-api-*.json` 与 `docs/API_FREEZE.md` 是生成物**禁止手改**；
   公共面任何变化必须走 `check_api_freeze.py` 红 → 评估分级 → 重签 → CHANGELOG（宪法第 13 章）
@@ -237,6 +264,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     `Behaviors.NovaMorph`（模块名自身带点）→ 一律 `rsplit(".", 1)`；qmldir 的
     `singleton <名> <版本> <文件>` 版本位比普通行右移一格，解析要按 `singleton` 前缀偏移
     （1.0.0rc1 沉淀；两处都曾让冻结清单/文档表格悄悄写错名字）
+52. **`check_qmllint.py` 在中文 Windows 交付机假红灯**：① PySide6 包内是 `qmllint.exe`，
+    `Path.exists()` 不补后缀且 Scripts/ 无 `pyside6-qmllint` 入口 → 显式列 `qmllint`/`qmllint.exe`
+    两种候选；② `subprocess.run(text=True)` 走 locale 默认编码（中文 Windows=GBK），诊断含
+    UTF-8 路径时解码崩 → 显式 `encoding="utf-8", errors="replace"`。两者都让门禁"环境问题"
+    与"产品问题"混淆——**门禁红灯先分清是工具/环境还是产品，勿据假红灯判产品缺陷**
+    （1.0.0rc1 交付后验收实战沉淀；修复后真实退出码 0）
 49. **全矩阵视觉长跑后解释器收尾期 GC 崩溃**：240 截图 × 150s 跑完 pytest 报告后，
     finalizing GC 触发 `none_dealloc: refcount error in a C extension`
     （deleteLater / 显式 close / gc.collect 均无效）→ conftest `pytest_unconfigure`
@@ -292,8 +325,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
   + SBOM/CVE 周巡 + PyInstaller 打包自检 + MkDocs 文档站可搜索；画廊预览页 = 在线示例等价；
   L6 80%→90%；427 项测试；坑位 49 沉淀）**——**五期全部完成**
 - **六期（下一步）封版 1.0.0-flagship**：~~RC1 API 冻结审查~~ ✅ 1.0.0rc1 →
-  **RC2 24 条封版验收清单全勾**（ECOSYSTEM_PARITY 第 6 节；余项 4 条：24h 压测 / NVDA 真机 /
-  安装器签名 / 迁移指南 + LTS）→ 1.0.0 正式封版
+  **RC2 24 条封版验收清单全勾**（ECOSYSTEM_PARITY 第 6 节；24h 压测工具就绪+冒烟通过（全量长跑留 CI），
+  余项 3 条：NVDA 真机 / 安装器签名 / 迁移指南 + LTS）→ 1.0.0 正式封版
 - 详细差距与 DoD：`docs/ECOSYSTEM_PARITY.md`
 
 ### 最近一次交付
@@ -367,6 +400,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 ### 交付物通道
 
 - 门禁：`check_a11y.py` → `check_api_freeze.py` → `check_qmllint.py`（local_deploy 第 0 步，红即拒包）
+- **一键总验收 `scripts/check_all.py`**（库管员+验收员入口，分层，统一退出码 0 全绿/1 产品红或工具 ERROR/2 未执行门禁）：
+  `--tier static`（默认，秒级三静态门禁）· `--tier dynamic`（perf/visual smoke/soak 冒烟/hidpi）·
+  `--tier supply`（cve）· `--tier all`（全部 8 道；封版加 `--soak-24 --visual-full --cve-online`）；
+  `--brief` 摘要、`--report PATH` 落 JSON。内置环境预检：无 PySide6 的解释器直接判 ERROR(码2)，
+  不把"环境问题"误报成产品红。子门禁与总入口共用 `sys.executable`，必须用
+  `miniconda3/envs/pyside6_nova/python.exe` 运行。
 - 本地：`python scripts/local_deploy.py --zip --allinone` → release.zip + ALL-IN-ONE.zip
   （--allinone 必须在最终 git 提交之后运行，保证包内历史与 HEAD 一致——0.8.0 教训）
 - PyPI：打 `v*` 标签 → GitHub Actions Trusted Publishing 自动发布
@@ -399,8 +438,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：1.0.0rc1（2026-11-23）
-- 内容指纹：`eb8b3121e4d6`
-- git HEAD：14abb86
-- 生成时间：2026-11-23 21:20（星期一）
+- 快照版本：1.0.0（2026-11-25）
+- 内容指纹：`b3ba7a2a325f`
+- git HEAD：1076ccc
+- 生成时间：2026-11-25 20:37（星期三）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

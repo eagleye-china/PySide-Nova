@@ -133,12 +133,36 @@
    "line": 40
   },
   {
+   "name": "_dim",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.min(root.width, root.height)",
+   "doc": null,
+   "line": 42
+  },
+  {
+   "name": "_thumbSize",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.thumbSize, root._dim))",
+   "doc": null,
+   "line": 43
+  },
+  {
+   "name": "_trackSize",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.trackSize, root._dim))",
+   "doc": null,
+   "line": 44
+  },
+  {
    "name": "dense",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 41
+   "line": 45
   },
   {
    "name": "dark",
@@ -146,7 +170,7 @@
    "readonly": false,
    "default": ": NovaTheme.isDark",
    "doc": null,
-   "line": 42
+   "line": 46
   },
   {
    "name": "label",
@@ -154,7 +178,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "拖拽/键盘时显示气泡",
-   "line": 45
+   "line": 49
   },
   {
    "name": "labelAlways",
@@ -162,7 +186,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 46
+   "line": 50
   },
   {
    "name": "labelValue",
@@ -170,7 +194,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "自定义气泡文案",
-   "line": 47
+   "line": 51
   },
   {
    "name": "markers",
@@ -178,7 +202,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=每 step 一个刻点；数字=间隔",
-   "line": 50
+   "line": 54
   },
   {
    "name": "markerLabels",
@@ -186,7 +210,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "true=数值标签；数组=自定义标签",
-   "line": 51
+   "line": 55
   },
   {
    "name": "disable",
@@ -194,7 +218,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 54
+   "line": 58
   },
   {
    "name": "readonly",
@@ -202,7 +226,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 55
+   "line": 59
   },
   {
    "name": "activeTab",
@@ -210,7 +234,7 @@
    "readonly": false,
    "default": ": !disable",
    "doc": null,
-   "line": 56
+   "line": 60
   },
   {
    "name": "hint",
@@ -218,7 +242,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 57
+   "line": 61
   },
   {
    "name": "error",
@@ -226,7 +250,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 58
+   "line": 62
   },
   {
    "name": "errorMessage",
@@ -234,7 +258,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 59
+   "line": 63
   },
   {
    "name": "hasError",
@@ -242,7 +266,7 @@
    "readonly": true,
    "default": ": error || errorMessage !== \"\"",
    "doc": null,
-   "line": 61
+   "line": 65
   },
   {
    "name": "_focused",
@@ -250,7 +274,7 @@
    "readonly": true,
    "default": ": dragArea.drag.active || keyboardFocus",
    "doc": null,
-   "line": 62
+   "line": 66
   },
   {
    "name": "_lo",
@@ -258,7 +282,7 @@
    "readonly": true,
    "default": ": Math.max(min, innerMin)",
    "doc": null,
-   "line": 68
+   "line": 72
   },
   {
    "name": "_hi",
@@ -266,7 +290,7 @@
    "readonly": true,
    "default": ": Math.min(max, innerMax)",
    "doc": null,
-   "line": 69
+   "line": 73
   },
   {
    "name": "_pct",
@@ -274,7 +298,7 @@
    "readonly": true,
    "default": ": (Number(modelValue) - _lo) / Math.max(_hi - _lo, 1e-9)",
    "doc": null,
-   "line": 70
+   "line": 74
   },
   {
    "name": "_labelText",
@@ -282,7 +306,7 @@
    "readonly": true,
    "default": ": labelValue !== \"\" ? labelValue : String(modelValue)",
    "doc": null,
-   "line": 71
+   "line": 75
   },
   {
    "name": "keyboardFocus",
@@ -290,7 +314,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 72
+   "line": 76
   },
   {
    "name": "updatingFromDrag",
@@ -298,23 +322,23 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 108
+   "line": 112
   },
   {
    "name": "_trackLen",
    "type": "real",
    "readonly": true,
-   "default": ": (vertical ? height : width) - thumbSize",
+   "default": ": (vertical ? height : width) - _thumbSize",
    "doc": null,
-   "line": 116
+   "line": 120
   },
   {
    "name": "_thumbPos",
    "type": "real",
    "readonly": true,
-   "default": ": thumbSize / 2 + (reverse ? 1 - Math.max(0, Math.min(1, _pct)) : Math.max(0, Math.min(1, _pct))) * _trackLen",
+   "default": ": _thumbSize / 2 + (reverse ? 1 - Math.max(0, Math.min(1, _pct)) : Math.max(0, Math.min(1, _pct))) * _trackLen",
    "doc": null,
-   "line": 117
+   "line": 121
   },
   {
    "name": "_selLen",
@@ -322,7 +346,7 @@
    "readonly": true,
    "default": ": Math.max(0, Math.min(1, _pct)) * _trackLen",
    "doc": null,
-   "line": 118
+   "line": 122
   },
   {
    "name": "_markerCount",
@@ -330,7 +354,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 147
+   "line": 151
   },
   {
    "name": "_markerEvery",
@@ -338,7 +362,7 @@
    "readonly": true,
    "default": ": typeof markers === \"number\" && markers > 1",
    "doc": null,
-   "line": 152
+   "line": 156
   },
   {
    "name": "t",
@@ -346,7 +370,7 @@
    "readonly": true,
    "default": ": root.reverse ? 1 - index / (root._markerCount - 1)",
    "doc": null,
-   "line": 158
+   "line": 162
   },
   {
    "name": "t",
@@ -354,7 +378,7 @@
    "readonly": true,
    "default": ": root.reverse ? 1 - index / (root._markerCount - 1)",
    "doc": null,
-   "line": 178
+   "line": 182
   },
   {
    "name": "txt",
@@ -362,7 +386,7 @@
    "readonly": true,
    "default": ": Array.isArray(root.markerLabels)",
    "doc": null,
-   "line": 180
+   "line": 184
   }
  ],
  "signals": [

@@ -11,6 +11,14 @@
    "default": ": NovaTheme.spacingL",
    "doc": null,
    "line": 14
+  },
+  {
+   "name": "_pad",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.padding,",
+   "doc": null,
+   "line": 18
   }
  ],
  "signals": [],

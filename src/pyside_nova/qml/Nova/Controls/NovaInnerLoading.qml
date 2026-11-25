@@ -24,6 +24,9 @@ Rectangle {
     property string spinnerVariant: "ring"
     property bool dark: false                    // 深底蒙层口径（宿主自选）
 
+    // CARF 基础组件 Robustness：size 非法入参钳制，Spinner 直径恒非负。
+    readonly property real _size: Math.max(0, root.size)
+
     color: dark ? Qt.rgba(0, 0, 0, 0.55) : Qt.rgba(1, 1, 1, 0.7)
 
     opacity: showing ? 1 : 0
@@ -49,7 +52,7 @@ Rectangle {
             visible: !root._hasSlot
             anchors.horizontalCenter: parent.horizontalCenter
             variant: root.spinnerVariant
-            size: root.size
+            size: root._size
             tint: root.tint
         }
 

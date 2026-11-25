@@ -45,12 +45,20 @@
    "line": 39
   },
   {
+   "name": "_revealWidth",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.revealWidth,",
+   "doc": null,
+   "line": 41
+  },
+  {
    "name": "duration",
    "type": "int",
    "readonly": false,
    "default": ": 240",
    "doc": "吸附动画时长",
-   "line": 40
+   "line": 43
   },
   {
    "name": "openThreshold",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": 0.4",
    "doc": "释放时打开所需进度（0~1）",
-   "line": 41
+   "line": 44
   },
   {
    "name": "opened",
@@ -66,7 +74,7 @@
    "readonly": true,
    "default": ": _side !== \"\"",
    "doc": null,
-   "line": 48
+   "line": 51
   },
   {
    "name": "_side",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "当前打开侧：\"\" | \"left\" | \"right\"",
-   "line": 51
+   "line": 54
   },
   {
    "name": "_startX",
@@ -82,7 +90,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 115
+   "line": 118
   },
   {
    "name": "_baseX",
@@ -90,7 +98,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 116
+   "line": 119
   },
   {
    "name": "_dir",
@@ -98,7 +106,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 117
+   "line": 120
   }
  ],
  "signals": [

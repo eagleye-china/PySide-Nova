@@ -37,12 +37,20 @@
    "line": 18
   },
   {
+   "name": "_size",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(0, Math.min(root.size,",
+   "doc": null,
+   "line": 21
+  },
+  {
    "name": "reverse",
    "type": "bool",
    "readonly": false,
    "default": ": false",
    "doc": "反向行进",
-   "line": 19
+   "line": 23
   },
   {
    "name": "progressCap",
@@ -50,7 +58,7 @@
    "readonly": true,
    "default": ": 90",
    "doc": "未 stop 前渐进上限（对标 QAjaxBar 行为口径）",
-   "line": 20
+   "line": 24
   },
   {
    "name": "progress",
@@ -58,7 +66,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": "0~100",
-   "line": 23
+   "line": 27
   },
   {
    "name": "active",
@@ -66,7 +74,7 @@
    "readonly": true,
    "default": ": _waiters > 0",
    "doc": null,
-   "line": 24
+   "line": 28
   },
   {
    "name": "_waiters",
@@ -74,7 +82,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 34
+   "line": 38
   }
  ],
  "signals": [

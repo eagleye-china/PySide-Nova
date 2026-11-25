@@ -12,12 +12,12 @@
 [![PyPI](https://img.shields.io/pypi/v/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-旗舰版%20v1.0-blue)](docs/white_paper/pyside-nova-旗舰组件库白皮书.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../../LICENSE)
+[![Status](https://img.shields.io/badge/status-旗舰版%20v1.0-blue)](../../white_paper/pyside-nova-旗舰组件库白皮书.md)
 
 </div>
 
-> 🌍 English: **[README.md](README.md)**
+> 🌍 English: **[README.md](../../../README.md)**
 
 ## 现状速览
 
@@ -31,9 +31,10 @@
 | **质量门禁** | 静态 3/3 PASS · 478 项 pytest · 31/31 无头实例化 · qmllint 0 error |
 
 - **旗舰四性**：鲁棒性 Robustness · 健壮性 Solidity · 艺术性 Aesthetics · 前置预判性 Prescience
-- **架构宪法**：[docs/CONSTITUTION.md](docs/CONSTITUTION.md)（母法）+ [docs/COMPOSITION_CONSTITUTION.md](docs/COMPOSITION_CONSTITUTION.md)（组合组件子法）
-- **白皮书**：[旗舰组件库白皮书](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) · [Prescient Layout Shell 封版规范](docs/white_paper/Prescient-LayoutShell-封版规范.md)
-- **权威清单**：[docs/COMPONENT_LIST.md](docs/COMPONENT_LIST.md)（生成器产物，禁止手改）
+- **方法论**：**CARF** —— 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）（[母法卷首](../../CONSTITUTION.md)）· 15/15 组合根容器天花板全量销号（[逐项台账](../../layout_shell/CEILING_AUDIT.md)）
+- **架构宪法**：[docs/CONSTITUTION.md](../../CONSTITUTION.md)（母法）+ [docs/COMPOSITION_CONSTITUTION.md](../../COMPOSITION_CONSTITUTION.md)（组合组件子法）
+- **白皮书**：[旗舰组件库白皮书](../../white_paper/pyside-nova-旗舰组件库白皮书.md) · [Prescient Layout Shell 封版规范](../../white_paper/Prescient-LayoutShell-封版规范.md)
+- **权威清单**：[docs/COMPONENT_LIST.md](../../COMPONENT_LIST.md)（生成器产物，禁止手改）
 
 ## 品牌宣言
 
@@ -128,7 +129,7 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 | AI 对话主窗口（1） | `NovaChat` | AI 助手主窗口（对标 WorkBuddy 桌面端） | 六轨按轨分治、每轨独占签名 |
 
 > 槽位遵循同一套语义契约，业务页面可跨壳迁移。完整的属性 / 信号 / 槽位表与「依赖组件清单」
-> 见 [模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md)。
+> 见 [模块 README](../../../src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md)。
 
 ## 安装
 
@@ -293,12 +294,12 @@ git push origin v1.0.0
 
 ## 文档索引
 
-- [旗舰组件库白皮书](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) —— 品牌宣言、架构体系与全端方案
-- [Prescient Layout Shell 封版规范](docs/white_paper/Prescient-LayoutShell-封版规范.md) —— 准入红线、槽位规范与四性验收
-- [布局壳模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) —— 15 项完整契约与依赖组件清单
-- [组件索引](docs/COMPONENT_LIST.md) —— 139 类型，生成器产物
-- [架构宪法](docs/CONSTITUTION.md) · [组合组件宪法](docs/COMPOSITION_CONSTITUTION.md)
-- [生态对标白皮书](docs/ECOSYSTEM_PARITY.md) · [变更记录](CHANGELOG.md)
+- [旗舰组件库白皮书](../../white_paper/pyside-nova-旗舰组件库白皮书.md) —— 品牌宣言、架构体系与全端方案
+- [Prescient Layout Shell 封版规范](../../white_paper/Prescient-LayoutShell-封版规范.md) —— 准入红线、槽位规范与四性验收
+- [布局壳模块 README](../../../src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) —— 15 项完整契约与依赖组件清单
+- [组件索引](../../COMPONENT_LIST.md) —— 139 类型，生成器产物
+- [架构宪法](../../CONSTITUTION.md) · [组合组件宪法](../../COMPOSITION_CONSTITUTION.md)
+- [生态对标白皮书](../../ECOSYSTEM_PARITY.md) · [变更记录](../../../CHANGELOG.md)
 
 ## 对外文案库
 
@@ -312,7 +313,7 @@ git push origin v1.0.0
 
 ## 许可证
 
-[MIT](LICENSE)
+[MIT](../../../LICENSE)
 
 ---
 
