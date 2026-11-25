@@ -107,7 +107,8 @@ nav:
       - Prescient Layout Shell 封版规范: white_paper/Prescient-LayoutShell-封版规范.md
       - 营销版 README 素材: white_paper/pyside-nova-README.md
   - 天花板台账:
-      - CARF-R 15/15 销号台账: layout_shell/CEILING_AUDIT.md
+      - CARF-R 组合 15/15 销号台账: layout_shell/CEILING_AUDIT.md
+      - CARF-R 基础组件 15/15 销号台账: CEILING_AUDIT_FOUNDATIONS.md
   - 装配态图（45 张）:
       - 三态装配图索引: components/showcase.md
   - 在线工具（T9 / P1+P2）:
