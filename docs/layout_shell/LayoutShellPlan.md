@@ -1,8 +1,8 @@
-收到最新目录结构。三处冲突已解决：`NovaSidebarShell.qml` 确认存在；`Composite/LayoutShell/` 已建立；并新增 `COMPONENT_LIST.md` 与 `gen_component_list.py`。以下按计划推进 **P0-a 基线盘点表 + D-013 修订片段**，Theme Token 草案因缺文件内容只给结构骨架，具体值标缺失。
+收到最新目录结构。三处冲突已解决：`NovaSidebar.qml` 确认存在；`Composite/LayoutShell/` 已建立；并新增 `COMPONENT_LIST.md` 与 `gen_component_list.py`。以下按计划推进 **P0-a 基线盘点表 + D-013 修订片段**，Theme Token 草案因缺文件内容只给结构骨架，具体值标缺失。
 
 ## 一、目录事实更新
 
-- ✅ `src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaSidebarShell.qml` 存在，封版事实成立。
+- ✅ `src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaSidebar.qml` 存在，封版事实成立。
 - ✅ `docs/COMPONENT_LIST.md` 与 `scripts/gen_component_list.py` 存在，**这是权威组件清单来源**，应优先读取，而非手工推断。
 - ✅ `resources/` 目录存在，图标等资源有托管位置。
 - ⚠️ 仍无独立 `Theme/` 目录，`Theme` 门面在 `Services/NovaTheme.qml`。建议沿用方案 A：扩展 `NovaTheme.qml` 作为唯一门面，不新建目录。
@@ -43,7 +43,7 @@
 - **阴影/层级**：`shadowLow/Medium/High`。
 
 **缺失信息（不编造）**：
-1. `NovaSidebarShell.qml` 中实际引用的全部 `Theme.*` 清单。
+1. `NovaSidebar.qml` 中实际引用的全部 `Theme.*` 清单。
 2. `Services/NovaTheme.qml` 现有公开属性与深/浅主题结构。
 3. `docs/DESIGN_TOKENS.md` 是否已有命名与色值基准。
 4. `Design/NovaMotion.qml` 已提供的动画曲线/时长。
@@ -52,7 +52,7 @@
 
 请提供以下任一组即可让我进入 P0-b 与 Theme Token 草案落地：
 
-- **最小集**：`Services/NovaTheme.qml` + `NovaSidebarShell.qml` 全文。
-- **替代集**：`docs/DESIGN_TOKENS.md` + `docs/COMPONENT_LIST.md` + `NovaSidebarShell.qml` 中 `Theme.*` 引用清单。
+- **最小集**：`Services/NovaTheme.qml` + `NovaSidebar.qml` 全文。
+- **替代集**：`docs/DESIGN_TOKENS.md` + `docs/COMPONENT_LIST.md` + `NovaSidebar.qml` 中 `Theme.*` 引用清单。
 
-拿到后我立即产出：**Theme Token 属性清单（含类型/默认值/深浅色）+ `NovaTheme` 扩展草案 + `NovaSidebarShell` 依赖核对表**，再按 P1 顺序进入 `NovaThreeColumnShell` 与 `NovaModalShell`。以上未写代码，等你确认口径与补件。
+拿到后我立即产出：**Theme Token 属性清单（含类型/默认值/深浅色）+ `NovaTheme` 扩展草案 + `NovaSidebar` 依赖核对表**，再按 P1 顺序进入 `NovaThreeColumn` 与 `NovaModal`。以上未写代码，等你确认口径与补件。

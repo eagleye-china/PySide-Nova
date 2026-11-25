@@ -1,0 +1,140 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaSidebar",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaSidebar.qml",
+ "description": "NovaSidebar 侧边导航工作台壳：品牌渐变轨 + 浮起侧栏卡 + 五槽骨架（对标 Quasar QLayout + QDrawer） NovaSidebar —— 主推引流款组合根容器；以\"品牌轨\"为身份语言，区别于其余工作台壳 用法：向 headerSlot/sidebarSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；Shell 只托管布局与折叠状态，不含业务菜单 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "headerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _header.data",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "sidebarSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _sidebar.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "contentSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _body.content",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "footerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _footer.data",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "sidebarSize",
+   "type": "real",
+   "readonly": false,
+   "default": ": 260",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "sidebarCollapsed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "showHeader",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "showFooter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "headerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 56",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "footerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 28
+  },
+  {
+   "name": "breakpoint",
+   "type": "int",
+   "readonly": false,
+   "default": ": 1024",
+   "doc": null,
+   "line": 29
+  },
+  {
+   "name": "bordered",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "belowBreakpoint",
+   "type": "bool",
+   "readonly": true,
+   "default": ": width > 0 && width < root.breakpoint",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "_size",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(120, Math.min(root.sidebarSize, width / 2 || root.sidebarSize))",
+   "doc": null,
+   "line": 42
+  }
+ ],
+ "signals": [
+  {
+   "name": "sidebarToggled",
+   "params": "bool collapsed"
+  }
+ ],
+ "methods": [
+  {
+   "name": "toggleSidebar",
+   "params": ""
+  }
+ ]
+}

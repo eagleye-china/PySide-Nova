@@ -36,11 +36,11 @@ import gen_api_freeze as gaf  # noqa: E402
 MANIFEST = ROOT / "api" / "nova-api-1.0.0.json"
 DOC = ROOT / "docs" / "API_FREEZE.md"
 
-# 0.18.0：14 项迁至独立模块 Nova.Composite.LayoutShell（宪法 0.3.0）；总数仍 138
+# 0.19.0：组合模块 14→15（去 Shell 后缀 + 新增 NovaChat，宪法 0.4.0）；总数 138→139
 EXPECTED_MODULES = {"Nova.Controls": 91, "Nova.Behaviors": 13,
                     "Nova.Services": 16, "Nova.Design": 4,
-                    "Nova.Composite.LayoutShell": 14}
-EXPECTED_TOTAL = 138
+                    "Nova.Composite.LayoutShell": 15}
+EXPECTED_TOTAL = 139
 
 
 @pytest.fixture(scope="module")
@@ -67,7 +67,7 @@ def test_manifest_counts(manifest):
     assert manifest["counts"]["modules"] == EXPECTED_MODULES
     a11y = manifest["counts"]["a11y"]
     assert sum(a11y.values()) == EXPECTED_TOTAL
-    assert a11y == {"decorative": 78, "interactive": 32, "semantic": 28}
+    assert a11y == {"decorative": 79, "interactive": 32, "semantic": 28}
 
 
 def test_manifest_fingerprint_self_consistent(manifest):

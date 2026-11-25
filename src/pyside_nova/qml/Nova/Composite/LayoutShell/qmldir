@@ -1,18 +1,21 @@
 # src/pyside_nova/qml/Nova/Composite/LayoutShell/qmldir
-# 组合组件专属模块：14 项 Prescient Layout Shell（宪法 0.3.0 合法第五模块）
+# 组合组件专属模块：15 项组合根容器（宪法 0.8.0 合法第五模块；NovaChat 对标 WorkBuddy 主窗口）
+# 封版：1.0.0 GA · API 冻结指纹 bfd3d938a2fab7be（15 项全部为冻结公共类型）
+# 交付物：模块级 README.md（15 项契约 + 依赖组件清单）；技术红线见 docs/white_paper/ 封版规范 v2.0.0
 module Nova.Composite.LayoutShell
 
-NovaSidebarShell 1.0 NovaSidebarShell.qml
-NovaTopNavShell 1.0 NovaTopNavShell.qml
-NovaDualSideShell 1.0 NovaDualSideShell.qml
+NovaSidebar 1.0 NovaSidebar.qml
+NovaTopNavigation 1.0 NovaTopNavigation.qml
+NovaDualSide 1.0 NovaDualSide.qml
 NovaTabShell 1.0 NovaTabShell.qml
-NovaThreeColumnShell 1.0 NovaThreeColumnShell.qml
-NovaCompareShell 1.0 NovaCompareShell.qml
-NovaCardGridShell 1.0 NovaCardGridShell.qml
-NovaModalShell 1.0 NovaModalShell.qml
-NovaDrawerPanelShell 1.0 NovaDrawerPanelShell.qml
-NovaWizardShell 1.0 NovaWizardShell.qml
-NovaBlankPageShell 1.0 NovaBlankPageShell.qml
+NovaThreeColumn 1.0 NovaThreeColumn.qml
+NovaCompare 1.0 NovaCompare.qml
+NovaCardGrid 1.0 NovaCardGrid.qml
+NovaModal 1.0 NovaModal.qml
+NovaDrawerPanel 1.0 NovaDrawerPanel.qml
+NovaSetupWizard 1.0 NovaSetupWizard.qml
+NovaBlankPage 1.0 NovaBlankPage.qml
 NovaDesktop 1.0 NovaDesktop.qml
 NovaMobile 1.0 NovaMobile.qml
 NovaFlexLayout 1.0 NovaFlexLayout.qml
+NovaChat 1.0 NovaChat.qml

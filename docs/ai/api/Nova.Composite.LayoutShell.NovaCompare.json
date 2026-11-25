@@ -1,0 +1,108 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaCompare",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaCompare.qml",
+ "description": "NovaCompare 双栏对比壳：中缝调节柄 + 等宽双面板 + 控制栏 + 状态栏（对标代码 / 配置 diff 工具） NovaCompare —— 等宽对比工作台组合根容器；以\"中缝圆形调节柄\"为身份语言 用法：向 controlSlot/leftSlot/rightSlot/footerSlot/overlaySlot 注入业务内容；同步滚动为受控开关，Shell 只 emit 偏好 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "controlSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _control.data",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "leftSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _left.data",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "rightSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _right.data",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "footerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _footer.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "showControl",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "showFooter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "syncScroll",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "controlHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "footerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "divider",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 25
+  }
+ ],
+ "signals": [
+  {
+   "name": "syncScrollToggled",
+   "params": "bool enabled"
+  }
+ ],
+ "methods": [
+  {
+   "name": "toggleSyncScroll",
+   "params": ""
+  }
+ ]
+}

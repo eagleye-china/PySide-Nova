@@ -47,7 +47,7 @@ Layout Shell 本身仍是标准 Nova 组件，可在 Gallery 画廊预览、独�
    - **依赖**：无，或仅依赖 Theme 主题 Token、基础 Layout 容器。
 
 2. **Layout Shell 布局壳层（本体系，复合层）**
-   - **成员**：`NovaSidebarShell`、`NovaTopNavShell`、`NovaThreeColumnShell`、`NovaModalShell` 等。
+   - **成员**：`NovaSidebar`、`NovaTopNavigation`、`NovaThreeColumn`、`NovaModal` 等。
    - **✅ 允许实现**：
      - 固定布局结构、安全边距、划分内容区域。
      - 导航展开/收起动画、过渡曲线、状态联动。
@@ -120,14 +120,14 @@ pyside-nova/src/pyside_nova/qml/Nova/
 ├── Composite/
 │   └── LayoutShell/            # Prescient Layout Shell 专属目录
 │       ├── README.md           # 【本文档，封版总纲】
-│       ├── NovaSidebarShell/
-│       │   ├── NovaSidebarShell.qml
+│       ├── NovaSidebar/
+│       │   ├── NovaSidebar.qml
 │       │   ├── qmldir
 │       │   ├── README.md
 │       │   └── demo/
-│       ├── NovaTopNavShell/
-│       ├── NovaThreeColumnShell/
-│       ├── NovaModalShell/
+│       ├── NovaTopNavigation/
+│       ├── NovaThreeColumn/
+│       ├── NovaModal/
 │       └── ...
 ├── Theme/                      # Token 主题体系
 └── Layout/                     # 基础布局容器（Row/Column 等底层容器）
@@ -156,7 +156,7 @@ pyside-nova/src/pyside_nova/qml/Nova/
 ```qml
 /**
  * Prescient Layout Shell | 预判式布局壳
- * Component: NovaSidebarShell
+ * Component: NovaSidebar
  * Flagship Standard: Robustness, Solidity, Aesthetics, Prescience
  * Follow Layout Shell Frozen Spec v1.0.0
  */
@@ -190,12 +190,12 @@ pyside-nova/src/pyside_nova/qml/Nova/
 
 ---
 
-## 十、 附录：最小使用示例（NovaSidebarShell）
+## 十、 附录：最小使用示例（NovaSidebar）
 
 ```qml
 import Nova
 
-NovaSidebarShell {
+NovaSidebar {
     title: "剪贴板多块保存工具"
     sidebarCollapsed: false
 

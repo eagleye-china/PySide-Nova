@@ -32,14 +32,14 @@
   - `archive/resume`：极简交互，生成 `ready_prompt.md`。
   - `saver`：已按洋葱架构拆分为 `ui/`、`core/`、`command/` 三层；注册了 `Ctrl+Alt+S` 全局热键唤出。
 - **QML 旗舰规范**：完成《Prescient Layout Shell v1.0.0 (FROZEN) 规范》编写。
-- **首个 Shell 封版**：`NovaSidebarShell.qml` v1.0.0 代码完成（严格遵守 D-008，含完整槽位与响应式信号）。
+- **首个 Shell 封版**：`NovaSidebar.qml` v1.0.0 代码完成（严格遵守 D-008，含完整槽位与响应式信号）。
 
 ### 🟡 进行中 (In Progress)
 - (暂无，等待下一步指令)
 
 ### ⬜ 未开始 (Not Started)
-- **Theme Token 体系落地**：补齐 `NovaSidebarShell` 依赖的所有颜色、尺寸、动画 Token。
-- **第二个 Layout Shell 开发**：如 `NovaTopNavShell` 或 `NovaThreeColumnShell`。
+- **Theme Token 体系落地**：补齐 `NovaSidebar` 依赖的所有颜色、尺寸、动画 Token。
+- **第二个 Layout Shell 开发**：如 `NovaTopNavigation` 或 `NovaThreeColumn`。
 - 自动化剪贴板深度解析。
 
 ---
@@ -68,10 +68,10 @@
 按优先级排序：
 
 1. **QML Theme Token 编写**
-   - 补齐 `NovaSidebarShell` 中调用的 `Theme.sidebarWidth`、`Theme.spacingSmall`、`Theme.animDurationNormal` 等属性。
+   - 补齐 `NovaSidebar` 中调用的 `Theme.sidebarWidth`、`Theme.spacingSmall`、`Theme.animDurationNormal` 等属性。
    - 定义深色/浅色主题的色值（`Theme.background`、`Theme.sidebarBackground` 等）。
 2. **开发第二个 Layout Shell**
-   - 基于已有的骨架体系，编写 `NovaTopNavShell.qml` 及其 Gallery Demo。
+   - 基于已有的骨架体系，编写 `NovaTopNavigation.qml` 及其 Gallery Demo。
 3. **Nova-Forge 全局打包测试**
 
 ---
@@ -101,7 +101,7 @@
 | `docs/session-snapshots/` | 目录 | 快照与 `ready_prompt.md` 归档位置。 |
 | `src/nova_forge/core/templates/tmpl_resume.py` | 文件 | 封版接续指令模板。 |
 | `src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md` | 文件 | 《预判式布局壳封版规范 v1.0.0》 |
-| `src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaSidebarShell.qml` | 文件 | 首个封版的侧边导航布局壳。 |
+| `src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaSidebar.qml` | 文件 | 首个封版的侧边导航布局壳。 |
 
 ---
 

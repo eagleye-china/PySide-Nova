@@ -28,7 +28,7 @@ MODULE_LABEL = {
     "Nova.Behaviors": "Behaviors · 行为",
     "Nova.Services": "Services · 服务单例",
     "Nova.Design": "Design · 设计层",
-    "Nova.Composite.LayoutShell": "Composite/LayoutShell · 组合组件（14 项 Shell）",
+    "Nova.Composite.LayoutShell": "Composite/LayoutShell · 组合组件（15 项根容器）",
 }
 A11Y_LABEL = {
     "decorative": "decorative（装饰）",

@@ -1,0 +1,140 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaDualSide",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaDualSide.qml",
+ "description": "NovaDualSide 双侧边工作台壳：左导航 + 中央画布 + 右属性，两侧独立折叠（对标 Qt Designer / VSCode 三栏布局） NovaDualSide —— 工业配置软件高频三栏组合根容器；以\"中央画布 + 双栏浮起\"为身份语言 用法：向 leftSlot/contentSlot/rightSlot/footerSlot/overlaySlot 注入业务内容；两侧宽度受控、只 emit 折叠事件 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "leftSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _left.data",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "contentSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _body.content",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "rightSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _right.data",
+   "doc": null,
+   "line": 17
+  },
+  {
+   "name": "footerSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _footer.data",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "leftSize",
+   "type": "real",
+   "readonly": false,
+   "default": ": 240",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "rightSize",
+   "type": "real",
+   "readonly": false,
+   "default": ": 280",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "leftCollapsed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "rightCollapsed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "showFooter",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "footerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 48",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "bordered",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "_lw",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(80, Math.min(root.leftSize, width / 3 || root.leftSize))",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "_rw",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(80, Math.min(root.rightSize, width / 3 || root.rightSize))",
+   "doc": null,
+   "line": 35
+  }
+ ],
+ "signals": [
+  {
+   "name": "leftToggled",
+   "params": "bool collapsed"
+  },
+  {
+   "name": "rightToggled",
+   "params": "bool collapsed"
+  }
+ ],
+ "methods": [
+  {
+   "name": "toggleLeft",
+   "params": ""
+  },
+  {
+   "name": "toggleRight",
+   "params": ""
+  }
+ ]
+}

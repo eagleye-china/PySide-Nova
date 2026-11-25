@@ -136,22 +136,23 @@ CONTROLS: dict[str, tuple[str, str, str]] = {
     "NovaResizeObserver": (DECORATIVE, "-", "尺寸观察行为"),
 }
 
-# 组合组件专属模块（宪法 0.3.0，从 Controls 迁出）：14 项 Prescient Layout Shell
+# 组合组件专属模块（宪法 0.4.0）：15 项组合根容器（去 Shell 后缀 + NovaChat）
 LAYOUTSHELL: dict[str, tuple[str, str, str]] = {
-    "NovaSidebarShell":     (DECORATIVE, "-", "侧边导航工作台骨架，语义由注入槽位承担"),
-    "NovaTopNavShell":      (DECORATIVE, "-", "顶部导航工作台骨架"),
-    "NovaDualSideShell":    (DECORATIVE, "-", "双侧边三栏工作台骨架"),
-    "NovaTabShell":         (DECORATIVE, "-", "标签页工作台骨架"),
-    "NovaThreeColumnShell": (DECORATIVE, "-", "三栏工作台骨架"),
-    "NovaCompareShell":     (DECORATIVE, "-", "双栏对比骨架"),
-    "NovaCardGridShell":    (DECORATIVE, "-", "卡片网格骨架"),
-    "NovaModalShell":       (DECORATIVE, "-", "模态弹窗容器骨架，焦点由内部交互件承担"),
-    "NovaDrawerPanelShell": (DECORATIVE, "-", "侧滑面板容器骨架"),
-    "NovaWizardShell":      (DECORATIVE, "-", "分步向导骨架"),
-    "NovaBlankPageShell":   (DECORATIVE, "-", "纯净单页骨架"),
-    "NovaDesktop":          (DECORATIVE, "-", "桌面应用顶层根壳"),
-    "NovaMobile":           (DECORATIVE, "-", "移动应用顶层根壳"),
-    "NovaFlexLayout":       (DECORATIVE, "-", "企业大屏弹性布局根壳"),
+    "NovaSidebar":      (DECORATIVE, "-", "侧边导航工作台骨架，语义由注入槽位承担"),
+    "NovaTopNavigation":       (DECORATIVE, "-", "顶部导航工作台骨架"),
+    "NovaDualSide":     (DECORATIVE, "-", "双侧边三栏工作台骨架"),
+    "NovaTabShell":     (DECORATIVE, "-", "标签页工作台骨架（保留 Shell 后缀，避开 Controls.NovaTab 语义混淆）"),
+    "NovaThreeColumn":  (DECORATIVE, "-", "三栏工作台骨架"),
+    "NovaCompare":      (DECORATIVE, "-", "双栏对比骨架"),
+    "NovaCardGrid":     (DECORATIVE, "-", "卡片网格骨架"),
+    "NovaModal":        (DECORATIVE, "-", "模态弹窗容器骨架，焦点由内部交互件承担"),
+    "NovaDrawerPanel":  (DECORATIVE, "-", "侧滑面板容器骨架"),
+    "NovaSetupWizard":  (DECORATIVE, "-", "安装 / 新建工程 / 初始化配置向导骨架"),
+    "NovaBlankPage":    (DECORATIVE, "-", "纯净单页骨架"),
+    "NovaDesktop":      (DECORATIVE, "-", "桌面应用顶层根壳"),
+    "NovaMobile":       (DECORATIVE, "-", "移动应用顶层根壳"),
+    "NovaFlexLayout":   (DECORATIVE, "-", "企业大屏弹性布局根壳"),
+    "NovaChat":         (DECORATIVE, "-", "AI 对话主窗口骨架，气泡语义由注入的 NovaChatMessage 承担"),
 }
 
 BEHAVIORS: dict[str, tuple[str, str, str]] = {

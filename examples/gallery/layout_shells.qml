@@ -1,5 +1,5 @@
 // examples/gallery/layout_shells.qml
-// Prescient Layout Shell 独立画廊：14 项组合根容器逐项真实预览 + 实时调参面板 + 明暗切换
+// 组合根容器独立画廊：15 项逐项真实预览 + 实时调参面板 + 明暗切换（含 NovaChat 主窗口）
 // 满足组合宪法 0.2.0 第 8 章 Gallery 门禁：每个 Shell 独立预览、可独立加载、脱离业务、调参面板
 // 运行：python examples/gallery/layout_shells.py（不侵入主画廊 main.qml）
 import QtQuick
@@ -13,20 +13,20 @@ ApplicationWindow {
     width: 1180
     height: 780
     visible: true
-    title: "pyside-nova · Prescient Layout Shell（14 项）"
+    title: "pyside-nova · 组合根容器（15 项，含 NovaChat）"
     color: NovaTheme.page
 
     Component.onCompleted: NovaScreen.source = win
 
     readonly property var shellNames: [
-        "NovaSidebarShell", "NovaTopNavShell", "NovaDualSideShell", "NovaTabShell",
-        "NovaThreeColumnShell", "NovaCompareShell", "NovaCardGridShell", "NovaModalShell",
-        "NovaDrawerPanelShell", "NovaWizardShell", "NovaBlankPageShell", "NovaDesktop",
-        "NovaMobile", "NovaFlexLayout"
+        "NovaSidebar", "NovaTopNavigation", "NovaDualSide", "NovaTabShell",
+        "NovaThreeColumn", "NovaCompare", "NovaCardGrid", "NovaModal",
+        "NovaDrawerPanel", "NovaSetupWizard",         "NovaBlankPage", "NovaDesktop",
+        "NovaMobile", "NovaFlexLayout", "NovaChat"
     ]
     readonly property var shellPages: [
-        pgSidebar, pgTopNav, pgDual, pgTab, pgThreeCol, pgCompare, pgCardGrid, pgModal,
-        pgDrawerPanel, pgWizard, pgBlankPage, pgDesktop, pgMobile, pgFlex
+        pgSidebar, pgTopNavigation, pgDual, pgTab, pgThreeCol, pgCompare, pgCardGrid, pgModal,
+        pgDrawerPanel, pgSetupWizard, pgBlankPage, pgDesktop, pgMobile, pgFlex, pgChat
     ]
 
     property bool collapsed: false
@@ -53,7 +53,7 @@ ApplicationWindow {
         NovaSeparator { anchors { bottom: parent.bottom; left: parent.left; right: parent.right } }
     }
 
-    // ── 左侧 14 项导航 ──
+    // ── 左侧 15 项导航 ──
     Rectangle {
         id: nav
         anchors { top: top.bottom; bottom: parent.bottom; left: parent.left }
@@ -124,7 +124,7 @@ ApplicationWindow {
                     }
                 }
                 Text {
-                    text: "所有槽位注入可视化占位块；\n左侧切换 14 个真实 Shell 骨架。\n无业务语义 · 令牌驱动 · 可独立加载。"
+                    text: "所有槽位注入可视化占位块；\n左侧切换 15 个真实组合根容器。\n无业务语义 · 令牌驱动 · 可独立加载。"
                     color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS; wrapMode: Text.Wrap
                 }
             }
@@ -134,37 +134,37 @@ ApplicationWindow {
     // ── 占位块 component（复用于各槽位）──
     Component { id: slotBlock; Rectangle { color: NovaTheme.surfaceAlt; border { width: 1; color: NovaTheme.outline } } }
 
-    // ── 14 个独立预览页 ──
-    Component { id: pgSidebar; NovaSidebarShell { anchors.fill: parent; sidebarSize: win.panelSize; sidebarCollapsed: win.collapsed; showHeader: win.showBars; showFooter: win.showBars
+    // ── 15 个独立预览页 ──
+    Component { id: pgSidebar; NovaSidebar { anchors.fill: parent; sidebarSize: win.panelSize; sidebarCollapsed: win.collapsed; showHeader: win.showBars; showFooter: win.showBars
         headerSlot: Rectangle { color: NovaTheme.primary; Text { anchors.centerIn: parent; text: "headerSlot"; color: NovaTheme.textOnPrimary } }
         sidebarSlot: Rectangle { color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "sidebarSlot"; color: NovaTheme.textMuted } }
-        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaSidebarShell · contentSlot"; color: NovaTheme.textColor } }
+        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaSidebar · contentSlot"; color: NovaTheme.textColor } }
         footerSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "footerSlot"; color: NovaTheme.textMuted } } } }
 
-    Component { id: pgTopNav; NovaTopNavShell { anchors.fill: parent; showHeader: win.showBars; showFooter: win.showBars
+    Component { id: pgTopNavigation; NovaTopNavigation { anchors.fill: parent; showHeader: win.showBars; showFooter: win.showBars
         headerSlot: Rectangle { color: NovaTheme.primary; Text { anchors.centerIn: parent; text: "一级导航 headerSlot"; color: NovaTheme.textOnPrimary } }
-        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaTopNavShell"; color: NovaTheme.textColor } } } }
+        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaTopNavigation"; color: NovaTheme.textColor } } } }
 
-    Component { id: pgDual; NovaDualSideShell { anchors.fill: parent; leftSize: win.panelSize; rightSize: win.panelSize; leftCollapsed: win.collapsed; showFooter: win.showBars
+    Component { id: pgDual; NovaDualSide { anchors.fill: parent; leftSize: win.panelSize; rightSize: win.panelSize; leftCollapsed: win.collapsed; showFooter: win.showBars
         leftSlot: Rectangle { color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "leftSlot"; color: NovaTheme.textMuted } }
-        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaDualSideShell"; color: NovaTheme.textColor } }
+        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaDualSide"; color: NovaTheme.textColor } }
         rightSlot: Rectangle { color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "rightSlot"; color: NovaTheme.textMuted } } } }
 
     Component { id: pgTab; NovaTabShell { anchors.fill: parent; showTabBar: win.showBars; showFooter: win.showBars
         tabBarSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "Tab 1 | Tab 2 | Tab 3"; color: NovaTheme.textColor } }
         contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaTabShell"; color: NovaTheme.textColor } } } }
 
-    Component { id: pgThreeCol; NovaThreeColumnShell { anchors.fill: parent; treeSize: win.panelSize; detailSize: win.panelSize; showHeader: win.showBars
+    Component { id: pgThreeCol; NovaThreeColumn { anchors.fill: parent; treeSize: win.panelSize; detailSize: win.panelSize; showHeader: win.showBars
         treeSlot: Rectangle { color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "treeSlot"; color: NovaTheme.textMuted } }
         listSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "listSlot"; color: NovaTheme.textColor } }
         detailSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "detailSlot"; color: NovaTheme.textMuted } } } }
 
-    Component { id: pgCompare; NovaCompareShell { anchors.fill: parent; showControl: win.showBars; showFooter: win.showBars
+    Component { id: pgCompare; NovaCompare { anchors.fill: parent; showControl: win.showBars; showFooter: win.showBars
         controlSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "对比控制栏"; color: NovaTheme.textColor } }
         leftSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "leftSlot"; color: NovaTheme.textMuted } }
         rightSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "rightSlot"; color: NovaTheme.textMuted } } } }
 
-    Component { id: pgCardGrid; NovaCardGridShell { anchors.fill: parent; showFilter: win.showBars; showFooter: win.showBars
+    Component { id: pgCardGrid; NovaCardGrid { anchors.fill: parent; showFilter: win.showBars; showFooter: win.showBars
         filterSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "筛选 / 搜索"; color: NovaTheme.textColor } }
         gridSlot: Grid {
             anchors.fill: parent; spacing: 8; columns: 3
@@ -172,26 +172,26 @@ ApplicationWindow {
         } } }
 
     Component { id: pgModal; Item { anchors.fill: parent
-        NovaBlankPageShell { anchors.fill: parent; contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaModalShell（点按钮打开）"; color: NovaTheme.textColor }
+        NovaBlankPage { anchors.fill: parent; contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaModal（点按钮打开）"; color: NovaTheme.textColor }
             NovaBtn { anchors.centerIn: parent; text: "打开模态壳"; onClicked: m.open = true } } }
-        NovaModalShell { id: m; open: false; titleSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "标题"; color: NovaTheme.textColor } }
+        NovaModal { id: m; open: false; titleSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "标题"; color: NovaTheme.textColor } }
             contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "模态内容槽"; color: NovaTheme.textColor } }
             actionsSlot: Rectangle { color: NovaTheme.surface; NovaBtn { anchors.centerIn: parent; text: "关闭"; onClicked: m.open = false } } } } }
 
     Component { id: pgDrawerPanel; Item { anchors.fill: parent
-        NovaBlankPageShell { anchors.fill: parent; contentSlot: Rectangle { color: NovaTheme.page; NovaBtn { anchors.centerIn: parent; text: "打开侧滑面板"; onClicked: d.open = true } } }
-        NovaDrawerPanelShell { id: d; open: false; size: win.panelSize; scrim: true; side: "right"
+        NovaBlankPage { anchors.fill: parent; contentSlot: Rectangle { color: NovaTheme.page; NovaBtn { anchors.centerIn: parent; text: "打开侧滑面板"; onClicked: d.open = true } } }
+        NovaDrawerPanel { id: d; open: false; size: win.panelSize; scrim: true; side: "right"
             titleSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "属性面板"; color: NovaTheme.textColor } }
             contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "contentSlot"; color: NovaTheme.textColor } } } } }
 
-    Component { id: pgWizard; NovaWizardShell { anchors.fill: parent; stepCount: 4; currentStep: 1; showSteps: win.showBars
+    Component { id: pgSetupWizard; NovaSetupWizard { anchors.fill: parent; stepCount: 4; currentStep: 1; showSteps: win.showBars
         stepsSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "① ─ ② ─ ③ ─ ④"; color: NovaTheme.primary } }
-        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaWizardShell · 步骤内容"; color: NovaTheme.textColor } }
+        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaSetupWizard · 步骤内容"; color: NovaTheme.textColor } }
         controlsSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "上一步 | 下一步"; color: NovaTheme.textColor } } } }
 
-    Component { id: pgBlankPage; NovaBlankPageShell { anchors.fill: parent; showHeader: win.showBars; showFooter: win.showBars
+    Component { id: pgBlankPage; NovaBlankPage { anchors.fill: parent; showHeader: win.showBars; showFooter: win.showBars
         headerSlot: Rectangle { color: NovaTheme.primary; Text { anchors.centerIn: parent; text: "Header"; color: NovaTheme.textOnPrimary } }
-        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaBlankPageShell · 纯净单页"; color: NovaTheme.textColor } } } }
+        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaBlankPage · 纯净单页"; color: NovaTheme.textColor } } } }
 
     Component { id: pgDesktop; NovaDesktop { anchors.fill: parent; showMenu: win.showBars; showToolbar: win.showBars; showStatus: win.showBars
         pageSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaDesktop · 桌面根壳"; color: NovaTheme.textColor } } } }
@@ -205,4 +205,14 @@ ApplicationWindow {
     Component { id: pgFlex; NovaFlexLayout { anchors.fill: parent; columns: 3; showHeader: win.showBars
         headerSlot: Rectangle { color: NovaTheme.primary; Text { anchors.centerIn: parent; text: "大屏 Header"; color: NovaTheme.textOnPrimary } }
         contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "NovaFlexLayout · 3 栏"; color: NovaTheme.textColor } } } }
+
+    Component { id: pgChat; NovaChat { anchors.fill: parent; navSize: 56; conversationSize: win.panelSize; detailSize: win.panelSize
+        conversationCollapsed: win.collapsed; detailCollapsed: win.collapsed
+        showNav: win.showBars; showHeader: win.showBars; showComposer: win.showBars
+        navSlot: Rectangle { color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "▤"; color: NovaTheme.primary; font.pixelSize: NovaTheme.fontL } }
+        conversationSlot: Rectangle { color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "会话列表"; color: NovaTheme.textMuted } }
+        headerSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "NovaChat · WorkBuddy 主窗口"; color: NovaTheme.textColor } }
+        contentSlot: Rectangle { color: NovaTheme.page; Text { anchors.centerIn: parent; text: "对话区（注入 NovaChatMessage 气泡）"; color: NovaTheme.textColor } }
+        composerSlot: Rectangle { color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "输入区 / 工具栏"; color: NovaTheme.textMuted } }
+        detailSlot: Rectangle { color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "详情 / 上下文"; color: NovaTheme.textMuted } } } }
 }

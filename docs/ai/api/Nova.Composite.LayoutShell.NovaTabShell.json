@@ -2,7 +2,7 @@
  "name": "Nova.Composite.LayoutShell.NovaTabShell",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaTabShell.qml",
- "description": "NovaTabShell 标签页工作台壳：顶部 Tab 栏 + 内容容器 + 状态栏 + 全局浮层，内置激活/关闭/新增信号（对标 Quasar QTabs） NovaTabShell —— 多文档并行工作台组合根容器 用法：向 tabBarSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；Tab 状态由宿主受控，Shell 只 emit 意图 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "description": "NovaTabShell 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏（对标 Quasar QTabs） NovaTabShell —— 多文档并行工作台组合根容器；以\"下划线指示条\"为身份语言 用法：向 tabBarSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；Tab 状态由宿主受控，Shell 只 emit 意图 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "tabBarSlot",

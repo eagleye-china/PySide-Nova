@@ -22,10 +22,10 @@ from PySide6.QtQml import QQmlComponent
 from conftest import ALIVE, close_alive
 
 SHELLS = [
-    "NovaSidebarShell", "NovaTopNavShell", "NovaDualSideShell", "NovaTabShell",
-    "NovaThreeColumnShell", "NovaCompareShell", "NovaCardGridShell", "NovaModalShell",
-    "NovaDrawerPanelShell", "NovaWizardShell", "NovaBlankPageShell", "NovaDesktop",
-    "NovaMobile", "NovaFlexLayout",
+    "NovaSidebar", "NovaTopNavigation", "NovaDualSide", "NovaTabShell",
+    "NovaThreeColumn", "NovaCompare", "NovaCardGrid", "NovaModal",
+    "NovaDrawerPanel", "NovaSetupWizard", "NovaBlankPage", "NovaDesktop",
+    "NovaMobile", "NovaFlexLayout", "NovaChat",
 ]
 
 
@@ -76,7 +76,7 @@ def test_standard_slots_inject(engine):
     qml = """
 import QtQuick
 import Nova.Composite.LayoutShell 1.0
-NovaSidebarShell {
+NovaSidebar {
     width: 900; height: 600
     headerSlot: Rectangle { objectName: "h"; color: "#123456" }
     sidebarSlot: Rectangle { objectName: "s"; color: "#234567" }
@@ -105,8 +105,8 @@ import Nova.Composite.LayoutShell 1.0
 import Nova.Services 1.0
 Item {
     property bool probe: { NovaTheme.setDark(true); NovaTheme.setDark(false); true }
-    NovaSidebarShell { width: 900; height: 600; contentSlot: Rectangle { color: NovaTheme.surface } }
-    NovaModalShell { open: true; contentSlot: Rectangle { color: NovaTheme.surface } }
+    NovaSidebar { width: 900; height: 600; contentSlot: Rectangle { color: NovaTheme.surface } }
+    NovaModal { open: true; contentSlot: Rectangle { color: NovaTheme.surface } }
 }
 """
     obj = _create(engine, qml)
@@ -119,7 +119,7 @@ def test_illegal_size_clamped(engine, bad):
     qml = f"""
 import QtQuick
 import Nova.Composite.LayoutShell 1.0
-NovaThreeColumnShell {{ width: 1024; height: 768; treeSize: {bad}; detailSize: {bad} }}
+NovaThreeColumn {{ width: 1024; height: 768; treeSize: {bad}; detailSize: {bad} }}
 """
     obj = _create(engine, qml)
     assert obj is not None

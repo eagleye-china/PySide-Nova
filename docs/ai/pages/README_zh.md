@@ -2,42 +2,133 @@
 
 # pyside-nova
 
-**Qt Quick 世界的 Quasar** —— 面向 PySide6 的企业级 QML 组件库。
+**Qt Quick 世界的 Quasar** —— 面向 PySide6 的企业级全端 QML 组件库。
 
-对标 [Quasar Framework](https://quasar.dev/) 的组件生态，为 Qt Quick / PySide6 提供
-统一的设计令牌（Theme）、组件（Controls）、行为（Behaviors）、服务（Services）四层体系。
+**一套组件，覆盖桌面、移动端与工业大屏。** 依托 Qt 原生渲染引擎，Nova 把专业 UI 设计经验
+沉淀为标准化组件与「预判式布局壳」——安全边距、主题联动、自适应规则与边界容错提前内置，
+让不精通 UI 的开发者也能开箱产出工整、精致、稳定的企业级界面。
 
 [![CI](https://github.com/your-name/pyside-nova/actions/workflows/ci.yml/badge.svg)](https://github.com/your-name/pyside-nova/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
+[![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-旗舰版%20v1.0-blue)](docs/white_paper/pyside-nova-旗舰组件库白皮书.md)
 
 </div>
 
 > 🌍 English: **[README.md](README.md)**
 
-- **基线环境**：Windows 11 / macOS / Linux · Python 3.10–3.13 · PySide6 ≥ 6.8（已在 **6.12.0** 实测）
-- **对标基线**：**Quasar `2.26.0`**（已核实官方 releases）· 当前状态 `0.3.0`（槽机制 + 全量对标审计 + 架构宪法）· 目标 `1.0.0-flagship` LTS 封版
-- **架构宪法**：[docs/CONSTITUTION.md](docs/CONSTITUTION.md) —— 每次交付随版本迭代更新
-- **生态对标白皮书**：[docs/ECOSYSTEM_PARITY.md](docs/ECOSYSTEM_PARITY.md) —— 七层模型成熟度、12 项 P0 空白、24 条封版验收
+## 现状速览
+
+| 项目 | 内容 |
+|---|---|
+| **版本** | **1.0.0 GA** —— 源码已定版；PyPI 上架由维护者执行 |
+| **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
+| **公共 QML 类型** | **139** —— Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell 15 |
+| **API 冻结** | 139 类型零漂移 · 指纹 `bfd3d938a2fab7be` |
+| **运行环境** | Python ≥ 3.10 · PySide6 ≥ 6.8（**6.12.0** 实测）· Windows / macOS / Linux |
+| **质量门禁** | 静态 3/3 PASS · 478 项 pytest · 31/31 无头实例化 · qmllint 0 error |
+
+- **旗舰四性**：鲁棒性 Robustness · 健壮性 Solidity · 艺术性 Aesthetics · 前置预判性 Prescience
+- **架构宪法**：[docs/CONSTITUTION.md](docs/CONSTITUTION.md)（母法）+ [docs/COMPOSITION_CONSTITUTION.md](docs/COMPOSITION_CONSTITUTION.md)（组合组件子法）
+- **白皮书**：[旗舰组件库白皮书](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) · [Prescient Layout Shell 封版规范](docs/white_paper/Prescient-LayoutShell-封版规范.md)
+- **权威清单**：[docs/COMPONENT_LIST.md](docs/COMPONENT_LIST.md)（生成器产物，禁止手改）
+
+## 品牌宣言
+
+> 我们相信，优秀的桌面与终端界面不应是业务开发者的负担。
+>
+> 多数工程师擅长逻辑与数据，却不精通布局编排、视觉层次、动效节奏与多端适配。Nova 把专业 UI
+> 设计经验沉淀为标准化组件与布局壳，**走在使用者之前**：提前内置安全边距、主题联动、自适应
+> 规则与边界容错，让不精通 UI 的开发者开箱即产出工整、精致、稳定的企业级界面；同时为高级
+> 用户保留全量自定义能力。
+>
+> **一套组件，一套规范，一次设计，全端交付。**
+
+> **一句话定位**：比 Electron 稳、比 Flutter 广、比原生开发快；一套组件，全端原生级流畅运行。
 
 ## 为什么选 pyside-nova
 
 Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完整故事：有主张的主题体系、
-断点、图标集、表单系统、数据表格、通知服务。**pyside-nova 把这套生态搬到纯 QML + PySide6 上**，
-API 与 Quasar 1:1 对齐 —— Vue/Quasar 开发者零学习成本，企业团队拿到的是一套可审计、
-可封版的组件资产。
+断点、图标集、表单系统、数据表格、通知服务，更需要一个「打开就好看」的页面骨架。跨端 GUI
+的结构性难题反复出现在三处：
 
-## 特性
+- **多端割裂，重复造轮子**：桌面、移动端、大屏往往分栈实现，同一套业务逻辑在多个代码库重复
+  维护，设计规范无法统一，交付成本随端数线性增长。
+- **Web 壳子的性能天花板**：浏览器内核方案体积大、启动慢、7×24 常驻易内存累积；对串口、
+  CAN、视频流、硬件外设支持薄弱，基本无法覆盖移动端与工业大屏。
+- **工业级稳定性与视觉表现力难以兼得**：纯原生稳定但效率低，Web 方案灵活但长时运行易掉帧。
+  多数团队被迫在「好看」与「稳定」之间二选一。
 
-- 🎨 **三级设计令牌**：基础令牌 → 语义令牌 → 组件令牌，`NovaTheme` 单例统一管理；明暗主题一键切换、运行时品牌换肤
+**pyside-nova 把这套生态搬到纯 QML + PySide6 上**，API 与 Quasar 1:1 对齐 —— Vue/Quasar
+开发者零学习成本，企业团队拿到的是一套可审计、可封版的组件资产。
+
+## 架构总览
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  业务应用层  Business Applications                        │  业务页面 · 工具 · 数据逻辑
+├──────────────────────────────────────────────────────────┤
+│  组合根容器层  Prescient Layout Shell（15 项）             │  骨架 · 槽位 · 约束 · 身份
+├──────────────────────────────────────────────────────────┤
+│  基础组件层  Controls / Behaviors                         │  按钮 · 列表 · 弹窗 · 表单
+├──────────────────────────────────────────────────────────┤
+│  主题与设计基座  Services / Design                        │  NovaTheme · NovaMotion · NovaScreen
+└──────────────────────────────────────────────────────────┘
+```
+
+**五个 QML 模块**，全部随 wheel 分发：
+
+| 模块 | 类型数 | 职责 |
+|---|---:|---|
+| `Nova.Controls` | 91 | 单一职责控件、布局原语、表单与数据组件 |
+| `Nova.Behaviors` | 13 | 附加交互行为（水波纹、拖拽、hover、焦点环……） |
+| `Nova.Services` | 16 | 服务单例：`NovaTheme` / `NovaScreen` / `NovaPlatform` / `NovaI18n` |
+| `Nova.Design` | 4 | 设计语言层：`NovaMotion`（动效令牌）、a11y 设计变量 |
+| `Nova.Composite.LayoutShell` | 15 | 15 项无业务语义的组合根容器 |
+
+> 依赖严格向下。布局壳绝不 import 业务代码，绝不硬编码菜单 / 路由 / 文案 / 项目专属色，
+> 且永远可以在 Gallery 中独立预览、独立调参、独立验收。
+
+## 核心特性
+
+- 🎨 **三级设计令牌**：基础 → 语义 → 组件令牌，`NovaTheme` 单例统一管理；明暗主题一键切换、运行时品牌换肤
 - 🧩 **Quasar 风格 API**：`QBtn → NovaBtn`、`QCard → NovaCard`，属性名对齐，学习成本趋近于零
-- 🧱 **槽机制**：Quasar 槽 → QML 映射——默认槽 → `default property alias`
-  （NovaBtn/Chip/Avatar/Icon/Badge/Card 全系）、命名槽 → 组合子组件、作用域槽 → `Component delegate`（宪法强制）
+- 🧱 **槽机制**：Quasar 槽 → QML 映射——默认槽 → `default property alias`、命名槽 → 组合子组件、作用域槽 → `Component delegate`
+- 🏗️ **15 项预判式布局壳**：固定槽位、安全边距、断点收起、主题联动，且**每项有独有结构性身份元素，打开不像同一张脸**
 - 🖥️ **断点体系**：`NovaScreen` 1:1 移植 Quasar Screen 插件（xs/sm/md/lg/xl = 600/1024/1440/1920，`is*` / `lt*` / `gt*`）
 - 🖼️ **图标双通道**：`NovaIcon { icon: "mdi:home" }`，本地图标包（离线）优先、云端 CDN 自动回落
+- 🎬 **动效全库统一**：所有布局壳动画取 `NovaMotion.duration()` 与 `NovaMotion.easingStandard`；`reducedMotion` 一键短路全部动效、`speedFactor` 全库统一调速
+- ♿ **a11y 契约化**：139/139 类型登记为 interactive / semantic / decorative；装饰容器故意不挂 `Accessible.*`，避免屏读器噪声
 - 📦 **pip 即用**：QML 模块随 wheel 分发，`init_nova(engine)` 一行接入
-- ✅ **实测而非承诺**：32 项冒烟测试（含 demo 与画廊完整加载），CI 在真实 QML 引擎上运行（Windows + Linux 矩阵）
+- ✅ **实测而非承诺**：静态门禁（a11y → API 冻结 → qmllint）、478 项 pytest、31/31 无头实例化、qmllint 0 error
+
+## 15 项预判式布局壳
+
+15 项全部落在 `Nova.Composite.LayoutShell`，均为冻结公共类型，各自拥有独有的纯装饰身份元素
+（零业务语义、零字体依赖）。
+
+| 分类 | 组件 | 典型场景 | 身份元素 |
+|---|---|---|---|
+| 主导航（4） | `NovaSidebar` | 工具、后台、AI 工作台（主推款） | 品牌渐变轨 + 浮起侧栏卡 |
+| 主导航（4） | `NovaTopNavigation` | 轻量化配置工具 | 胶囊导航台 + 悬浮下拉卡 |
+| 主导航（4） | `NovaDualSide` | 编辑器、配置器、节点工具 | 中央画布点阵 + 双侧浮起栏 |
+| 主导航（4） | `NovaTabShell` | 多文档、多任务并行 | 材质标签栏 + 下划线指示 |
+| 多栏工作台（3） | `NovaThreeColumn` | 目录-列表-详情，资源库与画廊 | 三级深度色阶 + 拖拽 grip |
+| 多栏工作台（3） | `NovaCompare` | 双栏对比、diff 查看 | 中缝圆形调节柄 + A/B 色条 |
+| 多栏工作台（3） | `NovaCardGrid` | 卡片网格、素材与模板市场 | 工具条胶囊 + Flow 网格 |
+| 浮层容器（2） | `NovaModal` | 模态配置与表单弹窗 | 顶部三色条 + catcher + 浮起阴影 |
+| 浮层容器（2） | `NovaDrawerPanel` | 非模态临时侧滑面板 | 侧缘渐变轨 + grabber |
+| 独立页壳（2） | `NovaSetupWizard` | 安装 / 新建工程 / 初始化配置 | 三态步骤时间轴 |
+| 独立页壳（2） | `NovaBlankPage` | 纯净单页与嵌入式子页面 | 居中阅读栏 |
+| 多端根壳（3） | `NovaDesktop` | 桌面端应用根 | 窗口控制点 + 分层栏 |
+| 多端根壳（3） | `NovaMobile` | 移动端应用根 | 灵动岛 + home indicator |
+| 多端根壳（3） | `NovaFlexLayout` | 企业大屏 / HMI | columns 驱动的浮起面板网格 |
+| AI 对话主窗口（1） | `NovaChat` | AI 助手主窗口（对标 WorkBuddy 桌面端） | 六轨按轨分治、每轨独占签名 |
+
+> 槽位遵循同一套语义契约，业务页面可跨壳迁移。完整的属性 / 信号 / 槽位表与「依赖组件清单」
+> 见 [模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md)。
 
 ## 安装
 
@@ -57,7 +148,7 @@ from pyside_nova import init_nova
 
 app = QGuiApplication(sys.argv)
 engine = QQmlApplicationEngine()
-init_nova(engine)          # 注册 Nova.* QML 导入路径
+init_nova(engine)          # 注册全部 Nova.* QML 导入路径
 engine.load("main.qml")
 sys.exit(app.exec())
 ```
@@ -93,38 +184,32 @@ ApplicationWindow {
 }
 ```
 
+需要整页骨架时，直接从布局壳起步：
+
+```qml
+import QtQuick
+import Nova.Composite.LayoutShell
+import Nova.Controls
+
+NovaSidebar {
+    anchors.fill: parent
+    sidebarSize: 260
+    sidebarSlot: NovaText { text: "导航菜单由业务注入" }
+    contentSlot: MyBusinessPage { }   // 业务方提供的页面
+    footerSlot: NovaText { text: "Powered by pyside-nova" }
+}
+```
+
 > **API 约定**：基调色属性统一命名 `tint`（而非 `color`）—— QML 中 `color` 与 Rectangle
 > 基类属性冲突，视觉角色等同 QBtn 的 `color`。
 
 ### 组件画廊
 
 ```bash
-python examples/gallery/main.py    # 组件画廊：侧边导航 + 全组件实机展示
-python examples/demo/main.py       # 精简演示
+python examples/gallery_launch.py             # 完整画廊（侧边导航 + 15 页布局壳）
+python examples/demo/main.py                  # 精简演示
+python examples/layout_shell/sidebar/run.py   # 单项布局壳独立演示
 ```
-
-## 组件状态
-
-| 组件 | 对标 Quasar | 说明 | 状态 |
-|---|---|---|---|
-| `NovaTheme` | Dark 插件 + brand 变量 | 设计令牌单例，明暗主题、品牌换肤、阴影令牌 | ✅ 0.1.0 |
-| `NovaBtn` | QBtn | filled/outlined/flat、水波纹、loading、键盘 | ✅ 0.1.0 |
-| `NovaCard` 系列 | QCard 系列 | Card / CardSection / CardActions、MultiEffect 阴影 | ✅ 0.1.0 |
-| `NovaChip` | QChip | filled/outlined/tinted、可选中、可移除 | ✅ 0.1.0 |
-| `NovaAvatar` | QAvatar | 文字自动配色 / emoji / 图片 | ✅ 0.1.0 |
-| `NovaIcon` | QIcon | `icon="mdi:home"`，本地包 + CDN 双通道，MultiEffect 着色 | ✅ 0.1.0 |
-| `NovaScreen` | Screen 插件 | xs/sm/md/lg/xl 断点，is/lt/gt 语义 1:1 对标 | ✅ 0.1.0 |
-| `NovaBadge` | QBadge | 子项挂载，红点/数值/浮动 | ✅ 0.1.0 |
-| `NovaRipple` | v-ripple | 子项挂载波纹（NovaBtn 已内置） | ✅ 0.1.0 |
-| `NovaSpace` / `NovaSeparator` | QSpace / QSeparator | 布局原语 | ✅ 0.1.0 |
-| `NovaField` / `NovaInput` | QField / QInput | 统一字段包装器 | 🚧 M1 |
-| `NovaForm` / `NovaSelect` | QForm / QSelect | 规则化校验、多选过滤 | 🚧 M1 |
-| `NovaDate` | QDate | 日历选择器（Qt 6 无内置日历） | 🚧 M1 |
-| `NovaLayout` | QLayout | header/footer/drawer/page 集成布局 | 🚧 M1 |
-| `NovaTable` | QTable | 排序/过滤/分页/多选数据表格 | 🚧 M1 |
-| `NovaNotify` / `NovaDialog` | Notify / Dialog 插件 | 命令式服务单例 | 🚧 M2 |
-
-完整 68 项对标清单见 [docs/ROADMAP.md](docs/ROADMAP.md)。
 
 ## 项目结构（src 布局）
 
@@ -135,86 +220,106 @@ pyside-nova/
 │   ├── __init__.py                 # init_nova(engine)
 │   ├── __about__.py                # 版本唯一来源
 │   └── qml/Nova/
-│       ├── Services/               # NovaTheme / NovaScreen 单例
-│       ├── Controls/               # NovaBtn / NovaCard / NovaChip ...
-│       └── Behaviors/              # NovaRipple
+│       ├── Controls/               # 91 控件与布局原语
+│       ├── Behaviors/              # 13 附加行为
+│       ├── Services/               # 16 服务单例（NovaTheme / NovaScreen / …）
+│       ├── Design/                 # 4 设计语言类型（NovaMotion / …）
+│       └── Composite/LayoutShell/  # 15 组合根容器 + qmldir + README
 ├── examples/
 │   ├── demo/                       # 精简演示
-│   └── gallery/                    # 组件画廊（侧边导航 + 分页）
-├── docs/                           # 架构 / 令牌 / API / 路线图
-├── scripts/
-│   ├── fetch_icons.py              # 下载 MDI/Material 图标包到 icons/
-│   └── local_deploy.py             # 一键打包部署（build→install→test）
-├── tests/test_smoke.py             # QML 解析 + 实例化冒烟测试
-└── .github/workflows/              # CI（Win+Linux 矩阵）与 PyPI 可信发布
+│   ├── gallery/                    # 组件画廊（侧边导航 + 分页）
+│   └── layout_shell/               # 15 个布局壳独立演示
+├── docs/                           # 宪法、白皮书、生成器产物索引
+├── scripts/                        # 生成器、门禁、图标下载、一键打包
+├── tests/                          # 478 项 pytest
+└── .github/workflows/              # CI（Win+Linux）与 PyPI 可信发布
 ```
 
-每个 `.py` / `.qml` 文件均以两行头注释开头：第 1 行为**从 `src/` 开始的完整文件子路径**，第 2 行为
-组件/文件说明——该说明直接沉淀为 API 文档（docs）素材：
+每个 `.py` / `.qml` 文件均以两行头注释开头：第 1 行为**从 `src/` 起的完整文件子路径**，
+第 2 行为组件/文件说明——该说明直接沉淀为 API 文档素材。**禁止日期流水头注释。**
 
-```
-// src/pyside_nova/qml/Nova/Controls/NovaIcon.qml
-// NovaIcon 图标组件：icon="mdi:home" 式 API，本地图标包优先、云端 CDN 自动回落（对标 QIcon）
-```
+## 跨端方案对比
 
-## 图标系统（NovaIcon）
+| 维度 | pyside-nova | Electron | Flutter | 分端原生开发 |
+|---|---|---|---|---|
+| 桌面性能 | 原生渲染，内存友好 | 内核重，体积与内存偏高 | 桌面成熟度一般 | 最优，成本最高 |
+| 移动端 | 安卓打包，组件复用 | 基本不支持 | 强 | 各端分别开发 |
+| 大屏 / 嵌入式 | Qt 传统优势领域 | 长期运行易掉帧 | 较弱 | 依赖厂商 |
+| 硬件外设 | 串口 / USB / CAN / 视频流完备 | 支持薄弱 | 有限 | 完备 |
+| 开发语言 | Python + QML | JS/TS + Web | Dart | 分端各语言 |
+| 生态复用 | Python 数据与脚本生态 | npm 前端生态 | Dart 生态 | 各端独立 |
+| 开发效率 | 高，低学习门槛 | 前端上手快 | 需掌握 Dart | 最低 |
 
-```qml
-NovaIcon { icon: "mdi:home"; size: 28 }                  // MDI 图标
-NovaIcon { icon: "material:favorite"; color: "red" }     // Material 图标（默认单色化跟随 color）
-NovaIcon { icon: "material-outlined:settings" }          // outlined / round / sharp / two-tone 变体
-NovaBtn  { icon: "mdi:magnify"; round: true }            // NovaBtn 的 icon 属性自动识别图标引用
-```
+> 本表为定性对比，不代表具体项目的绝对性能结论。在「桌面 + 移动 + 大屏 + 硬件对接」同时
+> 出现的场景中，Qt/PySide6 路线是覆盖面与可控性最均衡的选择。
 
-- **双通道加载**：优先本地图标包（`NovaTheme.iconLocalRoot`），本地缺失自动回落 jsDelivr
-  云端 CDN（`@mdi/svg`、`@material-design-icons/svg`）
-- **着色**：封装 QML `Image` + `MultiEffect` 色彩化，`monochrome: false` 保留原 SVG 彩色
+## 适用场景
 
-## 离线部署与一键打包
+- 企业级桌面工具、IDE 与插件工作台
+- AI 助手客户端、对话与内容管理界面
+- 配置管理、资源浏览、图标与模板库
+- 安卓移动端轻量应用与随附工具
+- 工业 HMI、中控大屏、数据可视化控制台
+- 需对接串口、USB、视频流的专业终端软件
+
+## 工程规范与封版门禁
 
 ```bash
-# 1. 下载图标包到本地 icons/（约 1 万个 SVG，可选 --only mdi / --only material）
-python scripts/fetch_icons.py
-
-# 2. 一键本地打包部署：清理 → 构建 wheel → 本地安装 → 冒烟测试
-python scripts/local_deploy.py
-python scripts/local_deploy.py --zip --demo   # 额外生成发布 ZIP 包（源码 + wheel）并运行演示
+python scripts/check_all.py --tier static     # a11y → API 冻结 → qmllint（秒级）
+python scripts/check_all.py --tier dynamic    # perf / visual / soak / HiDPI（分钟级）
+python scripts/check_all.py --tier all        # 8 道全量封版验收
+pytest -q                                    # 478 项
+python -m build                              # 构建 sdist + wheel
 ```
 
-demo / 画廊检测到 `icons/` 目录后自动启用本地通道（无需联网）。应用侧也可在 QML 中直接设置：
-`NovaTheme.iconLocalRoot = "file:///C:/deploy/icons"`。
+- **API 冻结**：公共 `property` / `signal` / `function` / `alias` 签名快照进
+  `api/nova-api-1.0.0.json`；`_` 私有成员不进冻结面。破坏性变更须走主版本升级并整批单次重签。
+- **生成物保护**：`COMPONENT_LIST.md` / `API_FREEZE.md` / `A11Y_MATRIX.md` /
+  `docs/ai/api/*.json` 均为生成器产物，只改生成器或重跑生成器，禁止手改。
+- **Lint 预算**：qmllint error 零容忍，warning 由 `tests/lint-baseline.json` 分类限额。
+- **文档层级**：白皮书定调、封版规范定红线、`COMPONENT_LIST.md` 定事实；对外宣传与工程执行
+  一律以事实源为准，不夸大成熟度。
 
-## 开发
-
-```bash
-pip install -e ".[dev]"
-pytest -q                          # 冒烟测试（32 项）
-python examples/gallery/main.py    # 可视化预览
-python -m build                    # 构建 sdist + wheel
-```
-
-代码规范、架构与发布流程详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
-
-## 发布到 PyPI（GitHub Actions 可信发布）
+### 发布到 PyPI（GitHub Actions 可信发布）
 
 1. GitHub 仓库 → Settings → Environments 创建 `pypi` 环境
 2. PyPI → Publishing → 添加 Trusted Publisher（仓库 + workflow `release.yml` + environment `pypi`）
 3. 打标签触发发布：
 
 ```bash
-git tag v0.2.0
-git push origin v0.2.0
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
-## 旗舰版封版路线
+## 文档索引
 
-| 里程碑 | 范围 |
-|---|---|
-| **M0** ✅ | 基建 + 首批 12 组件 + 组件画廊 |
-| **M1** | P0 旗舰组件（Layout / Table / Form / Date / Select / Notify / Dialog…） |
-| **M2** | P1 企业增强 + 文档站 |
-| **M3** | `1.0.0-flagship` 封版 —— API 冻结、WCAG 2.1 AA 门禁、LTS 24 个月 |
+- [旗舰组件库白皮书](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) —— 品牌宣言、架构体系与全端方案
+- [Prescient Layout Shell 封版规范](docs/white_paper/Prescient-LayoutShell-封版规范.md) —— 准入红线、槽位规范与四性验收
+- [布局壳模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) —— 15 项完整契约与依赖组件清单
+- [组件索引](docs/COMPONENT_LIST.md) —— 139 类型，生成器产物
+- [架构宪法](docs/CONSTITUTION.md) · [组合组件宪法](docs/COMPOSITION_CONSTITUTION.md)
+- [生态对标白皮书](docs/ECOSYSTEM_PARITY.md) · [变更记录](CHANGELOG.md)
+
+## 对外文案库
+
+- **一套组件，全端交付。**
+- **原生级性能，企业级规范，旗舰级观感。**
+- **Prescient Layout Shell：提前替你想好界面骨架，稳定、工整、出彩。**
+- **不用精通 UI 设计，也能写出专业、精致、工业级的界面。**
+
+> ⚠️ 文案使用边界：涉及「已支持某端 / 某组件」的表述，一律以
+> `docs/COMPONENT_LIST.md` 成熟度为准；未交付能力不得表述为已可用。
 
 ## 许可证
 
 [MIT](LICENSE)
+
+---
+
+<div align="center">
+
+**一套组件，全端交付。**
+
+*原生级性能 · 企业级规范 · 旗舰级观感*
+
+</div>

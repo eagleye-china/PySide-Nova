@@ -1,0 +1,108 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaModal",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaModal.qml",
+ "description": "NovaModal 模态弹窗壳：顶部品牌色条 + 拖拽把手 + 浮起卡片 + 遮罩，ESC / 点遮罩关闭（对标 Quasar QDialog） NovaModal —— 全库通用模态弹窗组合根容器；以\"顶部色条 + catcher 把手\"为身份语言 用法：向 titleSlot/contentSlot/actionsSlot 注入业务内容；open/dismiss 受控，Shell 只 emit 关闭意图 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "properties": [
+  {
+   "name": "titleSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _title.data",
+   "doc": null,
+   "line": 14
+  },
+  {
+   "name": "contentSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _body.content",
+   "doc": null,
+   "line": 15
+  },
+  {
+   "name": "actionsSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _actions.data",
+   "doc": null,
+   "line": 16
+  },
+  {
+   "name": "open",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 18
+  },
+  {
+   "name": "dismissOnMask",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 19
+  },
+  {
+   "name": "showTitle",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 20
+  },
+  {
+   "name": "showActions",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 21
+  },
+  {
+   "name": "maxWidth",
+   "type": "real",
+   "readonly": false,
+   "default": ": 520",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "maxHeight",
+   "type": "real",
+   "readonly": false,
+   "default": ": 620",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "titleHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 52",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "actionsHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 56",
+   "doc": null,
+   "line": 25
+  }
+ ],
+ "signals": [
+  {
+   "name": "closeRequested",
+   "params": "string reason"
+  }
+ ],
+ "methods": [
+  {
+   "name": "requestClose",
+   "params": "reason"
+  }
+ ]
+}

@@ -1,10 +1,10 @@
 # pyside-nova 组件清单
 
-> 版本 **1.0.0rc1** · 基线 **Quasar 2.35.5** · API 指纹 `a8859ec8fc5720bf` · 共 **138** 个公共 QML 类型
+> 版本 **1.0.0** · 基线 **Quasar 2.35.5** · API 指纹 `bfd3d938a2fab7be` · 共 **139** 个公共 QML 类型
 >
 > 数据源：`api/nova-api-1.0.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
 >
-> 分类口径：Nova.Controls 91 / Nova.Behaviors 13 / Nova.Services 16 / Nova.Design 4 / Nova.Composite.LayoutShell 14；每个类型在 `examples/gallery/` 中有实机展示页面。
+> 分类口径：Nova.Controls 91 / Nova.Behaviors 13 / Nova.Services 16 / Nova.Design 4 / Nova.Composite.LayoutShell 15；每个类型在 `examples/gallery/` 中有实机展示页面。
 
 ## 目录
 
@@ -12,7 +12,7 @@
 - 二、Behaviors · 行为（13 项）
 - 三、Services · 服务单例（16 项）
 - 四、Design · 设计层（4 项）
-- 五、Composite/LayoutShell · 组合组件（14 项 Shell）（14 项）
+- 五、Composite/LayoutShell · 组合组件（15 项根容器）（15 项）
 
 ---
 
@@ -160,24 +160,25 @@
 | 123 | **NovaMotion** | 动效令牌单例 | Quasar --q-transition-duration/.3s + q-transition--* 12 种过渡 + q-animate--* 2 种动画 | decorative（装饰） | 20/0/3 | `Nova/Design/NovaMotion.qml` |
 | 124 | **NovaUtils** | 工具层单例：colors 12 / date 21（formatDate 44 token）/ format 6 / is 5 / debounce / throttle / frameDebounce / uid … | Quasar utils | decorative（装饰） | 6/0/14 | `Nova/Design/NovaUtils.qml` |
 
-## 五、Composite/LayoutShell · 组合组件（14 项 Shell）（14 项）
+## 五、Composite/LayoutShell · 组合组件（15 项根容器）（15 项）
 
 | 序号 | 组件 | 说明 | 对标 Quasar | a11y | 属性/信号/方法 | QML 文件 |
 |---:|---|---|---|---|---:|---|
-| 125 | **NovaBlankPageShell** | 纯净单页壳：Header + Content + Footer，无任何侧栏/标签导航，最小可定制骨架 | Nova 增强 / 无对应 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaBlankPageShell.qml` |
-| 126 | **NovaCardGridShell** | 卡片网格壳：顶部筛选栏 + 自适应卡片网格 + 底部分页状态栏 | 组件画廊 / 模板市场 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaCardGridShell.qml` |
-| 127 | **NovaCompareShell** | 双栏对比壳：等宽双面板 + 顶部控制栏 + 底部状态栏，可选同步滚动 | 代码 / 配置 diff 工具 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaCompareShell.qml` |
-| 128 | **NovaDesktop** | 桌面应用根壳：菜单栏 + 工具栏 + 多页面管理 + 状态栏，PC 桌面应用顶层根容器 | QMainWindow | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaDesktop.qml` |
-| 129 | **NovaDrawerPanelShell** | 侧边滑出面板壳：从左/右滑出的非模态临时面板，不阻塞主界面（区别于常驻 Sidebar） | Nova 增强 / 无对应 | decorative（装饰） | 12/1/1 | `Nova/Composite/LayoutShell/NovaDrawerPanelShell.qml` |
-| 130 | **NovaDualSideShell** | 双侧边工作台壳：左导航 + 中内容 + 右属性，两侧独立折叠 | Qt Designer / VSCode 三栏布局 | decorative（装饰） | 12/2/2 | `Nova/Composite/LayoutShell/NovaDualSideShell.qml` |
-| 131 | **NovaFlexLayout** | 企业大屏弹性布局壳：自适应分栏 / 网格 / 动态缩放，面向 HMI 与工控超大分辨率 | Quasar flex grid | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaFlexLayout.qml` |
-| 132 | **NovaMobile** | 移动应用根壳：系统安全区 + 顶栏 + 内容 + 底部导航，适配安卓触摸与 PySide6 移动打包 | Quasar QLayout mobile | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaMobile.qml` |
-| 133 | **NovaModalShell** | 模态弹窗壳：遮罩 + 标题栏 + 内容槽 + 按钮栏，ESC 与点遮罩关闭、圆角阴影 | Quasar QDialog | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaModalShell.qml` |
-| 134 | **NovaSidebarShell** | 侧边导航工作台壳：侧栏 + Header + Content + Footer + Overlay 五槽骨架，侧栏可折叠、断点自动收起 | Quasar QLayout + QDrawer | decorative（装饰） | 14/1/1 | `Nova/Composite/LayoutShell/NovaSidebarShell.qml` |
-| 135 | **NovaTabShell** | 标签页工作台壳：顶部 Tab 栏 + 内容容器 + 状态栏 + 全局浮层，内置激活/关闭/新增信号 | Quasar QTabs | decorative（装饰） | 8/3/0 | `Nova/Composite/LayoutShell/NovaTabShell.qml` |
-| 136 | **NovaThreeColumnShell** | 三栏工作台壳：左目录树 / 中列表 / 右详情，栏宽受控、内置分割条与重排信号 | 资源管理器布局 | decorative（装饰） | 13/1/0 | `Nova/Composite/LayoutShell/NovaThreeColumnShell.qml` |
-| 137 | **NovaTopNavShell** | 顶部导航工作台壳：一级导航 + 下拉区 + 主内容 + 状态栏，无常驻侧栏 | Quasar QLayout header 导航 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaTopNavShell.qml` |
-| 138 | **NovaWizardShell** | 分步向导壳：步骤指示器 + 当前步内容 + 上一步/下一步控制区，内置步骤状态骨架 | Quasar QStepper | decorative（装饰） | 14/3/0 | `Nova/Composite/LayoutShell/NovaWizardShell.qml` |
+| 125 | **NovaBlankPage** | 纯净单页壳：居中阅读栏 + Header + Content + Footer，最克制的可定制基底（无侧栏 / 无标签导航） | Nova 增强 / 无对应 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaBlankPage.qml` |
+| 126 | **NovaCardGrid** | 卡片网格壳：筛选工具条 + Flow 网格骨架 + 分页状态栏 | 组件画廊 / 模板市场 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaCardGrid.qml` |
+| 127 | **NovaChat** | AI 对话主窗口壳：品牌化多轨工作台 —— 导航轨 / 会话列 / 对话区 / 输入区 / 详情栏 / 浮层六槽骨架 身份体系（0.7.1）：顶层三段品牌线 + 五轨各自独占的前景结构签名 —— 图标 rail（品牌… | WorkBuddy 桌面端主窗口 | decorative（装饰） | 23/3/3 | `Nova/Composite/LayoutShell/NovaChat.qml` |
+| 128 | **NovaCompare** | 双栏对比壳：中缝调节柄 + 等宽双面板 + 控制栏 + 状态栏 | 代码 / 配置 diff 工具 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaCompare.qml` |
+| 129 | **NovaDesktop** | 桌面应用根壳：窗口控制点 + 菜单栏 + 工具栏 + 多页面 + 状态栏 | QMainWindow | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaDesktop.qml` |
+| 130 | **NovaDrawerPanel** | 侧边滑出面板壳：侧缘轨 + grabber 把手 + 滑入动画 + 非模态临时面板（区别于常驻 Sidebar） | Nova 增强 / 无对应 | decorative（装饰） | 12/1/1 | `Nova/Composite/LayoutShell/NovaDrawerPanel.qml` |
+| 131 | **NovaDualSide** | 双侧边工作台壳：左导航 + 中央画布 + 右属性，两侧独立折叠 | Qt Designer / VSCode 三栏布局 | decorative（装饰） | 12/2/2 | `Nova/Composite/LayoutShell/NovaDualSide.qml` |
+| 132 | **NovaFlexLayout** | 企业大屏弹性布局壳：columns 驱动的浮起面板网格 + 自适应分栏 + 动态缩放（HMI / 工控大屏） | Nova 增强 / 无对应 | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaFlexLayout.qml` |
+| 133 | **NovaMobile** | 移动应用根壳：安全区 + 灵动岛状态栏 + 内容 + 底部导航 + home indicator | Quasar QLayout mobile | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaMobile.qml` |
+| 134 | **NovaModal** | 模态弹窗壳：顶部品牌色条 + 拖拽把手 + 浮起卡片 + 遮罩，ESC / 点遮罩关闭 | Quasar QDialog | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaModal.qml` |
+| 135 | **NovaSetupWizard** | 安装配置向导壳：三态步骤时间轴 + 当前步内容 + 上一步/下一步控制区 | Quasar QStepper | decorative（装饰） | 14/3/0 | `Nova/Composite/LayoutShell/NovaSetupWizard.qml` |
+| 136 | **NovaSidebar** | 侧边导航工作台壳：品牌渐变轨 + 浮起侧栏卡 + 五槽骨架 | Quasar QLayout + QDrawer | decorative（装饰） | 14/1/1 | `Nova/Composite/LayoutShell/NovaSidebar.qml` |
+| 137 | **NovaTabShell** | 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏 | Quasar QTabs | decorative（装饰） | 8/3/0 | `Nova/Composite/LayoutShell/NovaTabShell.qml` |
+| 138 | **NovaThreeColumn** | 三栏工作台壳：目录树 / 中列表 / 详情，三级深度色阶 + 可拖拽分隔 | 资源管理器布局 | decorative（装饰） | 13/1/0 | `Nova/Composite/LayoutShell/NovaThreeColumn.qml` |
+| 139 | **NovaTopNavigation** | 顶部导航工作台壳：胶囊导航条 + 悬浮下拉 + 主内容 + 状态栏 | Quasar QLayout header 导航 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaTopNavigation.qml` |
 
 ---
 
@@ -185,11 +186,11 @@
 
 | 模块 | 数量 | 占比 |
 |---|---:|---:|
-| Controls · 控件 | 91 | 65.9% |
+| Controls · 控件 | 91 | 65.5% |
 | Behaviors · 行为 | 13 | 9.4% |
-| Services · 服务单例 | 16 | 11.6% |
+| Services · 服务单例 | 16 | 11.5% |
 | Design · 设计层 | 4 | 2.9% |
-| Composite/LayoutShell · 组合组件（14 项 Shell） | 14 | 10.1% |
-| **合计** | **138** | **100%** |
+| Composite/LayoutShell · 组合组件（15 项根容器） | 15 | 10.8% |
+| **合计** | **139** | **100%** |
 
-a11y 契约分布：decorative 78 / interactive 32 / semantic 28。完整契约见 [A11Y_MATRIX.md](A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成）。
+a11y 契约分布：decorative 79 / interactive 32 / semantic 28。完整契约见 [A11Y_MATRIX.md](A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成）。

@@ -2,7 +2,7 @@
  "name": "Nova.Composite.LayoutShell.NovaMobile",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaMobile.qml",
- "description": "NovaMobile 移动应用根壳：系统安全区 + 顶栏 + 内容 + 底部导航，适配安卓触摸与 PySide6 移动打包（对标 Quasar QLayout mobile） NovaMobile —— 多端根壳之移动端（无 Shell 后缀，按组合宪法 0.2.0 同样受约束） 用法：向 headerSlot/contentSlot/bottomNavSlot/overlaySlot 注入业务内容；安全区由 safeTop/safeBottom 属性注入 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "description": "NovaMobile 移动应用根壳：安全区 + 灵动岛状态栏 + 内容 + 底部导航 + home indicator（对标 Quasar QLayout mobile） NovaMobile —— 多端根壳之移动端；以\"灵动岛 + home indicator\"为身份语言，适配安卓触摸与 PySide6 移动打包 用法：向 headerSlot/contentSlot/bottomNavSlot/overlaySlot 注入业务内容；安全区由 safeTop/safeBottom 属性注入 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "headerSlot",

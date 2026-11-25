@@ -3,6 +3,135 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.0.0] - 2026-11-25 — GA 正式版（PyPI 发布）
+
+### Changed（旗舰封版规约落地 · 组合宪法 0.8.0 · 伙伴："汲取营养融入 README / 优化完善两篇白皮书为企业级旗舰封版 / 为咱们所用再次打磨重构 15 项" · patch 实现变更指纹不变）
+
+**文档（企业级旗舰封版）**
+- `docs/white_paper/` 三篇全部升级 **v2.0.0**：
+  - 《Prescient Layout Shell 封版规范》——补「法源与封版资格」声明（FROZEN 为记录性，
+    资格由 API 冻结门禁授予）；适用范围 11 → **15 项**、第五模块 URI 与五模块物理映射；
+    **第 4 章槽位契约重写**（作废「固定五槽 / `contentSlot` 必需」错误口径，给出 15 项真实
+    槽位权威表 + 浮层槽透明契约 + 宿主隔离）；第 5 章目录结构重写为单一模块平铺；
+    第 6 章补 `NovaMotion` 动效令牌与 `outlineStrong` / `textOnPrimary` 真实令牌；
+    第 7 章明确身份元素不违反 D-013 的合规边界；第 8/9 章对齐真实门禁与交付物；
+    第 12 章 Root Shell / AI 主窗口改为已 GA 封版；成熟度表全部改为 ✅ 1.0.0 GA。
+  - 《旗舰组件库白皮书》——保留品牌宣言 / 痛点 / Slogan / 对比表 / 文案库营养，
+    「11 + 3 规划中」全部校准为六类 15 项 ✅ 1.0.0 GA；新增 §4.4 封版成果与
+    §8「基线 + 实测」双列工程规范；演进路线拆为「已达成 / 后续工程项」并加不夸成熟度声明。
+  - `pyside-nova-README.md` —— 校准为对外营销版素材 v2.0.0（真名 / 真状态 / 可执行示例），
+    消除旧 `Nova*Shell` 命名、`title` 伪属性与草案痕迹。
+- `README.md` / `README_zh.md` 汲取营销稿营养重写：品牌宣言、架构分层图、旗舰四性、
+  全端覆盖、跨端对比、适用场景、Slogan 与文案库；状态由 0.3.0 / 12 组件 / M1–M3 规划中
+  校准为 **1.0.0 GA / 139 类型 / 五模块 / 15 组合根容器 / Quasar 2.35.5 / 478 项 pytest**。
+  事实核实纠正：Quasar 基线 2.26.0 → **2.35.5**；`NovaField/Form/Select/Date/Table/Layout`
+  等原标 🚧 M1 实为**已注册实现**；`NovaSidebar` **无 `title` 属性**（营销稿伪属性已删）。
+  **README 快速上手示例经真实 QML 引擎实例化验证可执行**。
+- 新增 `src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md` —— 补齐白皮书第 9 章 /
+  宪法第 8 章要求的交付物：15 项完整属性 / 信号 / 函数 / 槽位契约、**依赖组件清单与
+  15 项依赖矩阵**（D-013 前置门禁产物）、最小示例、验收状态与维护纪律。
+- `docs/COMPOSITION_CONSTITUTION.md` 升 **0.8.0**：第 4 章槽位口径校准、第 6 章令牌白名单
+  补全 + 动效令牌强制落地、第 7 章键盘可达清单、第 8 章模块级 README 交付物、
+  坑位表补 16（散落动画参数）/ 17（援引早期草案口径）、迭代记录登记。
+- `docs/layout_shell/PrescientLayoutShell.md` 权威清单：删旧对话残留与规划态「落地顺序建议」，
+  改为 15/15 封版状态表 + 0.8.0 规约落地记录；`qmldir` 头注释补封版声明。
+
+**代码（15 项组合根容器再次打磨，全为 PATCH 内部实现变更）**
+- **动效全库令牌化**：`NovaSidebar` / `NovaTopNavigation` / `NovaDualSide` /
+  `NovaSetupWizard` / `NovaChat` 共 **8 处** `duration: 200/220/240; Easing.OutCubic`
+  硬编码全部改为 `NovaMotion.duration(NovaMotion.transitionDuration)` +
+  `NovaMotion.easingStandard`（新增 `import Nova.Design`）。由此全库节奏统一、
+  `NovaMotion.reducedMotion` 无障碍短路与 `speedFactor` 全库调速自动生效
+  （落实宪法第 6 章第 3 条与白皮书「动画全库统一」）。
+- **键盘可达补齐**：`NovaSidebar` / `NovaDualSide` / `NovaTopNavigation` / `NovaChat`
+  新增 `focus: true` + `Keys.onEscapePressed`，**只 emit 已有信号**（收起 / 关闭意图），
+  不新增公共 API、不自写宿主状态；与既有 Modal / Drawer / Desktop / Mobile 的 Esc / Back 一致。
+- **槽位宿主隔离**：`NovaDesktop.toolbarSlot` 由 `_toolbar.data` 改指独立 `_toolbarHost`，
+  装饰 Row 提级 `NovaTheme.zMarginals`，避免业务注入遮挡身份元素。
+- **清理**：`NovaFlexLayout` 删未使用的 `_bandColor`；`NovaTabShell` 校准虚构
+  `activeIndex` 注释为「纯装饰身份元素，不绑定业务状态」。
+
+**验收（发布边界归伙伴）**
+- **公共 API 签名逐字不变、冻结指纹 `bfd3d938a2fab7be` 不变**（139 类型零漂移，
+  PATCH 无需重签，恰证 Solidity 与 Aesthetics 可兼得）。
+- 静态门禁 `check_all.py --tier static` **3/3 PASS**（a11y 139/139 · API 冻结 · qmllint 0 error）、
+  专项 `test_api_freeze.py` + `test_layout_shells.py` **48/48**、
+  **31/31 无头实例化**（15 组件 + Gallery + 15 演示）、README 示例实例化 OK、
+  qmllint 零新增告警。
+
+### Changed（NovaChat 多轨按轨分治 · 宪法 0.7.1 · 伙伴点名纠正 · patch 实现变更指纹不变）
+- **`NovaChat` 6 轨重构**：伙伴点名"NovaChat 那套多轨结构也按这个思路重构一下"——
+  0.7.0 把 `NovaChat` 当"多轨标杆"漏改，实则 6 轨各自仍是同一
+  "`surfaceAlt` 平铺方块 + `NovaSeparator` + 220ms 宽度动画"模板，只是轨数多、无身份。
+  本次给每条轨注入**独占且互不重复**的前景签名：顶层三段品牌发丝线 /
+  导航轨（圆形渐变徽记 + 三级激活图标位 + 账户锚 + 缘轨）/
+  会话栈（圆角搜索胶囊 + 左缘激活竖条 + 十字新建圆钮）/
+  对话区（在线状态点 + 三点位 + 四角取景框）/ 输入区（浮起胶囊 + 附加十字 + 纯几何发送箭头）/
+  详情栏（分段 tab + 缘轨）。签名只占边缘/角标，中央内容区完全留给业务注入。
+- 全为 `_` 私有纯几何装饰、零业务语义、**零字体依赖**（发送箭头由 Rectangle + rotation 组合，
+  规避 offscreen 字体符号豆腐块）；装饰实心度 ≥0.85，浅色 + 深色主题实心业务注入下均清晰对比。
+- **公共 API 签名逐字不变、指纹 `bfd3d938a2fab7be` 不变**（patch 实现变更，无需重签）；
+  宪法第 6 章新增第 6 条（多轨按轨分治）/ 第 7 条（浮层槽透明契约）、坑位表补 14/15。
+- 验证：浅色 + 深色主题真实注入渲染验收（6 轨全展开、身份可辨）、15 格对比拼图与
+  `docs/screenshots/chat_identity_audit*.png` 同步更新、静态门禁 3/3、专项 48/48、
+  Gallery+15 演示 16/16 无头加载、15 项 qmllint 0 告警、chat 演示 qmllint 0 告警。
+
+### Changed（身份差异化重构 · 宪法 0.7.0 · 伙伴点名纠正 · patch 实现变更指纹不变）
+- **15 项组合根容器逐项重塑独有结构性身份元素**：伙伴点名"除 NovaChat 外基本都一个面孔"——
+  0.4.0~0.6.0 的 14 项共用同一"平铺背景 + Header/Page/Footer + 220ms 宽度动画"模板仅换槽位名。
+  本次逐项给出身份语言：Sidebar 品牌渐变轨+浮起侧栏卡、TopNavigation 胶囊导航台+悬浮下拉、
+  DualSide 中央画布点阵+双侧浮起栏、TabShell 材质标签栏+下划线指示、ThreeColumn 三级深度色阶+
+  拖拽 grip、Compare 中缝圆形调节柄+A/B 色条、CardGrid 工具条胶囊+Flow 网格、Modal 顶部三色条+
+  catcher+浮起阴影、DrawerPanel 侧缘渐变轨+grabber、SetupWizard 三态步骤时间轴、BlankPage 居中
+  阅读栏、Desktop 窗口控制点+分层栏、Mobile 灵动岛+home indicator、FlexLayout 三色面板网格、
+  Chat 多轨标杆。
+- 身份元素全为 `_` 私有纯装饰、零业务语义、**公共 API 签名逐字不变、指纹 `bfd3d938a2fab7be` 不变**
+  （patch 实现变更，无需重签——恰证 Solidity 契约稳定与 Aesthetics 美学可兼得）；
+  宪法第 6 章第 5 条立强制条款、坑位表补 13 防回退。
+- 验证：渲染审计 15/15 出图（身份可辨）、静态门禁 3/3、专项 48/48、Gallery+演示 16/16 无头加载、
+  qmllint 零新增告警。
+
+### Changed（缩写全称化 · 宪法 0.6.0 · 伙伴拍板 · 单次重签）
+- **`NovaTopNav` → `NovaTopNavigation`**：0.5.0 的"缩写可维持"结论被伙伴拍板推翻——
+  旗舰公共 API 以自解释优先于字数精简；演示目录 `top_nav/`→`top_navigation/`，
+  Gallery / a11y / 测试 / 权威清单 / PARITY / 宪法全量同步。
+- 15 项总数不变，冻结面单次重签（宪法第 8 章批量纪律）。
+
+### Changed（语义正名 · 宪法 0.5.0 · 伙伴拍板 · 同批重签）
+- `NovaTabWorkspace` **改回 `NovaTabShell`**：撞 Controls 已有 `NovaTab` 时保留 `Shell`
+  后缀，而非生造别名（0.4.0 的"一律去后缀"过严）；演示目录 `tab_workspace/`→`tab_shell/`。
+- `NovaTopNav` 评估后**维持不扩写**（`Nav` 为 UI 领域通用缩写，与 `NovaSidebar` /
+  `NovaDualSide` 粒度一致，不改为 `NovaTopNavigation`）。
+- `NovaWizard` **正名为 `NovaSetupWizard`**（明确安装 / 新建工程 / 初始化配置用途）；
+  演示目录 `wizard/`→`setup_wizard/`，Gallery / 契约表 / 权威清单 / 宪法 / PARITY 全量同步。
+- 15 项总数不变，冻结面整批单次重签（宪法第 8 章批量纪律）。
+
+### Changed（破坏性 · 1.0 GA 命名定稿 · 宪法 0.4.0 · 伙伴拍板）
+- **版本号 1.0.0rc1 → 1.0.0 正式版**（发 PyPI stable）；`src/pyside_nova/__about__.py`
+  唯一版本源更新，冻结清单 `packageVersion` 与 AI 索引版本随生成器同步。
+- **14 项组合根容器去 `Shell` 后缀**（模块 URI 已表达组合身份，类型名冗余）：
+  `NovaSidebarShell`→`NovaSidebar`、`NovaTopNavShell`→`NovaTopNav`、
+  `NovaDualSideShell`→`NovaDualSide`、`NovaThreeColumnShell`→`NovaThreeColumn`、
+  `NovaCompareShell`→`NovaCompare`、`NovaCardGridShell`→`NovaCardGrid`、
+  `NovaModalShell`→`NovaModal`、`NovaDrawerPanelShell`→`NovaDrawerPanel`、
+  `NovaWizardShell`→`NovaWizard`、`NovaBlankPageShell`→`NovaBlankPage`。
+  **`NovaTabShell`→`NovaTabWorkspace`**：机械去后缀会撞 Controls 已有 `NovaTab`，
+  触发冻结门禁跨模块重名红线；`NovaDesktop`/`NovaMobile`/`NovaFlexLayout` 本就无后缀，不变。
+  这是破坏性 API 变更，故在 GA 前一次性完成，不升 2.0。
+- 演示目录同步去 `_shell` 后缀（`examples/layout_shell/sidebar/` 等 11 个），
+  Gallery、测试、生成器契约表、权威清单、宪法与 PARITY 审计全量同步。
+
+### Added（第 15 项组合组件 · NovaChat · 对标 WorkBuddy 桌面端主窗口）
+- **新增 `NovaChat`**：AI 对话主窗口根容器，六槽（导航轨/会话列/对话区/输入区/详情栏/浮层），
+  `NovaHeader`+`NovaPage`+`NovaFooter`+`NovaSeparator` 真实公共类型组合；
+  对话气泡由业务向 `contentSlot` 注入 Controls 已有的 `NovaChatMessage`（主窗口+气泡各司其职）；
+  零业务会话数据、零写死文案、折叠只 emit、令牌驱动、`// a11y: decorative`。
+- 新增 `examples/layout_shell/chat/` 独立演示（真实气泡渲染 + 六槽注入 + 调参 + signal 回显），
+  Gallery 增第 15 页；15 演示 + Gallery 无头加载 16/16 通过，NovaChat 演示 qmllint 零告警。
+- 冻结面一次重签（宪法第 8 章批量纪律）：138→139 类型，指纹
+  `a8859ec8fc5720bf`→`2d7f173b8f13b123`；decorative 78→79；静态三门禁 3/3 PASS，
+  API 冻结+布局专项 48/48 PASS。
+
 ## [Unreleased] - 2026-11-25
 
 ### Changed（治理 · 组合组件专属模块升格 · 宪法 0.3.0 · 伙伴拍板）

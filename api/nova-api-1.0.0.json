@@ -2,19 +2,19 @@
  "schema": "nova-api-freeze/1",
  "package": "pyside-nova",
  "apiVersion": "1.0.0",
- "packageVersion": "1.0.0rc1",
+ "packageVersion": "1.0.0",
  "baseline": "Quasar 2.35.5",
  "counts": {
-  "total": 138,
+  "total": 139,
   "modules": {
    "Nova.Controls": 91,
    "Nova.Behaviors": 13,
    "Nova.Services": 16,
    "Nova.Design": 4,
-   "Nova.Composite.LayoutShell": 14
+   "Nova.Composite.LayoutShell": 15
   },
   "a11y": {
-   "decorative": 78,
+   "decorative": 79,
    "interactive": 32,
    "semantic": 28
   }
@@ -178,20 +178,21 @@
    "module": "Nova.Composite.LayoutShell",
    "version": "1.0",
    "types": [
-    "NovaBlankPageShell",
-    "NovaCardGridShell",
-    "NovaCompareShell",
+    "NovaBlankPage",
+    "NovaCardGrid",
+    "NovaChat",
+    "NovaCompare",
     "NovaDesktop",
-    "NovaDrawerPanelShell",
-    "NovaDualSideShell",
+    "NovaDrawerPanel",
+    "NovaDualSide",
     "NovaFlexLayout",
     "NovaMobile",
-    "NovaModalShell",
-    "NovaSidebarShell",
+    "NovaModal",
+    "NovaSetupWizard",
+    "NovaSidebar",
     "NovaTabShell",
-    "NovaThreeColumnShell",
-    "NovaTopNavShell",
-    "NovaWizardShell"
+    "NovaThreeColumn",
+    "NovaTopNavigation"
    ],
    "singletons": []
   }
@@ -455,9 +456,9 @@
    ],
    "methods": []
   },
-  "Nova.Composite.LayoutShell.NovaBlankPageShell": {
+  "Nova.Composite.LayoutShell.NovaBlankPage": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaBlankPageShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaBlankPage.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -474,9 +475,9 @@
    "signals": [],
    "methods": []
   },
-  "Nova.Composite.LayoutShell.NovaCardGridShell": {
+  "Nova.Composite.LayoutShell.NovaCardGrid": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaCardGridShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaCardGrid.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -493,9 +494,50 @@
    "signals": [],
    "methods": []
   },
-  "Nova.Composite.LayoutShell.NovaCompareShell": {
+  "Nova.Composite.LayoutShell.NovaChat": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaCompareShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaChat.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "breakpoint:int",
+    "composerHeight:int",
+    "composerSlot:alias",
+    "contentSlot:alias",
+    "conversationCollapsed:bool",
+    "conversationSize:real",
+    "conversationSlot:alias",
+    "detailCollapsed:bool",
+    "detailSize:real",
+    "detailSlot:alias",
+    "headerHeight:int",
+    "headerSlot:alias",
+    "navCollapsed:bool",
+    "navSize:real",
+    "navSlot:alias",
+    "overlaySlot:alias",
+    "ro belowBreakpoint:bool",
+    "showComposer:bool",
+    "showConversation:bool",
+    "showDetail:bool",
+    "showHeader:bool",
+    "showNav:bool"
+   ],
+   "signals": [
+    "conversationToggled(bool collapsed)",
+    "detailToggled(bool collapsed)",
+    "navToggled(bool collapsed)"
+   ],
+   "methods": [
+    "toggleConversation()",
+    "toggleDetail()",
+    "toggleNav()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaCompare": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaCompare.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -541,9 +583,9 @@
    ],
    "methods": []
   },
-  "Nova.Composite.LayoutShell.NovaDrawerPanelShell": {
+  "Nova.Composite.LayoutShell.NovaDrawerPanel": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaDrawerPanelShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaDrawerPanel.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -567,9 +609,9 @@
     "requestClose()"
    ]
   },
-  "Nova.Composite.LayoutShell.NovaDualSideShell": {
+  "Nova.Composite.LayoutShell.NovaDualSide": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaDualSideShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaDualSide.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -641,9 +683,9 @@
    ],
    "methods": []
   },
-  "Nova.Composite.LayoutShell.NovaModalShell": {
+  "Nova.Composite.LayoutShell.NovaModal": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaModalShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaModal.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -666,9 +708,37 @@
     "requestClose(reason)"
    ]
   },
-  "Nova.Composite.LayoutShell.NovaSidebarShell": {
+  "Nova.Composite.LayoutShell.NovaSetupWizard": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaSidebarShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaSetupWizard.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "contentSlot:alias",
+    "controlsHeight:int",
+    "controlsSlot:alias",
+    "currentStep:int",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "overlaySlot:alias",
+    "ro canGoNext:bool",
+    "ro canGoPrevious:bool",
+    "showFooter:bool",
+    "showSteps:bool",
+    "stepCount:int",
+    "stepsHeight:int",
+    "stepsSlot:alias"
+   ],
+   "signals": [
+    "nextRequested()",
+    "previousRequested()",
+    "stepSelected(int index)"
+   ],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaSidebar": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaSidebar.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -716,9 +786,9 @@
    ],
    "methods": []
   },
-  "Nova.Composite.LayoutShell.NovaThreeColumnShell": {
+  "Nova.Composite.LayoutShell.NovaThreeColumn": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaThreeColumnShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaThreeColumn.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -741,9 +811,9 @@
    ],
    "methods": []
   },
-  "Nova.Composite.LayoutShell.NovaTopNavShell": {
+  "Nova.Composite.LayoutShell.NovaTopNavigation": {
    "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaTopNavShell.qml",
+   "file": "Nova/Composite/LayoutShell/NovaTopNavigation.qml",
    "kind": "component",
    "a11y": "decorative",
    "props": [
@@ -765,34 +835,6 @@
    "methods": [
     "toggleMenu()"
    ]
-  },
-  "Nova.Composite.LayoutShell.NovaWizardShell": {
-   "module": "Nova.Composite.LayoutShell",
-   "file": "Nova/Composite/LayoutShell/NovaWizardShell.qml",
-   "kind": "component",
-   "a11y": "decorative",
-   "props": [
-    "contentSlot:alias",
-    "controlsHeight:int",
-    "controlsSlot:alias",
-    "currentStep:int",
-    "footerHeight:int",
-    "footerSlot:alias",
-    "overlaySlot:alias",
-    "ro canGoNext:bool",
-    "ro canGoPrevious:bool",
-    "showFooter:bool",
-    "showSteps:bool",
-    "stepCount:int",
-    "stepsHeight:int",
-    "stepsSlot:alias"
-   ],
-   "signals": [
-    "nextRequested()",
-    "previousRequested()",
-    "stepSelected(int index)"
-   ],
-   "methods": []
   },
   "Nova.Controls.NovaAjaxBar": {
    "module": "Nova.Controls",
@@ -3713,5 +3755,5 @@
    ]
   }
  },
- "fingerprint": "a8859ec8fc5720bf"
+ "fingerprint": "bfd3d938a2fab7be"
 }

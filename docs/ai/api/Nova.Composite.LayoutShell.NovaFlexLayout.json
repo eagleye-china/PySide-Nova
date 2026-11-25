@@ -2,7 +2,7 @@
  "name": "Nova.Composite.LayoutShell.NovaFlexLayout",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaFlexLayout.qml",
- "description": "NovaFlexLayout 企业大屏弹性布局壳：自适应分栏 / 网格 / 动态缩放，面向 HMI 与工控超大分辨率（对标 Quasar flex grid） NovaFlexLayout —— 多端根壳之企业大屏（无 Shell 后缀，按组合宪法 0.2.0 同样受约束） 用法：向 headerSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；columns 与断点驱动分栏，缩放取 NovaScreen a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
+ "description": "NovaFlexLayout 企业大屏弹性布局壳：columns 驱动的浮起面板网格 + 自适应分栏 + 动态缩放（HMI / 工控大屏） NovaFlexLayout —— 多端根壳之企业大屏；以\"浮起面板网格\"为身份语言，区别于桌面 / 移动根壳 用法：向 headerSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；columns 与断点驱动分栏，缩放取 NovaScreen a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
  "properties": [
   {
    "name": "headerSlot",
