@@ -10,17 +10,19 @@
 > **本节优先于下方全部历史正文**。下方「1.0.0rc1 / 124 类型 / 六期 RC1」等内容是
 > 2026-11-23 的历史档案，保留供追溯，**不得作为当前状态引用**。
 
-| 项 | 当前事实（2026-11-25 20:23 · T9 已销号） |
+| 项 | 当前事实（2026-11-25 21:54 · T9 / 坑位 49 / T5 均已结案） |
 |---|---|
-| 版本 / 发布 | **1.0.0 GA**，已由伙伴（CSA）发布至 PyPI；源码冻结面未变 |
+| 版本 / 发布 | **1.0.1**（21:54 由 1.0.0 GA 作 patch 升级：**139 类型 / 指纹 `bfd3d938a2fab7be` 不变**，`apiVersion=1.0.0` 冻结契约与 `nova-api-1.0.0.json` 文件名不改）；**1.0.0 GA 已由 CSA 发布至 PyPI，1.0.1 待 CSA 发布** |
 | 公共 QML 类型 | **139**（Controls 91 · Behaviors 13 · Services 16 · Design 4 · **Composite.LayoutShell 15**） |
 | API 冻结 | 139 类型零漂移 · 指纹 **`bfd3d938a2fab7be`** · `api/nova-api-1.0.0.json` 与 `docs/API_FREEZE.md` 均为生成物禁手改 |
 | 方法论 | **CARF — Conceive, Achieve, Refine, Freeze — Culminate to the peak.** 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）；母法 `docs/CONSTITUTION.md` 卷首 + 组合宪法 `docs/COMPOSITION_CONSTITUTION.md` **1.0.0** 卷首执行版 |
 | 组合根容器 | **15 / 15 天花板全量销号**（CARF-R 完成）；逐项台账 `docs/layout_shell/CEILING_AUDIT.md`；`scripts/audit_ceiling.py` **PASS** |
+| 基础组件 | **15 / 15 真实 Robustness 缺陷销号**（14 数值 + 1 超长字符串，非组合组件）；台账 `docs/CEILING_AUDIT_FOUNDATIONS.md`；`scripts/audit_foundations.py` **PASS**（122 类型 × 三态零负几何），全 `_` 私有 / 内部几何 PATCH、公共 API 零漂移 |
+| 测试基建坑位 49 | **21:47 依 CSA 指令结案归档：议题结案、非交付完成**——Qt 6.12 + shiboken 与 pytest 生命周期 refcount 冲突，14 类工程修复无效、未交付修复；真正修复需 CSA 拍板降级 PySide6 或改分批独立进程测试架构。产品代码 / 已发布包不受影响 |
 | 装配态资产 | **15 × 浅/深/变体 = 45 张** `docs/screenshots/*_showcase_*.png`；工具 `scripts/audit_showcase.py` |
 | 门禁 | `check_all.py --tier static` **3/3**（a11y 139/139 · qmllint 0 error / 593 warning 预算内 · API 冻结）；专项 `pytest tests/test_api_freeze.py tests/test_layout_shells.py -q` **48/48**；无头实例化 31/31；45/45 组极端非法入参非负几何；RTL 15/15；reducedMotion 300→0；文档断链 0 |
 | 生态对标复核 / T9 | 17:16 复核综合完美度 **≈72%**（内核 ≈95% 反超 / 组件与装配态 ≈92% / 开发者生态体验 ≈55~60%）。**18:55 伙伴下达「T9 按推荐」，P0 三条已落地**：① **口径校准** —— `docs/index.md` → 1.0.0 GA / 139 类型 / 15 组合根容器 / CARF / 15-15；`ECOSYSTEM_PARITY §2` 标明 0.4.0 历史旧账、§6 DoD 计数 24→21；`mkdocs.yml` 去 `example.com` 占位（`site_url` 改 GitHub Pages 规范推导值）、`repo_url` → `eagleye-china/pyside-nova`、`edit_uri` → `edit/main/docs/`。② **nav 扩容** —— 新增 15 组合根容器 / 白皮书 3 篇 / 天花板台账 / 45 张装配图四组 + 历史档案附录组（共 48 条），并修掉 4 处仓库根视角旧链接。③ **逐组件 API 页** —— 扩 `gen_apidocs.py`，由冻结 JSON + 模块 README + `CEILING_AUDIT.md` 生成 **15 个 Props / Slots / Events / 依赖 / 最小示例 / 三态图页 + 总览 + 45 图索引**（生成物禁手改、重跑闭环）。**验收**：首轮 `mkdocs build` exit 0 / 0 ERROR；`audit_ceiling.py` **PASS**（338 条链接断链 0）；静态门禁 **3/3**；冻结指纹 `bfd3d938a2fab7be` 不变、139 类型零漂移；AI 离线副本重跑同步。**零产品代码 / QML 改动**。**20:03 伙伴下达「T9 P1->T9 P2，然后 T9 销号」→ 20:23 P1 四项 + P2 三项全部落地并销号**：P1 = 站点版本切换器（生成器供数）、嵌套编号 TOC（`slugify_unicode` + `toc_depth: 4` + CSS counters；顺带静态消除两篇白皮书 **25 处中文手写锚点 INFO**）、在线可调参 Playground（15 组件冻结面真实 Props → 实时 QML + 45 张三态图预览）、站点中英 i18n（Material 官方 `extra.alternate` 语言切换器 + 5 页英文骨架）；P2 = Layout Builder（单根容器 + 槽位配置静态 QML 生成器）、社区与贡献入口（6 页，含治理文件投影 + 赞助/博客入口预留）、在线示例浏览器（24 张 Gallery + 45 张三态图筛选放大 + 本地运行命令）。**验收**：`mkdocs build` exit 0 / **0 WARNING / 0 INFO**；`audit_ceiling.py` **PASS**（**395 条链接断链 0**）；静态门禁 **3/3**；指纹 `bfd3d938a2fab7be` 不变；nav **62 条全覆盖**；生成器重跑幂等、6 个 JS 语法全通过。**如实标注未交付**：浏览器内 Qt 运行时（Qt for WebAssembly 构建产物）、站点部署 / GitHub Pages / 正式域名 —— 均属发布边界归 CSA。**T9 依伙伴指令销号**，归档行按 CSA 结案特例标注边界遗留（不圆场成全量交付）。完整对账表见工作区根 `PROMPT.md` **§12 / §12.7** |
-| 发布边界 | 工作树 **135 项**改动未提交（含 19:35 / 20:23 新增文档站产物）；**commit / push / tag / PyPI / 站点上线一律归 CSA（伙伴）**，小诺只做只读核查与构建验证 |
+| 发布边界 | 21:25 已 commit + push `5c94186`（CARF-R 双 15/15 + 文档站产品化）；21:47 坑位 49 归档 5 文档改动 + 21:54 T5 销号 / 1.0.1 锚点改动留工作树待 CSA 拍板。**commit / push / tag / PyPI / 站点上线一律归 CSA（伙伴）**，小诺只做只读核查与构建验证；待办池 **2 项（T3 / T4）**、无活跃主线 |
 | 身份 / 分工 | 伙伴 = **CSA**（构想 / 方向 / 标准 / 验收拍板）；小诺 = **完现者**（实现 / 自检 / 验收 / 文档账本闭环）。**本文件是项目内投影；跨会话唯一入口是工作区根 `D:\Porjects\PyCharm\PySide6\Nova\PROMPT.md`**，二者冲突以工作区根为准 |
 
 ### 一句话定位
@@ -274,6 +276,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     finalizing GC 触发 `none_dealloc: refcount error in a C extension`
     （deleteLater / 显式 close / gc.collect 均无效）→ conftest `pytest_unconfigure`
     硬退出（`os._exit(0)`，报告输出已完成，保 CI 退出码语义）（0.16.2 沉淀）
+    **【2026-11-25 21:47 CSA 指令结案归档：议题结案、非交付完成】**：`-k` 子集在 `form_env._pump()`
+    亦复现；诊断定位 `runner.py:150 item.funcargs = None` 后 shiboken refcount / 堆损坏
+    （`0xc0000374` / access violation）；14 类工程修复全部无效，独立进程 8/8 稳定。
+    **未交付代码修复**；真正修复需 CSA 拍板隔离验证 PySide6 降级（6.11.3 / 6.10.3）
+    或改测试架构为分批独立进程。产品 QML / 已推送 `5c94186` / 已发布 1.0.0 包不受影响，
+    试验改动已全部回退、工作树干净。详见 `CHANGELOG.md` [Unreleased] 与工作区日志 21:45 / 21:47 段。
 46. **QML 函数从 Python wrapper 调用返回未求值 MetaFunction**：`host.someFunc()` 拿到的是
     MetaFunction 对象而非结果 → 承载结果的用 `readonly property int xxx`，Python
     `setProperty`/直读属性（0.16.1 沉淀）
@@ -289,6 +297,12 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
     finalizing GC 触发 `none_dealloc: refcount error in a C extension`
     （deleteLater / 显式 close / gc.collect 均无效）→ conftest `pytest_unconfigure`
     硬退出（`os._exit(0)`，报告输出已完成，保 CI 退出码语义）（0.16.2 沉淀）
+    **【2026-11-25 21:47 CSA 指令结案归档：议题结案、非交付完成】**：`-k` 子集在 `form_env._pump()`
+    亦复现；诊断定位 `runner.py:150 item.funcargs = None` 后 shiboken refcount / 堆损坏
+    （`0xc0000374` / access violation）；14 类工程修复全部无效，独立进程 8/8 稳定。
+    **未交付代码修复**；真正修复需 CSA 拍板隔离验证 PySide6 降级（6.11.3 / 6.10.3）
+    或改测试架构为分批独立进程。产品 QML / 已推送 `5c94186` / 已发布 1.0.0 包不受影响，
+    试验改动已全部回退、工作树干净。详见 `CHANGELOG.md` [Unreleased] 与工作区日志 21:45 / 21:47 段。
 37. QML `Component.onCompleted` 按**创建完成逆序**执行（声明序最后的先 complete）——
     组内"首个完成注册者成为默认活动元素"通常是声明序最后的成员；依赖顺序的注册表
     语义须按此口径设计并写进测试（0.15.0 沉淀）
@@ -438,8 +452,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：1.0.0（2026-11-25）
-- 内容指纹：`b3ba7a2a325f`
-- git HEAD：1076ccc
-- 生成时间：2026-11-25 20:37（星期三）
+- 快照版本：1.0.1（2026-11-25）
+- 内容指纹：`fd5534a84318`
+- git HEAD：5c94186
+- 生成时间：2026-11-25 21:59（星期三）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

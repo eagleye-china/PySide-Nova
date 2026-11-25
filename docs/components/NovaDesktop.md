@@ -1,6 +1,6 @@
 # NovaDesktop · 桌面应用根壳
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 多端根壳 · **pyside-nova 1.0.0 GA** · API 冻结指纹 `bfd3d938a2fab7be` · **15/15 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 多端根壳 · **pyside-nova 1.0.1 GA** · API 冻结指纹 `bfd3d938a2fab7be` · **15/15 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览

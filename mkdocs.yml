@@ -1,4 +1,4 @@
-# MkDocs 文档站配置（pyside-nova 1.0.0 GA · L6 工程化：可搜索文档站）
+# MkDocs 文档站配置（pyside-nova 1.0.1 · 1.0.0 GA 之上 patch · L6 工程化：可搜索文档站）
 # 构建验证：python -m mkdocs build；本地预览：python -m mkdocs serve
 # ⚠️ 站点部署 / GitHub Pages / 正式域名属发布边界，归 CSA（伙伴）。
 #    site_url 为按 repo_url 推导的 GitHub Pages 规范值（去 example.com 占位）；

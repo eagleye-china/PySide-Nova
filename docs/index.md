@@ -1,7 +1,7 @@
 # pyside-nova 文档站首页
 
 **pyside-nova** 是面向 **PySide6 / QML** 的企业级 UI 组件库，对标 [Quasar Framework](https://quasar.dev)（v2.35.5 基线逐项对账），
-当前版本 **1.0.0 GA**（已发布至 PyPI · **139 个导出类型** · **15 个组合根容器 15/15 天花板销号**）。
+当前版本 **1.0.1**（1.0.0 GA 之上的 patch 升级，**待 CSA 发布** · **139 个导出类型** · **15 个组合根容器 15/15 天花板销号** · API 冻结指纹 `bfd3d938a2fab7be` 不变）。
 
 > **最高方法论 CARF** — Conceive · Achieve · Refine · Freeze（构想 · 实现 · 打磨 · 封版，终抵巅峰）。
 > 六维天花板（**功能 / 质量 / 观感 / 友好度 / 四性**：鲁棒性 · 坚实性 · 艺术性 · 预判性）逐项销号；
@@ -49,7 +49,7 @@ engine.load("main.qml")    # QML 里: import Nova.Controls
 ## 一分钟跑通画廊
 
 ```bash
-pip install pyside-nova==1.0.0
+pip install pyside-nova==1.0.1
 # 克隆仓库后：
 python examples/gallery_launch.py    # 24 页组件画廊（明暗主题 / 断点 / i18n / RTL）
 ```

@@ -23,7 +23,7 @@
 
 | 项目 | 内容 |
 |---|---|
-| **版本** | **1.0.0 GA** —— 源码已定版；PyPI 上架由维护者执行 |
+| **版本** | **1.0.1** —— 在 1.0.0 GA 之上作 patch 升级（Robustness 修复 + 文档站打磨，**API 指纹不变**）；PyPI 上架由维护者执行 |
 | **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
 | **公共 QML 类型** | **139** —— Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell 15 |
 | **API 冻结** | 139 类型零漂移 · 指纹 `bfd3d938a2fab7be` |

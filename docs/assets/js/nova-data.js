@@ -1,19 +1,19 @@
 /* 生成物：scripts/gen_apidocs.py 产出，禁止手工编辑。
    事实源：__about__.py + api/nova-api-1.0.0.json + QML + 45 张三态图 */
 window.NOVA_SITE = {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "fingerprint": "bfd3d938a2fab7be",
   "typesTotal": 139,
   "repo": "https://github.com/eagleye-china/pyside-nova",
   "pypi": "https://pypi.org/project/pyside-nova/",
   "versions": [
     {
-      "label": "1.0.0 · 当前站点（GA）",
+      "label": "1.0.1 · 当前站点（GA）",
       "url": ""
     },
     {
-      "label": "1.0.0 · PyPI 发布页",
-      "url": "https://pypi.org/project/pyside-nova/1.0.0/"
+      "label": "1.0.1 · PyPI 发布页",
+      "url": "https://pypi.org/project/pyside-nova/1.0.1/"
     },
     {
       "label": "main · 开发分支",

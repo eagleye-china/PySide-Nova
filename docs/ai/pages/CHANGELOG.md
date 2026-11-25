@@ -3,7 +3,12 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [Unreleased] — 基础组件天花板打磨（CARF-R 续篇 · 非组合组件 · 工作树待 CSA 拍板）
+## [1.0.1] - 2026-11-25 — 基础组件天花板打磨（CARF-R 续篇 · patch · 待 CSA 发布）
+
+> **版本说明**：1.0.0 GA 之上的 patch 升级——本批为 Robustness 修复 + 文档站打磨，
+> **公共 API 零漂移**（139 类型 · 指纹 `bfd3d938a2fab7be` 不变）；冻结契约 `apiVersion=1.0.0`
+> 与 `api/nova-api-1.0.0.json` 文件名不改（`test_api_freeze` 硬断言保持 1.0.0）。
+> 21:54 伙伴指令「T5 销号后升级版本号，我 pypi、git」→ **git commit / push / tag / PyPI 全归 CSA 本人**。
 
 > 伙伴："按 CARF 宣言与 CEILING_AUDIT.md 方式，认真打磨除 15 项组合组件之外的其他全部组件。"
 > 组合组件 15/15 已封版；本轮是其适配版续篇，遵循组合宪法第 0 章第 3/4 条——**基础控件不套 CC 契约、
@@ -45,7 +50,21 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - `audit_foundations.py` **PASS**（15/15 · 122 类型实例化零缺陷 · 三态零负几何）；
   第一批 14 项负几何 **19 组 → 0**，第二批 NovaField 超长文本负几何 **→ 0**；
 - 静态门禁 **3/3 PASS**（a11y 139/139 · API 冻结 · qmllint 0 error / 594 warning 分类预算内）；专项 **48/48**；
-- **139 类型零漂移 · 指纹 `bfd3d938a2fab7be` 不变**（全 `_` 私有 / 内部几何 PATCH）；发布边界归 CSA，未执行 commit / push / tag / PyPI。
+- **139 类型零漂移 · 指纹 `bfd3d938a2fab7be` 不变**（全 `_` 私有 / 内部几何 PATCH）；**21:25 经 CSA 授权已 commit + push**（`5c94186`，195 文件）；tag / PyPI 仍归 CSA、未执行。
+
+### 归档（测试基建 · 坑位 49 · 议题结案、非交付完成）
+
+> 伙伴 21:47 指令：「按这个状态结案归档」。按 **CSA 结案特例**归档——**议题结案、非交付完成**，不圆场成已修复。
+
+- **精确诊断**：崩溃在 pytest `_pytest/runner.py:150 item.funcargs = None` 之后，用例 funcargs 引用清空 → shiboken 立即析构 QML 对象 → 同进程引擎残留对象 refcount 冲突 → `0xc0000374` 堆损坏 / access violation。最小复现：`-k "test_demo_loads or test_gallery_loads"` 3/3 崩；form_env 13 用例 3/3 崩；全量 `test_smoke` 崩在第 7 用例 `test_gallery_loads`。
+- **排除项**：产品 QML 代码（体检脚本 122 类型 × 三态零崩）、测试逻辑错误、Python 版本（3.12.7 / 3.14.7 均崩）、pytest 插件（`no:cacheprovider` 仍崩）、断言重写（`--assert=plain` 仍崩）、单用例（独立进程 8/8 稳定）、纯脚本模拟 funcargs 清空（30 轮不崩 → 确证 pytest 生命周期交互特有）。
+- **14 类工程修复尝试全部无效**：强引用 `_ALIVE`、component 保活、删 `_smoke_teardown` 收尾 pump、unconfigure / sessionfinish 硬退出（崩在报告前，来不及）、`PYTHONMALLOC=malloc`、funcargs teardown hook、受控 pump 排空删除队列、deleteLater / close 混用、原始 1.0.0 worktree 对照等；与 `SESSION_HANDOFF.md` 坑位 49 原始结论一致（deleteLater / close / gc.collect 均无效）。
+- **定性与后续（需 CSA 拍板）**：Qt 6.12 + shiboken 6.12 与 pytest 9.2 生命周期交互的深层 refcount 缺陷。真正修复需**环境 / 架构变更**：隔离验证 PySide6 降级（6.11.3 / 6.10.3；项目声明 `PySide6>=6.8`、当前锁 6.12.0），或改测试架构为分批独立进程。**本归档不代表已修复、不代表已交付代码变更**。
+- **影响边界**：产品代码 / 已发布 1.0.0 包 / 已推送提交 `5c94186` 均不受影响；所有试验改动已 `git checkout HEAD --` 回退，工作树干净；功能契约由 48 专项 + 静态 3/3 + 300+ 冒烟覆盖。
+
+### 治理（T5 销号 · CSA 结案特例）
+
+- 21:54 伙伴指令「T5 销号」→ **议题结案、非交付完成**：5 项中 4 项已闭环（① 项目级 PROMPT 重生成 / ③ 宪法单一源收敛 / ⑤ 门面文档刷新 / ④ DoD 计数裁定 24→21），**仅剩 ② static 门禁接 CI 客观未完成**，不圆场成已交付、编号不复用。待办池 3 → 2 项（T3 / T4）。
 
 ## [1.0.0] - 2026-11-25 — GA 正式版（PyPI 发布）
 

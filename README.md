@@ -25,7 +25,7 @@ stable, industrial-grade interfaces.
 
 | Item | Value |
 |---|---|
-| **Version** | **1.0.0 GA** — source frozen; the PyPI upload is owned by the maintainer |
+| **Version** | **1.0.1** — patch bump over 1.0.0 GA (Robustness + docs polish, **API fingerprint unchanged**); PyPI upload owned by the maintainer |
 | **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
 | **Public QML types** | **139** — Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell 15 |
 | **API freeze** | 139 types, zero drift · fingerprint `bfd3d938a2fab7be` |
