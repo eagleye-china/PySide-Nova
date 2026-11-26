@@ -153,6 +153,11 @@ LAYOUTSHELL: dict[str, tuple[str, str, str]] = {
     "NovaMobile":       (DECORATIVE, "-", "移动应用顶层根壳"),
     "NovaFlexLayout":   (DECORATIVE, "-", "企业大屏弹性布局根壳"),
     "NovaChat":         (DECORATIVE, "-", "AI 对话主窗口骨架，气泡语义由注入的 NovaChatMessage 承担"),
+    "NovaAgent":        (DECORATIVE, "-", "智能体任务执行工作台骨架，任务/审批/验证语义由注入槽位承担"),
+    "NovaDE":           (DECORATIVE, "-", "数字员工岗位工作台骨架，岗位/队列/SLA 语义由注入槽位承担"),
+    "NovaCopilot":      (DECORATIVE, "-", "增强型协作面板骨架，建议/闸门/撤销语义由注入槽位承担"),
+    "NovaOrbit":       (DECORATIVE, "-", "意图轨道工作台骨架，轨道态势/活产物/孵化确认语义由注入槽位承担"),
+    "NovaIncubator":   (DECORATIVE, "-", "应用孵化器工作台骨架，配方/七区契约/三重校验/封版证书语义由注入槽位承担"),
 }
 
 BEHAVIORS: dict[str, tuple[str, str, str]] = {

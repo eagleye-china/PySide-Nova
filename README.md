@@ -1,8 +1,11 @@
 <div align="center">
 
-# pyside-nova
+# PySide-Nova
 
-**The Quasar of the Qt Quick world** — an enterprise-grade, cross-platform QML component library for PySide6.
+> Inspired by Quasar, PySide-Nova takes its component philosophy further in the PySide ecosystem.
+> 受 Quasar 启发，PySide-Nova 在 PySide 生态中将其组件理念推进一步。
+
+**An enterprise-grade, cross-platform QML component library for PySide6.**
 
 **One component set. Desktop, mobile and industrial large-screen.** Built on Qt's native
 rendering engine, Nova turns professional UI craft into standardized components and
@@ -15,7 +18,7 @@ stable, industrial-grade interfaces.
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-flagship%20v1.0-blue)](docs/white_paper/pyside-nova-旗舰组件库白皮书.md)
+[![Status](https://img.shields.io/badge/status-flagship%20v1.0-blue)](docs/prescript/WHITEPAPER.md)
 
 </div>
 
@@ -25,19 +28,19 @@ stable, industrial-grade interfaces.
 
 | Item | Value |
 |---|---|
-| **Version** | **1.0.1** — patch bump over 1.0.0 GA (Robustness + docs polish, **API fingerprint unchanged**); PyPI upload owned by the maintainer |
+| **Version** | **1.2.0** — additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); PyPI upload owned by the maintainer |
 | **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
-| **Public QML types** | **139** — Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell 15 |
-| **API freeze** | 139 types, zero drift · fingerprint `bfd3d938a2fab7be` |
+| **Public QML types** | **144** — Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
+| **API freeze** | 144 types, zero drift · fingerprint `4f882374ad52262b` (1.2.0 batch single re-sign) |
 | **Runtime** | Python ≥ 3.10 · PySide6 ≥ 6.8 (verified on **6.12.0**) · Windows / macOS / Linux |
-| **Quality gates** | static 3/3 PASS · 478 pytest cases · 31/31 headless instantiation · qmllint 0 error |
+| **Quality gates** | static 3/3 PASS · 53/53 API-freeze & layout-shell tests · 20/20 ceiling audit · qmllint 0 error |
 
 - **Flagship Standard**: Robustness · Solidity · Aesthetics · Prescience
 - **Methodology**: **CARF** — Conceive, Achieve, Refine, Freeze — Culminate to the peak
-  ([母法卷首宣言](docs/CONSTITUTION.md)) · all 15 composite root containers audited to the ceiling
-  ([ceiling ledger](docs/layout_shell/CEILING_AUDIT.md))
+  ([母法卷首宣言](docs/CONSTITUTION.md)) · all 20 composite root containers audited to the ceiling
+  ([ceiling ledger](docs/prescript/AUDIT_CEILING.md))
 - **Constitution**: [docs/CONSTITUTION.md](docs/CONSTITUTION.md) (mother law) + [docs/COMPOSITION_CONSTITUTION.md](docs/COMPOSITION_CONSTITUTION.md) (Layout Shell sub-law)
-- **White papers**: [Flagship White Paper](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) · [Prescient Layout Shell Frozen Spec](docs/white_paper/Prescient-LayoutShell-封版规范.md)
+- **White papers**: [Flagship White Paper](docs/prescript/WHITEPAPER.md) · [Prescient Layout Shell Frozen Spec](docs/prescript/SPEC_FREEZE.md)
 - **Authoritative index**: [docs/COMPONENT_LIST.md](docs/COMPONENT_LIST.md) — generated, never hand-edited
 
 ## Why pyside-nova
@@ -55,9 +58,10 @@ keep recurring in cross-platform GUI work:
 - **Stability vs. beauty, pick one.** Native code is solid but slow to build; Web UI is
   flexible but drops frames. Few teams own an asset that delivers both.
 
-**pyside-nova ports that ecosystem to pure QML + PySide6**, with a 1:1 Quasar-style API
-so Vue/Quasar developers feel at home — and a frozen, audit-friendly enterprise release
-process for everyone else.
+**pyside-nova borrows Quasar's component-driven ideas and adapts them to Python desktop
+development**, with a Quasar-familiar API so Vue/Quasar developers feel at home — and a
+frozen, audit-friendly enterprise release process for everyone else. It is inspired by
+Quasar, not a port or fork of it ([relationship & credit](docs/QUASAR_ACKNOWLEDGEMENT.md)).
 
 > **One-line position:** steadier than Electron, broader than Flutter, faster than
 > per-platform native development — one component set, native-grade fluency on every screen.
@@ -68,7 +72,7 @@ process for everyone else.
 ┌──────────────────────────────────────────────────────────┐
 │  Business Applications        业务应用层                  │  pages · tools · data
 ├──────────────────────────────────────────────────────────┤
-│  Prescient Layout Shell       组合根容器层（15 项）        │  skeleton · slots · identity
+│  Prescient Layout Shell       组合根容器层（20 项）        │  skeleton · slots · identity
 ├──────────────────────────────────────────────────────────┤
 │  Controls / Behaviors         基础组件层                  │  buttons · lists · dialogs · forms
 ├──────────────────────────────────────────────────────────┤
@@ -107,7 +111,7 @@ process for everyone else.
 - 🎬 **Unified motion** — every Shell animation reads `NovaMotion.duration()` and
   `NovaMotion.easingStandard`; `reducedMotion` short-circuits all transitions and
   `speedFactor` retimes the whole library at once.
-- ♿ **A11y by contract** — 139/139 types registered as interactive / semantic /
+- ♿ **A11y by contract** — 144/144 types registered as interactive / semantic /
   decorative; decorative containers deliberately carry no `Accessible.*` noise.
 - 📦 **pip-ready** — QML modules ship inside the wheel; one line to bootstrap.
 - ✅ **Verified, not promised** — static gate (a11y → API freeze → qmllint), 478 pytest
@@ -234,7 +238,7 @@ pyside-nova/
 │       ├── Behaviors/              # 13 attached behaviors
 │       ├── Services/               # 16 singletons (NovaTheme / NovaScreen / …)
 │       ├── Design/                 # 4 design-language types (NovaMotion / …)
-│       └── Composite/LayoutShell/  # 15 composite root containers + qmldir + README
+│       └── Composite/LayoutShell/  # 20 composite root containers + qmldir + README
 ├── examples/
 │   ├── demo/                       # compact demo
 │   ├── gallery/                    # component gallery (sidebar + pages)
@@ -307,10 +311,11 @@ git push origin v1.0.0
 
 ## Documentation
 
-- [Flagship White Paper](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) — manifesto, architecture,全端方案
-- [Prescient Layout Shell Frozen Spec](docs/white_paper/Prescient-LayoutShell-封版规范.md) — acceptance red lines & slot contract
-- [Layout Shell module README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) — all 15 contracts & dependency lists
-- [Component index](docs/COMPONENT_LIST.md) — 139 types, generated
+- [Flagship White Paper](docs/prescript/WHITEPAPER.md) — manifesto, architecture,全端方案
+- [Prescient Layout Shell Frozen Spec](docs/prescript/SPEC_FREEZE.md) — acceptance red lines & slot contract
+- [Layout Shell module README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) — all 18 contracts & dependency lists
+- [Component index](docs/COMPONENT_LIST.md) — 144 types, generated
+- [Relationship with Quasar & credit](docs/QUASAR_ACKNOWLEDGEMENT.md) — inspired by, not a fork
 - [Architecture Constitution](docs/CONSTITUTION.md) · [Composition Constitution](docs/COMPOSITION_CONSTITUTION.md)
 - [Ecosystem Parity](docs/ECOSYSTEM_PARITY.md) · [CHANGELOG](CHANGELOG.md)
 

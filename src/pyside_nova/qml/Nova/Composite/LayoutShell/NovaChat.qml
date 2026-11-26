@@ -72,9 +72,20 @@ Item {
     readonly property color _divider: NovaTheme.outline
     readonly property color _rail: NovaTheme.surfaceAlt
     readonly property color _panel: NovaTheme.surface
-    readonly property color _ink: NovaTheme.primary
+    // ── 专属主题 · 蔚蓝（色相 216°，偏移 -0.0460）──
+    // AI 对话 · 清澈沟通，六轨分治；色相随 setBrand 漂移，饱和/明度系数独立定制（CC-3：组件内仍单色相）
+    readonly property real _themeHue: (NovaTheme.primary.hsvHue + (-0.0460) + 1) % 1
+    readonly property color _accent: Qt.hsva(root._themeHue,
+        Math.min(1, NovaTheme.primary.hsvSaturation * 1.18),
+        Math.min(1, NovaTheme.primary.hsvValue * 1.00 * (NovaTheme.isDark ? 1.25 : 1)), 1)
+    readonly property color _ink: root._accent
     // 单色系派生：同屏只出现主色系，secondary / accent 不再与 primary 撞色（CC-3）
-    readonly property color _inkSoft: Qt.lighter(NovaTheme.primary, 1.35)
+    readonly property color _inkSoft: Qt.lighter(root._accent, 1.35)
+    // ── Aurora Core · 极光核辉光（同色相提亮 + 中性白芯；CC-3 组件内仍单色相）──
+    // 从本组件专属色相派生，setBrand 换肤同步平移；只用于身份焦点小面积点缀
+    readonly property color _glow: Qt.hsva(root._themeHue,
+        Math.min(1, NovaTheme.primary.hsvSaturation * 0.78),
+        Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.5 : 1.28)), 1)
 
     Rectangle { anchors.fill: parent; color: NovaTheme.page }
 
@@ -115,11 +126,13 @@ Item {
                     GradientStop { position: 0.0; color: root._ink }
                     GradientStop { position: 1.0; color: root._inkSoft }
                 }
+                // Aurora Core：同色相亮核环 + 中性白芯
                 Rectangle {
                     anchors.centerIn: parent
-                    width: 10; height: 10; radius: 5
-                    color: root._panel
+                    width: 14; height: 14; radius: 7
+                    color: root._glow
                     opacity: 0.9
+                    Rectangle { anchors.centerIn: parent; width: 8; height: 8; radius: 4; color: NovaTheme.surface }
                 }
             }
             // 列尾抽象锚点（纯几何圆点，不做成可点击头像）

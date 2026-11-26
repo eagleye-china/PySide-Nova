@@ -1,21 +1,46 @@
 # src/pyside_nova/qml/Nova/Composite/LayoutShell/qmldir
-# 组合组件专属模块：15 项组合根容器（宪法 0.8.0 合法第五模块；NovaChat 对标 WorkBuddy 主窗口）
-# 封版：1.0.0 GA · API 冻结指纹 bfd3d938a2fab7be（15 项全部为冻结公共类型）
-# 交付物：模块级 README.md（15 项契约 + 依赖组件清单）；技术红线见 docs/white_paper/ 封版规范 v2.0.0
+# 组合组件专属模块：20 项组合根容器 · 平铺导出（1.2.0 物理拍平后，与 1.0.x 已发布形态一致）
+# 模块 URI 恒为 Nova.Composite.LayoutShell 单一模块；20 个类型名 / 模块归属 / 公共成员签名全部不变。
+# 九类语义分类（Navigation/Workbench/…）保留在文档层台账 docs/prescript/GUIDE_CLASSIFICATION.md，
+# 不再落物理子目录：遵循「概念域 ≠ 物理目录 ≠ 模块 URI」铁律，物理层回归平铺、老用户路径零漂移。
+# 封版：1.2.0 · 15 项 GA + 5 项增量（NovaAgent / NovaDE / NovaCopilot / NovaOrbit / NovaIncubator）
+# 交付物：模块级 README.md（20 项契约 + 九类分类）；技术红线见 docs/prescript/SPEC_FREEZE.md v2.1.0
 module Nova.Composite.LayoutShell
 
+# 主导航（4） · 文档层分类 Navigation/
 NovaSidebar 1.0 NovaSidebar.qml
 NovaTopNavigation 1.0 NovaTopNavigation.qml
 NovaDualSide 1.0 NovaDualSide.qml
 NovaTabShell 1.0 NovaTabShell.qml
+
+# 多栏工作台（3） · 文档层分类 Workbench/
 NovaThreeColumn 1.0 NovaThreeColumn.qml
 NovaCompare 1.0 NovaCompare.qml
 NovaCardGrid 1.0 NovaCardGrid.qml
+
+# 浮层容器（2） · 文档层分类 Overlay/
 NovaModal 1.0 NovaModal.qml
 NovaDrawerPanel 1.0 NovaDrawerPanel.qml
+
+# 独立页壳（2） · 文档层分类 Page/
 NovaSetupWizard 1.0 NovaSetupWizard.qml
 NovaBlankPage 1.0 NovaBlankPage.qml
+
+# 多端根壳（3） · 文档层分类 Carrier/
 NovaDesktop 1.0 NovaDesktop.qml
 NovaMobile 1.0 NovaMobile.qml
 NovaFlexLayout 1.0 NovaFlexLayout.qml
+
+# AI 对话主窗口（1） · 文档层分类 Chat/
 NovaChat 1.0 NovaChat.qml
+
+# AI 智能组合根（3） · 文档层分类 Intelligence/
+NovaAgent 1.0 NovaAgent.qml
+NovaDE 1.0 NovaDE.qml
+NovaCopilot 1.0 NovaCopilot.qml
+
+# 意图轨道呈现层（1） · 文档层分类 Orbit/
+NovaOrbit 1.0 NovaOrbit.qml
+
+# 应用孵化器工作台（1） · 文档层分类 Incubator/
+NovaIncubator 1.0 NovaIncubator.qml

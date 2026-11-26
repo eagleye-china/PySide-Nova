@@ -1,4 +1,4 @@
-# MkDocs 文档站配置（pyside-nova 1.0.1 · 1.0.0 GA 之上 patch · L6 工程化：可搜索文档站）
+# MkDocs 文档站配置（pyside-nova 1.2.0 · 20 项组合根容器 / 5 项增量 · L6 工程化：可搜索文档站）
 # 构建验证：python -m mkdocs build；本地预览：python -m mkdocs serve
 # ⚠️ 站点部署 / GitHub Pages / 正式域名属发布边界，归 CSA（伙伴）。
 #    site_url 为按 repo_url 推导的 GitHub Pages 规范值（去 example.com 占位）；
@@ -85,7 +85,7 @@ markdown_extensions:
 nav:
   - 首页: index.md
   - 画廊预览: GALLERY.md
-  - 组合根容器（15 项）:
+  - 组合根容器（20 项）:
       - 总览: components/index.md
       - NovaSidebar: components/NovaSidebar.md
       - NovaTopNavigation: components/NovaTopNavigation.md
@@ -102,14 +102,30 @@ nav:
       - NovaMobile: components/NovaMobile.md
       - NovaFlexLayout: components/NovaFlexLayout.md
       - NovaChat: components/NovaChat.md
+      - NovaAgent: components/NovaAgent.md
+      - NovaDE: components/NovaDE.md
+      - NovaCopilot: components/NovaCopilot.md
+      - NovaOrbit: components/NovaOrbit.md
+      - NovaIncubator: components/NovaIncubator.md
+  - 组件分类与架构分层:
+      - 组件分类实用指南（现行）: prescript/GUIDE_CLASSIFICATION.md
+      - 基础组件域分类与依赖纪律（现行）: prescript/GUIDE_COMPONENT_DOMAINS.md
+      - Quasar 理念对齐与架构演进（现行）: prescript/GUIDE_QUASAR_ALIGNMENT.md
+      - 10 组件专属主题设计指南（现行）: prescript/GUIDE_COMPONENT_THEMES.md
+      - v2.0 物理重构立项书 · 双轨兼容规范（现行）: prescript/SPEC_V2_COMPAT.md
+  - 企业级旗舰版封版法源（5 项 · 现行）:
+      - NovaAgent · 智能体任务执行工作台: prescript/LAW_NovaAgent.md
+      - NovaDE · 数字员工岗位工作台: prescript/LAW_NovaDE.md
+      - NovaCopilot · 增强型协作面板: prescript/LAW_NovaCopilot.md
+      - NovaOrbit · 意图轨道工作台: prescript/LAW_NovaOrbit.md
+      - NovaIncubator · 应用孵化器工作台: prescript/LAW_NovaIncubator.md
   - 白皮书（3 篇）:
-      - 旗舰组件库白皮书: white_paper/pyside-nova-旗舰组件库白皮书.md
-      - Prescient Layout Shell 封版规范: white_paper/Prescient-LayoutShell-封版规范.md
-      - 营销版 README 素材: white_paper/pyside-nova-README.md
+      - 旗舰组件库白皮书: prescript/WHITEPAPER.md
+      - Prescient Layout Shell 封版规范: prescript/SPEC_FREEZE.md
   - 天花板台账:
-      - CARF-R 组合 15/15 销号台账: layout_shell/CEILING_AUDIT.md
+      - CARF-R 组合 20/20 销号台账: prescript/AUDIT_CEILING.md
       - CARF-R 基础组件 15/15 销号台账: CEILING_AUDIT_FOUNDATIONS.md
-  - 装配态图（45 张）:
+  - 装配态图（60 张）:
       - 三态装配图索引: components/showcase.md
   - 在线工具（T9 / P1+P2）:
       - 在线可调参 Playground: tools/playground.md
@@ -124,7 +140,7 @@ nav:
       - 交接快照: SESSION_HANDOFF.md
   - 体系:
       - 架构说明: ARCHITECTURE.md
-      - 组件清单（139 项）: COMPONENT_LIST.md
+      - 组件清单（144 项）: COMPONENT_LIST.md
       - 组件详解（历史稿）: COMPONENTS.md
       - 设计令牌: DESIGN_TOKENS.md
       - 国际化指南: I18N.md
@@ -133,17 +149,11 @@ nav:
   - 对账:
       - Quasar 逐项对账: PARITY.md
       - 生态七层对账（历史档案）: ECOSYSTEM_PARITY.md
-  - 历史档案与附录:
-      - 预构范式封版方案: white_paper/PRESCRIPT.md
-      - 预构范式封版方案（中文稿）: white_paper/PRESCRIPT1.md
-      - 旗舰版封版徽标规范: white_paper/pyside-nova-logo.md
-      - Layout Shell 四稿 · 总纲: layout_shell/LayoutShell.md
-      - Layout Shell 四稿 · 规划: layout_shell/LayoutShellPlan.md
-      - Layout Shell 四稿 · 提示词: layout_shell/LayoutShellPrompt.md
-      - Prescient Layout Shell 四稿: layout_shell/PrescientLayoutShell.md
-      - 术语与范式封版规范: white_paper/PRESCRIPT2.md
-      - Quasar 对标口径: "white_paper/PySide‑Nova-Quasar.md"
-      - NovaAgent / NovaDE / NovaCopilot 封版方案: layout_shell/NovaAgent-NovaDE-NovaCopilot.md
+      - Quasar 关系与致谢（文案事实源）: QUASAR_ACKNOWLEDGEMENT.md
+  - 预构范式与史料:
+      - 预构范式封版方案: prescript/SPEC_PRESCRIPT.md
+      - 预构范式封版方案（中文稿）: prescript/SPEC_PRESCRIPT_ZH.md
+      - NovaIncubator · 命名定稿（历史稿）: prescript/ARCHIVE_NovaIncubator_Naming.md
   - 社区（T9 / P2）:
       - 社区与贡献: community/index.md
       - 贡献指南: community/contributing.md

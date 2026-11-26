@@ -46,7 +46,7 @@
 3. **适用范围（0.4.0 修订）**：组合组件由**模块归属 + 三要素**界定，**不再以 `Shell` 后缀为唯一标识**。
    凡由 ≥2 个已导出公共类型组合而成、提供固定槽位、无业务语义的根容器，均受本宪法约束——
    包括已去后缀的 `Nova*` 根容器与无后缀的 `NovaDesktop` / `NovaMobile` / `NovaFlexLayout` /
-   `NovaChat`。命名以 `docs/layout_shell/PrescientLayoutShell.md` 权威清单为准。
+   `NovaChat`。命名以 `docs/COMPONENT_LIST.md` 权威清单为准。
    单纯的基础控件（L2）、行为（L3）、服务（L4）不受本宪法约束。
 4. **法源声明**：自本宪法颁布之日起，`docs/layout_shell/` 下历史文档中的
    "v1.0.0 FROZEN / 已封版"表述、日期流水头注释（母法第 2 章禁止）、
@@ -81,7 +81,7 @@
    | AI 对话主窗口（1） | 导航轨 + 会话列 + 对话区 + 输入区 + 详情栏 | `NovaHeader` / `NovaPage` / `NovaFooter` / `NovaSeparator` / `NovaChatMessage`（气泡由槽位注入） |
 
    六类合计 15 项（0.6.0：能去则去 + `NovaTabShell` 保留 + `NovaTopNavigation` 全称 + `NovaSetupWizard` 正名 + `NovaChat`），名称与落地顺序以
-   `docs/layout_shell/PrescientLayoutShell.md` 为权威清单；
+   `docs/COMPONENT_LIST.md` 为权威清单；
    分类仅为语义标签，**不是目录结构**。
 
 3. **与 L1 的关系**：`NovaLayout`（四象限自动归位 + push/overlay 双模 + 断点自动收起）是母法 L1
@@ -213,7 +213,7 @@
    且必须是 `_` 私有的内部实现（不进冻结面——公共 API 签名保持不变，指纹不变）。
    身份元素若被业务槽位注入的内容遮挡，须用层叠令牌提级（如时间轴 `z: 2`、面板色条
    `z: NovaTheme.zMarginals`），确保 Gallery 默认视图即可辨识。差异化身份一览见
-   `docs/layout_shell/PrescientLayoutShell.md` 的"身份元素"列。
+   `docs/COMPONENT_LIST.md` 的"身份元素"列。
    **0.8.1 全库回扫**：坑位 15 的「装饰实心度 ≥0.85」对 15 项一律生效（0.7.1 只修 NovaChat
    单点属漏改），全库 20 余处低 opacity 身份装饰已统一提到 ≥0.85；17 处与槽位注入层同父的
    身份装饰已补 `z: NovaTheme.zMarginals`。三类例外须显式注释：① 功能性遮罩 `_mask` / `_scrim`
@@ -339,7 +339,7 @@
 > 现 15/15 全部销号**。全程遵守「优先组合组件 → 组合打磨中若暴露单个组件问题 → 反向打磨该单个组件」，
 > 且**未触发任何 Controls 基础组件反向修改**。CC 属新增章节、非第 6/7 章强制规则修订，
 > 不触发坑位 18 全库回扫。每项均记装配态三态出图验收（**15 × 3 = 45 张图**）
-> + `scripts/audit_ceiling.py` 全量机检 **PASS**；逐项销号台账见 `docs/layout_shell/CEILING_AUDIT.md`。
+> + `scripts/audit_ceiling.py` 全量机检 **PASS**；逐项销号台账见 `docs/prescript/AUDIT_CEILING.md`。
 
 ## 第 10 章 反模式坑位表（血泪条款，勿回退）
 
@@ -383,5 +383,5 @@
 | 0.8.0 | 2026-11-25 | **旗舰封版规约落地（伙伴："认真读 white_paper 三篇，汲取营养融入 README；优化完善另外两篇为企业级旗舰封版，为咱们所用，再次打磨重构 15 项"）**：① 第 4 章第 1 条槽位口径校准——统一的是机制与语义而非固定五槽，中心内容槽按骨架场景化命名、`overlaySlot` 非必需，草案"contentSlot 必需"作废；② 第 6 章第 2 条令牌白名单补 `outlineStrong` / `textOnPrimary` 真实导出属性；③ 第 6 章第 3 条动效令牌强制落地——15 项中 8 处 `duration: 200/220/240` 硬编码全部改为 `NovaMotion.duration()` + `easingStandard`（`import Nova.Design`），全库节奏统一 + `reducedMotion` 无障碍短路 + `speedFactor` 调速生效；④ 第 7 章第 4 条补键盘可达清单——Sidebar / DualSide / TopNavigation / Chat 新增 `focus: true` + `Keys.onEscapePressed`（只 emit 已有信号、不新增 API、不自写宿主状态），与既有 Modal / Drawer / Desktop / Mobile 一致；⑤ 第 8 章准入清单补模块级 `Composite/LayoutShell/README.md` 交付物（15 项契约 + 依赖组件清单 + 最小示例），并实测 README 快速上手示例可实例化；⑥ 坑位表补 16（散落动画参数）/ 17（援引早期草案口径）；⑦ 工程细节打磨：`NovaDesktop.toolbarSlot` 改为独立 `_toolbarHost` 宿主隔离 + 装饰 `zMarginals` 提级、`NovaFlexLayout` 删未用 `_bandColor`、`NovaTabShell` 校准虚构 `activeIndex` 注释。**全部为 `_` 私有 / 注释 / 内部实现变更，公共 API 签名逐字不变、指纹 `bfd3d938a2fab7be` 不变**（patch 无需重签）。同步：三篇 `docs/white_paper/` 升级 v2.0.0 企业级旗舰封版（消除旧命名 / 虚构 API / 规划中口径、补法源与封版资格声明、15 项真实槽位权威表）、README 双版汲取营销稿营养并校准 1.0.0 GA 真实现状、CHANGELOG / 权威清单 / 账本同步。验收：静态 3/3、专项 48/48、31/31 无头实例化、qmllint 0 error。发布边界归伙伴。 |
 | 0.8.1 | 2026-11-25 | **四性标准全库回扫（伙伴点名："其余 6 个组件也按四性标准过一遍"）**：按封版规范 §2 四性 + §8 门禁逐项机检 15 项，发现 0.7.1/0.8.0 立规后只修单点留下的四类全库合规债——① **艺术性**：20 余处身份装饰 `opacity: 0.18~0.7` 仍发虚（0.7.1 坑位 15 只改 NovaChat），全库统一提到 ≥0.85，仅保留 2 处功能性遮罩与交互禁用态显式注释；② **鲁棒性 i18n**：14 项缺 `LayoutMirroring.enabled`，全库补齐（15/15）；③ **鲁棒性边界**：15 项共新增 39 个 `_` 私有 `readonly` 钳制属性、54 处几何引用改走钳制值，`NovaModal` 补 `_maxW/_maxH/_chromeH` 并修卡片高度下界；④ **身份装饰层叠**：17 处同父注入遮挡补 `z: zMarginals`，撤销 1 处误提级的中央画布底纹（遵守第 6 条）。坑位表补 18（新条款入宪即全库回扫、无"其余免检"）/ 19（栏高下界 0 与 maxHeight 矛盾反噬负几何）；第 6 章第 5 条 / 第 7 章第 1、3 条同步强化。**全部为 `_` 私有 / 注释 / 内部实现变更，公共 API 签名逐字不变、139 类型零漂移、指纹 `bfd3d938a2fab7be` 不变**（patch 无需重签）。验收：静态 3/3、专项 48/48、31/31 无头实例化、**15/15 极端非法入参稳态几何非负**（每项注入 34 组负尺寸/超大尺寸/非法枚举）、明暗令牌实时切换 PASS、reducedMotion 300→0ms PASS、qmllint 0 error 且 warning 数与基线一致（593）；浅色 + 深色双主题实心业务注入身份审计图 15/15 重渲染并同步 `docs/screenshots/composition_identity_audit*.png`。发布边界归伙伴。 |
 | 0.9.0 | 2026-11-25 | **组合态一致性契约 CC 入宪（伙伴："单个旗舰组件组合到一起就掉链子、没有 Quasar 丝滑，机制/架构/规范缺在哪儿"）**：诊断出 L0 令牌（`NovaTheme`）与 L2 业务注入之间缺 **L1 装配层**；新增第 9 章 CC-1~CC-8（组合上下文唯一密度源 / 单一分隔源 / 装饰预算与禁止仿交互控件 / 层级色阶 / 动效同步与恒定锚链 / 槽位内容基线 / 装配态验收 / 参考实现纪律），原第 9 章坑位表顺延第 10 章、坑位补 20/21。**`NovaChat` 首例落地**（全 `_` 私有 PATCH、公共 API 逐字不变、指纹 `bfd3d938a2fab7be` 不变）：13 个组合上下文常量供六轨共享、删 3 条渐变缘轨与顶层三段撞色带、装饰收敛为抽象几何、三段折叠 Behavior 共用 `_dur`/`_ease` 且锚链不再依赖 `visible` 三元、showcase 六槽真实业务注入 + 调参面板默认收起 + 消息/输入限宽居中。验收：浅/深/折叠三态渲染审计、QML 零错误、API 冻结零漂移。其余 14 项按「稳步推进、逐个打磨」分阶段迁移，不批量改动。 |
-| 0.9.1 | 2026-11-25 | **CC 迁移批次 2（伙伴：「优先组合组件，组合打磨中若暴露单个组件问题再反向打磨」，点名 NovaChat → NovaDesktop → NovaMobile → NovaFlexLayout）**：先复评 `NovaChat` 并销号 7 处 showcase 残余（状态栏调试字样 / 消息流贴底 / 三点伪菜单 / 伪工具方块 / signal 回显归位）；三大根壳逐项完成 CC-1~CC-8 迁移——**三元锚链全面改为「栏高归零 + 恒定锚链 + `Behavior on height` 共用 `_dur`/`_ease`」**（消除隐藏栏布局跳变，FlexLayout 面板加 `Behavior on width`）；三色控制点 / 三色渐变底线与面板顶条 / 伪按钮方块收敛主色系抽象几何；槽位宿主独立铺满、注入顶层 `anchors.fill: parent`；`NovaPage padding` 与网格 margins 同值消除三层叠加；三个演示重做成品级 showcase（真实 IDE / 移动会话页 / 实时运行看板），调参面板默认收起、emoji 图标改纯几何。**反向打磨仅 1 次（条件触发）**：装配态深色出图暴露灵动岛融合 → 直接修 `NovaMobile.qml`，未改任何 Controls 基础组件。新建 `docs/layout_shell/CEILING_AUDIT.md` 天花板档案（评估标尺 / 复盘 / 批次记录 / 反向打磨记录 / 15 项销号进度表 / 验收总表），**4/15 已销号**。验收：4 个 showcase × 浅 / 深 / 变体共 **12 张图**全通过、QML 零错误、静态 3/3、专项 48/48、31/31 实例化、4 组件极端非法入参 0 负几何、RTL 4/4、reducedMotion 300→0ms、qmllint 0 error / 593 warning、**139 类型零漂移 · 指纹 `bfd3d938a2fab7be` 不变**。其余 11 项按节奏逐项推进；发布边界归伙伴。 |
+| 0.9.1 | 2026-11-25 | **CC 迁移批次 2（伙伴：「优先组合组件，组合打磨中若暴露单个组件问题再反向打磨」，点名 NovaChat → NovaDesktop → NovaMobile → NovaFlexLayout）**：先复评 `NovaChat` 并销号 7 处 showcase 残余（状态栏调试字样 / 消息流贴底 / 三点伪菜单 / 伪工具方块 / signal 回显归位）；三大根壳逐项完成 CC-1~CC-8 迁移——**三元锚链全面改为「栏高归零 + 恒定锚链 + `Behavior on height` 共用 `_dur`/`_ease`」**（消除隐藏栏布局跳变，FlexLayout 面板加 `Behavior on width`）；三色控制点 / 三色渐变底线与面板顶条 / 伪按钮方块收敛主色系抽象几何；槽位宿主独立铺满、注入顶层 `anchors.fill: parent`；`NovaPage padding` 与网格 margins 同值消除三层叠加；三个演示重做成品级 showcase（真实 IDE / 移动会话页 / 实时运行看板），调参面板默认收起、emoji 图标改纯几何。**反向打磨仅 1 次（条件触发）**：装配态深色出图暴露灵动岛融合 → 直接修 `NovaMobile.qml`，未改任何 Controls 基础组件。新建 `docs/prescript/AUDIT_CEILING.md` 天花板档案（评估标尺 / 复盘 / 批次记录 / 反向打磨记录 / 15 项销号进度表 / 验收总表），**4/15 已销号**。验收：4 个 showcase × 浅 / 深 / 变体共 **12 张图**全通过、QML 零错误、静态 3/3、专项 48/48、31/31 实例化、4 组件极端非法入参 0 负几何、RTL 4/4、reducedMotion 300→0ms、qmllint 0 error / 593 warning、**139 类型零漂移 · 指纹 `bfd3d938a2fab7be` 不变**。其余 11 项按节奏逐项推进；发布边界归伙伴。 |
 | 1.0.0 | 2026-11-25 | **CARF 宣言入宪 · 15 项组合根容器全量天花板封版（伙伴：「加入咱们的宪法？还是哪儿？你定合适的地方，15 项组合组件全部打磨一遍，你自己定节奏」）**：① 卷首立 **CARF 宣言（组合组件执行版，援引母法卷首）**，版本由 0.9.1 升 **1.0.0**；第 0 章新颁第 5 条 **CARF 循环与销号纪律**（C 构想 / A 实现 / R 打磨 / F 封版，循环但不推倒重来，15 项逐项销号）；② 按语义分类自定节奏完成剩余 11 项（批次 3 主导航壳 3 项 / 批次 4 多栏工作台壳 4 项 / 批次 5 浮层容器壳 2 项 / 批次 6 极简独立页壳 2 项）CC-1~CC-8 全量迁移 + 成品级 showcase 重写，并 CARF 复评批次 1~2 四项；**现 15/15 全部销号**，第 9 章落地范围口径同步更新；③ 新建 `scripts/audit_showcase.py`（15×3=45 张三态装配图）与 `scripts/audit_ceiling.py`（CARF-R 销号机检：静态 CC 契约 + 31/31 实例化 + 45/45 组极端非法入参稳态几何 + RTL 15/15 + reducedMotion + 断链扫描），最终 **PASS**；④ 机检首轮 FAIL 33 项全部销号——`NovaChat` 残留三元锚链改 `_headerBar`/`_composerBar` 栏高归零 + 恒定锚链、`NovaMobile` 新增 `_chromeCap` chrome 高度预算、`NovaSidebar`/`NovaTopNavigation`/`NovaDrawerPanel` 槽位宿主 `margins` 随父轨尺寸钳制（消除 -24/-12 负几何）、`NovaDrawerPanel` 对侧变体拉伸改恒定 `x/y` + `Behavior on x` 并修 `id-shadows-member` 红灯、注释史料误判改机检剥离注释扫描、`gen_apidocs.py` 离线副本改 `rewrite_links()` 链接重写（断链 21→0）；⑤ 机检静态表「低实心」按 CC-3 功能性遮罩例外识别。**全部为 `_` 私有 PATCH / 注释 / showcase / 工具与生成器改动，公共 API 签名逐字不变、139 类型零漂移、指纹 `bfd3d938a2fab7be` 不变**（patch 无需重签）。验收：机检 PASS、静态 3/3、专项 48/48、31/31 实例化、45 张三态图全通过、qmllint 0 error / 593 warning、断链 0；`CEILING_AUDIT.md` 更新为 15/15 终版。**未触发任何 Controls 基础组件反向修改**；发布边界归伙伴。 |

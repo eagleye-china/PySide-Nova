@@ -2,7 +2,10 @@
 
 # pyside-nova
 
-**Qt Quick 世界的 Quasar** —— 面向 PySide6 的企业级全端 QML 组件库。
+> 受 Quasar 启发，PySide-Nova 在 PySide 生态中将其组件理念推进一步。
+> Inspired by Quasar, PySide-Nova takes its component philosophy further in the PySide ecosystem.
+
+**面向 PySide6 的企业级全端 QML 组件库。**
 
 **一套组件，覆盖桌面、移动端与工业大屏。** 依托 Qt 原生渲染引擎，Nova 把专业 UI 设计经验
 沉淀为标准化组件与「预判式布局壳」——安全边距、主题联动、自适应规则与边界容错提前内置，
@@ -13,7 +16,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-旗舰版%20v1.0-blue)](docs/white_paper/pyside-nova-旗舰组件库白皮书.md)
+[![Status](https://img.shields.io/badge/status-旗舰版%20v1.0-blue)](docs/prescript/WHITEPAPER.md)
 
 </div>
 
@@ -23,17 +26,17 @@
 
 | 项目 | 内容 |
 |---|---|
-| **版本** | **1.0.1** —— 在 1.0.0 GA 之上作 patch 升级（Robustness 修复 + 文档站打磨，**API 指纹不变**）；PyPI 上架由维护者执行 |
+| **版本** | **1.2.0** —— 在 1.0.0 GA 之上作 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签）；PyPI 上架由维护者执行 |
 | **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
-| **公共 QML 类型** | **139** —— Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell 15 |
-| **API 冻结** | 139 类型零漂移 · 指纹 `bfd3d938a2fab7be` |
+| **公共 QML 类型** | **144** —— Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
+| **API 冻结** | 144 类型零漂移 · 指纹 `4f882374ad52262b`（1.2.0 整批单次重签） |
 | **运行环境** | Python ≥ 3.10 · PySide6 ≥ 6.8（**6.12.0** 实测）· Windows / macOS / Linux |
-| **质量门禁** | 静态 3/3 PASS · 478 项 pytest · 31/31 无头实例化 · qmllint 0 error |
+| **质量门禁** | 静态 3/3 PASS · 53/53 专项测试 · 20/20 天花板机检 · qmllint 0 error |
 
 - **旗舰四性**：鲁棒性 Robustness · 健壮性 Solidity · 艺术性 Aesthetics · 前置预判性 Prescience
-- **方法论**：**CARF** —— 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）（[母法卷首](docs/CONSTITUTION.md)）· 15/15 组合根容器天花板全量销号（[逐项台账](docs/layout_shell/CEILING_AUDIT.md)）
+- **方法论**：**CARF** —— 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）（[母法卷首](docs/CONSTITUTION.md)）· 20/20 组合根容器天花板全量销号（[逐项台账](docs/prescript/AUDIT_CEILING.md)）
 - **架构宪法**：[docs/CONSTITUTION.md](docs/CONSTITUTION.md)（母法）+ [docs/COMPOSITION_CONSTITUTION.md](docs/COMPOSITION_CONSTITUTION.md)（组合组件子法）
-- **白皮书**：[旗舰组件库白皮书](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) · [Prescient Layout Shell 封版规范](docs/white_paper/Prescient-LayoutShell-封版规范.md)
+- **白皮书**：[旗舰组件库白皮书](docs/prescript/WHITEPAPER.md) · [Prescient Layout Shell 封版规范](docs/prescript/SPEC_FREEZE.md)
 - **权威清单**：[docs/COMPONENT_LIST.md](docs/COMPONENT_LIST.md)（生成器产物，禁止手改）
 
 ## 品牌宣言
@@ -62,8 +65,9 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 - **工业级稳定性与视觉表现力难以兼得**：纯原生稳定但效率低，Web 方案灵活但长时运行易掉帧。
   多数团队被迫在「好看」与「稳定」之间二选一。
 
-**pyside-nova 把这套生态搬到纯 QML + PySide6 上**，API 与 Quasar 1:1 对齐 —— Vue/Quasar
-开发者零学习成本，企业团队拿到的是一套可审计、可封版的组件资产。
+**pyside-nova 借鉴 Quasar 的组件驱动理念，并针对 Python 桌面开发重新适配** —— Vue/Quasar
+开发者几乎零学习成本，企业团队拿到的是一套可审计、可封版的组件资产。它受 Quasar 启发，
+**不是** Quasar 的移植版或 fork（见[关系与致谢](docs/QUASAR_ACKNOWLEDGEMENT.md)）。
 
 ## 架构总览
 
@@ -71,7 +75,7 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 ┌──────────────────────────────────────────────────────────┐
 │  业务应用层  Business Applications                        │  业务页面 · 工具 · 数据逻辑
 ├──────────────────────────────────────────────────────────┤
-│  组合根容器层  Prescient Layout Shell（15 项）             │  骨架 · 槽位 · 约束 · 身份
+│  组合根容器层  Prescient Layout Shell（20 项）             │  骨架 · 槽位 · 约束 · 身份
 ├──────────────────────────────────────────────────────────┤
 │  基础组件层  Controls / Behaviors                         │  按钮 · 列表 · 弹窗 · 表单
 ├──────────────────────────────────────────────────────────┤
@@ -87,7 +91,7 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 | `Nova.Behaviors` | 13 | 附加交互行为（水波纹、拖拽、hover、焦点环……） |
 | `Nova.Services` | 16 | 服务单例：`NovaTheme` / `NovaScreen` / `NovaPlatform` / `NovaI18n` |
 | `Nova.Design` | 4 | 设计语言层：`NovaMotion`（动效令牌）、a11y 设计变量 |
-| `Nova.Composite.LayoutShell` | 15 | 15 项无业务语义的组合根容器 |
+| `Nova.Composite.LayoutShell` | 20 | 20 项无业务语义的组合根容器（15 GA + 3 AI 智能组合根 + 1 意图轨道呈现层 + 1 应用孵化器工作台） |
 
 > 依赖严格向下。布局壳绝不 import 业务代码，绝不硬编码菜单 / 路由 / 文案 / 项目专属色，
 > 且永远可以在 Gallery 中独立预览、独立调参、独立验收。
@@ -97,17 +101,17 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 - 🎨 **三级设计令牌**：基础 → 语义 → 组件令牌，`NovaTheme` 单例统一管理；明暗主题一键切换、运行时品牌换肤
 - 🧩 **Quasar 风格 API**：`QBtn → NovaBtn`、`QCard → NovaCard`，属性名对齐，学习成本趋近于零
 - 🧱 **槽机制**：Quasar 槽 → QML 映射——默认槽 → `default property alias`、命名槽 → 组合子组件、作用域槽 → `Component delegate`
-- 🏗️ **15 项预判式布局壳**：固定槽位、安全边距、断点收起、主题联动，且**每项有独有结构性身份元素，打开不像同一张脸**
+- 🏗️ **20 项预判式布局壳**：固定槽位、安全边距、断点收起、主题联动，且**每项有独有结构性身份元素，打开不像同一张脸**
 - 🖥️ **断点体系**：`NovaScreen` 1:1 移植 Quasar Screen 插件（xs/sm/md/lg/xl = 600/1024/1440/1920，`is*` / `lt*` / `gt*`）
 - 🖼️ **图标双通道**：`NovaIcon { icon: "mdi:home" }`，本地图标包（离线）优先、云端 CDN 自动回落
 - 🎬 **动效全库统一**：所有布局壳动画取 `NovaMotion.duration()` 与 `NovaMotion.easingStandard`；`reducedMotion` 一键短路全部动效、`speedFactor` 全库统一调速
-- ♿ **a11y 契约化**：139/139 类型登记为 interactive / semantic / decorative；装饰容器故意不挂 `Accessible.*`，避免屏读器噪声
+- ♿ **a11y 契约化**：144/144 类型登记为 interactive / semantic / decorative；装饰容器故意不挂 `Accessible.*`，避免屏读器噪声
 - 📦 **pip 即用**：QML 模块随 wheel 分发，`init_nova(engine)` 一行接入
 - ✅ **实测而非承诺**：静态门禁（a11y → API 冻结 → qmllint）、478 项 pytest、31/31 无头实例化、qmllint 0 error
 
-## 15 项预判式布局壳
+## 20 项预判式布局壳
 
-15 项全部落在 `Nova.Composite.LayoutShell`，均为冻结公共类型，各自拥有独有的纯装饰身份元素
+20 项全部落在 `Nova.Composite.LayoutShell`，均为冻结公共类型，各自拥有独有的纯装饰身份元素
 （零业务语义、零字体依赖）。
 
 | 分类 | 组件 | 典型场景 | 身份元素 |
@@ -294,10 +298,11 @@ git push origin v1.0.0
 
 ## 文档索引
 
-- [旗舰组件库白皮书](docs/white_paper/pyside-nova-旗舰组件库白皮书.md) —— 品牌宣言、架构体系与全端方案
-- [Prescient Layout Shell 封版规范](docs/white_paper/Prescient-LayoutShell-封版规范.md) —— 准入红线、槽位规范与四性验收
-- [布局壳模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) —— 15 项完整契约与依赖组件清单
-- [组件索引](docs/COMPONENT_LIST.md) —— 139 类型，生成器产物
+- [旗舰组件库白皮书](docs/prescript/WHITEPAPER.md) —— 品牌宣言、架构体系与全端方案
+- [Prescient Layout Shell 封版规范](docs/prescript/SPEC_FREEZE.md) —— 准入红线、槽位规范与四性验收
+- [布局壳模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) —— 20 项完整契约与依赖组件清单
+- [组件索引](docs/COMPONENT_LIST.md) —— 144 类型，生成器产物
+- [与 Quasar 的关系与致谢](docs/QUASAR_ACKNOWLEDGEMENT.md) —— 受启发，非 fork
 - [架构宪法](docs/CONSTITUTION.md) · [组合组件宪法](docs/COMPOSITION_CONSTITUTION.md)
 - [生态对标白皮书](docs/ECOSYSTEM_PARITY.md) · [变更记录](CHANGELOG.md)
 

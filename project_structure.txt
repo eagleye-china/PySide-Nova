@@ -1,6 +1,8 @@
 ﻿pyside-nova/
 ├─ api/
-|   └─ nova-api-1.0.0.json
+|   ├─ nova-api-1.0.0.json
+|   ├─ nova-api-1.1.0.json
+|   └─ nova-api-1.2.0.json
 ├─ docs/
 |   ├─ ai/
 |   |   ├─ api/
@@ -17,6 +19,26 @@
 |   |   |   ├─ Nova.Behaviors.NovaTouchPan.json
 |   |   |   ├─ Nova.Behaviors.NovaTouchRepeat.json
 |   |   |   ├─ Nova.Behaviors.NovaTouchSwipe.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaAgent.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaBlankPage.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaCardGrid.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaChat.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaCompare.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaCopilot.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaDE.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaDesktop.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaDrawerPanel.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaDualSide.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaFlexLayout.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaIncubator.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaMobile.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaModal.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaOrbit.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaSetupWizard.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaSidebar.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaTabShell.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaThreeColumn.json
+|   |   |   ├─ Nova.Composite.LayoutShell.NovaTopNavigation.json
 |   |   |   ├─ Nova.Controls.NovaAjaxBar.json
 |   |   |   ├─ Nova.Controls.NovaAvatar.json
 |   |   |   ├─ Nova.Controls.NovaBadge.json
@@ -134,6 +156,7 @@
 |   |   |   ├─ CHANGELOG.md
 |   |   |   ├─ COMPONENT_LIST.md
 |   |   |   ├─ COMPONENTS.md
+|   |   |   ├─ COMPOSITION_CONSTITUTION.md
 |   |   |   ├─ CONSTITUTION.md
 |   |   |   ├─ DESIGN_TOKENS.md
 |   |   |   ├─ ECOSYSTEM_PARITY.md
@@ -143,20 +166,84 @@
 |   |   |   └─ ROADMAP.md
 |   |   └─ index.json
 |   ├─ assets/
-|   |   └─ gallery/
-|   ├─ layout_shell/
-|   |   ├─ LayoutShell.md
-|   |   ├─ LayoutShellPrompt.md
-|   |   └─ PrescientLayoutShell.md
+|   |   ├─ css/
+|   |   |   └─ extra.css
+|   |   ├─ gallery/
+|   |   └─ js/
+|   |       ├─ examples.js
+|   |       ├─ layout-builder.js
+|   |       ├─ nova-common.js
+|   |       ├─ nova-data.js
+|   |       ├─ playground.js
+|   |       └─ version-switcher.js
+|   ├─ community/
+|   |   ├─ blog.md
+|   |   ├─ code-of-conduct.md
+|   |   ├─ contributing.md
+|   |   ├─ index.md
+|   |   ├─ security.md
+|   |   └─ sponsors.md
+|   ├─ components/
+|   |   ├─ index.md
+|   |   ├─ NovaAgent.md
+|   |   ├─ NovaBlankPage.md
+|   |   ├─ NovaCardGrid.md
+|   |   ├─ NovaChat.md
+|   |   ├─ NovaCompare.md
+|   |   ├─ NovaCopilot.md
+|   |   ├─ NovaDE.md
+|   |   ├─ NovaDesktop.md
+|   |   ├─ NovaDrawerPanel.md
+|   |   ├─ NovaDualSide.md
+|   |   ├─ NovaFlexLayout.md
+|   |   ├─ NovaIncubator.md
+|   |   ├─ NovaMobile.md
+|   |   ├─ NovaModal.md
+|   |   ├─ NovaOrbit.md
+|   |   ├─ NovaSetupWizard.md
+|   |   ├─ NovaSidebar.md
+|   |   ├─ NovaTabShell.md
+|   |   ├─ NovaThreeColumn.md
+|   |   ├─ NovaTopNavigation.md
+|   |   └─ showcase.md
+|   ├─ en/
+|   |   ├─ community.md
+|   |   ├─ components.md
+|   |   ├─ index.md
+|   |   ├─ layout-builder.md
+|   |   └─ playground.md
+|   ├─ prescript/
+|   |   ├─ ARCHIVE_NovaIncubator_Naming.md
+|   |   ├─ AUDIT_CEILING.md
+|   |   ├─ GUIDE_CLASSIFICATION.md
+|   |   ├─ GUIDE_COMPONENT_DOMAINS.md
+|   |   ├─ GUIDE_QUASAR_ALIGNMENT.md
+|   |   ├─ LAW_NovaAgent.md
+|   |   ├─ LAW_NovaCopilot.md
+|   |   ├─ LAW_NovaDE.md
+|   |   ├─ LAW_NovaIncubator.md
+|   |   ├─ LAW_NovaOrbit.md
+|   |   ├─ SPEC_FREEZE.md
+|   |   ├─ SPEC_PRESCRIPT.md
+|   |   ├─ SPEC_PRESCRIPT_ZH.md
+|   |   ├─ SPEC_V2_COMPAT.md
+|   |   └─ WHITEPAPER.md
+|   ├─ screenshots/
 |   ├─ templates/
 |   |   ├─ PROMPT_TEMPLATE.md
 |   |   └─ SESSION_HANDOFF_TEMPLATE.md
+|   ├─ tools/
+|   |   ├─ examples.md
+|   |   ├─ layout-builder.md
+|   |   └─ playground.md
 |   ├─ A11Y.md
 |   ├─ A11Y_MATRIX.md
 |   ├─ API_FREEZE.md
 |   ├─ ARCHITECTURE.md
+|   ├─ CEILING_AUDIT_FOUNDATIONS.md
 |   ├─ COMPONENT_LIST.md
 |   ├─ COMPONENTS.md
+|   ├─ COMPOSITION_CONSTITUTION.md
 |   ├─ CONSTITUTION.md
 |   ├─ DESIGN_TOKENS.md
 |   ├─ ECOSYSTEM_PARITY.md
@@ -168,18 +255,45 @@
 |   ├─ ROADMAP.md
 |   └─ SESSION_HANDOFF.md
 ├─ examples/
+|   ├─ carousel_demo/
+|   |   ├─ main.py
+|   |   └─ main.qml
 |   ├─ demo/
 |   |   ├─ main.py
 |   |   └─ main.qml
 |   ├─ gallery/
+|   |   ├─ layout_shells.py
+|   |   ├─ layout_shells.qml
 |   |   ├─ main.py
 |   |   └─ main.qml
+|   ├─ prescript/
+|   |   ├─ ARCHIVE_NovaIncubator_Naming.md
+|   |   ├─ AUDIT_CEILING.md
+|   |   ├─ GUIDE_CLASSIFICATION.md
+|   |   ├─ GUIDE_COMPONENT_DOMAINS.md
+|   |   ├─ GUIDE_QUASAR_ALIGNMENT.md
+|   |   ├─ LAW_NovaAgent.md
+|   |   ├─ LAW_NovaCopilot.md
+|   |   ├─ LAW_NovaDE.md
+|   |   ├─ LAW_NovaIncubator.md
+|   |   ├─ LAW_NovaOrbit.md
+|   |   ├─ SPEC_FREEZE.md
+|   |   ├─ SPEC_PRESCRIPT.md
+|   |   ├─ SPEC_PRESCRIPT_ZH.md
+|   |   ├─ SPEC_V2_COMPAT.md
+|   |   └─ WHITEPAPER.md
 |   └─ gallery_launch.py
 ├─ reports/
 |   └─ soak-smoke.json
 ├─ scripts/
+|   ├─ audit_ceiling.py
+|   ├─ audit_domains.py
+|   ├─ audit_foundations.py
+|   ├─ audit_showcase.py
+|   ├─ audit_v2_compat.py
 |   ├─ build_app.py
 |   ├─ check_a11y.py
+|   ├─ check_all.py
 |   ├─ check_api_freeze.py
 |   ├─ check_cve.py
 |   ├─ check_perf.py
@@ -195,7 +309,137 @@
 |   ├─ gen_prompt.py
 |   ├─ gen_sbom.py
 |   ├─ local_deploy.py
-|   └─ nova_mcp.py
+|   ├─ nova_mcp.py
+|   └─ spike_v2_compat.py
+├─ site/
+|   ├─ assets/
+|   |   ├─ gallery/
+|   |   ├─ images/
+|   |   ├─ javascripts/
+|   |   |   ├─ lunr/
+|   |   |   |   ├─ min/
+|   |   |   |   |   ├─ lunr.ar.min.js
+|   |   |   |   |   ├─ lunr.da.min.js
+|   |   |   |   |   ├─ lunr.de.min.js
+|   |   |   |   |   ├─ lunr.du.min.js
+|   |   |   |   |   ├─ lunr.el.min.js
+|   |   |   |   |   ├─ lunr.es.min.js
+|   |   |   |   |   ├─ lunr.fi.min.js
+|   |   |   |   |   ├─ lunr.fr.min.js
+|   |   |   |   |   ├─ lunr.he.min.js
+|   |   |   |   |   ├─ lunr.hi.min.js
+|   |   |   |   |   ├─ lunr.hu.min.js
+|   |   |   |   |   ├─ lunr.hy.min.js
+|   |   |   |   |   ├─ lunr.it.min.js
+|   |   |   |   |   ├─ lunr.ja.min.js
+|   |   |   |   |   ├─ lunr.jp.min.js
+|   |   |   |   |   ├─ lunr.kn.min.js
+|   |   |   |   |   ├─ lunr.ko.min.js
+|   |   |   |   |   ├─ lunr.multi.min.js
+|   |   |   |   |   ├─ lunr.nl.min.js
+|   |   |   |   |   ├─ lunr.no.min.js
+|   |   |   |   |   ├─ lunr.pt.min.js
+|   |   |   |   |   ├─ lunr.ro.min.js
+|   |   |   |   |   ├─ lunr.ru.min.js
+|   |   |   |   |   ├─ lunr.sa.min.js
+|   |   |   |   |   ├─ lunr.stemmer.support.min.js
+|   |   |   |   |   ├─ lunr.sv.min.js
+|   |   |   |   |   ├─ lunr.ta.min.js
+|   |   |   |   |   ├─ lunr.te.min.js
+|   |   |   |   |   ├─ lunr.th.min.js
+|   |   |   |   |   ├─ lunr.tr.min.js
+|   |   |   |   |   ├─ lunr.vi.min.js
+|   |   |   |   |   └─ lunr.zh.min.js
+|   |   |   |   ├─ tinyseg.js
+|   |   |   |   └─ wordcut.js
+|   |   |   ├─ workers/
+|   |   |   |   ├─ search.a7633da7.min.js
+|   |   |   |   └─ search.a7633da7.min.js.map
+|   |   |   ├─ bundle.a5f9d56c.min.js
+|   |   |   └─ bundle.a5f9d56c.min.js.map
+|   |   └─ stylesheets/
+|   |       ├─ main.57a0d79d.min.css
+|   |       ├─ main.57a0d79d.min.css.map
+|   |       ├─ palette.fb2fffe2.min.css
+|   |       └─ palette.fb2fffe2.min.css.map
+|   ├─ COMPONENT_LIST/
+|   |   └─ index.html
+|   ├─ COMPONENTS/
+|   |   ├─ NovaBlankPage/
+|   |   |   └─ index.html
+|   |   ├─ NovaCardGrid/
+|   |   |   └─ index.html
+|   |   ├─ NovaChat/
+|   |   |   └─ index.html
+|   |   ├─ NovaCompare/
+|   |   |   └─ index.html
+|   |   ├─ NovaDesktop/
+|   |   |   └─ index.html
+|   |   ├─ NovaDrawerPanel/
+|   |   |   └─ index.html
+|   |   ├─ NovaDualSide/
+|   |   |   └─ index.html
+|   |   ├─ NovaFlexLayout/
+|   |   |   └─ index.html
+|   |   ├─ NovaMobile/
+|   |   |   └─ index.html
+|   |   ├─ NovaModal/
+|   |   |   └─ index.html
+|   |   ├─ NovaSetupWizard/
+|   |   |   └─ index.html
+|   |   ├─ NovaSidebar/
+|   |   |   └─ index.html
+|   |   ├─ NovaTabShell/
+|   |   |   └─ index.html
+|   |   ├─ NovaThreeColumn/
+|   |   |   └─ index.html
+|   |   ├─ NovaTopNavigation/
+|   |   |   └─ index.html
+|   |   ├─ showcase/
+|   |   |   └─ index.html
+|   |   └─ index.html
+|   ├─ COMPOSITION_CONSTITUTION/
+|   |   └─ index.html
+|   ├─ CONSTITUTION/
+|   |   └─ index.html
+|   ├─ DESIGN_TOKENS/
+|   |   └─ index.html
+|   ├─ ECOSYSTEM_PARITY/
+|   |   └─ index.html
+|   ├─ GALLERY/
+|   |   └─ index.html
+|   ├─ I18N/
+|   |   └─ index.html
+|   ├─ prescript/
+|   |   ├─ ARCHIVE_NovaIncubator_Naming.md
+|   |   ├─ AUDIT_CEILING.md
+|   |   ├─ GUIDE_CLASSIFICATION.md
+|   |   ├─ GUIDE_COMPONENT_DOMAINS.md
+|   |   ├─ GUIDE_QUASAR_ALIGNMENT.md
+|   |   ├─ LAW_NovaAgent.md
+|   |   ├─ LAW_NovaCopilot.md
+|   |   ├─ LAW_NovaDE.md
+|   |   ├─ LAW_NovaIncubator.md
+|   |   ├─ LAW_NovaOrbit.md
+|   |   ├─ SPEC_FREEZE.md
+|   |   ├─ SPEC_PRESCRIPT.md
+|   |   ├─ SPEC_PRESCRIPT_ZH.md
+|   |   ├─ SPEC_V2_COMPAT.md
+|   |   └─ WHITEPAPER.md
+|   ├─ MASTER_PLAN/
+|   |   └─ index.html
+|   ├─ PARITY/
+|   |   └─ index.html
+|   ├─ ROADMAP/
+|   |   └─ index.html
+|   ├─ screenshots/
+|   ├─ search/
+|   |   └─ search_index.json
+|   ├─ SESSION_HANDOFF/
+|   |   └─ index.html
+|   ├─ index.html
+|   ├─ sitemap.xml
+|   └─ sitemap.xml.gz
 ├─ src/
 |   └─ pyside_nova/
 |       ├─ qml/
@@ -218,7 +462,28 @@
 |       |       |   └─ qmldir
 |       |       ├─ Composite/
 |       |       |   └─ LayoutShell/
-|       |       |       └─ NovaSidebarShell.qml
+|       |       |       ├─ NovaAgent.qml
+|       |       |       ├─ NovaBlankPage.qml
+|       |       |       ├─ NovaCardGrid.qml
+|       |       |       ├─ NovaChat.qml
+|       |       |       ├─ NovaCompare.qml
+|       |       |       ├─ NovaCopilot.qml
+|       |       |       ├─ NovaDE.qml
+|       |       |       ├─ NovaDesktop.qml
+|       |       |       ├─ NovaDrawerPanel.qml
+|       |       |       ├─ NovaDualSide.qml
+|       |       |       ├─ NovaFlexLayout.qml
+|       |       |       ├─ NovaIncubator.qml
+|       |       |       ├─ NovaMobile.qml
+|       |       |       ├─ NovaModal.qml
+|       |       |       ├─ NovaOrbit.qml
+|       |       |       ├─ NovaSetupWizard.qml
+|       |       |       ├─ NovaSidebar.qml
+|       |       |       ├─ NovaTabShell.qml
+|       |       |       ├─ NovaThreeColumn.qml
+|       |       |       ├─ NovaTopNavigation.qml
+|       |       |       ├─ qmldir
+|       |       |       └─ README.md
 |       |       ├─ Controls/
 |       |       |   ├─ ExpansionGroups.js
 |       |       |   ├─ NovaAjaxBar.qml
@@ -360,10 +625,12 @@
 |   ├─ test_api_freeze.py
 |   ├─ test_hidpi.py
 |   ├─ test_i18n.py
+|   ├─ test_layout_shells.py
 |   ├─ test_perf.py
 |   ├─ test_sanitize.py
 |   ├─ test_smoke.py
 |   ├─ test_soak.py
+|   ├─ test_v2_compat.py
 |   └─ test_visual.py
 ├─ BUILD_INFO.txt
 ├─ CHANGELOG.md

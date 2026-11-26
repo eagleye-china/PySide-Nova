@@ -1,19 +1,19 @@
 /* 生成物：scripts/gen_apidocs.py 产出，禁止手工编辑。
-   事实源：__about__.py + api/nova-api-1.0.0.json + QML + 45 张三态图 */
+   事实源：__about__.py + api/nova-api-1.2.0.json + QML + 60 张三态图 */
 window.NOVA_SITE = {
-  "version": "1.0.1",
-  "fingerprint": "bfd3d938a2fab7be",
-  "typesTotal": 139,
+  "version": "1.2.0",
+  "fingerprint": "4f882374ad52262b",
+  "typesTotal": 144,
   "repo": "https://github.com/eagleye-china/pyside-nova",
   "pypi": "https://pypi.org/project/pyside-nova/",
   "versions": [
     {
-      "label": "1.0.1 · 当前站点（GA）",
+      "label": "1.2.0 · 当前站点（GA）",
       "url": ""
     },
     {
-      "label": "1.0.1 · PyPI 发布页",
-      "url": "https://pypi.org/project/pyside-nova/1.0.1/"
+      "label": "1.2.0 · PyPI 发布页",
+      "url": "https://pypi.org/project/pyside-nova/1.2.0/"
     },
     {
       "label": "main · 开发分支",
@@ -1094,6 +1094,591 @@ window.NOVA_SITE = {
         "navToggled"
       ],
       "file": "Nova/Composite/LayoutShell/NovaChat.qml"
+    },
+    {
+      "name": "NovaAgent",
+      "category": "AI 智能组合根",
+      "title": "智能体任务执行工作台",
+      "description": "NovaAgent 智能体任务执行工作台壳：任务列 + 编排画布 + 验证轨 + 审批闸（对标 NovaAgent 八项准入控制） 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享； 相邻边界只有一条 NovaSeparator；身份装饰一律抽象几何（DAG 节点环 / 风险分级色阶 / 闸门色带）， 不仿交互控件、不同屏撞色；折叠锚链恒定不依赖 visible 三元切换。",
+      "prefix": "agent",
+      "props": [
+        {
+          "name": "approvalHeight",
+          "type": "int",
+          "default": "96",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "bordered",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "breakpoint",
+          "type": "int",
+          "default": "960",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "headerHeight",
+          "type": "int",
+          "default": "52",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "belowBreakpoint",
+          "type": "bool",
+          "default": "width > 0 && width < root.breakpoint",
+          "readonly": true,
+          "kind": "bool"
+        },
+        {
+          "name": "showApproval",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showPlan",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showTask",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showVerify",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "taskCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "taskSize",
+          "type": "real",
+          "default": "280",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "verifyCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "verifySize",
+          "type": "real",
+          "default": "300",
+          "readonly": false,
+          "kind": "number"
+        }
+      ],
+      "slots": [
+        "approvalSlot",
+        "contentSlot",
+        "overlaySlot",
+        "planSlot",
+        "taskSlot",
+        "verifySlot"
+      ],
+      "signals": [
+        "approvalRequested",
+        "taskToggled",
+        "verifyToggled"
+      ],
+      "file": "Nova/Composite/LayoutShell/NovaAgent.qml"
+    },
+    {
+      "name": "NovaCopilot",
+      "category": "AI 智能组合根",
+      "title": "增强型协作面板",
+      "description": "NovaCopilot 增强型协作面板壳：建议列 + 工作画布 + 动作闸门轨 （对标 NovaCopilot 建议—确认—执行契约与 Draft/Confirm/Read-Only 三模） 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享； 相邻边界只有一条 NovaSeparator；身份装饰一律抽象几何（内联胶囊条 / 闸门分隔点 /",
+      "prefix": "copilot",
+      "props": [
+        {
+          "name": "bordered",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "breakpoint",
+          "type": "int",
+          "default": "1024",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "gateCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "gateSize",
+          "type": "real",
+          "default": "300",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "inlineHeight",
+          "type": "int",
+          "default": "44",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "belowBreakpoint",
+          "type": "bool",
+          "default": "width > 0 && width < root.breakpoint",
+          "readonly": true,
+          "kind": "bool"
+        },
+        {
+          "name": "showGate",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showInline",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showSuggest",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "suggestCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "suggestSize",
+          "type": "real",
+          "default": "280",
+          "readonly": false,
+          "kind": "number"
+        }
+      ],
+      "slots": [
+        "contentSlot",
+        "gateSlot",
+        "inlineSlot",
+        "overlaySlot",
+        "suggestSlot"
+      ],
+      "signals": [
+        "actionProposed",
+        "gateToggled",
+        "suggestToggled"
+      ],
+      "file": "Nova/Composite/LayoutShell/NovaCopilot.qml"
+    },
+    {
+      "name": "NovaDE",
+      "category": "AI 智能组合根",
+      "title": "数字员工岗位工作台",
+      "description": "NovaDE 数字员工岗位工作台壳：岗位条 + 任务队列 + 工作画布 + SLA 轨 + 人工交接条 （对标 NovaDE 四要件：岗位形态 / 任务队列 / 能力调用 / 队伍级治理） 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全部轨共享； 相邻边界只有一条 NovaSeparator；身份装饰一律抽象几何（岗位菱形徽记 / 队列堆叠角标 /",
+      "prefix": "de",
+      "props": [
+        {
+          "name": "bordered",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "breakpoint",
+          "type": "int",
+          "default": "1024",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "handoffHeight",
+          "type": "int",
+          "default": "84",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "queueCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "queueSize",
+          "type": "real",
+          "default": "300",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "belowBreakpoint",
+          "type": "bool",
+          "default": "width > 0 && width < root.breakpoint",
+          "readonly": true,
+          "kind": "bool"
+        },
+        {
+          "name": "roleHeight",
+          "type": "int",
+          "default": "64",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "showHandoff",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showQueue",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showRole",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showSla",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "slaCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "slaSize",
+          "type": "real",
+          "default": "280",
+          "readonly": false,
+          "kind": "number"
+        }
+      ],
+      "slots": [
+        "contentSlot",
+        "handoffSlot",
+        "overlaySlot",
+        "queueSlot",
+        "roleSlot",
+        "slaSlot"
+      ],
+      "signals": [
+        "handoffRequested",
+        "queueToggled",
+        "slaToggled"
+      ],
+      "file": "Nova/Composite/LayoutShell/NovaDE.qml"
+    },
+    {
+      "name": "NovaOrbit",
+      "category": "意图轨道呈现层",
+      "title": "意图轨道工作台",
+      "description": "NovaOrbit 意图轨道工作台壳：全局栏 + 轨道态势栏 + 意图场 + 活产物画布（NovaChat 天花板形态） 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享； 相邻边界只有一条 NovaSeparator；身份装饰一律抽象几何（轨道发丝线 / 递减轨道链 / 并行分叉角标 / 双向箭头环 / 拓扑点阵），不仿交互控件、不同屏撞色；折叠锚链恒定。",
+      "prefix": "orbit",
+      "props": [
+        {
+          "name": "bordered",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "breakpoint",
+          "type": "int",
+          "default": "1100",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "canvasCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "canvasSize",
+          "type": "real",
+          "default": "320",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "composerHeight",
+          "type": "int",
+          "default": "72",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "globalHeight",
+          "type": "int",
+          "default": "52",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "mapHeight",
+          "type": "int",
+          "default": "120",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "railCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "railSize",
+          "type": "real",
+          "default": "260",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "belowBreakpoint",
+          "type": "bool",
+          "default": "width > 0 && width < root.breakpoint",
+          "readonly": true,
+          "kind": "bool"
+        },
+        {
+          "name": "showCanvas",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showComposer",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showGlobal",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showMap",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showRail",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        }
+      ],
+      "slots": [
+        "canvasSlot",
+        "composerSlot",
+        "globalSlot",
+        "intentSlot",
+        "mapSlot",
+        "overlaySlot",
+        "railSlot"
+      ],
+      "signals": [
+        "canvasToggled",
+        "orbitRequested",
+        "railToggled"
+      ],
+      "file": "Nova/Composite/LayoutShell/NovaOrbit.qml"
+    },
+    {
+      "name": "NovaIncubator",
+      "category": "应用孵化器工作台",
+      "title": "应用孵化器工作台",
+      "description": "NovaIncubator 应用孵化器工作台壳：全局栏 + 配方库 + 孵化舞台 + CARF 四阶段条 + 三重校验 + 封版证书 + 浮层 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全槽共享； 相邻边界只有一条 NovaSeparator；身份装饰一律抽象几何（递进楔形 / 五列配方栅 / 七区分格环 / 四节点收敛链 / 三道校验刻线 / 方章折角），不仿交互控件、不同屏撞色；折叠锚链恒定。",
+      "prefix": "incubator",
+      "props": [
+        {
+          "name": "bordered",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "breakpoint",
+          "type": "int",
+          "default": "1100",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "certificateHeight",
+          "type": "int",
+          "default": "160",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "globalHeight",
+          "type": "int",
+          "default": "52",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "pipelineHeight",
+          "type": "int",
+          "default": "64",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "recipeCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "recipeSize",
+          "type": "real",
+          "default": "260",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "belowBreakpoint",
+          "type": "bool",
+          "default": "width > 0 && width < root.breakpoint",
+          "readonly": true,
+          "kind": "bool"
+        },
+        {
+          "name": "showCertificate",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showGlobal",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showPipeline",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showRecipe",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showValidate",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "validateCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "validateSize",
+          "type": "real",
+          "default": "340",
+          "readonly": false,
+          "kind": "number"
+        }
+      ],
+      "slots": [
+        "certificateSlot",
+        "globalSlot",
+        "overlaySlot",
+        "pipelineSlot",
+        "recipeSlot",
+        "stageSlot",
+        "validateSlot"
+      ],
+      "signals": [
+        "freezeRequested",
+        "recipeToggled",
+        "validateToggled"
+      ],
+      "file": "Nova/Composite/LayoutShell/NovaIncubator.qml"
     }
   ],
   "gallery": [

@@ -301,20 +301,44 @@
    "line": 74
   },
   {
+   "name": "_themeHue",
+   "type": "real",
+   "readonly": true,
+   "default": ": (NovaTheme.primary.hsvHue + (-0.0460) + 1) % 1",
+   "doc": null,
+   "line": 77
+  },
+  {
+   "name": "_accent",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.hsva(root._themeHue,",
+   "doc": null,
+   "line": 78
+  },
+  {
    "name": "_ink",
    "type": "color",
    "readonly": true,
-   "default": ": NovaTheme.primary",
+   "default": ": root._accent",
    "doc": null,
-   "line": 75
+   "line": 81
   },
   {
    "name": "_inkSoft",
    "type": "color",
    "readonly": true,
-   "default": ": Qt.lighter(NovaTheme.primary, 1.35)",
+   "default": ": Qt.lighter(root._accent, 1.35)",
    "doc": null,
-   "line": 77
+   "line": 83
+  },
+  {
+   "name": "_glow",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.hsva(root._themeHue,",
+   "doc": null,
+   "line": 86
   },
   {
    "name": "_arm",
@@ -322,7 +346,7 @@
    "readonly": true,
    "default": ": 10",
    "doc": null,
-   "line": 314
+   "line": 327
   }
  ],
  "signals": [

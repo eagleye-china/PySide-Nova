@@ -3,7 +3,7 @@
 """生成 docs/COMPONENT_LIST.md —— 公共 QML 类型完整编号清单。
 
 数据源（只读，禁止手改产物）：
-- api/nova-api-1.0.0.json  权威类型清单 + 模块/文件/a11y/属性统计
+- api/nova-api-1.2.0.json  权威类型清单 + 模块/文件/a11y/属性统计
 - docs/ai/api/*.json       每类型的中文描述（源自 QML 头文件注释）
 
 模块顺序与编号遵循 API 冻结文件的 counts 口径：
@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-API = ROOT / "api" / "nova-api-1.0.0.json"
+API = ROOT / "api" / "nova-api-1.2.0.json"
 AI_API = ROOT / "docs" / "ai" / "api"
 OUT = ROOT / "docs" / "COMPONENT_LIST.md"
 
@@ -83,7 +83,7 @@ def main() -> int:
     )
     lines.append(">")
     lines.append(
-        "> 数据源：`api/nova-api-1.0.0.json`（权威）+ `docs/ai/api/*.json`（描述）。"
+        "> 数据源：`api/nova-api-1.2.0.json`（权威）+ `docs/ai/api/*.json`（描述）。"
         "本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。"
     )
     lines.append(">")

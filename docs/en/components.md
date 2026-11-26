@@ -1,8 +1,8 @@
-# Composite Root Containers (15)
+# Composite Root Containers (20)
 
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
-All 15 containers are shipped in `Nova.Composite.LayoutShell` and have passed the six-dimension CARF ceiling audit (15/15). Full Props / Slots / Events tables are available on the Chinese per-component pages linked below.
+All 20 containers are shipped in `Nova.Composite.LayoutShell` and have passed the six-dimension CARF ceiling audit (20/20). Full Props / Slots / Events tables are available on the Chinese per-component pages linked below.
 
 | Category | Containers |
 |---|---|
@@ -12,11 +12,14 @@ All 15 containers are shipped in `Nova.Composite.LayoutShell` and have passed th
 | 独立页壳 | [NovaBlankPage](../components/NovaBlankPage.md) · [NovaSetupWizard](../components/NovaSetupWizard.md) |
 | 多端根壳 | [NovaDesktop](../components/NovaDesktop.md) · [NovaFlexLayout](../components/NovaFlexLayout.md) · [NovaMobile](../components/NovaMobile.md) |
 | AI 对话主窗口 | [NovaChat](../components/NovaChat.md) |
+| AI 智能组合根 | [NovaAgent](../components/NovaAgent.md) · [NovaCopilot](../components/NovaCopilot.md) · [NovaDE](../components/NovaDE.md) |
+| 意图轨道呈现层 | [NovaOrbit](../components/NovaOrbit.md) |
+| 应用孵化器工作台 | [NovaIncubator](../components/NovaIncubator.md) |
 
 ## See also
 
 - [Chinese overview](../components/index.md)
-- [45 three-state screenshots](../components/showcase.md)
-- [CARF-R audit ledger](../layout_shell/CEILING_AUDIT.md)
+- [60 three-state screenshots](../components/showcase.md)
+- [CARF-R audit ledger](../prescript/AUDIT_CEILING.md)
 
 - [Back to English home](index.md)

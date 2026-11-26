@@ -14,9 +14,9 @@
     docs/ai/api/<Module>.<Type>.json   每公共类型一份 API 描述
     docs/ai/pages/<name>.md            核心文档离线拷贝
     docs/ai/index.json                 版本 + 基线 + 模块计数 + 内容指纹
-    docs/components/<Name>.md          15 个组合根容器逐组件 API 页（T9/P0-3）
-    docs/components/index.md           15 项总览
-    docs/components/showcase.md        45 张三态装配图索引
+    docs/components/<Name>.md          20 个组合根容器逐组件 API 页（T9/P0-3）
+    docs/components/index.md           20 项总览
+    docs/components/showcase.md        60 张三态装配图索引
     docs/assets/js/nova-data.js        站点产品化层数据（T9/P1+P2）
     docs/tools/*.md                    Playground / Layout Builder / 示例浏览器
     docs/community/*.md                社区入口与治理文件投影
@@ -38,6 +38,7 @@ QML_ROOT = PROJECT / "src" / "pyside_nova" / "qml" / "Nova"
 PAGES = [
     "README_zh.md", "CHANGELOG.md", "COMPONENT_LIST.md", "COMPONENTS.md", "ARCHITECTURE.md",
     "CONSTITUTION.md", "COMPOSITION_CONSTITUTION.md", "PARITY.md", "ECOSYSTEM_PARITY.md", "DESIGN_TOKENS.md",
+    "QUASAR_ACKNOWLEDGEMENT.md", "prescript/GUIDE_COMPONENT_THEMES.md",
     "MASTER_PLAN.md", "ROADMAP.md", "API_FREEZE.md",
 ]
 
@@ -181,9 +182,12 @@ def build(project: Path) -> dict:
             else project / name
         if src.exists():
             text = src.read_text(encoding="utf-8")
-            (out_pages / name).write_text(
+            # 清单项可含 docs/ 子路径（如 prescript/GUIDE_*.md）；离线拷贝扁平化为文件名，
+            # 避免 out_pages 下新建子目录，同时 rewrite_links 仍按源目录解析相对链接。
+            flat = Path(name).name
+            (out_pages / flat).write_text(
                 rewrite_links(text, src.parent, out_pages), encoding="utf-8")
-            copied.append(name)
+            copied.append(flat)
 
     # 内容指纹（全部 api JSON 排序后哈希）
     h = hashlib.sha256()
@@ -209,12 +213,12 @@ def build(project: Path) -> dict:
 
 # ---------------------------------------------------------------------------
 # T9 / P0-3 · 逐组件文档页生成器（对齐 Quasar 逐组件 Props / Slots / Events 页）
-#   事实源：api/nova-api-1.0.0.json（冻结签名，唯一权威）
+#   事实源：api/nova-api-1.2.0.json（冻结签名，唯一权威）
 #           + QML 源 parse_qml()（中文描述 / 默认值）
 #           + Composite/LayoutShell/README.md（分类 / 身份 / 依赖）
-#           + docs/layout_shell/CEILING_AUDIT.md §8（15 项销号台账）
-#           + docs/screenshots/*_showcase_*.png（45 张三态装配图）
-#   产物：docs/components/index.md · <Name>.md × 15 · showcase.md
+#           + docs/prescript/AUDIT_CEILING.md §8（20 项销号台账）
+#           + docs/screenshots/*_showcase_*.png（60 张三态装配图）
+#   产物：docs/components/index.md · <Name>.md × 20 · showcase.md
 #   生成物一律由本函数产出，禁止手工编辑；重跑本生成器即完成同步。
 #   硬约束：只读冻结面，绝不新增 / 改写任何公共 QML API。
 # ---------------------------------------------------------------------------
@@ -251,7 +255,7 @@ def _split_signature(s: str) -> tuple[str, str]:
 
 
 def _parse_module_readme(path: Path) -> dict:
-    """解析模块 README「三、15 项完整契约」→ {name: {category, title, fields}}。"""
+    """解析模块 README「三、20 项完整契约」→ {name: {category, title, fields}}。"""
     text = path.read_text(encoding="utf-8")
     cats = list(CATEGORY_RE.finditer(text))
     result = {}
@@ -285,8 +289,18 @@ def _parse_audit(path: Path) -> dict:
     }
 
 
+# 缩写连写类型的展示目录别名（NovaDE 是缩写，snake 化会得到 d_e，与实际目录 de 不符）
+_SHOWCASE_ALIAS = {"NovaDE": "de"}
+
+
 def _showcase_prefix(name: str, prefixes: set) -> str | None:
-    """NovaThreeColumn → three_column；NovaFlexLayout → flex（事实源前缀回退匹配）。"""
+    """NovaThreeColumn → three_column；NovaFlexLayout → flex（事实源前缀回退匹配）。
+
+    缩写连写类型（如 NovaDE）走显式别名表，避免自动 snake 化误推。
+    """
+    alias = _SHOWCASE_ALIAS.get(name)
+    if alias and alias in prefixes:
+        return alias
     snake = re.sub(r"(?<!^)(?=[A-Z])", "_", name[4:]).lower()
     if snake in prefixes:
         return snake
@@ -320,6 +334,7 @@ def _render_component_page(ctx: dict) -> str:
     name, entry = ctx["name"], ctx["entry"]
     meta, audit, prefix = ctx["meta"], ctx["audit"], ctx["prefix"]
     version, fingerprint, total = ctx["version"], ctx["fingerprint"], ctx["total"]
+    shell_count = ctx.get("shellCount", total)
 
     desc = (ctx["ai"].get("description") or "").strip()
     defaults = {p["name"]: p["default"] for p in ctx["ai"].get("properties", [])}
@@ -328,7 +343,7 @@ def _render_component_page(ctx: dict) -> str:
 
     props_rows, slot_rows = [], []
     for raw in entry["props"]:
-        # 冻结 JSON 以 'ro ' 前缀标注 readonly property（139 类型共 327 项）
+        # 冻结 JSON 以 'ro ' 前缀标注 readonly property（冻结面全量）
         ro = raw.startswith("ro ")
         n, t = _split_signature(raw[3:] if ro else raw)
         suffix = " *(只读)*" if ro else ""
@@ -350,8 +365,8 @@ def _render_component_page(ctx: dict) -> str:
         f"# {name} · {meta.get('title') or '组合根容器'}",
         "",
         f"> **模块** `{COMPOSITE_MODULE}` · **分类** {meta.get('category', '未分类')} · "
-        f"**pyside-nova {version} GA** · API 冻结指纹 `{fingerprint}` · "
-        f"**15/15 天花板销号** · a11y `{entry.get('a11y', '—')}`",
+        f"**pyside-nova {version}** · API 冻结指纹 `{fingerprint}` · "
+        f"**{shell_count}/{shell_count} 天花板销号** · a11y `{entry.get('a11y', '—')}`",
         "> 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；"
         "重跑生成器即可同步。",
         "",
@@ -396,7 +411,7 @@ def _render_component_page(ctx: dict) -> str:
 
     if prefix:
         parts += ["## 三态装配图", "",
-                  "> 真实 Qt Quick 引擎渲染；45 张全量索引见 [装配图索引](showcase.md)", "",
+                  "> 真实 Qt Quick 引擎渲染；60 张全量索引见 [装配图索引](showcase.md)", "",
                   _table(["浅色", "深色", "变体"], [[
                       f"![浅色](../screenshots/{prefix}_showcase_light.png)",
                       f"![深色](../screenshots/{prefix}_showcase_dark.png)",
@@ -406,26 +421,27 @@ def _render_component_page(ctx: dict) -> str:
         parts += ["## 三态装配图", "", "（未找到对应装配图）", ""]
 
     parts += ["## 相关", "",
-              "- [15 项组合根容器总览](index.md)",
-              "- [45 张三态装配图索引](showcase.md)",
-              "- [CARF-R 15/15 销号台账](../layout_shell/CEILING_AUDIT.md)",
+              f"- [{shell_count} 项组合根容器总览](index.md)",
+              f"- [{shell_count * 3} 张三态装配图索引](showcase.md)",
+              f"- [CARF-R {shell_count}/{shell_count} 销号台账](../prescript/AUDIT_CEILING.md)",
               f"- [组件清单（{total} 项）](../COMPONENT_LIST.md)",
               "- [API 冻结清单](../API_FREEZE.md)",
               ""]
     return "\n".join(parts)
 
 
-def _render_index(rows: list[dict], version: str, fingerprint: str, total: int) -> str:
+def _render_index(rows: list[dict], version: str, fingerprint: str,
+                  total: int, shell_count: int) -> str:
     by_cat: dict[str, list[dict]] = {}
     for r in rows:
         by_cat.setdefault(r["category"], []).append(r)
     parts = [
-        "# 组合根容器（15 项）", "",
-        f"> **{COMPOSITE_MODULE}** · pyside-nova **{version} GA** · "
+        f"# 组合根容器（{shell_count} 项）", "",
+        f"> **{COMPOSITE_MODULE}** · pyside-nova **{version}** · "
         f"**{total} 个导出类型** · API 冻结指纹 `{fingerprint}` · "
-        "**15/15 六维天花板全部销号**（CARF-R）",
+        f"**{shell_count}/{shell_count} 六维天花板全部销号**（CARF-R）",
         "> 本页由 `scripts/gen_apidocs.py` 自动生成，**禁止手工编辑**。", "",
-        "15 个组合根容器按语义分为 6 类；每个容器都由 ≥2 个已导出公共类型组合、"
+        f"{shell_count} 个组合根容器按语义分为 {len(by_cat)} 类；每个容器都由 ≥2 个已导出公共类型组合、"
         "一律 `property alias` 槽位、只 emit 不自写宿主状态。", "",
     ]
     for cat, items in by_cat.items():
@@ -439,22 +455,22 @@ def _render_index(rows: list[dict], version: str, fingerprint: str, total: int) 
               "- **CC-1~CC-8** 组合态一致性契约（组合宪法 1.0.0 第 9 章）",
               "- **NovaTheme** 唯一令牌源 · **NovaMotion** 唯一动效门面（CC-3）",
               "- `property alias` 槽位 + 注入顶层 `anchors.fill: parent`（CC-6）",
-              "- `_` 私有成员不进冻结面；公共 API 逐字不变（139 类型零漂移）", "",
+              f"- `_` 私有成员不进冻结面；公共 API 逐字不变（{total} 类型）", "",
               "## 相关", "",
-              "- [45 张三态装配图索引](showcase.md)",
-              "- [CARF-R 15/15 销号台账](../layout_shell/CEILING_AUDIT.md)",
+              f"- [{shell_count * 3} 张三态装配图索引](showcase.md)",
+              f"- [CARF-R {shell_count}/{shell_count} 销号台账](../prescript/AUDIT_CEILING.md)",
               f"- [组件清单（{total} 项）](../COMPONENT_LIST.md)",
               "- [API 冻结清单](../API_FREEZE.md)",
               ""]
     return "\n".join(parts)
 
 
-def _render_showcase(rows: list[dict], version: str) -> str:
+def _render_showcase(rows: list[dict], version: str, shell_count: int) -> str:
     linked = [r for r in rows if r["prefix"]]
     parts = [
-        "# 三态装配图索引（45 张）", "",
-        f"> **15 项组合根容器 × 浅色 / 深色 / 变体** · 真实 Qt Quick 引擎渲染 · "
-        f"pyside-nova **{version} GA**",
+        f"# 三态装配图索引（{len(linked) * 3} 张）", "",
+        f"> **{shell_count} 项组合根容器 × 浅色 / 深色 / 变体** · 真实 Qt Quick 引擎渲染 · "
+        f"pyside-nova **{version}**",
         "> 本页由 `scripts/gen_apidocs.py` 自动生成，**禁止手工编辑**。", "",
         "每张三态图都是 `audit_ceiling.py` 机检的验收产物："
         "浅 / 深双主题实心注入 + 变体态极端非法入参稳态几何。", "",
@@ -465,16 +481,16 @@ def _render_showcase(rows: list[dict], version: str) -> str:
              f"[变体](../screenshots/{r['prefix']}_showcase_variant.png)"]
             for r in linked]), "",
         "## 相关", "",
-        "- [15 项组合根容器总览](index.md)",
-        "- [CARF-R 15/15 销号台账](../layout_shell/CEILING_AUDIT.md)",
+        f"- [{shell_count} 项组合根容器总览](index.md)",
+        f"- [CARF-R {shell_count}/{shell_count} 销号台账](../prescript/AUDIT_CEILING.md)",
         "",
     ]
     return "\n".join(parts)
 
 
 def _collect_components(project: Path) -> dict:
-    """汇总逐组件页 / 站点产品化层共用的唯一事实源（冻结 JSON + QML + README + 台账 + 45 图）。"""
-    freeze = json.loads((project / "api" / "nova-api-1.0.0.json").read_text(encoding="utf-8"))
+    """汇总逐组件页 / 站点产品化层共用的唯一事实源（冻结 JSON + QML + README + 台账 + 三态装配图）。"""
+    freeze = json.loads((project / "api" / "nova-api-1.2.0.json").read_text(encoding="utf-8"))
     about = (project / "src" / "pyside_nova" / "__about__.py").read_text(encoding="utf-8")
     version = re.search(r'__version__\s*=\s*"([^"]+)"', about).group(1)
     fingerprint = freeze["fingerprint"]
@@ -484,8 +500,11 @@ def _collect_components(project: Path) -> dict:
 
     qml_dir = (project / "src" / "pyside_nova" / "qml" / "Nova"
                / "Composite" / "LayoutShell")
+    # 1.2.0 起组合根按九类物理子目录归档；真实路径以 qmldir 为唯一事实源
+    qml_files = {t["name"]: t["file"]
+                 for t in read_qmldir(qml_dir / "qmldir")[1]}
     meta = _parse_module_readme(qml_dir / "README.md")
-    audit = _parse_audit(project / "docs" / "layout_shell" / "CEILING_AUDIT.md")
+    audit = _parse_audit(project / "docs" / "prescript" / "AUDIT_CEILING.md")
     prefixes = {
         p.name[:-len("_showcase_light.png")]
         for p in (project / "docs" / "screenshots").glob("*_showcase_light.png")
@@ -495,13 +514,14 @@ def _collect_components(project: Path) -> dict:
     for fq in fq_names:
         name = fq.split(".")[-1]
         entry = types[fq]
-        src = qml_dir / f"{name}.qml"
+        src = qml_dir / qml_files[name]
         ai = parse_qml(src) if src.exists() else {"description": "", "properties": []}
         prefix = _showcase_prefix(name, prefixes)
         m = meta.get(name, {"category": "未分类", "title": "", "fields": {}})
         ctxs.append({"name": name, "entry": entry, "ai": ai, "meta": m,
                      "audit": audit.get(name, {}), "prefix": prefix,
-                     "version": version, "fingerprint": fingerprint, "total": total})
+                     "version": version, "fingerprint": fingerprint, "total": total,
+                     "shellCount": len(fq_names)})
     cat_order = list(dict.fromkeys(m["category"] for m in meta.values()))
     ctxs.sort(key=lambda x: (cat_order.index(x["meta"]["category"])
                              if x["meta"]["category"] in cat_order else 999, x["name"]))
@@ -512,7 +532,8 @@ def _collect_components(project: Path) -> dict:
         "signals": len(c["entry"]["signals"]), "prefix": c["prefix"],
     } for c in ctxs]
     return {"ctxs": ctxs, "rows": rows, "version": version,
-            "fingerprint": fingerprint, "total": total}
+            "fingerprint": fingerprint, "total": total,
+            "shellCount": len(fq_names)}
 
 
 def build_component_pages(project: Path) -> dict:
@@ -524,10 +545,11 @@ def build_component_pages(project: Path) -> dict:
         (out_dir / f"{ctx['name']}.md").write_text(
             _render_component_page(ctx), encoding="utf-8")
     (out_dir / "index.md").write_text(
-        _render_index(c["rows"], c["version"], c["fingerprint"], c["total"]),
+        _render_index(c["rows"], c["version"], c["fingerprint"], c["total"],
+                      c["shellCount"]),
         encoding="utf-8")
     (out_dir / "showcase.md").write_text(
-        _render_showcase(c["rows"], c["version"]), encoding="utf-8")
+        _render_showcase(c["rows"], c["version"], c["shellCount"]), encoding="utf-8")
     rows = c["rows"]
     return {"count": len(rows),
             "with_showcase": sum(1 for r in rows if r["prefix"]),
@@ -630,6 +652,8 @@ def build_site_experience(project: Path) -> dict:
     """生成 T9/P1+P2 的站点数据、工具页、社区页与英文页。"""
     c = _collect_components(project)
     version, fingerprint, total = c["version"], c["fingerprint"], c["total"]
+    shell_count = c["shellCount"]
+    shots = shell_count * 3
     comps = _site_components(c)
     gallery = sorted(p.name for p in
                      (project / "docs" / "assets" / "gallery").glob("page-*.png"))
@@ -650,7 +674,7 @@ def build_site_experience(project: Path) -> dict:
         "gallery": gallery,
     }
     js = ("/* 生成物：scripts/gen_apidocs.py 产出，禁止手工编辑。\n"
-          "   事实源：__about__.py + api/nova-api-1.0.0.json + QML + 45 张三态图 */\n"
+          "   事实源：__about__.py + api/nova-api-1.2.0.json + QML + 60 张三态图 */\n"
           "window.NOVA_SITE = " + json.dumps(data, indent=2, ensure_ascii=False) + ";\n")
     _write(project, "assets/js/nova-data.js", js)
 
@@ -659,15 +683,15 @@ def build_site_experience(project: Path) -> dict:
     # ---- 2. P1-③ 在线可调参 Playground ----
     _write(project, "tools/playground.md", _render_tool_page(
         "在线可调参 Playground", "playground",
-        "把 15 个组合根容器的**真实公共 Props** 做成可交互参数面板："
+        "把 20 个组合根容器的**真实公共 Props** 做成可交互参数面板："
         "选择容器、调整属性、切换浅色 / 深色 / 变体三态预览，右侧 QML 片段与属性表实时同步，"
         "一键复制即可粘进本地 Gallery 运行。\n\n"
         "> ⚠️ **能力边界（如实标注）**：预览图是 `audit_showcase.py` 用真实 Qt Quick 引擎渲染的"
-        " 45 张三态装配图；参数改动实时反映在 **QML 代码与属性表**，但浏览器内不重新渲染 Qt 场景"
+        " 60 张三态装配图；参数改动实时反映在 **QML 代码与属性表**，但浏览器内不重新渲染 Qt 场景"
         "（需本地 Gallery 或 Qt for WebAssembly，后者属 P2 边界遗留）。"
-        "属性名 / 类型 / 默认值全部取自 `api/nova-api-1.0.0.json` 冻结面，无臆造 props。",
-        ["[15 项组合根容器总览](../components/index.md)",
-         "[45 张三态装配图索引](../components/showcase.md)",
+        "属性名 / 类型 / 默认值全部取自 `api/nova-api-1.2.0.json` 冻结面，无臆造 props。",
+        ["[20 项组合根容器总览](../components/index.md)",
+         "[60 张三态装配图索引](../components/showcase.md)",
          "[Layout Builder](layout-builder.md)",
          "[在线示例浏览器](examples.md)",
          "[API 冻结清单](../API_FREEZE.md)"]))
@@ -675,13 +699,13 @@ def build_site_experience(project: Path) -> dict:
     # ---- 3. P2-① Layout Builder ----
     _write(project, "tools/layout-builder.md", _render_tool_page(
         "Layout Builder · 可视化布局生成", "layout-builder",
-        "选择 15 个组合根容器之一，勾选栏位开关与数值属性，"
+        "选择 20 个组合根容器之一，勾选栏位开关与数值属性，"
         "左侧结构预览即时响应，右侧生成**可直接运行的 QML 骨架**并一键复制。"
         "内置 Desktop / Mobile / Chat 三个预设。\n\n"
         "> ⚠️ **能力边界（如实标注）**：本 Builder 是**单根容器 + 槽位配置**的静态生成器，"
         "不提供任意拖拽嵌套与浏览器内 Qt 渲染；生成代码使用冻结面真实属性名，"
         "槽位注入遵循 CC-6（`anchors.fill: parent`）。",
-        ["[15 项组合根容器总览](../components/index.md)",
+        ["[20 项组合根容器总览](../components/index.md)",
          "[在线可调参 Playground](playground.md)",
          "[在线示例浏览器](examples.md)",
          "[组合组件宪法](../COMPOSITION_CONSTITUTION.md)"]))
@@ -689,13 +713,13 @@ def build_site_experience(project: Path) -> dict:
     # ---- 4. P2-③ 在线示例浏览器（静态产物版，WASM 如实标为边界遗留） ----
     _write(project, "tools/examples.md", _render_tool_page(
         "在线示例浏览器", "examples",
-        "汇总 **24 页本地 Gallery 截图** + **45 张真实 Qt Quick 三态装配图**，"
+        "汇总 **24 页本地 Gallery 截图** + **60 张真实 Qt Quick 三态装配图**，"
         "按组件 / 主题筛选与放大查看，并附一键复制的本地运行命令。\n\n"
         "> ⚠️ **能力边界（如实标注）**：本页提供的是**可浏览的静态渲染产物**与可复制的运行命令；"
         "「浏览器内运行 Qt 场景」需 Qt for WebAssembly 构建产物与站点部署，"
         "**本轮未交付**（超出零产品代码边界，且部署归 CSA）。",
-        ["[15 项组合根容器总览](../components/index.md)",
-         "[45 张三态装配图索引](../components/showcase.md)",
+        ["[20 项组合根容器总览](../components/index.md)",
+         "[60 张三态装配图索引](../components/showcase.md)",
          "[在线可调参 Playground](playground.md)",
          "[画廊预览](../GALLERY.md)"]))
 
@@ -744,22 +768,22 @@ def build_site_experience(project: Path) -> dict:
         f"community). The remaining documentation is currently available in Chinese only; "
         f"use the language switcher in the header to return to the Chinese site.", "",
         f"pyside-nova **{version} GA** is an enterprise PySide6 / QML component library "
-        f"with **{total} exported types**, including **15 composite root containers** "
-        f"(15/15 CARF ceiling sign-off). Public API fingerprint `{fingerprint}` is frozen.", "",
+        f"with **{total} exported types**, including **{shell_count} composite root containers** "
+        f"({shell_count}/{shell_count} CARF ceiling sign-off). Public API fingerprint `{fingerprint}` is frozen.", "",
         "## Quick start", "", "```bash", f"pip install pyside-nova=={version}",
         "python examples/gallery_launch.py   # 24-page local component gallery", "```", "",
         "```qml", "import QtQuick", "import Nova.Composite.LayoutShell", "",
         "NovaDesktop {", "    anchors.fill: parent", "}", "```", "",
         "## Explore", "",
-        "- [15 composite root containers](components.md) (full per-component API pages are in Chinese)",
+        f"- [{shell_count} composite root containers](components.md) (full per-component API pages are in Chinese)",
         "- [Online playground](playground.md) · [Layout Builder](layout-builder.md)",
         "- [Community](community.md) · [Chinese documentation home](../index.md)",
         f"- [GitHub]({REPO_URL}) · [PyPI]({PYPI_URL})", "",
     ]))
     _write(project, "en/components.md", "\n".join([
-        "# Composite Root Containers (15)", "", gen, "",
-        f"All 15 containers are shipped in `{COMPOSITE_MODULE}` and have passed the "
-        "six-dimension CARF ceiling audit (15/15). Full Props / Slots / Events tables "
+        f"# Composite Root Containers ({shell_count})", "", gen, "",
+        f"All {shell_count} containers are shipped in `{COMPOSITE_MODULE}` and have passed the "
+        f"six-dimension CARF ceiling audit ({shell_count}/{shell_count}). Full Props / Slots / Events tables "
         "are available on the Chinese per-component pages linked below.", "",
         "| Category | Containers |", "|---|---|",
     ] + [
@@ -768,12 +792,12 @@ def build_site_experience(project: Path) -> dict:
             if x["category"] == cat) + " |"
         for cat in dict.fromkeys(x["category"] for x in comps)
     ] + ["", "## See also", "", "- [Chinese overview](../components/index.md)",
-         "- [45 three-state screenshots](../components/showcase.md)",
-         "- [CARF-R audit ledger](../layout_shell/CEILING_AUDIT.md)", "",
+         f"- [{shots} three-state screenshots](../components/showcase.md)",
+         "- [CARF-R audit ledger](../prescript/AUDIT_CEILING.md)", "",
          "- [Back to English home](index.md)", ""]))
     _write(project, "en/playground.md", "\n".join([
         "# Online Playground", "", gen, "",
-        "The interactive playground renders the **real public Props** of all 15 composite "
+        f"The interactive playground renders the **real public Props** of all {shell_count} composite "
         "root containers with live QML code generation and three-state previews "
         "(light / dark / variant). Data comes from the frozen API surface; no invented props.", "",
         "- [Open the playground](../tools/playground.md)",
@@ -782,7 +806,7 @@ def build_site_experience(project: Path) -> dict:
     ]))
     _write(project, "en/layout-builder.md", "\n".join([
         "# Layout Builder", "", gen, "",
-        "A static QML skeleton generator: pick one of the 15 root containers, toggle its "
+        "A static QML skeleton generator: pick one of the 20 root containers, toggle its "
         "chrome and numeric properties, preview the structure, and copy runnable QML.", "",
         "- [Open the builder](../tools/layout-builder.md)",
         "- [Examples browser](../tools/examples.md)",

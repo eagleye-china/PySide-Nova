@@ -4,7 +4,7 @@
 > 契约分类与门禁规则见 [A11Y.md](A11Y.md)；分类是审计结论：interactive=可操作控件，
 > semantic=只读语义元素，decorative=布局/装饰（**故意不挂** Accessible，避免屏读器噪声）。
 
-总计 139 个导出类型：interactive 32 · semantic 28 · decorative 79
+总计 144 个导出类型：interactive 32 · semantic 28 · decorative 84
 
 | 层 | 类型 | 分类 | Accessible.role | 可读名来源 | 键盘入口 | 按键路径 | 焦点环 | 门禁 |
 |---|---|---|---|---|---|---|---|---|
@@ -132,9 +132,9 @@
 | Design | `NovaMotion` | decorative | - | 动效令牌 | ❌ | ❌ | ❌ | ✅ |
 | Design | `NovaUtils` | decorative | - | 工具函数 | ❌ | ❌ | ❌ | ✅ |
 | Design | `NovaA11y` | decorative | - | a11y 基座单例（本身即门禁设施） | ❌ | ❌ | ❌ | ✅ |
-| Composite/LayoutShell | `NovaSidebar` | decorative | - | 侧边导航工作台骨架，语义由注入槽位承担 | ❌ | ❌ | ❌ | ✅ |
-| Composite/LayoutShell | `NovaTopNavigation` | decorative | - | 顶部导航工作台骨架 | ❌ | ❌ | ❌ | ✅ |
-| Composite/LayoutShell | `NovaDualSide` | decorative | - | 双侧边三栏工作台骨架 | ❌ | ❌ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaSidebar` | decorative | - | 侧边导航工作台骨架，语义由注入槽位承担 | ❌ | ✅ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaTopNavigation` | decorative | - | 顶部导航工作台骨架 | ❌ | ✅ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaDualSide` | decorative | - | 双侧边三栏工作台骨架 | ❌ | ✅ | ❌ | ✅ |
 | Composite/LayoutShell | `NovaTabShell` | decorative | - | 标签页工作台骨架（保留 Shell 后缀，避开 Controls.NovaTab 语义混淆） | ❌ | ❌ | ❌ | ✅ |
 | Composite/LayoutShell | `NovaThreeColumn` | decorative | - | 三栏工作台骨架 | ❌ | ❌ | ❌ | ✅ |
 | Composite/LayoutShell | `NovaCompare` | decorative | - | 双栏对比骨架 | ❌ | ❌ | ❌ | ✅ |
@@ -146,4 +146,9 @@
 | Composite/LayoutShell | `NovaDesktop` | decorative | - | 桌面应用顶层根壳 | ❌ | ✅ | ❌ | ✅ |
 | Composite/LayoutShell | `NovaMobile` | decorative | - | 移动应用顶层根壳 | ❌ | ✅ | ❌ | ✅ |
 | Composite/LayoutShell | `NovaFlexLayout` | decorative | - | 企业大屏弹性布局根壳 | ❌ | ❌ | ❌ | ✅ |
-| Composite/LayoutShell | `NovaChat` | decorative | - | AI 对话主窗口骨架，气泡语义由注入的 NovaChatMessage 承担 | ❌ | ❌ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaChat` | decorative | - | AI 对话主窗口骨架，气泡语义由注入的 NovaChatMessage 承担 | ❌ | ✅ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaAgent` | decorative | - | 智能体任务执行工作台骨架，任务/审批/验证语义由注入槽位承担 | ❌ | ✅ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaDE` | decorative | - | 数字员工岗位工作台骨架，岗位/队列/SLA 语义由注入槽位承担 | ❌ | ✅ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaCopilot` | decorative | - | 增强型协作面板骨架，建议/闸门/撤销语义由注入槽位承担 | ❌ | ✅ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaOrbit` | decorative | - | 意图轨道工作台骨架，轨道态势/活产物/孵化确认语义由注入槽位承担 | ❌ | ✅ | ❌ | ✅ |
+| Composite/LayoutShell | `NovaIncubator` | decorative | - | 应用孵化器工作台骨架，配方/七区契约/三重校验/封版证书语义由注入槽位承担 | ❌ | ✅ | ❌ | ✅ |

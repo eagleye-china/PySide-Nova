@@ -1,0 +1,340 @@
+{
+ "name": "Nova.Composite.LayoutShell.NovaAgent",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaAgent.qml",
+ "description": "NovaAgent 智能体任务执行工作台壳：任务列 + 编排画布 + 验证轨 + 审批闸（对标 NovaAgent 八项准入控制） 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享； 相邻边界只有一条 NovaSeparator；身份装饰一律抽象几何（DAG 节点环 / 风险分级色阶 / 闸门色带）， 不仿交互控件、不同屏撞色；折叠锚链恒定不依赖 visible 三元切换。",
+ "properties": [
+  {
+   "name": "taskSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _task.data",
+   "doc": null,
+   "line": 22
+  },
+  {
+   "name": "planSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _plan.data",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "contentSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _body.content",
+   "doc": null,
+   "line": 24
+  },
+  {
+   "name": "verifySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _verify.data",
+   "doc": null,
+   "line": 25
+  },
+  {
+   "name": "approvalSlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _approval.data",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "overlaySlot",
+   "type": "alias",
+   "readonly": false,
+   "default": ": _overlay.data",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "taskSize",
+   "type": "real",
+   "readonly": false,
+   "default": ": 280",
+   "doc": null,
+   "line": 30
+  },
+  {
+   "name": "verifySize",
+   "type": "real",
+   "readonly": false,
+   "default": ": 300",
+   "doc": null,
+   "line": 31
+  },
+  {
+   "name": "headerHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 52",
+   "doc": null,
+   "line": 32
+  },
+  {
+   "name": "approvalHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 96",
+   "doc": null,
+   "line": 33
+  },
+  {
+   "name": "showTask",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 34
+  },
+  {
+   "name": "showPlan",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "showVerify",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 36
+  },
+  {
+   "name": "showApproval",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 37
+  },
+  {
+   "name": "taskCollapsed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 38
+  },
+  {
+   "name": "verifyCollapsed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 39
+  },
+  {
+   "name": "breakpoint",
+   "type": "int",
+   "readonly": false,
+   "default": ": 960",
+   "doc": null,
+   "line": 40
+  },
+  {
+   "name": "bordered",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 41
+  },
+  {
+   "name": "belowBreakpoint",
+   "type": "bool",
+   "readonly": true,
+   "default": ": width > 0 && width < root.breakpoint",
+   "doc": null,
+   "line": 51
+  },
+  {
+   "name": "_taskW",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(180, Math.min(root.taskSize, width / 2 || root.taskSize))",
+   "doc": null,
+   "line": 57
+  },
+  {
+   "name": "_verifyW",
+   "type": "real",
+   "readonly": true,
+   "default": ": Math.max(200, Math.min(root.verifySize, width / 3 || root.verifySize))",
+   "doc": null,
+   "line": 58
+  },
+  {
+   "name": "_headerH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.headerHeight, 240))",
+   "doc": null,
+   "line": 59
+  },
+  {
+   "name": "_approvalH",
+   "type": "int",
+   "readonly": true,
+   "default": ": Math.max(24, Math.min(root.approvalHeight, 360))",
+   "doc": null,
+   "line": 60
+  },
+  {
+   "name": "_unit",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.spacingS",
+   "doc": null,
+   "line": 63
+  },
+  {
+   "name": "_gap",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": null,
+   "line": 64
+  },
+  {
+   "name": "_railPad",
+   "type": "real",
+   "readonly": true,
+   "default": ": root._unit * 2",
+   "doc": null,
+   "line": 65
+  },
+  {
+   "name": "_radius",
+   "type": "real",
+   "readonly": true,
+   "default": ": NovaTheme.radiusM",
+   "doc": null,
+   "line": 66
+  },
+  {
+   "name": "_dur",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.duration(NovaMotion.transitionDuration)",
+   "doc": null,
+   "line": 67
+  },
+  {
+   "name": "_ease",
+   "type": "int",
+   "readonly": true,
+   "default": ": NovaMotion.easingStandard",
+   "doc": null,
+   "line": 68
+  },
+  {
+   "name": "_divider",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.outline",
+   "doc": null,
+   "line": 69
+  },
+  {
+   "name": "_rail",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surfaceAlt",
+   "doc": null,
+   "line": 70
+  },
+  {
+   "name": "_panel",
+   "type": "color",
+   "readonly": true,
+   "default": ": NovaTheme.surface",
+   "doc": null,
+   "line": 71
+  },
+  {
+   "name": "_themeHue",
+   "type": "real",
+   "readonly": true,
+   "default": ": (NovaTheme.primary.hsvHue + (0.0000) + 1) % 1",
+   "doc": null,
+   "line": 74
+  },
+  {
+   "name": "_accent",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.hsva(root._themeHue,",
+   "doc": null,
+   "line": 75
+  },
+  {
+   "name": "_ink",
+   "type": "color",
+   "readonly": true,
+   "default": ": root._accent",
+   "doc": null,
+   "line": 78
+  },
+  {
+   "name": "_inkSoft",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.lighter(root._accent, 1.35)",
+   "doc": null,
+   "line": 79
+  },
+  {
+   "name": "_glow",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.hsva(root._themeHue,",
+   "doc": null,
+   "line": 82
+  },
+  {
+   "name": "_arm",
+   "type": "int",
+   "readonly": true,
+   "default": ": 10",
+   "doc": null,
+   "line": 207
+  }
+ ],
+ "signals": [
+  {
+   "name": "taskToggled",
+   "params": "bool collapsed"
+  },
+  {
+   "name": "verifyToggled",
+   "params": "bool collapsed"
+  },
+  {
+   "name": "approvalRequested",
+   "params": ""
+  }
+ ],
+ "methods": [
+  {
+   "name": "toggleTask",
+   "params": ""
+  },
+  {
+   "name": "toggleVerify",
+   "params": ""
+  },
+  {
+   "name": "requestApproval",
+   "params": ""
+  }
+ ]
+}

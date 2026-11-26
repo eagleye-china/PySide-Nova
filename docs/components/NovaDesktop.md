@@ -1,6 +1,6 @@
 # NovaDesktop · 桌面应用根壳
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 多端根壳 · **pyside-nova 1.0.1 GA** · API 冻结指纹 `bfd3d938a2fab7be` · **15/15 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 多端根壳 · **pyside-nova 1.2.0** · API 冻结指纹 `4f882374ad52262b` · **20/20 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览
@@ -62,7 +62,7 @@ NovaDesktop {
 
 ## 三态装配图
 
-> 真实 Qt Quick 引擎渲染；45 张全量索引见 [装配图索引](showcase.md)
+> 真实 Qt Quick 引擎渲染；60 张全量索引见 [装配图索引](showcase.md)
 
 | 浅色 | 深色 | 变体 |
 |---|---|---|
@@ -70,8 +70,8 @@ NovaDesktop {
 
 ## 相关
 
-- [15 项组合根容器总览](index.md)
-- [45 张三态装配图索引](showcase.md)
-- [CARF-R 15/15 销号台账](../layout_shell/CEILING_AUDIT.md)
-- [组件清单（139 项）](../COMPONENT_LIST.md)
+- [20 项组合根容器总览](index.md)
+- [60 张三态装配图索引](showcase.md)
+- [CARF-R 20/20 销号台账](../prescript/AUDIT_CEILING.md)
+- [组件清单（144 项）](../COMPONENT_LIST.md)
 - [API 冻结清单](../API_FREEZE.md)

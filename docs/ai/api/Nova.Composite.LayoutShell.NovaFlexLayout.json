@@ -189,36 +189,60 @@
    "line": 48
   },
   {
+   "name": "_themeHue",
+   "type": "real",
+   "readonly": true,
+   "default": ": (NovaTheme.primary.hsvHue + (-0.1560) + 1) % 1",
+   "doc": null,
+   "line": 51
+  },
+  {
+   "name": "_accent",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.hsva(root._themeHue,",
+   "doc": null,
+   "line": 52
+  },
+  {
    "name": "_ink",
    "type": "color",
    "readonly": true,
-   "default": ": NovaTheme.primary",
+   "default": ": root._accent",
    "doc": null,
-   "line": 49
+   "line": 55
   },
   {
    "name": "_inkSoft",
    "type": "color",
    "readonly": true,
-   "default": ": Qt.lighter(NovaTheme.primary, 1.35)",
+   "default": ": Qt.lighter(root._accent, 1.35)",
    "doc": null,
-   "line": 51
+   "line": 57
+  },
+  {
+   "name": "_glow",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.hsva(root._themeHue,",
+   "doc": null,
+   "line": 60
   },
   {
    "name": "_inkPale",
    "type": "color",
    "readonly": true,
-   "default": ": Qt.lighter(NovaTheme.primary, 1.7)",
+   "default": ": Qt.lighter(root._accent, 1.7)",
    "doc": null,
-   "line": 52
+   "line": 63
   },
   {
    "name": "_tone",
    "type": "color",
    "readonly": true,
-   "default": ": index === 0 ? root._ink",
+   "default": ": index === 0 ? root._glow",
    "doc": null,
-   "line": 121
+   "line": 132
   }
  ],
  "signals": [

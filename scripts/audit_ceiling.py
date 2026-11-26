@@ -1,16 +1,16 @@
 # scripts/audit_ceiling.py
-# 组合根容器天花板机检（CARF-R / CC-7）：15 项静态契约扫描 + 31/31 无头实例化 + 极端非法入参稳态几何
-"""15/15 天花板逐项销号的机检入口。
+# 组合根容器天花板机检（CARF-R / CC-7）：20 项静态契约扫描 + 字面量实例化 + 极端非法入参稳态几何
+"""20/20 天花板逐项销号的机检入口。
 
 法源：母法卷首 CARF 宣言 · 组合宪法 1.0.0 第 9 章 CC-1~CC-8
-      · docs/layout_shell/CEILING_AUDIT.md（逐项销号台账）
+      · docs/prescript/AUDIT_CEILING.md（逐项销号台账）
 
 覆盖：
   1. 静态机检表：组合上下文 / 单一分隔源 / 主色系 / 动效令牌 / RTL / 恒定锚链 / 槽位宿主
-  2. 无头实例化：15 组合组件字面量 + 15 独立 showcase + Gallery = 31/31
+  2. 无头实例化：20 组合组件字面量 + 20 独立 showcase + Gallery = 41/41
   3. 极端非法入参：每项注入全部数值属性的 -999 / 999999 / undefined 三组，
      等待 Behavior 收敛后遍历对象树，确认稳态几何非负且有限
-  4. RTL 15/15 实例化（NovaI18n.setLocale("ar")）
+  4. RTL 20/20 实例化（NovaI18n.setLocale("ar")）
   5. reducedMotion：NovaMotion.duration(300) 300 → 0
   6. 文档相对链接断链扫描
 
@@ -38,18 +38,33 @@ from pyside_nova import init_nova  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 QMLDIR = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Composite" / "LayoutShell"
 EXAMPLES = ROOT / "examples" / "layout_shell"
-API = ROOT / "api" / "nova-api-1.0.0.json"
+
+
+def _qml_files() -> dict:
+    """从 qmldir 解析 {类型名: 真实路径}；1.2.0 起组合根按九类物理子目录归档。"""
+    out = {}
+    for ln in (QMLDIR / "qmldir").read_text(encoding="utf-8").splitlines():
+        parts = ln.strip().split()
+        if len(parts) >= 3 and parts[1].startswith("1."):
+            out[parts[0]] = QMLDIR / parts[2]
+    return out
+
+
+QML_FILES = _qml_files()
+API = ROOT / "api" / "nova-api-1.2.0.json"
 
 NAMES = [
     "NovaChat", "NovaDesktop", "NovaMobile", "NovaFlexLayout",
     "NovaSidebar", "NovaTopNavigation", "NovaDualSide",
     "NovaTabShell", "NovaThreeColumn", "NovaCompare", "NovaCardGrid",
     "NovaModal", "NovaDrawerPanel", "NovaSetupWizard", "NovaBlankPage",
+    "NovaAgent", "NovaDE", "NovaCopilot", "NovaOrbit", "NovaIncubator",
 ]
 EXAMPLE_DIRS = [
     "chat", "desktop", "mobile", "flex_layout", "sidebar", "top_navigation",
     "dual_side", "tab_shell", "three_column", "compare", "card_grid",
     "modal", "drawer_panel", "setup_wizard", "blank_page",
+    "agent", "de", "copilot", "orbit", "incubator",
 ]
 
 _PROBE = b"""
@@ -87,7 +102,7 @@ def static_audit() -> list[dict]:
     rows = []
     anchor_ternary = re.compile(r"anchors\s*\{[^}]*\?[^}]*:[^}]*\}", re.S)
     for name in NAMES:
-        src = (QMLDIR / f"{name}.qml").read_text(encoding="utf-8")
+        src = QML_FILES[name].read_text(encoding="utf-8")
         code = _strip_comments(src)
         low_opacity = re.findall(r"opacity:\s*(0\.\d+)", code)
         weak = [float(x) for x in low_opacity if float(x) < 0.85]
@@ -168,7 +183,7 @@ def dynamic_audit(engine) -> dict:
     result = {"instantiated": 0, "showcases": 0, "illegal": {}, "rtl": 0, "reduced": ""}
     failures = []
 
-    # ① 15 组件字面量实例化
+    # ① 20 组件字面量实例化
     for name in NAMES:
         try:
             _create(engine, f"import QtQuick\nimport Nova.Composite.LayoutShell 1.0\n{name} {{ width: 1024; height: 720 }}")
@@ -176,7 +191,7 @@ def dynamic_audit(engine) -> dict:
         except Exception as exc:  # noqa: BLE001
             failures.append(f"instantiate {name}: {exc}")
 
-    # ② 15 独立 showcase + Gallery
+    # ② 20 独立 showcase + Gallery
     for d in EXAMPLE_DIRS:
         try:
             _load(engine, EXAMPLES / d / "main.qml")
@@ -208,7 +223,7 @@ def dynamic_audit(engine) -> dict:
                 failures.append(f"illegal {name} {bad}: {exc}")
         result["illegal"][name] = cases
 
-    # ④ RTL 15/15
+    # ④ RTL 20/20
     probe_comp = QQmlComponent(engine)
     probe_comp.setData(_PROBE, QUrl("qrc:/ceiling-probe.qml"))
     probe = probe_comp.create()
@@ -262,11 +277,11 @@ def main() -> int:
     init_nova(engine)
 
     print("=" * 78)
-    print("pyside-nova · 15/15 天花板机检（CARF-R / CC-7）")
+    print("pyside-nova · 20/20 天花板机检（CARF-R / CC-7）")
     print("=" * 78)
 
     rows = static_audit()
-    print("\n[1] 静态机检表（15 项 CC 契约信号）")
+    print("\n[1] 静态机检表（20 项 CC 契约信号）")
     print(f"{'组件':<20}{'CC-1':<6}{'动效':<6}{'RTL':<5}{'锚链三元':<9}{'撞色':<6}{'硬编码':<7}{'低实心':<8}{'Behavior':<10}{'槽位':<5}")
     static_fail = []
     for r in rows:
@@ -280,11 +295,11 @@ def main() -> int:
 
     print("\n[2] 动态验收")
     dyn = dynamic_audit(engine)
-    print(f"  组件字面量实例化      {dyn['instantiated']}/15")
-    print(f"  showcase + Gallery    {dyn['showcases']}/16")
+    print(f"  组件字面量实例化      {dyn['instantiated']}/{len(NAMES)}")
+    print(f"  showcase + Gallery    {dyn['showcases']}/{len(EXAMPLE_DIRS) + 1}")
     illegal_pass = sum(1 for v in dyn["illegal"].values() if v == 3)
-    print(f"  极端非法入参稳态几何  {illegal_pass}/15（每项 3 组；共 {sum(dyn['illegal'].values())}/45 组）")
-    print(f"  RTL 镜像实例化        {dyn['rtl']}/15")
+    print(f"  极端非法入参稳态几何  {illegal_pass}/{len(NAMES)}（每项 3 组；共 {sum(dyn['illegal'].values())}/{len(NAMES) * 3} 组）")
+    print(f"  RTL 镜像实例化        {dyn['rtl']}/{len(NAMES)}")
     print(f"  reducedMotion         {dyn['reduced']}")
     if dyn["failures"]:
         for f in dyn["failures"][:20]:
@@ -300,7 +315,7 @@ def main() -> int:
     if failures:
         print(f"结论：FAIL · {len(failures)} 项待销号")
         return 1
-    print("结论：PASS · 15/15 六维天花板机检全绿（CARF-R 销号条件达成）")
+    print("结论：PASS · 20/20 六维天花板机检全绿（CARF-R 销号条件达成）")
     return 0
 
 

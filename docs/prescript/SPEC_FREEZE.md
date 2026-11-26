@@ -85,7 +85,7 @@
 | 多端根壳（3） | `NovaDesktop` / `NovaMobile` / `NovaFlexLayout` | 窗口控制点 / 灵动岛 / 浮起面板网格 |
 | AI 对话主窗口（1） | `NovaChat` | 六轨按轨分治、每轨独占签名 |
 
-> 命名以 `docs/layout_shell/PrescientLayoutShell.md` 权威清单与 `qmldir` 为准。
+> 命名以 `docs/COMPONENT_LIST.md` 权威清单与 `qmldir` 为准。
 > 分类是**语义标签，不是目录结构**，不得据此新建宪法外目录。
 
 ---
@@ -283,7 +283,7 @@ src/pyside_nova/qml/Nova/Composite/LayoutShell/
 
 examples/layout_shell/<snake_case>/   # 15 个独立演示目录（main.qml + run.py）
 examples/gallery/layout_shells.qml    # Gallery 独立分组：15 页逐项预览 + 调参面板
-docs/layout_shell/PrescientLayoutShell.md   # 权威清单（命名 / 分类 / 身份元素）
+docs/COMPONENT_LIST.md   # 权威清单（命名 / 分类 / 身份元素）
 ```
 
 ### 5.2 与草案的差异（必须知晓）
@@ -416,7 +416,7 @@ Design 组件组合实现。
 > 且调参面板默认收起。**验收**：4 个 showcase × 浅 / 深 / 变体共 12 张渲染审计图、QML
 > 零错误、静态 3/3、专项 48/48、31/31 实例化、4 组件极端非法入参 0 负几何、RTL 4/4、
 > reducedMotion 300→0ms、qmllint 0 error / 593 warning、139 类型零漂移、
-> 指纹 `bfd3d938a2fab7be` 不变。逐项销号台账见 `docs/layout_shell/CEILING_AUDIT.md`，
+> 指纹 `bfd3d938a2fab7be` 不变。逐项销号台账见 `docs/prescript/AUDIT_CEILING.md`，
 > **4/15 已销号**，其余 11 项按「稳步推进、逐个打磨」推进。
 
 > **批量交付纪律**：一次交付 N 个 Shell 时，先整批完成登记（统一进 `qmldir` → 整批登记 a11y

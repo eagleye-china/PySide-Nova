@@ -45,10 +45,21 @@ Item {
     readonly property color _divider: NovaTheme.outline
     readonly property color _rail: NovaTheme.surfaceAlt
     readonly property color _panel: NovaTheme.surface
-    readonly property color _ink: NovaTheme.primary
+    // ── 专属主题 · 石板蓝（色相 223°，偏移 -0.0260）──
+    // 桌面根壳 · 沉稳系统基底；色相随 setBrand 漂移，饱和/明度系数独立定制（CC-3：组件内仍单色相）
+    readonly property real _themeHue: (NovaTheme.primary.hsvHue + (-0.0260) + 1) % 1
+    readonly property color _accent: Qt.hsva(root._themeHue,
+        Math.min(1, NovaTheme.primary.hsvSaturation * 0.66),
+        Math.min(1, NovaTheme.primary.hsvValue * 0.66 * (NovaTheme.isDark ? 1.25 : 1)), 1)
+    readonly property color _ink: root._accent
     // 单色系派生：同屏只出现主色系，消除红 / 黄 / 绿三色控制点撞色（CC-3）
-    readonly property color _inkSoft: Qt.lighter(NovaTheme.primary, 1.35)
-    readonly property color _inkPale: Qt.lighter(NovaTheme.primary, 1.7)
+    readonly property color _inkSoft: Qt.lighter(root._accent, 1.35)
+    // ── Aurora Core · 极光核辉光（同色相提亮 + 中性白芯；CC-3 组件内仍单色相）──
+    // 从本组件专属色相派生，setBrand 换肤同步平移；只用于身份焦点小面积点缀
+    readonly property color _glow: Qt.hsva(root._themeHue,
+        Math.min(1, NovaTheme.primary.hsvSaturation * 0.78),
+        Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.5 : 1.28)), 1)
+    readonly property color _inkPale: Qt.lighter(root._accent, 1.7)
 
     implicitWidth: 1280
     implicitHeight: 800
@@ -75,7 +86,7 @@ Item {
             anchors { left: parent.left; leftMargin: root._gap; verticalCenter: parent.verticalCenter }
             spacing: root._unit
             z: NovaTheme.zMarginals
-            Rectangle { width: 8; height: 8; radius: 4; color: root._ink; opacity: 0.9 }
+            Rectangle { width: 9; height: 9; radius: 4.5; color: root._glow; opacity: 0.9 }
             Rectangle { width: 8; height: 8; radius: 4; color: root._inkSoft; opacity: 0.9 }
             Rectangle { width: 8; height: 8; radius: 4; color: root._inkPale; opacity: 0.9 }
         }

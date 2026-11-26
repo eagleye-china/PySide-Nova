@@ -3,6 +3,148 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.0] - 2026-11-26 — 第 20 组合根 NovaIncubator 收官 ⭐ 当前状态（待 CSA 发布）
+
+> **本段为 1.2.0 未发布批次的最终当前状态**；下方 1.1.0 两段为**未发布中间批次史料**，
+> 完整保留供追溯。按宪法第 8 章 additive minor **整批登记、单次重签**：
+> 1.1.0 的四增量（NovaAgent / NovaDE / NovaCopilot / NovaOrbit）与 1.2.0 的
+> 第 20 组合根 **NovaIncubator** 一并抬升为 1.2.0，**禁止产生中间指纹**。
+>
+> **最终口径**：包 / API `1.2.0` · `api/nova-api-1.2.0.json` · **144 导出类型** ·
+> 组合模块 **20**（15 GA 签名逐字不变）· a11y `decorative` **84** ·
+> 指纹 `862312749d335aad → **68b34a408489b6a8**` ·
+> **20/20 天花板销号** · **60 张三态装配图** · **本库组合组件至此收官**。
+
+### 新增（Added）
+- **第 20 个、本库最后一个组合根 `NovaIncubator` 应用孵化器工作台**（`Nova.Composite.LayoutShell`，
+  `a11y: decorative`）：7 槽（`global` / `recipe` / `stage` / `pipeline` / `validate` /
+  `certificate` / `overlay`）+ 3 受控信号 + 3 函数 + `_` 私有纯几何身份
+  （递进楔形条 / 五列配方栅 + 七刻点 / 七区分格环 / 四节点收敛链 / 三道校验刻线 / 方章折角）；
+  **无业务语义骨架**，`freezeRequested()` 只 emit 意图，壳绝不自动封版、绝不自动执行。
+- **企业级旗舰版封版法源 `docs/layout_shell/NovaIncubator.md`**（508 → 905 行）：
+  前置组件层封版法源 396 行（元信息 / 零章三要素与无业务语义骨架 / **法源张力消解** /
+  I1~I8 工程落点 / 组件级契约 / CC-1~CC-8 映射 / CARF 四阶段 / 命名稿整合 / 封版声明），
+  原 508 行 World-Class Edition 史料逐字保留；裁定「方法论层孵化系统史料 + 组件层工作台壳」双层并存，
+  与 `NovaOrbit` 处理同构。`NovaIncubator_name.md`（288 行命名定稿）作为独立史料并列纳入 nav。
+- **成品级 Demo `examples/layout_shell/incubator/`**：七槽真实业务注入，完现 R1~R5 五套配方 /
+  七区配方契约 / 七件组件编排 / 治理清单 / CARF 四阶段 / 三重校验 / 封版证书五件套 /
+  **人工确认闸门**（`seal()` 只上报意图，`confirm()` 才签发证书）。
+- **Gallery 第 20 页** + 3 张三态装配图（57 → **60 张**）+ 逐组件 API 页 + nav / 权威清单 /
+  AI 离线副本 / a11y 矩阵全链路同步为 20 项口径。
+
+### 版本升级
+- `src/pyside_nova/__about__.py` `1.1.0 → 1.2.0`；`qmldir` 导出 19 → **20** 项；
+  `gen_api_freeze.py` 派生 `apiVersion=1.2.0`，生成 `api/nova-api-1.2.0.json`；
+  **旧 143 类型公共成员 0 漂移，仅新增 `NovaIncubator`**；
+  冻结面 / 生成器 / 测试 / 机检尺 / 模块 README / CEILING_AUDIT / 双语 README / 账本全闭环。
+
+### 文档（Documentation）
+- **`docs/layout_shell/PRESCRIPT_CLASSIFY.md` → `COMPONENT_CLASSIFICATION.md` 更名重写**：由对话式外部建议稿落地为本库**现行实用文档**《组件分类与架构分层实用指南》。校正三条错误前提 —— ①「五层概念体系」是概念分工、不是 QML 目录物理层；② 20 个组合根**一律无业务语义骨架**，按组合宪法 CC-1「唯一组合上下文」刻意同处 `Nova.Composite.LayoutShell` 单一模块（含 `NovaIncubator` 组件层工作台壳，见其零之一张力消解）；③ 物理拆目录会改变 144 类型模块 URI、摧毁指纹 `68b34a408489b6a8`、破坏已发布 1.0.0 / 1.0.1 的 `import` 兼容性。另校正三处事实误差：`NovaDesk` 实为 `NovaDesktop`、`NovaSetupWizard` 属 15 项 GA 组合根而非孵化层、七标签 `@incubator` / `@components` 属孵化工程产物而非组件库 QML 源码。原稿目录树与工程建议**存档为附录 A**，标注「未采纳」，不圆场成已落地。
+- **分类落地（文档 / 台账 / 导航三层，零 QML 改动、零冻结面漂移）**：沿用模块 README 既有**九类**口径给出 20 组合根全量分类台账（槽位 / 信号 / 函数取 QML 字面量实测 + 批次 + 法源 + 三态图）、按场景选型速查、R1~R5 配方映射；五模块 **144 类型**分类总表；`docs/layout_shell/` 13 份 md 与全站文档分类表；维护纪律与「不物理搬家」的宪法依据。
+- **文档站按类重组**：`mkdocs.yml` 把 5 份**现行**企业级旗舰版封版法源从「历史档案与附录」提出为独立组「企业级旗舰版封版法源（5 项 · 现行）」（修正现行法源被归为史料的分类错误），新增「组件分类与架构分层」组，原组改名「方案与历史档案」；`docs/index.md` 文档导航加入口。
+- **🆕 基础组件域分类实用文档（2026-11-26 追加）**：`docs/layout_shell/NOVA_CLASSIFY.md`（外部建议稿）**更名重写**为 `COMPONENT_DOMAINS.md`《基础组件域分类与依赖纪律实用指南》（180 行现行实用文档）。评估认定原稿「按五层体系重构整个 `qml/Nova/`、每子目录独立 `qmldir`、批量改 `import`」存在**五重冲突**（改模块 URI 摧毁冻结面 `68b34a408489b6a8` 与已发布 import 兼容 / 违背组合宪法 CC-1 唯一组合上下文 / 推倒刚落地的九类物理分类 / Qt `qmldir` 相对子路径实测证伪「必须独立 qmldir」且全库 0 处相对导入 / 门禁引用已归档坑位 49 的 `test_smoke.py`）→ **终极物理重构未采纳，待 CSA 按 additive major + RFC 单独拍板**。校正六处事实误差（20 非 21 个组合根 / `NovaSetupWizard` 属 15 GA 而非孵化层 / `NovaTouchCore` 存在但未导出 / Controls 实际 91 个原稿漏 5 个 / 类型名一律 `Nova` 前缀 / Behaviors 13/13 含渲染体不可剔除）与本库既有「**6 → 5** 个 `qmldir` 模块」笔误。**可落地部分落为文档层增量**：104 基础类型零遗漏归十域（Controls 七域 91 + Behaviors 三域 13）、机器台账 `api/component-domains-1.2.0.json`（生成物禁手改）、机检尺 `scripts/audit_domains.py`（144 零遗漏 / 零重复 / 零幽灵 / 模块归属一致 / 单向依赖 0 破口 / 相对导入 0 处）、原稿建议存档附录 A 标注未采纳；`COMPONENT_CLASSIFICATION.md` 加交叉引用并校正模块数与 §5.1 份数，`mkdocs.yml` nav 增条目，`CEILING_AUDIT.md §9.1` 加守护行。**零 QML 物理改动 · 零 `qmldir` 改动 · 零模块 URI 改动 · 冻结指纹不变**。
+- **🆕🆕 「不将就」入宪 + 文档目录重组（2026-11-26 · CSA：「我不将就、你不将就、咱们的 pyside-nova 库不将就！打造世界一流品牌是咱们共同愿景」）**：① **入宪** —— 核实母法卷首字面无「不将就」三字、但第 1 条天花板铁律即其实体，遂在 `docs/CONSTITUTION.md` 卷首 CARF 宣言后新增**第 4 条「不将就 / No Compromise」**最高信条（与第 1 条互为表里：第 1 条定标准、本条定态度；任何「差不多就行」不构成 F 封版），文末迭代记录同步。② **合并** —— `docs/layout_shell/`（14 份）+ `docs/white_paper/`（8 份）→ **单一 `docs/prescript/`**，13 份现行文档按 `类别_主题.md` 前缀分区更名（`LAW_Nova{Agent,DE,Copilot,Orbit,Incubator}.md` 5 · `GUIDE_{CLASSIFICATION,COMPONENT_DOMAINS}.md` 2 · `AUDIT_CEILING.md` · `SPEC_{FREEZE,PRESCRIPT,PRESCRIPT_ZH}.md` 3 · `WHITEPAPER.md` · `ARCHIVE_NovaIncubator_Naming.md`）；两旧目录清空消失。③ **删除 9 份退出历史舞台的 md**（CSA 授权「就按照你的意见执行」）：四稿 4 / 联合总纲 1 / 对话式草稿 3 / 过时 1.0.0 GA 营销 README 1；**全部 git 已跟踪、可从 HEAD `0053f6e` 精确恢复**，执行前已物理备份 22 份到系统临时目录。`NovaIncubator_name.md` 与封版规范作为被现行法源引用的史料**保留更名**，绝不误删。④ **法源链不留悬空引用** —— 组合宪法 / 封版规范中原指向已删 `PrescientLayoutShell.md`（0.9.1 旧清单）的「权威清单」引用，改指向 `docs/COMPONENT_LIST.md` + `api/nova-api-1.2.0.json` + 模块 README；`gen_apidocs.py` 分段硬编码读取路径、nav 9 条失效项、`project_structure.txt` 目录树、双语 README / 首页 / 模块 README 全部同步。⑤ **零改动边界**：零 QML 物理改动 · 零 `qmldir` 改动 · 零模块 URI 改动 · 冻结面 **144 类型 / 指纹 `68b34a408489b6a8` 不变**；AI 离线副本 / 逐组件页 / 项目 PROMPT 投影由生成器重跑同步。**发布边界**：全部改动留工作树，GIT / PYPI 归 CSA。
+- **🆕🆕🆕 Quasar 工程化理念对齐与架构演进实用指南（2026-11-26 · CSA：「先优化、借鉴为我所用，准确命名、保存为 md，放在合适位置，并自检」）**：第三份同族外部建议稿《企业级旗舰版 QML 架构封版方案（FINAL）》（自称 `v2.0+`）**更名重写**为 `docs/prescript/GUIDE_QUASAR_ALIGNMENT.md`（`GUIDE_` 前缀分区第三份现行实用文档，沿用 `GUIDE_COMPONENT_DOMAINS.md` 的评估骨架）。**评估结论**：原稿把 Quasar 四大工程化理念写成待实现目标，但**三项在 1.2.0 早已落地** —— ① 命令式服务：`Nova.Services` **16 导出 / 12 个 `singleton`**（`NovaDialog.show(opts)` / `NovaNotify.show(config)` / `NovaLoading.show(opts)` / `NovaApp` 等，源码注释直写「对标 `$q.dialog`」）；② 设计令牌：`Nova.Services.NovaTheme` 的 `primary/secondary/accent/dark`（注释「Quasar `$dark` 品牌色 1:1」）+ 全套语义色与 a11y 派生；③ 模块化按需：5 个独立 `qmldir` 模块 + 全库 **0 处相对导入**（QML 无 JS 打包 tree-shaking 概念）；④ 预判布局亦以 **20 组合根 / 100 处 `property alias` 槽位** 落地。**五重冲突未采纳**（废除 `Composite` 摧毁冻结面 `68b34a408489b6a8` 与已发布 import 兼容 / 「每子目录必须独立 qmldir」被 Qt 相对子路径 20/20 实测证伪 / 全库 0 相对导入无需修正 / 「Behaviors 禁视觉体」14/14 含 `Item` 会误杀全部 / 概念分层违背 CC-1）。**校正八处事实误差**：`NovaTheme` 属 Services 非 Design · `create()`→`show()` 且 QML 无箭头函数 · 无 `Nova.Controls.Action` 子模块 URI · `NovaDesktop` 无 `view/header/drawer/page` 属性（实为 5 个 alias 槽位）· 顶层实为 5 目录 / Services 实 16 导出 · `NovaSetupWizard` 属 15 GA 归 `Page/` · Behaviors 渲染体 · `v2.0` 非当前版本。**原稿正确的一条如实采纳**：验收清单第 6 项「`check_all.py` 全量绿灯 + `docs/ai/api/` 重生成」与现行门禁一致，本轮自检即按此执行。**可为我所用的增量**：四大理念集中对齐总表 + 命令式服务 / 令牌 / 槽位**正确用法速查**（全部取自 QML 源码字面量）+ v2.0 演进四条前置条件（additive major + RFC / 兼容层 / 重签零漂移 / 全量验收）；原稿逐字存档附录 A、标注未采纳。**零 QML 物理改动 · 零 `qmldir` 改动 · 零模块 URI 改动 · 零生成器改动 · 冻结指纹 `68b34a408489b6a8` 不变**；nav / 首页 / 本 CHANGELOG / `project_structure.txt` / 工作区账本闭环。**发布边界**：改动留工作树，GIT / PYPI 归 CSA；本轮只做文档，后续任务待 CSA 发话。
+- **🆕 v2.0 物理重构立项 + 双轨兼容层（2026-11-26 10:09 · CSA：「先做 v2.0 物理重构，立项和兼容层一起」）**：即 `GUIDE_QUASAR_ALIGNMENT.md §5` 四条前置条件的那次单独拍板。① **立项法源** `docs/prescript/SPEC_V2_COMPAT.md`（RFC + 双轨兼容契约 + 宪法第 9/13 章合规论证 + M1~M4 分批路线图 + 风险登记 + CSA 待拍板项）。② **Qt 6.12 七形态实测**（`scripts/spike_v2_compat.py` **7/7 PASS**）证明 `qmldir` 的 `../` / `../../` 跨目录转发可行且拿到**同一物理实现**、薄转发包装会改类型身份应弃用；据此把 `GUIDE_QUASAR_ALIGNMENT.md §0.3` 的「改 URI 必破坏兼容」精确化为「旧 5 URI 保留薄转发 `qmldir` 即可物理重构而兼容零破坏」，§5 状态由「待 CSA 拍板」校准为「已立项」。③ **M1 实物**：新增 1 个 v2.0 兼容转发视图 `Nova/Controls/Foundation/qmldir`（Foundation 域 12 类型、`../` 指向冻结清单同一物理文件，零新增类型、不进 5 个冻结面模块）；`scripts/audit_v2_compat.py`（**C1~C5 PASS**）· `scripts/spike_v2_compat.py` · `tests/test_v2_compat.py`（**25 passed**）；`gen_apidocs.py` 见 `# @nova-compat-view` 跳过视图、二次重跑幂等。④ **宪法合规**：`fingerprint()` 含 `types[].file` → 搬动 QML 必然重签，故「移模块」物理迁移属破坏性、只能随 major；M1 零搬运 → 冻结面 `68b34a408489b6a8` / AI 包 `0b02273de9aee652` **零漂移**；M2 首批迁移才重签 `2.0.0` 并做逐成员零漂移证明。⑤ **修一处真实缺陷**：`gen_apidocs.py` 插入视图跳过逻辑时缩进错位，把 `mod_entry` 块挤进 `if compat_views:` 分支致 AI 包一度降至 16 类型 / 指纹 `893bad950f92ecb5`；定位后修正循环体缩进，重跑恢复 144 类型 / `0b02273de9aee652` 并二次幂等验证。⑥ **验收**：静态 3/3 · 专项 53/53 · 新测试 25/25 · 20/20 · 15/15 · 域分类 PASS · mkdocs 0 内容 INFO · 断链 0 · `gen_prompt.py --check` ✓。**零 QML 搬运 · 零旧 `qmldir` 改动 · 零模块 URI 改动**；项目投影因 `SESSION_HANDOFF.md` 新增 v2.0 状态行由 `c8456b80bc20` 重签为 **`af9fd2d7036d`**（真实状态变更、非漂移）。**发布边界**：M2 待 CSA 定 1.2.0 发布衔接后启动，全量废除 `Composite` / 改 URI 须 CSA 再单独豁免改宪；改动留工作树，GIT / PYPI 归 CSA。
+- **🆕 M1 回退为就绪态 + `LayoutShell`/`Prescript` 命名评估（2026-11-26 10:44 · CSA 两问）**：① **命名评估（只评估、未擅自改）**：伙伴「`LayoutShell` 是否改为 `Prescript`？我在纠结，Prescript 是咱们创新收获」—— 直觉对，但按伙伴亲自拍板冻结的 `SPEC_PRESCRIPT.md` / `SPEC_PRESCRIPT_ZH.md`「**术语冻结 v1.0**」三层体系，**Prescript = 范式层（预构范式 / 怎么编写 / CLI `prescript`）、Prescient Layout Shell = 载体层（预判布局壳 / 20 组合根 / 骨架）**，法源明令「不得混淆」「任一越界即判封版失格」；直接改名会① 术语越界 ② 破坏已发布 1.0.0/1.0.1 的 `import Nova.Composite.LayoutShell 1.0`（宪法第 13 章「移模块」）③ 逼着重签冻结面 `68b34a408489b6a8`。**建议「分层正名、不换 URI」**：概念/品牌层把 20 组合根对外统称「**用 Prescript 范式编写的 Prescient 预判布局壳（预构式组件）**」，让原创术语成为一等公民；工程标识 `Nova.Composite.LayoutShell` 冻结不动（零破坏、零重签）；若未来真改 URI 应走 v2.0 major + 兼容层，且按术语应叫 `Prescient` 而非 `Prescript`。**待 CSA 拍板**。② **依指令干净撤回 Foundation**（伙伴「去掉吧！……再没有创建类似 `Foundation` 的目录了吧？」）：**核查** `Controls/` 下仅此 1 个新建子目录，`Behaviors/` `Design/` `Services/` 全为 0 子目录；`Composite/LayoutShell/` 下 9 个属 1.2.0 九类物理分类（CSA 06:55 已授权、URI 恒 `Nova.Composite.LayoutShell`、非 v2.0 新增），**无第二个同类 v2.0 转发视图目录**。**动作**：删除 `Nova/Controls/Foundation/qmldir`（产品树 qmldir 回到精确 **5 个**冻结面模块）· 清除 `gen_apidocs.py` 的 `@nova-compat-view` 跳过死代码 · `scripts/audit_v2_compat.py` 重写为**就绪态守护**（C1 旧 5 URI 零改动 / C2 0 物理视图 / C3 qmldir 恰 5 个 / C4 相对导入 0 / C5 生成器干净 + AI 包零污染）· `tests/test_v2_compat.py` 改为 **12 旧 URI 真实实例化 + 3 就绪态机检 = 15 passed** · `scripts/spike_v2_compat.py` 临时示意目录 `Foundation/` → 中性 `Sub/`（七形态 **7/7** 不变）· `SPEC_V2_COMPAT.md` 重写为 **M1 就绪态**（§0.4 如实登记 10:09 落地 → 10:44 撤回，史料不圆场）。**概念域分类保留**在 `api/component-domains-1.2.0.json` / `audit_domains.py`（文档层台账，非物理目录）。**为何撤回是对的**：本库原创收获是 **Prescript 预构范式**（术语冻结 v1.0），照 Quasar 拆子目录的物理试探抢在原创范式前面制造「第 6 个 qmldir」观感，撤回后 M1 更干净 —— 地基焊死、零物理残影、冻结面零漂移。**验收**：静态 3/3 · 专项 53 + 15 = **68 passed** · `audit_ceiling.py` 20/20 · `audit_foundations.py` 15/15 · `audit_domains.py` PASS · `audit_v2_compat.py` PASS · spike 7/7 · mkdocs 0 内容 INFO · 断链 0 · 生成器幂等。**零 QML 搬运 / 零旧 `qmldir` / 零模块 URI / 零生成物手改 · 冻结面 `68b34a408489b6a8` / AI 包 `0b02273de9aee652` 零漂移**。**发布边界**：全部改动留工作树，GIT / PYPI 归 CSA。
+- **🆕 命名议题结案 + `PROMPT.md` 转场更新（2026-11-26 11:22 · CSA：「`LayoutShell` 不改名了；请更新 PROMPT.md 我该转场了」）**：对 10:44 第 ① 问「`LayoutShell` 是否改为 `Prescript`」评估的**拍板结案** —— `LayoutShell` **不改名**：`Nova.Composite.LayoutShell` 名称 / 20 组合根类型名 / `import` 用法与 `SPEC_PRESCRIPT*.md` 术语冻结 v1.0 三层体系（Prescript 范式层 / Prescient Layout Shell 载体层 / CARF 品质层）**一律维持现状、零改动**，10:44 建议的概念层「预构式组件」双名制亦不擅自加、不单独立 RFC。**按「账实相符」销号**：`SPEC_V2_COMPAT.md §9` 第 4 项 →「✅ 11:22 结案」、头部状态 / §0.4 里程碑补登，`MEMORY.md §8` 术语冻结行校准，工作区根 `PROMPT.md` 顶部「最后更新」滚动到 11:22 + §A.4 追加里程碑，`NOVA_WORKSPACE.md §4`、当日日志 11:22 段闭环；10:44 / 10:22 历史行按「史料不圆场」保留不回改。**严格按字面只结案命名议题**：`SPEC_V2_COMPAT.md §9` 第 1/2/3 项仍待 CSA 单独拍板。**刻意不动 `SESSION_HANDOFF.md` 与项目投影 `d96d0cc16752`**：不改名 = 维持现状 = 零工程事实变化，SESSION_HANDOFF 从未写入命名待拍板，重签反制造无谓连锁漂移。**零 QML / 零 `qmldir` / 零模块 URI / 零冻结清单 / 零生成器源码改动 · 冻结面 `68b34a408489b6a8` / AI 包 `0b02273de9aee652` 零漂移**；**发布边界**：全部改动留工作树，GIT / PYPI 归 CSA。
+- **边界（随后由 CSA 推进，见下节）**：本轮先落文档 / 台账 / 导航三层；伙伴随即指令「物理重构 QML 目录也一起做了」，已按九类物理归档并重签冻结面。
+
+### 物理目录重构（QML Layout · CSA 拍板「也一起做了」）
+
+- **九类物理子目录**：`Nova.Composite.LayoutShell/` 下 20 个 QML 按既有九类归入 `Navigation/` (4) · `Workbench/` (3) · `Overlay/` (2) · `Page/` (2) · `Carrier/` (3) · `Chat/` (1) · `Intelligence/` (3) · `Orbit/` (1) · `Incubator/` (1)；`qmldir` 改为 `子目录/名字.qml` 相对路径导出，**模块 URI 恒为 `Nova.Composite.LayoutShell` 单一模块**，20 个类型名与 `import Nova.Composite.LayoutShell 1.0` 用法一字不变。
+- **Qt 可行性实测**：最小模块 `Foo 1.0 Sub/Foo.qml` 经 `QQmlComponent` 加载 → `Status.Ready`、实例化成功、属性可读，确认 qmldir 支持子路径；QML 源码全库扫描无相对导入，hatch wheel `packages = ["src/pyside_nova"]` 递归打包子目录。
+- **零公共面漂移（机器验证）**：`gen_api_freeze.py` 重签 → **144 类型 / 新指纹 `68b34a408489b6a8`**；把新清单 20 条 `file` 归一化回旧路径后指纹**精确还原 `4f882374ad52262b`**，证明除物理路径元数据外，模块归属 / a11y / props / signals / methods / counts **逐成员零变化**。`diff_surface` 不比较 `file`，已发布 1.0.0 / 1.0.1 的 `import` 兼容不受影响。
+- **工具链适配**：`scripts/audit_ceiling.py` / `scripts/gen_apidocs.py` 两处硬编码 `qml_dir/名字.qml` 改为**从 qmldir 解析真实路径**；20 个 QML 头注释路径同步更新。`gen_api_freeze.py` / `check_api_freeze.py` / `check_a11y.py` / `check_qmllint.py` / `gen_component_list.py` 天然支持子路径，无需改动。
+- **仍未做（待 CSA 单独拍板）**：把子目录升格为**独立 `qmldir` 模块**（如 `module Nova.Prescient.Navigation`）会改变 144 类型模块归属，属 additive major + RFC + 全库回扫 + 新法源 + 兼容层的独立议题，**本次未做**。
+- **发布边界**：全部改动留工作树未提交，GIT / PYPI 归 CSA。
+
+### 验收（整批全绿）
+- `check_all.py --tier static` **3/3**（a11y **144/144** · qmllint **0 error** / 594 warning 预算内 · API 冻结）。
+- 专项 `pytest tests/test_api_freeze.py tests/test_layout_shells.py -q` **53/53**。
+- `audit_ceiling.py` **20/20 PASS**（20 组件字面量 + 21/21 showcase / Gallery + **60/60 组**极端非法入参零负几何 + RTL 20/20 + reducedMotion 300→0 + **481 条文档链接断链 0**）。
+- `audit_foundations.py` **15/15 PASS**；`mkdocs build` **exit 0 / 0 WARNING / 0 内容 INFO**；
+  `audit_showcase.py --name incubator` 3 张 1440×900 出图 PASS；生成器重跑幂等。
+- **R 打磨（实测驱动、按需打磨）**：首轮三态图视觉复核暴露 2 处业务注入侧争位
+  （配方库 / 校验栏标题与身份装饰重叠、证书栏五件套裁切），仅在 Demo 侧
+  `topMargin: 40` / `certificateHeight: 190` 避让修复，**零公共 API 改动、零指纹漂移**。
+- **发布边界**：全部改动留工作树未提交，`commit / push / tag / PyPI / 站点上线` 全归 CSA。
+
+---
+
+## [1.1.0] - 2026-11-26 — 四增量整批单次重签（未发布中间批次史料 · 已并入 1.2.0）
+
+> **本段为 1.1.0 未发布中间批次的史料**（该批次从未发布，四增量已并入 1.2.0 整批单次重签）；下方同版本「三个 AI 智能组合根完现」段落为
+> 批次一史料，完整保留供追溯。1.1.0 共 **4 项增量组合根**（`NovaAgent` / `NovaDE` /
+> `NovaCopilot` / `NovaOrbit`），按宪法第 8 章 additive minor **整批登记、单次重签**，
+> 禁止产生中间指纹。
+>
+> **最终口径**：包 / API `1.1.0` · `api/nova-api-1.1.0.json` · **143 导出类型** ·
+> 组合模块 **19**（15 GA 签名逐字不变）· a11y `decorative` **83** ·
+> 指纹 `bfd3d938a2fab7be → cc32b5852ed04995 → **862312749d335aad**` ·
+> **19/19 天花板销号** · **57 张三态装配图**。
+
+### 本轮增量（第 19 组合根 NovaOrbit + 四份企业级旗舰版封版法源）
+- `docs/layout_shell/NovaAgent-NovaDE-NovaCopilot.md` **优化完善并拆分为三份独立封版法源**：
+  `NovaAgent.md` / `NovaDE.md` / `NovaCopilot.md`（原文联合总纲保留为史料）。
+- `docs/layout_shell/NovaOrbit.md` **原地企业级优化完善**（元信息 / 零章无业务语义骨架 /
+  O1~O8 工程落点列 / 组件级契约 / CC-1~CC-8 映射 / CARF 四阶段 / 封版声明），
+  原文 ASCII 图与表格、O1~O8 编号逐字保留。
+- **创建第 19 个组合根 `NovaOrbit` 意图轨道工作台**（七槽无业务语义骨架 +
+  受控信号 + `_` 私有纯几何身份），落地为库内企业级旗舰版封版法源；
+  七槽真实业务注入成品级 Demo `examples/layout_shell/orbit/` + Gallery 第 19 页 +
+  3 张三态装配图（54 → **57 张**）。
+- **三个既有 AI 组合组件按 CSA 拍板「实测驱动、按需打磨」**：19/19 机检（静态 CC 契约 /
+  字面量实例化 / 57/57 组极端非法入参 / RTL / reducedMotion）+ 三态装配图视觉复核
+  **零缺陷暴露 → 零 PATCH、无需打磨**，如实登记，不硬造修改。
+- 冻结面 / 生成器 / 测试 / 机检尺 / 模块 README / CEILING_AUDIT / nav / 双语 README /
+  docs / AI 离线副本 / 账本全链路同步为 19 项口径。
+
+### 验收（整批全绿）
+- `check_all.py --tier static` **3/3**（a11y **143/143** · API 冻结 · qmllint **0 error** / 594 warning 预算内）。
+- 专项 `pytest tests/test_api_freeze.py tests/test_layout_shells.py -q` **52/52**。
+- `audit_ceiling.py` **19/19 PASS**（19 组件字面量 + 20 showcase / Gallery + **57/57 组**极端非法入参零负几何 + RTL 19/19 + reducedMotion 300→0 + **465 条文档链接断链 0**）。
+- `audit_foundations.py` **15/15 PASS**；`mkdocs build` **exit 0 / 0 WARNING / 0 内容 INFO**；
+  `gen_apidocs.py` 重跑幂等、19 页逐组件文档 / 57 张三态图索引齐全。
+- **发布边界**：全部改动留工作树未提交，`commit / push / tag / PyPI / 站点上线` 全归 CSA。
+
+---
+
+## [1.1.0] - 2026-11-26 — 三个 AI 智能组合根完现（CARF 全循环 · additive minor · 待 CSA 发布）
+
+> **版本说明**：1.0.1 之上的 **additive minor** 升级——新增 3 个组合根容器公共类型
+> `NovaAgent` / `NovaDE` / `NovaCopilot`（设计定义见
+> `docs/layout_shell/NovaAgent-NovaDE-NovaCopilot.md`，Enterprise Flagship v1.0-FINAL）。
+> 按宪法第 8 章与 `gen_api_freeze.py` 第 3 节变更政策：新增公共类型属增量，须**升 minor + 重签冻结面**：
+> 包版本 `1.0.1 → 1.1.0`、`apiVersion` 派生为 `1.1.0`、清单 `api/nova-api-1.1.0.json` 重签、
+> 指纹 `bfd3d938a2fab7be → cc32b5852ed04995`、导出类型 **139 → 142**、组合模块 **15 → 18**。
+> **15 项 GA 公共签名逐字不变**；发布边界（commit / push / tag / PyPI / 站点上线）仍**全归 CSA 本人**。
+
+### 新增（Added）
+- **三个组合根容器 QML**（`Nova.Composite.LayoutShell`，全部 `a11y: decorative`）：
+  - `NovaAgent` 智能体任务执行工作台：6 槽（task / plan / content / verify / approval / overlay）+ 3 信号 + 3 函数；身份 = DAG 节点链 + 风险分级色阶 + 审批闸门色带 + 验证轨递减条。
+  - `NovaDE` 数字员工岗位工作台：6 槽（role / queue / content / sla / handoff / overlay）+ 3 信号 + 3 函数；身份 = 岗位菱形徽记 + 队列堆叠卡沿 + SLA 递减条 + 交接双向箭头。
+  - `NovaCopilot` 增强型协作面板：5 槽（suggest / inline / content / gate / overlay）+ 3 信号 + 3 函数；身份 = 内联胶囊条 + 三段确认级条 + 闸门分隔点 + 撤销弧环。
+  - 三者均遵循宪法三要素（≥2 已导出类型组合 / `property alias` 固定槽位 / **无业务语义骨架**）与 CC-1~CC-8（唯一密度源、单一分隔源、抽象几何身份、恒定锚链、槽位宿主铺满、动效令牌、RTL、`Esc` 键盘可达、极端入参几何钳制）。
+  - **治理语义边界**：八项准入控制 / 四要件 / 建议—确认—执行闸门等均为业务层职责，全由槽位注入；Shell 只托管布局与 emit 意图。
+- **三个成品级 Demo**：`examples/layout_shell/{agent,de,copilot}/main.qml` + `run.py`（六槽真实业务注入 / 调参浮层默认收起 / `variantMode` 三态开关 / 明暗双主题 / 令牌驱动自绘按钮）。
+- **9 张三态装配图**：`docs/screenshots/{agent,de,copilot}_showcase_{light,dark,variant}.png`（45 → 54 张）。
+- **Gallery 调参页**、逐组件 API 页、模块 README 契约、CEILING_AUDIT §8 销号表、mkdocs nav、`nova-data.js` 站点数据同步为 18 项。
+
+### 变更（Changed）
+- 版本号 `1.0.1 → 1.1.0`；冻结清单、API_FREEZE、COMPONENT_LIST、A11Y_MATRIX、AI 离线副本、项目 PROMPT 投影全部按生成物纪律重跑。
+- 各机检尺口径 15 → 18（`audit_ceiling.py` / `audit_showcase.py` / `test_layout_shells.py` / `test_api_freeze.py` 的 139→142、15→18、decorative 79→82）。
+- `gen_apidocs.py`：补 `NovaDE → de` 展示目录别名表；逐组件页 / 总览 / 装配图索引 / 站点产品化层的 15/45/139 硬编码改为动态计算。
+
+### 验收（本轮全绿）
+- `check_all.py --tier static` **3/3**（a11y **142/142** · API 冻结 **142 类型零漂移** · qmllint **0 error** / 593 warning 预算内）。
+- 专项 `pytest test_api_freeze.py test_layout_shells.py -q` **51/51**。
+- `audit_ceiling.py` **18/18 PASS**：18 组件字面量实例化 + 19 showcase + **54/54 组**极端非法入参零负几何 + RTL 18/18 + reducedMotion 300→0 + **443 条文档链接断链 0**。
+- `audit_showcase.py` 三个新组件三态出图全 PASS；`mkdocs build` exit 0 / 0 WARNING / 0 内容 INFO（输出系统临时目录，未触碰 `site/`）。
+- 三组件 showcase 均无头加载 ROOTS 1 / 零警告；浅 / 深 / 变体三态真实引擎渲染复核通过。
+
+---
+
 ## [1.0.1] - 2026-11-25 — 基础组件天花板打磨（CARF-R 续篇 · patch · 待 CSA 发布）
 
 > **版本说明**：1.0.0 GA 之上的 patch 升级——本批为 Robustness 修复 + 文档站打磨，

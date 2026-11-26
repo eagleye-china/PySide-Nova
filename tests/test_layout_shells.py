@@ -1,9 +1,9 @@
 # tests/test_layout_shells.py
-# Prescient Layout Shell 14 项组合根容器测试：解析 / 实例化 / 槽位 / 主题 / 边界（组合宪法 0.2.0 第 8 章门禁）
-"""14 项 Prescient Layout Shell 的组合契约测试。
+# Prescient Layout Shell 20 项组合根容器测试：解析 / 实例化 / 槽位 / 主题 / 边界（组合宪法 0.2.0 第 8 章门禁）
+"""20 项 Prescient Layout Shell 的组合契约测试。
 
 覆盖宪法第 8 章第 3 条的四类用例：
-1. 解析+实例化：14 类型逐个逐字面量实例化（qmllint 只查静态，实例化才抓运行时属性错误）
+1. 解析+实例化：20 类型逐个逐字面量实例化（qmllint 只查静态，实例化才抓运行时属性错误）
 2. 槽用例：标准槽 alias 注入后子项真实挂载
 3. 明暗主题用例：切主题零异常
 4. 边界参数用例：非法尺寸/枚举入参自动钳制不崩
@@ -26,6 +26,7 @@ SHELLS = [
     "NovaThreeColumn", "NovaCompare", "NovaCardGrid", "NovaModal",
     "NovaDrawerPanel", "NovaSetupWizard", "NovaBlankPage", "NovaDesktop",
     "NovaMobile", "NovaFlexLayout", "NovaChat",
+    "NovaAgent", "NovaDE", "NovaCopilot", "NovaOrbit", "NovaIncubator",
 ]
 
 

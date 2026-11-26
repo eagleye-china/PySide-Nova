@@ -1,16 +1,18 @@
 # Nova.Composite.LayoutShell · 模块交付文档
 
-> **第五 QML 模块｜15 项组合根容器（Prescient Layout Shell）｜1.0.0 GA 已封版**
+> **第五 QML 模块｜20 项组合根容器（Prescient Layout Shell）｜15 项 1.0.0 GA 封版 + 5 项 1.2.0 增量（NovaAgent / NovaDE / NovaCopilot / NovaOrbit / NovaIncubator）**
 >
-> 模块 URI：`Nova.Composite.LayoutShell` · 注册文件：`qmldir` · 15 项全部为冻结公共类型
-> API 冻结指纹：`bfd3d938a2fab7be`（139 类型零漂移）
+> 模块 URI：`Nova.Composite.LayoutShell` · 注册文件：`qmldir` · 20 项全部为冻结公共类型
+> API 冻结指纹：`4f882374ad52262b`（144 类型；1.2.0 整批单次重签，新增第 20 组合根 NovaIncubator；物理拍平后重签，公共成员零漂移。反向归一化 `file` 可精确还原旧值 `68b34a408489b6a8`）
+>
+> **物理平铺（1.2.0 · 12:05 拍平后）**：20 个 QML 全部平铺于本目录、`qmldir` 逐项以 `名字.qml` 导出，**模块 URI 与 `import` 用法不变**，物理路径回到 1.0.x 已发布形态。九类语义（Navigation / Workbench / Overlay / Page / Carrier / Chat / Intelligence / Orbit / Incubator）保留为**文档层分类台账**，不再落物理子目录——遵循「概念域 ≠ 物理目录 ≠ 模块 URI」铁律。详见 `docs/prescript/GUIDE_CLASSIFICATION.md §1.1 / §4`。
 
 | 项目 | 内容 |
 |---|---|
-| **法源** | `docs/CONSTITUTION.md`（母法）· `docs/COMPOSITION_CONSTITUTION.md`（组合组件宪法 0.9.1）· `docs/white_paper/Prescient-LayoutShell-封版规范.md`（技术红线 v2.1.0） |
-| **权威事实源** | `docs/COMPONENT_LIST.md` + `api/nova-api-1.0.0.json`（均为生成器产物，禁止手改） |
+| **法源** | `docs/CONSTITUTION.md`（母法）· `docs/COMPOSITION_CONSTITUTION.md`（组合组件宪法 0.9.1）· `docs/prescript/SPEC_FREEZE.md`（技术红线 v2.1.0） |
+| **权威事实源** | `docs/COMPONENT_LIST.md` + `api/nova-api-1.2.0.json`（均为生成器产物，禁止手改） |
 | **性质** | 无业务语义的复合根容器骨架；填业务即交付 |
-| **状态** | ✅ 15/15 已封版 · Gallery 15 页独立预览 · 15 个独立演示 · 静态门禁 3/3 |
+| **状态** | ✅ 20/20 已登记（15 GA 封版 + 5 增量）· Gallery 20 页独立预览 · 20 个独立演示 · 静态门禁 3/3 |
 
 ---
 
@@ -54,7 +56,7 @@
 | `NovaPlatform` | `Nova.Services` | `isMobile` 触控平台判定（仅 `NovaMobile`） |
 | `NovaScreen` | `Nova.Services` | `gtLg` 断点判定（仅 `NovaFlexLayout`） |
 
-### 2.2 15 项依赖矩阵
+### 2.2 20 项依赖矩阵
 
 | 组件 | Theme | Header | Footer | Page | Separator | Motion | Platform | Screen |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -73,6 +75,11 @@
 | `NovaMobile` | ✓ | ✓ | | ✓ | ✓ | | ✓ | |
 | `NovaFlexLayout` | ✓ | ✓ | ✓ | ✓ | | | | ✓ |
 | `NovaChat` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
+| `NovaAgent` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
+| `NovaDE` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
+| `NovaCopilot` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
+| `NovaOrbit` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
+| `NovaIncubator` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
 
 ### 2.3 推荐业务注入类型（非 Shell 内实例化）
 
@@ -82,16 +89,16 @@
 | `NovaChatMessage` | `Nova.Controls` | 由业务注入 `NovaChat.contentSlot` 的对话气泡 |
 | `NovaBtn` / `NovaText` / `NovaMenu` 等 | `Nova.Controls` | 由业务注入任意槽位的交互与展示内容 |
 
-> **D-013 合规边界**：15 项的独有身份元素是 `_` 私有**纯几何装饰**（`Rectangle` / `Gradient` /
+> **D-013 合规边界**：20 项的独有身份元素是 `_` 私有**纯几何装饰**（`Rectangle` / `Gradient` /
 > `Row` / `Repeater`），不构成可交互控件、不复制原子样式、不绕过令牌、不含字体依赖——
 > **不违反**"禁止私造原子"基线。
 
 ---
 
-## 三、15 项完整契约
+## 三、20 项完整契约
 
 > 下表属性均为**公开配置 / 只读派生属性**；`_` 前缀私有成员不进冻结面，不在此列。
-> 机器可读完整签名见 `api/nova-api-1.0.0.json` 与 `docs/COMPONENT_LIST.md`。
+> 机器可读完整签名见 `api/nova-api-1.2.0.json` 与 `docs/COMPONENT_LIST.md`。
 
 ### 主导航（4）
 
@@ -230,6 +237,87 @@
   注入铺满的不透明块会盖住整个组件（验收口径，非组件缺陷）
 - **依赖**：Theme · Header · Footer · Page · Separator · Motion
 
+### AI 智能组合根（3）
+
+> 1.1.0 新增：以 NovaChat 为统一交互基座，三组件在「自主程度 × 责任归属 × 交付契约」三维分叉。
+> 设计定义与 A1~A8 封版验收清单见联合方案 `docs/prescript/LAW_NovaAgent.md`
+> 与三份独立企业级旗舰版封版法源 `docs/prescript/LAW_NovaAgent.md` / `NovaDE.md` / `NovaCopilot.md`。
+> **治理语义（八项准入控制 / 四要件 / 确认闸门）全由业务槽位注入，Shell 只托管布局与折叠意图**。
+
+#### `NovaAgent` — 智能体任务执行工作台
+- **身份**：左任务列 DAG 三节点递减链 + 右缘主色渐变轨；执行画布对角取景框；审批闸门色带；验证轨三段递减级条——与 NovaDE / NovaCopilot 身份互不重复
+- **配置**：`taskSize` · `verifySize` · `headerHeight` · `approvalHeight` · `showTask` · `showPlan` · `showVerify` · `showApproval` · `taskCollapsed` · `verifyCollapsed` · `breakpoint` · `bordered` · `belowBreakpoint`(ro)
+- **信号**：`taskToggled(bool collapsed)` · `verifyToggled(bool collapsed)` · `approvalRequested()`
+  ｜ **函数**：`toggleTask()` · `toggleVerify()` · `requestApproval()`
+- **槽位**：`taskSlot` · `planSlot` · `contentSlot` · `verifySlot` · `approvalSlot` · `overlaySlot`
+- **键盘**：`Esc` 对两条可折叠轨分别 emit 收起意图
+- **RTL**：根节点 `LayoutMirroring.enabled: NovaTheme.isRtl`
+- **治理边界**：八项准入控制（目的/数据/权限/审批/可观测/验证/异常/运营）与风险分级路由器由业务注入；审批闸门槽预留 HIGH 风险人工复核点；外部信号验证器独立于 Agent
+- **依赖**：Theme · Header · Footer · Page · Separator · Motion
+
+#### `NovaDE` — 数字员工岗位工作台
+- **身份**：顶部岗位菱形徽记（旋转方形）；左队列分层堆叠卡沿 + 渐变缘轨；工作画布顶部双短条；SLA 轨递减条 + 状态点；交接条双向箭头——与 NovaAgent / NovaCopilot 身份互不重复
+- **配置**：`queueSize` · `slaSize` · `roleHeight` · `handoffHeight` · `showQueue` · `showSla` · `showRole` · `showHandoff` · `queueCollapsed` · `slaCollapsed` · `breakpoint` · `bordered` · `belowBreakpoint`(ro)
+- **信号**：`queueToggled(bool collapsed)` · `slaToggled(bool collapsed)` · `handoffRequested()`
+  ｜ **函数**：`toggleQueue()` · `toggleSla()` · `requestHandoff()`
+- **槽位**：`roleSlot` · `queueSlot` · `contentSlot` · `slaSlot` · `handoffSlot` · `overlaySlot`
+- **键盘**：`Esc` 对两条可折叠轨分别 emit 收起意图
+- **RTL**：根节点 `LayoutMirroring.enabled: NovaTheme.isRtl`
+- **治理边界**：四要件（岗位形态 / 任务队列 / 能力调用 / 队伍级治理）由业务注入；岗位条与交接条预留 Auto/Draft/Handoff 边界；Shadow Mode / SSO+RBAC / 技能层共享为业务层职责
+- **依赖**：Theme · Header · Footer · Page · Separator · Motion
+
+#### `NovaCopilot` — 增强型协作面板
+- **身份**：左建议列内联胶囊条 + 三段确认级条；内联建议条短条侧锚；工作画布对角取景框；动作闸门轨分隔渐变点 + 撤销弧环——与 NovaAgent / NovaDE 身份互不重复
+- **配置**：`suggestSize` · `gateSize` · `inlineHeight` · `showSuggest` · `showInline` · `showGate` · `suggestCollapsed` · `gateCollapsed` · `breakpoint` · `bordered` · `belowBreakpoint`(ro)
+- **信号**：`suggestToggled(bool collapsed)` · `gateToggled(bool collapsed)` · `actionProposed()`
+  ｜ **函数**：`toggleSuggest()` · `toggleGate()` · `proposeAction()`
+- **槽位**：`suggestSlot` · `inlineSlot` · `contentSlot` · `gateSlot` · `overlaySlot`（5 槽，`overlaySlot` 非必需但保留）
+- **键盘**：`Esc` 对两条可折叠轨分别 emit 收起意图
+- **RTL**：根节点 `LayoutMirroring.enabled: NovaTheme.isRtl`
+- **治理边界**：建议—确认—执行契约由业务注入；闸门轨预留 Draft / Confirm / Read-Only 三模与撤销窗口；以用户身份 grounding / 规则引擎优先 / 动作可撤销可回溯为业务层职责
+- **依赖**：Theme · Header · Page · Separator · Motion
+
+### 意图轨道呈现层（1）
+
+> 1.1.0 收官件（第 19 个组合根）：`NovaOrbit` 是 NovaChat 天花板形态、Agent / DE / Copilot 的
+> 统一编排面与最终呈现层，也是 NovaIncubator 七件组件的呈现层收官件。
+> 企业级旗舰版封版法源见 `docs/prescript/LAW_NovaOrbit.md`（零章无业务语义骨架 / O1~O8 /
+> CC-1~CC-8 映射 / CARF 四阶段 / 封版声明）。
+> **Orbit Engine / Entity Router / 孵化确认闸门 / 审计流全由业务槽位注入，Shell 只托管七槽布局与折叠意图**。
+
+#### `NovaOrbit` — 意图轨道工作台
+- **身份**：全局栏三段轨道发丝线；左栏递减轨道链 + 感知信号弧点；中栏并行分叉角标 + 对角取景框；右栏双向箭头环 + 拓扑点阵——与 NovaChat 六轨签名及三个 AI 组件身份互不重复
+- **配置**：`railSize` · `canvasSize` · `globalHeight` · `composerHeight` · `mapHeight` · `showGlobal` · `showRail` · `showCanvas` · `showComposer` · `showMap` · `railCollapsed` · `canvasCollapsed` · `breakpoint` · `bordered` · `belowBreakpoint`(ro)
+- **信号**：`railToggled(bool collapsed)` · `canvasToggled(bool collapsed)` · `orbitRequested()`
+  ｜ **函数**：`toggleRail()` · `toggleCanvas()` · `requestOrbit()`
+- **槽位**：`globalSlot` · `railSlot` · `intentSlot` · `composerSlot` · `canvasSlot` · `mapSlot` · `overlaySlot`（7 槽，`overlaySlot` 取 `NovaTheme.zFixedDrawer` 且业务注入须为透明顶层）
+- **键盘**：`Esc` 对 rail / canvas 两条可折叠轨分别 emit 收起意图
+- **RTL**：根节点 `LayoutMirroring.enabled: NovaTheme.isRtl`
+- **治理边界**：孵化轨道须经用户一次显式确认方可转执行轨道（O5 硬边界）；壳零定时器、零自动拉起逻辑；引擎不可用时退化为可用会话基座（O8）
+- **依赖**：Theme · Header · Footer · Page · Separator · Motion
+
+### 应用孵化器工作台（1）
+
+> 1.2.0 收官件（第 **20** 个组合根 / 本库最后一个组合组件）：`NovaIncubator` 是
+> 诺瓦应用孵化器的**工作台壳**，把「选配方 → 注入业务 → 三重校验 → 一次封版」四阶段
+> 孵化流水线呈现为无业务语义骨架。孵化系统本身仍居**方法论层**（Prescript 之上、CARF 之下，
+> 不是普通运行时组件）；本组件是其在**组件层**的呈现载体，与 `NovaOrbit` 的处理同构。
+> 企业级旗舰版封版法源见 `docs/prescript/LAW_NovaIncubator.md`（零章无业务语义骨架 /
+> 法源张力消解 / I1~I8 / CC-1~CC-8 映射 / CARF 四阶段 / 封版声明）。
+> **配方解释器 / 组件装配器 / 治理注入器 / 三重校验器 / 证书签发器 / CLI 孵化内核
+> 全由业务槽位注入，Shell 只托管七槽布局与折叠意图，绝不自动封版、绝不自动执行**。
+
+#### `NovaIncubator` — 应用孵化器工作台
+- **身份**：全局栏四级递进楔形条；左栏五列配方栅 + 列尾七刻点；中栏七区分格环 + 中心孵化点；阶段条四节点收敛链；右栏三道递减校验刻线 + 收敛角；证书栏方章折角 + 封蜡点——与既有 19 项身份互不重复
+- **配置**：`recipeSize` · `validateSize` · `globalHeight` · `pipelineHeight` · `certificateHeight` · `showGlobal` · `showRecipe` · `showValidate` · `showPipeline` · `showCertificate` · `recipeCollapsed` · `validateCollapsed` · `breakpoint` · `bordered` · `belowBreakpoint`(ro)
+- **信号**：`recipeToggled(bool collapsed)` · `validateToggled(bool collapsed)` · `freezeRequested()`
+  ｜ **函数**：`toggleRecipe()` · `toggleValidate()` · `requestFreeze()`
+- **槽位**：`globalSlot` · `recipeSlot` · `stageSlot` · `pipelineSlot` · `validateSlot` · `certificateSlot` · `overlaySlot`（7 槽，`overlaySlot` 取 `NovaTheme.zFixedDrawer` 且业务注入须为透明顶层）
+- **键盘**：`Esc` 对 recipe / validate 两条可折叠栏分别 emit 收起意图
+- **RTL**：根节点 `LayoutMirroring.enabled: NovaTheme.isRtl`
+- **治理边界**：封版须经宿主一次显式确认（I5 闸门不可绕过）；壳零定时器、零自动封版逻辑；孵化内核不可用时退化为可用工作台骨架（I8）
+- **依赖**：Theme · Header · Footer · Page · Separator · Motion
+
 ---
 
 ## 四、最小使用示例
@@ -260,22 +348,22 @@ ApplicationWindow {
 ```
 
 > 真实可执行示例（无 `title` 属性、无 `NovaLabel`、无 `Theme.*`）。
-> 更多骨架见 `examples/layout_shell/<snake_case>/main.qml`（15 个独立演示），
-> 逐项调参见 `examples/gallery/layout_shells.qml`（Gallery 15 页）。
+> 更多骨架见 `examples/layout_shell/<snake_case>/main.qml`（20 个独立演示），
+> 逐项调参见 `examples/gallery/layout_shells.qml`（Gallery 20 页）。
 
 ---
 
-## 五、验收状态（1.0.0 GA）
+## 五、验收状态（1.2.0）
 
 | 门禁 | 结果 |
 |---|---|
 | 静态门禁 `check_all.py --tier static` | **3/3 PASS**（a11y → API 冻结 → qmllint） |
-| API 冻结 | **139 类型零漂移** · `bfd3d938a2fab7be` |
-| a11y 契约 | **139/139**（interactive 32 · semantic 28 · decorative 79） |
+| API 冻结 | **144 类型零漂移** · `68b34a408489b6a8`（1.2.0 整批单次重签，15 项 GA 签名逐字不变 + 5 项新增） |
+| a11y 契约 | **144/144**（interactive 32 · semantic 28 · decorative 84） |
 | qmllint | **0 error**，warning 在 `tests/lint-baseline.json` 预算内 |
-| 专项测试 `test_api_freeze.py` + `test_layout_shells.py` | **48/48** |
-| 无头实例化 | **31/31**（15 组件 + Gallery + 15 演示） |
-| 槽位挂载 | 7/7（`NovaChat` 六槽 + 浮层） |
+| 专项测试 `test_api_freeze.py` + `test_layout_shells.py` | **53/53** |
+| 无头实例化 | **41/41**（20 组件 + Gallery + 20 演示，待机检复验） |
+| 槽位挂载 | 6/6（`NovaChat` 六槽 + 浮层）+ 三 AI 组件 6+6+5 槽 + `NovaOrbit` 7 槽 + `NovaIncubator` 7 槽 |
 
 **封版资格由 API 冻结门禁授予**，本文档为交付物记录，不自行宣称封版。
 视觉与工程打磨（身份差异化 / 多轨分治 / 动效令牌化 / 键盘可达 / 宿主隔离）全属 `_` 私有
@@ -285,7 +373,7 @@ PATCH 实现变更，**公共 API 签名逐字不变、指纹不变**。
 
 ## 六、维护纪律
 
-1. **生成物禁止手改**：`api/nova-api-1.0.0.json` / `docs/COMPONENT_LIST.md` / `A11Y_MATRIX.md` /
+1. **生成物禁止手改**：`api/nova-api-1.2.0.json` / `docs/COMPONENT_LIST.md` / `A11Y_MATRIX.md` /
    `docs/ai/api/*.json` 只改生成器或重跑生成器；
 2. **批量单次重签**：新增 / 改名 Shell 须整批登记、单次重签，禁止产生中间指纹；
 3. **PATCH 自由、MAJOR 谨慎**：`_` 私有实现可自由重构；公共签名变更须走主版本并附迁移说明；
@@ -319,4 +407,4 @@ PATCH 实现变更，**公共 API 签名逐字不变、指纹不变**。
 > `anchors.fill: parent`）、独立演示改成品级 showcase 且调参面板默认收起。
 > 深色装配态审计反向修复 `NovaMobile` 灵动岛可见性。12 张三态渲染审计图全通过、
 > 静态 3/3、专项 48/48、31/31 实例化、极端非法入参 0 负几何、RTL 4/4、
-> 指纹 `bfd3d938a2fab7be` 不变。逐项台账见 `docs/layout_shell/CEILING_AUDIT.md`（**4/15**）。
+> 指纹 `bfd3d938a2fab7be` 不变。逐项台账见 `docs/prescript/AUDIT_CEILING.md`（**4/15**）。

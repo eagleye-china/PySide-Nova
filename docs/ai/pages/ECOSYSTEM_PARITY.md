@@ -8,7 +8,7 @@
 > **15 个组合根容器 15/15 六维天花板销号**（CARF-R）· 组合宪法 1.0.0（CC-1~CC-8）·
 > 45 张三态装配图 + `audit_ceiling.py` PASS · 静态门禁 3/3 · 专项 48/48。
 > 当前权威状态见 [组件清单（139 项）](../../COMPONENT_LIST.md)、
-> [CARF-R 15/15 销号台账](../../layout_shell/CEILING_AUDIT.md) 与
+> [CARF-R 15/15 销号台账](../../prescript/AUDIT_CEILING.md) 与
 > [组合根容器逐组件 API 页](../../components/index.md)。
 >
 > 对标基线 **Quasar 2.35.5**（2026-11-22 复核）· 编制 2026-11-21 · 增量审计 2026-11-22 ·
@@ -237,7 +237,7 @@ M3（4 周）非功能与封版
 
 > 📌 **DoD 计数裁定（T9/P0 口径校准，承接 T5 ④）**：原标题写「24 条」，实测复选框为
 > **21 条**（已勾 3 / 未勾 18），已按实况校准。本清单为 0.16.x 时期的封版 DoD，属历史档案；
-> 1.0.0 GA 的封版验收以 [CARF-R 15/15 销号台账](../../layout_shell/CEILING_AUDIT.md)
+> 1.0.0 GA 的封版验收以 [CARF-R 15/15 销号台账](../../prescript/AUDIT_CEILING.md)
 > 与 `audit_ceiling.py` 机检为准。
 
 **生态完整**

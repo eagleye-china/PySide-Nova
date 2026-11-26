@@ -3,7 +3,7 @@
 """组合根容器 showcase 的装配态验收出图工具。
 
 法源：母法卷首 CARF 宣言（R 打磨阶段）· 组合宪法 1.0.0 第 9 章 CC-7 / CC-8
-      · docs/layout_shell/CEILING_AUDIT.md（逐项销号台账）
+      · docs/prescript/AUDIT_CEILING.md（逐项销号台账）
 
 用法：
     python scripts/audit_showcase.py --name desktop
@@ -45,6 +45,7 @@ NAMES = [
     "blank_page", "card_grid", "chat", "compare", "desktop", "drawer_panel",
     "dual_side", "flex_layout", "mobile", "modal", "setup_wizard", "sidebar",
     "tab_shell", "three_column", "top_navigation",
+    "agent", "de", "copilot", "orbit", "incubator",
 ]
 
 _PROBE = b"""
@@ -154,7 +155,7 @@ def render(name: str, width: int = 0, height: int = 0) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description="CARF-R 装配态三态出图审计")
     parser.add_argument("--name", default="", help="showcase 目录名；留空配合 --all")
-    parser.add_argument("--all", action="store_true", help="渲染全部 15 项（逐项独立进程由外层循环承担）")
+    parser.add_argument("--all", action="store_true", help="渲染全部 20 项（逐项独立进程由外层循环承担）")
     parser.add_argument("--width", type=int, default=0)
     parser.add_argument("--height", type=int, default=0)
     args = parser.parse_args()

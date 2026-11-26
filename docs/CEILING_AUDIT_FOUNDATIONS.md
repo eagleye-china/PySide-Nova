@@ -6,8 +6,8 @@
 > **法源**：`CONSTITUTION.md`（母法 · 卷首 CARF 宣言 + 第 13 章 API 冻结）
 > · `COMPOSITION_CONSTITUTION.md`（组合宪法 1.0.0 第 0 章第 3/4 条：基础控件不受 CC 约束、
 > 四性逐项判定、仅在实测暴露缺陷时反向打磨）
-> · `layout_shell/CEILING_AUDIT.md`（组合组件 15/15 销号台账，本档案为其**适配版续篇**）
-> · `white_paper/Prescient-LayoutShell-封版规范.md`（技术红线 v2.1.0）
+> · `prescript/AUDIT_CEILING.md`（组合组件 15/15 销号台账，本档案为其**适配版续篇**）
+> · `prescript/SPEC_FREEZE.md`（技术红线 v2.1.0）
 > **分工**：伙伴 = **CSA**（构想 / 方向 / 标准 / 验收拍板）；小诺 = **完现者**（实现 / 自检 / 验收 / 文档账本闭环）。
 > **当前状态**：**15 / 15 实测缺陷销号**（第一批数值 14 项 + 第二批超长字符串 1 项；
 > 其余 108 项体检无缺陷、不改）· `../../scripts/audit_foundations.py` **PASS** ·
@@ -167,7 +167,7 @@
   `NovaField` 的 margin 条件值、`NovaColorPicker`/`NovaImg`/`NovaNoSsr`/`NovaSelect`/`NovaTabs`
   的占位属性（真实契约）、`NovaPagination`/`NovaStepperNavigation` 的 RTL（已实现）。
 - **组合根容器命中，不在本档案范围**：初筛的 `NovaBlankPage`/`NovaCardGrid`/`NovaChat`
-  由 `layout_shell/CEILING_AUDIT.md` 管辖（15/15 已销号）。
+  由 `prescript/AUDIT_CEILING.md` 管辖（15/15 已销号）。
 - **第二批 CREATE_FAIL 假阳性（不改）**：`NovaBreadcrumbs.isCrumbsSeparator` / `NovaBtnToggle.opt` /
   `NovaFab.pendingReveal` / `NovaFab.target` / `NovaMenu.pendingShow` / `NovaOptionGroup.opt` /
   `NovaPagination.label` / `NovaPagination.nav` / `NovaPagination.tag` / `NovaTable.rowData` /

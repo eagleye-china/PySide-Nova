@@ -50,9 +50,20 @@ Item {
     readonly property color _divider: NovaTheme.outline
     readonly property color _panel: NovaTheme.surface
     readonly property color _rail: NovaTheme.surfaceAlt
-    readonly property color _ink: NovaTheme.primary
-    readonly property color _inkSoft: Qt.lighter(NovaTheme.primary, 1.35)
-    readonly property color _inkPale: Qt.lighter(NovaTheme.primary, 1.7)
+    // ── 专属主题 · 湖绿（色相 168°，偏移 -0.1790）──
+    // 初始化向导 · 湖绿代表启程与通过；色相随 setBrand 漂移，饱和/明度系数独立定制（CC-3：组件内仍单色相）
+    readonly property real _themeHue: (NovaTheme.primary.hsvHue + (-0.1790) + 1) % 1
+    readonly property color _accent: Qt.hsva(root._themeHue,
+        Math.min(1, NovaTheme.primary.hsvSaturation * 1.00),
+        Math.min(1, NovaTheme.primary.hsvValue * 0.76 * (NovaTheme.isDark ? 1.25 : 1)), 1)
+    readonly property color _ink: root._accent
+    readonly property color _inkSoft: Qt.lighter(root._accent, 1.35)
+    // ── Aurora Core · 极光核辉光（同色相提亮 + 中性白芯；CC-3 组件内仍单色相）──
+    // 从本组件专属色相派生，setBrand 换肤同步平移；只用于身份焦点小面积点缀
+    readonly property color _glow: Qt.hsva(root._themeHue,
+        Math.min(1, NovaTheme.primary.hsvSaturation * 0.78),
+        Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.5 : 1.28)), 1)
+    readonly property color _inkPale: Qt.lighter(root._accent, 1.7)
 
     implicitWidth: 900
     implicitHeight: 640
@@ -117,9 +128,10 @@ Item {
                     }
                     Rectangle {
                         anchors.centerIn: parent
-                        width: 6; height: 6; radius: 3
-                        color: _dot._active ? root._ink : NovaTheme.textOnPrimary
+                        width: 9; height: 9; radius: 4.5
+                        color: _dot._active ? root._glow : NovaTheme.textOnPrimary
                         visible: _dot._done || _dot._active
+                        Rectangle { anchors.centerIn: parent; width: 4; height: 4; radius: 2; color: NovaTheme.surface; visible: _dot._active }
                     }
                 }
             }
