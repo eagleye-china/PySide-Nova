@@ -13,12 +13,13 @@ rendering engine, Nova turns professional UI craft into standardized components 
 fallbacks are built in, so developers who are not UI specialists still ship polished,
 stable, industrial-grade interfaces.
 
-[![CI](https://github.com/your-name/pyside-nova/actions/workflows/ci.yml/badge.svg)](https://github.com/your-name/pyside-nova/actions/workflows/ci.yml)
+[![CI](https://github.com/eagleye-china/pyside-nova/actions/workflows/ci.yml/badge.svg)](https://github.com/eagleye-china/pyside-nova/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-flagship%20v1.0-blue)](docs/prescript/WHITEPAPER.md)
+[![Status](https://img.shields.io/badge/status-v1.2.1%20shipped-blue)](CHANGELOG.md)
+[![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
 
@@ -28,12 +29,12 @@ stable, industrial-grade interfaces.
 
 | Item | Value |
 |---|---|
-| **Version** | **1.2.1** — patch over 1.2.0 (signature/light two-mode switching + DEMO polish, zero public API drift); feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); PyPI upload owned by the maintainer |
+| **Version** | **1.2.2** — patch over 1.2.1 (PyPI metadata / bilingual README presentation fix, zero public API drift); **1.2.1** (signature/light two-mode switching + DEMO polish) is already published on PyPI; feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); API contract stays **1.2.0**; PyPI upload owned by the maintainer |
 | **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
 | **Public QML types** | **144** — Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
 | **API freeze** | 144 types, zero drift · fingerprint `4f882374ad52262b` (1.2.0 batch single re-sign) |
 | **Runtime** | Python ≥ 3.10 · PySide6 ≥ 6.8 (verified on **6.12.0**) · Windows / macOS / Linux |
-| **Quality gates** | static 3/3 PASS · 53/53 API-freeze & layout-shell tests · 20/20 ceiling audit · qmllint 0 error |
+| **Quality gates** | static 3/3 PASS · 68 targeted tests passed · 20/20 ceiling audit · 15/15 foundations audit · qmllint 0 error |
 
 - **Flagship Standard**: Robustness · Solidity · Aesthetics · Prescience
 - **Methodology**: **CARF** — Conceive, Achieve, Refine, Freeze — Culminate to the peak
@@ -88,7 +89,7 @@ Quasar, not a port or fork of it ([relationship & credit](docs/QUASAR_ACKNOWLEDG
 | `Nova.Behaviors` | 13 | Attached interaction behaviors (ripple, drag, hover, focus ring …) |
 | `Nova.Services` | 16 | Singletons: `NovaTheme`, `NovaScreen`, `NovaPlatform`, `NovaI18n` … |
 | `Nova.Design` | 4 | Design language: `NovaMotion` (transitions), a11y design variables |
-| `Nova.Composite.LayoutShell` | 15 | The 15 business-free composite root containers |
+| `Nova.Composite.LayoutShell` | 20 | The 20 business-free composite root containers |
 
 > Direction of dependency is strictly downward. A Layout Shell never imports business
 > code, never hard-codes a menu/route/copy, and can always be previewed standalone in
@@ -102,7 +103,7 @@ Quasar, not a port or fork of it ([relationship & credit](docs/QUASAR_ACKNOWLEDG
   near-zero learning cost for Quasar developers.
 - 🧱 **Slot system** — Quasar slots mapped to QML: default slot → `default property alias`,
   named slots → composed sub-components, scoped slots → `Component` delegates.
-- 🏗️ **15 Prescient Layout Shells** — page skeletons with fixed slots, safe margins,
+- 🏗️ **20 Prescient Layout Shells** — page skeletons with fixed slots, safe margins,
   breakpoint collapse, theme wiring and *per-component visual identity*; no two look alike.
 - 🖥️ **Breakpoints** — `NovaScreen` ports Quasar's Screen plugin 1:1
   (xs/sm/md/lg/xl = 600/1024/1440/1920, `is*` / `lt*` / `gt*`).
@@ -117,9 +118,9 @@ Quasar, not a port or fork of it ([relationship & credit](docs/QUASAR_ACKNOWLEDG
 - ✅ **Verified, not promised** — static gate (a11y → API freeze → qmllint), 478 pytest
   cases, 31/31 headless instantiation, qmllint 0 error on a real QML engine.
 
-## The 15 Prescient Layout Shells
+## The 20 Prescient Layout Shells
 
-All 15 live in `Nova.Composite.LayoutShell`, are frozen public types, and each owns a
+All 20 live in `Nova.Composite.LayoutShell`, are frozen public types, and each owns a
 distinct structural identity element (pure decoration, zero business semantics).
 
 | Category | Component | Typical scenario | Identity element |
@@ -139,6 +140,11 @@ distinct structural identity element (pure decoration, zero business semantics).
 | Root shell (3) | `NovaMobile` | Mobile app root | Dynamic island + home indicator |
 | Root shell (3) | `NovaFlexLayout` | Large-screen / HMI | Column-driven floating panel grid |
 | AI window (1) | `NovaChat` | AI assistant main window | Six-track, per-track exclusive signatures |
+| AI workbench (3) | `NovaAgent` | Agent task-execution workbench | DAG task rail + gradient edge + approval band |
+| AI workbench (3) | `NovaDE` | Digital-employee role workbench | Diamond role badge + stacked queue cards + SLA rail |
+| AI workbench (3) | `NovaCopilot` | Collaborative copilot panel | Capsule suggestion rail + confirmation levels + undo arc |
+| Intent orbit (1) | `NovaOrbit` | Intent-orbit workbench | Tri-rail hairlines + bifurcation marks + topology dot-matrix |
+| Incubator (1) | `NovaIncubator` | Application incubator workbench | Four-stage wedge bar + seven-zone ring + certificate seal |
 
 > Slots follow one semantic contract so a business page can migrate between shells.
 > The full property/signal/slot tables and dependency lists live in the
@@ -147,7 +153,7 @@ distinct structural identity element (pure decoration, zero business semantics).
 ## Installation
 
 ```bash
-pip install pyside-nova          # from PyPI (after the maintainer publishes)
+pip install pyside-nova          # from PyPI
 pip install -e ".[dev]"          # local development
 ```
 
@@ -166,6 +172,8 @@ init_nova(engine)          # registers all Nova.* QML import paths
 engine.load("main.qml")
 sys.exit(app.exec())
 ```
+
+> **High-frequency pitfall:** call `init_nova(engine)` before `engine.load(...)`. It registers all `Nova.*` QML import paths; skipping it makes Qt report `module "Nova.Controls" is not installed`.
 
 ```qml
 // main.qml
@@ -220,9 +228,9 @@ NovaSidebar {
 ### Gallery
 
 ```bash
-python examples/gallery_launch.py          # full gallery (sidebar + 15 Shell pages)
-python examples/demo/main.py               # compact demo
-python examples/layout_shell/sidebar/run.py # one standalone Shell demo
+python examples/gallery_launch.py             # full gallery (sidebar + 20 Shell pages)
+python examples/gallery/layout_shells.py      # gallery launcher
+python examples/layout_shell/agent/run.py     # one standalone Shell demo
 ```
 
 ## Project layout (src layout)
@@ -242,7 +250,7 @@ pyside-nova/
 ├── examples/
 │   ├── demo/                       # compact demo
 │   ├── gallery/                    # component gallery (sidebar + pages)
-│   └── layout_shell/               # 15 standalone Shell demos
+│   └── layout_shell/               # 20 standalone Shell demos
 ├── docs/                           # constitutions, white papers, generated indexes
 ├── scripts/                        # generators, gates, icon fetch, local deploy
 ├── tests/                          # 478 pytest cases
@@ -309,11 +317,19 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
+## Versioning strategy
+
+- Independent SemVer; version numbers are not locked to Quasar releases.
+- **Patch** (e.g. `1.2.0 → 1.2.1`) is for private-token and delivery polish with zero public API drift; the API contract stays at `1.2.0`.
+- **Additive public types** bump minor and require a single batch freeze re-sign; destructive signature changes require major.
+- Published property names are never removed or renamed; semantics may only be appended, and aliases are forbidden.
+- Runtime floor: Python ≥ 3.10 · PySide6 ≥ 6.8 (verified on 6.12.0).
+
 ## Documentation
 
 - [Flagship White Paper](docs/prescript/WHITEPAPER.md) — manifesto, architecture,全端方案
 - [Prescient Layout Shell Frozen Spec](docs/prescript/SPEC_FREEZE.md) — acceptance red lines & slot contract
-- [Layout Shell module README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) — all 18 contracts & dependency lists
+- [Layout Shell module README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) — all 20 contracts & dependency lists
 - [Component index](docs/COMPONENT_LIST.md) — 144 types, generated
 - [Relationship with Quasar & credit](docs/QUASAR_ACKNOWLEDGEMENT.md) — inspired by, not a fork
 - [Architecture Constitution](docs/CONSTITUTION.md) · [Composition Constitution](docs/COMPOSITION_CONSTITUTION.md)

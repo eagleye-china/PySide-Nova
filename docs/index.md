@@ -1,7 +1,7 @@
 # pyside-nova 文档站首页
 
 **pyside-nova** 是面向 **PySide6 / QML** 的企业级 UI 组件库，对标 [Quasar Framework](https://quasar.dev)（v2.35.5 基线逐项对账），
-当前版本 **1.2.1**（1.2.0 之上的 patch 升级：专属/亮色二态切换 + DEMO 打磨，**公共 API 零漂移**；功能主体为 1.0.0 GA 之上的 additive minor——共 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator（第 20 个、本库最后一个组合组件）** · **144 个导出类型** · **20 个组合根容器 20/20 天花板销号** · 15 项 GA 签名逐字不变 · API 冻结指纹 `4f882374ad52262b` 整批单次重签 · API 契约 `1.2.0` 不变；**待 CSA 发布 PyPI**）。
+当前版本 **1.2.2**（1.2.1 之上的 patch 升级：修正 PyPI 元数据与双语 README 呈现，**公共 API 零漂移**；**1.2.1**（专属/亮色二态切换 + DEMO 打磨）已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor——共 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator（第 20 个、本库最后一个组合组件）** · **144 个导出类型** · **20 个组合根容器 20/20 天花板销号** · 15 项 GA 签名逐字不变 · API 冻结指纹 `4f882374ad52262b` 整批单次重签 · API 契约 `1.2.0` 不变；**1.2.2 待 CSA 发布 PyPI**）。
 
 > **最高方法论 CARF** — Conceive · Achieve · Refine · Freeze（构想 · 实现 · 打磨 · 封版，终抵巅峰）。
 > 六维天花板（**功能 / 质量 / 观感 / 友好度 / 四性**：鲁棒性 · 坚实性 · 艺术性 · 预判性）逐项销号；
@@ -53,7 +53,7 @@ engine.load("main.qml")    # QML 里: import Nova.Controls
 ## 一分钟跑通画廊
 
 ```bash
-pip install pyside-nova==1.2.1
+pip install pyside-nova==1.2.2
 # 克隆仓库后：
 python examples/gallery_launch.py    # 24 页组件画廊（明暗主题 / 断点 / i18n / RTL）
 ```

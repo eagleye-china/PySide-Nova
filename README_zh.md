@@ -11,12 +11,13 @@
 沉淀为标准化组件与「预判式布局壳」——安全边距、主题联动、自适应规则与边界容错提前内置，
 让不精通 UI 的开发者也能开箱产出工整、精致、稳定的企业级界面。
 
-[![CI](https://github.com/your-name/pyside-nova/actions/workflows/ci.yml/badge.svg)](https://github.com/your-name/pyside-nova/actions/workflows/ci.yml)
+[![CI](https://github.com/eagleye-china/pyside-nova/actions/workflows/ci.yml/badge.svg)](https://github.com/eagleye-china/pyside-nova/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-旗舰版%20v1.0-blue)](docs/prescript/WHITEPAPER.md)
+[![Status](https://img.shields.io/badge/status-v1.2.1%20shipped-blue)](CHANGELOG.md)
+[![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
 
@@ -26,12 +27,12 @@
 
 | 项目 | 内容 |
 |---|---|
-| **版本** | **1.2.1** —— 1.2.0 之上的 patch（专属/亮色二态切换 + DEMO 打磨，公共 API 零漂移）；功能主体为 1.0.0 GA 之上的 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签）；PyPI 上架由维护者执行 |
+| **版本** | **1.2.2** —— 1.2.1 之上的 patch（修正 PyPI 元数据与双语 README 呈现，公共 API 零漂移）；**1.2.1**（专属/亮色二态切换 + DEMO 打磨）已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签）；API 契约沿用 **1.2.0**；PyPI 上架由维护者执行 |
 | **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
 | **公共 QML 类型** | **144** —— Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
 | **API 冻结** | 144 类型零漂移 · 指纹 `4f882374ad52262b`（1.2.0 整批单次重签） |
 | **运行环境** | Python ≥ 3.10 · PySide6 ≥ 6.8（**6.12.0** 实测）· Windows / macOS / Linux |
-| **质量门禁** | 静态 3/3 PASS · 53/53 专项测试 · 20/20 天花板机检 · qmllint 0 error |
+| **质量门禁** | 静态 3/3 PASS · 68 项专项测试通过 · 20/20 天花板机检 · 15/15 基础控件机检 · qmllint 0 error |
 
 - **旗舰四性**：鲁棒性 Robustness · 健壮性 Solidity · 艺术性 Aesthetics · 前置预判性 Prescience
 - **方法论**：**CARF** —— 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）（[母法卷首](docs/CONSTITUTION.md)）· 20/20 组合根容器天花板全量销号（[逐项台账](docs/prescript/AUDIT_CEILING.md)）
@@ -131,6 +132,11 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 | 多端根壳（3） | `NovaMobile` | 移动端应用根 | 灵动岛 + home indicator |
 | 多端根壳（3） | `NovaFlexLayout` | 企业大屏 / HMI | columns 驱动的浮起面板网格 |
 | AI 对话主窗口（1） | `NovaChat` | AI 助手主窗口（对标 WorkBuddy 桌面端） | 六轨按轨分治、每轨独占签名 |
+| AI 工作台（3） | `NovaAgent` | 智能体任务执行工作台 | 左任务 DAG 递减链 + 右缘渐变轨 + 审批闸门色带 |
+| AI 工作台（3） | `NovaDE` | 数字员工岗位工作台 | 岗位菱形徽记 + 队列分层堆叠卡 + SLA 递减轨 |
+| AI 工作台（3） | `NovaCopilot` | 增强型协作面板 | 胶囊建议列 + 三段确认级条 + 撤销弧环 |
+| 意图轨道（1） | `NovaOrbit` | 意图轨道工作台 | 三段轨道发丝线 + 并行分叉角标 + 拓扑点阵 |
+| 孵化器（1） | `NovaIncubator` | 应用孵化器工作台 | 四级楔形条 + 七区分格环 + 方章折角 |
 
 > 槽位遵循同一套语义契约，业务页面可跨壳迁移。完整的属性 / 信号 / 槽位表与「依赖组件清单」
 > 见 [模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md)。
@@ -138,7 +144,7 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 ## 安装
 
 ```bash
-pip install pyside-nova          # PyPI 发布后
+pip install pyside-nova          # 从 PyPI 安装
 pip install -e ".[dev]"          # 本地开发
 ```
 
@@ -157,6 +163,8 @@ init_nova(engine)          # 注册全部 Nova.* QML 导入路径
 engine.load("main.qml")
 sys.exit(app.exec())
 ```
+
+> ⚠️ **高频踩坑预警**：务必在 `engine.load(...)` 之前调用 `init_nova(engine)`。它负责注册全部 `Nova.*` QML 导入路径；漏掉时 Qt 会报 `module "Nova.Controls" is not installed`。
 
 ```qml
 // main.qml
@@ -211,9 +219,9 @@ NovaSidebar {
 ### 组件画廊
 
 ```bash
-python examples/gallery_launch.py             # 完整画廊（侧边导航 + 15 页布局壳）
-python examples/demo/main.py                  # 精简演示
-python examples/layout_shell/sidebar/run.py   # 单项布局壳独立演示
+python examples/gallery_launch.py             # 完整画廊（侧边导航 + 20 页布局壳）
+python examples/gallery/layout_shells.py      # 画廊启动器
+python examples/layout_shell/agent/run.py     # 单项布局壳独立演示
 ```
 
 ## 项目结构（src 布局）
@@ -229,11 +237,11 @@ pyside-nova/
 │       ├── Behaviors/              # 13 附加行为
 │       ├── Services/               # 16 服务单例（NovaTheme / NovaScreen / …）
 │       ├── Design/                 # 4 设计语言类型（NovaMotion / …）
-│       └── Composite/LayoutShell/  # 15 组合根容器 + qmldir + README
+│       └── Composite/LayoutShell/  # 20 组合根容器 + qmldir + README
 ├── examples/
 │   ├── demo/                       # 精简演示
 │   ├── gallery/                    # 组件画廊（侧边导航 + 分页）
-│   └── layout_shell/               # 15 个布局壳独立演示
+│   └── layout_shell/               # 20 个布局壳独立演示
 ├── docs/                           # 宪法、白皮书、生成器产物索引
 ├── scripts/                        # 生成器、门禁、图标下载、一键打包
 ├── tests/                          # 478 项 pytest
@@ -295,6 +303,14 @@ python -m build                              # 构建 sdist + wheel
 git tag v1.0.0
 git push origin v1.0.0
 ```
+
+## 版本策略
+
+- 采用独立 SemVer，版本号不与 Quasar 发布节奏强制对齐。
+- **Patch**（如 `1.2.0 → 1.2.1`）只承载私有令牌与交付打磨，公共 API 零漂移；API 契约继续沿用 `1.2.0`。
+- **additive 公共类型**才升 minor，并须整批单次重签冻结面；破坏性签名变更只能走 major。
+- 已发布的属性名绝不删除或改名；后续语义只允许追加，严禁同义别名。
+- 运行底线：Python ≥ 3.10 · PySide6 ≥ 6.8（6.12.0 实测）。
 
 ## 文档索引
 

@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "pyside-nova"
 dynamic = ["version"]
-description = "Enterprise-grade QML component library for PySide6 — the Quasar of the Qt Quick world."
+description = "Inspired by Quasar, an enterprise-grade QML component library for PySide6."
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "pyside-nova contributors" }]
@@ -32,9 +32,11 @@ classifiers = [
 dev = ["pytest>=8.0", "build"]
 
 [project.urls]
-Homepage = "https://github.com/your-name/pyside-nova"
-Repository = "https://github.com/your-name/pyside-nova"
-Changelog = "https://github.com/your-name/pyside-nova/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/eagleye-china/pyside-nova"
+Repository = "https://github.com/eagleye-china/pyside-nova"
+Changelog = "https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/eagleye-china/pyside-nova/tree/main/docs"
+"Bug Tracker" = "https://github.com/eagleye-china/pyside-nova/issues"
 
 [tool.hatch.version]
 path = "src/pyside_nova/__about__.py"

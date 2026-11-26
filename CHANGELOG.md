@@ -3,7 +3,35 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.2.1] - 2026-11-26 — 专属/亮色二态切换 · DEMO 打磨 ⭐ 当前状态（待 CSA 发布）
+## [1.2.2] - 2026-11-26 — 发布元数据与双语 README 呈现修正 ⭐ 当前状态（待 CSA 发布）
+
+> **版本说明**：1.2.1 之上的 **patch**——仅修正已发布 1.2.1 的 PyPI 元数据占位与 README
+> 首屏呈现口径，**公共 API 零漂移**（144 类型 · 指纹 `4f882374ad52262b` 不变）。按 [1.0.1] /
+> [1.2.1] 先例，`apiVersion=1.2.0`、清单 `api/nova-api-1.2.0.json` 文件名与
+> `test_api_freeze` 硬断言均不改。1.2.1 已由 CSA 发布至 PyPI（`main` / tag `v1.2.1` → `330fe9f`）；
+> 已上传发行元数据不能原地改，故本批以 1.2.2 重新发行。**push / tag v1.2.2 / PyPI 仍归 CSA**。
+
+### 修复（Fixed）
+- `pyproject.toml` 的 `description` 由 `the Quasar of the Qt Quick world` 改为
+  **Inspired by Quasar, an enterprise-grade QML component library for PySide6.**，
+  与 README / `docs/QUASAR_ACKNOWLEDGEMENT.md` 的受启发口径一致。
+- `[project.urls]` 全部由 `github.com/your-name/pyside-nova` 占位改为真实远端
+  `github.com/eagleye-china/pyside-nova`，并补 `Documentation` / `Bug Tracker`。
+- 双语 README 的 CI / Status / Stars 徽章改真实仓库；Status `v1.0` → `v1.2.1 shipped`。
+
+### 文档（Docs）
+- 双语 README 校准过时计数：15 → **20 项布局壳**、Gallery 20 页、20 个独立 demo、
+  20 项契约；`53/53` → **68 项专项测试**；安装注释由「发布后」改为「从 PyPI 安装」。
+- 双语 20 项布局壳表补齐 `NovaAgent` / `NovaDE` / `NovaCopilot` / `NovaOrbit` /
+  `NovaIncubator` 五行；新增 `init_nova(engine)` 漏调用预警与独立 SemVer 版本策略。
+
+### 验收（Verified）
+- `check_all.py --tier static` 3/3 · 专项 68 passed · `gen_prompt.py --check` 同步 ·
+  TOML 解析通过 · 双语表格各 20 行 · 过时口径 grep 0 命中 · **冻结面零漂移**。
+
+---
+
+## [1.2.1] - 2026-11-26 — 专属/亮色二态切换 · DEMO 打磨（已由 CSA 发布至 PyPI）
 
 > **版本说明**：1.2.0 之上的 **patch 升级**——本批为 demo 层专属/亮色二态切换 +
 > 过时文案校准 + 双态实跑截图，**公共 API 零漂移**（144 类型 · 指纹 `4f882374ad52262b`
