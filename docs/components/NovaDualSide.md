@@ -1,6 +1,6 @@
 # NovaDualSide · 双侧边工作台
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 主导航 · **pyside-nova 1.2.2** · API 冻结指纹 `4f882374ad52262b` · **20/20 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 主导航 · **pyside-nova 1.2.3** · API 冻结指纹 `4f882374ad52262b` · **20/20 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览

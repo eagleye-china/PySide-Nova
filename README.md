@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova flagship seal · CARF · v1.2.3" width="200" />
+
 # PySide-Nova
 
 > Inspired by Quasar, PySide-Nova takes its component philosophy further in the PySide ecosystem.
@@ -17,19 +19,19 @@ stable, industrial-grade interfaces.
 [![PyPI](https://img.shields.io/pypi/v/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-v1.2.1%20shipped-blue)](CHANGELOG.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
+[![Status](https://img.shields.io/badge/status-v1.2.3%20shipped-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 [![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
 
-> 🇨🇳 中文文档：**[README_zh.md](README_zh.md)**
+> 🇨🇳 中文文档：**[README_zh.md](https://github.com/eagleye-china/pyside-nova/blob/main/README_zh.md)**
 
 ## Status at a glance
 
 | Item | Value |
 |---|---|
-| **Version** | **1.2.2** — patch over 1.2.1 (PyPI metadata / bilingual README presentation fix, zero public API drift); **1.2.1** (signature/light two-mode switching + DEMO polish) is already published on PyPI; feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); API contract stays **1.2.0**; PyPI upload owned by the maintainer |
+| **Version** | **1.2.3** — patch over 1.2.2 (brand seal dual-track rollout + PyPI README absolute-link fix, zero public API drift); **1.2.2** (PyPI metadata / bilingual README presentation fix) is already published on PyPI; feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); API contract stays **1.2.0**; PyPI upload owned by the maintainer |
 | **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
 | **Public QML types** | **144** — Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
 | **API freeze** | 144 types, zero drift · fingerprint `4f882374ad52262b` (1.2.0 batch single re-sign) |
@@ -38,11 +40,11 @@ stable, industrial-grade interfaces.
 
 - **Flagship Standard**: Robustness · Solidity · Aesthetics · Prescience
 - **Methodology**: **CARF** — Conceive, Achieve, Refine, Freeze — Culminate to the peak
-  ([母法卷首宣言](docs/CONSTITUTION.md)) · all 20 composite root containers audited to the ceiling
-  ([ceiling ledger](docs/prescript/AUDIT_CEILING.md))
-- **Constitution**: [docs/CONSTITUTION.md](docs/CONSTITUTION.md) (mother law) + [docs/COMPOSITION_CONSTITUTION.md](docs/COMPOSITION_CONSTITUTION.md) (Layout Shell sub-law)
-- **White papers**: [Flagship White Paper](docs/prescript/WHITEPAPER.md) · [Prescient Layout Shell Frozen Spec](docs/prescript/SPEC_FREEZE.md)
-- **Authoritative index**: [docs/COMPONENT_LIST.md](docs/COMPONENT_LIST.md) — generated, never hand-edited
+  ([母法卷首宣言](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md)) · all 20 composite root containers audited to the ceiling
+  ([ceiling ledger](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/AUDIT_CEILING.md))
+- **Constitution**: [docs/CONSTITUTION.md](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md) (mother law) + [docs/COMPOSITION_CONSTITUTION.md](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPOSITION_CONSTITUTION.md) (Layout Shell sub-law)
+- **White papers**: [Flagship White Paper](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/WHITEPAPER.md) · [Prescient Layout Shell Frozen Spec](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/SPEC_FREEZE.md)
+- **Authoritative index**: [docs/COMPONENT_LIST.md](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPONENT_LIST.md) — generated, never hand-edited
 
 ## Why pyside-nova
 
@@ -62,7 +64,7 @@ keep recurring in cross-platform GUI work:
 **pyside-nova borrows Quasar's component-driven ideas and adapts them to Python desktop
 development**, with a Quasar-familiar API so Vue/Quasar developers feel at home — and a
 frozen, audit-friendly enterprise release process for everyone else. It is inspired by
-Quasar, not a port or fork of it ([relationship & credit](docs/QUASAR_ACKNOWLEDGEMENT.md)).
+Quasar, not a port or fork of it ([relationship & credit](https://github.com/eagleye-china/pyside-nova/blob/main/docs/QUASAR_ACKNOWLEDGEMENT.md)).
 
 > **One-line position:** steadier than Electron, broader than Flutter, faster than
 > per-platform native development — one component set, native-grade fluency on every screen.
@@ -148,7 +150,7 @@ distinct structural identity element (pure decoration, zero business semantics).
 
 > Slots follow one semantic contract so a business page can migrate between shells.
 > The full property/signal/slot tables and dependency lists live in the
-> [module README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md).
+> [module README](https://github.com/eagleye-china/pyside-nova/blob/main/src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md).
 
 ## Installation
 
@@ -327,17 +329,17 @@ git push origin v1.0.0
 
 ## Documentation
 
-- [Flagship White Paper](docs/prescript/WHITEPAPER.md) — manifesto, architecture,全端方案
-- [Prescient Layout Shell Frozen Spec](docs/prescript/SPEC_FREEZE.md) — acceptance red lines & slot contract
-- [Layout Shell module README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) — all 20 contracts & dependency lists
-- [Component index](docs/COMPONENT_LIST.md) — 144 types, generated
-- [Relationship with Quasar & credit](docs/QUASAR_ACKNOWLEDGEMENT.md) — inspired by, not a fork
-- [Architecture Constitution](docs/CONSTITUTION.md) · [Composition Constitution](docs/COMPOSITION_CONSTITUTION.md)
-- [Ecosystem Parity](docs/ECOSYSTEM_PARITY.md) · [CHANGELOG](CHANGELOG.md)
+- [Flagship White Paper](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/WHITEPAPER.md) — manifesto, architecture,全端方案
+- [Prescient Layout Shell Frozen Spec](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/SPEC_FREEZE.md) — acceptance red lines & slot contract
+- [Layout Shell module README](https://github.com/eagleye-china/pyside-nova/blob/main/src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) — all 20 contracts & dependency lists
+- [Component index](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPONENT_LIST.md) — 144 types, generated
+- [Relationship with Quasar & credit](https://github.com/eagleye-china/pyside-nova/blob/main/docs/QUASAR_ACKNOWLEDGEMENT.md) — inspired by, not a fork
+- [Architecture Constitution](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md) · [Composition Constitution](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPOSITION_CONSTITUTION.md)
+- [Ecosystem Parity](https://github.com/eagleye-china/pyside-nova/blob/main/docs/ECOSYSTEM_PARITY.md) · [CHANGELOG](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
 
 ---
 

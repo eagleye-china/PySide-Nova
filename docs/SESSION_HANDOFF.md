@@ -2,16 +2,16 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.2.2 · 2026-11-26）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.2.3 · 2026-11-26）
 
-## ⚠️ 当前状态校准（2026-11-25 17:16 立 · **2026-11-26 1.2.2 发布元数据与双语 README 呈现修正 / 功能主体仍为 1.2.0 第 20 组合根 NovaIncubator 收官** · 覆盖下方 rc1 历史快照）
+## ⚠️ 当前状态校准（2026-11-25 17:16 立 · **2026-11-26 1.2.3 品牌徽标双轨制落地 / 功能主体仍为 1.2.0 第 20 组合根 NovaIncubator 收官** · 覆盖下方 rc1 历史快照）
 
 > **本节优先于下方全部历史正文**。下方「1.0.0rc1 / 124 类型 / 六期 RC1」等内容是
 > 2026-11-23 的历史档案，保留供追溯，**不得作为当前状态引用**。
 
 | 项 | 当前事实（2026-11-26 · **1.2.0 整批单次重签 / 第 20 组合根 NovaIncubator 收官**；T9 / 坑位 49 / T5 均已结案） |
 |---|---|
-| 版本 / 发布 | **1.2.2**（由 1.2.1 作 **patch** 升级：修正 PyPI 元数据与双语 README 呈现，**公共 API 零漂移**；**1.2.1**（专属/亮色二态切换 + DEMO 打磨）已由 CSA 发布至 PyPI，`main` / tag `v1.2.1` → `330fe9f`；功能主体是 1.0.1 → 1.2.0 的 **additive minor**——共新增 **5 项组合根容器** `NovaAgent` / `NovaDE` / `NovaCopilot` / `NovaOrbit` / **`NovaIncubator`**，**15 项 GA 公共签名逐字不变**；1.1.0 为未发布中间批次、其四增量已并入 1.2.0 **整批登记、单次重签**，禁止中间指纹；按 1.0.1 / 1.2.1 先例 `apiVersion` 保持 **1.2.0**、清单 `api/nova-api-1.2.0.json` 文件名不改）；**1.0.0 GA / 1.0.1 / 1.2.1 已由 CSA 发布至 PyPI，1.2.2 待 CSA 发布** |
+| 版本 / 发布 | **1.2.3**（由 1.2.2 作 **patch** 升级：品牌徽标双轨制落地 + PyPI README 绝对链接修正，**公共 API 零漂移**；CSA 14:37 改判徽标版本口径——徽标为 SVG 文本、刻当前包版本 `v1.2.3`，**每次升版（含 patch）同步修正**，由 `scripts/sync_brand_version.py` 写入 + `--check` 机检固化（见 `GUIDE_BRAND_MARK.md §7`）；**1.2.2**（PyPI 元数据 / 双语 README 呈现修正）已由 CSA 发布至 PyPI，`main` / tag `v1.2.2` → `a431a0f`；功能主体是 1.0.1 → 1.2.0 的 **additive minor**——共新增 **5 项组合根容器** `NovaAgent` / `NovaDE` / `NovaCopilot` / `NovaOrbit` / **`NovaIncubator`**，**15 项 GA 公共签名逐字不变**；1.1.0 为未发布中间批次、其四增量已并入 1.2.0 **整批登记、单次重签**，禁止中间指纹；按 1.0.1 / 1.2.1 先例 `apiVersion` 保持 **1.2.0**、清单 `api/nova-api-1.2.0.json` 文件名不改）；**1.0.0 GA / 1.0.1 / 1.2.1 / 1.2.2 已由 CSA 发布至 PyPI，1.2.3 待 CSA 发布** |
 | 公共 QML 类型 | **144**（Controls 91 · Behaviors 13 · Services 16 · Design 4 · **Composite.LayoutShell 20** = 15 GA + 3 AI 智能组合根 + 1 意图轨道呈现层 + 1 应用孵化器工作台） |
 | API 冻结 | 144 类型零漂移 · 指纹 **`4f882374ad52262b`**（1.2.0 整批单次重签，12:05 物理拍平后重签；历史指纹 `bfd3d938a2fab7be → cc32b5852ed04995 → 862312749d335aad → 68b34a408489b6a8`）· `api/nova-api-1.2.0.json` 与 `docs/API_FREEZE.md` 均为生成物禁手改；旧 143 类型成员逐字比对 **0 漂移**，仅新增 `NovaIncubator` |
 | 方法论 | **CARF — Conceive, Achieve, Refine, Freeze — Culminate to the peak.** 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）；母法 `docs/CONSTITUTION.md` 卷首 + 组合宪法 `docs/COMPOSITION_CONSTITUTION.md` **1.0.0** 卷首执行版。本轮 CARF 全循环：C 精读命名稿 + World-Class Edition 史料、裁定「方法论层史料 + 组件层工作台壳」双层法源 → A 第 20 组合根 QML + 1.2.0 整批重签 → R 三态图 / 20/20 机检 / 视觉实测避让 → F 账本闭环 |
@@ -20,6 +20,7 @@
 | 测试基建坑位 49 | **21:47 依 CSA 指令结案归档：议题结案、非交付完成**——Qt 6.12 + shiboken 与 pytest 生命周期 refcount 冲突，14 类工程修复无效、未交付修复；真正修复需 CSA 拍板降级 PySide6 或改分批独立进程测试架构。产品代码 / 已发布包不受影响 |
 | 装配态资产 | **20 × 浅/深/变体 = 60 张** `docs/screenshots/*_showcase_*.png`（本轮新增 `incubator` 3 张；1.1.0 批次 `agent` / `de` / `copilot` / `orbit` 各 3 张）；工具 `scripts/audit_showcase.py` |
 | 企业级旗舰版封版法源 | ① `docs/prescript/LAW_NovaAgent.md` ② `LAW_NovaDE.md` ③ `LAW_NovaCopilot.md`（联合方案拆三份）④ `LAW_NovaOrbit.md`（原地企业级优化：元信息 / 零章无业务语义骨架 / O1~O8 / 组件级契约 / CC 映射 / CARF / 封版声明）⑤ **`LAW_NovaIncubator.md`（905 行：前置组件层封版法源 396 行 + 原 508 行 World-Class Edition 史料逐字保留；元信息 / 零章三要素 / 法源张力消解 / I1~I8 / 组件级契约 / CC-1~CC-8 / CARF 四阶段 / 命名稿整合 / 封版声明）**；⑥ `ARCHIVE_NovaIncubator_Naming.md` 命名定稿史料（288 行）。均已纳入 `mkdocs.yml` nav |
+| 品牌徽标（1.2.3） | CSA 14:22 / 14:25 双轨制拍板：**克制矢量派** `src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg`（+ `-mono.svg`）= 正式库标，进 README 双语 / 文档站首页；**华丽宣传派** `-sealed-gold.svg` 仅海报封面，不上 favicon / 小尺寸。**刻当前包版本 `v1.2.3`**（CSA 14:37 改判：SVG 版本号是文字、每次升版含 patch 同步修正，非刻死 API 契约），由 `scripts/sync_brand_version.py` 写入 + `--check` 机检固化；规范唯一事实源 `docs/prescript/GUIDE_BRAND_MARK.md`（§7 升版 SOP）。`.gitignore` 的 `icons/` 无锚点误伤已修为 `/icons/` + 资源放行，17 个 SVG + 2 PNG 首次入库；`textPath` 环形铭文须 Chrome/Playwright 渲染（QtSvg 不渲染） |
 | 第 20 组合根 NovaIncubator | **「本库最后一个组合组件」** = 诺瓦应用孵化器在组件层的「应用孵化器工作台壳」。七槽无业务语义骨架（global / recipe / stage / pipeline / validate / certificate / overlay）+ 3 受控信号（`recipeToggled` / `validateToggled` / `freezeRequested`）+ 3 函数 + `_` 私有纯几何身份；成品级 Demo `examples/layout_shell/incubator/` 真实注入 R1~R5 五套配方 / 七区契约 / 组件编排 / 治理清单 / CARF 四阶段 / 三重校验 / 封版证书五件套 / **人工确认闸门**；Gallery 第 20 页 + 逐组件 API 页 + 3 张三态图。`freezeRequested()` 只 emit 意图，**壳绝不自动封版、绝不自动执行** |
 | 按需打磨（实测驱动） | 三 AI 组件与第 20 组合根均按 CSA 拍板 **「实测驱动、按需打磨」**：20/20 机检（静态 CC 契约 / 字面量实例化 / 60/60 组极端非法入参 / RTL 20/20 / reducedMotion）+ 三态装配图视觉复核；首轮 `incubator` 出图暴露 2 处**业务注入侧争位**（标题与身份装饰重叠、证书栏五件套裁切），仅在 Demo 侧 `topMargin` / `certificateHeight: 190` 避让修复，**组件侧零 PATCH、零公共面改动、零指纹漂移**；不硬造修改、不批量扫荡 |
 | 门禁 | `check_all.py --tier static` **3/3**（a11y **144/144** · API 冻结 144 零漂移 · qmllint **0 error** / 594 warning 预算内）；专项 `pytest tests/test_api_freeze.py tests/test_layout_shells.py -q` **53/53**；`audit_ceiling.py` **20/20 PASS**（20 组件字面量 + 21/21 showcase / Gallery + **60/60 组**极端非法入参零负几何 + RTL 20/20 + reducedMotion 300→0 + **526 链接断链 0**）；`audit_foundations.py` **15/15 PASS**；`mkdocs build` exit 0 / **0 WARNING / 0 内容 INFO**；`gen_apidocs.py` / `gen_component_list.py` 重跑幂等（144 类型 / 20 页逐组件文档 / 60 张三态图引用） |

@@ -3,13 +3,51 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.2.2] - 2026-11-26 — 发布元数据与双语 README 呈现修正 ⭐ 当前状态（待 CSA 发布）
+## [1.2.3] - 2026-11-26 — 品牌徽标双轨制落地 · PyPI README 链接修正 ⭐ 当前状态（待 CSA 发布）
+
+> **版本说明**：1.2.2 之上的 **patch**——仅品牌呈现与文档链接修正，**公共 API 零漂移**
+> （144 类型 · 指纹 `4f882374ad52262b` 不变）。CSA 14:37 改判徽标版本口径：徽标是 SVG 文本，
+> 缎带 / 下弧刻**当前包版本 `v1.2.3`**，**每次升版（含 patch）同步修正**；`apiVersion=1.2.0`、
+> 清单文件名与 `test_api_freeze` 硬断言均不改。**push / tag v1.2.3 / PyPI 仍归 CSA**。
+
+### 新增（Added）
+- **企业级旗舰封版徽标（双轨制）**：`pyside-nova-logo-sealed.svg` / `-mono.svg` 为正式库标
+  （克制矢量派，CARF 四词 / 20 刻度 / 6 青点 / 2×2 矩阵 / 青蓝极光白芯 / 三星冠 /
+  `SEALED · v1.2.3` 缎带）；`pyside-nova-logo-sealed-gold.svg` 为鎏金纪念版，仅作海报 /
+  封面 / 演讲大图，不上小尺寸与 favicon。规范唯一事实源 `GUIDE_BRAND_MARK.md`。
+- **升版 SOP 固化**：新增 `scripts/sync_brand_version.py`（从 `__about__.py` 读唯一版本源，
+  一键同步 3 枚 SVG + 3 份站点副本的版本字样；`--check` 供发布门禁机检，杜绝
+  「包已升版、SVG 仍刻旧版本」）与 `scripts/render_brand_previews.py`（Chrome 内核复拍，
+  `textPath` 环形铭文 QtSvg 不渲染）。规范见 `GUIDE_BRAND_MARK.md §7`。
+- 徽标资产首次入库：修正 `.gitignore` 中无锚点的 `icons/` 误伤，改为 `/icons/` 并放行
+  `src/pyside_nova/resources/icons/`；17 个历史设计 SVG + 2 张 PNG 同时归位。
+
+### 修复（Fixed）
+- 双语 README 共 **44 处相对链接改 GitHub 绝对地址**，修复 PyPI 包页面点击 404。
+- 双语 README 顶部嵌入正式库徽标（200px，raw 绝对地址），文档站首页嵌入 260px 版本，
+  `mkdocs.yml` favicon 按规范使用 32px 基础标；品牌规范纳入文档站导航。
+- **wheel 体积回归修复**：`.gitignore` 放行徽标资源后，2 张历史 PNG（共 4.16 MB）会被
+  hatchling 误打进 wheel（419 KB → 4.5 MB）。`pyproject.toml` 的 wheel / sdist target
+  新增 `exclude`，历代徽标史料只留仓库；正式库标 7 个 SVG 仍随包分发。
+  复验 wheel **437 KB**、sdist **11.48 MB**，与 1.2.2 同量级。
+
+### 验收（Verified）
+- 6 个 SVG XML 解析通过 · `sync_brand_version.py --check` 幂等通过（5 处版本字样 = `v1.2.3`）·
+  Chrome 复拍 3 张 `*_v1.2.3.png`，环形铭文 / 下弧 / 缎带文字完整无裁切 ·
+  `check_all.py --tier static` **3/3** · 专项 **68 passed** · `audit_ceiling.py` 20/20（561 链接断链 0）·
+  `audit_foundations.py` 15/15 · `audit_v2_compat.py` PASS · `mkdocs build` 0 内容告警 ·
+  `gen_prompt.py --check` 同步（投影 `c3701ce4b7cb`）· wheel / sdist 构建通过（437 KB / 11.48 MB）·
+  **冻结面零漂移**（144 类型 · `4f882374ad52262b`）。
+
+---
+
+## [1.2.2] - 2026-11-26 — 发布元数据与双语 README 呈现修正（已由 CSA 发布至 PyPI）
 
 > **版本说明**：1.2.1 之上的 **patch**——仅修正已发布 1.2.1 的 PyPI 元数据占位与 README
 > 首屏呈现口径，**公共 API 零漂移**（144 类型 · 指纹 `4f882374ad52262b` 不变）。按 [1.0.1] /
 > [1.2.1] 先例，`apiVersion=1.2.0`、清单 `api/nova-api-1.2.0.json` 文件名与
 > `test_api_freeze` 硬断言均不改。1.2.1 已由 CSA 发布至 PyPI（`main` / tag `v1.2.1` → `330fe9f`）；
-> 已上传发行元数据不能原地改，故本批以 1.2.2 重新发行。**push / tag v1.2.2 / PyPI 仍归 CSA**。
+> 已上传发行元数据不能原地改，故本批以 1.2.2 重新发行。**CSA 已完成 tag `v1.2.2` → `a431a0f` 与 PyPI 上传**。
 
 ### 修复（Fixed）
 - `pyproject.toml` 的 `description` 由 `the Quasar of the Qt Quick world` 改为

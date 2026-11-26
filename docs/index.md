@@ -1,7 +1,11 @@
 # pyside-nova 文档站首页
 
+<p align="center">
+  <img src="assets/brand/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.2.3" width="260" />
+</p>
+
 **pyside-nova** 是面向 **PySide6 / QML** 的企业级 UI 组件库，对标 [Quasar Framework](https://quasar.dev)（v2.35.5 基线逐项对账），
-当前版本 **1.2.2**（1.2.1 之上的 patch 升级：修正 PyPI 元数据与双语 README 呈现，**公共 API 零漂移**；**1.2.1**（专属/亮色二态切换 + DEMO 打磨）已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor——共 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator（第 20 个、本库最后一个组合组件）** · **144 个导出类型** · **20 个组合根容器 20/20 天花板销号** · 15 项 GA 签名逐字不变 · API 冻结指纹 `4f882374ad52262b` 整批单次重签 · API 契约 `1.2.0` 不变；**1.2.2 待 CSA 发布 PyPI**）。
+当前版本 **1.2.3**（1.2.2 之上的 patch 升级：品牌徽标双轨制落地 + PyPI README 绝对链接修正，**公共 API 零漂移**；**1.2.2**（PyPI 元数据 / 双语 README 呈现修正）已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor——共 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator（第 20 个、本库最后一个组合组件）** · **144 个导出类型** · **20 个组合根容器 20/20 天花板销号** · 15 项 GA 签名逐字不变 · API 冻结指纹 `4f882374ad52262b` 整批单次重签 · API 契约 `1.2.0` 不变；**1.2.3 待 CSA 发布 PyPI**）。
 
 > **最高方法论 CARF** — Conceive · Achieve · Refine · Freeze（构想 · 实现 · 打磨 · 封版，终抵巅峰）。
 > 六维天花板（**功能 / 质量 / 观感 / 友好度 / 四性**：鲁棒性 · 坚实性 · 艺术性 · 预判性）逐项销号；
@@ -40,6 +44,7 @@ engine.load("main.qml")    # QML 里: import Nova.Controls
 - **[基础组件域分类与依赖纪律实用指南](prescript/GUIDE_COMPONENT_DOMAINS.md)** —— Controls 七域 91 + Behaviors 三域 13 = 104 基础类型十域台账 / 单向依赖机检守护 / 概念域 ≠ 模块 URI
 - **[Quasar 工程化理念对齐与架构演进实用指南](prescript/GUIDE_QUASAR_ALIGNMENT.md)** —— 四大理念 × 1.2.0 逐项对齐 / 命令式服务 `show()` 真实用法速查 / 设计令牌与槽位范式正确引用 / v2.0 已立项（见下条 §5.1）
 - **[v2.0 物理重构立项书 · 双轨兼容规范](prescript/SPEC_V2_COMPAT.md)** —— RFC + Qt 七形态实测 / **M1 就绪态（零物理视图）** / 宪法第 9·13 章合规论证 / M1~M4 分批迁移路线图 / 兼容层 C1~C5 机检
+- **[企业级旗舰封版徽标规范](prescript/GUIDE_BRAND_MARK.md)** —— 双轨制：克制矢量派（库标 / 站点 / README）+ 鎏金纪念版（宣传封面）；三枚徽标预览 + 升版 SOP（徽标刻当前包版本，每次升版含 patch 同步修正 SVG 版本号）
 - **[20 个组合根容器 · 逐组件 API 页](components/index.md)** —— Props / Slots / Events / 依赖组件 / 最小示例 / 三态装配图
 - **[60 张三态装配图索引](components/showcase.md)**
 - **[CARF-R 20/20 天花板销号台账](prescript/AUDIT_CEILING.md)**
@@ -53,7 +58,7 @@ engine.load("main.qml")    # QML 里: import Nova.Controls
 ## 一分钟跑通画廊
 
 ```bash
-pip install pyside-nova==1.2.2
+pip install pyside-nova==1.2.3
 # 克隆仓库后：
 python examples/gallery_launch.py    # 24 页组件画廊（明暗主题 / 断点 / i18n / RTL）
 ```

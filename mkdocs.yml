@@ -43,6 +43,8 @@ extra:
 theme:
   name: material
   language: zh
+  # 小尺寸位置按 GUIDE_BRAND_MARK §5 用 32px 基础标；封版徽标仅用于 ≥160px 场景
+  favicon: assets/brand/pyside-nova-icon.svg
   features:
     - navigation.tabs
     - navigation.sections
@@ -139,6 +141,7 @@ nav:
       - 路线图: ROADMAP.md
       - 交接快照: SESSION_HANDOFF.md
   - 体系:
+      - 企业级旗舰封版徽标规范（现行）: prescript/GUIDE_BRAND_MARK.md
       - 架构说明: ARCHITECTURE.md
       - 组件清单（144 项）: COMPONENT_LIST.md
       - 组件详解（历史稿）: COMPONENTS.md

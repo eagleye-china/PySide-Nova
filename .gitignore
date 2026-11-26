@@ -25,7 +25,9 @@ Thumbs.db
 .DS_Store
 
 # 本地下载的图标包（fetch_icons.py 产出，不入库）
-icons/
+# 仅锚定仓库根目录，避免误伤 src/pyside_nova/resources/icons/ 下的品牌徽标资产
+/icons/
+!src/pyside_nova/resources/icons/
 
 # MkDocs 构建产物（0.16.2）
 site/

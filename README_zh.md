@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.2.3" width="200" />
+
 # pyside-nova
 
 > 受 Quasar 启发，PySide-Nova 在 PySide 生态中将其组件理念推进一步。
@@ -15,19 +17,19 @@
 [![PyPI](https://img.shields.io/pypi/v/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-v1.2.1%20shipped-blue)](CHANGELOG.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
+[![Status](https://img.shields.io/badge/status-v1.2.3%20shipped-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 [![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
 
-> 🌍 English: **[README.md](README.md)**
+> 🌍 English: **[README.md](https://github.com/eagleye-china/pyside-nova/blob/main/README.md)**
 
 ## 现状速览
 
 | 项目 | 内容 |
 |---|---|
-| **版本** | **1.2.2** —— 1.2.1 之上的 patch（修正 PyPI 元数据与双语 README 呈现，公共 API 零漂移）；**1.2.1**（专属/亮色二态切换 + DEMO 打磨）已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签）；API 契约沿用 **1.2.0**；PyPI 上架由维护者执行 |
+| **版本** | **1.2.3** —— 1.2.2 之上的 patch（品牌徽标双轨制落地 + PyPI README 绝对链接修正，公共 API 零漂移）；**1.2.2**（修正 PyPI 元数据与双语 README 呈现）已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签）；API 契约沿用 **1.2.0**；PyPI 上架由维护者执行 |
 | **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
 | **公共 QML 类型** | **144** —— Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
 | **API 冻结** | 144 类型零漂移 · 指纹 `4f882374ad52262b`（1.2.0 整批单次重签） |
@@ -35,10 +37,10 @@
 | **质量门禁** | 静态 3/3 PASS · 68 项专项测试通过 · 20/20 天花板机检 · 15/15 基础控件机检 · qmllint 0 error |
 
 - **旗舰四性**：鲁棒性 Robustness · 健壮性 Solidity · 艺术性 Aesthetics · 前置预判性 Prescience
-- **方法论**：**CARF** —— 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）（[母法卷首](docs/CONSTITUTION.md)）· 20/20 组合根容器天花板全量销号（[逐项台账](docs/prescript/AUDIT_CEILING.md)）
-- **架构宪法**：[docs/CONSTITUTION.md](docs/CONSTITUTION.md)（母法）+ [docs/COMPOSITION_CONSTITUTION.md](docs/COMPOSITION_CONSTITUTION.md)（组合组件子法）
-- **白皮书**：[旗舰组件库白皮书](docs/prescript/WHITEPAPER.md) · [Prescient Layout Shell 封版规范](docs/prescript/SPEC_FREEZE.md)
-- **权威清单**：[docs/COMPONENT_LIST.md](docs/COMPONENT_LIST.md)（生成器产物，禁止手改）
+- **方法论**：**CARF** —— 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）（[母法卷首](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md)）· 20/20 组合根容器天花板全量销号（[逐项台账](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/AUDIT_CEILING.md)）
+- **架构宪法**：[docs/CONSTITUTION.md](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md)（母法）+ [docs/COMPOSITION_CONSTITUTION.md](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPOSITION_CONSTITUTION.md)（组合组件子法）
+- **白皮书**：[旗舰组件库白皮书](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/WHITEPAPER.md) · [Prescient Layout Shell 封版规范](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/SPEC_FREEZE.md)
+- **权威清单**：[docs/COMPONENT_LIST.md](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPONENT_LIST.md)（生成器产物，禁止手改）
 
 ## 品牌宣言
 
@@ -68,7 +70,7 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 
 **pyside-nova 借鉴 Quasar 的组件驱动理念，并针对 Python 桌面开发重新适配** —— Vue/Quasar
 开发者几乎零学习成本，企业团队拿到的是一套可审计、可封版的组件资产。它受 Quasar 启发，
-**不是** Quasar 的移植版或 fork（见[关系与致谢](docs/QUASAR_ACKNOWLEDGEMENT.md)）。
+**不是** Quasar 的移植版或 fork（见[关系与致谢](https://github.com/eagleye-china/pyside-nova/blob/main/docs/QUASAR_ACKNOWLEDGEMENT.md)）。
 
 ## 架构总览
 
@@ -139,7 +141,7 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 | 孵化器（1） | `NovaIncubator` | 应用孵化器工作台 | 四级楔形条 + 七区分格环 + 方章折角 |
 
 > 槽位遵循同一套语义契约，业务页面可跨壳迁移。完整的属性 / 信号 / 槽位表与「依赖组件清单」
-> 见 [模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md)。
+> 见 [模块 README](https://github.com/eagleye-china/pyside-nova/blob/main/src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md)。
 
 ## 安装
 
@@ -314,13 +316,13 @@ git push origin v1.0.0
 
 ## 文档索引
 
-- [旗舰组件库白皮书](docs/prescript/WHITEPAPER.md) —— 品牌宣言、架构体系与全端方案
-- [Prescient Layout Shell 封版规范](docs/prescript/SPEC_FREEZE.md) —— 准入红线、槽位规范与四性验收
-- [布局壳模块 README](src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) —— 20 项完整契约与依赖组件清单
-- [组件索引](docs/COMPONENT_LIST.md) —— 144 类型，生成器产物
-- [与 Quasar 的关系与致谢](docs/QUASAR_ACKNOWLEDGEMENT.md) —— 受启发，非 fork
-- [架构宪法](docs/CONSTITUTION.md) · [组合组件宪法](docs/COMPOSITION_CONSTITUTION.md)
-- [生态对标白皮书](docs/ECOSYSTEM_PARITY.md) · [变更记录](CHANGELOG.md)
+- [旗舰组件库白皮书](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/WHITEPAPER.md) —— 品牌宣言、架构体系与全端方案
+- [Prescient Layout Shell 封版规范](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/SPEC_FREEZE.md) —— 准入红线、槽位规范与四性验收
+- [布局壳模块 README](https://github.com/eagleye-china/pyside-nova/blob/main/src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) —— 20 项完整契约与依赖组件清单
+- [组件索引](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPONENT_LIST.md) —— 144 类型，生成器产物
+- [与 Quasar 的关系与致谢](https://github.com/eagleye-china/pyside-nova/blob/main/docs/QUASAR_ACKNOWLEDGEMENT.md) —— 受启发，非 fork
+- [架构宪法](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md) · [组合组件宪法](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPOSITION_CONSTITUTION.md)
+- [生态对标白皮书](https://github.com/eagleye-china/pyside-nova/blob/main/docs/ECOSYSTEM_PARITY.md) · [变更记录](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 
 ## 对外文案库
 
@@ -334,7 +336,7 @@ git push origin v1.0.0
 
 ## 许可证
 
-[MIT](LICENSE)
+[MIT](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
 
 ---
 
