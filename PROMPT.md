@@ -12,7 +12,7 @@
 
 | 项 | 当前事实（2026-11-26 · **1.2.0 整批单次重签 / 第 20 组合根 NovaIncubator 收官**；T9 / 坑位 49 / T5 均已结案） |
 |---|---|
-| 版本 / 发布 | **1.2.0**（由 1.0.1 作 **additive minor** 升级：共新增 **5 项组合根容器** `NovaAgent` / `NovaDE` / `NovaCopilot` / `NovaOrbit` / **`NovaIncubator`**，**15 项 GA 公共签名逐字不变**；1.1.0 为未发布中间批次、其四增量已并入本次 **整批登记、单次重签**，禁止中间指纹；`apiVersion` 派生为 **1.2.0**，清单 `api/nova-api-1.2.0.json`）；**1.0.0 GA / 1.0.1 已由 CSA 发布至 PyPI，1.2.0 待 CSA 发布** |
+| 版本 / 发布 | **1.2.1**（由 1.2.0 作 **patch** 升级：专属/亮色二态切换 + DEMO 打磨，**公共 API 零漂移**；功能主体是 1.0.1 → 1.2.0 的 **additive minor**——共新增 **5 项组合根容器** `NovaAgent` / `NovaDE` / `NovaCopilot` / `NovaOrbit` / **`NovaIncubator`**，**15 项 GA 公共签名逐字不变**；1.1.0 为未发布中间批次、其四增量已并入 1.2.0 **整批登记、单次重签**，禁止中间指纹；按 1.0.1 先例 `apiVersion` 保持 **1.2.0**、清单 `api/nova-api-1.2.0.json` 文件名不改）；**1.0.0 GA / 1.0.1 已由 CSA 发布至 PyPI，1.2.1 待 CSA 发布** |
 | 公共 QML 类型 | **144**（Controls 91 · Behaviors 13 · Services 16 · Design 4 · **Composite.LayoutShell 20** = 15 GA + 3 AI 智能组合根 + 1 意图轨道呈现层 + 1 应用孵化器工作台） |
 | API 冻结 | 144 类型零漂移 · 指纹 **`4f882374ad52262b`**（1.2.0 整批单次重签，12:05 物理拍平后重签；历史指纹 `bfd3d938a2fab7be → cc32b5852ed04995 → 862312749d335aad → 68b34a408489b6a8`）· `api/nova-api-1.2.0.json` 与 `docs/API_FREEZE.md` 均为生成物禁手改；旧 143 类型成员逐字比对 **0 漂移**，仅新增 `NovaIncubator` |
 | 方法论 | **CARF — Conceive, Achieve, Refine, Freeze — Culminate to the peak.** 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）；母法 `docs/CONSTITUTION.md` 卷首 + 组合宪法 `docs/COMPOSITION_CONSTITUTION.md` **1.0.0** 卷首执行版。本轮 CARF 全循环：C 精读命名稿 + World-Class Edition 史料、裁定「方法论层史料 + 组件层工作台壳」双层法源 → A 第 20 组合根 QML + 1.2.0 整批重签 → R 三态图 / 20/20 机检 / 视觉实测避让 → F 账本闭环 |
@@ -463,7 +463,7 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 ## 快照指纹
 
 - 快照版本：1.2.0（2026-11-26）
-- 内容指纹：`a89a34ec3a96`
-- git HEAD：0053f6e
-- 生成时间：2026-11-26 13:03（星期四）
+- 内容指纹：`488a4e982682`
+- git HEAD：995fa17
+- 生成时间：2026-11-26 13:48（星期四）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

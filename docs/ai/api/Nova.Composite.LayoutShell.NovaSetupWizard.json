@@ -213,12 +213,20 @@
    "line": 52
   },
   {
+   "name": "_signatureOn",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 56
+  },
+  {
    "name": "_themeHue",
    "type": "real",
    "readonly": true,
-   "default": ": (NovaTheme.primary.hsvHue + (-0.1790) + 1) % 1",
+   "default": ": root._signatureOn",
    "doc": null,
-   "line": 55
+   "line": 57
   },
   {
    "name": "_accent",
@@ -226,7 +234,7 @@
    "readonly": true,
    "default": ": Qt.hsva(root._themeHue,",
    "doc": null,
-   "line": 56
+   "line": 60
   },
   {
    "name": "_ink",
@@ -234,7 +242,7 @@
    "readonly": true,
    "default": ": root._accent",
    "doc": null,
-   "line": 59
+   "line": 63
   },
   {
    "name": "_inkSoft",
@@ -242,7 +250,7 @@
    "readonly": true,
    "default": ": Qt.lighter(root._accent, 1.35)",
    "doc": null,
-   "line": 60
+   "line": 64
   },
   {
    "name": "_glow",
@@ -250,7 +258,7 @@
    "readonly": true,
    "default": ": Qt.hsva(root._themeHue,",
    "doc": null,
-   "line": 63
+   "line": 67
   },
   {
    "name": "_inkPale",
@@ -258,7 +266,7 @@
    "readonly": true,
    "default": ": Qt.lighter(root._accent, 1.7)",
    "doc": null,
-   "line": 66
+   "line": 70
   },
   {
    "name": "_done",
@@ -266,7 +274,7 @@
    "readonly": false,
    "default": ": _dot.index < root._curStep",
    "doc": null,
-   "line": 121
+   "line": 125
   },
   {
    "name": "_active",
@@ -274,7 +282,7 @@
    "readonly": false,
    "default": ": _dot.index === root._curStep",
    "doc": null,
-   "line": 122
+   "line": 126
   }
  ],
  "signals": [

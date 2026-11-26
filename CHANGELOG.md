@@ -3,9 +3,43 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.2.0] - 2026-11-26 — 第 20 组合根 NovaIncubator 收官 ⭐ 当前状态（待 CSA 发布）
+## [1.2.1] - 2026-11-26 — 专属/亮色二态切换 · DEMO 打磨 ⭐ 当前状态（待 CSA 发布）
 
-> **本段为 1.2.0 未发布批次的最终当前状态**；下方 1.1.0 两段为**未发布中间批次史料**，
+> **版本说明**：1.2.0 之上的 **patch 升级**——本批为 demo 层专属/亮色二态切换 +
+> 过时文案校准 + 双态实跑截图，**公共 API 零漂移**（144 类型 · 指纹 `4f882374ad52262b`
+> 不变）。按 [1.0.1] 先例，**冻结契约 `apiVersion=1.2.0` 与
+> `api/nova-api-1.2.0.json` 文件名不改**（`test_api_freeze` 硬断言保持 1.2.0）。
+> **git commit / push / tag / PyPI 全归 CSA 本人**。
+
+### 新增（Added）
+- **专属 / 亮色二态切换**（10 个独立 demo）：顶部明暗按钮升级为二态切换——
+  **专属**（默认，深底 + 组件专属色相）/ **亮色**（浅底 + 全局品牌蓝 `#5B6EF5`）。
+  组件侧新增私有 `_signatureOn` 开关（`_` 令牌，生成器过滤、不进冻结面），
+  `_themeHue` 在专属偏移与全局品牌蓝间切换，`_accent` / `_ink` / `_glow` 自动跟随。
+
+### 修复（Fixed）
+- 校准 9 处 demo 内过时硬编码：「14 / 15 / 19 项」→ **20 项**、旧指纹
+  `bfd3d938a2fab7be` → `4f882374ad52262b`、「139 公共类型」→ **144**。
+- 切换器初始化合并进 demo 原有 `Component.onCompleted`，避免第二个 onCompleted
+  触发 QML `Property value set multiple times`（qmllint 不报、实跑才暴露）。
+- 明暗改用 `onThemeModeChanged` 信号处理器驱动，避免 `setProperty` 改模式时
+  状态栏与背景不同步。
+
+### 文档与资产（Docs & Assets）
+- `docs/prescript/GUIDE_COMPONENT_THEMES.md` 新增 §1.6 二态切换章节并校准 §0 结论。
+- 归档 20 张独立 DEMO 深浅截图（`docs/screenshots/demo/`）+ 20 张双态对比截图
+  （`docs/screenshots/theme_modes/`）。
+
+### 验收（Verified）
+- `check_all.py --tier static` 3/3 · 专项 68 passed · `audit_ceiling.py` 20/20 ·
+  `audit_v2_compat.py` PASS · qmllint 0 error / 594 warning 零新增 ·
+  **冻结面 144 类型 / `4f882374ad52262b` 零漂移**。
+
+---
+
+## [1.2.0] - 2026-11-26 — 第 20 组合根 NovaIncubator 收官（未发布中间批次 · 已并入 1.2.1）
+
+> **本段为 1.2.0 批次的最终功能状态**（该批次连同上方 1.2.1 patch 一并待 CSA 发布）；下方 1.1.0 两段为**未发布中间批次史料**，
 > 完整保留供追溯。按宪法第 8 章 additive minor **整批登记、单次重签**：
 > 1.1.0 的四增量（NovaAgent / NovaDE / NovaCopilot / NovaOrbit）与 1.2.0 的
 > 第 20 组合根 **NovaIncubator** 一并抬升为 1.2.0，**禁止产生中间指纹**。

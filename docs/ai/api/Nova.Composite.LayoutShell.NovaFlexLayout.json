@@ -189,12 +189,20 @@
    "line": 48
   },
   {
+   "name": "_signatureOn",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 52
+  },
+  {
    "name": "_themeHue",
    "type": "real",
    "readonly": true,
-   "default": ": (NovaTheme.primary.hsvHue + (-0.1560) + 1) % 1",
+   "default": ": root._signatureOn",
    "doc": null,
-   "line": 51
+   "line": 53
   },
   {
    "name": "_accent",
@@ -202,7 +210,7 @@
    "readonly": true,
    "default": ": Qt.hsva(root._themeHue,",
    "doc": null,
-   "line": 52
+   "line": 56
   },
   {
    "name": "_ink",
@@ -210,7 +218,7 @@
    "readonly": true,
    "default": ": root._accent",
    "doc": null,
-   "line": 55
+   "line": 59
   },
   {
    "name": "_inkSoft",
@@ -218,7 +226,7 @@
    "readonly": true,
    "default": ": Qt.lighter(root._accent, 1.35)",
    "doc": null,
-   "line": 57
+   "line": 61
   },
   {
    "name": "_glow",
@@ -226,7 +234,7 @@
    "readonly": true,
    "default": ": Qt.hsva(root._themeHue,",
    "doc": null,
-   "line": 60
+   "line": 64
   },
   {
    "name": "_inkPale",
@@ -234,7 +242,7 @@
    "readonly": true,
    "default": ": Qt.lighter(root._accent, 1.7)",
    "doc": null,
-   "line": 63
+   "line": 67
   },
   {
    "name": "_tone",
@@ -242,7 +250,7 @@
    "readonly": true,
    "default": ": index === 0 ? root._glow",
    "doc": null,
-   "line": 132
+   "line": 136
   }
  ],
  "signals": [

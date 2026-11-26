@@ -11,7 +11,14 @@
 
 10 个 AI / 根壳组合根**各有专属主题色**，同一色温家族、色相有序分布（168° 湖绿 → 283° 紫晶）；主题色是组件**内部私有 `_` 令牌**，从 `NovaTheme.primary` 的色相派生并独立定制饱和度 / 明度系数。**公共 API / 冻结面 / 模块 URI / qmldir 零改动**，同一时刻只显示一个组件时天然不撞色。
 
-> **CSA 的「3 个主题」问句**：伙伴问「这样这 10 个组件就用 3 个主题了吧？」——实测澄清：本库**没有**全局「3 套主题」开关，现行是 `NovaTheme.isDark` 明暗双模式 + 每个组合根各自的**专属身份色**。本轮把后者的覆盖从 15 GA 扩到这 10 项，形成**明暗 × 专属色**的二维视觉体系（不是 3 个离散主题）。若要引入真正的「3 主题切换器」属 additive 公共 API，须 CSA 单独拍板 + minor 重签。
+> **CSA 的「3 个主题」问句 → 13:39 二态方案拍板**：伙伴先问「这样这 10 个组件就用 3 个主题了吧？」——当时澄清本库**没有**全局「3 套主题」开关，现行是 `NovaTheme.isDark` 明暗双模式 + 每个组合根各自的**专属身份色**（明暗 × 专属色的二维体系，非 3 个离散主题）。13:34 伙伴构想「默认专属，在亮/暗/专属间切换」，13:38 自行收敛为「**专属跟暗色差不多，只在专属和亮色间切换，默认专属**」，13:39 拍板**方案 A**。现行落地（见 §1.6）：
+>
+> | 态 | 明度 | 色相 | 落地层级 |
+> |---|---|---|---|
+> | **专属**（默认） | 深底（`NovaTheme.isDark=true`） | 组件专属色相（`_signatureOn=true` + 固定偏移） | demo 私有开关 + 组件私有令牌 |
+> | **亮色** | 浅底（`isDark=false`） | 全局品牌蓝 `#5B6EF5`（`_signatureOn=false`，偏移归零） | 同上 |
+>
+> **不动 `NovaTheme` 公共 API、不重签冻结面**——`_signatureOn` 是 `_` 私有令牌，生成器明确过滤。若未来要升为**全局公共三态切换器**，仍属 additive 公共 API，须 CSA 另行拍板 + minor 重签。
 
 ---
 
@@ -136,6 +143,27 @@ readonly property color _inkPale: Qt.lighter(root._accent, 1.7)   // 仅三档�
 2. 新增组合根的主题：按 §1 四要件选色相与系数，在 §2 总表登记，跑 §6 门禁。
 3. 主题色**不进 `NovaTheme` 公共令牌表**（避免冻结面与 91 基础控件污染）；只在组合根内部派生。
 4. 禁止把主题做成公共 `style` / `variant` / `theme` 属性——那属 additive 公共 API，须 CSA 拍板 + minor 重签（见 §0「3 主题」说明）。
+
+---
+
+## 1.6 专属 / 亮色二态切换（13:39 方案 A · demo 层）
+
+10 个独立 demo（`examples/layout_shell/<name>/main.qml`）顶部的圆形明暗按钮升级为**二态切换**：
+
+| 元素 | 专属态（默认） | 亮色态 |
+|---|---|---|
+| `themeMode` | `"signature"` | `"light"` |
+| 组件私有开关 | `_signatureOn: true` → `_themeHue = (primary.hsvHue + 偏移 + 1) % 1` | `_signatureOn: false` → `_themeHue = primary.hsvHue`（偏移归零） |
+| 明度 | `NovaTheme.setDark(true)` 深底 + Aurora 亮核 | `NovaTheme.setDark(false)` 浅底 |
+| 视觉 | 各组件专属身份色（靛蓝 / 紫晶 / 钢蓝 …） | 全库统一品牌蓝 `#5B6EF5` |
+
+实现要点：
+- 组件令牌块新增 `property bool _signatureOn: true`（私有、非 `readonly`，不进冻结面）；`_themeHue` 用三元表达式在「专属偏移」与「全局品牌蓝」间切换，`_accent` / `_ink` / `_glow` 自动跟随。
+- demo 根 `ApplicationWindow` 新增 `themeMode` 属性 + `onThemeModeChanged` 信号处理器（明暗跟随属性变化，**不新增第二个 `Component.onCompleted`**——原已有 `NovaScreen.source = win`，重复赋值会触发 QML `Property value set multiple times` 实跑失败，`check_all.py --tier static` 的 qmllint 不报此类错）。
+- 组件实例 `id: shell` 绑定 `_signatureOn: win.themeMode === "signature"`；切换按钮与状态栏文字同步标示当前态。
+- 20 张双态实跑截图归档 `docs/screenshots/theme_modes/<组件>_signature.png` / `_light.png`。
+
+**边界**：仅 demo 层二态切换，非全局公共 API；`NovaTheme` 公共属性零变化，冻结面 144 类型 / 指纹 `4f882374ad52262b` 零漂移。
 
 ---
 

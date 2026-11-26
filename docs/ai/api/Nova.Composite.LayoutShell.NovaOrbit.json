@@ -285,12 +285,20 @@
    "line": 74
   },
   {
+   "name": "_signatureOn",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 78
+  },
+  {
    "name": "_themeHue",
    "type": "real",
    "readonly": true,
-   "default": ": (NovaTheme.primary.hsvHue + (0.0290) + 1) % 1",
+   "default": ": root._signatureOn",
    "doc": null,
-   "line": 77
+   "line": 79
   },
   {
    "name": "_accent",
@@ -298,7 +306,7 @@
    "readonly": true,
    "default": ": Qt.hsva(root._themeHue,",
    "doc": null,
-   "line": 78
+   "line": 82
   },
   {
    "name": "_ink",
@@ -306,7 +314,7 @@
    "readonly": true,
    "default": ": root._accent",
    "doc": null,
-   "line": 81
+   "line": 85
   },
   {
    "name": "_inkSoft",
@@ -314,7 +322,7 @@
    "readonly": true,
    "default": ": Qt.lighter(root._accent, 1.35)",
    "doc": null,
-   "line": 82
+   "line": 86
   },
   {
    "name": "_glow",
@@ -322,7 +330,7 @@
    "readonly": true,
    "default": ": Qt.hsva(root._themeHue,",
    "doc": null,
-   "line": 85
+   "line": 89
   },
   {
    "name": "_arm",
@@ -330,7 +338,7 @@
    "readonly": true,
    "default": ": 10",
    "doc": null,
-   "line": 214
+   "line": 218
   }
  ],
  "signals": [

@@ -1,6 +1,6 @@
 # pyside-nova 组件清单
 
-> 版本 **1.2.0** · 基线 **Quasar 2.35.5** · API 指纹 `4f882374ad52262b` · 共 **144** 个公共 QML 类型
+> 版本 **1.2.1** · 基线 **Quasar 2.35.5** · API 指纹 `4f882374ad52262b` · 共 **144** 个公共 QML 类型
 >
 > 数据源：`api/nova-api-1.2.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
 >

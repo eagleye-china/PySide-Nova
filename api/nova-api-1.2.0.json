@@ -2,7 +2,7 @@
  "schema": "nova-api-freeze/1",
  "package": "pyside-nova",
  "apiVersion": "1.2.0",
- "packageVersion": "1.2.0",
+ "packageVersion": "1.2.1",
  "baseline": "Quasar 2.35.5",
  "counts": {
   "total": 144,

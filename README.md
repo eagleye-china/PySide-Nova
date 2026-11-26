@@ -28,7 +28,7 @@ stable, industrial-grade interfaces.
 
 | Item | Value |
 |---|---|
-| **Version** | **1.2.0** — additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); PyPI upload owned by the maintainer |
+| **Version** | **1.2.1** — patch over 1.2.0 (signature/light two-mode switching + DEMO polish, zero public API drift); feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); PyPI upload owned by the maintainer |
 | **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
 | **Public QML types** | **144** — Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
 | **API freeze** | 144 types, zero drift · fingerprint `4f882374ad52262b` (1.2.0 batch single re-sign) |

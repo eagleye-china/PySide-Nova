@@ -26,7 +26,7 @@
 
 | 项目 | 内容 |
 |---|---|
-| **版本** | **1.2.0** —— 在 1.0.0 GA 之上作 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签）；PyPI 上架由维护者执行 |
+| **版本** | **1.2.1** —— 1.2.0 之上的 patch（专属/亮色二态切换 + DEMO 打磨，公共 API 零漂移）；功能主体为 1.0.0 GA 之上的 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签）；PyPI 上架由维护者执行 |
 | **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
 | **公共 QML 类型** | **144** —— Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
 | **API 冻结** | 144 类型零漂移 · 指纹 `4f882374ad52262b`（1.2.0 整批单次重签） |
