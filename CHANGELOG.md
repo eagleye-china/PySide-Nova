@@ -3,12 +3,58 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.2.3] - 2026-11-26 — 品牌徽标双轨制落地 · PyPI README 链接修正 ⭐ 当前状态（待 CSA 发布）
+## [1.2.4] - 2026-11-26 — Quasar 品牌 tagline 换回霸气版 · QML 进主标语 ⭐ 当前状态（待 CSA 发布 PyPI）
+
+> **版本说明**：1.2.3 之上的 **patch**——仅对外文案与品牌呈现修正，**公共 API 零漂移**
+> （144 类型 · 指纹 `4f882374ad52262b` 不变）。按 1.0.1 / 1.2.1 / 1.2.2 / 1.2.3 先例，
+> `apiVersion=1.2.0`、清单 `api/nova-api-1.2.0.json` 文件名与 `test_api_freeze` 硬断言均不改。
+> CSA 2026-11-26 16:37 拍板「Inspired by 首屏不够霸气 → 换回『PySide-Nova 是 Qt Quick 世界的 Quasar』，
+> 并把 QML 加上」；小诺三案建议、CSA 选定 **A 案：QML 进主标语本体，Qt Quick 退到技术定位行，
+> `Inspired by` 降为致谢行**。**17:17 CSA 拍板升 1.2.4 并发布**（`release.yml` tag `v*` 触发
+> 自动 build + PyPI 可信发布）。
+
+### 变更（Changed）
+- `pyproject.toml` 的 `description` → `PySide-Nova is the Quasar of the QML world — an enterprise-grade Qt Quick component library for PySide6.`
+  （**PyPI 已发布的 1.2.3 元数据不可原地改，本次随 1.2.4 重新发行生效**）。
+- 双语 README 首屏 tagline 换为 `PySide-Nova is the Quasar of the QML world.` /
+  `PySide-Nova，QML 世界的 Quasar。`，新增技术定位行与致谢行；`docs/index.md` 徽标下加同款副标题。
+- `docs/QUASAR_ACKNOWLEDGEMENT.md` 追加 **§8**（CSA 新拍板 · 现行口径）：三层分工 / QML 位置论证 /
+  定稿文案 / 边界 / CARF；§1 与 §4 加效力指针，**§1 / §4 / §5 / §6 / §7 原文按史料不圆场逐字保留**。
+- `docs/assets/js/playground.js` 参数面板提示 `api/nova-api-1.0.0.json` → `1.2.0.json`（旧冻结面口径校准）。
+- **徽标升版 SOP 全套**：`__about__.py` 1.2.3 → 1.2.4 → `sync_brand_version.py` 同步 3 枚源 SVG +
+  3 份站点副本共 5 处版本字样至 `v1.2.4` → `--check` 机检通过 → Chrome 复拍 3 张 `*_v1.2.4.png`
+  （`*_v1.2.3.png` 按史料不圆场保留）→ `GUIDE_BRAND_MARK.md §2` 现行版本字样校准 + §7 升版记录。
+
+### 同轮确认（Verified · 零产品代码改动）
+- **Layout Builder**（T9 / P2-⑤）与**在线可调参 Playground**（T9 / P1-③）**已完现**：
+  `mkdocs build` exit 0 / 0 WARNING · 6 个 JS `node --check` 全过 · `nova-data.js` 含 20 组合根 /
+  60 张三态图引用 · `mkdocs.yml` nav 与 `extra_javascript` 均已注册。按 CSA 拍板**沿用 §12.7 已登记边界**
+  判定完现：单根容器静态生成器 / 浏览器内不重渲染 Qt 场景 / 独立 Flex 演练场 / WASM 在线运行时 /
+  站点部署如实遗留，**不圆场成全量交付**。
+- 生成器链 `gen_api_freeze → gen_component_list → gen_apidocs → gen_prompt` 按 SOP 重跑：
+  `packageVersion` 1.2.4、`apiVersion` 仍 1.2.0、指纹 `4f882374ad52262b` **零漂移**、AI 包指纹
+  `6cec710491d8f2db` 不变；冻结面 144 类型零改动。
+
+### 验收（Verified）
+- `check_all.py --tier static` **3/3** · 专项 **68 passed** · `audit_ceiling.py` 20/20 ·
+  `audit_foundations.py` 15/15 · `audit_v2_compat.py` PASS · `audit_domains.py` PASS ·
+  `mkdocs build` 0 WARNING / 0 内容 INFO · `gen_prompt.py --check` 同步 ·
+  `sync_brand_version.py --check` ✓ · 6 个 SVG XML 解析通过 · 6 个 JS `node --check` 全过 ·
+  wheel / sdist 构建通过（体积复验）· **冻结面零漂移**。
+
+> **发布边界**：`commit / push / tag / PyPI / 站点上线` **全归 CSA**；
+> PyPI 上架由 `release.yml`（tag `v*`）自动完成。
+
+---
+
+## [1.2.3] - 2026-11-26 — 品牌徽标双轨制落地 · PyPI README 链接修正 ⭐ 当前状态（已由 CSA 发布 PyPI）
 
 > **版本说明**：1.2.2 之上的 **patch**——仅品牌呈现与文档链接修正，**公共 API 零漂移**
 > （144 类型 · 指纹 `4f882374ad52262b` 不变）。CSA 14:37 改判徽标版本口径：徽标是 SVG 文本，
 > 缎带 / 下弧刻**当前包版本 `v1.2.3`**，**每次升版（含 patch）同步修正**；`apiVersion=1.2.0`、
-> 清单文件名与 `test_api_freeze` 硬断言均不改。**push / tag v1.2.3 / PyPI 仍归 CSA**。
+> 清单文件名与 `test_api_freeze` 硬断言均不改。**已由 CSA 于 2026-11-26 15:00 完成
+> push / tag `v1.2.3` / PyPI 上架**（`origin/main` 与 tag `v1.2.3` → `84a7854`；
+> wheel 436,934 B / sdist 11,480,150 B）。
 
 ### 新增（Added）
 - **企业级旗舰封版徽标（双轨制）**：`pyside-nova-logo-sealed.svg` / `-mono.svg` 为正式库标
@@ -105,7 +151,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [1.2.0] - 2026-11-26 — 第 20 组合根 NovaIncubator 收官（未发布中间批次 · 已并入 1.2.1）
 
-> **本段为 1.2.0 批次的最终功能状态**（该批次连同上方 1.2.1 patch 一并待 CSA 发布）；下方 1.1.0 两段为**未发布中间批次史料**，
+> **本段为 1.2.0 批次的最终功能状态**（该批次功能已随 **1.2.1** 于 2026-11-26 发布至 PyPI，后续 1.2.2 / 1.2.3 为 patch）；下方 1.1.0 两段为**未发布中间批次史料**，
 > 完整保留供追溯。按宪法第 8 章 additive minor **整批登记、单次重签**：
 > 1.1.0 的四增量（NovaAgent / NovaDE / NovaCopilot / NovaOrbit）与 1.2.0 的
 > 第 20 组合根 **NovaIncubator** 一并抬升为 1.2.0，**禁止产生中间指纹**。

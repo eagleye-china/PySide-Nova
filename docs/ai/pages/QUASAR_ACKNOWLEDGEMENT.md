@@ -2,10 +2,11 @@
 
 > **文档性质**：现行对外文案的**唯一事实源**（品牌层，非法源、非史料、非对账）· 供 README / 站点 / 演示 / 投稿统一引用
 > **适用版本**：**1.2.0** · 冻结指纹 **`4f882374ad52262b`** · 文案口径与 API 冻结面无关，改文案不触发重签
-> **口径**：**Inspired by Quasar** —— 受启发、借鉴理念，**不是** Quasar 的 Python 衍生版、移植版或 fork
+> **口径（关系声明层）**：**Inspired by Quasar** —— 受启发、借鉴理念，**不是** Quasar 的 Python 衍生版、移植版或 fork
+> **口径（品牌 tagline 层）**：**2026-11-26 16:37 CSA 新拍板「换回霸气比喻 + 把 QML 加上」，现行首屏见 §8**；§1 推荐版为 12:30 历史口径，按史料不圆场逐字保留。
 > **法源链**：本文件只管「怎么说」；「怎么对齐」见 [`PARITY.md`](../../PARITY.md)（逐组件逐属性对账）与 [`GUIDE_QUASAR_ALIGNMENT.md`](../../prescript/GUIDE_QUASAR_ALIGNMENT.md)（工程化理念对齐）；「历史演进」见 [`ECOSYSTEM_PARITY.md`](../../ECOSYSTEM_PARITY.md)（历史档案，不代表当前）
 > **品牌立意**：**「青，取之于蓝，而青于蓝」**（《荀子·劝学》）—— 受蓝（Quasar）启发，在 PySide 生态里生成更青的 Nova；典故是 Inspired by 的中文母题表达，详见 §3
-> **状态**：**现行 · 2026-11-26 · 待 CSA 随 1.2.0 发布**
+> **状态**：**现行 · 2026-11-26 · 随 1.2.4 发布（CSA 17:17 拍板升版）**
 
 ---
 
@@ -19,9 +20,12 @@ Quasar 是 Vue 生态的组件框架；pyside-nova 是 **PySide6 / Qt Quick 生�
 
 ---
 
-## 1. 首屏文案（推荐版 · 准确、正式、不过度声称）
+## 1. 首屏文案（历史推荐版 · 准确、正式、不过度声称）
 
 伙伴 2026-11-26 凝练，小诺校订。用于 README 首屏与官网首屏。
+
+> ⚠️ **效力已被 §8 覆盖（2026-11-26 16:37 CSA 新拍板）**：本节为 12:30 口径的历史留痕，
+> **不再作为现行首屏文案**；现行首屏一律按 **§8.3 定稿**。按「史料不圆场」铁律，原文逐字保留。
 
 **English**
 
@@ -103,6 +107,10 @@ pyside-nova 是面向 PySide 的组件库，灵感来自 Vue 生态的 Quasar。
 
 ## 4. 措辞纪律（评审强制）
 
+> ⚠️ **效力变更（2026-11-26 16:37）**：下表第 4 行 `The Quasar of Qt Quick`（首屏 tagline）
+> 自 **§8** 起**仅在「品牌 tagline 层」解禁**——比喻句可用，关系声明层仍须 `Inspired by`；
+> 其余 4 条仍是现行禁用表述。表格原文按「史料不圆场」保留，不回改。
+
 | 禁用表述 | 为什么禁用 | 改为 |
 |---|---|---|
 | `Derived from Quasar` / `源自 Quasar` | 暗示派生 / 血缘关系 | `Inspired by Quasar` / `受 Quasar 启发` |
@@ -151,3 +159,83 @@ pyside-nova 是面向 PySide 的组件库，灵感来自 Vue 生态的 Quasar。
 - **F 封版**：**零 QML 改动 · 零 API 改动 · 零冻结面改动 · 零模块 URI 改动**；文案口径与代码事实分离，不夸大成熟度、不暗示 fork。
 
 > **发布边界**：本轮全部改动留工作树未提交，`commit / push / tag / PyPI / 站点上线` **全归 CSA**。
+
+---
+
+## 8. 品牌 tagline 口径改判（CSA 2026-11-26 16:37 拍板 · **现行**）
+
+> **触发**：CSA 贴 PyPI 1.2.3 页面截图，指出首屏 `Inspired by Quasar, PySide-Nova takes its component philosophy further…`
+> **「不够霸气」**，指令「**还换回 PySide-Nova 是 Qt Quick 世界的 Quasar，但需要把 QML 加上，
+> 因为大家可能对 QML 更熟悉**」，并问「加在哪儿合适？」。
+> **小诺建议 / CSA 拍板**：三案取 **A 案 —— QML 进主标语本体，Qt Quick 退到紧随其后的技术定位行，
+> `Inspired by` 降为致谢行**。
+> **效力**：本节**覆盖** §1 推荐版与 §4 禁用表第 4 行「`The Quasar of Qt Quick` 禁作首屏 tagline」；
+> §1 / §4 / §5 / §6 / §7 原文按「史料不圆场」逐字保留，仅在此登记效力变更，法源链不留悬空引用。
+
+### 8.1 三层分工（既要霸气、又要准确）
+
+| 层 | 作用 | 现行文案 | 约束 |
+|---|---|---|---|
+| **品牌 tagline 层** | 第一眼的气势与品类认知 | `PySide-Nova is the Quasar of the QML world.` / `PySide-Nova，QML 世界的 Quasar。` | 等比**比喻句**，允许；`QML` 为主词（大众最熟、最好搜） |
+| **技术定位层** | 说清底层框架与宿主 | `An enterprise-grade, cross-platform Qt Quick component library for PySide6.` | `Qt Quick` 在此保留，不丢技术底座；不塞进主句以免括注削弱气势 |
+| **关系声明层** | 说清与 Quasar 的真实关系 | `Inspired by Quasar · Built on Qt Quick for PySide6.` / `受 Quasar 启发 · 基于 Qt Quick，为 PySide6 而生。` | **仍守 §0 口径**：`Derived from` / `fork` / `port` / `源自` 一律禁用；致谢不删 |
+
+> 三层互不污染：**品牌层用比喻，关系层不松口**。§0「pyside-nova is inspired by Quasar — not derived from it」
+> 仍是全部技术文档 / 对账表 / 法源正文的事实陈述，tagline 不得被引用为关系证据。
+
+### 8.2 QML 加在哪儿（CSA 问句的答案）
+
+**加在主标语本体**：用 `QML world` 取代旧句的 `Qt Quick world`，`Qt Quick` 移到下一行技术定位语。三条理由：
+
+1. **认知优先**：目标读者对 `QML` 的熟悉度远高于 `Qt Quick`；主标语第一眼出现 QML 才真正解决「大家可能对 QML 更熟悉」的顾虑——放副行等于没加。
+2. **气势不打折**：`the Quasar of the QML world` 是干净的等比比喻；若写 `QML & Qt Quick world` 或 `QML (Qt Quick) world`，主句被并列/括注拖长，霸气被稀释（B / C 案落选原因）。
+3. **一词不丢 + 合规不破**：Qt Quick 仍在首屏技术定位行，Inspired by 仍在致谢行与 §0 关系声明；改的是**措辞层**，不是**事实层**。
+
+### 8.3 现行定稿文案
+
+**English（`README.md` 首屏 / 官网首屏）**
+
+````markdown
+> **PySide-Nova is the Quasar of the QML world.**
+> **PySide-Nova，QML 世界的 Quasar。**
+
+**An enterprise-grade, cross-platform Qt Quick component library for PySide6.**
+*Inspired by Quasar · Built on Qt Quick for PySide6.*
+````
+
+**中文（`README_zh.md` 首屏）**
+
+````markdown
+> **PySide-Nova，QML 世界的 Quasar。**
+> **PySide-Nova is the Quasar of the QML world.**
+
+**面向 PySide6 的企业级全端 Qt Quick 组件库。**
+*受 Quasar 启发 · 基于 Qt Quick，为 PySide6 而生。*
+````
+
+**PyPI `description`（`pyproject.toml`）**
+
+````text
+PySide-Nova is the Quasar of the QML world — an enterprise-grade Qt Quick component library for PySide6.
+````
+
+**站点首页（`docs/index.md`）**：徽标下方副标题 `PySide-Nova，QML 世界的 Quasar。` /
+`受 Quasar 启发 · 基于 Qt Quick，为 PySide6 而生`。
+
+### 8.4 边界与发布
+
+- **零 QML / 零 API / 零冻结面改动**：本轮纯文案层，144 类型 · 指纹 `4f882374ad52262b` 不变，不触发重签。
+- **PyPI 已发布的 1.2.3 元数据不可原地改**：`description` 变更**随 1.2.4 重新发行**才会在 PyPI 页面生效
+  （CSA 2026-11-26 17:17 拍板升版）；`commit / tag / push / PyPI / 站点上线` 全归 CSA。
+- **§3 典故版仍有效**：「青出于蓝而胜于蓝」品牌母题与本节霸气 tagline 不冲突——前者用于发布会 / 海报 / 演讲，后者用于首屏。
+- **§4 其余 4 条禁用表述继续生效**；`The Quasar of Qt Quick` 一条仅在品牌 tagline 层解禁，
+  技术文档 / 对账表 / 法源正文**不得**用等同式比喻陈述事实关系。
+
+### 8.5 CARF
+
+- **C 构想**：CSA 定方向——「不够霸气，换回，QML 加上」，授权小诺定位置。
+- **A 实现**：三案评估 → A 案落地；双语 README / PyPI `description` / 站点首页 / 本文件四处同步，
+  AI 包离线拷贝随 `gen_apidocs.py` 重跑同步（生成物禁手改）。
+- **R 打磨**：法源以**追加覆盖章节**处理而非回改史料；§1 / §4 加效力指针，§5 / §6 / §7 原文保留；
+  顺带校准 `playground.js` 面板提示的旧冻结面口径 `1.0.0 → 1.2.0`（账实不符必校准）。
+- **F 封版**：文案与代码事实分离，冻结面零漂移；**随 1.2.4 发布，发布归 CSA**。

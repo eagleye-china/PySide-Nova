@@ -57,7 +57,7 @@
 
     <g font-family="Inter, 'SF Pro Text', 'Segoe UI', sans-serif" font-size="14" font-weight="700" letter-spacing="3.2" fill="#0F1E3D">
       <text text-anchor="middle"><textPath href="#arcTop" startOffset="50%">CONCEIVE · ACHIEVE · REFINE · FREEZE</textPath></text>
-      <text text-anchor="middle" fill="#3E5A8C"><textPath href="#arcBottom" startOffset="50%">PYSIDE-NOVA · FLAGSHIP SEAL · v1.2.3</textPath></text>
+      <text text-anchor="middle" fill="#3E5A8C"><textPath href="#arcBottom" startOffset="50%">PYSIDE-NOVA · FLAGSHIP SEAL · v1.2.4</textPath></text>
     </g>
 
     <g transform="translate(256,238)" fill="#2EE6D6">
@@ -89,7 +89,7 @@
 
     <g transform="translate(0,10)">
       <path d="M 158 436 L 354 436 L 370 447 L 354 458 L 354 478 L 158 478 L 158 458 L 142 447 Z" fill="url(#ribbon)" stroke="#2EE6D6" stroke-opacity="0.7" stroke-width="1.5"/>
-      <text x="256" y="463" text-anchor="middle" font-family="Inter, 'SF Pro Text', 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#EAF2FF">SEALED · v1.2.3</text>
+      <text x="256" y="463" text-anchor="middle" font-family="Inter, 'SF Pro Text', 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#EAF2FF">SEALED · v1.2.4</text>
     </g>
   </g>
 </svg>

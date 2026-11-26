@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "pyside-nova"
 dynamic = ["version"]
-description = "Inspired by Quasar, an enterprise-grade QML component library for PySide6."
+description = "PySide-Nova is the Quasar of the QML world — an enterprise-grade Qt Quick component library for PySide6."
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "pyside-nova contributors" }]

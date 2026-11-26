@@ -1,11 +1,14 @@
 # pyside-nova 文档站首页
 
 <p align="center">
-  <img src="assets/brand/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.2.3" width="260" />
+  <img src="assets/brand/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.2.4" width="260" />
+  <br/><br/>
+  <strong>PySide-Nova，QML 世界的 Quasar。</strong><br/>
+  <em>受 Quasar 启发 · 基于 Qt Quick，为 PySide6 而生</em>
 </p>
 
 **pyside-nova** 是面向 **PySide6 / QML** 的企业级 UI 组件库，对标 [Quasar Framework](https://quasar.dev)（v2.35.5 基线逐项对账），
-当前版本 **1.2.3**（1.2.2 之上的 patch 升级：品牌徽标双轨制落地 + PyPI README 绝对链接修正，**公共 API 零漂移**；**1.2.2**（PyPI 元数据 / 双语 README 呈现修正）已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor——共 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator（第 20 个、本库最后一个组合组件）** · **144 个导出类型** · **20 个组合根容器 20/20 天花板销号** · 15 项 GA 签名逐字不变 · API 冻结指纹 `4f882374ad52262b` 整批单次重签 · API 契约 `1.2.0` 不变；**1.2.3 待 CSA 发布 PyPI**）。
+当前版本 **1.2.4**（1.2.3 之上的 patch 升级：Quasar 品牌 tagline 换回霸气版 + QML 进主标语，**公共 API 零漂移**；**1.2.3**（品牌徽标双轨制落地 + PyPI README 绝对链接修正）与 **1.2.2**（PyPI 元数据 / 双语 README 呈现修正）均已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor——共 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator（第 20 个、本库最后一个组合组件）** · **144 个导出类型** · **20 个组合根容器 20/20 天花板销号** · 15 项 GA 签名逐字不变 · API 冻结指纹 `4f882374ad52262b` 整批单次重签 · API 契约 `1.2.0` 不变；**1.2.3 已由 CSA 发布至 PyPI（2026-11-26 15:00）**，**1.2.4 待 CSA 发布**）。
 
 > **最高方法论 CARF** — Conceive · Achieve · Refine · Freeze（构想 · 实现 · 打磨 · 封版，终抵巅峰）。
 > 六维天花板（**功能 / 质量 / 观感 / 友好度 / 四性**：鲁棒性 · 坚实性 · 艺术性 · 预判性）逐项销号；
@@ -58,7 +61,7 @@ engine.load("main.qml")    # QML 里: import Nova.Controls
 ## 一分钟跑通画廊
 
 ```bash
-pip install pyside-nova==1.2.3
+pip install pyside-nova==1.2.4
 # 克隆仓库后：
 python examples/gallery_launch.py    # 24 页组件画廊（明暗主题 / 断点 / i18n / RTL）
 ```

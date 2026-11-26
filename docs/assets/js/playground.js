@@ -66,7 +66,7 @@
       fieldsBox.textContent = '';
       fieldsBox.appendChild(T.el('h3', '', '参数面板 · ' + current.name));
       var hint = T.el('p', 'nova-hint',
-        '默认值取自 api/nova-api-1.0.0.json 冻结面；别名槽位（' +
+        '默认值取自 api/nova-api-1.2.0.json 冻结面；别名槽位（' +
         (current.slots || []).length + ' 个）按 CC-6 自动注入，不在此面板编辑。');
       fieldsBox.appendChild(hint);
       if (!current.props || !current.props.length) {

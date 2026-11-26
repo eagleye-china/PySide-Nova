@@ -1,13 +1,14 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova flagship seal · CARF · v1.2.3" width="200" />
+<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova flagship seal · CARF · v1.2.4" width="200" />
 
 # PySide-Nova
 
-> Inspired by Quasar, PySide-Nova takes its component philosophy further in the PySide ecosystem.
-> 受 Quasar 启发，PySide-Nova 在 PySide 生态中将其组件理念推进一步。
+> **PySide-Nova is the Quasar of the QML world.**
+> **PySide-Nova，QML 世界的 Quasar。**
 
-**An enterprise-grade, cross-platform QML component library for PySide6.**
+**An enterprise-grade, cross-platform Qt Quick component library for PySide6.**
+*Inspired by Quasar · Built on Qt Quick for PySide6.*
 
 **One component set. Desktop, mobile and industrial large-screen.** Built on Qt's native
 rendering engine, Nova turns professional UI craft into standardized components and
@@ -20,7 +21,7 @@ stable, industrial-grade interfaces.
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
-[![Status](https://img.shields.io/badge/status-v1.2.3%20shipped-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v1.2.4%20shipped-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 [![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
@@ -31,7 +32,7 @@ stable, industrial-grade interfaces.
 
 | Item | Value |
 |---|---|
-| **Version** | **1.2.3** — patch over 1.2.2 (brand seal dual-track rollout + PyPI README absolute-link fix, zero public API drift); **1.2.2** (PyPI metadata / bilingual README presentation fix) is already published on PyPI; feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); API contract stays **1.2.0**; PyPI upload owned by the maintainer |
+| **Version** | **1.2.4** — patch over 1.2.3 (Quasar brand tagline restored with QML in the headline, zero public API drift); **1.2.3** (brand seal dual-track rollout + PyPI README absolute-link fix) and **1.2.2** (PyPI metadata / bilingual README presentation fix) are already published on PyPI; feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**); API contract stays **1.2.0**; PyPI upload owned by the maintainer |
 | **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
 | **Public QML types** | **144** — Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
 | **API freeze** | 144 types, zero drift · fingerprint `4f882374ad52262b` (1.2.0 batch single re-sign) |

@@ -5,14 +5,14 @@
 
 以下快照即全部必要上下文，读完按第二步汇报；**未汇报前不得动手写代码**。
 
-### ⚠️ 当前状态校准（2026-11-25 17:16 立 · **2026-11-26 1.2.3 品牌徽标双轨制落地 / 功能主体仍为 1.2.0 第 20 组合根 NovaIncubator 收官** · 覆盖下方 rc1 历史快照）
+### ⚠️ 当前状态校准（2026-11-25 17:16 立 · **2026-11-26 1.2.4 Quasar 品牌 tagline 换回霸气版 / 功能主体仍为 1.2.0 第 20 组合根 NovaIncubator 收官** · 覆盖下方 rc1 历史快照）
 
 > **本节优先于下方全部历史正文**。下方「1.0.0rc1 / 124 类型 / 六期 RC1」等内容是
 > 2026-11-23 的历史档案，保留供追溯，**不得作为当前状态引用**。
 
 | 项 | 当前事实（2026-11-26 · **1.2.0 整批单次重签 / 第 20 组合根 NovaIncubator 收官**；T9 / 坑位 49 / T5 均已结案） |
 |---|---|
-| 版本 / 发布 | **1.2.3**（由 1.2.2 作 **patch** 升级：品牌徽标双轨制落地 + PyPI README 绝对链接修正，**公共 API 零漂移**；CSA 14:37 改判徽标版本口径——徽标为 SVG 文本、刻当前包版本 `v1.2.3`，**每次升版（含 patch）同步修正**，由 `scripts/sync_brand_version.py` 写入 + `--check` 机检固化（见 `GUIDE_BRAND_MARK.md §7`）；**1.2.2**（PyPI 元数据 / 双语 README 呈现修正）已由 CSA 发布至 PyPI，`main` / tag `v1.2.2` → `a431a0f`；功能主体是 1.0.1 → 1.2.0 的 **additive minor**——共新增 **5 项组合根容器** `NovaAgent` / `NovaDE` / `NovaCopilot` / `NovaOrbit` / **`NovaIncubator`**，**15 项 GA 公共签名逐字不变**；1.1.0 为未发布中间批次、其四增量已并入 1.2.0 **整批登记、单次重签**，禁止中间指纹；按 1.0.1 / 1.2.1 先例 `apiVersion` 保持 **1.2.0**、清单 `api/nova-api-1.2.0.json` 文件名不改）；**1.0.0 GA / 1.0.1 / 1.2.1 / 1.2.2 已由 CSA 发布至 PyPI，1.2.3 待 CSA 发布** |
+| 版本 / 发布 | **1.2.4**（由 1.2.3 作 **patch** 升级：Quasar 品牌 tagline 换回霸气版 + QML 进主标语，16:37 口径改判 → **17:17 CSA 拍板升版并发布**，**公共 API 零漂移**；**1.2.3**（1.2.2 之上的 patch：品牌徽标双轨制落地 + PyPI README 绝对链接修正）已于 15:00 由 CSA 发布 PyPI，按史料不圆场保留；CSA 14:37 改判徽标版本口径——徽标为 SVG 文本、刻当前包版本 `v1.2.3`，**每次升版（含 patch）同步修正**，由 `scripts/sync_brand_version.py` 写入 + `--check` 机检固化（见 `GUIDE_BRAND_MARK.md §7`）；**1.2.2**（PyPI 元数据 / 双语 README 呈现修正）已由 CSA 发布至 PyPI，`main` / tag `v1.2.2` → `a431a0f`；功能主体是 1.0.1 → 1.2.0 的 **additive minor**——共新增 **5 项组合根容器** `NovaAgent` / `NovaDE` / `NovaCopilot` / `NovaOrbit` / **`NovaIncubator`**，**15 项 GA 公共签名逐字不变**；1.1.0 为未发布中间批次、其四增量已并入 1.2.0 **整批登记、单次重签**，禁止中间指纹；按 1.0.1 / 1.2.1 先例 `apiVersion` 保持 **1.2.0**、清单 `api/nova-api-1.2.0.json` 文件名不改）；**1.0.0 GA / 1.0.1 / 1.2.1 / 1.2.2 / 1.2.3 已由 CSA 发布至 PyPI**（1.2.3 于 2026-11-26 15:00 上架，`origin/main` 与 tag `v1.2.3` → `84a7854`，wheel 436,934 B / sdist 11,480,150 B） |
 | 公共 QML 类型 | **144**（Controls 91 · Behaviors 13 · Services 16 · Design 4 · **Composite.LayoutShell 20** = 15 GA + 3 AI 智能组合根 + 1 意图轨道呈现层 + 1 应用孵化器工作台） |
 | API 冻结 | 144 类型零漂移 · 指纹 **`4f882374ad52262b`**（1.2.0 整批单次重签，12:05 物理拍平后重签；历史指纹 `bfd3d938a2fab7be → cc32b5852ed04995 → 862312749d335aad → 68b34a408489b6a8`）· `api/nova-api-1.2.0.json` 与 `docs/API_FREEZE.md` 均为生成物禁手改；旧 143 类型成员逐字比对 **0 漂移**，仅新增 `NovaIncubator` |
 | 方法论 | **CARF — Conceive, Achieve, Refine, Freeze — Culminate to the peak.** 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）；母法 `docs/CONSTITUTION.md` 卷首 + 组合宪法 `docs/COMPOSITION_CONSTITUTION.md` **1.0.0** 卷首执行版。本轮 CARF 全循环：C 精读命名稿 + World-Class Edition 史料、裁定「方法论层史料 + 组件层工作台壳」双层法源 → A 第 20 组合根 QML + 1.2.0 整批重签 → R 三态图 / 20/20 机检 / 视觉实测避让 → F 账本闭环 |
@@ -34,6 +34,8 @@
 | **Aurora Core 极光核辉光落地（12:52 · CSA 授权「世界级惊艳·其他你定你完现」）** | CSA 指令：① Q2 撤销——不加第 9 公共色（避免 additive minor 重签）；② Q3 授权完现、目标世界级惊艳、实现自定。**A 落地**：10 组件各注入私有 `_glow` 令牌（从本组件 `_themeHue` 派生、sat×0.78、val×1.28、暗色×1.5），焦点装饰升级为「亮核环 + 中性白芯」——6 组件同心白芯（Chat/Copilot/DE/Incubator/Mobile/SetupWizard）、4 组件首节点提亮（Agent/Desktop/Flex/Orbit）。**R 技术选型**：弃 MultiEffect（离屏渲染参数改动零像素差异、效果不可见却引入 import+成本）、弃 Gradient.Radial / RadialGradient（Qt 6.12 报 missing-property / 类型不存在）；采用纯几何亮核+白芯（100% 可见、零 import、零新增 warning）。**F 门禁**：qmllint 594 warning 全在预算零新增 · 撞色 0 · 断链 0（579 条）· API 冻结 144 / `4f882374ad52262b` 零漂移 · static 3/3 · pytest 53/53 · v2 15/15 · foundations 15/15 · domains PASS · 10 组件明暗实例化 20 组全过、色值逐项实测。设计法源 `docs/prescript/GUIDE_COMPONENT_THEMES.md §1.5 Aurora Core`（落点表 + 技术选型记录 + 铁律不变式 + 青出于蓝叙事闭环）。**零公共属性 / 零 qmldir / 零模块 URI / 零几何语义变化**；AI 包 `5699ae9ce0566c6b`→`0080fb7a9fd837cb`（+Aurora Core 文档段，真状态变更）。改动留工作树、发布归 CSA |
 | **青色品牌资产立项 · 取色 +「青出于蓝」母题落地（12:43 · CSA 四问）** | CSA 四问：① 图中好看的颜色是什么名 → PIL 量化 + 定点采样，主色 `#22A6EF` hue 201°（星芒 `#0D9AE9` 202° / 发光点 `#40FAF9` 180°），色名 **Azure / Cerulean 蔚蓝**，中文「天青 / 蔚蓝」，恰是「青」；② 能否作 8 色之外第 9 色 → **可行但代价重**：`NovaTheme` 每个公共 `property` 逐项进冻结面 `props`，加色即 additive 公共 API → 宪法第 8 章 minor 重签 + a11y 契约登记 + 指纹变 + 全量门禁；轻量替代是私有 `_` 令牌不进公共面；③ 能否用于 10 主题 → **定点可行、全刷不可**：新青 hue 201° 与现有 SetupWizard 168° / FlexLayout 176° / Mobile 193° / Chat 216° 青系四色挤在 168–216° 带，全刷毁掉 168°→283° 有序分布且撞色；推荐只替换 1–2 个最贴切组件、或作独立品牌色；④ 上次 md 文档真意 → 「想引用**青出于蓝而胜于蓝**的用意」→ `docs/QUASAR_ACKNOWLEDGEMENT.md` §3 从「可选文艺版」升级为**品牌立意母题**（《荀子·劝学》本义 + 与 Inspired by 同构表 + 用法分档 + 与禁用词表边界），§5 补「典故即立意」，顶部加品牌立意行；AI 包离线拷贝同步。**「青出于蓝」叙事闭环**：Nova primary `#5B6EF5` hue 233°（蓝）→ 新青 hue 201°（青），正是「青取之于蓝而青于蓝」；与 Inspired by Quasar 口径同构。**Q2/Q3 属 additive 公共 API 变更，本轮只给评估、未改冻结面，待 CSA 拍板后开工**；Q4 已落地（纯文案层、指纹不变）。改动留工作树、发布归 CSA |
 | **物理层拍平（12:05 · CSA 指令）** | CSA 指令「LayoutShell 子目录看着不爽，移到父目录」→ **20 个 QML 从九类子目录上移一层、9 个空目录删除、`qmldir` 改平铺、20 个头注释路径同步**。冻结面重签 `4f882374ad52262b`（反向归一化 `file` 精确还原 `68b34a408489b6a8` → 公共成员逐字零漂移）；九类分类下沉文档层台账、物理路径回归 1.0.x 已发布形态。生成物全链路重跑、法源锚点同步、全量门禁复验。**零类型名 / 零 URI / 零公共成员 / 零 import 变化** |
+| **品牌 tagline 口径改判（16:37 · CSA 新拍板）** | CSA 贴 PyPI 1.2.3 截图判「`Inspired by` 首屏不够霸气」，指令换回「PySide-Nova 是 Qt Quick 世界的 Quasar」并加 QML；小诺三案建议、CSA 选 **A 案：QML 进主标语本体**（`PySide-Nova is the Quasar of the QML world.` / `PySide-Nova，QML 世界的 Quasar。`），**Qt Quick 退到技术定位行、`Inspired by` 降为致谢行**。落点：`pyproject.toml` description / 双语 README 首屏 / `docs/index.md` 徽标副标题 / `docs/QUASAR_ACKNOWLEDGEMENT.md` 新增 **§8**（覆盖 §1 与 §4 第 4 行，原文按史料不圆场逐字保留并加效力指针）。**同轮确认**：T9 的 Layout Builder 与在线可调参 Playground **均已完现**（`mkdocs build` 0 告警 / 6 个 JS 语法全过 / `nova-data.js` 20 组合根数据齐全），按 CSA 拍板沿用 §12.7 已登记边界判定、不补做；顺带校准 `playground.js` 旧冻结面口径 `1.0.0 → 1.2.0`。**零 QML / 零 API / 零冻结面改动**；PyPI 1.2.3 元数据不可原地改、该口径**已随 1.2.4 重新发行生效**；发布归 CSA |
+| **1.2.4 升版（17:17 · CSA「升 1.2.4 并发布吧，准备全套」）** | 按 `GUIDE_BRAND_MARK.md §7` 全套 SOP：`__about__.py` 1.2.3 → **1.2.4** → `sync_brand_version.py` 同步 3 枚源 SVG + 3 份站点副本共 5 处字样至 `v1.2.4`（`--check` ✓ / 6 个 SVG XML 解析通过）→ 生成器链 `gen_api_freeze → gen_component_list → gen_apidocs → gen_prompt` 重跑（`packageVersion=1.2.4` / `apiVersion=1.2.0` 不变 / 指纹 `4f882374ad52262b` **零漂移** / AI 包 `6cec710491d8f2db` 不变）→ Chrome 复拍 3 张 `*_v1.2.4.png`（`*_v1.2.3.png` 按史料保留）→ `GUIDE_BRAND_MARK §2 / §7.1` 校准。双语 README / `docs/index.md` / `docs/en/index.md` / `CHANGELOG.md [1.2.4]` / 根 PROMPT / NOVA_WORKSPACE 全量版本锚点同步。**零 QML / 零 API / 零冻结面改动**；`release.yml`（tag `v*`）自动 build + PyPI 可信发布；`commit / push / tag` 归 CSA |
 | 身份 / 分工 | 伙伴 = **CSA**（构想 / 方向 / 标准 / 验收拍板）；小诺 = **完现者**（实现 / 自检 / 验收 / 文档账本闭环）。**本文件是项目内投影；跨会话唯一入口是工作区根 `D://Porjects//PyCharm//PySide6//Nova//PROMPT.md`**，二者冲突以工作区根为准 |
 
 ### 一句话定位
@@ -463,8 +465,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：1.2.3（2026-11-26）
-- 内容指纹：`c3701ce4b7cb`
-- git HEAD：a431a0f
-- 生成时间：2026-11-26 14:46（星期四）
+- 快照版本：1.2.4（2026-11-26）
+- 内容指纹：`a5ef4e1866df`
+- git HEAD：84a7854
+- 生成时间：2026-11-26 17:34（星期四）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）
