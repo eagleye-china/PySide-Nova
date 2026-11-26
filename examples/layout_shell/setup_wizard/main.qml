@@ -10,6 +10,12 @@ import Nova.Composite.LayoutShell
 
 ApplicationWindow {
     id: win
+    // 主题模式：signature=专属（深底+组件专属色相，默认） / light=亮色（浅底+全局品牌蓝）
+    property string themeMode: "signature"
+    onThemeModeChanged: NovaTheme.setDark(win.themeMode === "signature")
+    function toggleTheme() {
+        win.themeMode = (win.themeMode === "signature") ? "light" : "signature"
+    }
     width: 1100
     height: 740
     minimumWidth: 720
@@ -18,7 +24,7 @@ ApplicationWindow {
     title: "NovaSetupWizard · 新建工程（成品级 Showcase）"
     color: NovaTheme.page
 
-    Component.onCompleted: NovaScreen.source = win
+    Component.onCompleted: { NovaScreen.source = win; NovaTheme.setDark(win.themeMode === "signature") }
 
     property bool variantMode: false        // 变体态 = 跳到第 3 步 + 显示底栏
     property bool paramsOpen: false
@@ -52,13 +58,19 @@ ApplicationWindow {
             width: 30; height: 30; radius: 15
             color: NovaTheme.surfaceAlt
             border { width: 1; color: NovaTheme.outline }
+            // 主题模式：专属（深底+专属色） / 亮色（浅底+品牌蓝）——点击切换
             Rectangle {
                 anchors.centerIn: parent
                 width: 14; height: 14; radius: 7
-                color: NovaTheme.isDark ? NovaTheme.warning : NovaTheme.primary
-                Rectangle { anchors { right: parent.right; top: parent.top } width: 11; height: 11; radius: 5.5; color: NovaTheme.surfaceAlt; visible: !NovaTheme.isDark }
+                color: win.themeMode === "signature" ? Qt.lighter(NovaTheme.primary, 1.25) : "transparent"
+                border { width: 1; color: win.themeMode === "signature" ? Qt.lighter(NovaTheme.primary, 1.25) : NovaTheme.primary }
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: 6; height: 6; radius: 3
+                    color: win.themeMode === "signature" ? NovaTheme.surfaceAlt : NovaTheme.primary
+                }
             }
-            MouseArea { anchors.fill: parent; onClicked: NovaTheme.toggleDark() }
+            MouseArea { anchors.fill: parent; onClicked: win.toggleTheme() }
         }
         Rectangle {
             anchors { right: parent.right; rightMargin: NovaTheme.spacingM; verticalCenter: parent.verticalCenter }
@@ -81,6 +93,7 @@ ApplicationWindow {
 
         NovaSetupWizard {
             id: shell
+            _signatureOn: win.themeMode === "signature"
             anchors.fill: parent
             currentStep: win.curStep
             stepCount: 3
@@ -137,7 +150,7 @@ ApplicationWindow {
                             model: win.curStep === 0
                                 ? [{ n: "IDE 工作台", d: "NovaDesktop · 五槽桌面根壳" }, { n: "AI 对话主窗口", d: "NovaChat · 六槽多轨" }, { n: "运行看板", d: "NovaFlexLayout · 分栏网格" }]
                                 : (win.curStep === 1
-                                    ? [{ n: "Nova.Controls", d: "基础控件 91 项" }, { n: "Nova.Services", d: "令牌与服务 16 项" }, { n: "Composite.LayoutShell", d: "组合根容器 15 项" }]
+                                    ? [{ n: "Nova.Controls", d: "基础控件 91 项" }, { n: "Nova.Services", d: "令牌与服务 16 项" }, { n: "Composite.LayoutShell", d: "组合根容器 20 项" }]
                                     : [{ n: "工程名称", d: "nova-flagship" }, { n: "目标路径", d: "D:/Projects/nova-flagship" }, { n: "包版本", d: "1.0.0 GA" }])
                             Rectangle {
                                 required property var modelData

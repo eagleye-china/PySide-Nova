@@ -117,7 +117,7 @@ ApplicationWindow {
                     Text {
                         width: parent.width
                         wrapMode: Text.Wrap
-                        text: "构想 · 实现 · 打磨 · 封版，终抵巅峰。每一个 pyside-nova 组件与 15 项组合根容器，都必须是功能、质量、观感、友好度与四性（鲁棒性、坚实性、艺术性、预判性）六维缺一不可的天花板。"
+                        text: "构想 · 实现 · 打磨 · 封版，终抵巅峰。每一个 pyside-nova 组件与 20 项组合根容器，都必须是功能、质量、观感、友好度与四性（鲁棒性、坚实性、艺术性、预判性）六维缺一不可的天花板。"
                         color: NovaTheme.textColor
                         font.pixelSize: NovaTheme.fontS
                         lineHeight: 1.6

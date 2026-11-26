@@ -160,7 +160,7 @@ ApplicationWindow {
                     Column {
                         anchors.fill: parent
                         spacing: win._unit
-                        Text { text: "Composite.LayoutShell · 15 项"; color: NovaTheme.textColor; font { pixelSize: NovaTheme.fontM; bold: true } }
+                        Text { text: "Composite.LayoutShell · 20 项"; color: NovaTheme.textColor; font { pixelSize: NovaTheme.fontM; bold: true } }
                         Repeater {
                             model: [
                                 { m: "GET", p: "/NovaSidebar", d: "侧边导航工作台壳" },
@@ -238,7 +238,7 @@ ApplicationWindow {
                     Rectangle { width: 7; height: 7; radius: 3.5; color: NovaTheme.positive }
                     Text { text: "本地 API 索引已加载 · 139 类型"; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontXS }
                 }
-                Text { anchors { right: parent.right; rightMargin: win._gap; verticalCenter: parent.verticalCenter } text: "指纹 bfd3d938a2fab7be"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS }
+                Text { anchors { right: parent.right; rightMargin: win._gap; verticalCenter: parent.verticalCenter } text: "指纹 4f882374ad52262b"; color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS }
             }
         }
     }

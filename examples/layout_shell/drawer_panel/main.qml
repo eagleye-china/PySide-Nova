@@ -97,7 +97,7 @@ ApplicationWindow {
                         anchors { fill: parent; margins: win._gap }
                         spacing: 10
                         Repeater {
-                            model: ["模块：Nova.Composite.LayoutShell", "类型：15 项组合根容器", "指纹：bfd3d938a2fab7be", "状态：天花板验收中"]
+                            model: ["模块：Nova.Composite.LayoutShell", "类型：20 项组合根容器", "指纹：4f882374ad52262b", "状态：天花板 20/20 已销号"]
                             Text { required property string modelData; text: modelData; color: NovaTheme.textColor; font.pixelSize: NovaTheme.fontS }
                         }
                     }

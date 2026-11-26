@@ -1,6 +1,6 @@
 # examples/gallery/layout_shells.py
 # Prescient Layout Shell 独立画廊启动入口：python examples/gallery/layout_shells.py
-"""14 项组合根容器独立预览画廊（组合宪法 0.2.0 Gallery 门禁）。
+"""20 项组合根容器独立预览画廊（组合宪法 0.2.0 Gallery 门禁）。
 
 与主画廊 main.py 分离，避免触碰 3898 行主文件；可独立加载、逐项调参、明暗切换。
 """

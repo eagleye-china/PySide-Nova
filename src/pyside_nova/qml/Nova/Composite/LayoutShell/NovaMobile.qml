@@ -50,7 +50,11 @@ Item {
     readonly property color _panel: NovaTheme.surface
     // ── 专属主题 · 天青（色相 193°，偏移 -0.1110）──
     // 移动根壳 · 天青轻盈；色相随 setBrand 漂移，饱和/明度系数独立定制（CC-3：组件内仍单色相）
-    readonly property real _themeHue: (NovaTheme.primary.hsvHue + (-0.1110) + 1) % 1
+    // _signatureOn：true=专属色相（默认）/ false=回归全局品牌蓝（亮色态）；私有令牌不进冻结面
+    property bool _signatureOn: true
+    readonly property real _themeHue: root._signatureOn
+        ? (NovaTheme.primary.hsvHue + (-0.1110) + 1) % 1
+        : NovaTheme.primary.hsvHue
     readonly property color _accent: Qt.hsva(root._themeHue,
         Math.min(1, NovaTheme.primary.hsvSaturation * 1.00),
         Math.min(1, NovaTheme.primary.hsvValue * 0.95 * (NovaTheme.isDark ? 1.25 : 1)), 1)

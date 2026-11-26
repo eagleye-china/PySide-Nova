@@ -9,6 +9,12 @@ import Nova.Composite.LayoutShell
 
 ApplicationWindow {
     id: win
+    // 主题模式：signature=专属（深底+组件专属色相，默认） / light=亮色（浅底+全局品牌蓝）
+    property string themeMode: "signature"
+    onThemeModeChanged: NovaTheme.setDark(win.themeMode === "signature")
+    function toggleTheme() {
+        win.themeMode = (win.themeMode === "signature") ? "light" : "signature"
+    }
     width: 1280
     height: 800
     minimumWidth: 760
@@ -17,7 +23,7 @@ ApplicationWindow {
     title: "NovaCopilot · 协作建议与动作闸门（成品级 Showcase）"
     color: NovaTheme.page
 
-    Component.onCompleted: NovaScreen.source = win
+    Component.onCompleted: { NovaScreen.source = win; NovaTheme.setDark(win.themeMode === "signature") }
 
     property bool collapsed: false
     property bool showBars: true
@@ -58,18 +64,19 @@ ApplicationWindow {
             width: 30; height: 30; radius: 15
             color: NovaTheme.surfaceAlt
             border { width: 1; color: NovaTheme.outline }
+            // 主题模式：专属（深底+专属色） / 亮色（浅底+品牌蓝）——点击切换
             Rectangle {
                 anchors.centerIn: parent
                 width: 14; height: 14; radius: 7
-                color: NovaTheme.isDark ? NovaTheme.warning : NovaTheme.primary
+                color: win.themeMode === "signature" ? Qt.lighter(NovaTheme.primary, 1.25) : "transparent"
+                border { width: 1; color: win.themeMode === "signature" ? Qt.lighter(NovaTheme.primary, 1.25) : NovaTheme.primary }
                 Rectangle {
-                    anchors { right: parent.right; top: parent.top }
-                    width: 11; height: 11; radius: 5.5
-                    color: NovaTheme.surfaceAlt
-                    visible: !NovaTheme.isDark
+                    anchors.centerIn: parent
+                    width: 6; height: 6; radius: 3
+                    color: win.themeMode === "signature" ? NovaTheme.surfaceAlt : NovaTheme.primary
                 }
             }
-            MouseArea { anchors.fill: parent; onClicked: NovaTheme.toggleDark() }
+            MouseArea { anchors.fill: parent; onClicked: win.toggleTheme() }
         }
         Rectangle {
             id: paramsBtn
@@ -97,6 +104,7 @@ ApplicationWindow {
 
         NovaCopilot {
             id: shell
+            _signatureOn: win.themeMode === "signature"
             anchors.fill: parent
             suggestSize: win.panelSize
             gateSize: win.panelSize
@@ -390,7 +398,7 @@ ApplicationWindow {
         }
         Text {
             anchors { right: parent.right; verticalCenter: parent.verticalCenter; rightMargin: NovaTheme.spacingL }
-            text: "NovaCopilot · 1.2.0 · " + (NovaTheme.isDark ? "深色" : "浅色")
+            text: "NovaCopilot · 1.2.0 · " + (win.themeMode === "signature" ? "专属" : "亮色")
             color: NovaTheme.textMuted
             font.pixelSize: NovaTheme.fontXS
         }

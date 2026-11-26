@@ -153,7 +153,7 @@ ApplicationWindow {
                                 anchors { fill: parent; margins: win._gap }
                                 spacing: 8
                                 Repeater {
-                                    model: ["139 公共类型 · 零漂移", "指纹 bfd3d938a2fab7be", "15 项组合根容器 · 天花板 15/15"]
+                                    model: ["144 公共类型 · 零漂移", "指纹 4f882374ad52262b", "20 项组合根容器 · 天花板 20/20"]
                                     Row {
                                         required property string modelData
                                         spacing: win._gap

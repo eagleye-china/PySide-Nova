@@ -126,7 +126,7 @@ ApplicationWindow {
                     }
                 }
                 Text {
-                    text: "所有槽位注入可视化占位块；\n左侧切换 19 个真实组合根容器。\n无业务语义 · 令牌驱动 · 可独立加载。"
+                    text: "所有槽位注入可视化占位块；\n左侧切换 20 个真实组合根容器。\n无业务语义 · 令牌驱动 · 可独立加载。"
                     color: NovaTheme.textMuted; font.pixelSize: NovaTheme.fontXS; wrapMode: Text.Wrap
                 }
             }
@@ -136,7 +136,7 @@ ApplicationWindow {
     // ── 占位块 component（复用于各槽位）──
     Component { id: slotBlock; Rectangle { color: NovaTheme.surfaceAlt; border { width: 1; color: NovaTheme.outline } } }
 
-    // ── 19 个独立预览页（15 GA + 4 增量）──
+    // ── 20 个独立预览页（15 GA + 5 增量）──
     Component { id: pgSidebar; NovaSidebar { anchors.fill: parent; sidebarSize: win.panelSize; sidebarCollapsed: win.collapsed; showHeader: win.showBars; showFooter: win.showBars
         headerSlot: Rectangle { color: NovaTheme.primary; Text { anchors.centerIn: parent; text: "headerSlot"; color: NovaTheme.textOnPrimary } }
         sidebarSlot: Rectangle { color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "sidebarSlot"; color: NovaTheme.textMuted } }
