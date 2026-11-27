@@ -4,12 +4,12 @@
 
 **English coverage:** 5 pages (home, components, playground, layout builder, community). The remaining documentation is currently available in Chinese only; use the language switcher in the header to return to the Chinese site.
 
-pyside-nova **1.4.0 GA** is an enterprise PySide6 / QML component library with **145 exported types**, including **20 composite root containers** (20/20 CARF ceiling sign-off). Public API fingerprint `37fbbe9ab5806a2a` is frozen.
+pyside-nova **1.5.0 GA** is an enterprise PySide6 / QML component library with **146 exported types**, including **20 composite root containers** (20/20 CARF ceiling sign-off). Public API fingerprint `9742de8638251876` is frozen.
 
 ## Quick start
 
 ```bash
-pip install pyside-nova==1.4.0
+pip install pyside-nova==1.5.0
 python examples/gallery_launch.py   # 24-page local component gallery
 ```
 

@@ -2,7 +2,24 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.4.0 · **2026-11-27 14:17 · T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.5.0 · 2026-11-27 16:45 · T21 完现销号 / 1.5.0 本地待 CSA 发布；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+
+## 🆕 1.5.0 现行校准（2026-11-27 16:45 · T21 完现 · 覆盖下方 1.4.0 及更早历史快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。1.4.0 已由 CSA 于 14:05 commit + tag + push、14:17 上架 PyPI
+> LATEST RELEASE，属史料不回改；1.5.0 是新一轮 additive minor，**本地完成待 CSA 发布**。
+
+| 项 | 1.5.0 现行事实 |
+|---|---|
+| 版本 / 发布 | **1.5.0 本地完成、待 CSA 发布**（1.4.0 之上的 additive minor）；包 / API 同版；`commit / push / tag / PyPI` 全归 CSA，改动留工作树未提交 |
+| 公共 QML 类型 | **146**（Controls **93** · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell 20）；新增第 146 个 = `Nova.Controls.NovaDataGrid`；**旧 145 类型逐字不变** |
+| API 冻结 | 146 类型零漂移 · 指纹 **`9742de8638251876`**（`api/nova-api-1.5.0.json` + `docs/API_FREEZE.md`）；`1.4.0` 清单 `37fbbe9ab5806a2a` 保留为史料 |
+| 新增组件 | `NovaDataGrid.qml`（`TableView` + `HorizontalHeaderView` + `ItemSelectionModel` 真虚拟化；`reuseItems:false` 避开坑位 32；全库组件零手搓）+ Python 数据层 `pyside_nova.datagrid`（Model / FilterProxy / Pagination / PagedProxy，零第三方依赖）+ `docs/controls/NovaDataGrid.md` 使用文档 + Gallery 第 25 页 + `tests/test_nova_datagrid.py` 11 项 |
+| 演示工程 | `examples/controls/markdown_demo/`（14:59 交付 / 15:00 CSA 归档入 `controls/`）· **`examples/controls/datagrid_demo/`（16:45 交付）**：铝电解工作站 4000 槽 / 11 列 / 80 页 / 高频 `batchUpdate` / Python 侧统计卡片 / 两个 `cellDelegates` 列级委托 / 亮暗两张真机截图 / README + 离屏验收脚本 |
+| 门禁 | 静态 3/3（a11y 146/146 · qmllint 0 error / 594 warning 预算内 · API 冻结 146 零漂移）· `test_nova_datagrid.py` **11/11** · `test_nova_markdown.py` + `test_api_freeze.py` **39/39** · 三 `--check` ✓ · mkdocs build exit 0 · ruff 全净 · demo 离屏真机 **0 坏 Qt 消息** |
+| 新增坑位 | **71** 条件高度 `Rectangle` 的 `visible` 不可绑定自身 `height`（自举死锁）· **72** Qt 6.12 `Connections` 须用标准 `function onFoo()`（4 个 handler 按库内惯例进冻结面）· **73** 连续同步改模型须让事件循环消化，否则 `invalidate()` 踩半更新状态（Windows access violation）· **74** Windows offscreen `OpenThemeData(SCROLLBAR)` 噪声 + 黑白竖条 → `QT_QUICK_CONTROLS_STYLE=Basic` 归零 |
+| 待办池 | **T21 完现销号（真实交付）**；现 **1 项 = T3**（migrate_to_nova，方案完成未开工）；无活跃主线、下一个 **T22**；发布边界全归 CSA |
+| 待 CSA 拍板 | CSA 16:37 出示 `nova-forge/docs/controls/NovaMarkdown.qml`（v0.17.0 增强稿）问可否替换本库 `NovaMarkdown`。**只读评估结论：不可原样替换** —— 用库自身 `gen_api_freeze._members(parse_qml())` 解析，签名由 **10 props → 22 props**（delegate 内 `readonly property` 被静态解析器收进公共面）、qmllint **+6 unqualified** 超满额预算、专项硬断言 `"NovaBtn" in src` 落空（TOC 侧栏改手搓）、真机 **1 条 binding loop**。但 GFM 表格 Grid 自绘 / slug 去重 / `_anchorIndex` O(1) / TOC 可滚动 / hr·tasklist·image 独立分块均为真实增益，建议按「择优反哺、不动冻结面」另立新一轮 CARF，不覆盖、不复用编号 |
 
 ## ⚠️ 当前状态校准（2026-11-25 17:16 立 · **2026-11-27 13:59 校准：1.4.0 additive = 新增 `NovaMarkdown` 第 145 类型 / 指纹 `37fbbe9ab5806a2a`；T20 完现销号（文档重写 + 组件 + 重签 + Gallery + 测试）；两仓库本地待发布** · 覆盖下方 1.3.0 及更早历史快照）
 

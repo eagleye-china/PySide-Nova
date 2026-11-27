@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova flagship seal · CARF · v1.4.0" width="200" />
+<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova flagship seal · CARF · v1.5.0" width="200" />
 
 # PySide-Nova
 
@@ -21,7 +21,7 @@ stable, industrial-grade interfaces.
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
-[![Status](https://img.shields.io/badge/status-v1.4.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v1.5.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 [![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
@@ -32,10 +32,10 @@ stable, industrial-grade interfaces.
 
 | Item | Value |
 |---|---|
-| **Version** | **1.4.0** — additive minor over 1.3.0 (new public type **`NovaMarkdown`** in `Nova.Controls`: zero-dependency Qt-native Markdown renderer with built-in TOC, anchor jumps and dangerous-protocol blocking; API contract re-signed **1.4.0**, release owned by CSA); **1.3.0** (NovaIncubator clickable identity emblem: `emblemClickable` + `emblemClicked`, re-signed locally) and **1.2.4** (patch, zero public API drift) are local / published states respectively; **1.2.3** (brand seal dual-track rollout + PyPI README absolute-link fix) and **1.2.2** (PyPI metadata / bilingual README presentation fix) are already published on PyPI; feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**) |
+| **Version** | **1.5.0** — additive minor over 1.4.0 (new public type **`NovaDataGrid`** in `Nova.Controls`: TableView-backed enterprise data grid with a pure-Python `QAbstractTableModel` pipeline, server-side mode, column-level delegates, inline editing, severity tinting and keyboard navigation; API contract re-signed **1.5.0**, release owned by CSA); **1.4.0** (new `NovaMarkdown`: zero-dependency Qt-native Markdown renderer) is already published on PyPI; **1.3.0** (NovaIncubator clickable identity emblem: `emblemClickable` + `emblemClicked`, re-signed locally) and **1.2.4** (patch, zero public API drift) are local / published states respectively; **1.2.3** (brand seal dual-track rollout + PyPI README absolute-link fix) and **1.2.2** (PyPI metadata / bilingual README presentation fix) are already published on PyPI; feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**) |
 | **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
 | **Public QML types** | **145** — Controls 92 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
-| **API freeze** | 145 types, zero drift · fingerprint `37fbbe9ab5806a2a` (1.4.0 additive re-sign: new `NovaMarkdown`, the 145th public type) |
+| **API freeze** | 146 types, zero drift · fingerprint `9742de8638251876` (1.5.0 additive re-sign: new `NovaDataGrid`, the 146th public type; old 145 types unchanged) |
 | **Runtime** | Python ≥ 3.10 · PySide6 ≥ 6.8 (verified on **6.12.0**) · Windows / macOS / Linux |
 | **Quality gates** | static 3/3 PASS · 68 targeted tests passed · 20/20 ceiling audit · 15/15 foundations audit · qmllint 0 error |
 
@@ -115,7 +115,7 @@ Quasar, not a port or fork of it ([relationship & credit](https://github.com/eag
 - 🎬 **Unified motion** — every Shell animation reads `NovaMotion.duration()` and
   `NovaMotion.easingStandard`; `reducedMotion` short-circuits all transitions and
   `speedFactor` retimes the whole library at once.
-- ♿ **A11y by contract** — 145/145 types registered as interactive / semantic /
+- ♿ **A11y by contract** — 146/146 types registered as interactive / semantic /
   decorative; decorative containers deliberately carry no `Accessible.*` noise.
 - 📦 **pip-ready** — QML modules ship inside the wheel; one line to bootstrap.
 - ✅ **Verified, not promised** — static gate (a11y → API freeze → qmllint), 478 pytest
@@ -333,7 +333,7 @@ git push origin v1.0.0
 - [Flagship White Paper](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/WHITEPAPER.md) — manifesto, architecture,全端方案
 - [Prescient Layout Shell Frozen Spec](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/SPEC_FREEZE.md) — acceptance red lines & slot contract
 - [Layout Shell module README](https://github.com/eagleye-china/pyside-nova/blob/main/src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) — all 20 contracts & dependency lists
-- [Component index](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPONENT_LIST.md) — 145 types, generated
+- [Component index](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPONENT_LIST.md) — 146 types, generated
 - [Relationship with Quasar & credit](https://github.com/eagleye-china/pyside-nova/blob/main/docs/QUASAR_ACKNOWLEDGEMENT.md) — inspired by, not a fork
 - [Architecture Constitution](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md) · [Composition Constitution](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPOSITION_CONSTITUTION.md)
 - [Ecosystem Parity](https://github.com/eagleye-china/pyside-nova/blob/main/docs/ECOSYSTEM_PARITY.md) · [CHANGELOG](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)

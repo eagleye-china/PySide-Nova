@@ -95,3 +95,4 @@ NovaPullToRefresh 1.0 NovaPullToRefresh.qml
 NovaResizeObserver 1.0 NovaResizeObserver.qml
 NovaBtnDropdown 1.0 NovaBtnDropdown.qml
 NovaBtnGroup 1.0 NovaBtnGroup.qml
+NovaDataGrid 1.0 NovaDataGrid.qml

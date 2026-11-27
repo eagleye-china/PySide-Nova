@@ -120,6 +120,7 @@ ApplicationWindow {
                     ListElement { label: "无障碍 a11y";          icon: "mdi:human-wheelchair" }
                     ListElement { label: "国际化 i18n";          icon: "mdi:translate" }
                     ListElement { label: "NovaMarkdown 文档";    icon: "mdi:file-document-outline" }
+                    ListElement { label: "NovaDataGrid 网格";    icon: "mdi:table-large" }
                 }
 
                 delegate: Rectangle {
@@ -169,7 +170,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail, pageA11y, pageI18n, pageMarkdown][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail, pageA11y, pageI18n, pageMarkdown, pageDataGrid][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -3965,6 +3966,112 @@ ApplicationWindow {
                     onLinkClicked: function(u) { mdPage.feedback = "安全链接：" + u }
                     onLinkBlocked: function(u) { mdPage.feedback = "已拦截：" + u }
                     onTocReady: function(items) { mdPage.feedback = "大纲条目 " + items.length + " 项" }
+                }
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：NovaDataGrid 企业级数据网格（1.5.0 · 第 146 公共类型）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageDataGrid
+        Item {
+            id: dgPage
+            objectName: "pageDataGrid"
+            property string feedback: "点击表头排序 / 点击可编辑单元格 / 试试「批量更新」"
+
+            GalleryPage {
+                title: "NovaDataGrid 企业级数据网格"
+                desc: "1.5.0 新增公共类型：TableView 真虚拟化 + Python QAbstractTableModel 数据管道；列级委托、内联编辑、severity 染色、列显隐、键盘导航，全库组件零手搓。"
+
+                GalleryRow { label: "工业槽位监控 · 排序 / 过滤 / 编辑 / 列显隐" }
+
+                Row {
+                    width: parent.width
+                    spacing: NovaTheme.spacingM
+
+                    NovaBtn {
+                        text: "批量更新"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: {
+                            gridTableModel.batchUpdate([
+                                { slot: "B02", voltage: 4.01 },
+                                { slot: "C03", voltage: 3.75 }
+                            ])
+                            dgPage.feedback = "batchUpdate 已合并 dataChanged 并高亮变动行"
+                        }
+                    }
+                    NovaBtn {
+                        text: "仅看预警"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: {
+                            gridFilterProxy.setQuickFilter("预警")
+                            dgPage.feedback = "全字段过滤：预警"
+                        }
+                    }
+                    NovaBtn {
+                        text: "清除过滤"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: {
+                            gridFilterProxy.clearFilters()
+                            dgPage.feedback = "过滤已清除，回到全量行"
+                        }
+                    }
+                    NovaBtn {
+                        text: "隐藏温度列"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: {
+                            gridTableModel.setVisibleColumns(["slot", "voltage", "state"])
+                            dgPage.feedback = "列显隐后排序仍按 column key，不漂移"
+                        }
+                    }
+                    NovaBtn {
+                        text: "恢复全部列"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: {
+                            gridTableModel.setVisibleColumns(["slot", "voltage", "temp", "state"])
+                            dgPage.feedback = "已恢复 4 列"
+                        }
+                    }
+                    NovaBtn {
+                        text: "切换明暗"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: NovaTheme.toggleDark()
+                    }
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: dgPage.feedback
+                        color: NovaTheme.textMuted
+                        font.pixelSize: NovaTheme.fontXS
+                    }
+                }
+
+                NovaDataGrid {
+                    id: dgGrid
+                    width: parent.width
+                    height: 430
+                    title: "工业槽位监控"
+                    tableModel: gridTableModel
+                    filterProxy: gridFilterProxy
+                    pagedProxy: gridPagedProxy
+                    pagination: gridPagination
+                    onRowClicked: function (r) { dgPage.feedback = "rowClicked " + r }
+                    onCellEdited: function (r, c, v) {
+                        dgPage.feedback = "cellEdited " + r + "/" + c + " = " + v
+                    }
+                    onSortRequested: function (c, a) {
+                        dgPage.feedback = "sortRequested 列 " + c + " 升序=" + a
+                    }
+                    onRowContextMenuRequested: function (r) {
+                        dgPage.feedback = "右键菜单 行 " + r
+                    }
                 }
             }
         }

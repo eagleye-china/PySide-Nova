@@ -41,7 +41,7 @@ from PySide6.QtQuick import QQuickItem, QQuickWindow  # noqa: E402
 from pyside_nova import init_nova  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-API = ROOT / "api" / "nova-api-1.4.0.json"
+API = ROOT / "api" / "nova-api-1.5.0.json"
 
 # 本轮 CARF-R 销号的 15 项 Robustness 缺陷（数据驱动，非批量套规则）
 FOUNDATIONS = [

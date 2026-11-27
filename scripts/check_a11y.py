@@ -39,6 +39,7 @@ INTERACTIVE, SEMANTIC, DECORATIVE = "interactive", "semantic", "decorative"
 CONTROLS: dict[str, tuple[str, str, str]] = {
     # ── 动作类 ────────────────────────────────────────────────────
     "NovaBtn":            (INTERACTIVE, "Button", "a11yLabel → text"),
+    "NovaDataGrid":       (INTERACTIVE, "Table", "a11yLabel → title"),
     "NovaBtnToggle":      (INTERACTIVE, "RadioButton", "a11yLabel → text"),
     "NovaBtnDropdown":    (INTERACTIVE, "ButtonDropDown", "a11yLabel → label"),
     "NovaBtnGroup":       (SEMANTIC, "Grouping", "a11yLabel（可选）"),

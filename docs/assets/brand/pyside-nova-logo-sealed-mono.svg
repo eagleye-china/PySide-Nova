@@ -32,7 +32,7 @@
     </g>
     <g font-family="Inter, 'SF Pro Text', sans-serif" font-size="14" font-weight="700" letter-spacing="3.2" stroke="none">
       <text text-anchor="middle"><textPath href="#arcTopM" startOffset="50%">CONCEIVE · ACHIEVE · REFINE · FREEZE</textPath></text>
-      <text text-anchor="middle" fill-opacity="0.72"><textPath href="#arcBottomM" startOffset="50%">PYSIDE-NOVA · FLAGSHIP SEAL · v1.4.0</textPath></text>
+      <text text-anchor="middle" fill-opacity="0.72"><textPath href="#arcBottomM" startOffset="50%">PYSIDE-NOVA · FLAGSHIP SEAL · v1.5.0</textPath></text>
     </g>
     <g transform="translate(256,238)" stroke="none">
       <path d="M 0 -158 l 3.4 3.4 L 0 -151.2 l -3.4 -3.4 Z"/>
@@ -58,7 +58,7 @@
     </g>
     <g transform="translate(0,10)" stroke="none">
       <path d="M 158 436 L 354 436 L 370 447 L 354 458 L 354 478 L 158 478 L 158 458 L 142 447 Z" fill="#EAF2FF" fill-opacity="0.06" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="1.5"/>
-      <text x="256" y="463" text-anchor="middle" font-family="Inter, 'SF Pro Text', sans-serif" font-size="13" font-weight="700" letter-spacing="2.4">SEALED · v1.4.0</text>
+      <text x="256" y="463" text-anchor="middle" font-family="Inter, 'SF Pro Text', sans-serif" font-size="13" font-weight="700" letter-spacing="2.4">SEALED · v1.5.0</text>
     </g>
   </g>
 </svg>

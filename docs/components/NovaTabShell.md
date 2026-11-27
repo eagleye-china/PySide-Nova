@@ -1,6 +1,6 @@
 # NovaTabShell · 标签页工作台
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 主导航 · **pyside-nova 1.4.0** · API 冻结指纹 `37fbbe9ab5806a2a` · **20/20 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 主导航 · **pyside-nova 1.5.0** · API 冻结指纹 `9742de8638251876` · **20/20 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览
@@ -72,5 +72,5 @@ NovaTabShell {
 - [20 项组合根容器总览](index.md)
 - [60 张三态装配图索引](showcase.md)
 - [CARF-R 20/20 销号台账](../prescript/AUDIT_CEILING.md)
-- [组件清单（145 项）](../COMPONENT_LIST.md)
+- [组件清单（146 项）](../COMPONENT_LIST.md)
 - [API 冻结清单](../API_FREEZE.md)

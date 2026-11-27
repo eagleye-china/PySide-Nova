@@ -27,10 +27,11 @@ sys.path.insert(0, str(SCRIPTS))
 SRC = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaMarkdown.qml"
 QMLDIR = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Controls" / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaMarkdown.md"
-MANIFEST = ROOT / "api" / "nova-api-1.4.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.5.0.json"
 PYPROJECT = ROOT / "pyproject.toml"
 
-FINGERPRINT = "37fbbe9ab5806a2a"
+FINGERPRINT = "9742de8638251876"        # 1.5.0 现行冻结面
+HISTORICAL_FP = "37fbbe9ab5806a2a"      # 1.4.0 史料（使用文档对比表保留，史料不圆场）
 
 MD = (
     "# 一级标题\n\n"
@@ -70,9 +71,9 @@ def test_a11y_registered_as_semantic():
 
 def test_frozen_api_surface_matches_exactly():
     man = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    assert man["apiVersion"] == "1.4.0"
+    assert man["apiVersion"] == "1.5.0"
     assert man["fingerprint"] == FINGERPRINT
-    assert man["counts"]["total"] == 145
+    assert man["counts"]["total"] == 146
     info = man["types"]["Nova.Controls.NovaMarkdown"]
     assert info["a11y"] == "semantic"
     assert set(info["props"]) == EXPECTED_PROPS
@@ -116,7 +117,7 @@ def test_doc_is_current_library_doc_not_concept_draft():
         assert stale not in doc, f"使用文档残留构想稿内容：{stale}"
     # 但差异裁决必须如实记录（史料不圆场），对比表里允许点名 WebEngineView
     assert "WebEngineView" in doc and "史料不圆场" in doc
-    for current in ("1.4.0", FINGERPRINT, "Text.MarkdownText", "坑位 69"):
+    for current in ("1.4.0", HISTORICAL_FP, "Text.MarkdownText", "坑位 69"):
         assert current in doc, f"使用文档缺现行事实：{current}"
 
 
