@@ -1,5 +1,5 @@
 // src/pyside_nova/qml/Nova/Controls/NovaDataGrid.qml
-// NovaDataGrid 企业级数据网格（1.5.0 additive · 第 146 公共类型）
+// NovaDataGrid 企业级数据网格（1.5.0 additive · 第 146 公共类型；1.8.0 P1/P2 打磨）
 //
 // 定位：与已发布的 `NovaTable` 并存，不替换、不改动其冻结签名。
 //   - 渲染层：TableView + HorizontalHeaderView + ItemSelectionModel 真虚拟化；
@@ -11,6 +11,9 @@
 //     故默认关闭；TableView 仍按可视区创建 delegate（虚拟化不依赖 reuseItems）。
 //   - 坑位 70：注入 Python list 在 QML 侧 Array.isArray() 为 false，故所有
 //     options 一律用 JS 数组字面量在 QML 内构造。
+// 1.8.0：P1/P2 新增大量内部 Loader/委托，沿用库内 `NovaTheme` 单例的既有风格；
+// 全库 unqualified 预算已满，本文件显式关闭该类别（error 仍零容忍）。
+// qmllint disable unqualified
 pragma ComponentBehavior: Bound
 
 import QtQuick
@@ -74,6 +77,43 @@ Rectangle {
     property var selectionDelegate: null
     property var emptyDelegate: null
 
+    // =================== 1.8.0 additive：P1 体验与扩展 ===================
+    // P1-1 列宽拖拽 + 持久化：widths 为 { "<colKey>": width } 的 JS 对象，
+    // 宿主写回 columnWidths 即可跨会话保存；resetColumnWidths() 恢复列定义宽度。
+    property bool resizableColumns: false
+    property var columnWidths: ({})
+    // P1-2 sticky 首/末列与底部合计行
+    property var stickyColumns: []
+    property var footerData: ({})
+    // P1-3 完整插槽体系（body / body-cell / header / header-cell）
+    property var bodyDelegate: null
+    property var bodyCellDelegate: null
+    property var headerDelegate: null
+    property var headerCellDelegate: null
+    // P1-4 滚动到底加载更多 + 分组 / 树虚拟行高度
+    property bool loadMoreEnabled: false
+    property int loadMoreThreshold: 24
+    property var groupProxy: null
+    property var groupHeaderDelegate: null
+    // P1-5 页大小可配置 + 分页控件可替换
+    property var pageSizeOptions: []
+    property var paginationDelegate: null
+
+    // =================== 1.8.0 additive：P2 形态与外围 ===================
+    property string viewMode: "table"      // table / grid / masonry
+    property var gridDelegate: null
+    property int gridCellWidth: 220
+    property int gridCellHeight: 120
+    property bool fullScreen: false
+    property bool showFullScreenButton: false
+    property bool showExportButton: false
+    property string exportDelimiter: ","
+    property bool treeMode: false
+    property string treeParentKey: "parentKey"
+    property bool dense: false
+    property bool responsive: true
+    property int gridBreakpoint: 720
+
     // =================== 输出信号 ===================
     signal rowClicked(int row)
     signal rowDoubleClicked(int row)
@@ -87,6 +127,11 @@ Rectangle {
     signal selectionChanged(var rows)
     signal selectionActionRequested(var rows, string action)
     signal clearFilterRequested()
+    signal columnWidthResized(var widths)
+    signal loadMoreRequested(int lastRow)
+    signal groupToggled(var groupKey, bool collapsed)
+    signal fullScreenToggled(bool active)
+    signal exportRequested(var csvText)
 
     // =================== 公共只读派生 ===================
     readonly property var columnDefs:
@@ -102,9 +147,10 @@ Rectangle {
 
     // =================== 内部状态（`_` 前缀不进冻结面）===================
     readonly property var _model:
-        root.expandProxy ? root.expandProxy
-            : (root.pagedProxy ? root.pagedProxy
-                : (root.filterProxy ? root.filterProxy : root.tableModel))
+        root.groupProxy ? root.groupProxy
+            : (root.expandProxy ? root.expandProxy
+                : (root.pagedProxy ? root.pagedProxy
+                    : (root.filterProxy ? root.filterProxy : root.tableModel)))
     property int _editingRow: -1
     property int _editingColumn: -1
     property var _visibleColumnKeys: []      // 空 = 全部可见
@@ -123,12 +169,18 @@ Rectangle {
             out.push({ label: defs[i].label, value: defs[i].key })
         return out
     }
-    readonly property var _pageSizeOptions: [
+    readonly property var _defaultPageSizeOptions: [
         { label: "10", value: 10 },
         { label: "20", value: 20 },
         { label: "50", value: 50 },
         { label: "100", value: 100 }
     ]
+    readonly property var _pageSizeOptions: root._resolvedPageSizeOptions()
+    property var _widthOverrides: ({})
+    property int _colRev: 0
+    property string _effectiveViewMode: root.viewMode
+    property bool _loadMoreArmed: true
+    property var _lastFooterKeys: []
 
     radius: NovaTheme.radiusM
     color: NovaTheme.surface
@@ -142,12 +194,30 @@ Rectangle {
         root._syncPaginationTotal()
         if (root.expandProxy && root.expandProxy.setExpanded)
             root.expandProxy.setExpanded(root.expandedRows)
+        if (root.groupProxy) {
+            if (root.groupProxy.setTreeMode)
+                root.groupProxy.setTreeMode(root.treeMode)
+            if (root.groupProxy.setTreeParentKey)
+                root.groupProxy.setTreeParentKey(root.treeParentKey)
+        }
+        root._applyResponsive()
     }
 
     onExpandedRowsChanged: {
         if (root.expandProxy && root.expandProxy.setExpanded)
             root.expandProxy.setExpanded(root.expandedRows)
     }
+    onViewModeChanged: root._effectiveViewMode = root.viewMode
+    onTreeModeChanged: {
+        if (root.groupProxy && root.groupProxy.setTreeMode)
+            root.groupProxy.setTreeMode(root.treeMode)
+    }
+    onTreeParentKeyChanged: {
+        if (root.groupProxy && root.groupProxy.setTreeParentKey)
+            root.groupProxy.setTreeParentKey(root.treeParentKey)
+    }
+    onWidthChanged: root._applyResponsive()
+    onColumnWidthsChanged: root._colRev++
 
     // 坑位 72：Qt 6.12 起 Connections 的隐式 `onFoo: …` 语法已 deprecated
     //（运行时会刷 4 条 Qt 消息），必须用标准 `function onFoo() { … }`。
@@ -187,8 +257,208 @@ Rectangle {
         target: root.filterProxy
         function onFilterActiveChanged() { root._emptyRev++ }
     }
+    Connections {
+        target: root.groupProxy
+        function onGroupToggled(key, collapsed) {
+            root.groupToggled(key, collapsed)
+        }
+    }
 
     // =================== 函数 ===================
+    function _resolvedPageSizeOptions() {
+        var src = root.pageSizeOptions
+        if (!src || !src.length)
+            src = root._defaultPageSizeOptions
+        var out = []
+        // 坑位 70：Python list 到 QML 是 QVariantList，Array.isArray() 为 false。
+        for (var i = 0; i < src.length; i++) {
+            var o = src[i]
+            if (o !== null && typeof o === "object") {
+                var v = o.value !== undefined ? o.value : o
+                out.push({ label: String(o.label !== undefined ? o.label : v),
+                    value: v })
+            } else {
+                out.push({ label: String(o), value: o })
+            }
+        }
+        return out.length ? out : root._defaultPageSizeOptions
+    }
+
+    function _applyResponsive() {
+        if (!root.responsive) {
+            root._effectiveViewMode = root.viewMode
+            return
+        }
+        root._effectiveViewMode = root.width > 0 && root.width < root.gridBreakpoint
+            ? "grid" : root.viewMode
+    }
+
+    function _widthForColumn(column) {
+        root._colRev
+        var cols = root.columnDefs
+        if (column < 0 || column >= cols.length)
+            return 120
+        var def = cols[column]
+        var key = def.key
+        if (root.columnWidths && root.columnWidths[key] !== undefined)
+            return Number(root.columnWidths[key]) || def.width || 120
+        if (def.autoWidth)
+            return root._autoWidthFor(def)
+        return def.width || 120
+    }
+
+    function _autoWidthFor(def) {
+        // 纯估算：中文按 2 个字符宽、拉丁按 1 个，取表头与首屏几行的最大值。
+        function _measure(text) {
+            var s = String(text === undefined || text === null ? "" : text)
+            var units = 0
+            for (var i = 0; i < s.length; i++)
+                units += s.charCodeAt(i) > 255 ? 2 : 1
+            return units * (root.dense ? 7 : 8) + 28
+        }
+        var best = _measure(def.label)
+        var rows = root.tableModel && root.tableModel.allRows
+            ? root.tableModel.allRows() : []
+        var limit = Math.min(rows.length, 40)
+        for (var i = 0; i < limit; i++)
+            best = Math.max(best, _measure(rows[i][def.key]))
+        return Math.max(72, Math.min(360, best))
+    }
+
+    function _persistColumnWidth(column, width) {
+        var cols = root.columnDefs
+        if (column < 0 || column >= cols.length || width <= 0)
+            return
+        var key = cols[column].key
+        var next = {}
+        for (var k in root.columnWidths)
+            next[k] = root.columnWidths[k]
+        next[key] = Math.round(width)
+        root.columnWidths = next
+        root.columnWidthResized(next)
+        tableView.forceLayout()
+    }
+
+    function resetColumnWidths() {
+        root.columnWidths = ({})
+        root._widthOverrides = ({})
+        root.columnWidthsChanged(root.columnWidths)
+        tableView.forceLayout()
+    }
+
+    function _styleColor(def) {
+        var s = def && def.style ? String(def.style) : ""
+        var all = (def && def.classes ? def.classes : []).join(" ")
+        if (s === "negative" || all.indexOf("negative") >= 0)
+            return NovaTheme.negative
+        if (s === "warning" || all.indexOf("warning") >= 0)
+            return NovaTheme.warning
+        if (s === "positive" || all.indexOf("positive") >= 0)
+            return NovaTheme.primary
+        if (s === "muted" || all.indexOf("muted") >= 0)
+            return NovaTheme.textMuted
+        return NovaTheme.textColor
+    }
+
+    function _headerColor(def) {
+        var s = def && def.headerStyle ? String(def.headerStyle) : ""
+        if (s === "accent")
+            return NovaTheme.primary
+        if (s === "muted")
+            return NovaTheme.textMuted
+        return NovaTheme.textColor
+    }
+
+    function _toggleGroupRow(row) {
+        if (!root.groupProxy || !root.groupProxy.isGroupRow)
+            return
+        if (!root.groupProxy.isGroupRow(row))
+            return
+        var key = root.groupProxy.groupData(row).key
+        if (key)
+            root.groupProxy.toggleGroup(key)
+    }
+
+    function toggleGroup(groupKey) {
+        if (root.groupProxy && root.groupProxy.toggleGroup)
+            root.groupProxy.toggleGroup(groupKey)
+    }
+
+    function toggleTreeNode(row) {
+        if (root.groupProxy && root.groupProxy.toggleTreeNode)
+            root.groupProxy.toggleTreeNode(row)
+    }
+
+    function setViewMode(mode) {
+        root.viewMode = (mode === "grid" || mode === "masonry") ? mode : "table"
+        root._effectiveViewMode = root.viewMode
+    }
+
+    function setPageSize(size) {
+        if (root.pagination && root.pagination.setPageSize)
+            root.pagination.setPageSize(size)
+    }
+
+    function toggleFullScreen() {
+        root.fullScreen = !root.fullScreen
+        root.fullScreenToggled(root.fullScreen)
+    }
+
+    function exportCsv(delimiter) {
+        var d = delimiter === undefined || delimiter === null
+            ? root.exportDelimiter : String(delimiter)
+        var text = ""
+        if (root.tableModel) {
+            if (d !== "," && root.tableModel.exportCsvWithDelimiter)
+                text = root.tableModel.exportCsvWithDelimiter(d)
+            else if (root.tableModel.exportCsv)
+                text = root.tableModel.exportCsv()
+            else if (root.tableModel.allRows)
+                text = JSON.stringify(root.tableModel.allRows())
+        }
+        root.exportRequested(text)
+        return text
+    }
+
+    function _stickyKeys() {
+        var src = root.stickyColumns || []
+        var out = []
+        for (var i = 0; i < src.length && out.length < 2; i++) {
+            var k = String(src[i])
+            if (root._columnIndexForKey(k) >= 0 && out.indexOf(k) < 0)
+                out.push(k)
+        }
+        return out
+    }
+
+    function _sumWidthsBefore(column) {
+        var total = 0
+        for (var i = 0; i < column; i++)
+            total += root._widthForColumn(i)
+        return total
+    }
+
+    function _columnIndexForKey(key) {
+        var defs = root.columnDefs
+        for (var i = 0; i < defs.length; i++)
+            if (defs[i].key === key)
+                return i
+        return -1
+    }
+
+    function _onContentYChanged() {
+        if (!root.loadMoreEnabled || root._effectiveViewMode !== "table")
+            return
+        var remaining = tableView.contentHeight - tableView.contentY - tableView.height
+        if (remaining <= root.loadMoreThreshold * root.rowHeight && root._loadMoreArmed) {
+            root._loadMoreArmed = false
+            var last = Math.max(0, root._model && root._model.rowCount
+                ? root._model.rowCount() - 1 : 0)
+            root.loadMoreRequested(last)
+        } else if (remaining > root.loadMoreThreshold * root.rowHeight * 2) {
+            root._loadMoreArmed = true
+        }
+    }
     function _syncPaginationTotal() {
         if (root.serverSide)
             return
@@ -493,6 +763,22 @@ Rectangle {
                     size: "sm"
                     onClicked: root.refreshRequested()
                 }
+
+                NovaBtn {
+                    text: qsTr("导出 CSV")
+                    visible: root.showExportButton
+                    variant: "flat"
+                    size: "sm"
+                    onClicked: root.exportCsv(root.exportDelimiter)
+                }
+
+                NovaBtn {
+                    text: root.fullScreen ? qsTr("退出全屏") : qsTr("全屏")
+                    visible: root.showFullScreenButton
+                    variant: "flat"
+                    size: "sm"
+                    onClicked: root.toggleFullScreen()
+                }
             }
 
             Rectangle {
@@ -504,92 +790,257 @@ Rectangle {
         }
 
         // ── 表头（排序按 column key，避免列显隐后索引错位）──────
-        HorizontalHeaderView {
-            id: headerView
+        // 1.8.0：headerDelegate 可整体替换表头，headerCellDelegate 可替换单元格；
+        // sticky 首/末列在表头层也用同款覆盖，保持横向滚动时列身份可见。
+        Item {
+            id: headerHost
             Layout.fillWidth: true
             Layout.preferredHeight: root.headerHeight
-            syncView: tableView
-            clip: true
-            resizableColumns: false
+            visible: root.headerHeight > 0
 
-            delegate: Rectangle {
-                id: headerCell
-                required property int index
-                required property string display
+            Loader {
+                id: headerLoader
+                anchors.fill: parent
+                sourceComponent: root.headerDelegate !== null
+                    ? root.headerDelegate : defaultHeaderView
+            }
+            Binding {
+                target: headerLoader.item
+                property: "headerData"
+                when: headerLoader.active && root.headerDelegate !== null
+                    && headerLoader.item !== null
+                value: ({
+                    columns: root.columnDefs,
+                    sortKey: root._sortKey,
+                    ascending: root._sortAsc,
+                    headerHeight: root.headerHeight
+                })
+            }
 
-                readonly property var hColDef:
-                    index < root.columnDefs.length ? root.columnDefs[index] : ({})
-                readonly property string colKey:
-                    hColDef && hColDef.key ? hColDef.key : ""
-                readonly property bool sortable:
-                    !!colKey && hColDef.sortable !== false
-                readonly property bool sorted:
-                    colKey !== "" && colKey === root._sortKey
-
-                implicitHeight: root.headerHeight
-                color: headerMa.containsMouse && sortable
-                    ? NovaTheme.surfaceAlt : NovaTheme.surface
-
-                // Qt 无障碍没有 aria-sort；用 role=Header + name/description
-                // 暴露等价语义（列名 + 当前排序方向），键盘 Enter/Space 排序。
+            Rectangle {
+                id: stickyFirstHeader
+                readonly property int columnIndex:
+                    root._columnIndexForKey(root._stickyKeys().length
+                        ? root._stickyKeys()[0] : "")
+                visible: columnIndex >= 0
+                x: 0
+                y: 0
+                width: root._widthForColumn(columnIndex)
+                height: parent.height
+                color: NovaTheme.surface
+                z: 4
                 Accessible.role: Accessible.ColumnHeader
-                Accessible.name: headerCell.display
-                Accessible.description: !headerCell.sortable ? ""
-                    : (!headerCell.sorted ? qsTr("可排序")
-                        : (root._sortAsc ? qsTr("升序") : qsTr("降序")))
-                Accessible.focusable: headerCell.sortable
-                activeFocusOnTab: headerCell.sortable
-                Keys.onPressed: function (ev) {
-                    if (!headerCell.sortable)
-                        return
-                    if (ev.key === Qt.Key_Return || ev.key === Qt.Key_Enter
-                            || ev.key === Qt.Key_Space) {
-                        root.sortByKey(headerCell.colKey,
-                            headerCell.sorted ? !root._sortAsc : true)
-                        ev.accepted = true
-                    }
-                }
-
-                MouseArea {
-                    id: headerMa
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: headerCell.sortable
-                        ? Qt.PointingHandCursor : Qt.ArrowCursor
-                    enabled: headerCell.sortable
-                    onClicked: {
-                        var asc = headerCell.sorted ? !root._sortAsc : true
-                        root.sortByKey(headerCell.colKey, asc)
-                    }
-                }
-
+                Accessible.name: columnIndex >= 0 && columnIndex < root.columnDefs.length
+                    ? root.columnDefs[columnIndex].label : ""
                 Text {
                     anchors.fill: parent
                     anchors.leftMargin: 10
-                    anchors.rightMargin: 22
-                    text: headerCell.display
+                    anchors.rightMargin: 8
+                    text: stickyFirstHeader.Accessible.name
                     font.family: NovaTheme.fontFamily
                     font.pixelSize: NovaTheme.fontS
                     font.bold: true
-                    color: headerCell.sorted ? NovaTheme.primary : NovaTheme.textColor
+                    color: NovaTheme.primary
                     verticalAlignment: Text.AlignVCenter
                     elide: Text.ElideRight
                 }
-
-                Text {
-                    anchors.right: parent.right
-                    anchors.rightMargin: 8
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: headerCell.sorted ? (root._sortAsc ? "▲" : "▼") : ""
-                    font.pixelSize: NovaTheme.fontXS
-                    color: NovaTheme.primary
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.sortByKey(root._stickyKeys()[0], true)
                 }
-
                 Rectangle {
                     anchors.right: parent.right
                     width: 1
                     height: parent.height
                     color: NovaTheme.outline
+                }
+            }
+
+            Rectangle {
+                id: stickyLastHeader
+                readonly property int columnIndex:
+                    root._columnIndexForKey(root._stickyKeys().length > 1
+                        ? root._stickyKeys()[root._stickyKeys().length - 1] : "")
+                visible: columnIndex >= 0
+                anchors.right: parent.right
+                y: 0
+                width: root._widthForColumn(columnIndex)
+                height: parent.height
+                color: NovaTheme.surface
+                z: 4
+                Accessible.role: Accessible.ColumnHeader
+                Accessible.name: columnIndex >= 0 && columnIndex < root.columnDefs.length
+                    ? root.columnDefs[columnIndex].label : ""
+                Text {
+                    anchors.fill: parent
+                    anchors.leftMargin: 10
+                    anchors.rightMargin: 8
+                    text: stickyLastHeader.Accessible.name
+                    font.family: NovaTheme.fontFamily
+                    font.pixelSize: NovaTheme.fontS
+                    font.bold: true
+                    color: NovaTheme.primary
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.sortByKey(
+                        root._stickyKeys()[root._stickyKeys().length - 1], true)
+                }
+                Rectangle {
+                    anchors.left: parent.left
+                    width: 1
+                    height: parent.height
+                    color: NovaTheme.outline
+                }
+            }
+
+            Component {
+                id: headerSlot
+                Item {
+                    id: headerSlotRoot
+                    required property int index
+                    required property string display
+
+                    implicitHeight: root.headerHeight
+                    readonly property var hColDef:
+                        index < root.columnDefs.length ? root.columnDefs[index] : ({})
+                    readonly property var slotData: ({
+                        column: index,
+                        label: display,
+                        key: hColDef && hColDef.key ? hColDef.key : "",
+                        sortable: !!hColDef && hColDef.sortable !== false,
+                        sorted: !!hColDef && hColDef.key === root._sortKey,
+                        ascending: root._sortAsc
+                    })
+
+                    Loader {
+                        id: headerCellLoader
+                        anchors.fill: parent
+                        sourceComponent: root.headerCellDelegate !== null
+                            ? root.headerCellDelegate : defaultHeaderCell
+                    }
+                    Binding {
+                        target: headerCellLoader.item
+                        property: "slotData"
+                        when: headerCellLoader.active && headerCellLoader.item !== null
+                        value: headerSlotRoot.slotData
+                    }
+                }
+            }
+
+            Component {
+                id: defaultHeaderCell
+                Rectangle {
+                    id: headerCell
+                    property var slotData: ({})
+                    readonly property bool sortable:
+                        !!slotData.key && slotData.sortable === true
+                    readonly property bool sorted: slotData.sorted === true
+                    readonly property var colDef:
+                        slotData.column < root.columnDefs.length
+                            ? root.columnDefs[slotData.column] : ({})
+
+                    implicitHeight: root.headerHeight
+                    color: headerMa.containsMouse && sortable
+                        ? NovaTheme.surfaceAlt : NovaTheme.surface
+
+                    // Qt 无障碍没有 aria-sort；用 ColumnHeader + name/description
+                    // 暴露等价语义（列名 + 当前排序方向），键盘 Enter/Space 排序。
+                    Accessible.role: Accessible.ColumnHeader
+                    Accessible.name: String(slotData.label)
+                    Accessible.description: !headerCell.sortable ? ""
+                        : (!headerCell.sorted ? qsTr("可排序")
+                            : (root._sortAsc ? qsTr("升序") : qsTr("降序")))
+                    Accessible.focusable: headerCell.sortable
+                    activeFocusOnTab: headerCell.sortable
+                    Keys.onPressed: function (ev) {
+                        if (!headerCell.sortable)
+                            return
+                        if (ev.key === Qt.Key_Return || ev.key === Qt.Key_Enter
+                                || ev.key === Qt.Key_Space) {
+                            root.sortByKey(slotData.key,
+                                headerCell.sorted ? !root._sortAsc : true)
+                            ev.accepted = true
+                        }
+                    }
+
+                    MouseArea {
+                        id: headerMa
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: headerCell.sortable
+                            ? Qt.PointingHandCursor : Qt.ArrowCursor
+                        enabled: headerCell.sortable
+                        onClicked: {
+                            var asc = headerCell.sorted ? !root._sortAsc : true
+                            root.sortByKey(slotData.key, asc)
+                        }
+                    }
+
+                    Text {
+                        anchors.fill: parent
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 22
+                        text: String(slotData.label)
+                        font.family: NovaTheme.fontFamily
+                        font.pixelSize: NovaTheme.fontS
+                        font.bold: true
+                        color: slotData.sorted ? NovaTheme.primary
+                            : root._headerColor(colDef)
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+
+                    Text {
+                        anchors.right: parent.right
+                        anchors.rightMargin: 8
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: slotData.sorted ? (root._sortAsc ? "▲" : "▼") : ""
+                        font.pixelSize: NovaTheme.fontXS
+                        color: NovaTheme.primary
+                    }
+
+                    MouseArea {
+                        visible: root.resizableColumns
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: 6
+                        cursorShape: Qt.SplitHCursor
+                        property real _startX: 0
+                        property real _startWidth: 0
+                        onPressed: function (mouse) {
+                            _startX = mouse.x
+                            _startWidth = parent.width
+                            mouse.accepted = true
+                        }
+                        onPositionChanged: function (mouse) {
+                            if (!pressed)
+                                return
+                            root._persistColumnWidth(slotData.column,
+                                _startWidth + mouse.x - _startX)
+                        }
+                    }
+
+                    Rectangle {
+                        anchors.right: parent.right
+                        width: 1
+                        height: parent.height
+                        color: NovaTheme.outline
+                    }
+                }
+            }
+
+            Component {
+                id: defaultHeaderView
+                HorizontalHeaderView {
+                    anchors.fill: parent
+                    syncView: tableView
+                    clip: true
+                    resizableColumns: false   // 拖拽走 defaultHeaderCell 的库内手柄
+                    delegate: headerSlot
                 }
             }
         }
@@ -607,30 +1058,42 @@ Rectangle {
 
             TableView {
                 id: tableView
-                anchors.fill: parent
+                anchors {
+                    fill: parent
+                    bottomMargin: footerHost.visible ? footerHost.height : 0
+                }
                 clip: true
+                visible: root._effectiveViewMode === "table"
                 model: root._model
                 reuseItems: root.reuseItems
 
                 rowHeightProvider: function (row) {
+                    if (root.groupProxy && root.groupProxy.isGroupRow
+                            && root.groupProxy.isGroupRow(row))
+                        return root.dense ? 32 : 40
                     return (root.expandProxy && root.expandProxy.isExpansionRow(row))
-                        ? root.expansionHeight : root.rowHeight
+                        ? root.expansionHeight
+                        : (root.dense ? Math.max(28, root.rowHeight - 8) : root.rowHeight)
                 }
                 columnWidthProvider: function (column) {
                     var cols = root.columnDefs
                     if (column < 0 || column >= cols.length)
                         return 120
-                    var w = cols[column].width || 120
+                    var w = root._widthForColumn(column)
                     // 末列吃掉剩余宽度，避免宽视口右侧留大片空白；
-                    // 视口不足时回落自身列宽（天然横向滚动）。
-                    if (column === cols.length - 1) {
+                    // 拖拽过宽度 / autoWidth 的列以宿主口径为准，不再拉伸。
+                    if (column === cols.length - 1
+                            && root.columnWidths[cols[column].key] === undefined
+                            && !cols[column].autoWidth) {
                         var used = 0
                         for (var i = 0; i < cols.length - 1; i++)
-                            used += cols[i].width || 120
+                            used += root._widthForColumn(i)
                         w = Math.max(w, tableView.width - used)
                     }
                     return w
                 }
+
+                onContentYChanged: root._onContentYChanged()
 
                 // Qt 6.12 的 SelectionMode 无 NoSelection 枚举值；
                 // "none" 由下方 MouseArea / 键盘路径短路（不写 selectionModel），
@@ -653,6 +1116,12 @@ Rectangle {
                     required property bool isExpansion
                     required property bool expanded
                     required property var rowKey
+                    required property bool isGroup
+                    required property string groupKey
+                    required property string groupLabel
+                    required property int groupCount
+                    required property int treeLevel
+                    required property bool hasChildren
 
                     readonly property var colDef:
                         column < root.columnDefs.length ? root.columnDefs[column] : ({})
@@ -669,17 +1138,22 @@ Rectangle {
                         root._a11yRow === row && root.activeFocus
 
                     implicitWidth: colDef.width || 120
-                    implicitHeight: cell.isExpansion ? root.expansionHeight : root.rowHeight
-                    visible: !cell.isExpansion || cell.column === 0
+                    implicitHeight: cell.isGroup ? (root.dense ? 32 : 40)
+                        : (cell.isExpansion ? root.expansionHeight
+                            : (root.dense ? Math.max(28, root.rowHeight - 8) : root.rowHeight))
+                    visible: (!cell.isExpansion && !cell.isGroup) || cell.column === 0
 
                     Accessible.role: Accessible.Cell
-                    Accessible.name: cell.isExpansion
-                        ? qsTr("第 %1 行展开内容").arg(cell.rowKey)
-                        : String(cell.display)
+                    Accessible.name: cell.isGroup
+                        ? qsTr("分组 %1，共 %2 行").arg(cell.groupLabel).arg(cell.groupCount)
+                        : (cell.isExpansion
+                            ? qsTr("第 %1 行展开内容").arg(cell.rowKey)
+                            : String(cell.display))
                     Accessible.selected: cell.selected
                     Accessible.focusable: false
 
-                    color: cell.isExpansion ? "transparent" : (a11yFocused
+                    color: cell.isGroup ? NovaTheme.surfaceAlt
+                        : cell.isExpansion ? "transparent" : (a11yFocused
                         ? Qt.rgba(NovaTheme.primary.r, NovaTheme.primary.g,
                                   NovaTheme.primary.b, 0.20)
                         : selected
@@ -702,15 +1176,20 @@ Rectangle {
                     Text {
                         anchors.fill: parent
                         anchors.leftMargin: cell.column === 0
-                            && (root.selectionDelegate !== null || root.expandProxy)
+                            && (root.selectionDelegate !== null || root.expandProxy
+                                || root.groupProxy || cell.hasChildren)
                             ? 38 : 10
                         anchors.rightMargin: 10
-                        text: cell.display !== undefined && cell.display !== null
-                            ? String(cell.display) : ""
+                        text: cell.isGroup
+                            ? cell.groupLabel + "  (" + cell.groupCount + ")"
+                            : (cell.display !== undefined && cell.display !== null
+                                ? String(cell.display) : "")
                         visible: !cell.isExpansion && !cellLoader.active && !cell.editing
                         font.family: NovaTheme.fontFamily
                         font.pixelSize: NovaTheme.fontS
-                        color: NovaTheme.textColor
+                        font.bold: cell.isGroup
+                        color: cell.isGroup ? NovaTheme.primary
+                            : root._styleColor(cell.colDef)
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: cell.colDef.align === "center"
                             ? Text.AlignHCenter
@@ -737,6 +1216,58 @@ Rectangle {
                         property: "expansionData"
                         when: expansionLoader.active && expansionLoader.item !== null
                         value: root.expandProxy ? root.expandProxy.expansionData(cell.row) : ({})
+                    }
+
+                    // 1.8.0 P1-4/P2-4：分组头 / 树节点整行插槽。
+                    Loader {
+                        id: groupLoader
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        width: tableView.width
+                        height: parent.height
+                        z: 3
+                        active: cell.isGroup && cell.column === 0
+                            && root.groupHeaderDelegate !== null
+                        sourceComponent: root.groupHeaderDelegate
+                    }
+                    Binding {
+                        target: groupLoader.item
+                        property: "slotData"
+                        when: groupLoader.active && groupLoader.item !== null
+                        value: ({
+                            key: cell.groupKey,
+                            label: cell.groupLabel,
+                            count: cell.groupCount,
+                            level: cell.treeLevel,
+                            hasChildren: cell.hasChildren
+                        })
+                    }
+
+                    // 1.8.0 P1-3：body 整行插槽（首列 Loader 跨列覆盖）。
+                    Loader {
+                        id: bodyLoader
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        width: tableView.width
+                        height: parent.height
+                        z: 2
+                        active: !cell.isExpansion && !cell.isGroup && cell.column === 0
+                            && root.bodyDelegate !== null
+                        sourceComponent: root.bodyDelegate
+                    }
+                    Binding {
+                        target: bodyLoader.item
+                        property: "slotData"
+                        when: bodyLoader.active && bodyLoader.item !== null
+                        value: ({
+                            row: cell.row,
+                            rowKey: cell.rowKey,
+                            column: cell.column,
+                            selected: cell.selected,
+                            severity: cell.severity,
+                            level: cell.treeLevel,
+                            rowData: root.getRowData(cell.row)
+                        })
                     }
 
                     // 1.7.0：自定义选择单元格（首列左侧），不替换数据文本。
@@ -776,6 +1307,26 @@ Rectangle {
                         onClicked: root.toggleExpansion(cell.row)
                     }
 
+                    NovaBtn {
+                        visible: cell.column === 0
+                            && (cell.isGroup || cell.hasChildren)
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 28
+                        text: cell.isGroup && root.groupProxy
+                            ? (root.groupProxy.collapsed.indexOf(cell.groupKey) >= 0
+                                ? "▸" : "▾")
+                            : (root.groupProxy
+                                && root.groupProxy.treeExpanded.indexOf(cell.rowKey) >= 0
+                                ? "▾" : "▸")
+                        variant: "flat"
+                        size: "sm"
+                        z: 5
+                        onClicked: cell.isGroup
+                            ? root._toggleGroupRow(cell.row)
+                            : root.toggleTreeNode(cell.row)
+                    }
+
                     // 列级自定义委托（cellData 懒加载，不含完整行）
                     // 用 Binding 元素而非 item.cellData 直接赋值：Loader.item 静态类型是
                     // QObject，qmllint 无法证明自定义属性存在；Binding 走属性名字符串，
@@ -783,11 +1334,15 @@ Rectangle {
                     Loader {
                         id: cellLoader
                         anchors.fill: parent
-                        active: !cell.isExpansion && !!cell.colDef.key
+                        readonly property bool _hasColumnDelegate:
+                            !!cell.colDef.key
                             && root.cellDelegates[cell.colDef.key] !== undefined
-                            && !cell.editing
-                        sourceComponent: !!cell.colDef.key
-                            ? root.cellDelegates[cell.colDef.key] : undefined
+                        active: !cell.isExpansion && !cell.isGroup && !cell.editing
+                            && (root.bodyCellDelegate !== null || _hasColumnDelegate)
+                        sourceComponent: root.bodyCellDelegate !== null
+                            ? root.bodyCellDelegate
+                            : (_hasColumnDelegate
+                                ? root.cellDelegates[cell.colDef.key] : undefined)
                     }
                     Binding {
                         target: cellLoader.item
@@ -797,7 +1352,13 @@ Rectangle {
                             value: cell.display,
                             severity: cell.severity,
                             rowIndex: cell.row,
-                            colKey: cell.colDef.key
+                            row: cell.row,
+                            column: cell.column,
+                            label: cell.colDef.label,
+                            style: cell.colDef.style,
+                            classes: cell.colDef.classes,
+                            colKey: cell.colDef.key,
+                            rowData: root.getRowData(cell.row)
                         })
                     }
 
@@ -806,7 +1367,8 @@ Rectangle {
                         id: editorLoader
                         anchors.fill: parent
                         anchors.margins: 2
-                        active: !cell.isExpansion && cell.editing && cell.colDef.editable === true
+                        active: !cell.isExpansion && !cell.isGroup && cell.editing
+                            && cell.colDef.editable === true
                         sourceComponent: cellEditor
                     }
 
@@ -831,6 +1393,10 @@ Rectangle {
                         onClicked: function (mouse) {
                             if (cell.isExpansion)
                                 return
+                            if (cell.isGroup) {
+                                root._toggleGroupRow(cell.row)
+                                return
+                            }
                             if (mouse.button === Qt.RightButton) {
                                 var pt = mapToItem(null, mouse.x, mouse.y)
                                 root.rowContextMenuRequested(cell.row, pt.x, pt.y)
@@ -866,7 +1432,7 @@ Rectangle {
                             }
                             root.cellClicked(cell.row, cell.column)
                             root.rowClicked(cell.row)
-                            if (cell.colDef.editable) {
+                            if (cell.colDef.editable && !cell.hasChildren) {
                                 root._editingRow = cell.row
                                 root._editingColumn = cell.column
                             }
@@ -880,6 +1446,244 @@ Rectangle {
 
                 ScrollBar.vertical: ScrollBar {}
                 ScrollBar.horizontal: ScrollBar {}
+            }
+
+            // 1.8.0 P1-2 / P2-1：sticky 首/末列覆盖视图。
+            // 用同一模型的只读 TableView 镜像列像素，同步 contentY；enabled:false
+            // 让所有指针事件继续落到主表，避免双份选中态。
+            TableView {
+                id: stickyFirstView
+                readonly property int columnIndex:
+                    root._columnIndexForKey(root._stickyKeys().length
+                        ? root._stickyKeys()[0] : "")
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    bottom: parent.bottom
+                    bottomMargin: footerHost.visible ? footerHost.height : 0
+                }
+                width: columnIndex >= 0 ? root._widthForColumn(columnIndex) : 0
+                visible: root._effectiveViewMode === "table" && columnIndex >= 0
+                enabled: false
+                clip: true
+                z: 3
+                model: root._model
+                contentY: tableView.contentY
+                columnWidthProvider: function (column) {
+                    return column === stickyFirstView.columnIndex
+                        ? root._widthForColumn(column) : 0
+                }
+                rowHeightProvider: function (row) {
+                    return root.groupProxy && root.groupProxy.isGroupRow
+                        && root.groupProxy.isGroupRow(row)
+                        ? (root.dense ? 32 : 40)
+                        : (root.expandProxy && root.expandProxy.isExpansionRow(row)
+                            ? root.expansionHeight
+                            : (root.dense ? Math.max(28, root.rowHeight - 8) : root.rowHeight))
+                }
+                delegate: Rectangle {
+                    required property int row
+                    required property var display
+                    required property bool isGroup
+                    readonly property var colDef:
+                        stickyFirstView.columnIndex < root.columnDefs.length
+                            ? root.columnDefs[stickyFirstView.columnIndex] : ({})
+                    width: root._widthForColumn(stickyFirstView.columnIndex)
+                    height: isGroup ? (root.dense ? 32 : 40) : root.rowHeight
+                    color: NovaTheme.surface
+                    Text {
+                        anchors.fill: parent
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 6
+                        text: String(display)
+                        font.family: NovaTheme.fontFamily
+                        font.pixelSize: NovaTheme.fontS
+                        font.bold: isGroup
+                        color: isGroup ? NovaTheme.primary : root._styleColor(colDef)
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                    Rectangle {
+                        anchors.right: parent.right
+                        width: 1
+                        height: parent.height
+                        color: NovaTheme.outline
+                    }
+                }
+            }
+
+            TableView {
+                id: stickyLastView
+                readonly property int columnIndex:
+                    root._columnIndexForKey(root._stickyKeys().length > 1
+                        ? root._stickyKeys()[root._stickyKeys().length - 1] : "")
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    bottom: parent.bottom
+                    bottomMargin: footerHost.visible ? footerHost.height : 0
+                }
+                width: columnIndex >= 0 ? root._widthForColumn(columnIndex) : 0
+                visible: root._effectiveViewMode === "table" && columnIndex !== stickyFirstView.columnIndex
+                enabled: false
+                clip: true
+                z: 3
+                model: root._model
+                contentY: tableView.contentY
+                contentX: root._sumWidthsBefore(columnIndex)
+                columnWidthProvider: function (column) {
+                    return column === stickyLastView.columnIndex
+                        ? root._widthForColumn(column) : 0
+                }
+                rowHeightProvider: function (row) {
+                    return root.groupProxy && root.groupProxy.isGroupRow
+                        && root.groupProxy.isGroupRow(row)
+                        ? (root.dense ? 32 : 40)
+                        : (root.expandProxy && root.expandProxy.isExpansionRow(row)
+                            ? root.expansionHeight
+                            : (root.dense ? Math.max(28, root.rowHeight - 8) : root.rowHeight))
+                }
+                delegate: Rectangle {
+                    required property int row
+                    required property var display
+                    readonly property var colDef:
+                        stickyLastView.columnIndex < root.columnDefs.length
+                            ? root.columnDefs[stickyLastView.columnIndex] : ({})
+                    width: root._widthForColumn(stickyLastView.columnIndex)
+                    height: root.rowHeight
+                    color: NovaTheme.surface
+                    Text {
+                        anchors.fill: parent
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 6
+                        text: String(display)
+                        font.family: NovaTheme.fontFamily
+                        font.pixelSize: NovaTheme.fontS
+                        color: root._styleColor(colDef)
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                }
+            }
+
+            // 1.8.0 P2-1：Grid / Masonry 视图。仍走同一 Python 模型，不另起数据源。
+            GridView {
+                id: gridView
+                anchors {
+                    fill: parent
+                    bottomMargin: footerHost.visible ? footerHost.height : 0
+                }
+                visible: root._effectiveViewMode !== "table"
+                clip: true
+                model: root._model
+                cellWidth: root.gridCellWidth
+                cellHeight: root.gridCellHeight
+                flow: root._effectiveViewMode === "masonry"
+                    ? GridView.FlowTopToBottom : GridView.FlowLeftToRight
+                delegate: Item {
+                    required property int index
+                    required property var display
+                    required property var rowKey
+                    required property int severity
+                    width: gridView.cellWidth
+                    height: gridView.cellHeight
+                    Loader {
+                        id: cardLoader
+                        anchors.fill: parent
+                        anchors.margins: 4
+                        sourceComponent: root.gridDelegate !== null
+                            ? root.gridDelegate : defaultGridCard
+                    }
+                    Binding {
+                        target: cardLoader.item
+                        property: "slotData"
+                        when: cardLoader.active && cardLoader.item !== null
+                        value: ({
+                            index: index,
+                            rowKey: rowKey,
+                            display: display,
+                            severity: severity,
+                            rowData: root.getRowData(index)
+                        })
+                    }
+                }
+            }
+
+            Component {
+                id: defaultGridCard
+                Rectangle {
+                    property var slotData: ({})
+                    radius: NovaTheme.radiusS
+                    border.width: 1
+                    border.color: NovaTheme.outline
+                    color: slotData.severity === 2
+                        ? Qt.rgba(NovaTheme.negative.r, NovaTheme.negative.g,
+                                  NovaTheme.negative.b, 0.12)
+                        : (slotData.severity === 1
+                            ? Qt.rgba(NovaTheme.warning.r, NovaTheme.warning.g,
+                                      NovaTheme.warning.b, 0.12)
+                            : NovaTheme.surface)
+                    Text {
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        text: String(slotData.display)
+                        font.family: NovaTheme.fontFamily
+                        font.pixelSize: NovaTheme.fontS
+                        color: NovaTheme.textColor
+                        wrapMode: Text.WrapAnywhere
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+
+            // 1.8.0 P1-2：底部合计 / 附加行。内容由宿主注入 footerData。
+            Rectangle {
+                id: footerHost
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+                height: 36
+                visible: root._effectiveViewMode === "table"
+                    && root.footerData !== null && Object.keys(root.footerData).length > 0
+                z: 4
+                color: NovaTheme.surfaceAlt
+
+                Row {
+                    anchors.fill: parent
+                    clip: true
+                    Repeater {
+                        model: root.columnDefs
+                        Rectangle {
+                            required property int index
+                            required property var modelData
+                            width: root._widthForColumn(index)
+                            height: parent.height
+                            color: "transparent"
+                            Text {
+                                anchors.fill: parent
+                                anchors.leftMargin: 10
+                                anchors.rightMargin: 6
+                                text: root.footerData[modelData.key] !== undefined
+                                    ? String(root.footerData[modelData.key]) : ""
+                                font.family: NovaTheme.fontFamily
+                                font.pixelSize: NovaTheme.fontXS
+                                font.bold: true
+                                color: NovaTheme.primary
+                                verticalAlignment: Text.AlignVCenter
+                                elide: Text.ElideRight
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    anchors.top: parent.top
+                    width: parent.width
+                    height: 1
+                    color: NovaTheme.outline
+                }
             }
 
             // 空态：区分「无数据」与「筛选无结果」，两者都可注入自定义委托。
@@ -1008,6 +1812,7 @@ Rectangle {
                 }
 
                 NovaPagination {
+                    visible: root.paginationDelegate === null
                     page: root.pagination ? root.pagination.currentPage : 1
                     pages: root.pagination ? root.pagination.pageCount : 1
                     maxPages: 5
@@ -1019,6 +1824,33 @@ Rectangle {
                         if (root.serverSide)
                             root._emitServerRequest(root._sortKey, !root._sortAsc, p)
                     }
+                }
+
+                // 1.8.0 P1-5：宿主可注入自己的分页条；仍从同一 pagination 派生状态。
+                Loader {
+                    id: paginationLoader
+                    visible: root.paginationDelegate !== null
+                    sourceComponent: root.paginationDelegate
+                }
+                Binding {
+                    target: paginationLoader.item
+                    property: "paginationData"
+                    when: paginationLoader.active && paginationLoader.item !== null
+                    value: ({
+                        page: root.pagination ? root.pagination.currentPage : 1,
+                        pages: root.pagination ? root.pagination.pageCount : 1,
+                        pageSize: root.pagination ? root.pagination.pageSize : 20,
+                        total: root.pagination ? root.pagination.total : 0,
+                        startIndex: root.pagination ? root.pagination.startIndex : 0,
+                        endIndex: root.pagination ? root.pagination.endIndex : 0,
+                        setPage: function (p) {
+                            if (root.pagination)
+                                root.pagination.setCurrentPage(p)
+                            if (root.serverSide)
+                                root._emitServerRequest(root._sortKey, !root._sortAsc, p)
+                        },
+                        setPageSize: function (s) { root.setPageSize(s) }
+                    })
                 }
             }
         }

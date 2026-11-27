@@ -305,11 +305,9 @@ class NovaDataGridExpandProxy(QAbstractProxyModel):
         return -1
 
     def _proxy_row_for_source_row(self, source_row: int) -> int:
-        proxy_row = 0
-        for src_row, _exp_key in self._row_plan():
+        for proxy_row, (src_row, _exp_key) in enumerate(self._row_plan()):
             if src_row == source_row:
                 return proxy_row
-            proxy_row += 1
         return -1
 
     def _source_row_for_proxy_row(self, proxy_row: int) -> int | None:
@@ -319,21 +317,27 @@ class NovaDataGridExpandProxy(QAbstractProxyModel):
         return None
 
     # ── QAbstractProxyModel 必需实现 ──────────────────────────────
-    def rowCount(self, parent=QModelIndex()) -> int:
+    def rowCount(self, parent=None) -> int:
+        if parent is None:
+            parent = QModelIndex()
         return 0 if parent.isValid() else len(self._row_plan())
 
-    def columnCount(self, parent=QModelIndex()) -> int:
+    def columnCount(self, parent=None) -> int:
+        if parent is None:
+            parent = QModelIndex()
         model = self.sourceModel()
         return 0 if model is None or parent.isValid() else model.columnCount()
 
-    def index(self, row: int, column: int, parent=QModelIndex()) -> QModelIndex:
+    def index(self, row: int, column: int, parent=None) -> QModelIndex:
+        if parent is None:
+            parent = QModelIndex()
         if parent.isValid() or row < 0 or column < 0:
             return QModelIndex()
         if row >= self.rowCount() or column >= self.columnCount():
             return QModelIndex()
         return self.createIndex(row, column, row)
 
-    def parent(self, child=QModelIndex()) -> QModelIndex:
+    def parent(self, child=None) -> QModelIndex:
         return QModelIndex()
 
     def mapToSource(self, proxy_index: QModelIndex) -> QModelIndex:
@@ -485,4 +489,432 @@ class NovaDataGridExpandProxy(QAbstractProxyModel):
             "sourceRow": source_row,
             "rowData": row_data,
             "expansionRow": source_row if exp_key else -1,
+        }
+
+
+class NovaDataGridGroupProxy(QAbstractProxyModel):
+    """分组 / 树代理（1.8.0 additive）。
+
+    两种互斥模式：
+
+    * ``group_by`` 非空：按列值生成分组头行（虚拟行），可折叠；
+    * ``tree_mode=True``：按 ``tree_parent_key`` 指定的父子字段展开树层级。
+
+    与展开代理一样，业务行数据保持只读透传；所有附加语义只存在于虚拟行与派生 role。
+    """
+
+    groupByChanged = Signal()
+    collapsedChanged = Signal()
+    groupToggled = Signal(str, bool)
+    treeModeChanged = Signal()
+    treeExpandedChanged = Signal()
+
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
+        self._group_by = ""
+        self._collapsed: set[str] = set()
+        self._tree_mode = False
+        self._tree_parent_key = "parentKey"
+        self._tree_expanded: set[str] = set()
+        self._plan: list[dict] = []
+        self._dirty = True
+        self._connections: list[tuple] = []
+
+    # ── 源模型绑定 ─────────────────────────────────────────────────
+    def setSourceModel(self, model) -> None:
+        for signal, slot in self._connections:
+            try:
+                signal.disconnect(slot)
+            except (RuntimeError, TypeError):
+                pass
+        self._connections.clear()
+        super().setSourceModel(model)
+        if model is None:
+            self._reset()
+            return
+        pairs = (
+            (model.modelReset, self._on_source_reset),
+            (model.rowsInserted, self._on_source_reset),
+            (model.rowsRemoved, self._on_source_reset),
+            (model.layoutChanged, self._on_source_reset),
+            (model.columnsChanged, self._on_source_reset)
+            if hasattr(model, "columnsChanged") else None,
+            (model.dataChanged, self._on_source_reset),
+        )
+        for pair in pairs:
+            if pair is None:
+                continue
+            pair[0].connect(pair[1])
+            self._connections.append(pair)
+        self._reset()
+
+    def _on_source_reset(self, *args) -> None:
+        self._reset()
+
+    def _reset(self) -> None:
+        self._dirty = True
+        self.beginResetModel()
+        self._plan = []
+        self.endResetModel()
+
+    # ── 行计划 ─────────────────────────────────────────────────────
+    def _source_key(self, row: int) -> str:
+        model = self.sourceModel()
+        if model is None:
+            return str(row)
+        key = model.data(model.index(row, 0), NovaDataGridRoles.RowKeyRole)
+        return str(key) if key not in (None, "") else str(row)
+
+    def _root_model(self):
+        """沿代理链找到真正带 ``getRow`` / ``columns`` 的源模型。"""
+        model = self.sourceModel()
+        seen: set[int] = set()
+        while model is not None and id(model) not in seen:
+            if hasattr(model, "getRow") or hasattr(model, "columns"):
+                return model
+            seen.add(id(model))
+            model = model.sourceModel() if hasattr(model, "sourceModel") else None
+        return self.sourceModel()
+
+    def _map_to_root_row(self, row: int) -> tuple[int, object]:
+        """把直接源模型的行号映射到最底层 table 模型的行号。"""
+        model = self.sourceModel()
+        current = row
+        while model is not None and hasattr(model, "mapToSource"):
+            index = model.index(current, 0)
+            if not index.isValid():
+                break
+            source = model.mapToSource(index)
+            if not source.isValid():
+                break
+            current = source.row()
+            model = model.sourceModel()
+        return current, model
+
+    def _column_value(self, row: int, key: str) -> str:
+        row, model = self._map_to_root_row(row)
+        if model is None or not key:
+            return ""
+        getter = getattr(model, "getRow", None)
+        if callable(getter):
+            value = getter(row).get(key, "")
+            return str(value) if value is not None else ""
+        columns = getattr(model, "columns", None) or []
+        for col, definition in enumerate(columns):
+            if definition.get("key") == key:
+                value = model.data(model.index(row, col), Qt.ItemDataRole.DisplayRole)
+                return str(value) if value is not None else ""
+        return ""
+
+    def _ensure_plan(self) -> list[dict]:
+        if not self._dirty:
+            return self._plan
+        model = self.sourceModel()
+        plan: list[dict] = []
+        if model is not None:
+            if self._tree_mode:
+                plan = self._build_tree_plan(model)
+            elif self._group_by:
+                plan = self._build_group_plan(model)
+            else:
+                plan = [
+                    {"type": "data", "source": row, "key": self._source_key(row),
+                     "label": "", "count": 0, "level": 0, "hasChildren": False}
+                    for row in range(model.rowCount())
+                ]
+        self._plan = plan
+        self._dirty = False
+        return self._plan
+
+    def _build_group_plan(self, model) -> list[dict]:
+        groups: dict[str, list[int]] = {}
+        order: list[str] = []
+        for row in range(model.rowCount()):
+            label = self._column_value(row, self._group_by) or "(空)"
+            if label not in groups:
+                groups[label] = []
+                order.append(label)
+            groups[label].append(row)
+        plan: list[dict] = []
+        for label in order:
+            plan.append({"type": "group", "source": -1, "key": label,
+                         "label": label, "count": len(groups[label]),
+                         "level": 0, "hasChildren": True})
+            if label in self._collapsed:
+                continue
+            for row in groups[label]:
+                plan.append({"type": "data", "source": row,
+                             "key": self._source_key(row), "label": label,
+                             "count": len(groups[label]), "level": 0,
+                             "hasChildren": False})
+        return plan
+
+    def _build_tree_plan(self, model) -> list[dict]:
+        children: dict[str, list[int]] = {}
+        keys: dict[int, str] = {}
+        for row in range(model.rowCount()):
+            key = self._source_key(row)
+            keys[row] = key
+            parent = ""
+            root_row, root_model = self._map_to_root_row(row)
+            getter = getattr(root_model, "getRow", None)
+            if callable(getter):
+                parent = str(getter(root_row).get(self._tree_parent_key, "") or "")
+            if parent and parent not in {keys.get(i) for i in range(row)}:
+                parent = ""       # 孤儿节点按根节点呈现，避免整棵树消失
+            children.setdefault(parent, []).append(row)
+
+        plan: list[dict] = []
+        visited: set[str] = set()
+
+        def walk(parent: str, depth: int) -> None:
+            for row in children.get(parent, []):
+                key = keys[row]
+                if key in visited:
+                    continue
+                visited.add(key)
+                has = bool(children.get(key))
+                plan.append({"type": "tree", "source": row, "key": key,
+                             "label": self._column_value(row, ""),
+                             "count": 0, "level": depth, "hasChildren": has})
+                if has and key in self._tree_expanded:
+                    walk(key, depth + 1)
+
+        walk("", 0)
+        return plan
+
+    # ── QAbstractProxyModel 必需实现 ──────────────────────────────
+    def rowCount(self, parent=None) -> int:
+        if parent is None:
+            parent = QModelIndex()
+        return 0 if parent.isValid() else len(self._ensure_plan())
+
+    def columnCount(self, parent=None) -> int:
+        if parent is None:
+            parent = QModelIndex()
+        model = self.sourceModel()
+        return 0 if model is None or parent.isValid() else model.columnCount()
+
+    def index(self, row: int, column: int, parent=None) -> QModelIndex:
+        if parent is None:
+            parent = QModelIndex()
+        if parent.isValid() or row < 0 or column < 0:
+            return QModelIndex()
+        if row >= self.rowCount() or column >= self.columnCount():
+            return QModelIndex()
+        return self.createIndex(row, column, row)
+
+    def parent(self, child=None) -> QModelIndex:
+        return QModelIndex()
+
+    def mapToSource(self, proxy_index: QModelIndex) -> QModelIndex:
+        model = self.sourceModel()
+        plan = self._ensure_plan()
+        if model is None or not proxy_index.isValid() or proxy_index.row() >= len(plan):
+            return QModelIndex()
+        source_row = plan[proxy_index.row()]["source"]
+        if source_row < 0:
+            return QModelIndex()
+        return model.index(source_row, proxy_index.column())
+
+    def mapFromSource(self, source_index: QModelIndex) -> QModelIndex:
+        if not source_index.isValid():
+            return QModelIndex()
+        for row, entry in enumerate(self._ensure_plan()):
+            if entry["source"] == source_index.row():
+                return self.index(row, source_index.column())
+        return QModelIndex()
+
+    def roleNames(self) -> dict[int, bytes]:
+        names = dict(super().roleNames())
+        source = self.sourceModel()
+        if source is not None:
+            names.update(source.roleNames())
+        names.update({
+            NovaDataGridRoles.IsGroupRole: b"isGroup",
+            NovaDataGridRoles.GroupKeyRole: b"groupKey",
+            NovaDataGridRoles.GroupLabelRole: b"groupLabel",
+            NovaDataGridRoles.GroupCountRole: b"groupCount",
+            NovaDataGridRoles.TreeLevelRole: b"treeLevel",
+            NovaDataGridRoles.HasChildrenRole: b"hasChildren",
+        })
+        return names
+
+    def data(self, index: QModelIndex, role=Qt.ItemDataRole.DisplayRole):
+        model = self.sourceModel()
+        plan = self._ensure_plan()
+        if model is None or not index.isValid() or index.row() >= len(plan):
+            return None
+        entry = plan[index.row()]
+        if entry["type"] == "group":
+            if role == NovaDataGridRoles.IsGroupRole:
+                return True
+            if role == NovaDataGridRoles.GroupKeyRole:
+                return entry["key"]
+            if role == NovaDataGridRoles.GroupLabelRole:
+                return entry["label"]
+            if role == NovaDataGridRoles.GroupCountRole:
+                return entry["count"]
+            if role == NovaDataGridRoles.HasChildrenRole:
+                return True
+            if role == NovaDataGridRoles.TreeLevelRole:
+                return entry["level"]
+            if role == NovaDataGridRoles.RowKeyRole:
+                return "group:" + entry["key"]
+            if role in (Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.EditRole):
+                return entry["label"]
+            if role == NovaDataGridRoles.SeverityRole:
+                return 0
+            return None
+        source_index = model.index(entry["source"], index.column())
+        if role == NovaDataGridRoles.IsGroupRole:
+            return False
+        if role == NovaDataGridRoles.GroupKeyRole:
+            return ""
+        if role == NovaDataGridRoles.GroupLabelRole:
+            return entry["label"]
+        if role == NovaDataGridRoles.GroupCountRole:
+            return entry["count"]
+        if role == NovaDataGridRoles.TreeLevelRole:
+            return entry["level"]
+        if role == NovaDataGridRoles.HasChildrenRole:
+            return entry["hasChildren"]
+        return model.data(source_index, role)
+
+    def setData(self, index: QModelIndex, value, role=Qt.ItemDataRole.EditRole) -> bool:
+        plan = self._ensure_plan()
+        if not index.isValid() or index.row() >= len(plan):
+            return False
+        entry = plan[index.row()]
+        if entry["source"] < 0:
+            return False
+        return self.sourceModel().setData(self.mapToSource(index), value, role)
+
+    def flags(self, index: QModelIndex):
+        if not index.isValid():
+            return Qt.ItemFlag.NoItemFlags
+        plan = self._ensure_plan()
+        entry = plan[index.row()] if index.row() < len(plan) else None
+        if entry is None or entry["source"] < 0:
+            return Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
+        return self.sourceModel().flags(self.mapToSource(index))
+
+    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
+        model = self.sourceModel()
+        return model.headerData(section, orientation, role) if model is not None else None
+
+    # ── 公共 API ───────────────────────────────────────────────────
+    @Property(str, notify=groupByChanged)
+    def groupBy(self) -> str:
+        return self._group_by
+
+    @Slot(str)
+    def setGroupBy(self, key: str) -> None:
+        key = str(key or "")
+        if key == self._group_by:
+            return
+        self._group_by = key
+        self._reset()
+        self.groupByChanged.emit()
+
+    @Property("QVariantList", notify=collapsedChanged)
+    def collapsed(self) -> list[str]:
+        return sorted(self._collapsed)
+
+    @Slot("QVariantList")
+    def setCollapsed(self, keys) -> None:
+        wanted = {str(k) for k in (keys or [])}
+        if wanted == self._collapsed:
+            return
+        self._reset()
+        self._collapsed = wanted
+        self.collapsedChanged.emit()
+
+    @Slot(str)
+    def toggleGroup(self, key: str) -> None:
+        key = str(key or "")
+        if not key:
+            return
+        collapsed = key not in self._collapsed
+        self._reset()
+        if collapsed:
+            self._collapsed.add(key)
+        else:
+            self._collapsed.discard(key)
+        self.collapsedChanged.emit()
+        self.groupToggled.emit(key, collapsed)
+
+    @Property(bool, notify=treeModeChanged)
+    def treeMode(self) -> bool:
+        return self._tree_mode
+
+    @Slot(bool)
+    def setTreeMode(self, enabled: bool) -> None:
+        enabled = bool(enabled)
+        if enabled == self._tree_mode:
+            return
+        self._tree_mode = enabled
+        self._reset()
+        self.treeModeChanged.emit()
+
+    @Property(str, notify=treeModeChanged)
+    def treeParentKey(self) -> str:
+        return self._tree_parent_key
+
+    @Slot(str)
+    def setTreeParentKey(self, key: str) -> None:
+        key = str(key or "parentKey")
+        if key == self._tree_parent_key:
+            return
+        self._tree_parent_key = key
+        self._reset()
+        self.treeModeChanged.emit()
+
+    @Property("QVariantList", notify=treeExpandedChanged)
+    def treeExpanded(self) -> list[str]:
+        return sorted(self._tree_expanded)
+
+    @Slot("QVariantList")
+    def setTreeExpanded(self, keys) -> None:
+        wanted = {str(k) for k in (keys or [])}
+        if wanted == self._tree_expanded:
+            return
+        self._reset()
+        self._tree_expanded = wanted
+        self.treeExpandedChanged.emit()
+
+    @Slot(int)
+    def toggleTreeNode(self, proxy_row: int) -> None:
+        plan = self._ensure_plan()
+        if not (0 <= proxy_row < len(plan)):
+            return
+        key = plan[proxy_row]["key"]
+        if not key:
+            return
+        collapsed = key in self._tree_expanded
+        self._reset()
+        if collapsed:
+            self._tree_expanded.discard(key)
+        else:
+            self._tree_expanded.add(key)
+        self.treeExpandedChanged.emit()
+
+    @Slot(int, result=bool)
+    def isGroupRow(self, proxy_row: int) -> bool:
+        plan = self._ensure_plan()
+        return 0 <= proxy_row < len(plan) and plan[proxy_row]["type"] == "group"
+
+    @Slot(int, result="QVariantMap")
+    def groupData(self, proxy_row: int) -> dict:
+        plan = self._ensure_plan()
+        if not (0 <= proxy_row < len(plan)):
+            return {}
+        entry = plan[proxy_row]
+        return {
+            "key": entry["key"],
+            "label": entry["label"],
+            "count": entry["count"],
+            "level": entry["level"],
+            "hasChildren": entry["hasChildren"],
+            "collapsed": entry["key"] in self._collapsed,
         }

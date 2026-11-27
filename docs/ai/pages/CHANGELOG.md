@@ -3,7 +3,30 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.7.0] - 2026-11-27 — NovaDataGrid P0 打磨（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+## [1.8.0] - 2026-11-27 — NovaDataGrid P1/P2 打磨（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+
+> **版本说明**：1.7.0 之上的 **additive minor**；1.7.0 已由 CSA `git tag v1.7.0` / `git push origin v1.7.0` 发布，属史料事实，正文不回改。
+> 本段只做 `NovaDataGrid` 公共面增量，不新增 QML 导出类型（仍 **147 类型 / Controls 93 / LayoutShell 21**）；
+> 冻结指纹 `157ab2b1d77ea9f9` → `89d5d3cdd7f94cf0`（P1/P2 契约入面后重签，旧指纹为已发布史料）。
+> `api/nova-api-1.8.0.json` / `api/component-domains-1.8.0.json` / `docs/API_FREEZE.md` 为生成物禁手改。
+
+### 新增（Added）
+- **P1 体验与扩展**：`resizableColumns` / `columnWidths` / `columnWidthResized` / `resetColumnWidths()` 的列宽拖拽与持久化；
+  `stickyColumns` 首/末列与 `footerData` 合计行；`bodyDelegate` / `bodyCellDelegate` / `headerDelegate` /
+  `headerCellDelegate` 完整插槽；`loadMoreEnabled` / `loadMoreThreshold` / `loadMoreRequested(lastRow)`；
+  `pageSizeOptions` / `paginationDelegate` 可替换分页条。
+- **P2 形态与外围**：`viewMode` 的 table / grid / masonry 三态 + `gridDelegate` / `gridCellWidth` / `gridCellHeight`；
+  `fullScreen` 意图与 `fullScreenToggled`；`exportCsv(delimiter)` / `exportRequested` 纯标准库 CSV；
+  `NovaDataGridGroupProxy` 分组 / 树虚拟行 + `groupToggled`；列级 `style/classes/headerStyle/autoWidth`；
+  `responsive` / `gridBreakpoint` / `dense` 响应式密度。
+- **Python 数据层**：`NovaDataGridColumn` 增 4 个列级元字段；`NovaDataGridModel` 增三个 CSV Slot；
+  `NovaDataGridGroupProxy` 导出，零第三方依赖不变。
+
+### 改进（Changed）
+- **文档与验收**：`docs/controls/NovaDataGrid.md` 增补 §4.6 / §4.7；专项测试 97 → **99 passed**；
+  qmllint 单文件 0 error / 0 warning（本文件显式关闭 unqualified 类别，全库预算只降不升）。
+
+## [1.7.0] - 2026-11-27 — NovaDataGrid P0 打磨（additive minor · 已由 CSA 发布）
 
 > **版本说明**：1.6.0 之上的 **additive minor**；1.6.0 已由 CSA `git tag v1.6.0` / `git push origin v1.6.0` 发布至 PyPI LATEST，属史料事实，正文不回改。
 > 本段只做 `NovaDataGrid` 公共面增量，不新增 QML 导出类型（仍 **147 类型 / Controls 93 / LayoutShell 21**）；

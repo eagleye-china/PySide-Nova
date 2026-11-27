@@ -8,6 +8,8 @@
 """NovaDataGrid 的数据模型：列定义、role 常量与工业级表格模型。"""
 from __future__ import annotations
 
+import csv
+import io
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
@@ -40,6 +42,13 @@ class NovaDataGridRoles:
     IsExpansionRole = Qt.ItemDataRole.UserRole + 5
     ExpandedRole = Qt.ItemDataRole.UserRole + 6
     ExpansionDataRole = Qt.ItemDataRole.UserRole + 7
+    # 1.8.0 additive：分组 / 树 / 列样式派生 role。
+    IsGroupRole = Qt.ItemDataRole.UserRole + 8
+    GroupKeyRole = Qt.ItemDataRole.UserRole + 9
+    GroupLabelRole = Qt.ItemDataRole.UserRole + 10
+    GroupCountRole = Qt.ItemDataRole.UserRole + 11
+    TreeLevelRole = Qt.ItemDataRole.UserRole + 12
+    HasChildrenRole = Qt.ItemDataRole.UserRole + 13
 
 
 @dataclass
@@ -56,6 +65,12 @@ class NovaDataGridColumn:
     visible: bool = True
     sortable: bool = True
     formatter: Callable[[Any, dict[str, Any]], str] | None = None
+    # 1.8.0 additive：列级样式标签 / header 样式标签 / 自动宽度。
+    # style 与 classes 只传语义标签，由 QML 映射到 NovaTheme 令牌，不传任意 CSS。
+    style: str = ""
+    classes: list[str] = field(default_factory=list)
+    header_style: str = ""
+    auto_width: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         """QML 侧看到的列定义（不含 formatter —— 函数不跨 QML 边界）。"""
@@ -69,6 +84,10 @@ class NovaDataGridColumn:
             "options": self.options,
             "visible": self.visible,
             "sortable": self.sortable,
+            "style": self.style,
+            "classes": list(self.classes),
+            "headerStyle": self.header_style,
+            "autoWidth": self.auto_width,
         }
 
 
@@ -135,6 +154,12 @@ class NovaDataGridModel(QAbstractTableModel):
             NovaDataGridRoles.IsExpansionRole: b"isExpansion",
             NovaDataGridRoles.ExpandedRole: b"expanded",
             NovaDataGridRoles.ExpansionDataRole: b"expansionData",
+            NovaDataGridRoles.IsGroupRole: b"isGroup",
+            NovaDataGridRoles.GroupKeyRole: b"groupKey",
+            NovaDataGridRoles.GroupLabelRole: b"groupLabel",
+            NovaDataGridRoles.GroupCountRole: b"groupCount",
+            NovaDataGridRoles.TreeLevelRole: b"treeLevel",
+            NovaDataGridRoles.HasChildrenRole: b"hasChildren",
         }
 
     def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole):
@@ -169,6 +194,18 @@ class NovaDataGridModel(QAbstractTableModel):
             return False
         if role == NovaDataGridRoles.ExpansionDataRole:
             return {}
+        if role == NovaDataGridRoles.IsGroupRole:
+            return False
+        if role == NovaDataGridRoles.GroupKeyRole:
+            return ""
+        if role == NovaDataGridRoles.GroupLabelRole:
+            return ""
+        if role == NovaDataGridRoles.GroupCountRole:
+            return 0
+        if role == NovaDataGridRoles.TreeLevelRole:
+            return 0
+        if role == NovaDataGridRoles.HasChildrenRole:
+            return False
         return None
 
     def headerData(self, section: int, orientation, role=Qt.ItemDataRole.DisplayRole):
@@ -222,6 +259,36 @@ class NovaDataGridModel(QAbstractTableModel):
     @Slot(result="QVariantList")
     def allRows(self) -> list[dict]:
         return [dict(r) for r in self._rows]
+
+    # ── CSV 导出（1.8.0 additive，纯标准库） ─────────────────────
+    @Slot(result=str)
+    def exportCsv(self) -> str:
+        """按当前可见列导出全部业务行；表头用列标签，值取原始行数据。"""
+        return self._export_csv(",", None)
+
+    @Slot(str, result=str)
+    def exportCsvWithDelimiter(self, delimiter: str) -> str:
+        """可指定分隔符（制表符 / 分号等），供 QML `exportCsv(delimiter)` 调用。"""
+        return self._export_csv(delimiter or ",", None)
+
+    @Slot("QVariantList", result=str)
+    def exportColumnsCsv(self, keys: list) -> str:
+        """只导出指定列 key（按传入顺序）；空列表时回落到全部可见列。"""
+        return self._export_csv(",", [str(k) for k in (keys or [])] or None)
+
+    def _export_csv(self, delimiter: str, keys: list[str] | None) -> str:
+        if len(str(delimiter)) != 1:
+            delimiter = ","
+        cols = (
+            [c for c in self._visible_columns if c.key in keys]
+            if keys else list(self._visible_columns)
+        )
+        buf = io.StringIO()
+        writer = csv.writer(buf, delimiter=delimiter, lineterminator="\n")
+        writer.writerow([c.label for c in cols])
+        for row in self._rows:
+            writer.writerow([row.get(c.key, "") for c in cols])
+        return buf.getvalue()
 
     # ── 写入与批量更新 ───────────────────────────────────────────
     def _coerce_and_set(self, row: int, col: NovaDataGridColumn, value) -> bool:

@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 QML = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaDataGrid.qml"
 QMLDIR = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaDataGrid.md"
-MANIFEST = ROOT / "api" / "nova-api-1.7.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.8.0.json"
 KEY = "Nova.Controls.NovaDataGrid"
 
 EXPECTED_SIGNALS = {
@@ -46,6 +46,11 @@ EXPECTED_SIGNALS = {
     "selectionChanged(var rows)",
     "selectionActionRequested(var rows, string action)",
     "clearFilterRequested()",
+    "columnWidthResized(var widths)",
+    "loadMoreRequested(int lastRow)",
+    "groupToggled(var groupKey, bool collapsed)",
+    "fullScreenToggled(bool active)",
+    "exportRequested(var csvText)",
 }
 EXPECTED_METHODS = {
     "sortByKey(colKey, ascending)",
@@ -56,6 +61,13 @@ EXPECTED_METHODS = {
     "isExpanded(row)",
     "clearFilters()",
     "requestSelectionAction(action)",
+    "resetColumnWidths()",
+    "toggleGroup(groupKey)",
+    "toggleTreeNode(row)",
+    "setViewMode(mode)",
+    "setPageSize(size)",
+    "toggleFullScreen()",
+    "exportCsv(delimiter)",
 }
 
 
@@ -77,7 +89,7 @@ def test_qmldir_exports_type():
 
 
 def test_frozen_surface(manifest):
-    assert manifest["apiVersion"] == "1.7.0"
+    assert manifest["apiVersion"] == "1.8.0"
     assert manifest["counts"]["total"] == 147
     assert manifest["counts"]["modules"]["Nova.Controls"] == 93
     assert manifest["counts"]["a11y"]["interactive"] == 33
@@ -248,6 +260,69 @@ def test_filter_proxy_filter_active(pipeline):
     assert fp.filterActive is False
 
 
+# ── 2b. 1.8.0 P1/P2 数据层 ───────────────────────────────────
+def test_column_style_metadata_and_csv_export():
+    from pyside_nova.datagrid import NovaDataGridColumn, NovaDataGridModel
+
+    cols = [
+        NovaDataGridColumn("slot", "槽号", style="accent", auto_width=True),
+        NovaDataGridColumn("state", "状态", classes=["warning"],
+                           header_style="muted"),
+    ]
+    model = NovaDataGridModel(cols, [
+        {"slot": "A01", "state": "正常"},
+        {"slot": "B,02", "state": "预警"},
+    ], row_key="slot")
+    assert model.columns[0]["style"] == "accent"
+    assert model.columns[0]["autoWidth"] is True
+    assert model.columns[1]["classes"] == ["warning"]
+    assert model.columns[1]["headerStyle"] == "muted"
+    assert model.exportCsv() == "槽号,状态\nA01,正常\n\"B,02\",预警\n"
+    assert model.exportCsvWithDelimiter("\t") == "槽号\t状态\nA01\t正常\nB,02\t预警\n"
+    assert model.exportColumnsCsv(["state"]) == "状态\n正常\n预警\n"
+
+
+def test_group_proxy_collapse_and_tree():
+    from pyside_nova.datagrid import (
+        NovaDataGridColumn,
+        NovaDataGridGroupProxy,
+        NovaDataGridModel,
+        NovaDataGridRoles,
+    )
+
+    cols = [
+        NovaDataGridColumn("slot", "槽号"),
+        NovaDataGridColumn("state", "状态"),
+        NovaDataGridColumn("parent", "父", visible=False),
+    ]
+    rows = [
+        {"slot": "A", "state": "ok", "parent": ""},
+        {"slot": "A1", "state": "warn", "parent": "A"},
+        {"slot": "B", "state": "ok", "parent": ""},
+    ]
+    model = NovaDataGridModel(cols, rows, row_key="slot")
+    proxy = NovaDataGridGroupProxy()
+    proxy.setGroupBy("state")
+    proxy.setSourceModel(model)
+    assert proxy.rowCount() == 5           # 2 个分组头 + 3 条数据
+    assert proxy.isGroupRow(0) is True
+    assert proxy.groupData(0)["label"] == "ok"
+    assert proxy.data(proxy.index(0, 0), NovaDataGridRoles.GroupCountRole) == 2
+    proxy.toggleGroup("ok")
+    assert proxy.rowCount() == 3 and proxy.collapsed == ["ok"]
+    assert proxy.roleNames()[NovaDataGridRoles.TreeLevelRole] == b"treeLevel"
+
+    proxy.setGroupBy("")
+    proxy.setTreeParentKey("parent")
+    proxy.setTreeMode(True)
+    assert proxy.rowCount() == 2           # A / B 两个根节点
+    proxy.setTreeExpanded(["A"])
+    assert proxy.rowCount() == 3
+    assert proxy.data(proxy.index(1, 0), NovaDataGridRoles.RowKeyRole) == "A1"
+    proxy.toggleTreeNode(0)            # 折叠根节点 A
+    assert proxy.rowCount() == 2
+
+
 # ── 3. 离屏真机 ───────────────────────────────────────────────
 def test_offscreen_runtime(tmp_path):
     from PySide6.QtCore import QEventLoop, QTimer, qInstallMessageHandler
@@ -260,6 +335,7 @@ def test_offscreen_runtime(tmp_path):
         NovaDataGridColumn,
         NovaDataGridExpandProxy,
         NovaDataGridFilterProxy,
+        NovaDataGridGroupProxy,
         NovaDataGridModel,
         NovaDataGridPagedProxy,
         NovaDataGridPagination,
@@ -288,6 +364,8 @@ def test_offscreen_runtime(tmp_path):
         pagination.setTotal(len(rows))
         ep = NovaDataGridExpandProxy()
         ep.setSourceModel(pp)
+        gp = NovaDataGridGroupProxy()
+        gp.setSourceModel(ep)
 
         qml = tmp_path / "Main.qml"
         qml.write_text(
@@ -299,6 +377,9 @@ def test_offscreen_runtime(tmp_path):
             "  property int clickedCount: 0\n"
             "  property int expandCount: 0\n"
             "  property int selectionCount: 0\n"
+            "  property int groupCount: 0\n"
+            "  property int fullScreenCount: 0\n"
+            "  property string exportedCsv: ''\n"
             "  NovaDataGrid {\n"
             "    id: grid\n"
             "    anchors.fill: parent\n"
@@ -309,6 +390,13 @@ def test_offscreen_runtime(tmp_path):
             "    pagedProxy: dmPaged\n"
             "    pagination: dmPages\n"
             "    expandProxy: dmExpand\n"
+            "    groupProxy: dmGroup\n"
+            "    resizableColumns: true\n"
+            "    columnWidths: ({ slot: 150 })\n"
+            "    stickyColumns: ['slot', 'state']\n"
+            "    footerData: ({ slot: '合计' })\n"
+            "    pageSizeOptions: [{label:'20',value:20},{label:'50',value:50}]\n"
+            "    showExportButton: true\n"
             "    selectionMode: 'multiple'\n"
             "    expansionDelegate: Component { Rectangle { property var expansionData; color: NovaTheme.surfaceAlt } }\n"
             "    selectionDelegate: Component { Rectangle { property var selectionData; color: NovaTheme.outline } }\n"
@@ -317,6 +405,9 @@ def test_offscreen_runtime(tmp_path):
             "    onRowClicked: function(r) { clickedCount++ }\n"
             "    onRowExpansionToggled: function(k, e) { expandCount++ }\n"
             "    onSelectionChanged: function(rows) { selectionCount++ }\n"
+            "    onGroupToggled: function(k, c) { groupCount++ }\n"
+            "    onFullScreenToggled: function(v) { fullScreenCount++ }\n"
+            "    onExportRequested: function(csv) { exportedCsv = csv }\n"
             "  }\n}\n",
             encoding="utf-8",
         )
@@ -328,7 +419,7 @@ def test_offscreen_runtime(tmp_path):
         ctx = engine.rootContext()
         for name, obj in (("dmTable", table), ("dmFilter", fp),
                           ("dmPaged", pp), ("dmPages", pagination),
-                          ("dmExpand", ep)):
+                          ("dmExpand", ep), ("dmGroup", gp)):
             ctx.setContextProperty(name, obj)
         engine.load(str(qml))
         roots = engine.rootObjects()
@@ -386,7 +477,7 @@ def test_offscreen_runtime(tmp_path):
         assert ev("grid._columnMenuOpen") is True
         ev("grid._columnMenuOpen = false")
 
-        # 1.7.0 P0：展开行 / 选择信号 / 空态 / 键盘长跳
+        # 1.7.0 P0：展开行 / 选择信号 / 空态 / 键盘长跳（史料口径，不回改）
         assert ev("grid.expandProxy !== null") is True
         ev("grid.toggleExpansion(0)")
         assert ev("grid._model.rowCount()") == 4
@@ -402,6 +493,26 @@ def test_offscreen_runtime(tmp_path):
         assert ev("grid.filterActive") is False
         ev("grid._a11ySet(0); grid._a11yMove(10)")
         assert ev("grid._a11yRow") == 2
+
+        # 1.8.0 P1/P2：列宽 / sticky / 合计行 / 插槽 / 页大小 / 分组 / 全屏 / CSV / 形态
+        assert ev("grid.resizableColumns") is True
+        assert ev("grid._widthForColumn(0)") == 150
+        assert ev("grid._stickyKeys().length") == 2
+        assert ev("Object.keys(grid.footerData).length") == 1
+        assert ev("grid._pageSizeOptions.length") == 2
+        ev("grid.setViewMode('grid')")
+        assert ev("grid._effectiveViewMode") == "grid"
+        ev("grid.setViewMode('table')")
+        ev("dmGroup.setGroupBy('state')")
+        assert ev("grid._model.rowCount()") == 6   # 3 个分组头 + 3 条数据
+        ev("grid.toggleGroup('正常')")
+        assert ev("groupCount") == 1 and gp.collapsed == ["正常"]
+        ev("dmGroup.setGroupBy('')")
+        ev("grid.toggleFullScreen()")
+        assert ev("grid.fullScreen") is True and ev("fullScreenCount") == 1
+        ev("grid.toggleFullScreen()")
+        assert ev("grid.exportCsv()").find("槽号") >= 0
+        assert ev("exportedCsv").find("槽号") >= 0
 
         ev("NovaTheme.setDark(true)")
         assert ev("NovaTheme.isDark") is True

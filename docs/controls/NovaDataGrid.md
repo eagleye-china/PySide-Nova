@@ -1,8 +1,8 @@
 # NovaDataGrid 使用文档
 
-> **1.5.0 additive · 第 146 个公共类型** · 1.7.0 P0 打磨后重签 · `Nova.Controls.NovaDataGrid`
-> 冻结指纹以 `docs/API_FREEZE.md` 现行为准（1.5.0 `9742de8638251876` 为史料） · 147 类型 / Controls 93 / a11y `interactive`
-> 公共面逐成员见 `api/nova-api-1.7.0.json`（1.7.0 增补展开行 / 选择 / 空态 / 编辑器 P0 契约）
+> **1.5.0 additive · 第 146 个公共类型** · 1.8.0 P1/P2 打磨后重签 · `Nova.Controls.NovaDataGrid`
+> 冻结指纹以 `docs/API_FREEZE.md` 现行为准（1.5.0 `9742de8638251876` / 1.7.0 `157ab2b1d77ea9f9` 为史料） · 147 类型 / Controls 93 / a11y `interactive`
+> 公共面逐成员见 `api/nova-api-1.8.0.json`（1.7.0 增补 P0 契约；1.8.0 增补 P1 体验扩展与 P2 形态外围）
 
 ## 0. 定位与裁决
 
@@ -17,10 +17,12 @@
 | 编辑 | 无 | 内联编辑 + ESC 取消 + 失败红框 |
 | 列显隐 / 列级委托 | 无 | 有（`NovaMenu` + `cellDelegates`） |
 | 服务端模式 | 受控 `request` | `request` + 表头排序 + 页大小变更补发 |
-| 展开行 / 冻结列 | `expandSlot` / `expanded` | 不在本次范围（构想稿自述） |
+| 展开行 / 冻结列 | `expandSlot` / `expanded` | 1.7.0 `NovaDataGridExpandProxy` 展开行、1.8.0 `stickyColumns` 冻结首/末列（见 §4.1 / §4.6） |
 
-**选型建议**：数据已在 QML 侧、要零 Python 接入、需要展开行 → 用 `NovaTable`；
-数据来自 Python / 数据库、行量大、需要列级委托与内联编辑 → 用 `NovaDataGrid`。
+**选型建议**：数据已在 QML 侧、要零 Python 接入、需要轻量 `expandSlot` → 用 `NovaTable`；
+数据来自 Python / 数据库、行量大、需要列级委托与内联编辑 → 用 `NovaDataGrid`；
+需要展开行 / 冻结列 / 分组树 / Grid 视图且已接入 Python 管道 → 也用 `NovaDataGrid`
+（1.7.0 起 `NovaDataGridExpandProxy`，1.8.0 起 `stickyColumns` / `NovaDataGridGroupProxy` / `viewMode`）。
 两者**并存**，旧 145 类型逐字不变（1.5.0 重签已机检确认）。
 
 > 该文件曾以「企业级旗舰封版方案」构想稿形式存在于 `docs/controls/NovaTable.md`
@@ -159,13 +161,15 @@ ApplicationWindow {
 
 | 类 | 基类 | 职责 |
 |---|---|---|
-| `NovaDataGridColumn` | dataclass | 列定义：`key / label / width / align / editable / editor / options / visible / sortable / formatter` |
-| `NovaDataGridRoles` | 常量 | `display / edit / severity / rowKey / highlighted` 五种 role |
+| `NovaDataGridColumn` | dataclass | 列定义：`key / label / width / align / editable / editor / options / visible / sortable / formatter`；1.8.0 增列级元字段 `style / classes / header_style / auto_width` |
+| `NovaDataGridRoles` | 常量 | 共 15 种 role：1.5.0 `display / edit / severity / rowKey / highlighted`；1.7.0 展开行 `expansionRow / isExpansion / expanded / expansionData`；1.8.0 分组树 `isGroup / groupKey / groupLabel / groupCount / treeLevel / hasChildren` |
 | `NovaDataGridModel` | `QAbstractTableModel` | 数据源；`batchUpdate` 合并 `dataChanged`、行高亮 1.5 s、`setVisibleColumns`、行级增删 |
 | `NovaDataGridFilterProxy` | `QSortFilterProxyModel` | 全字段快速过滤 + 列级过滤；转发源模型 roleNames |
 | `NovaDataGridPagination` | `QObject` | 分页状态：`currentPage / pageSize / total / pageCount / startIndex / endIndex` + 翻页 Slot |
 | `NovaDataGridPagedProxy` | `QSortFilterProxyModel` | 按 `startIndex/endIndex` 切片；转发 roleNames |
 | `NovaDataGridExpandProxy` | `QAbstractProxyModel` | 1.7.0 additive：按 `rowKey` 在数据行后插入展开行，不改业务数据 |
+| `NovaDataGridGroupProxy` | `QAbstractProxyModel` | 1.8.0 additive：按列值插分组头或按 `parentKey` 展开树层级，支持折叠 / 展开集合 |
+| `exportCsv()` / `exportCsvWithDelimiter()` / `exportColumnsCsv()` | `Slot` | 1.8.0 additive：纯标准库 CSV，按可见列导出原始行数据 |
 
 **批量更新**（工业高频写入）：
 
@@ -258,6 +262,32 @@ NovaDataGrid {
 
 表头 `Accessible.ColumnHeader` + 可聚焦 Enter/Space 排序，`Accessible.description` 以「可排序 / 升序 / 降序」暴露 `aria-sort` 等价语义；单元格 `Accessible.Cell` + 名称/选中态；行游标新增 PageUp/PageDown 十行跳转。
 
+### 4.6 1.8.0 P1：体验与扩展
+
+| 能力 | 公共面 | 用法 |
+|---|---|---|
+| 列宽拖拽 / 持久化 | `resizableColumns` · `columnWidths` · `columnWidthResized(widths)` · `resetColumnWidths()` | 打开后拖表头右侧 6px 手柄；`columnWidths` 是 `{colKey: width}`，宿主写回即可跨会话保存；`autoWidth` 列按表头与首屏 40 行估算宽度。 |
+| sticky 首/末列 | `stickyColumns: []` | 传 1 个 key 冻结首列，传 2 个 key 冻结首列 + 末列；表头与表体同时覆盖，主表仍独占指针事件。 |
+| 底部合计行 | `footerData: {}` | `{"slot": "合计", "voltage": "12.40"}`，按列 key 取数；空对象自动隐藏且不占布局。 |
+| 完整插槽 | `bodyDelegate` / `bodyCellDelegate` / `headerDelegate` / `headerCellDelegate` | 分别是整行、单元格、整表头、表头单元格；注入的委托根声明 `property var slotData` 或 `property var cellData`，由组件用 `Binding` 按属性名写入。列级 `cellDelegates` 仍优先作为 fallback。 |
+| 加载更多 | `loadMoreEnabled` · `loadMoreThreshold` · `loadMoreRequested(lastRow)` | 主表触底进入阈值区间时发一次意图，向上滚出两倍阈值后复位；服务端模式下宿主收到后追加数据并 `setRows` / `setTotal`。 |
+| 分组 / 树虚拟行 | `groupProxy` · `groupHeaderDelegate` · `treeMode` · `treeParentKey` · `groupToggled(key, collapsed)` | `NovaDataGridGroupProxy.setGroupBy(key)` 按列值插虚拟分组头；`setTreeMode(True)` + `setTreeParentKey("parentKey")` 展开树层级，`setTreeExpanded([...])` 控制展开集合。`toggleGroup(key)` / `toggleTreeNode(row)` 可直接调用。 |
+| 页大小 / 分页条 | `pageSizeOptions` · `paginationDelegate` · `paginationData` | `pageSizeOptions` 传 `[{label:"20", value:20}]`（坑位 70：QML 内重建数组）；自定义分页条根声明 `property var paginationData`，内含 `page/pages/pageSize/total/startIndex/endIndex` 与 `setPage()/setPageSize()`。 |
+
+### 4.7 1.8.0 P2：形态与外围
+
+| 能力 | 公共面 | 用法 |
+|---|---|---|
+| Grid / Masonry | `viewMode: "table" \| "grid" \| "masonry"` · `gridDelegate` · `gridCellWidth` · `gridCellHeight` | 同一 Python 模型换 `GridView` 渲染；masonry 走 `GridView.FlowTopToBottom` 列优先流；卡片委托收 `slotData = {index,rowKey,display,severity,rowData}`。默认卡片只渲染 `rowKey`，要展示多字段请注入 `gridDelegate`（离屏真机已目视确认）。 |
+| 全屏意图 | `fullScreen` · `showFullScreenButton` · `fullScreenToggled(bool)` | 工具栏按钮切换布尔并发意图；库组件不直接改窗口状态，宿主把 `ApplicationWindow.visibility` 交给 `FullScreen` 或自行布局。 |
+| CSV 导出 | `showExportButton` · `exportDelimiter` · `exportCsv(delimiter)` · `exportRequested(csvText)` | Python 侧 `csv` 标准库逐可见列导出原始行数据（表头用列标签），返回字符串并发信号；写文件与下载归宿主，库不碰业务 I/O。 |
+| 树 / 分组行 | 同 §4.6 `NovaDataGridGroupProxy` | 见上；分组头与树节点作为虚拟行进入同一虚拟化表体，不复制业务数据。 |
+| 列级样式 / autoWidth | `NovaDataGridColumn(style=..., classes=[...], header_style=..., auto_width=True)` | `style` 取值 `accent/muted/warning/negative/positive`，`classes` 为同类语义标签数组；只映射到既有 `NovaTheme` 令牌，不接受任意 CSS。`autoWidth` 见 §4.6。 |
+| 响应式断点 | `responsive` · `gridBreakpoint` · `dense` | `responsive:true` 且组件宽度小于 `gridBreakpoint` 时自动落到 grid 并启用紧凑行高；`dense:true` 独立可用。 |
+
+> **边界**：`NovaDataGrid` 只发意图、只渲染模型；文件写入、窗口全屏、业务筛选条件与解释性文本均由宿主承担。
+> 所有新增内部状态以 `_` 前缀命名，不污染冻结面之外的公共契约。
+
 ## 5. 服务端模式
 
 设 `serverSide: true`，组件不再本地过滤/排序/切片，只发 `request`：
@@ -299,7 +329,7 @@ NovaDataGrid {
 ## 7. 相关资源
 
 - Gallery 第 25 页：`examples/gallery/main.qml`（`pageDataGrid`）
-- 冻结清单：`api/nova-api-1.7.0.json` / 签署件 `docs/API_FREEZE.md`
+- 冻结清单：`api/nova-api-1.8.0.json` / 签署件 `docs/API_FREEZE.md`
 - 组件自动生成文档：`docs/components/NovaDataGrid.md`（生成器产物）
 - 独立演示：`examples/controls/markdown_demo/` 展示的是 `NovaMarkdown`；
   `NovaDataGrid` 的可运行装配见 Gallery 与 `tests/test_nova_datagrid.py`

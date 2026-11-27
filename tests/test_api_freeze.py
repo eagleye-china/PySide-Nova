@@ -3,7 +3,7 @@
 """API 冻结（1.0）门禁测试。
 
 三道闸的自动化验收：
-1. **清单自洽**：`api/nova-api-1.7.0.json` 的指纹必须能由内容重算得出（防手改绕过）；
+1. **清单自洽**：`api/nova-api-1.8.0.json` 的指纹必须能由内容重算得出（防手改绕过）；
 2. **面零漂移**：现网 146 类型逐成员（props/signals/methods）与清单一致；
    并验证门禁**能真的变红**（删类型/加成员/改签名三类反例，防「永远绿」的假门禁）；
 3. **命名与纪律**：`on*` 前缀、基类成员撞名、qmldir `//` 注释、版本 1.0、头注释、
@@ -29,11 +29,11 @@ ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-import check_api_freeze as caf  # noqa: E402
-import check_qmllint as cql  # noqa: E402
-import gen_api_freeze as gaf  # noqa: E402
+import check_api_freeze as caf
+import check_qmllint as cql
+import gen_api_freeze as gaf
 
-MANIFEST = ROOT / "api" / "nova-api-1.7.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.8.0.json"
 DOC = ROOT / "docs" / "API_FREEZE.md"
 
 # 1.2.0：组合模块 19→20（新增 NovaIncubator 第 20 组合根，宪法第 8 章 additive · 整批单次重签）；总数 143→144
@@ -63,7 +63,7 @@ def current() -> dict:
 def test_manifest_schema(manifest):
     assert manifest["schema"] == "nova-api-freeze/1"
     assert manifest["package"] == "pyside-nova"
-    assert manifest["apiVersion"] == "1.7.0"
+    assert manifest["apiVersion"] == "1.8.0"
     assert manifest["baseline"] == "Quasar 2.35.5"
 
 
@@ -113,7 +113,7 @@ def _buckets(frozen: dict, mutated: dict) -> tuple[list[str], list[str]]:
 
 def test_gate_detects_removed_type(manifest, current):
     mutated = copy.deepcopy(current)
-    first = sorted(mutated["types"])[0]
+    first = min(mutated["types"])
     del mutated["types"][first]
     breaking, additive = _buckets(manifest, mutated)
     assert any("删除" in b or "取消导出" in b for b in breaking), breaking
@@ -237,14 +237,16 @@ def test_signed_doc_lists_every_type(manifest):
 
 def test_gate_cli_exit_zero():
     proc = subprocess.run([sys.executable, str(SCRIPTS / "check_api_freeze.py"), "--quiet"],
-                          capture_output=True, text=True, cwd=str(ROOT), timeout=180)
+                          check=False, capture_output=True, text=True,
+                          cwd=str(ROOT), timeout=180)
     assert proc.returncode == 0, proc.stdout + proc.stderr
     assert "API 冻结门禁通过" in proc.stdout
 
 
 def test_qmllint_gate_exit_zero():
     proc = subprocess.run([sys.executable, str(SCRIPTS / "check_qmllint.py")],
-                          capture_output=True, text=True, cwd=str(ROOT), timeout=300)
+                          check=False, capture_output=True, text=True,
+                          cwd=str(ROOT), timeout=300)
     assert proc.returncode == 0, proc.stdout + proc.stderr
     assert "0 error" in proc.stdout
 

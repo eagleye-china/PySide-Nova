@@ -1,8 +1,8 @@
 # Nova 1.0 API 冻结清单（RC1 签署件）
 
-> **冻结日期**：2026-11-27　**包版本**：`1.7.0`　
-> **API 版本**：`1.7.0`　**对标基线**：Quasar 2.35.5
-> **内容指纹**：`157ab2b1d77ea9f9`　**签署人**：小伙（产品/验收）· 小诺（架构/实现）
+> **冻结日期**：2026-11-27　**包版本**：`1.8.0`　
+> **API 版本**：`1.8.0`　**对标基线**：Quasar 2.35.5
+> **内容指纹**：`89d5d3cdd7f94cf0`　**签署人**：小伙（产品/验收）· 小诺（架构/实现）
 
 ## 1. 冻结口径
 
@@ -18,7 +18,7 @@
 | 公共 `function` 的名字与参数签名 | 文件内部拆分、委托组件命名 |
 | a11y 分类（interactive / semantic / decorative） | 内部性能优化与重绘策略 |
 
-机器可校验副本：`api/nova-api-1.7.0.json`（schema `nova-api-freeze/1`）。
+机器可校验副本：`api/nova-api-1.8.0.json`（schema `nova-api-freeze/1`）。
 其 `types` 里每个公共成员都是 `名字:类型` / `名字(参数)` 的签名串，任何增删改都会让
 `scripts/check_api_freeze.py` 变红。
 
@@ -60,7 +60,7 @@ console.warn（不污染绑定、不刷屏）。1.0 封版时清单内**无废�
 - [ ] RC2：24 条验收清单（`docs/ECOSYSTEM_PARITY.md` §6）全勾后随 1.0.0 正式生效
 
 **签署结论**：自 2026-11-27 起，上表 147 个类型的公共面视为
-**冻结**；后续任何公共面变化都必须走第 3 节流程并重签本文件（指纹 `157ab2b1d77ea9f9` → 新指纹）。
+**冻结**；后续任何公共面变化都必须走第 3 节流程并重签本文件（指纹 `89d5d3cdd7f94cf0` → 新指纹）。
 
 ## 5. 已知偏差与例外（冻结保留，2.0 再谈）
 
@@ -138,7 +138,7 @@ RC2 仍欠的四项（与 API 面解耦，不阻断冻结）：24h 内存长跑�
 | `NovaChip` | Nova.Controls | 组件 | interactive | 11 | 2 | 0 |
 | `NovaCol` | Nova.Controls | 组件 | decorative | 3 | 0 | 0 |
 | `NovaColorPicker` | Nova.Controls | 组件 | interactive | 15 | 1 | 7 |
-| `NovaDataGrid` | Nova.Controls | 组件 | interactive | 44 | 12 | 15 |
+| `NovaDataGrid` | Nova.Controls | 组件 | interactive | 80 | 17 | 23 |
 | `NovaDate` | Nova.Controls | 组件 | interactive | 33 | 2 | 9 |
 | `NovaDialogShell` | Nova.Controls | 组件 | interactive | 17 | 10 | 9 |
 | `NovaDrawer` | Nova.Controls | 组件 | decorative | 16 | 0 | 0 |

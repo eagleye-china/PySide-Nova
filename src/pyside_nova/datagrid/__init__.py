@@ -34,6 +34,7 @@ from .model import (
 from .proxy import (
     NovaDataGridExpandProxy,
     NovaDataGridFilterProxy,
+    NovaDataGridGroupProxy,
     NovaDataGridPagedProxy,
     NovaDataGridPagination,
 )
@@ -43,6 +44,7 @@ __all__ = [
     "NovaDataGridColumn",
     "NovaDataGridExpandProxy",
     "NovaDataGridFilterProxy",
+    "NovaDataGridGroupProxy",
     "NovaDataGridModel",
     "NovaDataGridPagedProxy",
     "NovaDataGridPagination",

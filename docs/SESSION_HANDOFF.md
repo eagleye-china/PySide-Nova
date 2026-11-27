@@ -2,7 +2,21 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.7.0 · 2026-11-27 22:05 · P0 五项打磨完成 + additive 重签 / 1.6.0 已由 CSA 发布至 PyPI LATEST；下方 21:30 段保留为史料： demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.8.0 · 2026-11-27 22:20 · P1 五项 + P2 六项打磨完成 + additive 重签 / 1.7.0 已由 CSA 发布；下方 1.7.0 / 21:30 段保留为史料： demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+
+## 🆕 1.8.0 现行校准（2026-11-27 22:20 · NovaDataGrid P1 五项 + P2 六项打磨 · 覆盖下方 1.7.0 / 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA「版本已发，P1、P2 不执行了吗？」→ 上一轮授权只到 P0，P1/P2 从未作废；1.7.0 发布后按 **additive minor 1.8.0** 继续落地。发布边界仍归 CSA。
+
+| 项 | 1.8.0 现行事实 |
+|---|---|
+| 冻结面 | **147 类型 / Controls 93 / LayoutShell 21 / a11y 33+29+85 不变 / 指纹 `89d5d3cdd7f94cf0`**（1.7.0 `157ab2b1d77ea9f9` 已发布史料）；`api/nova-api-1.8.0.json` + `api/component-domains-1.8.0.json` + `docs/API_FREEZE.md` 生成器重出，徽标 3 枚 + 站点副本同步。无新增 QML 导出类型。 |
+| P1 五项 | 列宽拖拽 / 持久化 (`resizableColumns`、`columnWidths`、`columnWidthResized`、`resetColumnWidths()`)；sticky 首末列 + footer 合计行；完整 body/body-cell/header/header-cell 插槽；触底 `loadMoreRequested` + 分组虚拟行高度；`pageSizeOptions` 与 `paginationDelegate` 可替换分页条。 |
+| P2 六项 | table/grid/masonry 三态 + `gridDelegate`；`fullScreen` 意图 + `fullScreenToggled`；纯标准库 `exportCsv()` / `exportRequested`；`NovaDataGridGroupProxy` 分组与树；列级 `style/classes/headerStyle/autoWidth`；`responsive` / `gridBreakpoint` / `dense`。 |
+| Python 数据层 | `NovaDataGridColumn` 增 4 字段；`NovaDataGridModel` 增 `exportCsv()` / `exportCsvWithDelimiter()` / `exportColumnsCsv()`；新增 `NovaDataGridGroupProxy`（`setGroupBy` / `toggleGroup` / `setTreeMode` / `setTreeParentKey` / `setTreeExpanded` / `toggleTreeNode`），仍只依赖 PySide6 + 标准库。 |
+| 验收 | 专项 **99 passed**（API / LayoutShell / DataGrid / Markdown / v2compat）；qmllint 0 error，`NovaDataGrid.qml` 单文件 0 warning；静态 3/3 · 天花板 21/21 + 15/15 · mkdocs 与生成器链复验后登记。 |
+| 坑位 | **78**：`Loader.implicitHeight` 只读，TableView delegate 要带高度必须外包 `Item`；**79**：`Binding.headerData` 不能挂到默认 `HorizontalHeaderView`（无此属性），须以 `root.headerDelegate !== null` 为 when 守卫；**80**：分组代理跨代理链取值必须 `mapToSource` 逐级映射到底层 `NovaDataGridModel`，不能把中间代理行号直接喂 `getRow()`。 |
+| 发布边界 | 本助手只做本地实现与验收；commit / push / tag / PyPI / 站点上线全归 CSA。待办池仍 1 项 = T3，下一个 T27（T26 已由本轮 P1/P2 占用）。 |
 
 ## 🆕 1.7.0 现行校准（2026-11-27 22:05 · NovaDataGrid P0 五项打磨 · 覆盖下方 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
 

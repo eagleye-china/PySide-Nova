@@ -2,7 +2,7 @@
  "name": "Nova.Controls.NovaDataGrid",
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaDataGrid.qml",
- "description": "NovaDataGrid 企业级数据网格（1.5.0 additive · 第 146 公共类型） 定位：与已发布的 `NovaTable` 并存，不替换、不改动其冻结签名。 - 渲染层：TableView + HorizontalHeaderView + ItemSelectionModel 真虚拟化；",
+ "description": "NovaDataGrid 企业级数据网格（1.5.0 additive · 第 146 公共类型；1.8.0 P1/P2 打磨） 定位：与已发布的 `NovaTable` 并存，不替换、不改动其冻结签名。 - 渲染层：TableView + HorizontalHeaderView + ItemSelectionModel 真虚拟化；",
  "properties": [
   {
    "name": "a11yLabel",
@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 28
+   "line": 31
   },
   {
    "name": "tableModel",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 36
+   "line": 39
   },
   {
    "name": "filterProxy",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 37
+   "line": 40
   },
   {
    "name": "pagedProxy",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 38
+   "line": 41
   },
   {
    "name": "pagination",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 39
+   "line": 42
   },
   {
    "name": "serverSide",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 40
+   "line": 43
   },
   {
    "name": "reuseItems",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 41
+   "line": 44
   },
   {
    "name": "cellDelegates",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": null,
-   "line": 46
+   "line": 49
   },
   {
    "name": "title",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 49
+   "line": 52
   },
   {
    "name": "showToolbar",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 50
+   "line": 53
   },
   {
    "name": "showFilter",
@@ -90,7 +90,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 51
+   "line": 54
   },
   {
    "name": "showColumnSelector",
@@ -98,7 +98,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 52
+   "line": 55
   },
   {
    "name": "showPagination",
@@ -106,7 +106,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 53
+   "line": 56
   },
   {
    "name": "zebraStripes",
@@ -114,7 +114,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 54
+   "line": 57
   },
   {
    "name": "bordered",
@@ -122,7 +122,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 55
+   "line": 58
   },
   {
    "name": "rowHeight",
@@ -130,7 +130,7 @@
    "readonly": false,
    "default": ": 42",
    "doc": null,
-   "line": 56
+   "line": 59
   },
   {
    "name": "headerHeight",
@@ -138,7 +138,7 @@
    "readonly": false,
    "default": ": 44",
    "doc": null,
-   "line": 57
+   "line": 60
   },
   {
    "name": "searchPlaceholder",
@@ -146,7 +146,7 @@
    "readonly": false,
    "default": ": qsTr(\"搜索任意字段...\")",
    "doc": null,
-   "line": 58
+   "line": 61
   },
   {
    "name": "selectionMode",
@@ -154,7 +154,7 @@
    "readonly": false,
    "default": ": \"single\"",
    "doc": "single / multiple / none",
-   "line": 59
+   "line": 62
   },
   {
    "name": "loading",
@@ -162,7 +162,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 62
+   "line": 65
   },
   {
    "name": "loadingText",
@@ -170,7 +170,7 @@
    "readonly": false,
    "default": ": qsTr(\"加载中...\")",
    "doc": null,
-   "line": 63
+   "line": 66
   },
   {
    "name": "noDataText",
@@ -178,7 +178,7 @@
    "readonly": false,
    "default": ": qsTr(\"暂无数据\")",
    "doc": null,
-   "line": 64
+   "line": 67
   },
   {
    "name": "noResultsText",
@@ -186,7 +186,7 @@
    "readonly": false,
    "default": ": qsTr(\"没有匹配的结果\")",
    "doc": null,
-   "line": 65
+   "line": 68
   },
   {
    "name": "clearFilterText",
@@ -194,7 +194,7 @@
    "readonly": false,
    "default": ": qsTr(\"清除筛选\")",
    "doc": null,
-   "line": 66
+   "line": 69
   },
   {
    "name": "expandProxy",
@@ -202,7 +202,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 70
+   "line": 73
   },
   {
    "name": "expandedRows",
@@ -210,7 +210,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 71
+   "line": 74
   },
   {
    "name": "expansionDelegate",
@@ -218,7 +218,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 72
+   "line": 75
   },
   {
    "name": "expansionHeight",
@@ -226,7 +226,7 @@
    "readonly": false,
    "default": ": 88",
    "doc": null,
-   "line": 73
+   "line": 76
   },
   {
    "name": "selectionDelegate",
@@ -234,7 +234,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 74
+   "line": 77
   },
   {
    "name": "emptyDelegate",
@@ -242,7 +242,223 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 75
+   "line": 78
+  },
+  {
+   "name": "resizableColumns",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 83
+  },
+  {
+   "name": "columnWidths",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 84
+  },
+  {
+   "name": "stickyColumns",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 86
+  },
+  {
+   "name": "footerData",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 87
+  },
+  {
+   "name": "bodyDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 89
+  },
+  {
+   "name": "bodyCellDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 90
+  },
+  {
+   "name": "headerDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 91
+  },
+  {
+   "name": "headerCellDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 92
+  },
+  {
+   "name": "loadMoreEnabled",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 94
+  },
+  {
+   "name": "loadMoreThreshold",
+   "type": "int",
+   "readonly": false,
+   "default": ": 24",
+   "doc": null,
+   "line": 95
+  },
+  {
+   "name": "groupProxy",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 96
+  },
+  {
+   "name": "groupHeaderDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 97
+  },
+  {
+   "name": "pageSizeOptions",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 99
+  },
+  {
+   "name": "paginationDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 100
+  },
+  {
+   "name": "viewMode",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"table\"",
+   "doc": "table / grid / masonry",
+   "line": 103
+  },
+  {
+   "name": "gridDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 104
+  },
+  {
+   "name": "gridCellWidth",
+   "type": "int",
+   "readonly": false,
+   "default": ": 220",
+   "doc": null,
+   "line": 105
+  },
+  {
+   "name": "gridCellHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 120",
+   "doc": null,
+   "line": 106
+  },
+  {
+   "name": "fullScreen",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 107
+  },
+  {
+   "name": "showFullScreenButton",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 108
+  },
+  {
+   "name": "showExportButton",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 109
+  },
+  {
+   "name": "exportDelimiter",
+   "type": "string",
+   "readonly": false,
+   "default": ": \",\"",
+   "doc": null,
+   "line": 110
+  },
+  {
+   "name": "treeMode",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 111
+  },
+  {
+   "name": "treeParentKey",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"parentKey\"",
+   "doc": null,
+   "line": 112
+  },
+  {
+   "name": "dense",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 113
+  },
+  {
+   "name": "responsive",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 114
+  },
+  {
+   "name": "gridBreakpoint",
+   "type": "int",
+   "readonly": false,
+   "default": ": 720",
+   "doc": null,
+   "line": 115
   },
   {
    "name": "columnDefs",
@@ -250,7 +466,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 92
+   "line": 137
   },
   {
    "name": "allColumnDefs",
@@ -258,7 +474,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 94
+   "line": 139
   },
   {
    "name": "selectedRows",
@@ -266,7 +482,7 @@
    "readonly": true,
    "default": ": root._collectSelectedRows()",
    "doc": null,
-   "line": 96
+   "line": 141
   },
   {
    "name": "filterActive",
@@ -274,7 +490,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 97
+   "line": 142
   },
   {
    "name": "_model",
@@ -282,7 +498,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 104
+   "line": 149
   },
   {
    "name": "_editingRow",
@@ -290,7 +506,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": null,
-   "line": 108
+   "line": 154
   },
   {
    "name": "_editingColumn",
@@ -298,7 +514,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": null,
-   "line": 109
+   "line": 155
   },
   {
    "name": "_visibleColumnKeys",
@@ -306,7 +522,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "空 = 全部可见",
-   "line": 110
+   "line": 156
   },
   {
    "name": "_sortKey",
@@ -314,7 +530,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 111
+   "line": 157
   },
   {
    "name": "_sortAsc",
@@ -322,7 +538,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 112
+   "line": 158
   },
   {
    "name": "_selRev",
@@ -330,7 +546,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 113
+   "line": 159
   },
   {
    "name": "_anchorRow",
@@ -338,7 +554,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": null,
-   "line": 114
+   "line": 160
   },
   {
    "name": "_emptyRev",
@@ -346,7 +562,7 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 115
+   "line": 161
   },
   {
    "name": "_a11yRow",
@@ -354,7 +570,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": null,
-   "line": 116
+   "line": 162
   },
   {
    "name": "_columnMenuOpen",
@@ -362,7 +578,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 117
+   "line": 163
   },
   {
    "name": "_editError",
@@ -370,7 +586,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 118
+   "line": 164
   },
   {
    "name": "_columnOptions",
@@ -378,15 +594,79 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 119
+   "line": 165
+  },
+  {
+   "name": "_defaultPageSizeOptions",
+   "type": "var",
+   "readonly": true,
+   "default": ": [",
+   "doc": null,
+   "line": 172
   },
   {
    "name": "_pageSizeOptions",
    "type": "var",
    "readonly": true,
-   "default": ": [",
+   "default": ": root._resolvedPageSizeOptions()",
    "doc": null,
-   "line": 126
+   "line": 178
+  },
+  {
+   "name": "_widthOverrides",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 179
+  },
+  {
+   "name": "_colRev",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 180
+  },
+  {
+   "name": "_effectiveViewMode",
+   "type": "string",
+   "readonly": false,
+   "default": ": root.viewMode",
+   "doc": null,
+   "line": 181
+  },
+  {
+   "name": "_loadMoreArmed",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 182
+  },
+  {
+   "name": "_lastFooterKeys",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 183
+  },
+  {
+   "name": "columnIndex",
+   "type": "int",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 822
+  },
+  {
+   "name": "columnIndex",
+   "type": "int",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 861
   },
   {
    "name": "hColDef",
@@ -394,15 +674,23 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 520
+   "line": 907
   },
   {
-   "name": "colKey",
-   "type": "string",
+   "name": "slotData",
+   "type": "var",
    "readonly": true,
-   "default": ":",
+   "default": ": ({",
    "doc": null,
-   "line": 522
+   "line": 909
+  },
+  {
+   "name": "slotData",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 937
   },
   {
    "name": "sortable",
@@ -410,15 +698,15 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 524
+   "line": 938
   },
   {
    "name": "sorted",
    "type": "bool",
    "readonly": true,
-   "default": ":",
+   "default": ": slotData.sorted === true",
    "doc": null,
-   "line": 526
+   "line": 940
   },
   {
    "name": "colDef",
@@ -426,7 +714,31 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 657
+   "line": 941
+  },
+  {
+   "name": "_startX",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 1012
+  },
+  {
+   "name": "_startWidth",
+   "type": "real",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 1013
+  },
+  {
+   "name": "colDef",
+   "type": "var",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 1126
   },
   {
    "name": "selected",
@@ -434,7 +746,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 659
+   "line": 1128
   },
   {
    "name": "editing",
@@ -442,7 +754,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 666
+   "line": 1135
   },
   {
    "name": "a11yFocused",
@@ -450,7 +762,55 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 668
+   "line": 1137
+  },
+  {
+   "name": "_hasColumnDelegate",
+   "type": "bool",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 1337
+  },
+  {
+   "name": "columnIndex",
+   "type": "int",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 1456
+  },
+  {
+   "name": "colDef",
+   "type": "var",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 1488
+  },
+  {
+   "name": "columnIndex",
+   "type": "int",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 1517
+  },
+  {
+   "name": "colDef",
+   "type": "var",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 1549
+  },
+  {
+   "name": "slotData",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": null,
+   "line": 1615
   },
   {
    "name": "filtered",
@@ -458,7 +818,7 @@
    "readonly": true,
    "default": ": root.filterActive",
    "doc": null,
-   "line": 893
+   "line": 1697
   },
   {
    "name": "message",
@@ -466,7 +826,7 @@
    "readonly": true,
    "default": ": filtered ? root.noResultsText : root.noDataText",
    "doc": null,
-   "line": 894
+   "line": 1698
   },
   {
    "name": "_ready",
@@ -474,7 +834,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 1112
+   "line": 1944
   }
  ],
  "signals": [
@@ -525,6 +885,26 @@
   {
    "name": "clearFilterRequested",
    "params": ""
+  },
+  {
+   "name": "columnWidthResized",
+   "params": "var widths"
+  },
+  {
+   "name": "loadMoreRequested",
+   "params": "int lastRow"
+  },
+  {
+   "name": "groupToggled",
+   "params": "var groupKey, bool collapsed"
+  },
+  {
+   "name": "fullScreenToggled",
+   "params": "bool active"
+  },
+  {
+   "name": "exportRequested",
+   "params": "var csvText"
   }
  ],
  "methods": [
@@ -554,6 +934,90 @@
   },
   {
    "name": "onFilterActiveChanged",
+   "params": ""
+  },
+  {
+   "name": "onGroupToggled",
+   "params": "key, collapsed"
+  },
+  {
+   "name": "_resolvedPageSizeOptions",
+   "params": ""
+  },
+  {
+   "name": "_applyResponsive",
+   "params": ""
+  },
+  {
+   "name": "_widthForColumn",
+   "params": "column"
+  },
+  {
+   "name": "_autoWidthFor",
+   "params": "def"
+  },
+  {
+   "name": "_measure",
+   "params": "text"
+  },
+  {
+   "name": "_persistColumnWidth",
+   "params": "column, width"
+  },
+  {
+   "name": "resetColumnWidths",
+   "params": ""
+  },
+  {
+   "name": "_styleColor",
+   "params": "def"
+  },
+  {
+   "name": "_headerColor",
+   "params": "def"
+  },
+  {
+   "name": "_toggleGroupRow",
+   "params": "row"
+  },
+  {
+   "name": "toggleGroup",
+   "params": "groupKey"
+  },
+  {
+   "name": "toggleTreeNode",
+   "params": "row"
+  },
+  {
+   "name": "setViewMode",
+   "params": "mode"
+  },
+  {
+   "name": "setPageSize",
+   "params": "size"
+  },
+  {
+   "name": "toggleFullScreen",
+   "params": ""
+  },
+  {
+   "name": "exportCsv",
+   "params": "delimiter"
+  },
+  {
+   "name": "_stickyKeys",
+   "params": ""
+  },
+  {
+   "name": "_sumWidthsBefore",
+   "params": "column"
+  },
+  {
+   "name": "_columnIndexForKey",
+   "params": "key"
+  },
+  {
+   "name": "_onContentYChanged",
    "params": ""
   },
   {
