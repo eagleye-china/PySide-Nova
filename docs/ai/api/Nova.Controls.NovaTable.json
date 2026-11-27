@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 23
+   "line": 28
   },
   {
    "name": "_a11yRow",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": "键盘游标（-1 = 未定位）",
-   "line": 24
+   "line": 29
   },
   {
    "name": "columns",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "[{name,label,field,align,sortable,...}] 或字符串",
-   "line": 65
+   "line": 70
   },
   {
    "name": "rows",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 66
+   "line": 71
   },
   {
    "name": "rowKey",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "行键字段名；空则用原始行序号",
-   "line": 67
+   "line": 72
   },
   {
    "name": "filter",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "客户端过滤（全字段包含匹配）",
-   "line": 68
+   "line": 73
   },
   {
    "name": "filterMethod",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "自定义过滤 function(row, filter) -> bool",
-   "line": 69
+   "line": 74
   },
   {
    "name": "serverSide",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=过滤/排序/分页均由宿主执行，rows 即当前页数据",
-   "line": 72
+   "line": 77
   },
   {
    "name": "rowsNumber",
@@ -74,7 +74,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": "服务端总行数（pageCount 依据；-1 回落 rows.length）",
-   "line": 73
+   "line": 78
   },
   {
    "name": "virtualScroll",
@@ -82,7 +82,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "表体走 ListView 真虚拟化（建议 rowsPerPage: 0）",
-   "line": 76
+   "line": 81
   },
   {
    "name": "virtualScrollItemSize",
@@ -90,7 +90,7 @@
    "readonly": false,
    "default": ": 48",
    "doc": "行高（虚拟化估高）",
-   "line": 77
+   "line": 82
   },
   {
    "name": "loading",
@@ -98,7 +98,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "loading 覆盖层（对标 loading）",
-   "line": 80
+   "line": 85
   },
   {
    "name": "loadingLabel",
@@ -106,7 +106,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "loading 文案（对标 loading-label）",
-   "line": 81
+   "line": 86
   },
   {
    "name": "noDataLabel",
@@ -114,7 +114,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "空态文案（对标 no-data-label；空用内置文案）",
-   "line": 82
+   "line": 87
   },
   {
    "name": "noResultsLabel",
@@ -122,7 +122,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "1.9.0：筛选无结果文案（对标 no-results-label）",
-   "line": 83
+   "line": 88
   },
   {
    "name": "sortBy",
@@ -130,7 +130,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 86
+   "line": 91
   },
   {
    "name": "descending",
@@ -138,7 +138,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 87
+   "line": 92
   },
   {
    "name": "binaryStateSort",
@@ -146,7 +146,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=升↔降两态；false=三态（无序→升→降→无序）",
-   "line": 88
+   "line": 93
   },
   {
    "name": "columnSortOrder",
@@ -154,7 +154,7 @@
    "readonly": false,
    "default": ": \"ad\"",
    "doc": "1.9.0：'ad' 升序优先 / 'da' 降序优先（对标 column-sort-order）",
-   "line": 89
+   "line": 94
   },
   {
    "name": "selected",
@@ -162,7 +162,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "选中行对象数组（single 时长度 0/1）",
-   "line": 92
+   "line": 97
   },
   {
    "name": "singleSelection",
@@ -170,7 +170,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "true=单选（点新行替换）",
-   "line": 93
+   "line": 98
   },
   {
    "name": "rowsPerPage",
@@ -178,7 +178,7 @@
    "readonly": false,
    "default": ": 10",
    "doc": null,
-   "line": 96
+   "line": 101
   },
   {
    "name": "page",
@@ -186,7 +186,7 @@
    "readonly": false,
    "default": ": 1",
    "doc": null,
-   "line": 97
+   "line": 102
   },
   {
    "name": "rowsPerPageOptions",
@@ -194,7 +194,7 @@
    "readonly": false,
    "default": ": [5, 10, 20, 50]",
    "doc": null,
-   "line": 98
+   "line": 103
   },
   {
    "name": "hideBottom",
@@ -202,7 +202,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 99
+   "line": 104
   },
   {
    "name": "expanded",
@@ -210,7 +210,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "展开行 key 数组",
-   "line": 102
+   "line": 107
   },
   {
    "name": "expandSlot",
@@ -218,7 +218,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "展开区渲染组件（上下文 row/index/expand）",
-   "line": 103
+   "line": 108
   },
   {
    "name": "title",
@@ -226,7 +226,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 106
+   "line": 111
   },
   {
    "name": "hideHeader",
@@ -234,7 +234,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 107
+   "line": 112
   },
   {
    "name": "grid",
@@ -242,7 +242,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "网格模式（单元格描边；1.9.0 保留原语义，非卡片视图）",
-   "line": 108
+   "line": 113
   },
   {
    "name": "flat",
@@ -250,7 +250,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 109
+   "line": 114
   },
   {
    "name": "bordered",
@@ -258,7 +258,7 @@
    "readonly": false,
    "default": ": !flat",
    "doc": null,
-   "line": 110
+   "line": 115
   },
   {
    "name": "viewMode",
@@ -266,7 +266,7 @@
    "readonly": false,
    "default": ": \"table\"",
    "doc": "table | grid（grid = 卡片视图，与描边开关 `grid` 解耦）",
-   "line": 117
+   "line": 122
   },
   {
    "name": "gridHeader",
@@ -274,7 +274,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "grid 视图下保留表头",
-   "line": 118
+   "line": 123
   },
   {
    "name": "gridDelegate",
@@ -282,7 +282,7 @@
    "readonly": false,
    "default": ": null",
    "doc": "卡片委托，收 slotData",
-   "line": 119
+   "line": 124
   },
   {
    "name": "gridCellWidth",
@@ -290,7 +290,7 @@
    "readonly": false,
    "default": ": 220",
    "doc": null,
-   "line": 120
+   "line": 125
   },
   {
    "name": "gridCellHeight",
@@ -298,7 +298,7 @@
    "readonly": false,
    "default": ": 128",
    "doc": null,
-   "line": 121
+   "line": 126
   },
   {
    "name": "dense",
@@ -306,7 +306,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 124
+   "line": 129
   },
   {
    "name": "responsive",
@@ -314,7 +314,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 125
+   "line": 130
   },
   {
    "name": "gridBreakpoint",
@@ -322,7 +322,7 @@
    "readonly": false,
    "default": ": 640",
    "doc": null,
-   "line": 126
+   "line": 131
   },
   {
    "name": "separator",
@@ -330,7 +330,7 @@
    "readonly": false,
    "default": ": \"horizontal\"",
    "doc": "horizontal | vertical | cell | none",
-   "line": 127
+   "line": 132
   },
   {
    "name": "visibleColumns",
@@ -338,7 +338,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "空 = 全部可见；required 列恒可见",
-   "line": 130
+   "line": 135
   },
   {
    "name": "showColumnSelector",
@@ -346,7 +346,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 131
+   "line": 136
   },
   {
    "name": "fullScreen",
@@ -354,7 +354,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 134
+   "line": 139
   },
   {
    "name": "showFullScreenButton",
@@ -362,7 +362,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 135
+   "line": 140
   },
   {
    "name": "showExportButton",
@@ -370,7 +370,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 136
+   "line": 141
   },
   {
    "name": "exportDelimiter",
@@ -378,7 +378,7 @@
    "readonly": false,
    "default": ": \",\"",
    "doc": null,
-   "line": 137
+   "line": 142
   },
   {
    "name": "loadMoreEnabled",
@@ -386,7 +386,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 138
+   "line": 143
   },
   {
    "name": "loadMoreThreshold",
@@ -394,7 +394,7 @@
    "readonly": false,
    "default": ": 80",
    "doc": null,
-   "line": 139
+   "line": 144
   },
   {
    "name": "clearFilterText",
@@ -402,7 +402,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "空 = 内置「清除筛选」",
-   "line": 140
+   "line": 145
   },
   {
    "name": "bodyDelegate",
@@ -410,7 +410,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 145
+   "line": 150
   },
   {
    "name": "headerDelegate",
@@ -418,7 +418,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 146
+   "line": 151
   },
   {
    "name": "cellDelegates",
@@ -426,7 +426,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": "{ \"<colName>\": Component }，等价 body-cell-[name]",
-   "line": 147
+   "line": 152
   },
   {
    "name": "headerCellDelegates",
@@ -434,7 +434,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": "{ \"<colName>\": Component }，等价 header-cell-[name]",
-   "line": 148
+   "line": 153
   },
   {
    "name": "topDelegate",
@@ -442,7 +442,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 149
+   "line": 154
   },
   {
    "name": "bottomDelegate",
@@ -450,7 +450,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 150
+   "line": 155
   },
   {
    "name": "topRowDelegate",
@@ -458,7 +458,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 151
+   "line": 156
   },
   {
    "name": "bottomRowDelegate",
@@ -466,7 +466,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 152
+   "line": 157
   },
   {
    "name": "footerDelegate",
@@ -474,7 +474,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 153
+   "line": 158
   },
   {
    "name": "noDataDelegate",
@@ -482,7 +482,7 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 154
+   "line": 159
   },
   {
    "name": "loadingDelegate",
@@ -490,7 +490,255 @@
    "readonly": false,
    "default": ": null",
    "doc": null,
-   "line": 155
+   "line": 160
+  },
+  {
+   "name": "rowKeyFn",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "function(row) -> key（对标 row-key: Function，优先于 rowKey）",
+   "line": 170
+  },
+  {
+   "name": "selectionMode",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "\"\" | \"none\" | \"single\" | \"multiple\"；空=沿用 singleSelection",
+   "line": 171
+  },
+  {
+   "name": "sortMethod",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "function(rows, sortBy, descending) -> Array（官方 sort-method 整体排序）",
+   "line": 172
+  },
+  {
+   "name": "filterRowsMethod",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "function(rows, terms, cols, getCellValue) -> Array（官方 filter-method 等价）",
+   "line": 173
+  },
+  {
+   "name": "square",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 176
+  },
+  {
+   "name": "wrapCells",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 177
+  },
+  {
+   "name": "colorToken",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "语义色令牌（对标 color，只映射 NovaTheme）",
+   "line": 178
+  },
+  {
+   "name": "titleClass",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "标题语义样式名",
+   "line": 179
+  },
+  {
+   "name": "hideSelectedBanner",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 180
+  },
+  {
+   "name": "hideNoData",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 181
+  },
+  {
+   "name": "hidePagination",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 182
+  },
+  {
+   "name": "selectedRowsLabel",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "string | function(n) -> string",
+   "line": 185
+  },
+  {
+   "name": "rowsPerPageLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 186
+  },
+  {
+   "name": "paginationLabel",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "string | function(start,end,total) -> string",
+   "line": 187
+  },
+  {
+   "name": "tableStyleToken",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 190
+  },
+  {
+   "name": "tableHeaderStyleToken",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 191
+  },
+  {
+   "name": "rowStyleFn",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "function(row, index) -> 语义色令牌名",
+   "line": 192
+  },
+  {
+   "name": "cardContainerStyleToken",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 193
+  },
+  {
+   "name": "cardStyleToken",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 194
+  },
+  {
+   "name": "cardStyleFn",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": "function(row, index) -> 语义色令牌名",
+   "line": 195
+  },
+  {
+   "name": "virtualScrollSliceSize",
+   "type": "int",
+   "readonly": false,
+   "default": ": 10",
+   "doc": null,
+   "line": 198
+  },
+  {
+   "name": "virtualScrollStickySizeStart",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 199
+  },
+  {
+   "name": "virtualScrollStickySizeEnd",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 200
+  },
+  {
+   "name": "bodyCellDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "body-cell（全局）",
+   "line": 203
+  },
+  {
+   "name": "headerCellDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "header-cell（全局）",
+   "line": 204
+  },
+  {
+   "name": "bodySelectionDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "body-selection",
+   "line": 205
+  },
+  {
+   "name": "headerSelectionDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "header-selection",
+   "line": 206
+  },
+  {
+   "name": "paginationDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "pagination",
+   "line": 207
+  },
+  {
+   "name": "topLeftDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "top-left",
+   "line": 208
+  },
+  {
+   "name": "topRightDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "top-right",
+   "line": 209
+  },
+  {
+   "name": "topSelectionDelegate",
+   "type": "Component",
+   "readonly": false,
+   "default": ": null",
+   "doc": "top-selection",
+   "line": 210
   },
   {
    "name": "filteredRows",
@@ -498,7 +746,7 @@
    "readonly": true,
    "default": ": serverSide ? rows : _filterRows()",
    "doc": null,
-   "line": 167
+   "line": 228
   },
   {
    "name": "sortedRows",
@@ -506,7 +754,7 @@
    "readonly": true,
    "default": ": serverSide ? rows : _sortRows(filteredRows)",
    "doc": null,
-   "line": 168
+   "line": 229
   },
   {
    "name": "rowCount",
@@ -514,7 +762,7 @@
    "readonly": true,
    "default": ": serverSide && rowsNumber >= 0 ? rowsNumber : sortedRows.length",
    "doc": null,
-   "line": 169
+   "line": 230
   },
   {
    "name": "pageCount",
@@ -522,7 +770,7 @@
    "readonly": true,
    "default": ": rowsPerPage > 0 ? Math.max(1, Math.ceil(rowCount / rowsPerPage)) : 1",
    "doc": null,
-   "line": 170
+   "line": 231
   },
   {
    "name": "visibleRows",
@@ -530,7 +778,7 @@
    "readonly": true,
    "default": ": serverSide ? rows",
    "doc": null,
-   "line": 172
+   "line": 233
   },
   {
    "name": "allVisibleSelected",
@@ -538,7 +786,7 @@
    "readonly": true,
    "default": ": visibleRows.length > 0 && _allSelected()",
    "doc": null,
-   "line": 175
+   "line": 236
   },
   {
    "name": "someSelected",
@@ -546,7 +794,7 @@
    "readonly": true,
    "default": ": selected.length > 0 && !allVisibleSelected",
    "doc": null,
-   "line": 176
+   "line": 237
   },
   {
    "name": "normColumns",
@@ -554,7 +802,7 @@
    "readonly": true,
    "default": ": _buildNormColumns()",
    "doc": null,
-   "line": 179
+   "line": 240
   },
   {
    "name": "_visibleNormColumns",
@@ -562,7 +810,7 @@
    "readonly": true,
    "default": ": _filterVisibleColumns()",
    "doc": null,
-   "line": 180
+   "line": 241
   },
   {
    "name": "_rowHeight",
@@ -570,7 +818,7 @@
    "readonly": true,
    "default": ": root.dense ? 32 : 44",
    "doc": null,
-   "line": 181
+   "line": 242
   },
   {
    "name": "_headerHeight",
@@ -578,7 +826,7 @@
    "readonly": true,
    "default": ": root.dense ? 32 : 44",
    "doc": null,
-   "line": 182
+   "line": 243
   },
   {
    "name": "_horizontalSeparator",
@@ -586,7 +834,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 183
+   "line": 244
   },
   {
    "name": "_verticalSeparator",
@@ -594,7 +842,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 185
+   "line": 246
   },
   {
    "name": "_filtered",
@@ -602,7 +850,7 @@
    "readonly": true,
    "default": ": String(root.filter).length > 0",
    "doc": null,
-   "line": 187
+   "line": 248
   },
   {
    "name": "_emptyText",
@@ -610,7 +858,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 188
+   "line": 249
   },
   {
    "name": "_columnOptions",
@@ -618,7 +866,7 @@
    "readonly": true,
    "default": ": _buildColumnOptions()",
    "doc": null,
-   "line": 193
+   "line": 254
   },
   {
    "name": "_pageSizeOptions",
@@ -626,7 +874,23 @@
    "readonly": true,
    "default": ": _buildPageSizeOptions()",
    "doc": null,
-   "line": 194
+   "line": 255
+  },
+  {
+   "name": "paginationState",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 258
+  },
+  {
+   "name": "selectionInfo",
+   "type": "var",
+   "readonly": true,
+   "default": ": ({",
+   "doc": null,
+   "line": 263
   },
   {
    "name": "_effectiveViewMode",
@@ -634,7 +898,7 @@
    "readonly": false,
    "default": ": root.viewMode",
    "doc": null,
-   "line": 196
+   "line": 267
   },
   {
    "name": "_columnMenuOpen",
@@ -642,7 +906,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 197
+   "line": 268
   },
   {
    "name": "_loadMoreArmed",
@@ -650,7 +914,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 198
+   "line": 269
   },
   {
    "name": "_bodyViewport",
@@ -658,7 +922,7 @@
    "readonly": true,
    "default": ": Math.max(root._rowHeight,",
    "doc": null,
-   "line": 219
+   "line": 291
   },
   {
    "name": "virtualRowCount",
@@ -666,7 +930,7 @@
    "readonly": true,
    "default": ": virtualBody.count",
    "doc": null,
-   "line": 241
+   "line": 314
   },
   {
    "name": "virtualContentY",
@@ -674,7 +938,7 @@
    "readonly": true,
    "default": ": virtualBody.contentY",
    "doc": null,
-   "line": 242
+   "line": 315
   },
   {
    "name": "virtualContentHeight",
@@ -682,7 +946,7 @@
    "readonly": true,
    "default": ": virtualBody.contentHeight",
    "doc": null,
-   "line": 243
+   "line": 316
   },
   {
    "name": "_selectedKeys",
@@ -690,7 +954,15 @@
    "readonly": true,
    "default": ": selected.map(function (r) { return _keyVal(r) })",
    "doc": null,
-   "line": 442
+   "line": 537
+  },
+  {
+   "name": "_prevSelectedKeys",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 818
   },
   {
    "name": "rowData",
@@ -698,7 +970,7 @@
    "readonly": false,
    "default": ": modelData",
    "doc": null,
-   "line": 680
+   "line": 876
   },
   {
    "name": "rowIdx",
@@ -706,7 +978,7 @@
    "readonly": false,
    "default": ": index",
    "doc": null,
-   "line": 681
+   "line": 877
   },
   {
    "name": "rowK",
@@ -714,7 +986,7 @@
    "readonly": false,
    "default": ": root._keyOf(modelData, index)",
    "doc": null,
-   "line": 682
+   "line": 878
   },
   {
    "name": "rowExpanded",
@@ -722,7 +994,7 @@
    "readonly": false,
    "default": ": root.expanded.indexOf(rowK) !== -1",
    "doc": null,
-   "line": 683
+   "line": 879
   },
   {
    "name": "rowSelected",
@@ -730,7 +1002,15 @@
    "readonly": false,
    "default": ": root.isRowSelected(modelData)",
    "doc": null,
-   "line": 684
+   "line": 880
+  },
+  {
+   "name": "_none",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.selectionMode === \"none\"",
+   "doc": null,
+   "line": 924
   },
   {
    "name": "_custom",
@@ -738,7 +1018,15 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 749
+   "line": 977
+  },
+  {
+   "name": "_none",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.selectionMode === \"none\"",
+   "doc": null,
+   "line": 1234
   },
   {
    "name": "_hCustom",
@@ -746,7 +1034,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 983
+   "line": 1291
   },
   {
    "name": "slotData",
@@ -754,7 +1042,7 @@
    "readonly": false,
    "default": ": ({})",
    "doc": null,
-   "line": 1157
+   "line": 1478
   }
  ],
  "signals": [
@@ -785,6 +1073,22 @@
   {
    "name": "virtualScrollReset",
    "params": ""
+  },
+  {
+   "name": "rowContextMenu",
+   "params": "var row, int index"
+  },
+  {
+   "name": "selectionChanged",
+   "params": "var info"
+  },
+  {
+   "name": "paginationChanged",
+   "params": "var pagination"
+  },
+  {
+   "name": "virtualScrollInfo",
+   "params": "var info"
   },
   {
    "name": "rowClicked",
@@ -874,7 +1178,7 @@
   },
   {
    "name": "_styleColor",
-   "params": "def"
+   "params": "def, row"
   },
   {
    "name": "_headerColor",
@@ -1003,6 +1307,62 @@
   {
    "name": "exportCsv",
    "params": "delimiter"
+  },
+  {
+   "name": "_tokenColor",
+   "params": "token"
+  },
+  {
+   "name": "_cardToken",
+   "params": "row, index"
+  },
+  {
+   "name": "_cardColor",
+   "params": "row, index"
+  },
+  {
+   "name": "_cardBorderColor",
+   "params": "row, index"
+  },
+  {
+   "name": "_rowsLabel",
+   "params": ""
+  },
+  {
+   "name": "_paginationLabelText",
+   "params": ""
+  },
+  {
+   "name": "_rowsPerPageLabelText",
+   "params": ""
+  },
+  {
+   "name": "_emitPaginationChanged",
+   "params": ""
+  },
+  {
+   "name": "_emitVirtualScrollInfo",
+   "params": ""
+  },
+  {
+   "name": "lastPage",
+   "params": ""
+  },
+  {
+   "name": "clearSelection",
+   "params": ""
+  },
+  {
+   "name": "setExpanded",
+   "params": "keys"
+  },
+  {
+   "name": "sort",
+   "params": "name"
+  },
+  {
+   "name": "getCellValue",
+   "params": "col, row"
   }
  ]
 }

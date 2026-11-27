@@ -4,6 +4,11 @@
 // 1.9.0：对标 Quasar QTable 收口 PARITY 留痕五项（column-sort-order / sort-method /
 // visible-columns / fullscreen / grid 定制）+ 补齐招牌插槽体系、列定义元字段、
 // 列选择器、附加行、响应式、dense/separator、空态区分、页大小 UI、CSV/触底意图。
+// 1.10.0：以 Quasar QTable 官方 QTable.json 全表（63 props / 21 slots / 9 events /
+// 15 methods / 15 列元字段）为口径做「完全对标」收口：补齐 8 个插槽、5 个方法、
+// 4 个事件、行为开关/文案/虚拟滚动细项/样式语义令牌，并把 row-key / field /
+// style|classes / sort-method 升为可调用。CSS / DOM 专属项按「框架边界」以语义令牌
+// 等价承接，绝不伪造 CSS 解析。旧 77 props / 14 signals / 21 methods 逐字不变。
 // 全部新增公共面 additive，旧 45 props / 7 signals / 13 methods 逐字不变；
 // `grid` 保留「单元格描边」原语义，真卡片视图另立 `viewMode`。
 // 受控模式（坑位 22）：selected/expanded/sortBy/descending/page/rowsPerPage 均不自写，
@@ -154,6 +159,56 @@ Rectangle {
     property Component noDataDelegate: null
     property Component loadingDelegate: null
 
+    // ══════════════════════════════════════════════════════════
+    // 1.10.0 additive · 完全对标 Quasar QTable
+    // 口径 = Quasar 官方 ui/src/components/table/QTable.json 全表
+    //        （63 props / 21 slots / 9 events / 15 methods / 15 列元字段）
+    // CSS / DOM 专属项一律以 NovaTheme 语义令牌等价承接，不伪造 CSS 解析。
+    // ══════════════════════════════════════════════════════════
+
+    // ── row-key / selection / sort-method ─────────────────────
+    property var rowKeyFn: null            // function(row) -> key（对标 row-key: Function，优先于 rowKey）
+    property string selectionMode: ""      // "" | "none" | "single" | "multiple"；空=沿用 singleSelection
+    property var sortMethod: null          // function(rows, sortBy, descending) -> Array（官方 sort-method 整体排序）
+    property var filterRowsMethod: null    // function(rows, terms, cols, getCellValue) -> Array（官方 filter-method 等价）
+
+    // ── 行为开关（对标 square / wrap-cells / hide-* / color）──
+    property bool square: false
+    property bool wrapCells: false
+    property string colorToken: ""         // 语义色令牌（对标 color，只映射 NovaTheme）
+    property string titleClass: ""         // 标题语义样式名
+    property bool hideSelectedBanner: false
+    property bool hideNoData: false
+    property bool hidePagination: false
+
+    // ── 文案（对标 *-label props；string 或 function）─────────
+    property var selectedRowsLabel: null   // string | function(n) -> string
+    property string rowsPerPageLabel: ""
+    property var paginationLabel: null     // string | function(start,end,total) -> string
+
+    // ── 样式语义令牌（对标 table-*-style/class、card-*、*-fn）──
+    property string tableStyleToken: ""
+    property string tableHeaderStyleToken: ""
+    property var rowStyleFn: null          // function(row, index) -> 语义色令牌名
+    property string cardContainerStyleToken: ""
+    property string cardStyleToken: ""
+    property var cardStyleFn: null         // function(row, index) -> 语义色令牌名
+
+    // ── 虚拟滚动细项（对标 virtual-scroll-slice-size / sticky-size-*）──
+    property int virtualScrollSliceSize: 10
+    property int virtualScrollStickySizeStart: 0
+    property int virtualScrollStickySizeEnd: 0
+
+    // ── 补齐 1.9.0 未覆盖的 8 个插槽（QTable 21 slots 全覆盖）──
+    property Component bodyCellDelegate: null        // body-cell（全局）
+    property Component headerCellDelegate: null      // header-cell（全局）
+    property Component bodySelectionDelegate: null   // body-selection
+    property Component headerSelectionDelegate: null // header-selection
+    property Component paginationDelegate: null     // pagination
+    property Component topLeftDelegate: null        // top-left
+    property Component topRightDelegate: null       // top-right
+    property Component topSelectionDelegate: null   // top-selection
+
     // ── 新增输出信号（1.9.0）─────────────────────────────────
     signal fullScreenToggled(bool active)
     signal exportRequested(var csvText)
@@ -162,6 +217,12 @@ Rectangle {
     signal rowsPerPageRequested(int size)
     signal columnVisibilityChanged(var keys)
     signal virtualScrollReset()
+
+    // ── 新增输出信号（1.10.0，对标 QTable events）────────────
+    signal rowContextMenu(var row, int index)   // @row-contextmenu
+    signal selectionChanged(var info)           // @selection：{rows,keys,added,removed}
+    signal paginationChanged(var pagination)    // @update:pagination
+    signal virtualScrollInfo(var info)          // @virtual-scroll
 
     // ── 派生数据（管道：服务端模式下全部直通，客户端：过滤 → 排序 → 分页） ──
     readonly property var filteredRows: serverSide ? rows : _filterRows()
@@ -193,6 +254,16 @@ Rectangle {
     readonly property var _columnOptions: _buildColumnOptions()
     readonly property var _pageSizeOptions: _buildPageSizeOptions()
 
+    // 1.10.0 只读聚合（对标 pagination 对象 / selection 事件载荷）
+    readonly property var paginationState: ({
+        sortBy: root.sortBy, descending: root.descending, page: root.page,
+        rowsPerPage: root.rowsPerPage,
+        rowsNumber: root.rowsNumber >= 0 ? root.rowsNumber : root.rowCount
+    })
+    readonly property var selectionInfo: ({
+        rows: root.selected, keys: root._selectedKeys
+    })
+
     property string _effectiveViewMode: root.viewMode
     property bool _columnMenuOpen: false
     property bool _loadMoreArmed: true
@@ -205,8 +276,9 @@ Rectangle {
     signal pageRequested(int page)
     signal request(var params)   // 服务端模式：{ pagination: {sortBy,descending,page,rowsPerPage,rowsNumber}, filter }
 
-    radius: NovaTheme.radiusL
-    color: NovaTheme.surface
+    radius: root.square ? 0 : NovaTheme.radiusL
+    color: root._tokenColor(root.tableStyleToken) !== null
+           ? root._tokenColor(root.tableStyleToken) : NovaTheme.surface
     border.width: bordered ? 1 : 0
     border.color: NovaTheme.outline
     implicitWidth: 640
@@ -219,7 +291,8 @@ Rectangle {
     readonly property real _bodyViewport: Math.max(root._rowHeight,
         ((height > 0 ? height : 320) - topArea.height - titleArea.height - headerRow.height
          - topRowArea.height - bottomRowArea.height - footerArea.height
-         - (hideBottom ? 0 : bottomBar.height) - bottomArea.height - 2))
+         - (hideBottom ? 0 : bottomBar.height) - bottomArea.height - 2
+         - root.virtualScrollStickySizeStart - root.virtualScrollStickySizeEnd))
 
     function scrollTo(i) {
         // 虚拟滚动模式跳转到指定行（对标 scrollTo()）
@@ -326,7 +399,7 @@ Rectangle {
         var c = cols[index]
         if (c.width > 0) return c.width
         if (c.autoWidth) return root._autoWidthFor(c)
-        var sel = root.singleSelection ? 0 : 44
+        var sel = root.singleSelection || root.selectionMode === "none" ? 0 : 44
         return Math.max(80, (root.width - sel) / cols.length)
     }
 
@@ -348,14 +421,20 @@ Rectangle {
     }
 
     // 列级语义样式：只映射既有 NovaTheme 令牌，不接受任意 CSS（对标 style/classes）
-    function _styleColor(def) {
-        var s = String(def && def.style ? def.style : "")
-        var all = String(def && def.classes ? def.classes : "")
+    function _styleColor(def, row) {
+        var s = def && def.style ? def.style : ""
+        var all = def && def.classes ? def.classes : ""
+        // 1.10.0：对标 columns[].style / classes: Function(row)
+        if (typeof s === "function") s = s(row)
+        if (typeof all === "function") all = all(row)
+        s = String(s === undefined || s === null ? "" : s)
+        all = String(all === undefined || all === null ? "" : all)
         if (s === "negative" || all.indexOf("negative") >= 0) return NovaTheme.negative
         if (s === "warning" || all.indexOf("warning") >= 0) return NovaTheme.warning
         if (s === "positive" || all.indexOf("positive") >= 0) return NovaTheme.primary
         if (s === "muted" || all.indexOf("muted") >= 0) return NovaTheme.textMuted
-        return NovaTheme.textColor
+        var tok = root.colorToken !== "" ? root._tokenColor(root.colorToken) : null
+        return tok !== null ? tok : NovaTheme.textColor
     }
 
     function _headerColor(def) {
@@ -369,13 +448,18 @@ Rectangle {
     }
 
     function _keyOf(row, i) {
+        // 1.10.0：对标 row-key: Function（嵌套 / 派生键）
+        if (root.rowKeyFn !== null && typeof root.rowKeyFn === "function")
+            return String(root.rowKeyFn(row))
         return rowKey && row[rowKey] !== undefined ? String(row[rowKey]) : String(i)
     }
 
     function _cellText(row, col) {
         if (row === undefined || row === null || col === undefined || col === null)
             return ""
-        var v = row[col.field]
+        // 1.10.0：对标 columns[].field: Function（row => 嵌套取值）
+        var v = (col.field !== null && typeof col.field === "function")
+            ? col.field(row) : row[col.field]
         // 1.9.0：对标 columns[].format(val, row)
         if (col.format !== null && typeof col.format === "function")
             return String(col.format(v, row))
@@ -386,6 +470,9 @@ Rectangle {
         var src = rows
         if (!filter || filter === "")
             return src
+        // 1.10.0：官方 filter-method 整体函数优先（rows, terms, cols, getCellValue）
+        if (root.filterRowsMethod !== null && typeof root.filterRowsMethod === "function")
+            return root.filterRowsMethod(src, root.filter, root.normColumns, root.getCellValue)
         if (filterMethod)
             return src.filter(function (r) { return filterMethod(r, filter) })
         var f = String(filter).toLowerCase()
@@ -400,11 +487,13 @@ Rectangle {
 
     function _cmp(a, b, col) {
         var field = col ? col.field : root.sortBy
+        // 1.10.0：columns[].field: Function 时按函数取值，避免 a[function] 退化为 undefined
+        var va = (field !== null && typeof field === "function") ? field(a) : a[field]
+        var vb = (field !== null && typeof field === "function") ? field(b) : b[field]
         // 1.9.0：对标 columns[].sort / rawSort(a, b, rowA, rowB)
         var fn = col ? (col.rawSort || col.sort) : null
         if (fn !== null && typeof fn === "function")
-            return fn(a[field], b[field], a, b)
-        var va = a[field], vb = b[field]
+            return fn(va, vb, a, b)
         if (typeof va === "number" && typeof vb === "number")
             return va - vb
         return String(va === undefined ? "" : va)
@@ -414,6 +503,9 @@ Rectangle {
     function _sortRows(src) {
         if (!sortBy)
             return src
+        // 1.10.0：官方 sort-method 整体排序优先（rows, sortBy, descending）-> Array
+        if (root.sortMethod !== null && typeof root.sortMethod === "function")
+            return root.sortMethod(src, root.sortBy, root.descending)
         var col = null
         for (var i = 0; i < normColumns.length; i++)
             if (normColumns[i].name === sortBy) col = normColumns[i]
@@ -434,6 +526,9 @@ Rectangle {
     // ── 选择（受控：返回下一状态供宿主写回） ────────────────
     // 坑位 27：Qt6 信号参数会把 JS 对象深拷贝，选中态一律按键值比较（rowKey 或 JSON 全等）
     function _keyVal(row) {
+        // 1.10.0：rowKeyFn 与 _keyOf 共用同一取值口径
+        if (root.rowKeyFn !== null && typeof root.rowKeyFn === "function")
+            return String(root.rowKeyFn(row))
         if (rowKey && row[rowKey] !== undefined)
             return String(row[rowKey])
         return JSON.stringify(row)
@@ -665,6 +760,107 @@ Rectangle {
     }
 
     // ══════════════════════════════════════════════════════════
+    // 1.10.0 · 语义令牌 / 文案 / 聚合意图 / 补齐方法
+    // ══════════════════════════════════════════════════════════
+    function _tokenColor(token) {
+        var t = String(token === undefined || token === null ? "" : token)
+        if (t === "negative") return NovaTheme.negative
+        if (t === "warning") return NovaTheme.warning
+        if (t === "positive" || t === "primary") return NovaTheme.primary
+        if (t === "muted") return NovaTheme.textMuted
+        if (t === "surfaceAlt") return NovaTheme.surfaceAlt
+        if (t === "surface") return NovaTheme.surface
+        if (t === "outline") return NovaTheme.outline
+        return null
+    }
+
+    function _cardToken(row, index) {
+        return root.cardStyleFn !== null && typeof root.cardStyleFn === "function"
+            ? root.cardStyleFn(row, index) : root.cardStyleToken
+    }
+    function _cardColor(row, index) {
+        var c = root._tokenColor(root._cardToken(row, index))
+        return c !== null ? c : NovaTheme.surface
+    }
+    function _cardBorderColor(row, index) {
+        var c = root._tokenColor(root._cardToken(row, index))
+        return c !== null ? c : NovaTheme.outline
+    }
+
+    function _rowsLabel() {
+        var v = root.selectedRowsLabel
+        if (v === null || v === undefined || v === "")
+            return "共 " + root.rowCount + " 条 · 已选 " + root.selected.length
+        return typeof v === "function" ? String(v(root.selected.length)) : String(v)
+    }
+
+    function _paginationLabelText() {
+        var start = root.rowCount === 0 ? 0 : (root.page - 1) * root.rowsPerPage + 1
+        var end = Math.min(root.rowCount, root.page * root.rowsPerPage)
+        if (root.rowsPerPage <= 0) { start = root.rowCount === 0 ? 0 : 1; end = root.rowCount }
+        var v = root.paginationLabel
+        if (v === null || v === undefined || v === "")
+            return start + "–" + end + " / " + root.rowCount
+        return typeof v === "function" ? String(v(start, end, root.rowCount)) : String(v)
+    }
+
+    function _rowsPerPageLabelText() {
+        return root.rowsPerPageLabel !== "" ? root.rowsPerPageLabel : qsTr("每页")
+    }
+
+    function _emitPaginationChanged() { root.paginationChanged(root.paginationState) }
+    onPageChanged: root._emitPaginationChanged()
+    onSortByChanged: root._emitPaginationChanged()
+    onDescendingChanged: root._emitPaginationChanged()
+    onRowsPerPageChanged: root._emitPaginationChanged()
+    onRowsNumberChanged: root._emitPaginationChanged()
+
+    property var _prevSelectedKeys: []
+    onSelectedChanged: {
+        var cur = root._selectedKeys
+        var prev = root._prevSelectedKeys
+        var added = []
+        var removed = []
+        for (var i = 0; i < cur.length; i++)
+            if (prev.indexOf(cur[i]) === -1) added.push(cur[i])
+        for (var j = 0; j < prev.length; j++)
+            if (cur.indexOf(prev[j]) === -1) removed.push(prev[j])
+        root._prevSelectedKeys = cur.slice()
+        root.selectionChanged({
+            rows: root.selected, keys: cur, added: added, removed: removed
+        })
+    }
+
+    function _emitVirtualScrollInfo() {
+        if (!root.virtualScroll) return
+        var unit = Math.max(1, root.virtualScrollItemSize)
+        root.virtualScrollInfo({
+            firstRowIndex: Math.max(0, Math.floor(virtualBody.contentY / unit)),
+            lastRowIndex: Math.max(0, Math.ceil((virtualBody.contentY + virtualBody.height) / unit) - 1),
+            contentY: virtualBody.contentY, contentHeight: virtualBody.contentHeight
+        })
+    }
+
+    // ── 对标 QTable methods 的 5 项补齐 ───────────────────────
+    function lastPage() { return requestPage(pageCount) }
+    function clearSelection() {
+        root.updateSelected([])
+        return []
+    }
+    function setExpanded(keys) {
+        var next = []
+        for (var i = 0; i < keys.length; i++)
+            next.push(String(keys[i]))
+        root.updateExpanded(next)
+        return next
+    }
+    function sort(name) { return root.requestSort(name) }
+    function getCellValue(col, row) {
+        var d = typeof col === "string" ? root._colByName(col) : col
+        return d === null ? undefined : root._cellText(row, d)
+    }
+
+    // ══════════════════════════════════════════════════════════
     // 行结构（inline component：普通 Repeater 与虚拟 ListView 共用）
     // ══════════════════════════════════════════════════════════
     component TableRow: Column {
@@ -712,18 +908,49 @@ Rectangle {
             height: root._rowHeight
             visible: !bodySlotLoader.active
             selected: rowWrap.rowSelected
+            // 1.10.0：对标 table-row-style-fn / table-row-class-fn（语义令牌色）
+            rowColor: {
+                var t = root.rowStyleFn !== null && typeof root.rowStyleFn === "function"
+                    ? root.rowStyleFn(rowWrap.rowData, rowWrap.rowIdx) : ""
+                var c = root._tokenColor(t)
+                return c !== null ? c : "transparent"
+            }
             Row {
                 width: parent.width
                 height: parent.height
-                // 单选/多选列
+                // 单选/多选列（1.10.0：selectionMode:"none" 整列隐藏；可整体替换）
                 Item {
-                    width: root.singleSelection ? 0 : 44
+                    id: bodySelectionCell
+                    readonly property bool _none: root.selectionMode === "none"
+                    width: root.singleSelection || _none ? 0 : 44
                     height: parent.height
-                    visible: !root.singleSelection
+                    visible: !root.singleSelection && !_none
+
+                    Loader {
+                        id: bodySelectionLoader
+                        anchors.fill: parent
+                        active: root.bodySelectionDelegate !== null
+                        sourceComponent: root.bodySelectionDelegate
+                    }
+                    Binding {
+                        target: bodySelectionLoader.item
+                        property: "slotData"
+                        when: bodySelectionLoader.active && bodySelectionLoader.item !== null
+                        value: ({
+                            rowData: rowWrap.rowData, rowIndex: rowWrap.rowIdx,
+                            rowKey: rowWrap.rowK, rowSelected: rowWrap.rowSelected,
+                            selected: rowWrap.rowSelected
+                        })
+                    }
+
                     Rectangle {
                         width: 16; height: 16; radius: 3
                         anchors.centerIn: parent
-                        color: rowWrap.rowSelected ? NovaTheme.primary : "transparent"
+                        visible: !bodySelectionLoader.active
+                        color: rowWrap.rowSelected
+                            ? (root._tokenColor(root.colorToken) !== null
+                                ? root._tokenColor(root.colorToken) : NovaTheme.primary)
+                            : "transparent"
                         border.width: 1
                         border.color: rowWrap.rowSelected ? NovaTheme.primary : NovaTheme.textMuted
                         Text {
@@ -735,6 +962,7 @@ Rectangle {
                     }
                     MouseArea {
                         anchors.fill: parent
+                        enabled: !bodySelectionLoader.active
                         onClicked: root.toggleRowSelection(rowWrap.rowData)
                     }
                 }
@@ -748,6 +976,7 @@ Rectangle {
                         required property int index
                         readonly property bool _custom:
                             root.cellDelegates[modelData.name] !== undefined
+                            || root.bodyCellDelegate !== null
                         width: root._colWidth(index)
                         height: root._rowHeight
 
@@ -772,12 +1001,13 @@ Rectangle {
                             text: root._cellText(rowWrap.rowData, modelData)
                             font.family: NovaTheme.fontFamily
                             font.pixelSize: NovaTheme.fontM
-                            color: root._styleColor(modelData)
+                            color: root._styleColor(modelData, rowWrap.rowData)
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: modelData.align === "center"
                                 ? Text.AlignHCenter
                                 : (modelData.align === "right" ? Text.AlignRight : Text.AlignLeft)
-                            elide: Text.ElideRight
+                            wrapMode: root.wrapCells ? Text.WordWrap : Text.NoWrap
+                            elide: root.wrapCells ? Text.ElideNone : Text.ElideRight
                         }
 
                         // 列级自定义委托（对标 body-cell-[name]）
@@ -786,7 +1016,9 @@ Rectangle {
                             anchors.fill: parent
                             active: _custom
                             sourceComponent: _custom
-                                ? root.cellDelegates[modelData.name] : undefined
+                                ? (root.cellDelegates[modelData.name] !== undefined
+                                    ? root.cellDelegates[modelData.name]
+                                    : root.bodyCellDelegate) : undefined
                         }
                         Binding {
                             target: cellSlotLoader.item
@@ -799,7 +1031,7 @@ Rectangle {
                                 rowIndex: rowWrap.rowIdx,
                                 colName: modelData.name,
                                 colLabel: modelData.label,
-                                color: root._styleColor(modelData),
+                                color: root._styleColor(modelData, rowWrap.rowData),
                                 columns: root._visibleNormColumns
                             })
                         }
@@ -816,6 +1048,7 @@ Rectangle {
             }
             onRowClicked: root.rowClicked(rowWrap.rowData, rowWrap.rowIdx)
             onRowDoubleClicked: root.rowDoubleClicked(rowWrap.rowData, rowWrap.rowIdx)
+            onRowContextMenu: root.rowContextMenu(rowWrap.rowData, rowWrap.rowIdx)
         }
 
         // 展开区
@@ -848,8 +1081,9 @@ Rectangle {
             width: parent.width
             // 固定高度：委托由 Loader 的 anchors.fill 填满，避免动态取 item 几何
             // 触发 qmllint missing-property，也规避 implicitHeight 为 0 的自举坑。
-            height: topSlotLoader.active ? 44 : 0
-            visible: topSlotLoader.active
+            height: (topSlotLoader.active || topLeftLoader.active
+                     || topRightLoader.active || topSelectionLoader.active) ? 44 : 0
+            visible: height > 0
             Loader {
                 id: topSlotLoader
                 anchors.fill: parent
@@ -867,6 +1101,56 @@ Rectangle {
                     columns: root._visibleNormColumns
                 })
             }
+
+            // 1.10.0：top-left / top-right / top-selection 三个分区（可与 top 共存）
+            Loader {
+                id: topLeftLoader
+                anchors { left: parent.left; verticalCenter: parent.verticalCenter
+                          leftMargin: NovaTheme.spacingM }
+                width: active ? 160 : 0
+                height: parent.height
+                active: root.topLeftDelegate !== null
+                sourceComponent: root.topLeftDelegate
+            }
+            Binding {
+                target: topLeftLoader.item
+                property: "slotData"
+                when: topLeftLoader.active && topLeftLoader.item !== null
+                value: ({ selected: root.selected, rowCount: root.rowCount,
+                          page: root.page, pageCount: root.pageCount, filter: root.filter })
+            }
+            Loader {
+                id: topRightLoader
+                anchors { right: parent.right; verticalCenter: parent.verticalCenter
+                          rightMargin: NovaTheme.spacingM }
+                width: active ? 160 : 0
+                height: parent.height
+                active: root.topRightDelegate !== null
+                sourceComponent: root.topRightDelegate
+            }
+            Binding {
+                target: topRightLoader.item
+                property: "slotData"
+                when: topRightLoader.active && topRightLoader.item !== null
+                value: ({ selected: root.selected, rowCount: root.rowCount,
+                          page: root.page, pageCount: root.pageCount, filter: root.filter,
+                          fullScreen: root.fullScreen, columns: root._visibleNormColumns })
+            }
+            Loader {
+                id: topSelectionLoader
+                anchors.centerIn: parent
+                width: active ? 200 : 0
+                height: parent.height
+                active: root.topSelectionDelegate !== null && root.selected.length > 0
+                sourceComponent: root.topSelectionDelegate
+            }
+            Binding {
+                target: topSelectionLoader.item
+                property: "slotData"
+                when: topSelectionLoader.active && topSelectionLoader.item !== null
+                value: ({ selected: root.selected, keys: root._selectedKeys,
+                          selectedCount: root.selected.length, rowCount: root.rowCount })
+            }
         }
 
         // 标题 + 1.9.0 工具栏按钮（列选择器 / 导出 / 全屏）
@@ -880,7 +1164,8 @@ Rectangle {
             Text {
                 anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: NovaTheme.spacingM }
                 text: root.title
-                color: NovaTheme.textColor
+                color: root.titleClass === "muted" ? NovaTheme.textMuted
+                    : (root.titleClass === "primary" ? NovaTheme.primary : NovaTheme.textColor)
                 font.pixelSize: NovaTheme.fontL
                 font.weight: Font.Medium
             }
@@ -917,7 +1202,8 @@ Rectangle {
             id: headerRow
             width: parent.width
             height: root.hideHeader ? 0 : root._headerHeight
-            color: NovaTheme.surfaceAlt
+            color: root._tokenColor(root.tableHeaderStyleToken) !== null
+                   ? root._tokenColor(root.tableHeaderStyleToken) : NovaTheme.surfaceAlt
             visible: !root.hideHeader
                 && (root._effectiveViewMode !== "grid" || root.gridHeader)
 
@@ -943,15 +1229,36 @@ Rectangle {
                 anchors.fill: parent
                 visible: !headerSlotLoader.active
 
-                // 多选列表头
+                // 多选列表头（1.10.0：selectionMode:"none" 隐藏；可整体替换）
                 Item {
-                    width: root.singleSelection ? 0 : 44
+                    readonly property bool _none: root.selectionMode === "none"
+                    width: root.singleSelection || _none ? 0 : 44
                     height: parent.height
-                    visible: !root.singleSelection
+                    visible: !root.singleSelection && !_none
+
+                    Loader {
+                        id: headerSelectionLoader
+                        anchors.fill: parent
+                        active: root.headerSelectionDelegate !== null
+                        sourceComponent: root.headerSelectionDelegate
+                    }
+                    Binding {
+                        target: headerSelectionLoader.item
+                        property: "slotData"
+                        when: headerSelectionLoader.active && headerSelectionLoader.item !== null
+                        value: ({
+                            allSelected: root.allVisibleSelected,
+                            someSelected: root.someSelected,
+                            selectedCount: root.selected.length,
+                            columns: root._visibleNormColumns
+                        })
+                    }
+
                     Rectangle {
                         id: headCheck
                         width: 16; height: 16; radius: 3
                         anchors.centerIn: parent
+                        visible: !headerSelectionLoader.active
                         color: root.allVisibleSelected ? NovaTheme.primary
                                 : root.someSelected ? NovaTheme.surface : "transparent"
                         border.width: 1
@@ -971,6 +1278,7 @@ Rectangle {
                     }
                     MouseArea {
                         anchors.fill: parent
+                        enabled: !headerSelectionLoader.active
                         onClicked: root.toggleAllSelection()
                     }
                 }
@@ -982,6 +1290,7 @@ Rectangle {
                         required property int index
                         readonly property bool _hCustom:
                             root.headerCellDelegates[modelData.name] !== undefined
+                            || root.headerCellDelegate !== null
                         width: root._colWidth(index)
                         height: root._headerHeight
 
@@ -1018,7 +1327,9 @@ Rectangle {
                             anchors.fill: parent
                             active: _hCustom
                             sourceComponent: _hCustom
-                                ? root.headerCellDelegates[modelData.name] : undefined
+                                ? (root.headerCellDelegates[modelData.name] !== undefined
+                                    ? root.headerCellDelegates[modelData.name]
+                                    : root.headerCellDelegate) : undefined
                         }
                         Binding {
                             target: headerCellLoader.item
@@ -1102,10 +1413,11 @@ Rectangle {
                 // （单测定位 media_table_virtual；包装 Component 亦不能规避）——
                 // 暂缓 reuseItems，cacheBuffer 承担预取；滚动性能仍为可视区+缓冲带量级
                 delegate: TableRow { }
-                cacheBuffer: 240
+                cacheBuffer: Math.max(240, root.virtualScrollSliceSize * root.virtualScrollItemSize)
                 boundsBehavior: Flickable.StopAtBounds
                 // 1.9.0：触底加载意图（仅虚拟滚动形态生效）
                 onContentYChanged: {
+                    root._emitVirtualScrollInfo()
                     if (!root.loadMoreEnabled)
                         return
                     var distance = contentHeight - (contentY + height)
@@ -1119,6 +1431,13 @@ Rectangle {
             }
 
             // 形态三：grid 卡片视图（对标 QTable grid mode）
+            // 1.10.0：card-container-style/class 以语义令牌承接（QML 不解析 CSS）
+            Rectangle {
+                anchors.fill: parent
+                visible: root._effectiveViewMode === "grid"
+                color: root._tokenColor(root.cardContainerStyleToken) !== null
+                    ? root._tokenColor(root.cardContainerStyleToken) : "transparent"
+            }
             GridView {
                 id: gridCards
                 visible: root._effectiveViewMode === "grid"
@@ -1145,7 +1464,9 @@ Rectangle {
                             index: index,
                             rowData: modelData,
                             rowKey: root._keyOf(modelData, index),
-                            columns: root._visibleNormColumns
+                            columns: root._visibleNormColumns,
+                            cardColor: root._cardColor(modelData, index),
+                            cardBorderColor: root._cardBorderColor(modelData, index)
                         })
                     }
                 }
@@ -1155,10 +1476,10 @@ Rectangle {
                 id: defaultGridCard
                 Rectangle {
                     property var slotData: ({})
-                    radius: NovaTheme.radiusM
+                    radius: root.square ? 0 : NovaTheme.radiusM
                     border.width: 1
-                    border.color: NovaTheme.outline
-                    color: NovaTheme.surface
+                    border.color: root._cardBorderColor(slotData.rowData, slotData.index)
+                    color: root._cardColor(slotData.rowData, slotData.index)
                     Column {
                         anchors.fill: parent
                         anchors.margins: 10
@@ -1184,9 +1505,9 @@ Rectangle {
             // 空态（两种形态共用；区分「无数据」与「筛选无结果」）
             Rectangle {
                 width: parent.width
-                height: root.visibleRows.length === 0 && !root.loading ? 64 : 0
+                height: root.visibleRows.length === 0 && !root.loading && !root.hideNoData ? 64 : 0
                 color: "transparent"
-                visible: root.visibleRows.length === 0 && !root.loading
+                visible: root.visibleRows.length === 0 && !root.loading && !root.hideNoData
 
                 Loader {
                     id: noDataLoader
@@ -1348,7 +1669,7 @@ Rectangle {
             }
         }
 
-        // 底部分页（1.9.0 落地 rowsPerPageOptions 选择器）
+        // 底部分页（1.9.0 落地 rowsPerPageOptions 选择器；1.10.0 补齐 pagination slot 与三个 label）
         Rectangle {
             id: bottomBar
             width: parent.width
@@ -1356,24 +1677,63 @@ Rectangle {
             color: NovaTheme.surfaceAlt
             visible: !root.hideBottom
 
+            // 1.10.0：pagination slot 整条替换默认控件
+            Loader {
+                id: paginationSlotLoader
+                anchors.fill: parent
+                active: root.paginationDelegate !== null
+                sourceComponent: root.paginationDelegate
+            }
+            Binding {
+                target: paginationSlotLoader.item
+                property: "slotData"
+                when: paginationSlotLoader.active && paginationSlotLoader.item !== null
+                value: ({
+                    page: root.page, pageCount: root.pageCount, rowCount: root.rowCount,
+                    rowsPerPage: root.rowsPerPage, pagination: root.paginationState,
+                    firstRowIndex: root.rowCount === 0 ? 0 : (root.page - 1) * root.rowsPerPage + 1,
+                    lastRowIndex: Math.min(root.rowCount, root.page * root.rowsPerPage)
+                })
+            }
+
             Row {
+                id: bottomLeftRow
                 anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: NovaTheme.spacingM }
                 spacing: NovaTheme.spacingM
+                visible: !paginationSlotLoader.active
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    text: "共 " + root.rowCount + " 条 · 已选 " + root.selected.length
+                    visible: !root.hideSelectedBanner
+                    text: root._rowsLabel()
+                    color: NovaTheme.textMuted
+                    font.pixelSize: NovaTheme.fontS
+                }
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: root._paginationLabelText()
                     color: NovaTheme.textMuted
                     font.pixelSize: NovaTheme.fontS
                 }
             }
 
             Row {
+                id: bottomRightRow
                 anchors { right: parent.right; verticalCenter: parent.verticalCenter; rightMargin: NovaTheme.spacingM }
                 spacing: NovaTheme.spacingM
+                visible: !paginationSlotLoader.active
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: !root.hidePagination
+                    text: root._rowsPerPageLabelText()
+                    color: NovaTheme.textMuted
+                    font.pixelSize: NovaTheme.fontS
+                }
 
                 NovaBtnToggle {
                     anchors.verticalCenter: parent.verticalCenter
+                    visible: !root.hidePagination
                     options: root._pageSizeOptions
                     modelValue: root.rowsPerPage
                     outline: true
@@ -1383,6 +1743,7 @@ Rectangle {
 
                 NovaPagination {
                     anchors.verticalCenter: parent.verticalCenter
+                    visible: !root.hidePagination
                     page: root.page
                     pages: root.pageCount
                     maxPages: 5

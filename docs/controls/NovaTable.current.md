@@ -16,6 +16,71 @@
 
 ---
 
+## 🆕 §0 · 1.10.0 现行校准（2026-11-28 · 完全对标 Quasar QTable）
+
+> **本段是唯一现行口径**，覆盖下方 §1~§13 的 1.9.0 快照；下方全部正文（含标题中的
+> 「1.9.0」、`77 props / 14 signals / 21 methods`、指纹 `b15a4be38c000c59`）按
+> 「史料不圆场」**逐字保留、不回改**。
+
+| 项 | 1.9.0（已发布史料） | **1.10.0（现行）** |
+|---|---|---|
+| 包 / API 版本 | 1.9.0 | **1.10.0** |
+| 冻结指纹 | `b15a4be38c000c59` | **`5328cd0e3c71e7ac`** |
+| 冻结清单 | `api/nova-api-1.9.0.json` | `api/nova-api-1.10.0.json` |
+| `NovaTable` 公共面 | 77 / 14 / 21 | **110 / 18 / 26** |
+| `NovaTr` | 2 props / 2 signals | 3 props / 3 signals（`rowColor` / `rowContextMenu`） |
+| 类型总数 | 147 | **147（不变）** |
+| 发布态 | **已由 CSA 发布**（HEAD `f209387` · tag `v1.9.0` · 工作树干净） | **本地完成，待 CSA 发布** |
+
+1.10.0 **新增 33 props / 4 signals / 5 methods，旧 77/14/21 逐成员零丢失**；
+完整签名见 `api/nova-api-1.10.0.json` 的 `types["Nova.Controls.NovaTable"]`，
+`tests/test_nova_table.py` 机检固化。**完整度量化与逐项映射见 §14，框架边界逐项登记见 §15。**
+
+### §0.1 补齐 8 个插槽 → QTable 21 slots 全覆盖
+
+| 新增 | 对标 | 注入包 |
+|---|---|---|
+| `bodyCellDelegate` | `body-cell` | `cellData`（全局 fallback，低于 `cellDelegates[列名]`） |
+| `headerCellDelegate` | `header-cell` | `cellData`（全局 fallback） |
+| `bodySelectionDelegate` | `body-selection` | `slotData`（`rowSelected` / `rowData` …） |
+| `headerSelectionDelegate` | `header-selection` | `slotData`（`allSelected` / `someSelected` …） |
+| `paginationDelegate` | `pagination` | `slotData`（`pagination` / `firstRowIndex` / `lastRowIndex` …） |
+| `topLeftDelegate` / `topRightDelegate` | `top-left` / `top-right` | `slotData`（表格级状态） |
+| `topSelectionDelegate` | `top-selection` | `slotData`（`selected` / `keys` / `selectedCount`） |
+
+> **委托声明契约不变**（下方 §5）：宿主委托必须显式声明 `property var slotData: ({})`
+> 或 `property var cellData: ({})`，否则 Qt 6 会报 `Binding: Property ... does not exist`。
+
+### §0.2 补齐 5 个方法与 4 个事件 → QTable 15 methods / 9 events 全覆盖
+
+- 方法：`lastPage()` · `clearSelection()` · `setExpanded(keys)` · `sort(name)` ·
+  `getCellValue(col, row)`（后者的存在同时让 `filterRowsMethod` 的 `getCellValue` 参数可用）。
+- 事件：`rowContextMenu(row, index)` · `selectionChanged(info)`（含
+  `rows / keys / added / removed`）· `paginationChanged(pagination)` ·
+  `virtualScrollInfo(info)`（含 `firstRowIndex / lastRowIndex / contentY / contentHeight`）。
+- 只读聚合量 `paginationState` / `selectionInfo` 对标 `pagination` 对象与 `@selection` 载荷。
+
+### §0.3 官方语义校准（另立成员，不劫持已发布语义）
+
+Quasar 官方 `QTable.json` 定义：`sort-method` = `(rows, sortBy, descending) => Array`
+（**整体排序**）、`filter-method` = `(rows, terms, cols, getCellValue) => Array`
+（**整体过滤**）。1.9.0 的 `filterMethod(row, filter) -> bool` 是早期**单行谓词**，
+已发布、原样保留。1.10.0 **另立** `sortMethod` / `filterRowsMethod` 承载官方语义 ——
+与 `grid`（描边）/ `viewMode`（卡片）同一纪律。
+
+其余：官方 `row-key: Function` → `rowKeyFn`；`selection` 三态 → `selectionMode`；
+`columns[].field / style / classes` 升为可接 `Function`。
+
+### §0.4 样式语义令牌（CSS 专属项的等价承接）
+
+官方 12 个 `table-*-style/class` / `card-*` / `*-fn` 是 CSS 字符串 / Vue class 对象；
+QML 无 CSS 解析。本版以 `tableStyleToken` / `tableHeaderStyleToken` / `rowStyleFn` /
+`cardContainerStyleToken` / `cardStyleToken` / `cardStyleFn` 映射 `NovaTheme` 语义令牌
+（`primary` / `positive` / `negative` / `warning` / `muted` / `surface` / `surfaceAlt` /
+`outline`），**不接受任意 CSS**。逐项边界见 §15。
+
+---
+
 ## 1. 定位与选型
 
 `NovaTable` 是 **1.0.0 GA 起就在冻结面里的纯 QML 数据表格**：数据由宿主以
@@ -322,3 +387,111 @@ rows ──▶ filteredRows ──▶ sortedRows ──▶ visibleRows ──▶
 | `api/nova-api-1.8.0.json`（指纹 `89d5d3cdd7f94cf0`） | 已发布史料，不回改 |
 | `docs/controls/NovaDataGrid.md` §0 | 构想稿 B 路径落地为 `NovaDataGrid` 的裁决记录 |
 | 本页 | 1.9.0 现行使用文档，nav 条目「NovaTable 使用文档（1.9.0 现行）」 |
+
+---
+
+## 14. Quasar QTable 完整度评估（1.10.0）
+
+> **数据源**：Quasar Framework 官方仓库 `ui/src/components/table/QTable.json`
+> （`dev` 分支，2026-11-28 取）+ 官方页 `https://quasar.dev/vue-components/table`。
+> **分母**：63 props + 21 slots + 9 events + 15 methods + 15 列定义元字段 = **123 项**。
+> **口径**：`完全对齐` = 同名/等价成员且语义一致；`部分` = 有成员但语义或取值受限；
+> `未覆盖` = 无对应成员；`框架不适用` = QML 无该 DOM/CSS 语义。
+
+### 14.1 量化结论
+
+| | 完全对齐 | 部分 | 未覆盖 | 框架不适用 | 字面完整度 | 能力面可解释覆盖 |
+|---|---|---|---|---|---|---|
+| **1.9.0（已发布）** | 65 | 9 | 48 | 1 | **65/123 = 52.8%** | 65 + 9 + 已承接者 ≈ 56.5% |
+| **1.10.0（现行）** | **114** | **0** | **8** | 1 | **114/123 = 92.7%** | **123/123 = 100%** |
+
+剩余 8 项全部是**框架边界或库内分工**，逐项登记于 §15，无功能性缺口。
+
+### 14.2 分类逐项统计
+
+| 类别 | 分母 | 1.9.0 完全对齐 | 1.10.0 完全对齐 | 增量来源 |
+|---|---|---|---|---|
+| props | 63 | 25 | **54** | 29 项（行为开关 / 文案 / 样式令牌 / 虚拟滚动细项 / 官方语义成员） |
+| slots | 21 | 13 | **21** | 8 个新 `Component` 插槽 |
+| events | 9 | 5 | **9** | 4 个新信号 |
+| methods | 15 | 10 | **15** | 5 个新方法 |
+| 列定义元字段 | 15 | 12 | **15** | `field` / `style` / `classes` 升为可接 `Function` |
+| **合计** | **123** | **65** | **114** | **+49** |
+
+### 14.3 QTable 21 slots → NovaTable 1.10.0 全映射
+
+| Quasar slot | NovaTable | Quasar slot | NovaTable |
+|---|---|---|---|
+| `loading` | `loadingDelegate` | `item`（grid 卡片） | `gridDelegate` |
+| `body` | `bodyDelegate` | `body-cell` | **`bodyCellDelegate`** |
+| `body-cell-[name]` | `cellDelegates[列名]` | `header` | `headerDelegate` |
+| `header-cell` | **`headerCellDelegate`** | `header-cell-[name]` | `headerCellDelegates[列名]` |
+| `body-selection` | **`bodySelectionDelegate`** | `body-expand` | `expandSlot` |
+| `header-selection` | **`headerSelectionDelegate`** | `top-row` | `topRowDelegate` |
+| `bottom-row` | `bottomRowDelegate` | `footer` | `footerDelegate` |
+| `top` | `topDelegate` | `bottom` | `bottomDelegate` |
+| `pagination` | **`paginationDelegate`** | `top-left` | **`topLeftDelegate`** |
+| `top-right` | **`topRightDelegate`** | `top-selection` | **`topSelectionDelegate`** |
+| `no-data` | `noDataDelegate` | | |
+
+### 14.4 QTable 15 methods → NovaTable 1.10.0 全映射
+
+| Quasar method | NovaTable | Quasar method | NovaTable |
+|---|---|---|---|
+| `requestServerInteraction` | 同名 | `setPagination` | 同名 |
+| `firstPage` | 同名 | `prevPage` | 同名 |
+| `nextPage` | 同名 | `lastPage` | **同名（新增）** |
+| `isRowSelected` | 同名 | `clearSelection` | **同名（新增）** |
+| `isRowExpanded` | 同名 | `setExpanded` | **同名（新增）** |
+| `sort` | **同名（新增）** | `toggleFullscreen` | `toggleFullScreen` |
+| `resetVirtualScroll` | 同名 | `scrollTo` | 同名 |
+| `getCellValue` | **同名（新增）** | | |
+
+### 14.5 QTable 9 events → NovaTable 1.10.0 全映射
+
+| Quasar event | NovaTable | Quasar event | NovaTable |
+|---|---|---|---|
+| `row-click` | `rowClicked` | `row-dblclick` | `rowDoubleClicked` |
+| `row-contextmenu` | **`rowContextMenu`** | `request` | `request` |
+| `selection` | **`selectionChanged`** | `update:pagination` | **`paginationChanged`** |
+| `update:selected` | `updateSelected` | `update:expanded` | `updateExpanded` |
+| `virtual-scroll` | **`virtualScrollInfo`** | | |
+
+### 14.6 勘误登记
+
+下方 §13 史料表格中「`api/nova-api-1.9.0.json`（指纹 `89d5d3cdd7f94cf0`）」为
+1.9.0 撰写时的笔误：`89d5d3cdd7f94cf0` 实为 **1.8.0** 指纹，1.9.0 指纹应为
+**`b15a4be38c000c59`**。按「史料不圆场」下方正文逐字保留，此处校准，不再回改。
+
+---
+
+## 15. 框架边界登记（1.10.0）
+
+| Quasar 项 | 数量 | 处置 |
+|---|---|---|
+| `virtual-scroll-target` | 1 | DOM 滚动容器专属；QML `ListView` 自身即滚动容器 |
+| `table-colspan` | 1 | `table-layout: fixed` / 原生 `<table>` 专属；QML 列宽由 `_colWidth()` 计算 |
+| `virtual-scroll-slice-ratio-before` / `after` | 2 | Qt `ListView.cacheBuffer` 前后对称，无独立比例；由 `virtualScrollSliceSize` 统一驱动 |
+| `icon-first-page` / `icon-prev-page` / `icon-next-page` / `icon-last-page` | 4 | 由库组件 `NovaPagination` 的字形与 `BoundaryLinks` 体系承接；不引入 Quasar 图标字体名（库组件优先零手搓） |
+| `dark` | 1 | 走全局 `NovaTheme` 主题，不由表格单独翻转 |
+| `aria-sort` / 原生 `<table>` 语义 | — | Qt 走 `Accessible.Table` + `Accessible.name` + 键盘路径（§10），无 HTML ARIA 属性 |
+
+> **sticky 首/末列**：Quasar 依赖 CSS `position: sticky` 与横向滚动；`NovaTable` 为纯
+> 流式布局（列宽均分、无横向滚动），故不伪造。库内 **1.8.0 的 `NovaDataGrid` 已实现
+> 真实 sticky 首末列**，按选型分界由它承接（见 §1）。
+
+---
+
+## 16. 1.10.0 验收与边界
+
+- **冻结**：147 类型 / Controls 93 / LayoutShell 21 不变，指纹
+  `b15a4be38c000c59` → `5328cd0e3c71e7ac`（additive minor 重签）；
+  `api/nova-api-1.9.0.json` 为已发布史料，不回改。
+- **机检**：`tests/test_nova_table.py` 固化 110/18/26 公共面、旧 77/14/21 逐成员零漂移、
+  QTable 21 slots / 15 methods / 9 events 全映射、qmldir 导出、a11y 登记、
+  零第三方依赖、史料稿逐字保留、CHANGELOG 与徽标版本。
+- **真机**：离屏 `QQmlApplicationEngine` 全插槽激活，要求 `TOTAL_MSGS = 0`。
+- **qmllint**：`0 error`；全库 warning 预算只降不升。
+- **不做**：不接 Python 模型、不写磁盘、不发网络请求、不自动改窗口状态、
+  不引入 QtWebEngine 或任何第三方依赖、不解析 CSS、不改写史料稿。
+- **发布**：1.10.0 本地完成，`commit / push / tag / PyPI / 站点上线` 一律归 CSA。

@@ -11,14 +11,17 @@ Rectangle {
 
     property bool selected: false
     property bool clickable: true
+    // 1.10.0：对标 Quasar table-row-style-fn / table-row-class-fn（只接语义令牌色，不解析 CSS）
+    property color rowColor: "transparent"
 
     signal rowClicked()
     signal rowDoubleClicked()
+    signal rowContextMenu()          // 1.10.0：对标 @row-contextmenu
 
     width: 400
     height: 44
     color: selected ? Qt.rgba(NovaTheme.primary.r, NovaTheme.primary.g, NovaTheme.primary.b, 0.08)
-                    : "transparent"
+                    : rowColor
 
     Row {
         id: row
@@ -29,8 +32,12 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         enabled: root.clickable
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: root.clickable ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onClicked: root.rowClicked()
+        onClicked: function (mouse) {
+            if (mouse.button === Qt.RightButton) root.rowContextMenu()
+            else root.rowClicked()
+        }
         onDoubleClicked: root.rowDoubleClicked()
     }
 }

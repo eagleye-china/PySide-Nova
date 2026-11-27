@@ -3,7 +3,73 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.9.0] - 2026-11-27 — NovaTable 对标 Quasar QTable 打磨（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+## [1.10.0] - 2026-11-28 — NovaTable 完全对标 Quasar QTable（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+
+> **版本说明**：**1.9.0 已由 CSA 发布**（HEAD `f209387 chore(release): v1.9.0` · tag `v1.9.0` · 工作树干净），
+> 属史料事实，正文不回改；下方 1.9.0 段标题的「本地完成，待 CSA 发布 ⭐ 当前状态」为撰写时口径，
+> 其发布态与现行状态均由本段接替校准。
+> 本段以 Quasar 官方 `ui/src/components/table/QTable.json` 全表为口径做「完全对标」收口，
+> **不新增 QML 导出类型**（仍 **147 类型 / Controls 93 / LayoutShell 21**），
+> 冻结指纹 `b15a4be38c000c59` → `5328cd0e3c71e7ac`（公共面入面后重签，旧指纹为已发布史料）。
+> `api/nova-api-1.10.0.json` / `api/component-domains-1.10.0.json` / `docs/API_FREEZE.md` 为生成物禁手改。
+
+### 完整度评估（Quasar QTable 官方 API 全表 = 123 项）
+
+| 口径 | 1.9.0（已发布） | 1.10.0（本版） |
+|---|---|---|
+| 分母 | 63 props + 21 slots + 9 events + 15 methods + 15 列元字段 = **123** | 同左 |
+| 完全对齐 | **65 项 · 52.8%** | **114 项 · 92.7%** |
+| 部分对齐 | 9 项 | 0 项 |
+| 未覆盖 | 48 项 | 8 项（全部为框架边界 / 库组件承接，逐项登记） |
+| 框架不适用 | 1 项（`dark`，走全局 `NovaTheme`） | 1 项 |
+| **能力面可解释覆盖** | 65 + 9 + 48 中已承接者 | **123 / 123 · 100%** |
+
+### 新增（Added）
+
+- **公共面 77/14/21 → 110/18/26**：新增 **33 props / 4 signals / 5 methods**，
+  旧 77/14/21 逐成员零丢失（`tests/test_nova_table.py` 机检固化）；`NovaTr` additive
+  +1 prop（`rowColor`）+1 signal（`rowContextMenu`），147 类型不变。
+- **插槽 13 → 21，QTable 21 slots 全覆盖**：新增 `bodyCellDelegate` / `headerCellDelegate` /
+  `bodySelectionDelegate` / `headerSelectionDelegate` / `paginationDelegate` /
+  `topLeftDelegate` / `topRightDelegate` / `topSelectionDelegate`。
+- **方法 21 → 26，QTable 15 methods 全覆盖**：新增 `lastPage()` / `clearSelection()` /
+  `setExpanded(keys)` / `sort(name)` / `getCellValue(col, row)`。
+- **事件补齐**：`rowContextMenu` / `selectionChanged` / `paginationChanged` /
+  `virtualScrollInfo`，与 QTable 9 events 一一对齐；`pagination` / `selectionInfo` 只读聚合量。
+- **官方语义校准（不劫持已发布语义）**：官方 `sort-method` 是
+  `(rows, sortBy, descending) => Array` 整体排序、`filter-method` 是
+  `(rows, terms, cols, getCellValue) => Array` 整体过滤；1.9.0 的 `filterMethod` 是早期
+  单行谓词（已发布，原样保留），本版**另立** `sortMethod` / `filterRowsMethod` 等价成员 ——
+  与 `grid`（描边）/ `viewMode`（卡片）同一纪律。
+- **列元字段 15/15**：`field` / `style` / `classes` 升为可接 `Function`（`rowKeyFn` 补
+  `row-key: Function`）；`selectionMode` 补 `none` / `single` / `multiple`。
+- **行为开关与文案**：`square` / `wrapCells` / `hideSelectedBanner` / `hideNoData` /
+  `hidePagination` / `selectedRowsLabel` / `rowsPerPageLabel` / `paginationLabel` /
+  `colorToken` / `titleClass`。
+- **虚拟滚动细项**：`virtualScrollSliceSize`（驱动 `ListView.cacheBuffer`）、
+  `virtualScrollStickySizeStart` / `End`（驱动视口几何）、`virtualScrollInfo` 事件。
+- **样式语义令牌**（对标 12 个 CSS 专属 `table-*-style/class` / `card-*` / `*-fn`）：
+  `tableStyleToken` / `tableHeaderStyleToken` / `rowStyleFn` / `cardContainerStyleToken` /
+  `cardStyleToken` / `cardStyleFn`。**只映射 `NovaTheme` 令牌，不解析 CSS、不引入第三方依赖。**
+- **现行文档**：`docs/controls/NovaTable.current.md` 头部追加 1.10.0 现行校准段 +
+  §14 完整度评估 / §15 框架边界登记；下方 1.9.0 正文按「史料不圆场」逐字保留。
+
+### 框架边界（如实登记，不伪造实现）
+
+| Quasar 项 | 处置 |
+|---|---|
+| `virtual-scroll-target` / `table-colspan` | DOM / `table-layout:fixed` 专属，QML 无对应语义 |
+| `virtual-scroll-slice-ratio-before` / `after` | Qt `ListView.cacheBuffer` 前后对称，无独立比例；由 `virtualScrollSliceSize` 统一驱动 |
+| `icon-first-page` / `icon-prev-page` / `icon-next-page` / `icon-last-page` | 由库组件 `NovaPagination` 的字形体系承接，不引入 Quasar 图标字体名（库组件优先零手搓） |
+| `dark` | 走全局 `NovaTheme` 主题，不由表格单独翻转 |
+| QTable 的 `aria-sort` / 原生 `<table>` 语义 | Qt 走 `Accessible.Table` + 键盘路径，见现行文档 §10 |
+
+- **不做**：不接 Python 模型、不写磁盘、不发网络请求、不自动改窗口状态、
+  不引入 QtWebEngine 或任何第三方依赖、不改写 `docs/controls/NovaTable.md` 史料、
+  不回改 1.9.0 冻结面与已发布文档稿。
+- **发布**：1.10.0 本地完成，`commit / push / tag / PyPI / 站点上线` 一律归 CSA。
+
+## [1.9.0] - 2026-11-27 — NovaTable 对标 Quasar QTable 打磨（additive minor · 已由 CSA 发布）
 
 > **版本说明**：1.8.0 之上的 **additive minor**；1.8.0 已由 CSA `git tag v1.8.0` / `git push origin v1.8.0` / PyPI 上架发布（HEAD `6c80d42 chore(release): v1.8.0`），属史料事实，正文不回改；上方 1.8.0 段标题的「待 CSA 发布 ⭐ 当前状态」为撰写时口径，其发布态与现行状态均由本段接替校准。
 > 本段只做 `NovaTable` 公共面增量，**不新增 QML 导出类型**（仍 **147 类型 / Controls 93 / LayoutShell 21**），

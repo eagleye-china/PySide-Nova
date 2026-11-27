@@ -149,7 +149,7 @@ nav:
       - NovaMarkdown 使用文档: controls/NovaMarkdown.md
       - NovaDataGrid 使用文档: controls/NovaDataGrid.md
       - NovaAIReport 使用文档: controls/NovaAIReport.md
-      - NovaTable 使用文档（1.9.0 现行）: controls/NovaTable.current.md
+      - NovaTable 使用文档（1.10.0 现行）: controls/NovaTable.current.md
       - 组件详解（历史稿）: COMPONENTS.md
       - 设计令牌: DESIGN_TOKENS.md
       - 国际化指南: I18N.md

@@ -19,6 +19,14 @@
    "default": ": true",
    "doc": null,
    "line": 13
+  },
+  {
+   "name": "rowColor",
+   "type": "color",
+   "readonly": false,
+   "default": ": \"transparent\"",
+   "doc": null,
+   "line": 15
   }
  ],
  "signals": [
@@ -28,6 +36,10 @@
   },
   {
    "name": "rowDoubleClicked",
+   "params": ""
+  },
+  {
+   "name": "rowContextMenu",
    "params": ""
   }
  ],

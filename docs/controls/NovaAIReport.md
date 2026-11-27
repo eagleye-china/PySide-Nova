@@ -1,8 +1,8 @@
 # NovaAIReport · 智能报表工作台壳
 
-> **模块** `Nova.Composite.LayoutShell` · **a11y** `decorative`（布局容器，语义由注入内容承担）· **pyside-nova 1.9.0**
+> **模块** `Nova.Composite.LayoutShell` · **a11y** `decorative`（布局容器，语义由注入内容承担）· **pyside-nova 1.10.0**
 > **API 冻结指纹** `7c542c416709cd96` · **第 21 个组合根** · 公共面 **22 props / 3 signals / 3 methods**
-> 公共签名以 `api/nova-api-1.9.0.json` 冻结面为准；组件源码 `Nova/Composite/LayoutShell/NovaAIReport.qml`
+> 公共签名以 `api/nova-api-1.10.0.json` 冻结面为准；组件源码 `Nova/Composite/LayoutShell/NovaAIReport.qml`
 >
 > 本页是**手写使用文档**（`docs/controls/` 不属生成物目录），把外部行业方案转译为
 > 本库可交付事实。组件自动生成页见 `docs/components/NovaAIReport.md`（禁止手改）。
@@ -205,5 +205,5 @@ engine.load("main.qml")
 - 模块交付文档：`src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md`（21 项契约 + 依赖矩阵）
 - 主报表区：`docs/controls/NovaDataGrid.md` · 数据层 `pyside_nova.datagrid`
 - Gallery 第 21 页：`examples/gallery/layout_shells.qml`（`pgAIReport`，可独立加载、调参、明暗切换）
-- 冻结清单：`api/nova-api-1.9.0.json` / 签署件 `docs/API_FREEZE.md`
+- 冻结清单：`api/nova-api-1.10.0.json` / 签署件 `docs/API_FREEZE.md`
 - 组件自动生成文档：`docs/components/NovaAIReport.md`（生成器产物）

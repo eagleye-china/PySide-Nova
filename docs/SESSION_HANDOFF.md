@@ -2,7 +2,39 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.9.0 · 2026-11-27 23:30 · NovaTable 对标 Quasar QTable 打磨完成 + additive 重签 / 1.8.0 已由 CSA 发布（HEAD `6c80d42 chore(release): v1.8.0` · tag `v1.8.0`）；下方 1.8.0 段保留为史料；下方 1.7.0 / 21:30 段保留为史料： demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.10.0 · 2026-11-28 02:30 · NovaTable 完全对标 Quasar QTable + additive 重签 / **1.9.0 已由 CSA 发布**（HEAD `f209387 chore(release): v1.9.0` · tag `v1.9.0` · 工作树干净）/ 下方 1.9.0 段及更早全部保留为史料；史料：1.8.0 已由 CSA 发布（HEAD `6c80d42 chore(release): v1.8.0` · tag `v1.8.0`）；下方 1.8.0 段保留为史料；下方 1.7.0 / 21:30 段保留为史料： demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+
+## 🆕 1.10.0 现行校准（2026-11-28 02:30 · NovaTable 完全对标 Quasar QTable · 覆盖下方 1.9.0 / 1.8.0 及更早快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA「打磨 NovaTable 组件，完全对标 https://quasar.dev/vue-components/table，评估完整度」
+> +「1.9.0 已发布」→ 立 **T28** 当轮完现；已发布版本不回改，按 additive minor 升 **1.10.0** 重签。
+
+- **发布态核实**：HEAD `f209387 chore(release): v1.9.0` · tag `v1.9.0` · **工作树干净** → 1.9.0 确已由 CSA 发布；
+  `api/nova-api-1.9.0.json`（指纹 `b15a4be38c000c59`）为已发布史料，不回改。
+- **冻结面**：**pyside-nova 1.10.0 · API 1.10.0 · 指纹 `5328cd0e3c71e7ac`**；
+  **147 类型 / Controls 93 / LayoutShell 21 不变**；`NovaTable` **77/14/21 → 110/18/26**
+  （+33 props / +4 signals / +5 methods，旧面逐成员零丢失），`NovaTr` +1 prop `rowColor` +1 signal `rowContextMenu`。
+- **完整度评估**（数据源 = Quasar 官方 `ui/src/components/table/QTable.json` 全表：
+  63 props / 21 slots / 9 events / 15 methods / 15 列元字段 = **123 项**）：
+  1.9.0 字面完全对齐 **65/123 = 52.8%** → 1.10.0 **114/123 = 92.7%**，
+  **能力面可解释覆盖 123/123 = 100%**（剩余 8 项框架边界 / 库组件承接 + 1 项全局主题，
+  逐项登记于 `docs/controls/NovaTable.current.md` §15）。
+- **补齐**：8 个插槽（21/21）· 5 个方法（15/15）· 4 个事件（9/9）· 列元字段 15/15；
+  另立 `sortMethod` / `filterRowsMethod` / `rowKeyFn` 承载官方整体函数语义（**不劫持**已发布
+  `filterMethod` 单行谓词）；`selectionMode` / `square` / `wrapCells` / `hide-*` / 三个 label /
+  `virtualScrollSliceSize` + sticky sizes / 6 个样式语义令牌（只映射 `NovaTheme`，不解析 CSS）。
+- **现行文档**：`docs/controls/NovaTable.current.md` 头部插入 §0 现行校准 + §14 完整度评估 +
+  §15 框架边界 + §16 验收；**1.9.0 正文逐字保留**。构想稿 `NovaTable.md`（1654 行）仍 exclude、不上站。
+- **坑位 82**：QML `signal paginationChanged(var p)` 与 `readonly property var pagination`
+  自动生成的属性变更信号**重名** → 加载期 `Duplicate signal name: invalid override of property
+  change signal`（foundations / 天花板实例化 FAIL）。将属性改名 `paginationState` 规避，信号名保留。
+- **验收**：静态 **3/3** · 专项 **122 passed** · 天花板 **21/21** · foundations **15/15** ·
+  域分类 / v2 compat PASS · `mkdocs --strict` EXIT=0 · qmllint **0 error / 571 warning** ·
+  生成器幂等 · ruff `All checks passed` · 三 `--check` 全绿 ·
+  离屏真机全 21 插槽 + 5 新方法 + 4 新信号 **ROOTS 1 / TOTAL_MSGS 0 / BAD_MSGS 0**。
+- **状态**：**pyside-nova 1.10.0 本地完成，待 CSA 发布**；
+  `commit / push / tag / PyPI / 站点上线` 全归 CSA。待办池仍 **1 项 = T3**；
+  **T28 完现销号，下一个 T29**。
 
 ## 🆕 1.9.0 现行校准（2026-11-27 23:30 · NovaTable 对标 Quasar QTable 打磨 · 覆盖下方 1.8.0 / 1.7.0 / 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
 

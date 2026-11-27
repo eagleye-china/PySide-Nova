@@ -1,8 +1,8 @@
 {
   "package": "pyside-nova",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "baseline": "Quasar 2.35.5",
-  "generated": "2026-11-27",
+  "generated": "2026-11-28",
   "modules": {
     "Nova.Behaviors": 13,
     "Nova.Composite.LayoutShell": 21,
@@ -28,6 +28,6 @@
     "ROADMAP.md",
     "API_FREEZE.md"
   ],
-  "fingerprint": "85ca87fe312a854c",
+  "fingerprint": "cb566305c0c7e711",
   "usage": "AI agents: use scripts/nova_mcp.py tools (search_docs/list_pages/get_page/list_api/get_api/check_updates) — offline, version-exact."
 }

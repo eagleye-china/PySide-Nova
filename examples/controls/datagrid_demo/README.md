@@ -1,6 +1,6 @@
 # NovaDataGrid · 铝电解工作站大数据量演示
 
-> `pyside-nova 1.9.0` · 第 146 公共类型 `Nova.Controls.NovaDataGrid` 的独立演示工程。
+> `pyside-nova 1.10.0` · 第 146 公共类型 `Nova.Controls.NovaDataGrid` 的独立演示工程。
 > 与 [`markdown_demo`](../markdown_demo/README.md) 同级，按控件类别归档在 `examples/controls/`。
 > **不动库本体、不重签冻结面、不新增公共类型**——只消费已发布/已重签的公共 API。
 

@@ -1,8 +1,8 @@
 # pyside-nova 组件清单
 
-> 版本 **1.9.0** · 基线 **Quasar 2.35.5** · API 指纹 `b15a4be38c000c59` · 共 **147** 个公共 QML 类型
+> 版本 **1.10.0** · 基线 **Quasar 2.35.5** · API 指纹 `5328cd0e3c71e7ac` · 共 **147** 个公共 QML 类型
 >
-> 数据源：`api/nova-api-1.9.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
+> 数据源：`api/nova-api-1.10.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
 >
 > 分类口径：Nova.Controls 93 / Nova.Behaviors 13 / Nova.Services 16 / Nova.Design 4 / Nova.Composite.LayoutShell 21；每个类型在 `examples/gallery/` 中有实机展示页面。
 
@@ -95,7 +95,7 @@
 | 73 | **NovaTab** | 标签页单项：name/label/icon/alert + default 槽自定义内容 | QTab | interactive（交互） | 11/1/2 | `Nova/Controls/NovaTab.qml` |
 | 74 | **NovaTabPanel** | 标签页面板：name 寻址 / disable | QTabPanel | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTabPanel.qml` |
 | 75 | **NovaTabPanels** | 面板容器：受控 modelValue / animated / infinite / swipeable（DragHandler 被动抓取）/ vertical / transitionDuration | QTabPanels | decorative（装饰） | 8/3/3 | `Nova/Controls/NovaTabPanels.qml` |
-| 76 | **NovaTable** | 数据表格 v0.11.0 基础：列定义/排序/过滤/分页/多选/展开行/grid 模式 1.9.0：对标 Quasar QTable 收口 PARITY 留痕五项（column-sort-order / sort-m… | QTable | interactive（交互） | 77/14/21 | `Nova/Controls/NovaTable.qml` |
+| 76 | **NovaTable** | 数据表格 v0.11.0 基础：列定义/排序/过滤/分页/多选/展开行/grid 模式 1.9.0：对标 Quasar QTable 收口 PARITY 留痕五项（column-sort-order / sort-m… | QTable | interactive（交互） | 110/18/26 | `Nova/Controls/NovaTable.qml` |
 | 77 | **NovaTabs** | 标签页容器：受控 modelValue、横向滚动 + 溢出箭头 （outside-arrows/mobile-arrows）、align（left/center/right/justify）、breakpoint 自… | QTabs | interactive（交互） | 24/1/3 | `Nova/Controls/NovaTabs.qml` |
 | 78 | **NovaTd** | 单元格：文本/对齐/自定义内容 | QTd | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTd.qml` |
 | 79 | **NovaText** | 排版组件 | Quasar text-h1…caption + text-weight-* + text-muted/italic/strike/no-wrap 工具类 | semantic（语义） | 6/0/0 | `Nova/Controls/NovaText.qml` |
@@ -107,7 +107,7 @@
 | 85 | **NovaToolbar** | 工具栏：水平排布行、min-height 50、inset 内容缩进 | QToolbar | semantic（语义） | 2/0/0 | `Nova/Controls/NovaToolbar.qml` |
 | 86 | **NovaToolbarTitle** | 工具栏标题：默认占满剩余宽度（shrink 反转收缩为内容宽） | QToolbarTitle | semantic（语义） | 3/0/0 | `Nova/Controls/NovaToolbarTitle.qml` |
 | 87 | **NovaTooltip** | 工具提示：target 悬停（delay/hideDelay）、anchor/self/offset 定位、text 便捷或 default 槽 就地渲染口径：z 提升于声明处（PARITY §0.14 留痕：非 p… | QTooltip | semantic（语义） | 13/5/5 | `Nova/Controls/NovaTooltip.qml` |
-| 88 | **NovaTr** | 表格行：选中高亮/点击上报（受控：selection 由宿主写回） | QTr | decorative（装饰） | 2/2/0 | `Nova/Controls/NovaTr.qml` |
+| 88 | **NovaTr** | 表格行：选中高亮/点击上报（受控：selection 由宿主写回） | QTr | decorative（装饰） | 3/3/0 | `Nova/Controls/NovaTr.qml` |
 | 89 | **NovaTransition** | 过渡包装组件 | Quasar q-transition--fade/scale/rotate/slide-*/jump-*/flip-* 共 16 种 | decorative（装饰） | 7/2/0 | `Nova/Controls/NovaTransition.qml` |
 | 90 | **NovaTree** | 树控件 受控模式（坑位 22）：expanded/ticked/selected 均不自写，只 emit 由宿主写回 勾选策略：none（仅自身）/ strict（上下级联动+半选）/ lazy（仅向下联动已加载层）… | QTree | interactive（交互） | 29/5/11 | `Nova/Controls/NovaTree.qml` |
 | 91 | **NovaVideo** | 视频嵌入包装：QtMultimedia Video 的皮肤化容器， ratio 默认 16/9 等比缩放，controls 常驻（QML Video 自带回放控件） | QVideo | semantic（语义） | 3/0/0 | `Nova/Controls/NovaVideo.qml` |

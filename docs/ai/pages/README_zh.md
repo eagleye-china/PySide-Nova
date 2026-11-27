@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.9.0" width="200" />
+<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.10.0" width="200" />
 
 # pyside-nova
 
@@ -19,7 +19,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
-[![Status](https://img.shields.io/badge/status-v1.9.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v1.10.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 [![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
@@ -30,10 +30,10 @@
 
 | 项目 | 内容 |
 |---|---|
-| **版本** | **1.9.0** —— 1.8.0 之上的 additive minor：`NovaTable` 对标 Quasar QTable 打磨（完整插槽体系 / 列定义元字段 / 列选择器 / 真 grid 卡片视图 / 全屏·CSV·触底意图 / dense·separator·响应式 / 空态区分 / 页大小 UI），API 契约重签 **1.9.0**；**1.8.0**（NovaDataGrid P1/P2）与 **1.7.0**（P0）为已发布基线，1.6.0 新增公共类型 **`NovaAIReport`**，1.5.0 / 1.4.0 及更早为历史状态 |
+| **版本** | **1.10.0** —— 1.8.0 之上的 additive minor：`NovaTable` 对标 Quasar QTable 打磨（完整插槽体系 / 列定义元字段 / 列选择器 / 真 grid 卡片视图 / 全屏·CSV·触底意图 / dense·separator·响应式 / 空态区分 / 页大小 UI），API 契约重签 **1.10.0**；**1.8.0**（NovaDataGrid P1/P2）与 **1.7.0**（P0）为已发布基线，1.6.0 新增公共类型 **`NovaAIReport`**，1.5.0 / 1.4.0 及更早为历史状态 |
 | **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
 | **公共 QML 类型** | **147** —— Controls 93 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **21** |
-| **API 冻结** | 147 类型零漂移 · 指纹 `b15a4be38c000c59`（1.9.0 additive 重签：NovaTable 对标 Quasar 契约；1.8.0 `89d5d3cdd7f94cf0` / 1.7.0 `157ab2b1d77ea9f9` 为史料） |
+| **API 冻结** | 147 类型零漂移 · 指纹 `5328cd0e3c71e7ac`（1.10.0 additive 重签：NovaTable 对标 Quasar 契约；1.8.0 `89d5d3cdd7f94cf0` / 1.7.0 `157ab2b1d77ea9f9` 为史料） |
 | **运行环境** | Python ≥ 3.10 · PySide6 ≥ 6.8（**6.12.0** 实测）· Windows / macOS / Linux |
 | **质量门禁** | 静态 3/3 PASS · 97 项专项测试通过 · 21/21 天花板机检 · 15/15 基础控件机检 · qmllint 0 error |
 
