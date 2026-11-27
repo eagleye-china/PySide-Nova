@@ -2,7 +2,22 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.8.0 · 2026-11-27 22:20 · P1 五项 + P2 六项打磨完成 + additive 重签 / 1.7.0 已由 CSA 发布；下方 1.7.0 / 21:30 段保留为史料： demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.9.0 · 2026-11-27 23:30 · NovaTable 对标 Quasar QTable 打磨完成 + additive 重签 / 1.8.0 已由 CSA 发布（HEAD `6c80d42 chore(release): v1.8.0` · tag `v1.8.0`）；下方 1.8.0 段保留为史料；下方 1.7.0 / 21:30 段保留为史料： demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+
+## 🆕 1.9.0 现行校准（2026-11-27 23:30 · NovaTable 对标 Quasar QTable 打磨 · 覆盖下方 1.8.0 / 1.7.0 / 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA「继续打磨 NovaTable，对标 https://quasar.dev/vue-components/table」→ 立 **T27**，按 additive minor 1.9.0 收口；1.8.0 已由 CSA 发布（HEAD `6c80d42 chore(release): v1.8.0` / tag `v1.8.0`），属史料事实，正文不回改。发布边界仍归 CSA。
+
+| 项 | 1.9.0 现行事实 |
+|---|---|
+| 冻结面 | **147 类型 / Controls 93 / LayoutShell 21 / a11y 33+29+85 不变 / 指纹 `b15a4be38c000c59`**（1.8.0 `89d5d3cdd7f94cf0` 已发布史料）；`api/nova-api-1.9.0.json` + `api/component-domains-1.9.0.json` + `docs/API_FREEZE.md` 生成器重出，徽标 3 枚 + 站点副本 `v1.9.0` 同步。无新增 QML 导出类型。 |
+| 公共面 | `NovaTable` **45/7/13 → 77/14/21**（旧面逐成员零丢失，`tests/test_nova_table.py` 机检固化）：+32 props / +7 signals / +8 methods，全 additive。 |
+| 能力落地 | 完整插槽体系（top / bottom / top-row / bottom-row / footer / body / header / no-data / loading + 表头与单元格级注册表）；列定义元字段（`format` / `sort` / `rawSort` / `style` / `classes` / `headerStyle` / `autoWidth`）；`columnSortOrder` 多列排序、`visibleColumns` + 列选择器；真 grid 卡片视图；全屏 / CSV / 触底 / 清筛选 / 页大小 / 虚拟滚动复位意图；`dense` / `separator` / `responsive` / `gridBreakpoint` 密度与响应式。 |
+| 兼容取舍 | `grid` 保留 GA「单元格描边」原语义，真 Quasar grid mode 另立 `viewMode: "grid"`；受控模式（`selected` / `expanded` / `sortBy` / `descending` / `page` / `rowsPerPage`）组件不自写、只发信号由宿主写回。全屏 / CSV / 触底只发意图，不写磁盘、不自动改窗口、不发网络请求。 |
+| 文档与史料 | 新建现行文档 `docs/controls/NovaTable.current.md` 并加入 mkdocs nav；`docs/controls/NovaTable.md`（1654 行「企业级旗舰封版方案」构想稿）按「史料不圆场」**原样恢复保留**、仍由 `exclude_docs` 排除、不上文档站；`docs/controls/NovaDataGrid.md` §0 的构想稿 B 路径裁决保持有效；现行文档 §5 另明确「委托必须声明 `slotData` / `cellData`」契约（裸 Rectangle 会触发 12 条 Binding warning，属注入侧问题、坑位 76 同类）。 |
+| 验收 | 新增 `tests/test_nova_table.py` **17 项**（冻结面 / additive 零漂移 / qmldir / a11y / 零第三方依赖 / 插槽与意图声明 / 史料与文档事实 / mkdocs / CHANGELOG / 徽标）；离屏真机全插槽激活 `TOTAL_MSGS=0`；qmllint 0 error（本文件显式关闭 unqualified，全库 warning 预算只降不升）。 |
+| 坑位 | **81**：`Repeater` delegate 内带 `anchors.fill` 的 `Loader` / `Text` 不能直接塞进 `NovaTh` / `NovaTd` 内部 `Row`，须外层包 `Item { required property int index }` 再取 `index`，否则 `ReferenceError: index is not defined` + `Cannot specify ... anchors`。 |
+| 发布边界 | 本助手只做本地实现与验收；commit / push / tag / PyPI / 站点上线全归 CSA。待办池仍 1 项 = T3，**T27 完现销号，下一个 T28**。 |
 
 ## 🆕 1.8.0 现行校准（2026-11-27 22:20 · NovaDataGrid P1 五项 + P2 六项打磨 · 覆盖下方 1.7.0 / 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
 

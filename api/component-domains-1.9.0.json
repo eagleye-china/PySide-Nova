@@ -1,0 +1,1087 @@
+{
+ "apiVersion": "1.9.0",
+ "behaviorDomains": {
+  "Effects": [
+   "NovaClosePopup",
+   "NovaFocusRing",
+   "NovaLiveRegion",
+   "NovaMorph",
+   "NovaMorphPool",
+   "NovaRipple"
+  ],
+  "Gestures": [
+   "NovaTouchHold",
+   "NovaTouchPan",
+   "NovaTouchRepeat",
+   "NovaTouchSwipe"
+  ],
+  "Observers": [
+   "NovaIntersection",
+   "NovaScrollFire",
+   "NovaScrollObserver"
+  ]
+ },
+ "compositeGroups": {
+  "Carrier": [
+   "NovaDesktop",
+   "NovaMobile",
+   "NovaFlexLayout"
+  ],
+  "Chat": [
+   "NovaChat"
+  ],
+  "Incubator": [
+   "NovaIncubator"
+  ],
+  "Intelligence": [
+   "NovaAgent",
+   "NovaDE",
+   "NovaCopilot",
+   "NovaAIReport"
+  ],
+  "Navigation": [
+   "NovaSidebar",
+   "NovaTopNavigation",
+   "NovaDualSide",
+   "NovaTabShell"
+  ],
+  "Orbit": [
+   "NovaOrbit"
+  ],
+  "Overlay": [
+   "NovaModal",
+   "NovaDrawerPanel"
+  ],
+  "Page": [
+   "NovaSetupWizard",
+   "NovaBlankPage"
+  ],
+  "Workbench": [
+   "NovaThreeColumn",
+   "NovaCompare",
+   "NovaCardGrid"
+  ]
+ },
+ "controlDomains": {
+  "Action": [
+   "NovaBtn",
+   "NovaBtnGroup",
+   "NovaBtnDropdown",
+   "NovaFab",
+   "NovaFabAction",
+   "NovaPullToRefresh",
+   "NovaPopupEdit"
+  ],
+  "Data": [
+   "NovaTable",
+   "NovaMarkupTable",
+   "NovaTr",
+   "NovaTd",
+   "NovaTh",
+   "NovaList",
+   "NovaItem",
+   "NovaItemLabel",
+   "NovaItemSection",
+   "NovaTree",
+   "NovaTimeline",
+   "NovaTimelineEntry",
+   "NovaCarousel",
+   "NovaCarouselControl",
+   "NovaCarouselSlide",
+   "NovaSlideItem",
+   "NovaVideo",
+   "NovaParallax",
+   "NovaMarkdown",
+   "NovaDataGrid"
+  ],
+  "Form": [
+   "NovaForm",
+   "NovaField",
+   "NovaInput",
+   "NovaSelect",
+   "NovaOptionGroup",
+   "NovaCheckbox",
+   "NovaRadio",
+   "NovaToggle",
+   "NovaBtnToggle",
+   "NovaSlider",
+   "NovaRange",
+   "NovaDate",
+   "NovaTime",
+   "NovaColorPicker",
+   "NovaEditor"
+  ],
+  "Foundation": [
+   "NovaAvatar",
+   "NovaBadge",
+   "NovaChip",
+   "NovaIcon",
+   "NovaImg",
+   "NovaSeparator",
+   "NovaSkeleton",
+   "NovaSpace",
+   "NovaSpinner",
+   "NovaText",
+   "NovaBar",
+   "NovaTransition"
+  ],
+  "Intelligent": [
+   "NovaChatMessage",
+   "NovaTooltip",
+   "NovaInnerLoading",
+   "NovaBanner",
+   "NovaAjaxBar",
+   "NovaPopupProxy",
+   "NovaVisible",
+   "NovaNoSsr",
+   "NovaResizeObserver",
+   "NovaResponsive"
+  ],
+  "Layout": [
+   "NovaLayout",
+   "NovaPage",
+   "NovaRow",
+   "NovaCol",
+   "NovaCard",
+   "NovaCardActions",
+   "NovaCardSection",
+   "NovaExpansionItem",
+   "NovaDrawer",
+   "NovaBottomSheet",
+   "NovaDialogShell",
+   "NovaScrollArea",
+   "NovaVirtualScroll",
+   "NovaInfiniteScroll"
+  ],
+  "Navigation": [
+   "NovaTabs",
+   "NovaTab",
+   "NovaTabPanel",
+   "NovaTabPanels",
+   "NovaBreadcrumbs",
+   "NovaBreadcrumbsEl",
+   "NovaPagination",
+   "NovaStepper",
+   "NovaStep",
+   "NovaStepperNavigation",
+   "NovaMenu",
+   "NovaToolbar",
+   "NovaToolbarTitle",
+   "NovaHeader",
+   "NovaFooter"
+  ]
+ },
+ "counts": {
+  "behaviorDomains": 3,
+  "behaviors": 13,
+  "composite": 21,
+  "compositeGroups": 9,
+  "controlDomains": 7,
+  "controls": 93,
+  "design": 4,
+  "modules": 5,
+  "services": 16,
+  "total": 147
+ },
+ "fingerprint": "b15a4be38c000c59",
+ "generator": "scripts/audit_domains.py",
+ "guard": {
+  "relativeImports": 0,
+  "upwardImports": 0
+ },
+ "internalHelpers": [
+  {
+   "file": "Behaviors/NovaTouchCore.qml",
+   "name": "NovaTouchCore",
+   "reason": "手势域内部实现 helper，未在 Behaviors/qmldir 导出，不计入冻结类型总数"
+  }
+ ],
+ "note": "概念域分类（文档层），不改变 qmldir 模块 URI / 冻结面 / QML 物理目录",
+ "package": "pyside-nova",
+ "schema": "nova-component-domains/1",
+ "source": "api/nova-api-1.9.0.json",
+ "types": {
+  "Nova.Behaviors.NovaClosePopup": {
+   "archDomain": "behaviors",
+   "domain": "Effects",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaFocusRing": {
+   "archDomain": "behaviors",
+   "domain": "Effects",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaIntersection": {
+   "archDomain": "behaviors",
+   "domain": "Observers",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaLiveRegion": {
+   "archDomain": "behaviors",
+   "domain": "Effects",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaMorph": {
+   "archDomain": "behaviors",
+   "domain": "Effects",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaMorphPool": {
+   "archDomain": "behaviors",
+   "domain": "Effects",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaRipple": {
+   "archDomain": "behaviors",
+   "domain": "Effects",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaScrollFire": {
+   "archDomain": "behaviors",
+   "domain": "Observers",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaScrollObserver": {
+   "archDomain": "behaviors",
+   "domain": "Observers",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaTouchHold": {
+   "archDomain": "behaviors",
+   "domain": "Gestures",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaTouchPan": {
+   "archDomain": "behaviors",
+   "domain": "Gestures",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaTouchRepeat": {
+   "archDomain": "behaviors",
+   "domain": "Gestures",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Behaviors.NovaTouchSwipe": {
+   "archDomain": "behaviors",
+   "domain": "Gestures",
+   "group": "—",
+   "module": "Nova.Behaviors"
+  },
+  "Nova.Composite.LayoutShell.NovaAIReport": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Intelligence",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaAgent": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Intelligence",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaBlankPage": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Page",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaCardGrid": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Workbench",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaChat": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Chat",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaCompare": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Workbench",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaCopilot": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Intelligence",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaDE": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Intelligence",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaDesktop": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Carrier",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaDrawerPanel": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Overlay",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaDualSide": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Navigation",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaFlexLayout": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Carrier",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaIncubator": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Incubator",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaMobile": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Carrier",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaModal": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Overlay",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaOrbit": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Orbit",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaSetupWizard": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Page",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaSidebar": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Navigation",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaTabShell": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Navigation",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaThreeColumn": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Workbench",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Composite.LayoutShell.NovaTopNavigation": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Navigation",
+   "module": "Nova.Composite.LayoutShell"
+  },
+  "Nova.Controls.NovaAjaxBar": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaAvatar": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBadge": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBanner": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBar": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBottomSheet": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBreadcrumbs": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBreadcrumbsEl": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBtn": {
+   "archDomain": "controls",
+   "domain": "Action",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBtnDropdown": {
+   "archDomain": "controls",
+   "domain": "Action",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBtnGroup": {
+   "archDomain": "controls",
+   "domain": "Action",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaBtnToggle": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaCard": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaCardActions": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaCardSection": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaCarousel": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaCarouselControl": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaCarouselSlide": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaChatMessage": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaCheckbox": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaChip": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaCol": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaColorPicker": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaDataGrid": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaDate": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaDialogShell": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaDrawer": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaEditor": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaExpansionItem": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaFab": {
+   "archDomain": "controls",
+   "domain": "Action",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaFabAction": {
+   "archDomain": "controls",
+   "domain": "Action",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaField": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaFooter": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaForm": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaHeader": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaIcon": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaImg": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaInfiniteScroll": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaInnerLoading": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaInput": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaItem": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaItemLabel": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaItemSection": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaLayout": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaList": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaMarkdown": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaMarkupTable": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaMenu": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaNoSsr": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaOptionGroup": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaPage": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaPagination": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaParallax": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaPopupEdit": {
+   "archDomain": "controls",
+   "domain": "Action",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaPopupProxy": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaPullToRefresh": {
+   "archDomain": "controls",
+   "domain": "Action",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaRadio": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaRange": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaResizeObserver": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaResponsive": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaRow": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaScrollArea": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaSelect": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaSeparator": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaSkeleton": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaSlideItem": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaSlider": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaSpace": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaSpinner": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaStep": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaStepper": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaStepperNavigation": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTab": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTabPanel": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTabPanels": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTable": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTabs": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTd": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaText": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTh": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTime": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTimeline": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTimelineEntry": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaToggle": {
+   "archDomain": "controls",
+   "domain": "Form",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaToolbar": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaToolbarTitle": {
+   "archDomain": "controls",
+   "domain": "Navigation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTooltip": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTr": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTransition": {
+   "archDomain": "controls",
+   "domain": "Foundation",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaTree": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaVideo": {
+   "archDomain": "controls",
+   "domain": "Data",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaVirtualScroll": {
+   "archDomain": "controls",
+   "domain": "Layout",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Controls.NovaVisible": {
+   "archDomain": "controls",
+   "domain": "Intelligent",
+   "group": "—",
+   "module": "Nova.Controls"
+  },
+  "Nova.Design.NovaA11y": {
+   "archDomain": "design",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Design"
+  },
+  "Nova.Design.NovaIconSet": {
+   "archDomain": "design",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Design"
+  },
+  "Nova.Design.NovaMotion": {
+   "archDomain": "design",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Design"
+  },
+  "Nova.Design.NovaUtils": {
+   "archDomain": "design",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Design"
+  },
+  "Nova.Services.NovaApp": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaDialog": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaDialogHandle": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaI18n": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaIntersectionPool": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaLoading": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaLoadingBar": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaLoadingHandle": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaNotify": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaNotifyAction": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaNotifyHandle": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaOverlayHost": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaPlatform": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaScreen": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaStorage": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  },
+  "Nova.Services.NovaTheme": {
+   "archDomain": "services",
+   "domain": "—",
+   "group": "—",
+   "module": "Nova.Services"
+  }
+ }
+}

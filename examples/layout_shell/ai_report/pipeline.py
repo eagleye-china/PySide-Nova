@@ -173,7 +173,7 @@ def inject(engine, *, rows: list[dict] | None = None,
         "columns": len(plant.build_columns()),
         "pageSize": page_size,
         "seed": seed,
-        "version": "1.8.0",
+        "version": "1.9.0",
     }
     props = {
         f"{prefix}Table": table,

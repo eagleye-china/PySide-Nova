@@ -1,6 +1,6 @@
 # 组合根容器（21 项）
 
-> **Nova.Composite.LayoutShell** · pyside-nova **1.8.0** · **147 个导出类型** · API 冻结指纹 `89d5d3cdd7f94cf0` · **21/21 六维天花板全部销号**（CARF-R）
+> **Nova.Composite.LayoutShell** · pyside-nova **1.9.0** · **147 个导出类型** · API 冻结指纹 `b15a4be38c000c59` · **21/21 六维天花板全部销号**（CARF-R）
 > 本页由 `scripts/gen_apidocs.py` 自动生成，**禁止手工编辑**。
 
 21 个组合根容器按语义分为 10 类；每个容器都由 ≥2 个已导出公共类型组合、一律 `property alias` 槽位、只 emit 不自写宿主状态。

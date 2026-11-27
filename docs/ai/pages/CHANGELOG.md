@@ -3,7 +3,50 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.8.0] - 2026-11-27 — NovaDataGrid P1/P2 打磨（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+## [1.9.0] - 2026-11-27 — NovaTable 对标 Quasar QTable 打磨（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+
+> **版本说明**：1.8.0 之上的 **additive minor**；1.8.0 已由 CSA `git tag v1.8.0` / `git push origin v1.8.0` / PyPI 上架发布（HEAD `6c80d42 chore(release): v1.8.0`），属史料事实，正文不回改；上方 1.8.0 段标题的「待 CSA 发布 ⭐ 当前状态」为撰写时口径，其发布态与现行状态均由本段接替校准。
+> 本段只做 `NovaTable` 公共面增量，**不新增 QML 导出类型**（仍 **147 类型 / Controls 93 / LayoutShell 21**），
+> 冻结指纹 `89d5d3cdd7f94cf0` → `b15a4be38c000c59`（公共面入面后重签，旧指纹为已发布史料）。
+> `api/nova-api-1.9.0.json` / `api/component-domains-1.9.0.json` / `docs/API_FREEZE.md` 为生成物禁手改。
+
+### 新增（Added）
+
+- **公共面 45/7/13 → 77/14/21**（旧面逐成员零丢失，`test_nova_table.py` 机检固化）：新增 32 props /
+  7 signals / 8 methods，全部为 additive，不改任何既有签名、默认值与视觉语义。
+- **Quasar QTable 插槽体系**：`topDelegate` / `bottomDelegate` / `topRowDelegate` / `bottomRowDelegate` /
+  `footerDelegate` / `bodyDelegate` / `noDataDelegate` / `loadingDelegate` 八个外围与空态插槽；
+  `headerDelegate` / `headerCellDelegates` / `cellDelegates` / `gridDelegate` 表头与单元格级注册表；
+  旧 `expandSlot` 逐字保留。委托上下文 `rowData` / `rowKey` / `rowIdx` / `rowSelected` / `rowExpanded` /
+  `slotData` 由组件注入，宿主零 Python 接入。
+- **列定义元字段与列选择器**：`columns` 支持 `sort` / `rawSort` / `format` / `align` / `classes` / `style` /
+  `headerStyle` / `autoWidth`；`columnSortOrder` 多列排序优先级、`showColumnSelector` +
+  `visibleColumns` / `setVisibleColumns(keys)` / `toggleColumnVisibility(name)` /
+  `columnVisibilityChanged(keys)` 列显隐受控。
+- **真 Grid / 全屏 / 导出 / 触底**：`viewMode`（`table` / `grid`，`gridHeader` 卡片头）与
+  `gridCellWidth` / `gridCellHeight` / `setViewMode(mode)`；**旧 `grid` 属性保留「单元格描边」原语义不被劫持**；
+  `fullScreen` / `showFullScreenButton` / `toggleFullScreen()` / `fullScreenToggled(active)` 只发意图；
+  `exportCsv(delimiter)` / `exportDelimiter` / `showExportButton` / `exportRequested(csvText)` 纯 QML CSV 拼装、
+  不写磁盘；`loadMoreEnabled` / `loadMoreThreshold` / `loadMoreRequested(lastRow)` 触底加载。
+- **筛选 / 分页 / 虚拟滚动外围**：`clearFilterText` / `clearFilter()` / `clearFilterRequested()`；
+  `rowsPerPageOptions` / `requestRowsPerPage(size)` / `rowsPerPageRequested(size)` 页大小 UI 与意图；
+  `resetVirtualScroll()` / `virtualScrollReset()` 虚拟滚动复位；
+  `noResultsLabel` 区分 no-data 与 no-results，`noDataLabel` / `loadingLabel` 文案可配。
+- **密度与响应式**：`dense` / `separator` / `bordered` / `flat` 视觉密度、`responsive` / `gridBreakpoint`
+  窄屏自动切 Grid；`viewMode` 与旧 `grid` 双轨并存，老用法零迁移成本。
+
+### 改进（Changed）
+
+- **纯 QML 受控模式不变**：`selected` / `expanded` / `sortBy` / `descending` / `page` / `rowsPerPage`
+  组件内不自写，只发 `updateSelected` / `updateExpanded` / `sortChanged` / `pageRequested` /
+  `rowsPerPageRequested` 由宿主写回；服务端模式下 `request(params)` 语义逐字保留。
+- **文档与验收**：新建现行文档 `docs/controls/NovaTable.current.md` 并加入 mkdocs nav；
+  `docs/controls/NovaTable.md` 为 1.5.0 前「企业级旗舰封版方案」构想稿史料，按「史料不圆场」原样保留、
+  仍由 `exclude_docs` 排除、不在文档站发布；新增 `tests/test_nova_table.py` 固化公共面、零漂移、
+  插槽与意图信号、文档事实；离屏真机全插槽激活 `TOTAL_MSGS=0`。
+- **品牌资产**：`sync_brand_version.py` 将封版徽标刻字 `v1.8.0` → `v1.9.0`。
+
+## [1.8.0] - 2026-11-27 — NovaDataGrid P1/P2 打磨（additive minor · 已由 CSA 发布）
 
 > **版本说明**：1.7.0 之上的 **additive minor**；1.7.0 已由 CSA `git tag v1.7.0` / `git push origin v1.7.0` 发布，属史料事实，正文不回改。
 > 本段只做 `NovaDataGrid` 公共面增量，不新增 QML 导出类型（仍 **147 类型 / Controls 93 / LayoutShell 21**）；

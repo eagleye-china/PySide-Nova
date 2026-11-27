@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 QML = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaDataGrid.qml"
 QMLDIR = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaDataGrid.md"
-MANIFEST = ROOT / "api" / "nova-api-1.8.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.9.0.json"
 KEY = "Nova.Controls.NovaDataGrid"
 
 EXPECTED_SIGNALS = {
@@ -89,7 +89,7 @@ def test_qmldir_exports_type():
 
 
 def test_frozen_surface(manifest):
-    assert manifest["apiVersion"] == "1.8.0"
+    assert manifest["apiVersion"] == "1.9.0"
     assert manifest["counts"]["total"] == 147
     assert manifest["counts"]["modules"]["Nova.Controls"] == 93
     assert manifest["counts"]["a11y"]["interactive"] == 33
@@ -107,9 +107,21 @@ def test_frozen_surface(manifest):
 
 
 def test_old_145_types_unchanged(manifest):
+    """1.4.0 的 145 类型逐字不变；1.9.0 唯一例外 = `NovaTable` additive 扩展。
+
+    `NovaTable` 1.9.0 对标 Quasar QTable 做 additive minor（45/7/13 → 77/14/21）：
+    只加公共成员、旧成员逐字零丢失，由 `tests/test_nova_table.py` 精确固化。
+    其余 144 类型仍要求逐字不变。
+    """
     old = json.loads((ROOT / "api" / "nova-api-1.4.0.json").read_text(encoding="utf-8"))
-    diff = [k for k, v in old["types"].items() if manifest["types"].get(k) != v]
+    additive_key = "Nova.Controls.NovaTable"
+    diff = [k for k, v in old["types"].items()
+            if k != additive_key and manifest["types"].get(k) != v]
     assert not diff, f"旧类型被改动：{diff[:5]}"
+    o, n = old["types"][additive_key], manifest["types"][additive_key]
+    for field in ("props", "signals", "methods"):
+        lost = set(o[field]) - set(n[field])
+        assert not lost, f"NovaTable additive 破坏旧 {field}：{sorted(lost)}"
     # 1.5.0 最终冻结面相对 1.4.0 新增两类型：NovaDataGrid（本测试主角）+ NovaAIReport（第 21 组合根）
     assert set(manifest["types"]) - set(old["types"]) == {
         KEY, "Nova.Composite.LayoutShell.NovaAIReport"}
@@ -260,7 +272,7 @@ def test_filter_proxy_filter_active(pipeline):
     assert fp.filterActive is False
 
 
-# ── 2b. 1.8.0 P1/P2 数据层 ───────────────────────────────────
+# ── 2b. 1.9.0 P1/P2 数据层 ───────────────────────────────────
 def test_column_style_metadata_and_csv_export():
     from pyside_nova.datagrid import NovaDataGridColumn, NovaDataGridModel
 
@@ -494,7 +506,7 @@ def test_offscreen_runtime(tmp_path):
         ev("grid._a11ySet(0); grid._a11yMove(10)")
         assert ev("grid._a11yRow") == 2
 
-        # 1.8.0 P1/P2：列宽 / sticky / 合计行 / 插槽 / 页大小 / 分组 / 全屏 / CSV / 形态
+        # 1.9.0 P1/P2：列宽 / sticky / 合计行 / 插槽 / 页大小 / 分组 / 全屏 / CSV / 形态
         assert ev("grid.resizableColumns") is True
         assert ev("grid._widthForColumn(0)") == 150
         assert ev("grid._stickyKeys().length") == 2

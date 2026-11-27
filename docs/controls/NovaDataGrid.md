@@ -1,8 +1,8 @@
 # NovaDataGrid 使用文档
 
-> **1.5.0 additive · 第 146 个公共类型** · 1.8.0 P1/P2 打磨后重签 · `Nova.Controls.NovaDataGrid`
+> **1.5.0 additive · 第 146 个公共类型** · 1.8.0 P1/P2 打磨 · 1.9.0 现行冻结面 · `Nova.Controls.NovaDataGrid`
 > 冻结指纹以 `docs/API_FREEZE.md` 现行为准（1.5.0 `9742de8638251876` / 1.7.0 `157ab2b1d77ea9f9` 为史料） · 147 类型 / Controls 93 / a11y `interactive`
-> 公共面逐成员见 `api/nova-api-1.8.0.json`（1.7.0 增补 P0 契约；1.8.0 增补 P1 体验扩展与 P2 形态外围）
+> 公共面逐成员见 `api/nova-api-1.9.0.json`（1.7.0 增补 P0 契约；1.8.0 增补 P1 体验扩展与 P2 形态外围）
 
 ## 0. 定位与裁决
 
@@ -329,7 +329,7 @@ NovaDataGrid {
 ## 7. 相关资源
 
 - Gallery 第 25 页：`examples/gallery/main.qml`（`pageDataGrid`）
-- 冻结清单：`api/nova-api-1.8.0.json` / 签署件 `docs/API_FREEZE.md`
+- 冻结清单：`api/nova-api-1.9.0.json` / 签署件 `docs/API_FREEZE.md`
 - 组件自动生成文档：`docs/components/NovaDataGrid.md`（生成器产物）
 - 独立演示：`examples/controls/markdown_demo/` 展示的是 `NovaMarkdown`；
   `NovaDataGrid` 的可运行装配见 Gallery 与 `tests/test_nova_datagrid.py`

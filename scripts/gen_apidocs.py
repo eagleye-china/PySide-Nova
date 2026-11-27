@@ -213,7 +213,7 @@ def build(project: Path) -> dict:
 
 # ---------------------------------------------------------------------------
 # T9 / P0-3 · 逐组件文档页生成器（对齐 Quasar 逐组件 Props / Slots / Events 页）
-#   事实源：api/nova-api-1.8.0.json（冻结签名，唯一权威）
+#   事实源：api/nova-api-1.9.0.json（冻结签名，唯一权威）
 #           + QML 源 parse_qml()（中文描述 / 默认值）
 #           + Composite/LayoutShell/README.md（分类 / 身份 / 依赖）
 #           + docs/prescript/AUDIT_CEILING.md §8（20 项销号台账）
@@ -490,7 +490,7 @@ def _render_showcase(rows: list[dict], version: str, shell_count: int) -> str:
 
 def _collect_components(project: Path) -> dict:
     """汇总逐组件页 / 站点产品化层共用的唯一事实源（冻结 JSON + QML + README + 台账 + 三态装配图）。"""
-    freeze = json.loads((project / "api" / "nova-api-1.8.0.json").read_text(encoding="utf-8"))
+    freeze = json.loads((project / "api" / "nova-api-1.9.0.json").read_text(encoding="utf-8"))
     about = (project / "src" / "pyside_nova" / "__about__.py").read_text(encoding="utf-8")
     version = re.search(r'__version__\s*=\s*"([^"]+)"', about).group(1)
     fingerprint = freeze["fingerprint"]
@@ -674,7 +674,7 @@ def build_site_experience(project: Path) -> dict:
         "gallery": gallery,
     }
     js = ("/* 生成物：scripts/gen_apidocs.py 产出，禁止手工编辑。\n"
-          "   事实源：__about__.py + api/nova-api-1.8.0.json + QML + 60 张三态图 */\n"
+          "   事实源：__about__.py + api/nova-api-1.9.0.json + QML + 60 张三态图 */\n"
           "window.NOVA_SITE = " + json.dumps(data, indent=2, ensure_ascii=False) + ";\n")
     _write(project, "assets/js/nova-data.js", js)
 
@@ -689,7 +689,7 @@ def build_site_experience(project: Path) -> dict:
         "> ⚠️ **能力边界（如实标注）**：预览图是 `audit_showcase.py` 用真实 Qt Quick 引擎渲染的"
         " 60 张三态装配图；参数改动实时反映在 **QML 代码与属性表**，但浏览器内不重新渲染 Qt 场景"
         "（需本地 Gallery 或 Qt for WebAssembly，后者属 P2 边界遗留）。"
-        "属性名 / 类型 / 默认值全部取自 `api/nova-api-1.8.0.json` 冻结面，无臆造 props。",
+        "属性名 / 类型 / 默认值全部取自 `api/nova-api-1.9.0.json` 冻结面，无臆造 props。",
         ["[20 项组合根容器总览](../components/index.md)",
          "[60 张三态装配图索引](../components/showcase.md)",
          "[Layout Builder](layout-builder.md)",

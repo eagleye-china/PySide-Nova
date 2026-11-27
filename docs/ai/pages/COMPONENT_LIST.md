@@ -1,8 +1,8 @@
 # pyside-nova 组件清单
 
-> 版本 **1.8.0** · 基线 **Quasar 2.35.5** · API 指纹 `89d5d3cdd7f94cf0` · 共 **147** 个公共 QML 类型
+> 版本 **1.9.0** · 基线 **Quasar 2.35.5** · API 指纹 `b15a4be38c000c59` · 共 **147** 个公共 QML 类型
 >
-> 数据源：`api/nova-api-1.8.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
+> 数据源：`api/nova-api-1.9.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
 >
 > 分类口径：Nova.Controls 93 / Nova.Behaviors 13 / Nova.Services 16 / Nova.Design 4 / Nova.Composite.LayoutShell 21；每个类型在 `examples/gallery/` 中有实机展示页面。
 
@@ -95,7 +95,7 @@
 | 73 | **NovaTab** | 标签页单项：name/label/icon/alert + default 槽自定义内容 | QTab | interactive（交互） | 11/1/2 | `Nova/Controls/NovaTab.qml` |
 | 74 | **NovaTabPanel** | 标签页面板：name 寻址 / disable | QTabPanel | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTabPanel.qml` |
 | 75 | **NovaTabPanels** | 面板容器：受控 modelValue / animated / infinite / swipeable（DragHandler 被动抓取）/ vertical / transitionDuration | QTabPanels | decorative（装饰） | 8/3/3 | `Nova/Controls/NovaTabPanels.qml` |
-| 76 | **NovaTable** | 数据表格 v0.11.0 基础：列定义/排序/过滤/分页/多选/展开行/grid 模式 v0.12.0 增强：虚拟滚动（virtualScroll + ListView 真虚拟化）/ 服务端模式 （serverSid… | QTable | interactive（交互） | 45/7/13 | `Nova/Controls/NovaTable.qml` |
+| 76 | **NovaTable** | 数据表格 v0.11.0 基础：列定义/排序/过滤/分页/多选/展开行/grid 模式 1.9.0：对标 Quasar QTable 收口 PARITY 留痕五项（column-sort-order / sort-m… | QTable | interactive（交互） | 77/14/21 | `Nova/Controls/NovaTable.qml` |
 | 77 | **NovaTabs** | 标签页容器：受控 modelValue、横向滚动 + 溢出箭头 （outside-arrows/mobile-arrows）、align（left/center/right/justify）、breakpoint 自… | QTabs | interactive（交互） | 24/1/3 | `Nova/Controls/NovaTabs.qml` |
 | 78 | **NovaTd** | 单元格：文本/对齐/自定义内容 | QTd | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTd.qml` |
 | 79 | **NovaText** | 排版组件 | Quasar text-h1…caption + text-weight-* + text-muted/italic/strike/no-wrap 工具类 | semantic（语义） | 6/0/0 | `Nova/Controls/NovaText.qml` |

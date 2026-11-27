@@ -1,0 +1,270 @@
+# tests/test_nova_table.py
+# NovaTable 1.9.0（对标 Quasar QTable）：静态契约 + additive 零漂移 + 文档事实
+"""NovaTable 验收。
+
+纯静态层（不建 QML 引擎，规避坑位 49 的 offscreen 全量串跑 SIGSEGV）：
+
+1. 冻结面：147 类型 / 指纹 b15a4be38c000c59 / 77 props · 14 signals · 21 methods；
+2. additive 零漂移：1.8.0 的 45/7/13 逐成员仍是 1.9.0 面的子集，旧签名一个不丢；
+3. 源码纪律：qmldir 导出 / a11y interactive · Table / 零第三方依赖 /
+   私有成员不泄漏 / `grid` 旧语义与 `viewMode` 解耦 / 受控模式只发意图；
+4. 史料不圆场：构想稿原样保留且被 exclude，现行文档独立新建并进 nav；
+5. 账实一致：CHANGELOG 1.9.0 段 / 徽标刻字 v1.9.0。
+
+真机层（离屏全插槽激活 / TOTAL_MSGS=0）由交付验收的独立探针执行，不进 pytest。
+"""
+from __future__ import annotations
+
+import json
+import os
+import sys
+from pathlib import Path
+
+import pytest
+
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+ROOT = Path(__file__).resolve().parent.parent
+SCRIPTS = ROOT / "scripts"
+sys.path.insert(0, str(SCRIPTS))
+
+QML = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaTable.qml"
+QMLDIR = QML.parent / "qmldir"
+DOC = ROOT / "docs" / "controls" / "NovaTable.current.md"
+HISTORICAL_DOC = ROOT / "docs" / "controls" / "NovaTable.md"
+MANIFEST = ROOT / "api" / "nova-api-1.9.0.json"
+PREV_MANIFEST = ROOT / "api" / "nova-api-1.8.0.json"
+CHANGELOG = ROOT / "CHANGELOG.md"
+MKDOCS = ROOT / "mkdocs.yml"
+PYPROJECT = ROOT / "pyproject.toml"
+BRAND = ROOT / "src" / "pyside_nova" / "resources" / "icons" / "pyside-nova-logo-sealed.svg"
+
+KEY = "Nova.Controls.NovaTable"
+FINGERPRINT = "b15a4be38c000c59"          # 1.9.0 现行冻结面
+PREV_FINGERPRINT = "89d5d3cdd7f94cf0"     # 1.8.0 已发布史料，不回改
+
+EXPECTED_PROPS = {
+    "a11yLabel:string", "binaryStateSort:bool", "bodyDelegate:Component",
+    "bordered:bool", "bottomDelegate:Component", "bottomRowDelegate:Component",
+    "cellDelegates:var", "clearFilterText:string", "columnSortOrder:string",
+    "columns:var", "dense:bool", "descending:bool", "expandSlot:Component",
+    "expanded:var", "exportDelimiter:string", "filter:string", "filterMethod:var",
+    "flat:bool", "footerDelegate:Component", "fullScreen:bool", "grid:bool",
+    "gridBreakpoint:int", "gridCellHeight:int", "gridCellWidth:int",
+    "gridDelegate:Component", "gridHeader:bool", "headerCellDelegates:var",
+    "headerDelegate:Component", "hideBottom:bool", "hideHeader:bool",
+    "loadMoreEnabled:bool", "loadMoreThreshold:int", "loading:bool",
+    "loadingDelegate:Component", "loadingLabel:string", "noDataDelegate:Component",
+    "noDataLabel:string", "noResultsLabel:string", "page:int", "responsive:bool",
+    "ro allVisibleSelected:bool", "ro filteredRows:var", "ro normColumns:var",
+    "ro pageCount:int", "ro rowCount:int", "ro someSelected:bool",
+    "ro sortedRows:var", "ro virtualContentHeight:real", "ro virtualContentY:real",
+    "ro virtualRowCount:int", "ro visibleRows:var", "rowData:var",
+    "rowExpanded:bool", "rowIdx:int", "rowK:string", "rowKey:string",
+    "rowSelected:bool", "rows:var", "rowsNumber:int", "rowsPerPage:int",
+    "rowsPerPageOptions:var", "selected:var", "separator:string", "serverSide:bool",
+    "showColumnSelector:bool", "showExportButton:bool", "showFullScreenButton:bool",
+    "singleSelection:bool", "slotData:var", "sortBy:string", "title:string",
+    "topDelegate:Component", "topRowDelegate:Component", "viewMode:string",
+    "virtualScroll:bool", "virtualScrollItemSize:int", "visibleColumns:var",
+}
+EXPECTED_SIGNALS = {
+    "clearFilterRequested()", "columnVisibilityChanged(var keys)",
+    "exportRequested(var csvText)", "fullScreenToggled(bool active)",
+    "loadMoreRequested(int lastRow)", "pageRequested(int page)",
+    "request(var params)", "rowClicked(var row, int index)",
+    "rowDoubleClicked(var row)", "rowsPerPageRequested(int size)",
+    "sortChanged(string field, bool desc)", "updateExpanded(var keys)",
+    "updateSelected(var rows)", "virtualScrollReset()",
+}
+EXPECTED_METHODS = {
+    "clearFilter()", "exportCsv(delimiter)", "firstPage()",
+    "isRowExpanded(row, i)", "isRowSelected(row)", "nextPage()", "prevPage()",
+    "requestPage(p)", "requestRowsPerPage(size)", "requestServerInteraction()",
+    "requestSort(name)", "resetVirtualScroll()", "scrollTo(i)", "setPagination(pg)",
+    "setViewMode(mode)", "setVisibleColumns(keys)", "toggleAllSelection()",
+    "toggleColumnVisibility(name)", "toggleFullScreen()",
+    "toggleRowExpand(row, i)", "toggleRowSelection(row)",
+}
+
+NEW_190_PROPS = {
+    "bodyDelegate:Component", "bottomDelegate:Component",
+    "bottomRowDelegate:Component", "cellDelegates:var", "clearFilterText:string",
+    "columnSortOrder:string", "dense:bool", "exportDelimiter:string",
+    "footerDelegate:Component", "fullScreen:bool", "gridBreakpoint:int",
+    "gridCellHeight:int", "gridCellWidth:int", "gridDelegate:Component",
+    "gridHeader:bool", "headerCellDelegates:var", "headerDelegate:Component",
+    "loadMoreEnabled:bool", "loadMoreThreshold:int", "loadingDelegate:Component",
+    "noDataDelegate:Component", "noResultsLabel:string", "responsive:bool",
+    "separator:string", "showColumnSelector:bool", "showExportButton:bool",
+    "showFullScreenButton:bool", "slotData:var", "topDelegate:Component",
+    "topRowDelegate:Component", "viewMode:string", "visibleColumns:var",
+}
+
+
+@pytest.fixture(scope="module")
+def manifest() -> dict:
+    return json.loads(MANIFEST.read_text(encoding="utf-8"))
+
+
+@pytest.fixture(scope="module")
+def previous() -> dict:
+    return json.loads(PREV_MANIFEST.read_text(encoding="utf-8"))
+
+
+# ── 1. 冻结面 ──────────────────────────────────────────────────────
+def test_manifest_version_and_fingerprint(manifest):
+    assert manifest["apiVersion"] == "1.9.0"
+    assert manifest["packageVersion"] == "1.9.0"
+    assert manifest["fingerprint"] == FINGERPRINT
+    assert manifest["counts"]["total"] == 147
+    assert manifest["counts"]["modules"]["Nova.Controls"] == 93
+
+
+def test_frozen_surface_matches_exactly(manifest):
+    entry = manifest["types"][KEY]
+    assert entry["kind"] == "component"
+    assert entry["a11y"] == "interactive"
+    assert set(entry["props"]) == EXPECTED_PROPS
+    assert set(entry["signals"]) == EXPECTED_SIGNALS
+    assert set(entry["methods"]) == EXPECTED_METHODS
+    assert (len(entry["props"]), len(entry["signals"]), len(entry["methods"])) == (77, 14, 21)
+
+
+def test_additive_zero_drift(manifest, previous):
+    old = previous["types"][KEY]
+    new = manifest["types"][KEY]
+    assert (len(old["props"]), len(old["signals"]), len(old["methods"])) == (45, 7, 13)
+    for field in ("props", "signals", "methods"):
+        lost = set(old[field]) - set(new[field])
+        assert not lost, f"{field} 旧成员丢失（破坏 additive）：{sorted(lost)}"
+    # 旧面之外恰好是 1.9.0 的 32/7/8 项增量
+    assert set(new["props"]) - set(old["props"]) == NEW_190_PROPS
+    assert len(set(new["signals"]) - set(old["signals"])) == 7
+    assert len(set(new["methods"]) - set(old["methods"])) == 8
+
+
+def test_previous_manifest_is_published_history(previous):
+    """1.8.0 冻结面是已发布史料，本轮不回改。"""
+    assert previous["fingerprint"] == PREV_FINGERPRINT
+    assert previous["apiVersion"] == "1.8.0"
+    assert previous["counts"]["total"] == 147
+
+
+def test_no_private_member_leaks_into_frozen_surface(manifest):
+    entry = manifest["types"][KEY]
+    for field in ("props", "signals", "methods"):
+        for sig in entry[field]:
+            assert not sig.startswith("_"), f"私有成员泄漏进公共面：{sig}"
+            assert not sig.startswith("ro _"), f"私有 readonly 泄漏进公共面：{sig}"
+
+
+# ── 2. 源码纪律 ────────────────────────────────────────────────────
+def test_qmldir_exports_nova_table():
+    assert "NovaTable 1.0 NovaTable.qml" in QMLDIR.read_text(encoding="utf-8")
+
+
+def test_a11y_registered_as_interactive_table():
+    import check_a11y
+    entry = check_a11y.CONTROLS["NovaTable"]
+    assert entry[0] == check_a11y.INTERACTIVE
+    assert entry[1] == "Table"
+
+
+def test_zero_third_party_dependency():
+    text = PYPROJECT.read_text(encoding="utf-8")
+    assert 'dependencies = ["PySide6>=6.8"]' in text
+    for banned in ("markdown-it-py", "PyQt", "QtWebEngine", "pandas", "numpy"):
+        assert banned not in text
+
+
+def test_legacy_grid_semantics_not_hijacked():
+    text = QML.read_text(encoding="utf-8")
+    assert "property bool grid: false" in text
+    assert "保留原语义" in text           # 源码注释明确 grid != 卡片视图
+    assert 'property string viewMode: "table"' in text
+
+
+def test_controlled_mode_emits_intent_only():
+    text = QML.read_text(encoding="utf-8")
+    for sig in ("signal updateSelected(var rows)", "signal updateExpanded(var keys)",
+                "signal sortChanged(string field, bool desc)",
+                "signal pageRequested(int page)", "signal request(var params)"):
+        assert sig in text
+    assert "均不自写" in text             # 受控模式注释（坑位 22）
+
+
+def test_all_slots_and_intents_declared():
+    text = QML.read_text(encoding="utf-8")
+    for decl in ("property Component bodyDelegate: null",
+                 "property Component headerDelegate: null",
+                 "property Component topDelegate: null",
+                 "property Component bottomDelegate: null",
+                 "property Component topRowDelegate: null",
+                 "property Component bottomRowDelegate: null",
+                 "property Component footerDelegate: null",
+                 "property Component noDataDelegate: null",
+                 "property Component loadingDelegate: null",
+                 "property Component gridDelegate: null",
+                 "property var cellDelegates: ({})",
+                 "property var headerCellDelegates: ({})"):
+        assert decl in text, f"缺少插槽声明：{decl}"
+    for sig in ("signal fullScreenToggled(bool active)",
+                "signal exportRequested(var csvText)",
+                "signal loadMoreRequested(int lastRow)",
+                "signal clearFilterRequested()",
+                "signal rowsPerPageRequested(int size)",
+                "signal columnVisibilityChanged(var keys)",
+                "signal virtualScrollReset()"):
+        assert sig in text, f"缺少意图信号：{sig}"
+
+
+def test_column_meta_fields_supported():
+    text = QML.read_text(encoding="utf-8")
+    for field in ("format: c.format", "sort: c.sort", "rawSort: c.rawSort",
+                  "autoWidth: c.autoWidth", "headerStyle:", "classes:"):
+        assert field in text
+
+
+# ── 3. 史料不圆场 / 文档事实 ───────────────────────────────────────
+def test_historical_draft_preserved_verbatim():
+    assert HISTORICAL_DOC.exists(), "构想稿史料被误删（git restore 可精确恢复）"
+    text = HISTORICAL_DOC.read_text(encoding="utf-8")
+    assert text.startswith("# NovaTable 企业级旗舰封版 · 完整可运行方案")
+    assert text.count("\n") == 1654        # 与 `git show HEAD:docs/controls/NovaTable.md` 逐字一致
+    assert text.rstrip().endswith("冻结列与展开行作为 v0.13.0 补丁推进，不阻塞本次封版。")
+
+
+def test_current_doc_is_separate_and_accurate():
+    assert DOC.exists()
+    text = DOC.read_text(encoding="utf-8")
+    assert "1.9.0 现行" in text
+    assert FINGERPRINT in text
+    assert "api/nova-api-1.9.0.json" in text
+    assert "77 props / 14 signals / 21 methods" in text
+    assert "不改写、不删除构想稿" in text
+    assert "viewMode" in text and "exportCsv" in text
+    assert "委托声明契约" in text and 'property: "slotData"' in text
+    assert "property var slotData" in text and "property var cellData" in text
+
+
+def test_mkdocs_excludes_draft_and_nav_includes_current():
+    cfg = MKDOCS.read_text(encoding="utf-8")
+    assert "controls/NovaTable.md" in cfg.split("exclude_docs:")[1].split("extra_css:")[0]
+    assert "controls/NovaTable.current.md" in cfg
+    assert "NovaTable 使用文档（1.9.0 现行）" in cfg
+
+
+def test_changelog_190_is_current_head():
+    text = CHANGELOG.read_text(encoding="utf-8")
+    first = next(line for line in text.splitlines() if line.startswith("## ["))
+    assert first.startswith("## [1.9.0]")
+    assert "NovaTable 对标 Quasar QTable" in first
+    assert "⭐ 当前状态" in first
+    assert "## [1.8.0]" in text and "已由 CSA 发布" in text
+
+
+def test_brand_seal_carries_current_version():
+    text = BRAND.read_text(encoding="utf-8")
+    assert "v1.9.0" in text, "封版徽标刻字未同步（跑 scripts/sync_brand_version.py）"
+    assert "v1.8.0" not in text

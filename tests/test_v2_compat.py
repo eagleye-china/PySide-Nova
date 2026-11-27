@@ -31,7 +31,7 @@ MARK = "@nova-compat-view"
 LAYERS = ["Controls", "Behaviors", "Services", "Design", "Composite/LayoutShell"]
 
 # 旧 URI 实例化样本 12 类型（取自 Controls 概念域台账
-# GUIDE_COMPONENT_DOMAINS.md / api/component-domains-1.8.0.json；
+# GUIDE_COMPONENT_DOMAINS.md / api/component-domains-1.9.0.json；
 # 概念域分类保留在文档层，物理子目录已依 CSA 10:44 指令撤销，此处无任何物理目录依赖）
 SAMPLE_TYPES = [
     "NovaAvatar", "NovaBadge", "NovaChip", "NovaIcon", "NovaImg",
@@ -87,7 +87,7 @@ def test_exactly_five_qmldir_modules():
     """C3：全库 qmldir 恰 5 个冻结面模块，无第 6 个独立子模块。"""
     qmldirs = sorted(QML.glob("**/qmldir"))
     assert len(qmldirs) == 5, [p.relative_to(QML).as_posix() for p in qmldirs]
-    ledger = json.loads((ROOT / "api" / "nova-api-1.8.0.json").read_text(encoding="utf-8"))
+    ledger = json.loads((ROOT / "api" / "nova-api-1.9.0.json").read_text(encoding="utf-8"))
     mods = set()
     for p in qmldirs:
         for line in p.read_text(encoding="utf-8").splitlines():

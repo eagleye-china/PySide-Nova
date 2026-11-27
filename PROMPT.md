@@ -5,6 +5,21 @@
 
 以下快照即全部必要上下文，读完按第二步汇报；**未汇报前不得动手写代码**。
 
+### 🆕 1.9.0 现行校准（2026-11-27 23:30 · NovaTable 对标 Quasar QTable 打磨 · 覆盖下方 1.8.0 / 1.7.0 / 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA「继续打磨 NovaTable，对标 https://quasar.dev/vue-components/table」→ 立 **T27**，按 additive minor 1.9.0 收口；1.8.0 已由 CSA 发布（HEAD `6c80d42 chore(release): v1.8.0` / tag `v1.8.0`），属史料事实，正文不回改。发布边界仍归 CSA。
+
+| 项 | 1.9.0 现行事实 |
+|---|---|
+| 冻结面 | **147 类型 / Controls 93 / LayoutShell 21 / a11y 33+29+85 不变 / 指纹 `b15a4be38c000c59`**（1.8.0 `89d5d3cdd7f94cf0` 已发布史料）；`api/nova-api-1.9.0.json` + `api/component-domains-1.9.0.json` + `docs/API_FREEZE.md` 生成器重出，徽标 3 枚 + 站点副本 `v1.9.0` 同步。无新增 QML 导出类型。 |
+| 公共面 | `NovaTable` **45/7/13 → 77/14/21**（旧面逐成员零丢失，`tests/test_nova_table.py` 机检固化）：+32 props / +7 signals / +8 methods，全 additive。 |
+| 能力落地 | 完整插槽体系（top / bottom / top-row / bottom-row / footer / body / header / no-data / loading + 表头与单元格级注册表）；列定义元字段（`format` / `sort` / `rawSort` / `style` / `classes` / `headerStyle` / `autoWidth`）；`columnSortOrder` 多列排序、`visibleColumns` + 列选择器；真 grid 卡片视图；全屏 / CSV / 触底 / 清筛选 / 页大小 / 虚拟滚动复位意图；`dense` / `separator` / `responsive` / `gridBreakpoint` 密度与响应式。 |
+| 兼容取舍 | `grid` 保留 GA「单元格描边」原语义，真 Quasar grid mode 另立 `viewMode: "grid"`；受控模式（`selected` / `expanded` / `sortBy` / `descending` / `page` / `rowsPerPage`）组件不自写、只发信号由宿主写回。全屏 / CSV / 触底只发意图，不写磁盘、不自动改窗口、不发网络请求。 |
+| 文档与史料 | 新建现行文档 `docs/controls/NovaTable.current.md` 并加入 mkdocs nav；`docs/controls/NovaTable.md`（1654 行「企业级旗舰封版方案」构想稿）按「史料不圆场」**原样恢复保留**、仍由 `exclude_docs` 排除、不上文档站；`docs/controls/NovaDataGrid.md` §0 的构想稿 B 路径裁决保持有效；现行文档 §5 另明确「委托必须声明 `slotData` / `cellData`」契约（裸 Rectangle 会触发 12 条 Binding warning，属注入侧问题、坑位 76 同类）。 |
+| 验收 | 新增 `tests/test_nova_table.py` **17 项**（冻结面 / additive 零漂移 / qmldir / a11y / 零第三方依赖 / 插槽与意图声明 / 史料与文档事实 / mkdocs / CHANGELOG / 徽标）；离屏真机全插槽激活 `TOTAL_MSGS=0`；qmllint 0 error（本文件显式关闭 unqualified，全库 warning 预算只降不升）。 |
+| 坑位 | **81**：`Repeater` delegate 内带 `anchors.fill` 的 `Loader` / `Text` 不能直接塞进 `NovaTh` / `NovaTd` 内部 `Row`，须外层包 `Item { required property int index }` 再取 `index`，否则 `ReferenceError: index is not defined` + `Cannot specify ... anchors`。 |
+| 发布边界 | 本助手只做本地实现与验收；commit / push / tag / PyPI / 站点上线全归 CSA。待办池仍 1 项 = T3，**T27 完现销号，下一个 T28**。 |
+
 ### 🆕 1.8.0 现行校准（2026-11-27 22:20 · NovaDataGrid P1 五项 + P2 六项打磨 · 覆盖下方 1.7.0 / 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
 
 > **本节优先于下方全部历史正文**。CSA「版本已发，P1、P2 不执行了吗？」→ 上一轮授权只到 P0，P1/P2 从未作废；1.7.0 发布后按 **additive minor 1.8.0** 继续落地。发布边界仍归 CSA。
@@ -585,8 +600,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：1.8.0（2026-11-27）
-- 内容指纹：`e3b83056b9b8`
-- git HEAD：dff55b3
-- 生成时间：2026-11-27 22:28（星期五）
+- 快照版本：1.9.0（2026-11-27）
+- 内容指纹：`cc23f18f1094`
+- git HEAD：6c80d42
+- 生成时间：2026-11-27 23:47（星期五）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

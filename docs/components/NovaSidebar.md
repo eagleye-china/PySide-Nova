@@ -1,6 +1,6 @@
 # NovaSidebar · 侧边导航工作台
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 主导航 · **pyside-nova 1.8.0** · API 冻结指纹 `89d5d3cdd7f94cf0` · **21/21 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 主导航 · **pyside-nova 1.9.0** · API 冻结指纹 `b15a4be38c000c59` · **21/21 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览
