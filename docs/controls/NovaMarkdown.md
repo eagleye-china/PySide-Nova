@@ -1,8 +1,8 @@
 # NovaMarkdown · Markdown 文档渲染器
 
-> **模块** `Nova.Controls` · **a11y** `semantic`（`Accessible.StaticText`）· **pyside-nova 1.6.0** ·
+> **模块** `Nova.Controls` · **a11y** `semantic`（`Accessible.StaticText`）· **pyside-nova 1.7.0** ·
 > **API 冻结指纹** `9742de8638251876` · **零第三方依赖**（全库唯一依赖仍是 `PySide6>=6.8`）·
-> 公共签名以 `api/nova-api-1.6.0.json` 冻结面为准
+> 公共签名以 `api/nova-api-1.7.0.json` 冻结面为准
 >
 > **史料（1.4.0 初版，不回改）**：指纹 `37fbbe9ab5806a2a` / `api/nova-api-1.4.0.json`；
 > 下方 §1.1 / §9 / §10 的 1.4.0 时点表述按「史料不圆场」原样保留。
@@ -375,7 +375,7 @@ A 方案的硬约束是**不动冻结面**，因此本轮**不升版、不改 `a
 | `src/pyside_nova/qml/Nova/Controls/qmldir` | 公共导出登记 |
 | `src/pyside_nova/qml/Nova/Controls/NovaScrollArea.qml` | 反哺 `_flick` 私有别名 |
 | `scripts/check_a11y.py` | a11y 契约表 |
-| `api/nova-api-1.6.0.json` / `docs/API_FREEZE.md` | 现行冻结面（生成器产物，禁手改） |
+| `api/nova-api-1.7.0.json` / `docs/API_FREEZE.md` | 现行冻结面（生成器产物，禁手改） |
 | `examples/controls/markdown_demo/` | 独立演示 + 三张真机截图 + 离屏自检 |
 | `tests/test_nova_markdown.py` | 专项 15 项（含 T22 三项增益回归） |
 | `docs/CONSTITUTION.md` 第 8 章 / `SPEC_FREEZE.md` v2.1.0 | additive 升版法源 |

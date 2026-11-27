@@ -142,7 +142,7 @@ ApplicationWindow {
                     }
                     Text {
                         Layout.fillWidth: true
-                        text: "TableView 真虚拟化 · Python QAbstractTableModel 管道 · 高频 batchUpdate · pyside-nova 1.6.0"
+                        text: "TableView 真虚拟化 · Python QAbstractTableModel 管道 · 高频 batchUpdate · pyside-nova 1.7.0"
                         font.family: NovaTheme.fontFamily
                         font.pixelSize: NovaTheme.fontXS
                         color: NovaTheme.textMuted

@@ -181,12 +181,76 @@
    "line": 64
   },
   {
+   "name": "noResultsText",
+   "type": "string",
+   "readonly": false,
+   "default": ": qsTr(\"没有匹配的结果\")",
+   "doc": null,
+   "line": 65
+  },
+  {
+   "name": "clearFilterText",
+   "type": "string",
+   "readonly": false,
+   "default": ": qsTr(\"清除筛选\")",
+   "doc": null,
+   "line": 66
+  },
+  {
+   "name": "expandProxy",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 70
+  },
+  {
+   "name": "expandedRows",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 71
+  },
+  {
+   "name": "expansionDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 72
+  },
+  {
+   "name": "expansionHeight",
+   "type": "int",
+   "readonly": false,
+   "default": ": 88",
+   "doc": null,
+   "line": 73
+  },
+  {
+   "name": "selectionDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 74
+  },
+  {
+   "name": "emptyDelegate",
+   "type": "var",
+   "readonly": false,
+   "default": ": null",
+   "doc": null,
+   "line": 75
+  },
+  {
    "name": "columnDefs",
    "type": "var",
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 77
+   "line": 92
   },
   {
    "name": "allColumnDefs",
@@ -194,7 +258,23 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 79
+   "line": 94
+  },
+  {
+   "name": "selectedRows",
+   "type": "var",
+   "readonly": true,
+   "default": ": root._collectSelectedRows()",
+   "doc": null,
+   "line": 96
+  },
+  {
+   "name": "filterActive",
+   "type": "bool",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 97
   },
   {
    "name": "_model",
@@ -202,7 +282,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 83
+   "line": 104
   },
   {
    "name": "_editingRow",
@@ -210,7 +290,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": null,
-   "line": 86
+   "line": 108
   },
   {
    "name": "_editingColumn",
@@ -218,7 +298,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": null,
-   "line": 87
+   "line": 109
   },
   {
    "name": "_visibleColumnKeys",
@@ -226,7 +306,7 @@
    "readonly": false,
    "default": ": []",
    "doc": "空 = 全部可见",
-   "line": 88
+   "line": 110
   },
   {
    "name": "_sortKey",
@@ -234,7 +314,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 89
+   "line": 111
   },
   {
    "name": "_sortAsc",
@@ -242,7 +322,7 @@
    "readonly": false,
    "default": ": true",
    "doc": null,
-   "line": 90
+   "line": 112
   },
   {
    "name": "_selRev",
@@ -250,7 +330,23 @@
    "readonly": false,
    "default": ": 0",
    "doc": null,
-   "line": 91
+   "line": 113
+  },
+  {
+   "name": "_anchorRow",
+   "type": "int",
+   "readonly": false,
+   "default": ": -1",
+   "doc": null,
+   "line": 114
+  },
+  {
+   "name": "_emptyRev",
+   "type": "int",
+   "readonly": false,
+   "default": ": 0",
+   "doc": null,
+   "line": 115
   },
   {
    "name": "_a11yRow",
@@ -258,7 +354,7 @@
    "readonly": false,
    "default": ": -1",
    "doc": null,
-   "line": 92
+   "line": 116
   },
   {
    "name": "_columnMenuOpen",
@@ -266,7 +362,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 93
+   "line": 117
   },
   {
    "name": "_editError",
@@ -274,7 +370,7 @@
    "readonly": false,
    "default": ": false",
    "doc": null,
-   "line": 94
+   "line": 118
   },
   {
    "name": "_columnOptions",
@@ -282,7 +378,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 95
+   "line": 119
   },
   {
    "name": "_pageSizeOptions",
@@ -290,7 +386,7 @@
    "readonly": true,
    "default": ": [",
    "doc": null,
-   "line": 102
+   "line": 126
   },
   {
    "name": "hColDef",
@@ -298,7 +394,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 399
+   "line": 520
   },
   {
    "name": "colKey",
@@ -306,7 +402,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 401
+   "line": 522
   },
   {
    "name": "sortable",
@@ -314,7 +410,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 403
+   "line": 524
   },
   {
    "name": "sorted",
@@ -322,7 +418,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 405
+   "line": 526
   },
   {
    "name": "colDef",
@@ -330,7 +426,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 510
+   "line": 657
   },
   {
    "name": "selected",
@@ -338,7 +434,7 @@
    "readonly": true,
    "default": ": {",
    "doc": null,
-   "line": 512
+   "line": 659
   },
   {
    "name": "editing",
@@ -346,7 +442,7 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 519
+   "line": 666
   },
   {
    "name": "a11yFocused",
@@ -354,7 +450,31 @@
    "readonly": true,
    "default": ":",
    "doc": null,
-   "line": 521
+   "line": 668
+  },
+  {
+   "name": "filtered",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root.filterActive",
+   "doc": null,
+   "line": 893
+  },
+  {
+   "name": "message",
+   "type": "string",
+   "readonly": true,
+   "default": ": filtered ? root.noResultsText : root.noDataText",
+   "doc": null,
+   "line": 894
+  },
+  {
+   "name": "_ready",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": null,
+   "line": 1112
   }
  ],
  "signals": [
@@ -389,6 +509,22 @@
   {
    "name": "rowContextMenuRequested",
    "params": "int row, real x, real y"
+  },
+  {
+   "name": "rowExpansionToggled",
+   "params": "var rowKey, bool expanded"
+  },
+  {
+   "name": "selectionChanged",
+   "params": "var rows"
+  },
+  {
+   "name": "selectionActionRequested",
+   "params": "var rows, string action"
+  },
+  {
+   "name": "clearFilterRequested",
+   "params": ""
   }
  ],
  "methods": [
@@ -409,7 +545,51 @@
    "params": ""
   },
   {
+   "name": "onExpansionToggled",
+   "params": "rowKey, expanded"
+  },
+  {
+   "name": "onExpandedChanged",
+   "params": ""
+  },
+  {
+   "name": "onFilterActiveChanged",
+   "params": ""
+  },
+  {
    "name": "_syncPaginationTotal",
+   "params": ""
+  },
+  {
+   "name": "_collectSelectedRows",
+   "params": ""
+  },
+  {
+   "name": "_emitSelectionChanged",
+   "params": ""
+  },
+  {
+   "name": "toggleExpansion",
+   "params": "row"
+  },
+  {
+   "name": "isExpanded",
+   "params": "row"
+  },
+  {
+   "name": "clearFilters",
+   "params": ""
+  },
+  {
+   "name": "requestSelectionAction",
+   "params": "action"
+  },
+  {
+   "name": "_editorType",
+   "params": ""
+  },
+  {
+   "name": "_editorOptions",
    "params": ""
   },
   {
@@ -471,10 +651,6 @@
   {
    "name": "scrollToRow",
    "params": "row"
-  },
-  {
-   "name": "_editorType",
-   "params": ""
   }
  ]
 }

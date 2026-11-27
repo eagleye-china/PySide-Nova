@@ -1,8 +1,8 @@
 # pyside-nova 组件清单
 
-> 版本 **1.6.0** · 基线 **Quasar 2.35.5** · API 指纹 `7c542c416709cd96` · 共 **147** 个公共 QML 类型
+> 版本 **1.7.0** · 基线 **Quasar 2.35.5** · API 指纹 `157ab2b1d77ea9f9` · 共 **147** 个公共 QML 类型
 >
-> 数据源：`api/nova-api-1.6.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
+> 数据源：`api/nova-api-1.7.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
 >
 > 分类口径：Nova.Controls 93 / Nova.Behaviors 13 / Nova.Services 16 / Nova.Design 4 / Nova.Composite.LayoutShell 21；每个类型在 `examples/gallery/` 中有实机展示页面。
 
@@ -43,7 +43,7 @@
 | 21 | **NovaChip** | 标签：filled/outlined/tinted、可选中、可移除、dense | QChip | interactive（交互） | 11/2/0 | `Nova/Controls/NovaChip.qml` |
 | 22 | **NovaCol** | 栅格列：cols 1~12 占 12 栅格、offset 偏移、gutter 内边距，父级 NovaRow 自动排布 | Quasar col-*-n | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaCol.qml` |
 | 23 | **NovaColorPicker** | 取色器：SV 色域盘 + 色相条 + 调色板(palette) + HEX 编辑 + footer 值显示 对标 Quasar QColor（16 props；Nova 收口核心 13 项，rgb/hsl 编辑器与 … | Quasar QColor | interactive（交互） | 15/1/7 | `Nova/Controls/NovaColorPicker.qml` |
-| 24 | **NovaDataGrid** | 企业级数据网格（1.5.0 additive · 第 146 公共类型） 定位：与已发布的 `NovaTable` 并存，不替换、不改动其冻结签名 | Nova 增强 / 无对应 | interactive（交互） | 32/8/8 | `Nova/Controls/NovaDataGrid.qml` |
+| 24 | **NovaDataGrid** | 企业级数据网格（1.5.0 additive · 第 146 公共类型） 定位：与已发布的 `NovaTable` 并存，不替换、不改动其冻结签名 | Nova 增强 / 无对应 | interactive（交互） | 44/12/15 | `Nova/Controls/NovaDataGrid.qml` |
 | 25 | **NovaDate** | 自研日历：单选/多选(multiple)/区间(range)、mask 格式化、最小值约束、 事件点(events)、todayBtn、导航范围限定（Qt 6 无内置日历——对标 Quasar QDate 全自研路径… | Quasar QDate | interactive（交互） | 33/2/9 | `Nova/Controls/NovaDate.qml` |
 | 26 | **NovaDialogShell** | 声明式对话框壳：遮罩 + 卡片 + default 槽，persistent/no-esc/no-backdrop、 五向定位、shake 吸引注意、**关闭原因上报**（ok/cancel/backdrop/esc… | QDialog | interactive（交互） | 17/10/9 | `Nova/Controls/NovaDialogShell.qml` |
 | 27 | **NovaDrawer** | 侧边抽屉：left/right、mini 悬停展开、push/overlay 双模式、breakpoint 自动收起、宽度动画 | QDrawer | decorative（装饰） | 16/0/0 | `Nova/Controls/NovaDrawer.qml` |

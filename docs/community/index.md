@@ -2,12 +2,12 @@
 
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
-pyside-nova **1.6.0 GA** 的社区入口。仓库、发布与议题讨论均在 GitHub，以下链接为真实地址（站点部署与正式域名归 CSA，本轮未上线）。
+pyside-nova **1.7.0 GA** 的社区入口。仓库、发布与议题讨论均在 GitHub，以下链接为真实地址（站点部署与正式域名归 CSA，本轮未上线）。
 
 ## 官方入口
 
 - [GitHub 仓库](https://github.com/eagleye-china/pyside-nova) · [Issues](https://github.com/eagleye-china/pyside-nova/issues) · [Discussions](https://github.com/eagleye-china/pyside-nova/discussions)
-- [PyPI 发布页](https://pypi.org/project/pyside-nova/)（`pip install pyside-nova==1.6.0`）
+- [PyPI 发布页](https://pypi.org/project/pyside-nova/)（`pip install pyside-nova==1.7.0`）
 - [CHANGELOG](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md) · [架构宪法](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md)
 
 ## 参与

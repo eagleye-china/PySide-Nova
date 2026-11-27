@@ -3,9 +3,35 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.6.0] - 2026-11-27 — NovaDataGrid + 第 21 组合根 NovaAIReport（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+## [1.7.0] - 2026-11-27 — NovaDataGrid P0 打磨（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
 
-> **版本说明**：1.4.0 之上的 **additive minor**（1.5.0 为未发布中间批次，按「史料不圆场」保留为过程口径，不另立发布段）；
+> **版本说明**：1.6.0 之上的 **additive minor**；1.6.0 已由 CSA `git tag v1.6.0` / `git push origin v1.6.0` 发布至 PyPI LATEST，属史料事实，正文不回改。
+> 本段只做 `NovaDataGrid` 公共面增量，不新增 QML 导出类型（仍 **147 类型 / Controls 93 / LayoutShell 21**）；
+> 冻结指纹 `7c542c416709cd96` → `157ab2b1d77ea9f9`（P0 契约入面后重签，旧指纹为已发布史料）。
+> `api/nova-api-1.7.0.json` / `api/component-domains-1.7.0.json` / `docs/API_FREEZE.md` 为生成物禁手改。
+
+### 新增（Added）
+- **展开行**：`NovaDataGridExpandProxy` 在管道末端按 `rowKey` 插入虚拟展开行，不改写业务数据；QML 新增
+  `expandProxy` / `expandedRows` / `expansionDelegate` / `expansionHeight`，`toggleExpansion(row)` /
+  `isExpanded(row)` 与 `rowExpansionToggled(rowKey, expanded)`；首列箭头或展开行自身均可折叠。
+- **选择体系**：`selectedRows` 只读派生、`selectionDelegate` 自定义首列选择单元格；多选模式支持
+  `Ctrl+单击` 切行、`Shift+单击` 范围选择；`selectionChanged(rows)` /
+  `requestSelectionAction(action)` / `selectionActionRequested(rows, action)` 供宿主挂自定义动作。
+- **编辑器 `select`**：`NovaDataGridColumn(editor="select", options=[...])` 走库组件 `NovaSelect`
+  （选项按坑位 70 在 QML 内重建为 JS 数组），提交仍发 `cellEdited`，ESC 取消与失败红框一致。
+- **空态区分**：`noResultsText` / `clearFilterText` / `emptyDelegate`，`filterProxy.filterActive` 驱动
+  no-data / no-results 分流；`clearFilters()` 与 `clearFilterRequested()` 同时覆盖本地与服务端模式。
+
+### 改进（Changed）
+- **a11y 深化**：表头 `Accessible.ColumnHeader` + 可聚焦 Enter/Space 排序，`Accessible.description`
+  暴露「可排序 / 升序 / 降序」等价 `aria-sort`；单元格 `Accessible.Cell` + 名称/选中态；
+  行游标新增 PageUp/PageDown 十行跳转。
+- **文档与验收**：`docs/controls/NovaDataGrid.md` 增补 P0 契约；专项测试 95 → **97 passed**；
+  qmllint 仍 0 error / 594 warning 预算内。
+
+## [1.6.0] - 2026-11-27 — NovaDataGrid + 第 21 组合根 NovaAIReport（additive minor · 已由 CSA 发布）
+
+> **版本说明**：现行状态已由上方 1.7.0 段接替，本段按「史料不圆场」逐字保留发布时口径。1.4.0 之上的 **additive minor**（1.5.0 为未发布中间批次，按「史料不圆场」保留为过程口径，不另立发布段）；
 > 下方 1.4.0 段的状态锚点由本段接替（1.4.0 已由 CSA commit `a80799f` / tag `v1.4.0` 发布至 PyPI LATEST，属史料事实，正文不回改）。
 > 三次增量整批并入 1.6.0：T21 `NovaDataGrid` + Python 数据层、T22 `NovaMarkdown` 私有反哺（公共面零漂移）、
 > T24 `NovaAIReport` 第 21 组合根 + 成品级 demo。冻结面 **145 → 147 类型 / Controls 92 → 93 /

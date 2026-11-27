@@ -1,9 +1,8 @@
 # NovaDataGrid 使用文档
 
-> **1.5.0 additive · 第 146 个公共类型** · `Nova.Controls.NovaDataGrid`
-> 冻结指纹 `9742de8638251876` · 146 类型 / Controls 93 / a11y `interactive`
-> 公共面：**32 props · 8 signals · 8 methods**（其中 4 个为 Connections 标准 handler，
-> 与库内 `NovaClosePopup.onClicked()` 惯例一致；逐成员见 `api/nova-api-1.6.0.json`）
+> **1.5.0 additive · 第 146 个公共类型** · 1.7.0 P0 打磨后重签 · `Nova.Controls.NovaDataGrid`
+> 冻结指纹以 `docs/API_FREEZE.md` 现行为准（1.5.0 `9742de8638251876` 为史料） · 147 类型 / Controls 93 / a11y `interactive`
+> 公共面逐成员见 `api/nova-api-1.7.0.json`（1.7.0 增补展开行 / 选择 / 空态 / 编辑器 P0 契约）
 
 ## 0. 定位与裁决
 
@@ -166,6 +165,7 @@ ApplicationWindow {
 | `NovaDataGridFilterProxy` | `QSortFilterProxyModel` | 全字段快速过滤 + 列级过滤；转发源模型 roleNames |
 | `NovaDataGridPagination` | `QObject` | 分页状态：`currentPage / pageSize / total / pageCount / startIndex / endIndex` + 翻页 Slot |
 | `NovaDataGridPagedProxy` | `QSortFilterProxyModel` | 按 `startIndex/endIndex` 切片；转发 roleNames |
+| `NovaDataGridExpandProxy` | `QAbstractProxyModel` | 1.7.0 additive：按 `rowKey` 在数据行后插入展开行，不改业务数据 |
 
 **批量更新**（工业高频写入）：
 
@@ -212,6 +212,52 @@ Component {
 需要完整行时调 `root.getRowData(cellData.rowIndex)`。
 实现用 `Binding` 元素按属性名注入，因此委托根无需继承特定基类。
 
+### 4.1 展开行（1.7.0 P0）
+
+在分页代理末端接一层 `NovaDataGridExpandProxy` 并注入 `expandProxy` 即可。展开态只存 `rowKey`，**必须**给 `NovaDataGridModel` 传 `row_key`。
+
+```python
+expand_proxy = NovaDataGridExpandProxy()
+expand_proxy.setSourceModel(paged_proxy)
+ctx.setContextProperty("gridExpand", expand_proxy)
+```
+
+```qml
+NovaDataGrid {
+    expandProxy: gridExpand
+    expansionHeight: 88
+    expandedRows: ["A01"]
+    expansionDelegate: Component {
+        Rectangle {
+            property var expansionData
+            // expansionData = { rowKey, sourceRow, rowData, expansionRow }
+        }
+    }
+    onRowExpansionToggled: function (key, expanded) { console.log(key, expanded) }
+}
+```
+
+公共方法 `toggleExpansion(row)` / `isExpanded(row)` 可直接调用；点击首列箭头或展开行自身都可折叠。展开行的高度由 `rowHeightProvider` 动态返回 `expansionHeight`，列级委托与编辑器在展开行上自动短路。
+
+### 4.2 选择体系（1.7.0 P0）
+
+- `selectedRows: var` 只读派生当前选中行（代理行索引）；
+- `selectionDelegate` 可注入首列选择单元格，收到 `selectionData = { selected, row, rowKey, mode }`；
+- 多选模式下 `Ctrl+单击` 切换单行、`Shift+单击` 范围选择，普通单击锚定；
+- `selectionChanged(var rows)` 与 `requestSelectionAction(action)` / `selectionActionRequested(rows, action)` 供宿主追加自定义动作。
+
+### 4.3 编辑器 select（1.7.0 P0）
+
+`NovaDataGridColumn(..., editor="select", options=[...])` 现在走库组件 `NovaSelect`，提交走同一 `cellEdited`，ESC 取消与失败红框保持一致。坑位 70：选项在 QML 内逐项重建为 JS 数组，不直接喂 Python list。
+
+### 4.4 空态区分（1.7.0 P0）
+
+`noDataText` 表示真正无数据；`noResultsText` 表示筛选后无命中。 filtered 态显示 `clearFilterText` 按钮，点击发 `clearFilterRequested()` 并清理本地/服务端过滤。`emptyDelegate` 收到 `emptyData = { filtered, text, canClear }`。
+
+### 4.5 a11y 深化（1.7.0 P0）
+
+表头 `Accessible.ColumnHeader` + 可聚焦 Enter/Space 排序，`Accessible.description` 以「可排序 / 升序 / 降序」暴露 `aria-sort` 等价语义；单元格 `Accessible.Cell` + 名称/选中态；行游标新增 PageUp/PageDown 十行跳转。
+
 ## 5. 服务端模式
 
 设 `serverSide: true`，组件不再本地过滤/排序/切片，只发 `request`：
@@ -234,8 +280,9 @@ Component {
 
 - **主题**：全部取 `Nova.Services.NovaTheme` 令牌；`severity` / 选中 / 键盘焦点
   用 `Qt.rgba(令牌.r/g/b, α)` 派生，**不新增公共令牌**（旧 145 类型逐字不变）。
-- **a11y**：`Accessible.Table` + `a11yLabel`；`↑/↓/Home/End` 移动行游标、
-  `Enter` 触发 `rowClicked`、`Space` 切换选中；编辑态短路键盘导航，避免与编辑器冲突。
+- **a11y**：`Accessible.Table` + `a11yLabel`；`↑/↓/PageUp/PageDown/Home/End` 移动行游标、
+  `Enter` 触发 `rowClicked`、`Space` 切换选中；表头列可 Tab 聚焦并用 Enter/Space 排序；
+  编辑态短路键盘导航，避免与编辑器冲突。
 - **坑位 32（Qt 6.12）**：`reuseItems` 与自定义 delegate 组合会触发进程退出段错误，
   故默认 `false`。`TableView` 仍按可视区创建 delegate，虚拟化不依赖 `reuseItems`；
   宿主若要在其他 Qt 版本开启，需自行实跑验证。
@@ -252,7 +299,7 @@ Component {
 ## 7. 相关资源
 
 - Gallery 第 25 页：`examples/gallery/main.qml`（`pageDataGrid`）
-- 冻结清单：`api/nova-api-1.6.0.json` / 签署件 `docs/API_FREEZE.md`
+- 冻结清单：`api/nova-api-1.7.0.json` / 签署件 `docs/API_FREEZE.md`
 - 组件自动生成文档：`docs/components/NovaDataGrid.md`（生成器产物）
 - 独立演示：`examples/controls/markdown_demo/` 展示的是 `NovaMarkdown`；
   `NovaDataGrid` 的可运行装配见 Gallery 与 `tests/test_nova_datagrid.py`

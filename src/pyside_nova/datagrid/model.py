@@ -34,6 +34,12 @@ class NovaDataGridRoles:
     SeverityRole = Qt.ItemDataRole.UserRole + 1
     RowKeyRole = Qt.ItemDataRole.UserRole + 2
     HighlightedRole = Qt.ItemDataRole.UserRole + 3
+    # 1.7.0 additive：展开行 role。基础模型恒返回默认值，真实行由
+    # NovaDataGridExpandProxy 在管道末端注入。
+    ExpansionRowRole = Qt.ItemDataRole.UserRole + 4
+    IsExpansionRole = Qt.ItemDataRole.UserRole + 5
+    ExpandedRole = Qt.ItemDataRole.UserRole + 6
+    ExpansionDataRole = Qt.ItemDataRole.UserRole + 7
 
 
 @dataclass
@@ -125,6 +131,10 @@ class NovaDataGridModel(QAbstractTableModel):
             NovaDataGridRoles.SeverityRole: b"severity",
             NovaDataGridRoles.RowKeyRole: b"rowKey",
             NovaDataGridRoles.HighlightedRole: b"highlighted",
+            NovaDataGridRoles.ExpansionRowRole: b"expansionRow",
+            NovaDataGridRoles.IsExpansionRole: b"isExpansion",
+            NovaDataGridRoles.ExpandedRole: b"expanded",
+            NovaDataGridRoles.ExpansionDataRole: b"expansionData",
         }
 
     def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole):
@@ -151,6 +161,14 @@ class NovaDataGridModel(QAbstractTableModel):
             return self._row_key_at(index.row())
         if role == NovaDataGridRoles.HighlightedRole:
             return index.row() in self._highlighted_rows
+        if role == NovaDataGridRoles.ExpansionRowRole:
+            return -1
+        if role == NovaDataGridRoles.IsExpansionRole:
+            return False
+        if role == NovaDataGridRoles.ExpandedRole:
+            return False
+        if role == NovaDataGridRoles.ExpansionDataRole:
+            return {}
         return None
 
     def headerData(self, section: int, orientation, role=Qt.ItemDataRole.DisplayRole):

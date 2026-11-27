@@ -42,11 +42,22 @@ Item {
 
     // ── 受控契约：只 emit，不自写宿主状态 ──
     signal taskToggled(bool collapsed)
+
     signal verifyToggled(bool collapsed)
+
     signal approvalRequested()
-    function toggleTask() { root.taskToggled(!root.taskCollapsed) }
-    function toggleVerify() { root.verifyToggled(!root.verifyCollapsed) }
-    function requestApproval() { root.approvalRequested() }
+
+    function toggleTask() {
+        root.taskToggled(!root.taskCollapsed)
+    }
+
+    function toggleVerify() {
+        root.verifyToggled(!root.verifyCollapsed)
+    }
+
+    function requestApproval() {
+        root.approvalRequested()
+    }
 
     readonly property bool belowBreakpoint: width > 0 && width < root.breakpoint
     // 应用身份图标（qrc:/icons/app-agent.svg；私有 _ 前缀不进冻结面，decorative）
@@ -89,14 +100,18 @@ Item {
         Math.min(1, NovaTheme.primary.hsvSaturation * 0.78),
         Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.5 : 1.28)), 1)
 
-    Rectangle { anchors.fill: parent; color: NovaTheme.page }
+    Rectangle {
+        anchors.fill: parent; color: NovaTheme.page
+    }
     NovaIcon {
         id: _appBadge
         objectName: "_appBadge"
         icon: "img:" + root._appIcon
         size: root._unit * 4
         monochrome: false
-        anchors { top: parent.top; left: parent.left; topMargin: root._unit; leftMargin: root._unit }
+        anchors {
+            top: parent.top; left: parent.left; topMargin: root._unit; leftMargin: root._unit
+        }
         opacity: 0.9
         z: NovaTheme.zMarginals
         // 应用身份徽记：decorative 语义，a11yLabel 留空由注入内容承担语义
@@ -105,13 +120,21 @@ Item {
     // ── 1. 左任务列（任务队列宿主；窄屏自动收起）──
     Rectangle {
         id: _taskWrap
-        anchors { top: parent.top; bottom: parent.bottom; left: parent.left }
+        anchors {
+            top: parent.top; bottom: parent.bottom; left: parent.left
+        }
         width: (root.showTask && !root.taskCollapsed && !root.belowBreakpoint) ? root._taskW : 0
         color: root._rail
         clip: true
         visible: width > 0
-        Behavior on width { NumberAnimation { duration: root._dur; easing.type: root._ease } }
-        Item { id: _task; anchors.fill: parent }
+        Behavior on width {
+            NumberAnimation {
+                duration: root._dur; easing.type: root._ease
+            }
+        }
+        Item {
+            id: _task; anchors.fill: parent
+        }
 
         // 身份 A（抽象几何）：列首 DAG 三节点递减链 + 右缘主色渐变轨；不仿新建按钮
         // a11y: decorative
@@ -120,26 +143,46 @@ Item {
             anchors.fill: parent
             z: NovaTheme.zMarginals
             Rectangle {
-                anchors { top: parent.top; bottom: parent.bottom; right: parent.right; rightMargin: 1 }
+                anchors {
+                    top: parent.top; bottom: parent.bottom; right: parent.right; rightMargin: 1
+                }
                 width: 2
                 gradient: Gradient {
-                    GradientStop { position: 0.0; color: root._ink }
-                    GradientStop { position: 1.0; color: root._inkSoft }
+                    GradientStop {
+                        position: 0.0; color: root._ink
+                    }
+                    GradientStop {
+                        position: 1.0; color: root._inkSoft
+                    }
                 }
                 opacity: 0.9
             }
             Row {
-                anchors { top: parent.top; topMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                anchors {
+                    top: parent.top; topMargin: root._gap; left: parent.left; leftMargin: root._gap
+                }
                 spacing: root._unit
-                Rectangle { width: 9; height: 9; radius: 4.5; color: root._glow; opacity: 0.9 }
-                Rectangle { width: 6; height: 1; y: 4; color: root._divider }
-                Rectangle { width: 6; height: 6; radius: 3; color: root._inkSoft; opacity: 0.9 }
-                Rectangle { width: 6; height: 1; y: 4; color: root._divider }
-                Rectangle { width: 4; height: 4; radius: 2; y: 2; color: root._divider }
+                Rectangle {
+                    width: 9; height: 9; radius: 4.5; color: root._glow; opacity: 0.9
+                }
+                Rectangle {
+                    width: 6; height: 1; y: 4; color: root._divider
+                }
+                Rectangle {
+                    width: 6; height: 6; radius: 3; color: root._inkSoft; opacity: 0.9
+                }
+                Rectangle {
+                    width: 6; height: 1; y: 4; color: root._divider
+                }
+                Rectangle {
+                    width: 4; height: 4; radius: 2; y: 2; color: root._divider
+                }
             }
             // 列尾风险分级三色阶（同主色系明度递减，非红绿撞色）
             Rectangle {
-                anchors { bottom: parent.bottom; bottomMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                anchors {
+                    bottom: parent.bottom; bottomMargin: root._gap; left: parent.left; leftMargin: root._gap
+                }
                 width: 24; height: 3; radius: 1.5; color: root._ink; opacity: 0.9
             }
         }
@@ -147,7 +190,9 @@ Item {
 
     NovaSeparator {
         id: _taskSep
-        anchors { top: parent.top; bottom: parent.bottom; left: _taskWrap.right }
+        anchors {
+            top: parent.top; bottom: parent.bottom; left: _taskWrap.right
+        }
         vertical: true
         visible: root.bordered && _taskWrap.width > 0
         z: NovaTheme.zMarginals
@@ -166,34 +211,50 @@ Item {
         // 2a. 任务头（栏高归零 + 恒定锚链 CC-5）
         Item {
             id: _headerBar
-            anchors { top: parent.top; left: parent.left; right: parent.right }
+            anchors {
+                top: parent.top; left: parent.left; right: parent.right
+            }
             height: root.showPlan ? root._headerH : 0
             clip: true
             z: NovaTheme.zMarginals
-            Behavior on height { NumberAnimation { duration: root._dur; easing.type: root._ease } }
+            Behavior on height {
+                NumberAnimation {
+                    duration: root._dur; easing.type: root._ease
+                }
+            }
 
             NovaHeader {
                 id: _plan
-                anchors { top: parent.top; left: parent.left; right: parent.right }
+                anchors {
+                    top: parent.top; left: parent.left; right: parent.right
+                }
                 height: root._headerH
                 tint: root._panel
             }
             // header / body 唯一边界：2px 主色渐变细线
             Rectangle {
-                anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+                anchors {
+                    left: parent.left; right: parent.right; bottom: parent.bottom
+                }
                 height: 2
                 z: NovaTheme.zMarginals
                 gradient: Gradient {
                     orientation: Gradient.Horizontal
-                    GradientStop { position: 0.0; color: root._ink }
-                    GradientStop { position: 1.0; color: root._divider }
+                    GradientStop {
+                        position: 0.0; color: root._ink
+                    }
+                    GradientStop {
+                        position: 1.0; color: root._divider
+                    }
                 }
                 opacity: 0.9
             }
             // 身份 B-1：编排在线状态点（语义色实心）
             // a11y: decorative
             Rectangle {
-                anchors { left: parent.left; leftMargin: root._gap; verticalCenter: parent.verticalCenter }
+                anchors {
+                    left: parent.left; leftMargin: root._gap; verticalCenter: parent.verticalCenter
+                }
                 width: 8; height: 8; radius: 4
                 color: NovaTheme.positive
                 z: NovaTheme.zMarginals
@@ -222,30 +283,60 @@ Item {
             }
             z: NovaTheme.zMarginals
             readonly property int _arm: 10
-            Rectangle { anchors { top: parent.top; left: parent.left } width: _canvasIdentity._arm; height: 1; color: root._ink; opacity: 0.9 }
-            Rectangle { anchors { top: parent.top; left: parent.left } width: 1; height: _canvasIdentity._arm; color: root._ink; opacity: 0.9 }
-            Rectangle { anchors { bottom: parent.bottom; right: parent.right } width: _canvasIdentity._arm; height: 1; color: root._inkSoft; opacity: 0.9 }
-            Rectangle { anchors { bottom: parent.bottom; right: parent.right } width: 1; height: _canvasIdentity._arm; color: root._inkSoft; opacity: 0.9 }
+            Rectangle {
+                anchors {
+                    top: parent.top; left: parent.left
+                }
+                width: _canvasIdentity._arm; height: 1; color: root._ink; opacity: 0.9
+            }
+            Rectangle {
+                anchors {
+                    top: parent.top; left: parent.left
+                }
+                width: 1; height: _canvasIdentity._arm; color: root._ink; opacity: 0.9
+            }
+            Rectangle {
+                anchors {
+                    bottom: parent.bottom; right: parent.right
+                }
+                width: _canvasIdentity._arm; height: 1; color: root._inkSoft; opacity: 0.9
+            }
+            Rectangle {
+                anchors {
+                    bottom: parent.bottom; right: parent.right
+                }
+                width: 1; height: _canvasIdentity._arm; color: root._inkSoft; opacity: 0.9
+            }
         }
 
         // 2c. 审批闸门区（HIGH 风险人工复核点；栏高归零 + 恒定锚链）
         Item {
             id: _approvalBar
-            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+            anchors {
+                bottom: parent.bottom; left: parent.left; right: parent.right
+            }
             height: root.showApproval ? root._approvalH : 0
             clip: true
             z: NovaTheme.zMarginals
-            Behavior on height { NumberAnimation { duration: root._dur; easing.type: root._ease } }
+            Behavior on height {
+                NumberAnimation {
+                    duration: root._dur; easing.type: root._ease
+                }
+            }
 
             NovaFooter {
                 id: _approval
-                anchors { top: parent.top; left: parent.left; right: parent.right }
+                anchors {
+                    top: parent.top; left: parent.left; right: parent.right
+                }
                 height: root._approvalH
                 tint: root._panel
             }
             // body / approval 唯一边界：1px 中性分隔
             Rectangle {
-                anchors { left: parent.left; right: parent.right; top: parent.top }
+                anchors {
+                    left: parent.left; right: parent.right; top: parent.top
+                }
                 height: 1
                 color: root._divider
                 z: NovaTheme.zMarginals
@@ -256,13 +347,17 @@ Item {
                 anchors.fill: parent
                 z: NovaTheme.zMarginals
                 Rectangle {
-                    anchors { top: parent.top; topMargin: root._unit; horizontalCenter: parent.horizontalCenter }
+                    anchors {
+                        top: parent.top; topMargin: root._unit; horizontalCenter: parent.horizontalCenter
+                    }
                     width: 48; height: 2; radius: 1
                     color: root._ink
                     opacity: 0.9
                 }
                 Rectangle {
-                    anchors { left: parent.left; leftMargin: root._gap; top: parent.top; topMargin: root._gap }
+                    anchors {
+                        left: parent.left; leftMargin: root._gap; top: parent.top; topMargin: root._gap
+                    }
                     width: 6; height: 6; radius: 3
                     color: root._inkSoft
                     opacity: 0.9
@@ -274,7 +369,9 @@ Item {
     // ── 3. 右侧验证轨（外部信号检查器宿主，独立于 Agent）──
     NovaSeparator {
         id: _verifySep
-        anchors { top: parent.top; bottom: parent.bottom; right: _verifyWrap.left }
+        anchors {
+            top: parent.top; bottom: parent.bottom; right: _verifyWrap.left
+        }
         vertical: true
         visible: root.bordered && _verifyWrap.width > 0
         z: NovaTheme.zMarginals
@@ -282,13 +379,21 @@ Item {
 
     Rectangle {
         id: _verifyWrap
-        anchors { top: parent.top; bottom: parent.bottom; right: parent.right }
+        anchors {
+            top: parent.top; bottom: parent.bottom; right: parent.right
+        }
         width: (root.showVerify && !root.verifyCollapsed && !root.belowBreakpoint) ? root._verifyW : 0
         color: root._rail
         clip: true
         visible: width > 0
-        Behavior on width { NumberAnimation { duration: root._dur; easing.type: root._ease } }
-        Item { id: _verify; anchors.fill: parent }
+        Behavior on width {
+            NumberAnimation {
+                duration: root._dur; easing.type: root._ease
+            }
+        }
+        Item {
+            id: _verify; anchors.fill: parent
+        }
 
         // 身份 C（抽象几何）：列首三段递减验证级条 + 列尾圆点；不仿状态 tab
         // a11y: decorative
@@ -297,14 +402,24 @@ Item {
             anchors.fill: parent
             z: NovaTheme.zMarginals
             Row {
-                anchors { top: parent.top; topMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                anchors {
+                    top: parent.top; topMargin: root._gap; left: parent.left; leftMargin: root._gap
+                }
                 spacing: root._unit
-                Rectangle { width: 24; height: 3; radius: 1.5; color: root._ink; opacity: 0.9 }
-                Rectangle { width: 14; height: 3; radius: 1.5; color: root._inkSoft; opacity: 0.9 }
-                Rectangle { width: 8; height: 3; radius: 1.5; color: root._divider }
+                Rectangle {
+                    width: 24; height: 3; radius: 1.5; color: root._ink; opacity: 0.9
+                }
+                Rectangle {
+                    width: 14; height: 3; radius: 1.5; color: root._inkSoft; opacity: 0.9
+                }
+                Rectangle {
+                    width: 8; height: 3; radius: 1.5; color: root._divider
+                }
             }
             Rectangle {
-                anchors { bottom: parent.bottom; bottomMargin: root._gap; left: parent.left; leftMargin: root._gap }
+                anchors {
+                    bottom: parent.bottom; bottomMargin: root._gap; left: parent.left; leftMargin: root._gap
+                }
                 width: 6; height: 6; radius: 3
                 color: root._inkSoft
                 opacity: 0.9
@@ -322,13 +437,19 @@ Item {
     // 顶层品牌签名：2px 单色系发丝线（CC-3）
     // a11y: decorative
     Rectangle {
-        anchors { top: parent.top; left: parent.left; right: parent.right }
+        anchors {
+            top: parent.top; left: parent.left; right: parent.right
+        }
         height: 2
         z: NovaTheme.zMarginals
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop { position: 0.0; color: root._ink }
-            GradientStop { position: 1.0; color: root._inkSoft }
+            GradientStop {
+                position: 0.0; color: root._ink
+            }
+            GradientStop {
+                position: 1.0; color: root._inkSoft
+            }
         }
         opacity: 0.9
     }

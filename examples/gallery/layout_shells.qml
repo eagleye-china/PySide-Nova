@@ -269,7 +269,7 @@ ApplicationWindow {
         certificateSlot: Rectangle { anchors.fill: parent; color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "封版证书 · 五件套预览"; color: NovaTheme.textMuted } }
         overlaySlot: Item {} } }
 
-    // ── 1.6.0 第 21 个组合根 · NovaAIReport 智能报表工作台（七槽占位预览）──
+    // ── 1.7.0 第 21 个组合根 · NovaAIReport 智能报表工作台（七槽占位预览）──
     Component { id: pgAIReport; NovaAIReport { anchors.fill: parent; diagnosisSize: win.panelSize; querySize: win.panelSize
         diagnosisCollapsed: win.collapsed; queryCollapsed: win.collapsed
         showBenchmark: win.showBars; showDiagnosis: win.showBars; showForecast: win.showBars

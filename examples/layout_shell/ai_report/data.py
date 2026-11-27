@@ -27,15 +27,15 @@ def build_columns() -> list[NovaDataGridColumn]:
     return [
         # 列宽合计 728px：在七槽布局的中央区（左右轨展开时约 760px）首屏
         # 完整显示八列，避免水平滚动条遮挡状态列（观感 / CC-4）。
-        NovaDataGridColumn("slot", "槽号", width=84),
-        NovaDataGridColumn("ce", "效率(%)", width=92,
+        NovaDataGridColumn("slot", "槽号", width=108),
+        NovaDataGridColumn("ce", "效率(%)", width=88,
                            align="right", editable=True, editor="number"),
-        NovaDataGridColumn("dc", "电耗(kWh/t)", width=108, align="right"),
-        NovaDataGridColumn("effect", "效应(次)", width=84, align="right"),
-        NovaDataGridColumn("bench", "基线(%)", width=92, align="right"),
-        NovaDataGridColumn("gap", "差距", width=72, align="right"),
-        NovaDataGridColumn("forecast", "2–8h 预测区间", width=120),
-        NovaDataGridColumn("state", "状态", width=76),
+        NovaDataGridColumn("dc", "kWh/t", width=104, align="right"),
+        NovaDataGridColumn("effect", "效应(次)", width=80, align="right"),
+        NovaDataGridColumn("bench", "基线(%)", width=88, align="right"),
+        NovaDataGridColumn("gap", "差距", width=68, align="right"),
+        NovaDataGridColumn("forecast", "预测(2–8h)", width=112),
+        NovaDataGridColumn("state", "状态", width=72),
     ]
 
 

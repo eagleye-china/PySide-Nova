@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 QML = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaDataGrid.qml"
 QMLDIR = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaDataGrid.md"
-MANIFEST = ROOT / "api" / "nova-api-1.6.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.7.0.json"
 KEY = "Nova.Controls.NovaDataGrid"
 
 EXPECTED_SIGNALS = {
@@ -42,12 +42,20 @@ EXPECTED_SIGNALS = {
     "refreshRequested()",
     "request(var params)",
     "rowContextMenuRequested(int row, real x, real y)",
+    "rowExpansionToggled(var rowKey, bool expanded)",
+    "selectionChanged(var rows)",
+    "selectionActionRequested(var rows, string action)",
+    "clearFilterRequested()",
 }
 EXPECTED_METHODS = {
     "sortByKey(colKey, ascending)",
     "scrollToRow(row)",
     "clearSelection()",
     "getRowData(rowIndex)",
+    "toggleExpansion(row)",
+    "isExpanded(row)",
+    "clearFilters()",
+    "requestSelectionAction(action)",
 }
 
 
@@ -69,7 +77,7 @@ def test_qmldir_exports_type():
 
 
 def test_frozen_surface(manifest):
-    assert manifest["apiVersion"] == "1.6.0"
+    assert manifest["apiVersion"] == "1.7.0"
     assert manifest["counts"]["total"] == 147
     assert manifest["counts"]["modules"]["Nova.Controls"] == 93
     assert manifest["counts"]["a11y"]["interactive"] == 33
@@ -204,6 +212,42 @@ def test_filter_and_paging(pipeline):
     pagination.firstPage()
 
 
+def test_expand_proxy_roles_and_mapping(pipeline):
+    from pyside_nova.datagrid import NovaDataGridExpandProxy
+
+    table, _fp, _pp, _p, _Qt, roles = pipeline
+    proxy = NovaDataGridExpandProxy()
+    proxy.setSourceModel(table)
+    assert proxy.rowCount() == 2
+    assert proxy.roleNames()[roles.IsExpansionRole] == b"isExpansion"
+    assert proxy.roleNames()[roles.ExpansionDataRole] == b"expansionData"
+
+    proxy.toggleRow(0)
+    assert proxy.rowCount() == 3
+    assert proxy.expanded == ["A01"]
+    assert proxy.data(proxy.index(1, 0), roles.IsExpansionRole) is True
+    assert proxy.data(proxy.index(1, 0), roles.ExpansionRowRole) == 0
+    assert proxy.data(proxy.index(1, 0), roles.RowKeyRole) == "A01"
+    assert proxy.expansionData(1)["rowData"]["slot"] == "A01"
+    assert proxy.mapToSource(proxy.index(1, 0)).row() == 0
+    assert proxy.mapToSource(proxy.index(2, 0)).row() == 1
+
+    proxy.toggleRow(1)             # 点展开行自身应折叠
+    assert proxy.rowCount() == 2
+    assert proxy.expanded == []
+
+
+def test_filter_proxy_filter_active(pipeline):
+    _table, fp, _pp, _p, _Qt, _roles = pipeline
+    assert fp.filterActive is False
+    fp.setQuickFilter("A01")
+    assert fp.filterActive is True
+    fp.setColumnFilter("slot", "")
+    assert fp.filterActive is True
+    fp.clearFilters()
+    assert fp.filterActive is False
+
+
 # ── 3. 离屏真机 ───────────────────────────────────────────────
 def test_offscreen_runtime(tmp_path):
     from PySide6.QtCore import QEventLoop, QTimer, qInstallMessageHandler
@@ -214,6 +258,7 @@ def test_offscreen_runtime(tmp_path):
     from pyside_nova.datagrid import (
         SEVERITY_FIELD,
         NovaDataGridColumn,
+        NovaDataGridExpandProxy,
         NovaDataGridFilterProxy,
         NovaDataGridModel,
         NovaDataGridPagedProxy,
@@ -241,6 +286,8 @@ def test_offscreen_runtime(tmp_path):
         pp = NovaDataGridPagedProxy(pagination)
         pp.setSourceModel(fp)
         pagination.setTotal(len(rows))
+        ep = NovaDataGridExpandProxy()
+        ep.setSourceModel(pp)
 
         qml = tmp_path / "Main.qml"
         qml.write_text(
@@ -250,6 +297,8 @@ def test_offscreen_runtime(tmp_path):
             "  width: 900; height: 600; visible: true\n"
             "  property int editedCount: 0\n"
             "  property int clickedCount: 0\n"
+            "  property int expandCount: 0\n"
+            "  property int selectionCount: 0\n"
             "  NovaDataGrid {\n"
             "    id: grid\n"
             "    anchors.fill: parent\n"
@@ -259,8 +308,15 @@ def test_offscreen_runtime(tmp_path):
             "    filterProxy: dmFilter\n"
             "    pagedProxy: dmPaged\n"
             "    pagination: dmPages\n"
+            "    expandProxy: dmExpand\n"
+            "    selectionMode: 'multiple'\n"
+            "    expansionDelegate: Component { Rectangle { property var expansionData; color: NovaTheme.surfaceAlt } }\n"
+            "    selectionDelegate: Component { Rectangle { property var selectionData; color: NovaTheme.outline } }\n"
+            "    emptyDelegate: Component { Rectangle { property var emptyData; color: 'transparent' } }\n"
             "    onCellEdited: function(r, c, v) { editedCount++ }\n"
             "    onRowClicked: function(r) { clickedCount++ }\n"
+            "    onRowExpansionToggled: function(k, e) { expandCount++ }\n"
+            "    onSelectionChanged: function(rows) { selectionCount++ }\n"
             "  }\n}\n",
             encoding="utf-8",
         )
@@ -271,7 +327,8 @@ def test_offscreen_runtime(tmp_path):
         init_nova(engine)
         ctx = engine.rootContext()
         for name, obj in (("dmTable", table), ("dmFilter", fp),
-                          ("dmPaged", pp), ("dmPages", pagination)):
+                          ("dmPaged", pp), ("dmPages", pagination),
+                          ("dmExpand", ep)):
             ctx.setContextProperty(name, obj)
         engine.load(str(qml))
         roots = engine.rootObjects()
@@ -328,6 +385,24 @@ def test_offscreen_runtime(tmp_path):
         ev("grid._columnMenuOpen = true")
         assert ev("grid._columnMenuOpen") is True
         ev("grid._columnMenuOpen = false")
+
+        # 1.7.0 P0：展开行 / 选择信号 / 空态 / 键盘长跳
+        assert ev("grid.expandProxy !== null") is True
+        ev("grid.toggleExpansion(0)")
+        assert ev("grid._model.rowCount()") == 4
+        assert ev("grid.expandedRows.length") == 1
+        assert ev("expandCount") == 1
+        ev("grid.toggleExpansion(1)")
+        assert ev("grid._model.rowCount()") == 3
+        assert ev("grid.expandedRows.length") == 0
+        ev("grid.requestSelectionAction('delete')")
+        ev("dmFilter.setQuickFilter('NO-MATCH')")
+        assert ev("grid.filterActive") is True
+        ev("grid.clearFilters()")
+        assert ev("grid.filterActive") is False
+        ev("grid._a11ySet(0); grid._a11yMove(10)")
+        assert ev("grid._a11yRow") == 2
+
         ev("NovaTheme.setDark(true)")
         assert ev("NovaTheme.isDark") is True
         ev("NovaTheme.setDark(false)")

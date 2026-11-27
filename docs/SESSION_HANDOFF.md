@@ -2,7 +2,22 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.6.0 · 2026-11-27 21:30 · T24 完现销号 + CSA 授权升版 1.6.0 / 第 21 组合根 `NovaAIReport` + `examples/layout_shell/ai_report/` 真实 NovaDataGrid demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.7.0 · 2026-11-27 22:05 · P0 五项打磨完成 + additive 重签 / 1.6.0 已由 CSA 发布至 PyPI LATEST；下方 21:30 段保留为史料： demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+
+## 🆕 1.7.0 现行校准（2026-11-27 22:05 · NovaDataGrid P0 五项打磨 · 覆盖下方 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA 出示 PyPI 截图确认 `pyside-nova 1.6.0` 已由 `git tag v1.6.0` / `git push origin v1.6.0` 发布为 LATEST，随后下达「可以，按 P0 五项顺序开工」。按发布后纪律，公共面增量并入 **1.7.0 additive minor**，不回改 1.6.0 已发布物。
+
+| 项 | 1.7.0 现行事实 |
+|---|---|
+| 冻结面 | **147 类型 / Controls 93 / LayoutShell 21 / a11y 33+29+85 不变 / 指纹 `157ab2b1d77ea9f9`**（1.6.0 `7c542c416709cd96` 为已发布史料）；`api/nova-api-1.7.0.json` + `api/component-domains-1.7.0.json` + `docs/API_FREEZE.md` 生成器重出，徽标 3 枚 + 站点副本同步。无新增 QML 导出类型。 |
+| P0-1 展开行 | `NovaDataGridExpandProxy` 末段插入虚拟行，按 `rowKey` 折叠、不改业务数据；QML 新增 `expandProxy` / `expandedRows` / `expansionDelegate` / `expansionHeight`，`toggleExpansion` / `isExpanded` / `rowExpansionToggled`；首列箭头与展开行自身都可折叠。 |
+| P0-2 a11y | 表头 `Accessible.ColumnHeader` + 可聚焦 Enter/Space 排序 + `Accessible.description` 等价 `aria-sort`；单元格 `Accessible.Cell` + 名称/选中态；行游标新增 PageUp/PageDown 十行跳转。 |
+| P0-3 选择 | `selectedRows` 只读派生 + `selectionDelegate` 自定义首列选择单元格；Ctrl 单行切换 / Shift 范围选择；`selectionChanged` + `selectionActionRequested` 供宿主挂动作。 |
+| P0-4 编辑器 | `editor="select"` 真实走 `NovaSelect`，选项在 QML 内重建为 JS 数组（坑位 70），提交/取消/失败红框与 text/number 同语义。 |
+| P0-5 空态 | `noResultsText` / `clearFilterText` / `emptyDelegate`，`filterProxy.filterActive` 分流 no-data 与 no-results；`clearFilters()` 同时覆盖本地/服务端。 |
+| 验收 | qmllint 0 error / 594 warning 预算内 · 专项 **97 passed**（API 27 + LayoutShell 27 + DataGrid 13 + Markdown 15 + v2compat 15）· 三 `--check` · mkdocs 0 内容 INFO · 21/21 天花板 + 15/15 基础机检 · 三态图浅/深/变体目视通过。 |
+| 发布边界 | 本助手只做本地实现与验收；commit / push / tag / PyPI / 站点上线全归 CSA。待办池仍 1 项 = T3，下一个 T26（T25 已由本轮 P0 占用）。 |
 
 ## 🆕 T24 现行校准（2026-11-27 21:20 · 第 21 组合根 NovaAIReport + 真实 NovaDataGrid demo · 覆盖下方 20:12 及更早历史快照；下方全部保留为史料）
 

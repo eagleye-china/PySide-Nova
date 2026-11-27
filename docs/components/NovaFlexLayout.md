@@ -1,6 +1,6 @@
 # NovaFlexLayout · 企业大屏弹性布局壳
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 多端根壳 · **pyside-nova 1.6.0** · API 冻结指纹 `7c542c416709cd96` · **21/21 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 多端根壳 · **pyside-nova 1.7.0** · API 冻结指纹 `157ab2b1d77ea9f9` · **21/21 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览

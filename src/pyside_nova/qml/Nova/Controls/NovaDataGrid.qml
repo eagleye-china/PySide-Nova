@@ -62,6 +62,17 @@ Rectangle {
     property bool loading: false
     property string loadingText: qsTr("加载中...")
     property string noDataText: qsTr("暂无数据")
+    property string noResultsText: qsTr("没有匹配的结果")
+    property string clearFilterText: qsTr("清除筛选")
+
+    // 1.7.0 additive：展开行 / 选择 / 空态委托。全部沿用库组件渲染，
+    // 宿主只提供 Component，不在此组件内手搓业务控件。
+    property var expandProxy: null
+    property var expandedRows: []
+    property var expansionDelegate: null
+    property int expansionHeight: 88
+    property var selectionDelegate: null
+    property var emptyDelegate: null
 
     // =================== 输出信号 ===================
     signal rowClicked(int row)
@@ -72,23 +83,36 @@ Rectangle {
     signal refreshRequested()
     signal request(var params)
     signal rowContextMenuRequested(int row, real x, real y)
+    signal rowExpansionToggled(var rowKey, bool expanded)
+    signal selectionChanged(var rows)
+    signal selectionActionRequested(var rows, string action)
+    signal clearFilterRequested()
 
     // =================== 公共只读派生 ===================
     readonly property var columnDefs:
         root.tableModel && root.tableModel.columns ? root.tableModel.columns : []
     readonly property var allColumnDefs:
         root.tableModel && root.tableModel.allColumns ? root.tableModel.allColumns : root.columnDefs
+    readonly property var selectedRows: root._collectSelectedRows()
+    readonly property bool filterActive:
+        root.serverSide
+            ? (searchInput && String(searchInput.modelValue).length > 0)
+            : (root.filterProxy && root.filterProxy.filterActive !== undefined
+                ? root.filterProxy.filterActive : false)
 
     // =================== 内部状态（`_` 前缀不进冻结面）===================
     readonly property var _model:
-        root.pagedProxy ? root.pagedProxy
-            : (root.filterProxy ? root.filterProxy : root.tableModel)
+        root.expandProxy ? root.expandProxy
+            : (root.pagedProxy ? root.pagedProxy
+                : (root.filterProxy ? root.filterProxy : root.tableModel))
     property int _editingRow: -1
     property int _editingColumn: -1
     property var _visibleColumnKeys: []      // 空 = 全部可见
     property string _sortKey: ""
     property bool _sortAsc: true
     property int _selRev: 0
+    property int _anchorRow: -1
+    property int _emptyRev: 0
     property int _a11yRow: -1
     property bool _columnMenuOpen: false
     property bool _editError: false
@@ -114,7 +138,16 @@ Rectangle {
     implicitHeight: 560
     clip: true
 
-    Component.onCompleted: root._syncPaginationTotal()
+    Component.onCompleted: {
+        root._syncPaginationTotal()
+        if (root.expandProxy && root.expandProxy.setExpanded)
+            root.expandProxy.setExpanded(root.expandedRows)
+    }
+
+    onExpandedRowsChanged: {
+        if (root.expandProxy && root.expandProxy.setExpanded)
+            root.expandProxy.setExpanded(root.expandedRows)
+    }
 
     // 坑位 72：Qt 6.12 起 Connections 的隐式 `onFoo: …` 语法已 deprecated
     //（运行时会刷 4 条 Qt 消息），必须用标准 `function onFoo() { … }`。
@@ -129,7 +162,7 @@ Rectangle {
     }
     Connections {
         target: tableView.selectionModel
-        function onSelectionChanged() { root._selRev++ }
+        function onSelectionChanged() { root._emitSelectionChanged() }
     }
     Connections {
         target: root.pagination
@@ -140,6 +173,20 @@ Rectangle {
                 root._emitServerRequest(root._sortKey, !root._sortAsc, 1)
         }
     }
+    Connections {
+        target: root.expandProxy
+        function onExpansionToggled(rowKey, expanded) {
+            root.rowExpansionToggled(rowKey, expanded)
+        }
+        function onExpandedChanged() {
+            if (root.expandProxy.expanded !== undefined)
+                root.expandedRows = root.expandProxy.expanded
+        }
+    }
+    Connections {
+        target: root.filterProxy
+        function onFilterActiveChanged() { root._emptyRev++ }
+    }
 
     // =================== 函数 ===================
     function _syncPaginationTotal() {
@@ -147,6 +194,78 @@ Rectangle {
             return
         if (root.pagination && root.filterProxy)
             root.pagination.setTotal(root.filterProxy.count)
+    }
+
+    function _collectSelectedRows() {
+        root._selRev
+        var out = []
+        var sm = tableView && tableView.selectionModel ? tableView.selectionModel : null
+        if (!sm || !tableView.model)
+            return out
+        var n = root._model ? root._model.rowCount() : 0
+        for (var i = 0; i < n; i++) {
+            if (sm.isSelected(tableView.model.index(i, 0)))
+                out.push(i)
+        }
+        return out
+    }
+
+    function _emitSelectionChanged() {
+        root._selRev++
+        root.selectionChanged(root.selectedRows)
+    }
+
+    function toggleExpansion(row) {
+        if (!root.expandProxy || !root.expandProxy.toggleRow)
+            return
+        var isExp = root.expandProxy.isExpansionRow(row)
+        root.expandProxy.toggleRow(isExp ? row - 1 : row)
+    }
+
+    function isExpanded(row) {
+        return !!(root.expandProxy && root.expandProxy.isRowExpanded(row))
+    }
+
+    function clearFilters() {
+        if (!root.serverSide && root.filterProxy && root.filterProxy.clearFilters)
+            root.filterProxy.clearFilters()
+        if (searchInput)
+            searchInput.modelValue = ""
+        root.clearFilterRequested()
+        if (root.serverSide)
+            root._emitServerRequest(root._sortKey, !root._sortAsc, 1)
+    }
+
+    function requestSelectionAction(action) {
+        root.selectionActionRequested(root.selectedRows, action)
+    }
+
+    function _editorType() {
+        var c = root._editingColumn
+        if (c < 0 || c >= root.columnDefs.length)
+            return "text"
+        var ed = root.columnDefs[c].editor
+        return (ed === "number" || ed === "int" || ed === "select") ? ed : "text"
+    }
+
+    function _editorOptions() {
+        var c = root._editingColumn
+        if (c < 0 || c >= root.columnDefs.length)
+            return []
+        var src = root.columnDefs[c].options || []
+        var out = []
+        // 坑位 70：Python list 不是 QML JS 数组，必须逐项重建。
+        for (var i = 0; i < src.length; i++) {
+            var o = src[i]
+            if (o !== null && typeof o === "object")
+                out.push({
+                    label: String(o.label !== undefined ? o.label : o.value),
+                    value: o.value !== undefined ? o.value : o
+                })
+            else
+                out.push({ label: String(o), value: o })
+        }
+        return out
     }
 
     function sortByKey(colKey, ascending) {
@@ -300,6 +419,8 @@ Rectangle {
             return
         if (ev.key === Qt.Key_Down) root._a11yMove(1)
         else if (ev.key === Qt.Key_Up) root._a11yMove(-1)
+        else if (ev.key === Qt.Key_PageDown) root._a11yMove(10)
+        else if (ev.key === Qt.Key_PageUp) root._a11yMove(-10)
         else if (ev.key === Qt.Key_Home) root._a11ySet(0)
         else if (ev.key === Qt.Key_End) root._a11ySet(n - 1)
         else if (ev.key === Qt.Key_Return || ev.key === Qt.Key_Enter) root._a11yActivate()
@@ -409,6 +530,26 @@ Rectangle {
                 color: headerMa.containsMouse && sortable
                     ? NovaTheme.surfaceAlt : NovaTheme.surface
 
+                // Qt 无障碍没有 aria-sort；用 role=Header + name/description
+                // 暴露等价语义（列名 + 当前排序方向），键盘 Enter/Space 排序。
+                Accessible.role: Accessible.ColumnHeader
+                Accessible.name: headerCell.display
+                Accessible.description: !headerCell.sortable ? ""
+                    : (!headerCell.sorted ? qsTr("可排序")
+                        : (root._sortAsc ? qsTr("升序") : qsTr("降序")))
+                Accessible.focusable: headerCell.sortable
+                activeFocusOnTab: headerCell.sortable
+                Keys.onPressed: function (ev) {
+                    if (!headerCell.sortable)
+                        return
+                    if (ev.key === Qt.Key_Return || ev.key === Qt.Key_Enter
+                            || ev.key === Qt.Key_Space) {
+                        root.sortByKey(headerCell.colKey,
+                            headerCell.sorted ? !root._sortAsc : true)
+                        ev.accepted = true
+                    }
+                }
+
                 MouseArea {
                     id: headerMa
                     anchors.fill: parent
@@ -471,7 +612,10 @@ Rectangle {
                 model: root._model
                 reuseItems: root.reuseItems
 
-                rowHeightProvider: function (row) { return root.rowHeight }
+                rowHeightProvider: function (row) {
+                    return (root.expandProxy && root.expandProxy.isExpansionRow(row))
+                        ? root.expansionHeight : root.rowHeight
+                }
                 columnWidthProvider: function (column) {
                     var cols = root.columnDefs
                     if (column < 0 || column >= cols.length)
@@ -506,6 +650,9 @@ Rectangle {
                     required property var display
                     required property int severity
                     required property bool highlighted
+                    required property bool isExpansion
+                    required property bool expanded
+                    required property var rowKey
 
                     readonly property var colDef:
                         column < root.columnDefs.length ? root.columnDefs[column] : ({})
@@ -522,9 +669,17 @@ Rectangle {
                         root._a11yRow === row && root.activeFocus
 
                     implicitWidth: colDef.width || 120
-                    implicitHeight: root.rowHeight
+                    implicitHeight: cell.isExpansion ? root.expansionHeight : root.rowHeight
+                    visible: !cell.isExpansion || cell.column === 0
 
-                    color: a11yFocused
+                    Accessible.role: Accessible.Cell
+                    Accessible.name: cell.isExpansion
+                        ? qsTr("第 %1 行展开内容").arg(cell.rowKey)
+                        : String(cell.display)
+                    Accessible.selected: cell.selected
+                    Accessible.focusable: false
+
+                    color: cell.isExpansion ? "transparent" : (a11yFocused
                         ? Qt.rgba(NovaTheme.primary.r, NovaTheme.primary.g,
                                   NovaTheme.primary.b, 0.20)
                         : selected
@@ -540,17 +695,19 @@ Rectangle {
                                         ? Qt.rgba(NovaTheme.warning.r, NovaTheme.warning.g,
                                                   NovaTheme.warning.b, 0.16)
                                         : (root.zebraStripes && row % 2 === 1
-                                            ? NovaTheme.surfaceAlt : NovaTheme.surface)
+                                            ? NovaTheme.surfaceAlt : NovaTheme.surface))
 
                     Behavior on color { ColorAnimation { duration: 180 } }
 
                     Text {
                         anchors.fill: parent
-                        anchors.leftMargin: 10
+                        anchors.leftMargin: cell.column === 0
+                            && (root.selectionDelegate !== null || root.expandProxy)
+                            ? 38 : 10
                         anchors.rightMargin: 10
                         text: cell.display !== undefined && cell.display !== null
                             ? String(cell.display) : ""
-                        visible: !cellLoader.active && !cell.editing
+                        visible: !cell.isExpansion && !cellLoader.active && !cell.editing
                         font.family: NovaTheme.fontFamily
                         font.pixelSize: NovaTheme.fontS
                         color: NovaTheme.textColor
@@ -562,6 +719,63 @@ Rectangle {
                         elide: Text.ElideRight
                     }
 
+                    // 1.7.0：展开行委托。首列 Loader 允许越过列宽覆盖整行，
+                    // 其余展开单元格不可见，达到 QTable body-expand 的整行效果。
+                    Loader {
+                        id: expansionLoader
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        width: tableView.width
+                        height: parent.height
+                        z: 3
+                        active: cell.isExpansion && cell.column === 0
+                            && root.expansionDelegate !== null
+                        sourceComponent: root.expansionDelegate
+                    }
+                    Binding {
+                        target: expansionLoader.item
+                        property: "expansionData"
+                        when: expansionLoader.active && expansionLoader.item !== null
+                        value: root.expandProxy ? root.expandProxy.expansionData(cell.row) : ({})
+                    }
+
+                    // 1.7.0：自定义选择单元格（首列左侧），不替换数据文本。
+                    Loader {
+                        id: selectionLoader
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 28
+                        height: 28
+                        z: 4
+                        active: !cell.isExpansion && cell.column === 0
+                            && root.selectionDelegate !== null
+                        sourceComponent: root.selectionDelegate
+                    }
+                    Binding {
+                        target: selectionLoader.item
+                        property: "selectionData"
+                        when: selectionLoader.active && selectionLoader.item !== null
+                        value: ({
+                            selected: cell.selected,
+                            row: cell.row,
+                            rowKey: cell.rowKey,
+                            mode: root.selectionMode
+                        })
+                    }
+
+                    NovaBtn {
+                        visible: !cell.isExpansion && cell.column === 0 && root.expandProxy
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.leftMargin: root.selectionDelegate !== null ? 28 : 0
+                        width: 28
+                        text: cell.expanded ? "▾" : "▸"
+                        variant: "flat"
+                        size: "sm"
+                        z: 5
+                        onClicked: root.toggleExpansion(cell.row)
+                    }
+
                     // 列级自定义委托（cellData 懒加载，不含完整行）
                     // 用 Binding 元素而非 item.cellData 直接赋值：Loader.item 静态类型是
                     // QObject，qmllint 无法证明自定义属性存在；Binding 走属性名字符串，
@@ -569,7 +783,7 @@ Rectangle {
                     Loader {
                         id: cellLoader
                         anchors.fill: parent
-                        active: !!cell.colDef.key
+                        active: !cell.isExpansion && !!cell.colDef.key
                             && root.cellDelegates[cell.colDef.key] !== undefined
                             && !cell.editing
                         sourceComponent: !!cell.colDef.key
@@ -592,7 +806,7 @@ Rectangle {
                         id: editorLoader
                         anchors.fill: parent
                         anchors.margins: 2
-                        active: cell.editing && cell.colDef.editable === true
+                        active: !cell.isExpansion && cell.editing && cell.colDef.editable === true
                         sourceComponent: cellEditor
                     }
 
@@ -615,18 +829,40 @@ Rectangle {
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked: function (mouse) {
+                            if (cell.isExpansion)
+                                return
                             if (mouse.button === Qt.RightButton) {
                                 var pt = mapToItem(null, mouse.x, mouse.y)
                                 root.rowContextMenuRequested(cell.row, pt.x, pt.y)
                                 return
                             }
                             if (root.selectionMode !== "none") {
-                                var flags = root.selectionMode === "multiple"
-                                    ? (ItemSelectionModel.Select | ItemSelectionModel.Rows)
-                                    : (ItemSelectionModel.ClearAndSelect
-                                        | ItemSelectionModel.Rows)
-                                tableView.selectionModel.select(
-                                    tableView.model.index(cell.row, cell.column), flags)
+                                var sm = tableView.selectionModel
+                                var rowFlags = ItemSelectionModel.Rows
+                                if (root.selectionMode === "multiple"
+                                        && (mouse.modifiers & Qt.ControlModifier)) {
+                                    var rowIndex = tableView.model.index(cell.row, 0)
+                                    sm.select(rowIndex,
+                                        sm.isSelected(rowIndex)
+                                            ? (ItemSelectionModel.Deselect | rowFlags)
+                                            : (ItemSelectionModel.Select | rowFlags))
+                                    root._anchorRow = cell.row
+                                } else if (root.selectionMode === "multiple"
+                                        && (mouse.modifiers & Qt.ShiftModifier)
+                                        && root._anchorRow >= 0) {
+                                    var lo = Math.min(root._anchorRow, cell.row)
+                                    var hi = Math.max(root._anchorRow, cell.row)
+                                    sm.clearSelection()
+                                    for (var i = lo; i <= hi; i++)
+                                        sm.select(tableView.model.index(i, 0),
+                                            ItemSelectionModel.Select | rowFlags)
+                                } else {
+                                    var flags = root.selectionMode === "multiple"
+                                        ? (ItemSelectionModel.Select | rowFlags)
+                                        : (ItemSelectionModel.ClearAndSelect | rowFlags)
+                                    sm.select(tableView.model.index(cell.row, 0), flags)
+                                    root._anchorRow = cell.row
+                                }
                             }
                             root.cellClicked(cell.row, cell.column)
                             root.rowClicked(cell.row)
@@ -635,7 +871,10 @@ Rectangle {
                                 root._editingColumn = cell.column
                             }
                         }
-                        onDoubleClicked: root.rowDoubleClicked(cell.row)
+                        onDoubleClicked: {
+                            if (!cell.isExpansion)
+                                root.rowDoubleClicked(cell.row)
+                        }
                     }
                 }
 
@@ -643,15 +882,55 @@ Rectangle {
                 ScrollBar.horizontal: ScrollBar {}
             }
 
-            // 空态
-            Text {
-                anchors.centerIn: parent
+            // 空态：区分「无数据」与「筛选无结果」，两者都可注入自定义委托。
+            Item {
+                id: emptyHost
+                anchors.fill: parent
                 visible: !root.loading
                     && (!root._model || root._model.rowCount() === 0)
-                text: root.noDataText
-                font.family: NovaTheme.fontFamily
-                font.pixelSize: NovaTheme.fontM
-                color: NovaTheme.textMuted
+                z: 2
+
+                readonly property bool filtered: root.filterActive
+                readonly property string message: filtered ? root.noResultsText : root.noDataText
+
+                Loader {
+                    id: emptyLoader
+                    anchors.centerIn: parent
+                    active: root.emptyDelegate !== null
+                    sourceComponent: root.emptyDelegate
+                }
+                Binding {
+                    target: emptyLoader.item
+                    property: "emptyData"
+                    when: emptyLoader.active && emptyLoader.item !== null
+                    value: ({
+                        filtered: emptyHost.filtered,
+                        text: emptyHost.message,
+                        canClear: emptyHost.filtered
+                    })
+                }
+
+                Column {
+                    anchors.centerIn: parent
+                    spacing: NovaTheme.spacingM
+                    visible: !emptyLoader.active
+
+                    Text {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: emptyHost.message
+                        font.family: NovaTheme.fontFamily
+                        font.pixelSize: NovaTheme.fontM
+                        color: NovaTheme.textMuted
+                    }
+                    NovaBtn {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        visible: emptyHost.filtered
+                        text: root.clearFilterText
+                        variant: "outlined"
+                        size: "sm"
+                        onClicked: root.clearFilters()
+                    }
+                }
             }
 
             // Loading 覆盖层
@@ -786,9 +1065,10 @@ Rectangle {
         }
     }
 
-    // 内联编辑器组件（text / number / int / select 统一走 NovaInput 的类型）
+    // 内联编辑器：text/number/int 走 NovaField + NovaInput；
+    // select 走库组件 NovaSelect（坑位 70：选项在 QML 内重建为 JS 数组）。
     Component {
-        id: cellEditor
+        id: textCellEditor
         NovaField {
             id: edField
             width: parent ? parent.width : 120
@@ -799,7 +1079,7 @@ Rectangle {
 
             NovaInput {
                 id: edInput
-                type: edField._editorType()
+                type: root._editorType() === "number" ? "number" : "text"
                 modelValue: root.tableModel
                     ? String(root.tableModel.getRawValue(
                         root._editingRow, root._editingColumn) ?? "")
@@ -812,13 +1092,47 @@ Rectangle {
                     }
                 }
             }
+        }
+    }
 
-            function _editorType() {
-                var c = root._editingColumn
-                if (c < 0 || c >= root.columnDefs.length)
-                    return "text"
-                var ed = root.columnDefs[c].editor
-                return (ed === "number" || ed === "int") ? "number" : "text"
+    Component {
+        id: selectCellEditor
+        NovaSelect {
+            id: edSelect
+            width: parent ? parent.width : 120
+            height: parent ? parent.height : root.rowHeight
+            options: root._editorOptions()
+            modelValue: root.tableModel
+                ? root.tableModel.getRawValue(root._editingRow, root._editingColumn)
+                : null
+            emitValue: true
+            error: root._editError
+            errorMessage: root._editError ? qsTr("提交失败") : ""
+            outlined: true
+            property bool _ready: false
+            Component.onCompleted: Qt.callLater(function () { edSelect._ready = true })
+
+            onModelValueChanged: {
+                if (!edSelect._ready)
+                    return
+                root._submitEdit(edSelect.modelValue)
+            }
+            Keys.onEscapePressed: function (ev) {
+                root._cancelEdit()
+                ev.accepted = true
+            }
+        }
+    }
+
+    Component {
+        id: cellEditor
+        Item {
+            width: parent ? parent.width : 120
+            height: parent ? parent.height : root.rowHeight
+            Loader {
+                anchors.fill: parent
+                sourceComponent: root._editorType() === "select"
+                    ? selectCellEditor : textCellEditor
             }
         }
     }

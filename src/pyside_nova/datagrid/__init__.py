@@ -32,6 +32,7 @@ from .model import (
     NovaDataGridRoles,
 )
 from .proxy import (
+    NovaDataGridExpandProxy,
     NovaDataGridFilterProxy,
     NovaDataGridPagedProxy,
     NovaDataGridPagination,
@@ -40,6 +41,7 @@ from .proxy import (
 __all__ = [
     "SEVERITY_FIELD",
     "NovaDataGridColumn",
+    "NovaDataGridExpandProxy",
     "NovaDataGridFilterProxy",
     "NovaDataGridModel",
     "NovaDataGridPagedProxy",

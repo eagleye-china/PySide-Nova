@@ -3,7 +3,7 @@
 """API 冻结（1.0）门禁测试。
 
 三道闸的自动化验收：
-1. **清单自洽**：`api/nova-api-1.6.0.json` 的指纹必须能由内容重算得出（防手改绕过）；
+1. **清单自洽**：`api/nova-api-1.7.0.json` 的指纹必须能由内容重算得出（防手改绕过）；
 2. **面零漂移**：现网 146 类型逐成员（props/signals/methods）与清单一致；
    并验证门禁**能真的变红**（删类型/加成员/改签名三类反例，防「永远绿」的假门禁）；
 3. **命名与纪律**：`on*` 前缀、基类成员撞名、qmldir `//` 注释、版本 1.0、头注释、
@@ -33,7 +33,7 @@ import check_api_freeze as caf  # noqa: E402
 import check_qmllint as cql  # noqa: E402
 import gen_api_freeze as gaf  # noqa: E402
 
-MANIFEST = ROOT / "api" / "nova-api-1.6.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.7.0.json"
 DOC = ROOT / "docs" / "API_FREEZE.md"
 
 # 1.2.0：组合模块 19→20（新增 NovaIncubator 第 20 组合根，宪法第 8 章 additive · 整批单次重签）；总数 143→144
@@ -63,7 +63,7 @@ def current() -> dict:
 def test_manifest_schema(manifest):
     assert manifest["schema"] == "nova-api-freeze/1"
     assert manifest["package"] == "pyside-nova"
-    assert manifest["apiVersion"] == "1.6.0"
+    assert manifest["apiVersion"] == "1.7.0"
     assert manifest["baseline"] == "Quasar 2.35.5"
 
 

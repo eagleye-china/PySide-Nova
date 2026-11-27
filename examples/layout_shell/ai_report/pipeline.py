@@ -10,6 +10,9 @@
        NovaDataGridPagination ──> NovaDataGridPagedProxy (reportPaged)
                                    │
                                    ▼
+                       NovaDataGridExpandProxy (reportExpand)
+                                   │
+                                   ▼
                        NovaDataGrid.qml 注入 reportSlot
 
     ReportBridge 只承载"宿主统计 + 受控信号记录 + 人工确认闸门状态"，
@@ -23,6 +26,7 @@ from pathlib import Path
 from PySide6.QtCore import Property, QObject, Signal, Slot
 
 from pyside_nova.datagrid import (
+    NovaDataGridExpandProxy,
     NovaDataGridFilterProxy,
     NovaDataGridModel,
     NovaDataGridPagedProxy,
@@ -142,7 +146,7 @@ class ReportBridge(QObject):
 
 
 def build_pipeline(rows: list[dict], page_size: int = plant.DEFAULT_PAGE_SIZE):
-    """model → filter → paged 四件套；与 datagrid_demo 同一管道口径。"""
+    """model → filter → paged → expand 五段管道；与 1.7.0 P0 口径一致。"""
     columns = plant.build_columns()
     table = NovaDataGridModel(columns, rows, row_key="slot")
     pagination = NovaDataGridPagination(page_size=page_size)
@@ -151,7 +155,9 @@ def build_pipeline(rows: list[dict], page_size: int = plant.DEFAULT_PAGE_SIZE):
     paged_proxy = NovaDataGridPagedProxy(pagination)
     paged_proxy.setSourceModel(filter_proxy)
     pagination.setTotal(len(rows))
-    return table, filter_proxy, paged_proxy, pagination
+    expand_proxy = NovaDataGridExpandProxy()
+    expand_proxy.setSourceModel(paged_proxy)
+    return table, filter_proxy, paged_proxy, pagination, expand_proxy
 
 
 def inject(engine, *, rows: list[dict] | None = None,
@@ -160,20 +166,21 @@ def inject(engine, *, rows: list[dict] | None = None,
            prefix: str = "report") -> dict:
     """把数据管道 + 宿主桥注入引擎；返回强引用句柄（防 GC 提前析构）。"""
     rows = rows if rows is not None else plant.generate_rows(seed=seed)
-    table, filter_proxy, paged_proxy, pagination = build_pipeline(rows, page_size)
+    table, filter_proxy, paged_proxy, pagination, expand_proxy = build_pipeline(rows, page_size)
     bridge = ReportBridge(plant.compute_stats(rows))
     meta = {
         "rows": len(rows),
         "columns": len(plant.build_columns()),
         "pageSize": page_size,
         "seed": seed,
-        "version": "1.6.0",
+        "version": "1.7.0",
     }
     props = {
         f"{prefix}Table": table,
         f"{prefix}Filter": filter_proxy,
         f"{prefix}Paged": paged_proxy,
         f"{prefix}Pages": pagination,
+        f"{prefix}Expand": expand_proxy,
         f"{prefix}Bridge": bridge,
         f"{prefix}Meta": meta,
     }

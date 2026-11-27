@@ -1,9 +1,9 @@
 # scripts/audit_domains.py
-# pyside-nova 1.6.0 · 基础组件域分类机检与台账生成器
+# pyside-nova 1.7.0 · 基础组件域分类机检与台账生成器
 """COMPONENT_DOMAINS.md 的可验证底座（文档层概念域，非物理层）。
 
-事实源：api/nova-api-1.6.0.json（冻结清单）+ src/.../Nova/**/qmldir（模块归属）
-本脚本是 api/component-domains-1.6.0.json 的**唯一生成器**；该 JSON 为生成物，禁手改。
+事实源：api/nova-api-1.7.0.json（冻结清单）+ src/.../Nova/**/qmldir（模块归属）
+本脚本是 api/component-domains-1.7.0.json 的**唯一生成器**；该 JSON 为生成物，禁手改。
 
 铁律：域分类只落在文档 / 台账层，**不改变 qmldir 模块 URI、不改冻结面指纹、
 不移动任何 QML 物理文件**。原稿 NOVA_CLASSIFY.md 主张的「每子目录独立 qmldir +
@@ -19,8 +19,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-API = ROOT / "api" / "nova-api-1.6.0.json"
-EMIT = ROOT / "api" / "component-domains-1.6.0.json"
+API = ROOT / "api" / "nova-api-1.7.0.json"
+EMIT = ROOT / "api" / "component-domains-1.7.0.json"
 QML = ROOT / "src" / "pyside_nova" / "qml" / "Nova"
 
 # ── Controls 93 → 七大控件域 ────────────────────────────────────────────────
@@ -196,7 +196,7 @@ def build() -> tuple[dict, list[str]]:
         "package": "pyside-nova",
         "apiVersion": api["apiVersion"],
         "fingerprint": api["fingerprint"],
-        "source": "api/nova-api-1.6.0.json",
+        "source": "api/nova-api-1.7.0.json",
         "generator": "scripts/audit_domains.py",
         "note": "概念域分类（文档层），不改变 qmldir 模块 URI / 冻结面 / QML 物理目录",
         "counts": {
@@ -226,7 +226,7 @@ def build() -> tuple[dict, list[str]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="基础组件域分类机检 / 台账生成")
-    ap.add_argument("--emit", action="store_true", help="生成 api/component-domains-1.6.0.json（生成物禁手改）")
+    ap.add_argument("--emit", action="store_true", help="生成 api/component-domains-1.7.0.json（生成物禁手改）")
     args = ap.parse_args()
 
     try:
@@ -237,7 +237,7 @@ def main() -> int:
 
     c = ledger["counts"]
     print("=" * 78)
-    print("pyside-nova 1.6.0 · 基础组件域分类机检（文档层概念域）")
+    print("pyside-nova 1.7.0 · 基础组件域分类机检（文档层概念域）")
     print("=" * 78)
     print(f"[1] 冻结面            {c['total']} 类型 / {c['modules']} 个 qmldir 模块 · 指纹 {ledger['fingerprint']}")
     print(f"[2] Controls           {c['controls']} → {c['controlDomains']} 域")

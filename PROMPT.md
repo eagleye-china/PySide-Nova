@@ -5,6 +5,21 @@
 
 以下快照即全部必要上下文，读完按第二步汇报；**未汇报前不得动手写代码**。
 
+### 🆕 1.7.0 现行校准（2026-11-27 22:05 · NovaDataGrid P0 五项打磨 · 覆盖下方 21:30 / 21:20 及更早历史快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA 出示 PyPI 截图确认 `pyside-nova 1.6.0` 已由 `git tag v1.6.0` / `git push origin v1.6.0` 发布为 LATEST，随后下达「可以，按 P0 五项顺序开工」。按发布后纪律，公共面增量并入 **1.7.0 additive minor**，不回改 1.6.0 已发布物。
+
+| 项 | 1.7.0 现行事实 |
+|---|---|
+| 冻结面 | **147 类型 / Controls 93 / LayoutShell 21 / a11y 33+29+85 不变 / 指纹 `157ab2b1d77ea9f9`**（1.6.0 `7c542c416709cd96` 为已发布史料）；`api/nova-api-1.7.0.json` + `api/component-domains-1.7.0.json` + `docs/API_FREEZE.md` 生成器重出，徽标 3 枚 + 站点副本同步。无新增 QML 导出类型。 |
+| P0-1 展开行 | `NovaDataGridExpandProxy` 末段插入虚拟行，按 `rowKey` 折叠、不改业务数据；QML 新增 `expandProxy` / `expandedRows` / `expansionDelegate` / `expansionHeight`，`toggleExpansion` / `isExpanded` / `rowExpansionToggled`；首列箭头与展开行自身都可折叠。 |
+| P0-2 a11y | 表头 `Accessible.ColumnHeader` + 可聚焦 Enter/Space 排序 + `Accessible.description` 等价 `aria-sort`；单元格 `Accessible.Cell` + 名称/选中态；行游标新增 PageUp/PageDown 十行跳转。 |
+| P0-3 选择 | `selectedRows` 只读派生 + `selectionDelegate` 自定义首列选择单元格；Ctrl 单行切换 / Shift 范围选择；`selectionChanged` + `selectionActionRequested` 供宿主挂动作。 |
+| P0-4 编辑器 | `editor="select"` 真实走 `NovaSelect`，选项在 QML 内重建为 JS 数组（坑位 70），提交/取消/失败红框与 text/number 同语义。 |
+| P0-5 空态 | `noResultsText` / `clearFilterText` / `emptyDelegate`，`filterProxy.filterActive` 分流 no-data 与 no-results；`clearFilters()` 同时覆盖本地/服务端。 |
+| 验收 | qmllint 0 error / 594 warning 预算内 · 专项 **97 passed**（API 27 + LayoutShell 27 + DataGrid 13 + Markdown 15 + v2compat 15）· 三 `--check` · mkdocs 0 内容 INFO · 21/21 天花板 + 15/15 基础机检 · 三态图浅/深/变体目视通过。 |
+| 发布边界 | 本助手只做本地实现与验收；commit / push / tag / PyPI / 站点上线全归 CSA。待办池仍 1 项 = T3，下一个 T26（T25 已由本轮 P0 占用）。 |
+
 ### 🆕 T24 现行校准（2026-11-27 21:20 · 第 21 组合根 NovaAIReport + 真实 NovaDataGrid demo · 覆盖下方 20:12 及更早历史快照；下方全部保留为史料）
 
 > **本节优先于下方全部历史正文**。CSA 出示外部方案 `E:/360Download/Nova-AlReport-开源封版方案-v1.0.0.md` 并下达「仔细认真阅读这份 md 文档，然后跟据咱们 pyside-nova 库的实际情况，优化完善为本库 md 文档，放在 docs/controls/ 下，利用 NovaDataGrid 打造一款 NovaAIReport 组合组件放在 composite/layoutshell/ 下，朝着中国第一努力」→ 立 T24、CARF 一轮完现；追加「请创建 demo，并放在 examples/layout_shell/ai_report/ 子目录下」→ 同轮补齐成品级 showcase。
@@ -556,8 +571,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：1.6.0（2026-11-27）
-- 内容指纹：`1307da304ca5`
-- git HEAD：be02eb2
-- 生成时间：2026-11-27 21:35（星期五）
+- 快照版本：1.7.0（2026-11-27）
+- 内容指纹：`79d2f8422339`
+- git HEAD：d6d8cbc
+- 生成时间：2026-11-27 22:05（星期五）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

@@ -210,8 +210,33 @@ ApplicationWindow {
                     filterProxy: reportFilter
                     pagedProxy: reportPaged
                     pagination: reportPages
+                    expandProxy: reportExpand
+                    expansionHeight: 64
                     rowHeight: 36
                     cellDelegates: ({ "state": stateBadge })
+                    expansionDelegate: Component {
+                        Rectangle {
+                            property var expansionData
+                            anchors.fill: parent
+                            color: NovaTheme.surfaceAlt
+                            NovaChip {
+                                anchors.left: parent.left
+                                anchors.leftMargin: NovaTheme.spacingM
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: "槽位诊断 · " + expansionData.rowKey
+                                outlined: true
+                                dense: true
+                            }
+                            Text {
+                                anchors.left: parent.left
+                                anchors.leftMargin: NovaTheme.spacingM + 150
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: "2–8h 预测区间 / 归因链路 / 建议动作（业务层槽位注入）"
+                                color: NovaTheme.textMuted
+                                font.pixelSize: NovaTheme.fontXS
+                            }
+                        }
+                    }
                     onRowClicked: function (r) {
                         win.status = "rowClicked " + r + " · " + JSON.stringify(grid.getRowData(r)).slice(0, 96)
                     }
@@ -219,6 +244,9 @@ ApplicationWindow {
                     onCellEdited: function (r, c, v) { win.status = "cellEdited " + r + "/" + c + " = " + v + "（已回写模型）" }
                     onSortRequested: function (c, a) { win.status = "sortRequested 列 " + c + " 升序=" + a }
                     onRefreshRequested: win.status = "refreshRequested"
+                    onRowExpansionToggled: function (key, expanded) {
+                        win.status = "rowExpansionToggled " + key + " · " + expanded
+                    }
                 }
 
                 RowLayout {
