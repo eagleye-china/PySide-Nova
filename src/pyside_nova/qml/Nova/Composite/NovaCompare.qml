@@ -1,4 +1,4 @@
-// src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaCompare.qml
+// src/pyside_nova/qml/Nova/Composite/NovaCompare.qml
 // NovaCompare 双栏对比壳：中缝分隔 + 等宽双面板 + 控制栏 + 状态栏（对标代码 / 配置 diff 工具）
 // 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）；
 //   A/B 贯穿色条与伪调节柄箭头改为主色系角标 + 抽象短条（CC-2/CC-3）；槽位宿主独立铺满（CC-6）。

@@ -1,4 +1,4 @@
-// src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaTabShell.qml
+// src/pyside_nova/qml/Nova/Composite/NovaTabShell.qml
 // NovaTabShell 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏（对标 Quasar QTabs）
 // 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）；
 //   三色段落收敛主色系递减条、删底边重复分隔线（CC-2/CC-3）；槽位宿主独立铺满（CC-6）。

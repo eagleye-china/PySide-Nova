@@ -1,6 +1,6 @@
 # NovaCompare · 双栏对比壳
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 多栏工作台 · **pyside-nova 1.10.0** · API 冻结指纹 `5328cd0e3c71e7ac` · **21/21 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 多栏工作台 · **pyside-nova 1.11.0** · API 冻结指纹 `9966483dda5a53c4` · **21/21 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览
@@ -11,7 +11,7 @@ NovaCompare 双栏对比壳：中缝分隔 + 等宽双面板 + 控制栏 + 状�
 - **依赖组件**：`NovaTheme`、`NovaFooter`、`NovaPage`、`NovaSeparator`（全部为库内已导出公共类型）
 - **天花板销号**：✅ 已销号 · 批次 4 · 三态「浅 / 深 / 中缝控制」
 - **台账备注**：生产 / 预发布配置 diff
-- **源码**：`Nova/Composite/LayoutShell/NovaCompare.qml`
+- **源码**：`Nova/Composite/LayoutShell/../NovaCompare.qml`
 
 ## Props
 

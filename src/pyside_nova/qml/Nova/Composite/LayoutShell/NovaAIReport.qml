@@ -73,19 +73,39 @@ Item {
     readonly property color _divider: NovaTheme.outline
     readonly property color _railBg: NovaTheme.surfaceAlt
     readonly property color _panel: NovaTheme.surface
-    // ── 专属主题 · 仪表钢蓝（色相 +0.0694 ≈ 25°，仍属 primary 同色系；CC-3 组件内单色相）──
-    // 私有令牌不进冻结面；setBrand 换肤同步平移，饱和/明度系数独立定制
-    readonly property real _themeHue: (NovaTheme.primary.hsvHue + 0.0694 + 1) % 1
-    readonly property color _ink: Qt.hsva(root._themeHue,
+    // 应用身份图标（qrc:/icons/app-aireport.svg；私有 _ 前缀不进冻结面，decorative）
+    readonly property url _appIcon: "qrc:/icons/app-aireport"
+    // ── 专属主题 · 仪表钢蓝（色相 258°，偏移 +0.0694 ≈ +25°；CC-3 组件内单色相）──
+    // 智能报表 · 冷静精确的钢蓝；色相随 setBrand 漂移，饱和/明度系数独立定制
+    // _signatureOn：true=专属色相（默认）/ false=回归全局品牌蓝（亮色态）；私有令牌不进冻结面
+    property bool _signatureOn: true
+    readonly property real _themeHue: root._signatureOn
+        ? (NovaTheme.primary.hsvHue + 0.0694 + 1) % 1
+        : NovaTheme.primary.hsvHue
+    readonly property color _accent: Qt.hsva(root._themeHue,
         Math.min(1, NovaTheme.primary.hsvSaturation * 0.95),
         Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.22 : 1)), 1)
-    readonly property color _inkSoft: Qt.lighter(root._ink, 1.35)
+    readonly property color _ink: root._accent
+    readonly property color _inkSoft: Qt.lighter(root._accent, 1.35)
     // ── Aurora Core · 极光核辉光（同色相提亮 + 中性白芯；只用于身份焦点小面积点缀）──
     readonly property color _glow: Qt.hsva(root._themeHue,
         Math.min(1, NovaTheme.primary.hsvSaturation * 0.72),
         Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.5 : 1.25)), 1)
 
     Rectangle { anchors.fill: parent; color: NovaTheme.page }
+    NovaIcon {
+        id: _appBadge
+        objectName: "_appBadge"
+        icon: "img:" + root._appIcon
+        size: root._unit * 4
+        monochrome: false
+        anchors {
+            top: parent.top; left: parent.left; topMargin: root._unit; leftMargin: root._unit
+        }
+        opacity: 0.9
+        z: NovaTheme.zMarginals
+        // 应用身份徽记：decorative 语义，a11yLabel 留空由注入内容承担语义
+    }
 
     // ── 1. 对标带（本厂值 / 行业基线 / 先进基线 / 差距；报表全局呈现位）──
     Item {

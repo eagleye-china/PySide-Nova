@@ -1,4 +1,4 @@
-// src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaDrawerPanel.qml
+// src/pyside_nova/qml/Nova/Composite/NovaDrawerPanel.qml
 // NovaDrawerPanel 侧边滑出面板壳：单色系侧缘轨 + 抽象短条 + 非模态临时面板（区别于常驻 Sidebar）
 // 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）；
 //   primary→secondary 撞色轨收敛主色系、伪 grabber 把手改抽象几何（CC-3）；槽位宿主独立铺满（CC-6）。

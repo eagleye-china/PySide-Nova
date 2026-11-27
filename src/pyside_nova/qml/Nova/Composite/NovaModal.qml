@@ -1,4 +1,4 @@
-// src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaModal.qml
+// src/pyside_nova/qml/Nova/Composite/NovaModal.qml
 // NovaModal 模态弹窗壳：单色系顶条 + 抽象短条 + 浮起卡片 + 遮罩，ESC / 点遮罩关闭（对标 Quasar QDialog）
 // 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）；
 //   三色渐变顶条收敛主色系、伪拖拽把手改抽象几何（CC-3）；槽位宿主独立铺满（CC-6）；遮罩为功能性例外。

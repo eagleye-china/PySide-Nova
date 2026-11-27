@@ -1,6 +1,6 @@
 # tests/test_app_icons.py
 # 迁移时间：星期五 2026-11-27 09:52
-"""10 枚专属主题组合根的应用图标资产回归（pyside-nova 归属）。
+"""11 枚专属主题组合根的应用图标资产回归（pyside-nova 归属）。
 
 图标从 nova-forge 迁入本仓库 ``src/pyside_nova/resources/icons/app-*.svg``，
 由 nova-forge 的 ``scripts/gen_app_icons.py`` 从 ``catalog.hue`` 单一事实源生成。
@@ -29,15 +29,16 @@ EXPECTED_HUES: dict[str, int] = {
     "app-flex.svg": 176,
     "app-wizard.svg": 168,
     "app-incubator.svg": 283,
+    "app-aireport.svg": 258,
 }
 
 
-class TestTenAppIcons(unittest.TestCase):
-    """10 枚图标实体：数量 / 可解析 / 色相单一事实源 / 纯几何。"""
+class TestElevenAppIcons(unittest.TestCase):
+    """11 枚图标实体：数量 / 可解析 / 色相单一事实源 / 纯几何。"""
 
-    def test_ten_icons_exist_and_parse(self) -> None:
-        self.assertEqual(len(EXPECTED_HUES), 10)
-        self.assertEqual(len(set(EXPECTED_HUES)), 10)
+    def test_eleven_icons_exist_and_parse(self) -> None:
+        self.assertEqual(len(EXPECTED_HUES), 11)
+        self.assertEqual(len(set(EXPECTED_HUES)), 11)
         for name in EXPECTED_HUES:
             path = ICONS_DIR / name
             self.assertTrue(path.is_file(), name)
@@ -60,7 +61,7 @@ class TestTenAppIcons(unittest.TestCase):
             self.assertIn(f"hue {hue}°", text, f"{name} 色相应为 {hue}°")
 
     def test_app_icon_set_is_exact(self) -> None:
-        """资产目录恰好这 10 枚 app 图标，不缺不多（其余为品牌徽标）。"""
+        """资产目录恰好这 11 枚 app 图标，不缺不多（其余为品牌徽标）。"""
         actual = {p.name for p in ICONS_DIR.glob("app-*.svg")}
         self.assertEqual(actual, set(EXPECTED_HUES))
 

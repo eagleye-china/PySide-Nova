@@ -5,7 +5,59 @@
 
 以下快照即全部必要上下文，读完按第二步汇报；**未汇报前不得动手写代码**。
 
-### 🆕 1.10.0 现行校准（2026-11-28 02:30 · NovaTable 完全对标 Quasar QTable · 覆盖下方 1.9.0 / 1.8.0 及更早快照；下方全部保留为史料）
+### 🆕 T3 现行校准（2026-11-28 · migrate2nova 完现销号「100% 迁移」+ 第 11 枚应用图标 / 专属暗色主题 · 覆盖下方 1.11.0 / T29-A 及更早快照；下方全部保留为史料）
+
+- **CSA 指令**：「1. 为 NovaAIReport 设计应用图标并放在 resources/icons/，为其设计专属暗色主题（同其他的 10 个组合组件），并在应用暗色主题时标题栏为暗色；3. 完现 T3，建议更名为 migrate2nova（方便输入子命令），目标 100% 实现迁移」。
+- **T3 更名**：主命令 **`nova-forge migrate2nova`**，原名 `migrate_to_nova` 保留为**隐藏 alias**（根 `PROMPT.md §9` 方案骨架史料逐字保留，`nova-api-1.0.0.json` 史料行不回改）。
+- **100% 口径定死**：试验田 `nova-forge/src/nova_forge/ui/saver_window.py` **1** 个 `.py` / **22 个唯一 Qt 名** 全部进入 `AUTO 11 / MANUAL 2 / NATIVE 5 / RUNTIME 4` 四类处置（**100% = 22/22**），MANUAL 明确为 `QSplitter` / `QSystemTrayIcon`；`UNKNOWN_RULE` 兜底 MANUAL，零静默遗漏。
+- **法源链零悬空**：`FreezeIndex` 自动探测 `api/nova-api-1.11.0.json`（API `1.11.0` / **147 类型** / 指纹 `9966483dda5a53c4`），`--list-mapping` 实测 **72 条规则 / AUTO 目标悬空 0 个**；不手写 Nova 类型清单。
+- **五道契约门**（§9.4）：`static-tier` / `coverage` / `qmllint` / `modelValue` / `slot-constitution`；dry-run 2 PASS + 3 SKIP，`--scaffold` 时实跑全绿方落盘；FAIL 抛 `ContractBlockedError`，一个字节不写。默认 dry-run · 原 `.py` 零改动 · QML 加载失败动态降级回原窗口 · §9.3 `%TEMP%/nova-scratch/` 备份自建自删 / `--restore` 回滚。
+- **坑位 83**：全量 pytest 暴露「导入 PySide6 会把 `qmllint.exe` 注入 PATH」+「Windows `qmllint.exe` 不支持 stdin `-`（返 -1）」致 qmllint 门误判 FAIL（专向 26 passed / 全量 4 failed）；改落临时文件实跑 + 自动 `-I` 指向 pyside-nova QML 根 + 以 `Error:` 行零容忍判定，warning / rc 如实登记不掩盖，新增专项回归固化。
+- **第 11 枚图标 / 第 11 套主题**：`app-aireport.svg`（258° 仪表钢蓝）两工程 qrc 双别名 + `resources_rc.py` 重编；`NovaAIReport._signatureOn / _themeHue(+0.0694) / _accent / _ink / _inkSoft / _glow` + `NovaIcon` 徽记与其余 10 壳同构；`ai_report/run.py` 自包含 DWM helper（`darkChromeChanged(bool)` → 属性 20/19）同步 Windows 原生暗色标题栏。`GUIDE_COMPONENT_THEMES.md` / `NovaAIReport.md` §6 登记。
+- **验收**：nova-forge 全量 **206 passed + 32 subtests**（T3 专项 **26 passed** · `test_titlebar_and_hatch.py` 18 passed）· pyside-nova 图标/主题专项 **26 passed** · ruff 新增修改文件全净 · qmllint 0 error · `check_api_freeze.py` **147 类型零漂移** · 三 `--check` · 生成器幂等 · 骨架 `Main.qml` 离屏 `ROOTS 1 / TOTAL_MSGS 0 / BAD_MSGS 0` · 降级 `FALLBACK_RC 0` · `ai_report` demo `TOTAL_MSGS 0`。
+- **状态**：**T3 完现销号（真实交付）** · **待办池 0 项**（无活跃主线）· **下一个 T30**（T3 为历史编号，不占用新号）· `commit / push / tag / PyPI / 站点上线` 全归 CSA；本轮改动全部留本地工作树。**pyside-nova 1.11.0 冻结面零改动、不升版、不重签**。
+
+---
+
+### 🆕 1.11.0 现行校准（2026-11-28 03:33 · T29 完现「先 A 后 B」· 物理重构重签 · 覆盖下方 T29-A / 02:51 及更早快照；下方全部保留为史料）
+
+- **CSA 拍板（03:20）**：B 版本起点 = **1.11.0 minor（仅重签指纹）**、**不落 `@nova-compat-view` 兼容视图**、不升 2.0.0 major。
+- **T29-A**：文档层二维台账 `GUIDE_LAYOUTSHELL_TAXONOMY.md` + 法源页 `SPEC_T29_LAYOUTSHELL_SPLIT.md` + `mkdocs.yml` nav 2 条；判别锚 `NovaTheme.primary.hsvHue` 命中 11 / 未命中 10 **零例外**，九类仅 `Page/` 被劈开；零产品代码 / 零 URI / 零重签。
+- **T29-B**：10 个通用布局原语 QML 上移 `Composite/`；`LayoutShell/qmldir` 10 条 `../` 转发、11 条原位；模块 URI 恒 `Nova.Composite.LayoutShell`，21 类型名 / `import` / **147 类型公共面逐字不变**。
+- **逐成员零漂移证明**：唯一变化 = 10 个 `types[].file` 溯源字段；归一化反推**精确还原旧指纹** `5328cd0e3c71e7ac` → 新指纹 **`9966483dda5a53c4`**（`api/nova-api-1.11.0.json` · 147 类型不变）；`tests/test_t29_migration.py` **9 项机检固化**。
+- **实测排险**：`spike_v2_compat.py` 7/7 + B 精确形态 A/B 对照探针 PASS → R2 降级为真机回归项；真实产品树 foundations **15/15 · 130 类型实例化零缺陷**、a11y **147/147**、qmllint **0 error / 571 warning 未增**。**`check_a11y.py` / `audit_v2_compat.py` C1 均无需改动**（`../` 拼接被 `Path.exists()` 天然解析；C1 与生成器 `file` 同源）。
+- **文档层**：CHANGELOG `[1.11.0]` 段 · `NovaTable.current.md` §0 1.11.0 段 · 两份 prescript 现行校准段 · `SPEC_V2_COMPAT.md` 版本锚点校准段；**1.10.0 及更早史料段逐字保留**。
+- **验收**：静态 3/3 · 专项 **131 passed** · v2 compat C1~C5 PASS · 天花板 21/21 · foundations 15/15 · 域分类 PASS · `mkdocs --strict` EXIT=0 · 三 `--check` 全绿 · 生成器幂等。
+- **状态**：**T29 完现销号** · **1.11.0 本地完成待 CSA 发布**；待办池仍 1 项 = **T3**；**下一个 T30**；`commit / push / tag / PyPI / 站点上线` 全归 CSA。
+
+---
+
+### 🆕 T29-A 现行校准（史料段，上方 1.11.0 优先 · 2026-11-28 03:17 ·「先 A 后 B」· 文档层二维分层台账 · 零重签 · 覆盖下方 02:51 交付段及更早快照；下方全部保留为史料）
+
+- **CSA 指令**：「小诺，T29，先 A 后 B」。按序执行：A 文档层（本阶段完现）/ B 受控物理迁移（待拍板）。
+- **判别锚（可机检、零例外）**：`NovaTheme.primary.hsvHue` 命中 **11** 个 = CSA 保留清单逐字一致；未命中 **10** 个 = 移出清单逐字一致。九类里仅 `Page/` 被劈开（`NovaSetupWizard` 留 / `NovaBlankPage` 移）→ 分界实为「**通用布局原语 vs 产品级组合根**」，不是九类；保留集 = 十色相工作台（10）+ 第 21 组合根 `NovaAIReport`（1）。
+- **A 交付**：`docs/prescript/GUIDE_LAYOUTSHELL_TAXONOMY.md`（二维台账 / 判别锚 / 21→11+10 集合核算 / B 影响面预登记）+ `docs/prescript/SPEC_T29_LAYOUTSHELL_SPLIT.md`（法源页 / 三档路径 / 拍板项 / B 九项切换清单 / 冲突登记）+ `mkdocs.yml` nav 2 条。
+- **A 纪律**：零产品 QML 改动 / 零 `qmldir` 改动 / 零 URI 变化 / 零重签 / 零版本变动；仍 **1.10.0 · 147 类型 · 指纹 `5328cd0e3c71e7ac`**。
+- **A 验收**：静态 3/3 · 专项 **122 passed** · 天花板 **21/21**（619 条链接 0 断链）· foundations **15/15** · 域分类 / v2 compat PASS · `mkdocs --strict` **EXIT=0** · 三 `--check` 全绿 · 生成器幂等 210 文件哈希一致。
+- **B 技术前提实测（只读临时 import path、不动产品目录）**：`spike_v2_compat.py` **7/7 PASS**（形态 C `../` 跨目录转发 / H `../../` 到新顶层目录均拿同一物理实现）+ **B 精确形态 A/B 对照探针 PASS**（既有 URI `Nova.Composite.LayoutShell` 不变、QML 在父目录 `Composite/`、`qmldir` 写 `../NovaSidebar.qml`，与平铺基线两组 tag 同为 `REAL`、非包装）→ **`../` 转发可行，R2 从「未验证假设」降级为「真机回归项」**，B 阶段仍须对真实 21 组件做离屏真机回归。
+- **B 待 CSA 拍板**：② 版本起点（**1.11.0 minor** 仅重签指纹 / **2.0.0 major** 按 `SPEC_V2_COMPAT.md` §5 M2）③ 是否同批落首个 `@nova-compat-view` 兼容视图（建议不落）。① 打破 12:05 平铺约定已由「后 B」隐含授权。
+- **账实脱节登记**：`SPEC_V2_COMPAT.md` 版本锚点仍写 `1.2.0 / 144 类型 / 4f882374ad52262b / 2.0.0`，与现行 **1.10.0 / 147 / `5328cd0e3c71e7ac`** 不符，B 实施前追加现行校准段（史料行不回改）。
+- **状态**：**T29 立项占用（A 完成 / B 待拍板）**；待办池仍 1 项 = **T3**；**下一个 T30**；`commit / push / tag / PyPI / 站点上线` 全归 CSA。
+
+---
+
+### 🆕 1.10.0 发布态校准（2026-11-28 02:51 · 史料段，上方 T29-A 优先 · 已由 CSA 发布 · 覆盖下方 02:30 交付段及更早快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA「1.10.0 已发布」→ 只读核实 + 账实对齐，零产品代码改动。
+
+- **发布态核实**：HEAD `1fb87d9 chore(release): v1.10.0` · tag `v1.10.0` → `1fb87d9d2c827d1c87096c536c7e393800a98dac` = HEAD · **工作树干净（0 改动）**；`__about__` = `1.10.0`；`api/nova-api-1.10.0.json` / `api/component-domains-1.10.0.json` 均在发布提交内 → **1.10.0 确已由 CSA 发布**。
+- **状态校准**：现行口径由「1.10.0 本地完成待 CSA 发布」改为「**1.10.0 已由 CSA 发布**」；`CHANGELOG.md [1.10.0]` 标题 / 版本说明 / 发布行、`docs/controls/NovaTable.current.md` §0 发布态行 / 发布行、本文件头部与本节、根 `PROMPT.md`（头部 / §A.2 指针 / §A.3 播报 / §A.4 归档表）、`NOVA_WORKSPACE.md`（§0 / §6）、`MEMORY.md`（§2 / §4）、当日日志同步。
+- **史料不圆场**：**1.9.0 及更早冻结面 / 文档正文 / 快照段逐字保留，零回改**；下方 02:30「1.10.0 现行校准」段保留为交付史料，仅标注「史料段、上方 02:51 优先」。
+- **边界**：本轮不新增任务编号、不改组件、不重签、不执行发布动作；`commit / push / tag / PyPI / 站点上线` 全归 CSA。待办池仍 **1 项 = T3**；**T28 已销号，下一个 T29**。
+- **复核**：三 `--check`（`gen_api_freeze` / `gen_prompt` / `sync_brand_version`）、静态 3/3、专项测试全集、生成器幂等复验通过；`gen_prompt.py` 已重投影 `pyside-nova/PROMPT.md`。
+
+
+### 🆕 1.10.0 现行校准（2026-11-28 02:30 · 史料段，上方 02:51 优先 · NovaTable 完全对标 Quasar QTable · 覆盖下方 1.9.0 / 1.8.0 及更早快照；下方全部保留为史料）
 
 > **本节优先于下方全部历史正文**。CSA「打磨 NovaTable 组件，完全对标 https://quasar.dev/vue-components/table，评估完整度」
 > +「1.9.0 已发布」→ 立 **T28** 当轮完现；已发布版本不回改，按 additive minor 升 **1.10.0** 重签。
@@ -632,8 +684,8 @@ pyside-nova：面向 PySide6 的企业级 QML 组件库，QML 元素 Quasar 生�
 
 ## 快照指纹
 
-- 快照版本：1.10.0（2026-11-28）
-- 内容指纹：`22e7c071081d`
-- git HEAD：f209387
-- 生成时间：2026-11-28 02:37（星期六）
+- 快照版本：1.11.0（2026-11-28）
+- 内容指纹：`8ed03d6f9511`
+- git HEAD：1fb87d9
+- 生成时间：2026-11-28 04:26（星期六）
 - 生成器：`scripts/gen_prompt.py`（PROMPT.md 勿手改，改快照后重新生成）

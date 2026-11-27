@@ -1,4 +1,4 @@
-// src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaSidebar.qml
+// src/pyside_nova/qml/Nova/Composite/NovaSidebar.qml
 // NovaSidebar 侧边导航工作台壳：单色系品牌渐变轨 + 浮起侧栏卡 + 五槽骨架（对标 Quasar QLayout + QDrawer）
 // 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 visible 三元跳变）；
 //   每边界唯一分隔源；primary→secondary 撞色渐变收敛为主色系、装饰改抽象几何（CC-3）；槽位宿主独立铺满（CC-6）。

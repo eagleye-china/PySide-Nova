@@ -27,10 +27,10 @@ sys.path.insert(0, str(SCRIPTS))
 SRC = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaMarkdown.qml"
 QMLDIR = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Controls" / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaMarkdown.md"
-MANIFEST = ROOT / "api" / "nova-api-1.10.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.11.0.json"
 PYPROJECT = ROOT / "pyproject.toml"
 
-FINGERPRINT = "5328cd0e3c71e7ac"        # 1.10.0 现行冻结面（NovaTable 对标 Quasar 打磨后重签）
+FINGERPRINT = "9966483dda5a53c4"        # 1.11.0 现行冻结面（NovaTable 对标 Quasar 打磨后重签）
 HISTORICAL_FP = "37fbbe9ab5806a2a"      # 1.4.0 史料（使用文档对比表保留，史料不圆场）
 PREVIOUS_1_5_FP = "9742de8638251876"    # 1.5.0 前一签署态史料（NovaDataGrid 后、NovaAIReport 前）
 PREVIOUS_1_6_FP = "7c542c416709cd96"    # 1.6.0 已发布冻结面史料
@@ -73,7 +73,7 @@ def test_a11y_registered_as_semantic():
 
 def test_frozen_api_surface_matches_exactly():
     man = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    assert man["apiVersion"] == "1.10.0"
+    assert man["apiVersion"] == "1.11.0"
     assert man["fingerprint"] == FINGERPRINT
     assert man["counts"]["total"] == 147
     info = man["types"]["Nova.Controls.NovaMarkdown"]

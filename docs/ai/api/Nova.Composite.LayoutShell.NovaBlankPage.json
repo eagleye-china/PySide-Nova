@@ -1,7 +1,7 @@
 {
  "name": "Nova.Composite.LayoutShell.NovaBlankPage",
  "kind": "component",
- "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaBlankPage.qml",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/../NovaBlankPage.qml",
  "description": "NovaBlankPage 纯净单页壳：居中阅读栏 + Header + Content + Footer，最克制的可定制基底（无侧栏 / 无标签导航） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）； 阅读栏 padding 与 NovaPage padding 合并为单一边距（CC-1）；槽位宿主独立铺满（CC-6）。 用法：向 headerSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；注入顶层须 anchors.fill: parent",
  "properties": [
   {

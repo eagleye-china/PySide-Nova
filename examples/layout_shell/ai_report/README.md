@@ -15,6 +15,17 @@ python examples/layout_shell/ai_report/run.py --rows 1200 --page-size 20 --seed 
 ```
 
 窗口右上角「调参」面板默认收起（CC-8），可切换折叠双轨、显示分区、变体态、亮/暗主题。
+窗口图标为 `app-aireport`（第 11 枚专属主题应用图标，hue 258° 仪表钢蓝）；
+切到「专属」暗色态时 **Windows 原生标题栏同步变暗**，切回亮色态恢复。
+
+## 图标 / 专属主题 / 标题栏（1.11.0）
+
+- `run.py` 在 `init_nova()` 注册 qrc **之后** `setWindowIcon(QIcon(":/icons/app-aireport"))`。
+- `main.qml` 的 `shell._signatureOn` 绑定 `win.themeMode === "signature"`，与其余 10 壳同构；
+  第 11 套专属主题「仪表钢蓝 258°」见 `docs/prescript/GUIDE_COMPONENT_THEMES.md §2`。
+- `signal darkChromeChanged(bool)` 在 `onThemeModeChanged` 与 `Component.onCompleted` 中 emit，
+  由 `run.py::_sync_title_bar`（自包含 DWM helper，不依赖 nova-forge）同步原生标题栏；
+  非 Windows no-op、无监听者无害。
 
 ## 架构（账实同源）
 

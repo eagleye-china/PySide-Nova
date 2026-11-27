@@ -1,8 +1,8 @@
 # pyside-nova 组件清单
 
-> 版本 **1.10.0** · 基线 **Quasar 2.35.5** · API 指纹 `5328cd0e3c71e7ac` · 共 **147** 个公共 QML 类型
+> 版本 **1.11.0** · 基线 **Quasar 2.35.5** · API 指纹 `9966483dda5a53c4` · 共 **147** 个公共 QML 类型
 >
-> 数据源：`api/nova-api-1.10.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
+> 数据源：`api/nova-api-1.11.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
 >
 > 分类口径：Nova.Controls 93 / Nova.Behaviors 13 / Nova.Services 16 / Nova.Design 4 / Nova.Composite.LayoutShell 21；每个类型在 `examples/gallery/` 中有实机展示页面。
 
@@ -168,25 +168,25 @@
 |---:|---|---|---|---|---:|---|
 | 127 | **NovaAIReport** | 智能报表工作台壳：对标带 + 诊断轨 + 主报表区 + 预测区间带 + 问数轨 + 审批闸门 + 浮层 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全槽共享 | 游标尺 / 因果鱼骨 / 行列刻度尺 / 置信区间带 / 问数双点 / 闸门横闩 / 单色系发丝 | decorative（装饰） | 22/3/3 | `Nova/Composite/LayoutShell/NovaAIReport.qml` |
 | 128 | **NovaAgent** | 智能体任务执行工作台壳：任务列 + 编排画布 + 验证轨 + 审批闸 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | NovaAgent 八项准入控制 | decorative（装饰） | 19/3/3 | `Nova/Composite/LayoutShell/NovaAgent.qml` |
-| 129 | **NovaBlankPage** | 纯净单页壳：居中阅读栏 + Header + Content + Footer，最克制的可定制基底（无侧栏 / 无标签导航） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零… | Nova 增强 / 无对应 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaBlankPage.qml` |
-| 130 | **NovaCardGrid** | 卡片网格壳：筛选工具条 + 网格骨架 + 分页状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 组件画廊 / 模板市场 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaCardGrid.qml` |
+| 129 | **NovaBlankPage** | 纯净单页壳：居中阅读栏 + Header + Content + Footer，最克制的可定制基底（无侧栏 / 无标签导航） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零… | Nova 增强 / 无对应 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/../NovaBlankPage.qml` |
+| 130 | **NovaCardGrid** | 卡片网格壳：筛选工具条 + 网格骨架 + 分页状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 组件画廊 / 模板市场 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/../NovaCardGrid.qml` |
 | 131 | **NovaChat** | AI 对话主窗口壳：六槽多轨工作台，组合态一致性契约（CC）落地标杆 组合态（宪法 0.9.0）：根内以 _ 私有 readonly 声明唯一组合上下文（密度/层级/动效/品牌色），六轨共享 | WorkBuddy 桌面端主窗口 | decorative（装饰） | 23/3/3 | `Nova/Composite/LayoutShell/NovaChat.qml` |
-| 132 | **NovaCompare** | 双栏对比壳：中缝分隔 + 等宽双面板 + 控制栏 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 代码 / 配置 diff 工具 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaCompare.qml` |
+| 132 | **NovaCompare** | 双栏对比壳：中缝分隔 + 等宽双面板 + 控制栏 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 代码 / 配置 diff 工具 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/../NovaCompare.qml` |
 | 133 | **NovaCopilot** | 增强型协作面板壳：建议列 + 工作画布 + 动作闸门轨  组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | NovaCopilot 建议—确认—执行契约与 Draft/Confirm/Read-Only 三模 | decorative（装饰） | 16/3/3 | `Nova/Composite/LayoutShell/NovaCopilot.qml` |
 | 134 | **NovaDE** | 数字员工岗位工作台壳：岗位条 + 任务队列 + 工作画布 + SLA 轨 + 人工交接条  组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全部轨共享 | NovaDE 四要件：岗位形态 / 任务队列 / 能力调用 / 队伍级治理 | decorative（装饰） | 19/3/3 | `Nova/Composite/LayoutShell/NovaDE.qml` |
 | 135 | **NovaDesktop** | 桌面应用根壳：窗口控制点 + 菜单栏 + 工具栏 + 页面 + 状态栏，组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一三栏密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 v… | QMainWindow | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaDesktop.qml` |
-| 136 | **NovaDrawerPanel** | 侧边滑出面板壳：单色系侧缘轨 + 抽象短条 + 非模态临时面板（区别于常驻 Sidebar） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Nova 增强 / 无对应 | decorative（装饰） | 12/1/1 | `Nova/Composite/LayoutShell/NovaDrawerPanel.qml` |
-| 137 | **NovaDualSide** | 双侧边工作台壳：左导航 + 中央画布 + 右属性，两侧独立折叠 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；两侧宽度归零 + 恒定锚链（CC-5） | Qt Designer / VSCode 三栏布局 | decorative（装饰） | 12/2/2 | `Nova/Composite/LayoutShell/NovaDualSide.qml` |
+| 136 | **NovaDrawerPanel** | 侧边滑出面板壳：单色系侧缘轨 + 抽象短条 + 非模态临时面板（区别于常驻 Sidebar） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Nova 增强 / 无对应 | decorative（装饰） | 12/1/1 | `Nova/Composite/LayoutShell/../NovaDrawerPanel.qml` |
+| 137 | **NovaDualSide** | 双侧边工作台壳：左导航 + 中央画布 + 右属性，两侧独立折叠 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；两侧宽度归零 + 恒定锚链（CC-5） | Qt Designer / VSCode 三栏布局 | decorative（装饰） | 12/2/2 | `Nova/Composite/LayoutShell/../NovaDualSide.qml` |
 | 138 | **NovaFlexLayout** | 企业大屏弹性布局壳：columns 驱动的浮起面板网格 + 自适应分栏（HMI / 工控大屏），组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一网格密度/层级/动效；header/fo… | Nova 增强 / 无对应 | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaFlexLayout.qml` |
 | 139 | **NovaIncubator** | 应用孵化器工作台壳：全局栏 + 配方库 + 孵化舞台 + CARF 四阶段条 + 三重校验 + 封版证书 + 浮层 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，… | Nova 增强 / 无对应 | decorative（装饰） | 24/4/3 | `Nova/Composite/LayoutShell/NovaIncubator.qml` |
 | 140 | **NovaMobile** | 移动应用根壳：安全区 + 灵动岛 + 内容 + 底部导航 + home indicator，组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一安全区/头/底栏密度与动效；栏高归零 + 恒… | Quasar QLayout mobile | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaMobile.qml` |
-| 141 | **NovaModal** | 模态弹窗壳：单色系顶条 + 抽象短条 + 浮起卡片 + 遮罩，ESC / 点遮罩关闭 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QDialog | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaModal.qml` |
+| 141 | **NovaModal** | 模态弹窗壳：单色系顶条 + 抽象短条 + 浮起卡片 + 遮罩，ESC / 点遮罩关闭 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QDialog | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/../NovaModal.qml` |
 | 142 | **NovaOrbit** | 意图轨道工作台壳：全局栏 + 轨道态势栏 + 意图场 + 活产物画布（NovaChat 天花板形态） 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | Nova 增强 / 无对应 | decorative（装饰） | 22/3/3 | `Nova/Composite/LayoutShell/NovaOrbit.qml` |
 | 143 | **NovaSetupWizard** | 安装配置向导壳：三态步骤时间轴 + 当前步内容 + 上一步/下一步控制区 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QStepper | decorative（装饰） | 14/3/0 | `Nova/Composite/LayoutShell/NovaSetupWizard.qml` |
-| 144 | **NovaSidebar** | 侧边导航工作台壳：单色系品牌渐变轨 + 浮起侧栏卡 + 五槽骨架 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 visible 三元跳变） | Quasar QLayout + QDrawer | decorative（装饰） | 14/1/1 | `Nova/Composite/LayoutShell/NovaSidebar.qml` |
-| 145 | **NovaTabShell** | 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QTabs | decorative（装饰） | 8/3/0 | `Nova/Composite/LayoutShell/NovaTabShell.qml` |
-| 146 | **NovaThreeColumn** | 三栏工作台壳：目录树 / 中列表 / 详情，三级深度色阶 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 资源管理器布局 | decorative（装饰） | 13/1/0 | `Nova/Composite/LayoutShell/NovaThreeColumn.qml` |
-| 147 | **NovaTopNavigation** | 顶部导航工作台壳：胶囊导航台 + 悬浮下拉 + 主内容 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QLayout header 导航 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaTopNavigation.qml` |
+| 144 | **NovaSidebar** | 侧边导航工作台壳：单色系品牌渐变轨 + 浮起侧栏卡 + 五槽骨架 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 visible 三元跳变） | Quasar QLayout + QDrawer | decorative（装饰） | 14/1/1 | `Nova/Composite/LayoutShell/../NovaSidebar.qml` |
+| 145 | **NovaTabShell** | 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QTabs | decorative（装饰） | 8/3/0 | `Nova/Composite/LayoutShell/../NovaTabShell.qml` |
+| 146 | **NovaThreeColumn** | 三栏工作台壳：目录树 / 中列表 / 详情，三级深度色阶 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 资源管理器布局 | decorative（装饰） | 13/1/0 | `Nova/Composite/LayoutShell/../NovaThreeColumn.qml` |
+| 147 | **NovaTopNavigation** | 顶部导航工作台壳：胶囊导航台 + 悬浮下拉 + 主内容 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QLayout header 导航 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/../NovaTopNavigation.qml` |
 
 ---
 

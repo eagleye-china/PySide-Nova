@@ -1,6 +1,6 @@
 # NovaDrawerPanel · 侧边滑出面板壳
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 浮层容器 · **pyside-nova 1.10.0** · API 冻结指纹 `5328cd0e3c71e7ac` · **21/21 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 浮层容器 · **pyside-nova 1.11.0** · API 冻结指纹 `9966483dda5a53c4` · **21/21 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览
@@ -11,7 +11,7 @@ NovaDrawerPanel 侧边滑出面板壳：单色系侧缘轨 + 抽象短条 + 非�
 - **依赖组件**：`NovaTheme`、`NovaHeader`、`NovaPage`、`NovaSeparator`（全部为库内已导出公共类型）
 - **天花板销号**：✅ 已销号 · 批次 5 · 三态「浅 / 深 / 抽屉对侧」
 - **台账备注**：属性编辑抽屉；2 次组件内反向修复
-- **源码**：`Nova/Composite/LayoutShell/NovaDrawerPanel.qml`
+- **源码**：`Nova/Composite/LayoutShell/../NovaDrawerPanel.qml`
 
 ## Props
 

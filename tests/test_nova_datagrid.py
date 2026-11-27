@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 QML = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaDataGrid.qml"
 QMLDIR = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaDataGrid.md"
-MANIFEST = ROOT / "api" / "nova-api-1.10.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.11.0.json"
 KEY = "Nova.Controls.NovaDataGrid"
 
 EXPECTED_SIGNALS = {
@@ -89,7 +89,7 @@ def test_qmldir_exports_type():
 
 
 def test_frozen_surface(manifest):
-    assert manifest["apiVersion"] == "1.10.0"
+    assert manifest["apiVersion"] == "1.11.0"
     assert manifest["counts"]["total"] == 147
     assert manifest["counts"]["modules"]["Nova.Controls"] == 93
     assert manifest["counts"]["a11y"]["interactive"] == 33
@@ -107,23 +107,39 @@ def test_frozen_surface(manifest):
 
 
 def test_old_145_types_unchanged(manifest):
-    """1.4.0 的 145 类型逐字不变；1.10.0 例外 = `NovaTable` + `NovaTr` additive 扩展。
+    """1.4.0 的 145 类型逐字不变；例外 = additive 扩展 + T29-B 物理迁移集。
 
-    `NovaTable` 1.10.0 完全对标 Quasar QTable 做 additive minor
-    （45/7/13 → 77/14/21 → 110/18/26）；`NovaTr` 为 row-style-fn / row-contextmenu
-    增 1 prop + 1 signal。二者只加公共成员、旧成员逐字零丢失，
-    由 `tests/test_nova_table.py` 精确固化；其余 143 类型仍要求逐字不变。
+    - `NovaTable` / `NovaTr`：1.11.0 之前的 additive 扩展，只加公共成员、
+      旧成员逐字零丢失，由 `tests/test_nova_table.py` 精确固化。
+    - 10 个组合根：T29-B 上移父目录 `Composite/`，**唯一变化是 `types[].file`
+      溯源字段**（`../` 转发），其余字段（含公共成员）逐字不变；
+      归一化反推还原旧指纹由 `tests/test_t29_migration.py` 机检证明。
+    - 其余 133 类型仍要求逐字不变。
     """
     old = json.loads((ROOT / "api" / "nova-api-1.4.0.json").read_text(encoding="utf-8"))
+    moved = {
+        "NovaBlankPage", "NovaCardGrid", "NovaCompare", "NovaDrawerPanel",
+        "NovaDualSide", "NovaModal", "NovaSidebar", "NovaTabShell",
+        "NovaThreeColumn", "NovaTopNavigation",
+    }
+    migrated_keys = {f"Nova.Composite.LayoutShell.{n}" for n in moved}
     additive_keys = {"Nova.Controls.NovaTable", "Nova.Controls.NovaTr"}
+    exceptions = additive_keys | migrated_keys
     diff = [k for k, v in old["types"].items()
-            if k not in additive_keys and manifest["types"].get(k) != v]
+            if k not in exceptions and manifest["types"].get(k) != v]
     assert not diff, f"旧类型被改动：{diff[:5]}"
     for key in additive_keys:
         o, n = old["types"][key], manifest["types"][key]
         for field in ("props", "signals", "methods"):
             lost = set(o[field]) - set(n[field])
             assert not lost, f"{key} additive 破坏旧 {field}：{sorted(lost)}"
+    for key in migrated_keys:
+        o, n = old["types"][key], manifest["types"][key]
+        for field in o:
+            if field == "file":
+                continue
+            assert n[field] == o[field], f"{key} 物理迁移破坏了 {field}"
+        assert "../" in n["file"], f"{key} 未使用 ../ 转发"
     # 1.5.0 最终冻结面相对 1.4.0 新增两类型：NovaDataGrid（本测试主角）+ NovaAIReport（第 21 组合根）
     assert set(manifest["types"]) - set(old["types"]) == {
         KEY, "Nova.Composite.LayoutShell.NovaAIReport"}
@@ -274,7 +290,7 @@ def test_filter_proxy_filter_active(pipeline):
     assert fp.filterActive is False
 
 
-# ── 2b. 1.10.0 P1/P2 数据层 ───────────────────────────────────
+# ── 2b. 1.11.0 P1/P2 数据层 ───────────────────────────────────
 def test_column_style_metadata_and_csv_export():
     from pyside_nova.datagrid import NovaDataGridColumn, NovaDataGridModel
 
@@ -508,7 +524,7 @@ def test_offscreen_runtime(tmp_path):
         ev("grid._a11ySet(0); grid._a11yMove(10)")
         assert ev("grid._a11yRow") == 2
 
-        # 1.10.0 P1/P2：列宽 / sticky / 合计行 / 插槽 / 页大小 / 分组 / 全屏 / CSV / 形态
+        # 1.11.0 P1/P2：列宽 / sticky / 合计行 / 插槽 / 页大小 / 分组 / 全屏 / CSV / 形态
         assert ev("grid.resizableColumns") is True
         assert ev("grid._widthForColumn(0)") == 150
         assert ev("grid._stickyKeys().length") == 2

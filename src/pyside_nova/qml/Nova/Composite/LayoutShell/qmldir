@@ -5,26 +5,31 @@
 # 不再落物理子目录：遵循「概念域 ≠ 物理目录 ≠ 模块 URI」铁律，物理层回归平铺、老用户路径零漂移。
 # 封版：1.2.0 · 15 项 GA + 5 项增量（NovaAgent / NovaDE / NovaCopilot / NovaOrbit / NovaIncubator）
 # 交付物：模块级 README.md（20 项契约 + 九类分类）；技术红线见 docs/prescript/SPEC_FREEZE.md v2.1.0
+# ── T29-B 现行校准（1.11.0 · 2026-11-28）──────────────────────────────
+# 10 个通用布局原语 QML 上移父目录 Composite/，本 qmldir 以 ../ 转发导出；
+# 模块 URI 恒为 Nova.Composite.LayoutShell，21 个类型名与公共成员签名零变化。
+# 上方「不再落物理子目录 / 物理层回归平铺」等为 1.2.0 史料注释，按「史料不圆场」保留。
+# 二维分层台账见 docs/prescript/GUIDE_LAYOUTSHELL_TAXONOMY.md；法源见 SPEC_T29_LAYOUTSHELL_SPLIT.md。
 module Nova.Composite.LayoutShell
 
 # 主导航（4） · 文档层分类 Navigation/
-NovaSidebar 1.0 NovaSidebar.qml
-NovaTopNavigation 1.0 NovaTopNavigation.qml
-NovaDualSide 1.0 NovaDualSide.qml
-NovaTabShell 1.0 NovaTabShell.qml
+NovaSidebar 1.0 ../NovaSidebar.qml
+NovaTopNavigation 1.0 ../NovaTopNavigation.qml
+NovaDualSide 1.0 ../NovaDualSide.qml
+NovaTabShell 1.0 ../NovaTabShell.qml
 
 # 多栏工作台（3） · 文档层分类 Workbench/
-NovaThreeColumn 1.0 NovaThreeColumn.qml
-NovaCompare 1.0 NovaCompare.qml
-NovaCardGrid 1.0 NovaCardGrid.qml
+NovaThreeColumn 1.0 ../NovaThreeColumn.qml
+NovaCompare 1.0 ../NovaCompare.qml
+NovaCardGrid 1.0 ../NovaCardGrid.qml
 
 # 浮层容器（2） · 文档层分类 Overlay/
-NovaModal 1.0 NovaModal.qml
-NovaDrawerPanel 1.0 NovaDrawerPanel.qml
+NovaModal 1.0 ../NovaModal.qml
+NovaDrawerPanel 1.0 ../NovaDrawerPanel.qml
 
 # 独立页壳（2） · 文档层分类 Page/
 NovaSetupWizard 1.0 NovaSetupWizard.qml
-NovaBlankPage 1.0 NovaBlankPage.qml
+NovaBlankPage 1.0 ../NovaBlankPage.qml
 
 # 多端根壳（3） · 文档层分类 Carrier/
 NovaDesktop 1.0 NovaDesktop.qml

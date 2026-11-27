@@ -1,6 +1,6 @@
 # tests/test_shell_app_icons.py
 # 创建时间：星期五 2026-11-27 10:05
-"""10 个专属主题组合根的应用图标接线回归（A 方案 · 零冻结面漂移）。
+"""11 个专属主题组合根的应用图标接线回归（A 方案 · 零冻结面漂移）。
 
 纯静态契约：私有 _appIcon 属性 + 库内 NovaIcon 徽记（img: 图片直出通道）+ qrc 资源可读。
 真实异步加载由 ``scripts`` 离屏实跑覆盖（本文件不导入 PySide6 渲染栈，
@@ -27,6 +27,7 @@ MAPPING = {
     "NovaMobile": "app-mobile",
     "NovaFlexLayout": "app-flex",
     "NovaSetupWizard": "app-wizard",
+    "NovaAIReport": "app-aireport",
 }
 
 
@@ -55,7 +56,7 @@ class TestShellAppIcons(unittest.TestCase):
             self.assertNotIn("fillMode: Image.PreserveAspectFit", text, shell)
             self.assertNotIn("src: root._appIcon", text, shell)
 
-    def test_qrc_registers_all_ten_aliases(self) -> None:
+    def test_qrc_registers_all_eleven_aliases(self) -> None:
         qrc = ET.parse(QRC).getroot()
         aliases = {
             el.get("alias")

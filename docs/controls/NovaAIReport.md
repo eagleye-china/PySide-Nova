@@ -1,8 +1,8 @@
 # NovaAIReport · 智能报表工作台壳
 
-> **模块** `Nova.Composite.LayoutShell` · **a11y** `decorative`（布局容器，语义由注入内容承担）· **pyside-nova 1.10.0**
-> **API 冻结指纹** `7c542c416709cd96` · **第 21 个组合根** · 公共面 **22 props / 3 signals / 3 methods**
-> 公共签名以 `api/nova-api-1.10.0.json` 冻结面为准；组件源码 `Nova/Composite/LayoutShell/NovaAIReport.qml`
+> **模块** `Nova.Composite.LayoutShell` · **a11y** `decorative`（布局容器，语义由注入内容承担）· **pyside-nova 1.11.0**
+> **API 冻结指纹** `9966483dda5a53c4`（1.11.0 现行 · 2026-11-28 校准；旧稿 `7c542c416709cd96` 属 1.6.0 史料） · **第 21 个组合根** · 公共面 **22 props / 3 signals / 3 methods**
+> 公共签名以 `api/nova-api-1.11.0.json` 冻结面为准；组件源码 `Nova/Composite/LayoutShell/NovaAIReport.qml`
 >
 > 本页是**手写使用文档**（`docs/controls/` 不属生成物目录），把外部行业方案转译为
 > 本库可交付事实。组件自动生成页见 `docs/components/NovaAIReport.md`（禁止手改）。
@@ -183,9 +183,14 @@ engine.load("main.qml")
 
 ## 4. 主题、a11y 与坑位
 
-- **主题**：唯一令牌源 `NovaTheme`；专属身份色 `_ink` 由 `NovaTheme.primary.hsvHue + 0.0694`
-  派生（仪表钢蓝，仍属 primary 同色系，CC-3 组件内单色相），暗色态提亮；
-  辉光 `_glow` 同色相提亮仅用于身份焦点小面积点缀；`setBrand` 换肤同步平移。**不新增公共令牌**。
+- **主题**：唯一令牌源 `NovaTheme`；第 11 套专属主题「仪表钢蓝 258°」，`property bool _signatureOn`
+  控制 `_themeHue` 在「专属偏移 `+0.0694`」与「全局品牌蓝」间切换，与其余 10 个组合根同构；
+  `_accent → _ink → _inkSoft` 与辉光 `_glow` 均由该色相派生（CC-3 组件内单色相），暗色态提亮；
+  `setBrand` 换肤同步平移。**全部为 `_` 私有令牌，不新增公共 API / 不重签冻结面**。
+- **应用图标**：`_appIcon` 私有 url → `qrc:/icons/app-aireport`，由库内 `NovaIcon`
+  以 `img:` 图片直出通道呈现彩色身份徽记（decorative，`monochrome: false`）。
+  资产 `app-aireport.svg`（hue 258°）由 `nova-forge/scripts/gen_app_icons.py` 从
+  `catalog.AI_REPORT_HUE` 单一事实源生成，禁手改。
 - **a11y**：容器根为 decorative，故意不挂 `Accessible.*`（避免屏读器噪声），语义由注入内容承担；
   `Esc` 只 emit 已有信号、不自写宿主状态；注入的交互子件沿用其自身 interactive 契约与焦点环。
 - **RTL**：根节点 `LayoutMirroring.enabled: NovaTheme.isRtl`，逻辑侧 API 语义恒定。
@@ -205,5 +210,95 @@ engine.load("main.qml")
 - 模块交付文档：`src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md`（21 项契约 + 依赖矩阵）
 - 主报表区：`docs/controls/NovaDataGrid.md` · 数据层 `pyside_nova.datagrid`
 - Gallery 第 21 页：`examples/gallery/layout_shells.qml`（`pgAIReport`，可独立加载、调参、明暗切换）
-- 冻结清单：`api/nova-api-1.10.0.json` / 签署件 `docs/API_FREEZE.md`
+- 冻结清单：`api/nova-api-1.11.0.json` / 签署件 `docs/API_FREEZE.md`
 - 组件自动生成文档：`docs/components/NovaAIReport.md`（生成器产物）
+- 专属主题指南：`docs/prescript/GUIDE_COMPONENT_THEMES.md` §2 总表第 11 行 / §1.6.1
+- 应用图标资产：`src/pyside_nova/resources/icons/app-aireport.svg` · qrc 别名 `app-aireport`
+- 独立 demo：`examples/layout_shell/ai_report/`（含二态主题与原生标题栏同步）
+
+## 6. 应用图标、专属暗色主题与原生标题栏（1.11.0 · 2026-11-28 完现）
+
+### 6.1 应用图标
+
+| 项 | 值 |
+|---|---|
+| 文件 | `src/pyside_nova/resources/icons/app-aireport.svg` |
+| qrc 别名 | `:/icons/app-aireport`（pyside-nova）/ `:/icons/app-aireport.svg`（nova-forge） |
+| 专属色相 | **258°** = 基准 233° + `_themeHue` 偏移 `0.0694×360 ≈ 25°` |
+| 语义符号 | 四柱报表栅格 + 趋势折线 + 对标游标 + 中性白芯（抽象几何，不仿表格 / 图表控件） |
+| 事实源 | `nova-forge/prescript/catalog.py::AI_REPORT_*` → `scripts/gen_app_icons.py` 幂等生成 |
+| 约束 | 纯几何、无 `<text>` / `textPath` / 渐变（QtSvg 兼容），256×256 viewBox |
+
+库内接线（与其余 10 壳逐项同构，**全部私有不进冻结面**）：
+
+```qml
+readonly property url _appIcon: "qrc:/icons/app-aireport"
+NovaIcon {
+    id: _appBadge
+    icon: "img:" + root._appIcon   // 图片直出通道，保留彩色
+    size: root._unit * 4
+    monochrome: false
+}
+```
+
+启动器须在 `init_nova(engine)` **之后** `app.setWindowIcon(QIcon(":/icons/app-aireport"))`，
+否则 qrc 未注册、`QIcon` 为空（窗口 / 任务栏仍是 Qt 默认图标）。
+
+### 6.2 专属 / 亮色二态（同其余 10 壳）
+
+```qml
+property bool _signatureOn: true
+readonly property real _themeHue: root._signatureOn
+    ? (NovaTheme.primary.hsvHue + 0.0694 + 1) % 1   // 专属 258°
+    : NovaTheme.primary.hsvHue                       // 亮色态回归全局品牌蓝 233°
+readonly property color _accent: Qt.hsva(root._themeHue,
+    Math.min(1, NovaTheme.primary.hsvSaturation * 0.95),
+    Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.22 : 1)), 1)
+```
+
+| 态 | `themeMode` | `_signatureOn` | 明度 | 色相 | `_ink` 真机实测 |
+|---|---|---|---|---|---|
+| 专属（默认 / 暗色） | `"signature"` | `true` | `setDark(true)` 深底 | 258° | `#9367ff` |
+| 亮色 | `"light"` | `false` | `setDark(false)` 浅底 | 233° 全局品牌蓝 | `#6375f5` |
+
+> **口径区分（易混，账实相符）**：`GUIDE_COMPONENT_THEMES.md §2` 总表的
+> 「Light `_ink` / Dark `_ink`」两列是 **`isDark` 明暗**口径、且 `_signatureOn` 恒为
+> `true`（专属色相）—— 本组件对应 `#8e63f5` / `#9367ff`。上表则是 **demo 二态切换**
+> 口径：亮色态把 `_signatureOn` 置 `false`，色相回归 233°，故 `_ink` 为 `#6375f5`。
+> 两者不矛盾，切勿混填。
+>
+> 色值均为 `QQmlApplicationEngine` 离屏加载 `ai_report/main.qml` 读 `shell._ink` 所得，
+> 非纸面推算；`_glow` 明暗两态均 `#ad8cff`（val 系数被 `Math.min(1, …)` 截断，属预期）。
+> `_signatureOn` 是 demo 私有开关，**不是全局公共三态切换器**——升为公共 API
+> 须 CSA 拍板 + additive minor 重签。
+
+### 6.3 应用暗色主题时标题栏为暗色
+
+Qt `ApplicationWindow` 用 Windows 原生标题栏，其颜色由 DWM 控制、不随 `NovaTheme.isDark` 变化。
+`examples/layout_shell/ai_report/` 按 nova-forge 孵化产物同一契约补齐链路：
+
+```qml
+signal darkChromeChanged(bool dark)
+onThemeModeChanged: {
+    NovaTheme.setDark(win.themeMode === "signature")
+    darkChromeChanged(win.themeMode === "signature")
+}
+Component.onCompleted: {
+    ...
+    darkChromeChanged(true)   // 初始按专属暗色态同步（不新增第二个 onCompleted）
+}
+```
+
+```python
+window = engine.rootObjects()[0]
+window.darkChromeChanged.connect(_sync_title_bar)
+QTimer.singleShot(10, lambda: _sync_title_bar(True))
+```
+
+`_sync_title_bar` 为 **自包含** DWM helper（`run.py` 内，不依赖 nova-forge）：遍历
+`QGuiApplication.topLevelWindows()`，写 `DWMWA_USE_IMMERSIVE_DARK_MODE`（属性 20，
+失败回退 19）；切回亮色时 emit `false` 同步恢复。非 Windows 平台静默 no-op，
+句柄未就绪 / 无监听者均不影响主流程。
+
+> 边界：本轮按 CSA 指令只给 NovaAIReport 完现此链路。其余 10 个 demo 仍只有
+> `NovaTheme.setDark`（内容态明暗），原生标题栏未同步，是否铺开待 CSA 拍板。

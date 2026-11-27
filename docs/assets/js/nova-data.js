@@ -1,19 +1,19 @@
 /* 生成物：scripts/gen_apidocs.py 产出，禁止手工编辑。
-   事实源：__about__.py + api/nova-api-1.10.0.json + QML + 60 张三态图 */
+   事实源：__about__.py + api/nova-api-1.11.0.json + QML + 60 张三态图 */
 window.NOVA_SITE = {
-  "version": "1.10.0",
-  "fingerprint": "5328cd0e3c71e7ac",
+  "version": "1.11.0",
+  "fingerprint": "9966483dda5a53c4",
   "typesTotal": 147,
   "repo": "https://github.com/eagleye-china/pyside-nova",
   "pypi": "https://pypi.org/project/pyside-nova/",
   "versions": [
     {
-      "label": "1.10.0 · 当前站点（GA）",
+      "label": "1.11.0 · 当前站点（GA）",
       "url": ""
     },
     {
-      "label": "1.10.0 · PyPI 发布页",
-      "url": "https://pypi.org/project/pyside-nova/1.10.0/"
+      "label": "1.11.0 · PyPI 发布页",
+      "url": "https://pypi.org/project/pyside-nova/1.11.0/"
     },
     {
       "label": "main · 开发分支",
@@ -89,7 +89,7 @@ window.NOVA_SITE = {
         "leftToggled",
         "rightToggled"
       ],
-      "file": "Nova/Composite/LayoutShell/NovaDualSide.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaDualSide.qml"
     },
     {
       "name": "NovaSidebar",
@@ -172,7 +172,7 @@ window.NOVA_SITE = {
       "signals": [
         "sidebarToggled"
       ],
-      "file": "Nova/Composite/LayoutShell/NovaSidebar.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaSidebar.qml"
     },
     {
       "name": "NovaTabShell",
@@ -221,7 +221,7 @@ window.NOVA_SITE = {
         "tabAddRequested",
         "tabCloseRequested"
       ],
-      "file": "Nova/Composite/LayoutShell/NovaTabShell.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaTabShell.qml"
     },
     {
       "name": "NovaTopNavigation",
@@ -283,7 +283,7 @@ window.NOVA_SITE = {
       "signals": [
         "menuToggled"
       ],
-      "file": "Nova/Composite/LayoutShell/NovaTopNavigation.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaTopNavigation.qml"
     },
     {
       "name": "NovaCardGrid",
@@ -335,7 +335,7 @@ window.NOVA_SITE = {
         "overlaySlot"
       ],
       "signals": [],
-      "file": "Nova/Composite/LayoutShell/NovaCardGrid.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaCardGrid.qml"
     },
     {
       "name": "NovaCompare",
@@ -397,7 +397,7 @@ window.NOVA_SITE = {
       "signals": [
         "syncScrollToggled"
       ],
-      "file": "Nova/Composite/LayoutShell/NovaCompare.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaCompare.qml"
     },
     {
       "name": "NovaThreeColumn",
@@ -467,7 +467,7 @@ window.NOVA_SITE = {
       "signals": [
         "columnResized"
       ],
-      "file": "Nova/Composite/LayoutShell/NovaThreeColumn.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaThreeColumn.qml"
     },
     {
       "name": "NovaDrawerPanel",
@@ -548,7 +548,7 @@ window.NOVA_SITE = {
       "signals": [
         "closeRequested"
       ],
-      "file": "Nova/Composite/LayoutShell/NovaDrawerPanel.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaDrawerPanel.qml"
     },
     {
       "name": "NovaModal",
@@ -622,7 +622,7 @@ window.NOVA_SITE = {
       "signals": [
         "closeRequested"
       ],
-      "file": "Nova/Composite/LayoutShell/NovaModal.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaModal.qml"
     },
     {
       "name": "NovaBlankPage",
@@ -674,7 +674,7 @@ window.NOVA_SITE = {
         "overlaySlot"
       ],
       "signals": [],
-      "file": "Nova/Composite/LayoutShell/NovaBlankPage.qml"
+      "file": "Nova/Composite/LayoutShell/../NovaBlankPage.qml"
     },
     {
       "name": "NovaSetupWizard",

@@ -16,7 +16,28 @@
 
 ---
 
-## 🆕 §0 · 1.10.0 现行校准（2026-11-28 · 完全对标 Quasar QTable）
+## 🆕 §0 · 1.11.0 现行校准（2026-11-28 · T29-B 物理迁移重签）
+
+> **本段是唯一现行口径**，覆盖下方 §0（1.10.0）及 §1~§16 全部快照；下方正文按「史料不圆场」逐字保留。
+> 本轮 **T29-B** 只做 `Composite/LayoutShell/` 下 10 个通用布局原语的物理迁移，
+> **`NovaTable` / `NovaTr` 组件本身零改动**（公共面仍 **110 props / 18 signals / 26 methods**）。
+>
+> | 项 | 1.10.0（已发布史料） | **1.11.0（现行）** |
+> |---|---|---|
+> | 包 / API 版本 | 1.10.0 | **1.11.0** |
+> | 冻结清单 | `api/nova-api-1.10.0.json` | `api/nova-api-1.11.0.json` |
+> | 内容指纹 | `5328cd0e3c71e7ac` | **`9966483dda5a53c4`** |
+> | 类型数 | 147 | **147（不变）** |
+> | NovaTable 公共面 | 110 / 18 / 26 | **110 / 18 / 26（零漂移）** |
+> | 发布态 | **已由 CSA 发布** | **本地完成，待 CSA 发布** |
+>
+> 变化仅在 21 组合根中 10 个 `types[].file` 溯源字段（`../` 转发）；
+> 归一化反推可**精确还原旧指纹** `5328cd0e3c71e7ac`，机检见 `tests/test_t29_migration.py`。
+> 法源见 `docs/prescript/SPEC_T29_LAYOUTSHELL_SPLIT.md`。
+
+---
+
+## 🆕 §0 · 1.10.0 现行校准（2026-11-28 · 完全对标 Quasar QTable · 史料段，上方 1.11.0 优先）
 
 > **本段是唯一现行口径**，覆盖下方 §1~§13 的 1.9.0 快照；下方全部正文（含标题中的
 > 「1.9.0」、`77 props / 14 signals / 21 methods`、指纹 `b15a4be38c000c59`）按
@@ -30,7 +51,9 @@
 | `NovaTable` 公共面 | 77 / 14 / 21 | **110 / 18 / 26** |
 | `NovaTr` | 2 props / 2 signals | 3 props / 3 signals（`rowColor` / `rowContextMenu`） |
 | 类型总数 | 147 | **147（不变）** |
-| 发布态 | **已由 CSA 发布**（HEAD `f209387` · tag `v1.9.0` · 工作树干净） | **本地完成，待 CSA 发布** |
+| 发布态 | **已由 CSA 发布**（HEAD `f209387` · tag `v1.9.0` · 工作树干净） | **已由 CSA 发布**（HEAD `1fb87d9` · tag `v1.10.0` · 工作树干净；02:51 校准） |
+
+> **02:51 发布态校准**：CSA 已发 1.10.0（HEAD `1fb87d9 chore(release): v1.10.0` · tag `v1.10.0` = HEAD · 工作树干净）。本页 1.10.0 交付正文全部保留为史料，仅发布态表述校准。
 
 1.10.0 **新增 33 props / 4 signals / 5 methods，旧 77/14/21 逐成员零丢失**；
 完整签名见 `api/nova-api-1.10.0.json` 的 `types["Nova.Controls.NovaTable"]`，
@@ -494,4 +517,4 @@ rows ──▶ filteredRows ──▶ sortedRows ──▶ visibleRows ──▶
 - **qmllint**：`0 error`；全库 warning 预算只降不升。
 - **不做**：不接 Python 模型、不写磁盘、不发网络请求、不自动改窗口状态、
   不引入 QtWebEngine 或任何第三方依赖、不解析 CSS、不改写史料稿。
-- **发布**：1.10.0 本地完成，`commit / push / tag / PyPI / 站点上线` 一律归 CSA。
+- **发布**：**1.10.0 已由 CSA 发布**（HEAD `1fb87d9 chore(release): v1.10.0` · tag `v1.10.0` · 工作树干净）；发布动作 `commit / push / tag / PyPI / 站点上线` 一律归 CSA。

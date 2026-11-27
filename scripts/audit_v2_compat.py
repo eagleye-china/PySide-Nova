@@ -7,7 +7,7 @@ CSA 2026-11-26 10:44 指令「Controls 下新建的 Foundation 去掉」后，M1
 本脚本把该判断固化为机检，防止任何批次在冻结面之外偷建独立 qmldir / 子模块。
 
 守护五条契约（全部可机检）：
-  C1 旧 5 个冻结面 URI 的 qmldir 导出集合与 api/nova-api-1.10.0.json 逐项一致
+  C1 旧 5 个冻结面 URI 的 qmldir 导出集合与 api/nova-api-1.11.0.json 逐项一致
   C2 产品树 @nova-compat-view 物理视图数 == 0（M1 就绪态硬约束）
   C3 全库 qmldir 恰 5 个冻结面模块，不得出现第 6 个模块
   C4 全库 QML 相对导入 0 处
@@ -29,7 +29,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 QML = ROOT / "src" / "pyside_nova" / "qml" / "Nova"
-LEDGER = ROOT / "api" / "nova-api-1.10.0.json"
+LEDGER = ROOT / "api" / "nova-api-1.11.0.json"
 AI_INDEX = ROOT / "docs" / "ai" / "index.json"
 AI_API = ROOT / "docs" / "ai" / "api"
 GEN = ROOT / "scripts" / "gen_apidocs.py"

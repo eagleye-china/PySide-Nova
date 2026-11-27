@@ -3,11 +3,41 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.10.0] - 2026-11-28 — NovaTable 完全对标 Quasar QTable（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+## [1.11.0] - 2026-11-28 — T29 · LayoutShell 分层迁移（物理重构重签 · 本地完成，待 CSA 发布）⭐ 当前状态
+
+> **版本说明**：**1.10.0 已由 CSA 发布**（HEAD `1fb87d9 chore(release): v1.10.0` · tag `v1.10.0` · 工作树干净），
+> 属史料事实，正文不回改；下方 1.10.0 段标题的「⭐ 当前状态」由本段接替校准。
+> **CSA 拍板（2026-11-28 03:20）**：T29「先 A 后 B」，B 阶段版本起点 = **1.11.0 minor（仅重签指纹）**、
+> **不落 `@nova-compat-view` 兼容视图**；不升 2.0.0 major（按实际破坏程度，URI 与公共面全不变）。
+>
+> **本轮交付（T29-B · 受控物理迁移）**：
+> - 按二维分层判别锚 `NovaTheme.primary.hsvHue`（命中 11 = 保留 / 未命中 10 = 移出，**零例外**），
+>   把 **10 个通用布局原语** QML 从 `Composite/LayoutShell/` 上移父目录 `Composite/`：
+>   `NovaSidebar` `NovaTopNavigation` `NovaDualSide` `NovaTabShell` `NovaThreeColumn` `NovaCompare`
+>   `NovaCardGrid` `NovaModal` `NovaDrawerPanel` `NovaBlankPage`；**11 个产品级组合根保持原位**。
+> - `LayoutShell/qmldir` 对应 10 条改 `../NovaXxx.qml` 转发，**不建第 6 个 `qmldir`**；
+>   模块 URI 恒为 `Nova.Composite.LayoutShell`，21 个类型名、`import` 用法、147 类型公共面**逐字不变**。
+> - **逐成员零漂移证明**：唯一变化是 10 个 `types[].file` 溯源字段；把新值改回旧值后
+>   内容指纹**精确还原 `5328cd0e3c71e7ac`**（`tests/test_t29_migration.py` 9 项机检固化）。
+>   新指纹 **`9966483dda5a53c4`**（`api/nova-api-1.11.0.json` · 147 类型不变）。
+> - **真机实证**：`spike_v2_compat.py` **7/7 PASS**（形态 C `../` / H `../../`）+ B 精确形态 A/B 对照探针 PASS；
+>   真实产品树下 `audit_foundations.py` **15/15 · 130 类型实例化零缺陷**、a11y **147/147**、
+>   qmllint **0 error / 571 warning 未增** → `../` 转发可行、URI 与类型身份不变。
+> - **文档层（T29-A）**：`docs/prescript/GUIDE_LAYOUTSHELL_TAXONOMY.md`（二维台账）+
+>   `docs/prescript/SPEC_T29_LAYOUTSHELL_SPLIT.md`（法源页）+ `mkdocs.yml` nav 2 条。
+> - **法源校准**：`SPEC_V2_COMPAT.md` 版本锚点 `1.2.0 / 144 / 4f882374ad52262b` 追加现行校准段
+>   对齐 **1.11.0 / 147 / `9966483dda5a53c4`**；M1 就绪态 C1~C5 保持 0 视图、全绿。
+>
+> **发布**：**1.11.0 本地完成，待 CSA 发布**；`commit / push / tag / PyPI / 站点上线` 一律归 CSA。
+
+---
+
+## [1.10.0] - 2026-11-28 — NovaTable 完全对标 Quasar QTable（additive minor · 已由 CSA 发布）
 
 > **版本说明**：**1.9.0 已由 CSA 发布**（HEAD `f209387 chore(release): v1.9.0` · tag `v1.9.0` · 工作树干净），
 > 属史料事实，正文不回改；下方 1.9.0 段标题的「本地完成，待 CSA 发布 ⭐ 当前状态」为撰写时口径，
 > 其发布态与现行状态均由本段接替校准。
+> **发布态（2026-11-28 02:51 校准）**：CSA 已发 1.10.0 —— HEAD `1fb87d9 chore(release): v1.10.0` · tag `v1.10.0` 与 HEAD 同提交 · 工作树干净（0 改动）；本段标题由「本地完成，待 CSA 发布」校准为「已由 CSA 发布」，1.9.0 及更早段逐字保留为史料。
 > 本段以 Quasar 官方 `ui/src/components/table/QTable.json` 全表为口径做「完全对标」收口，
 > **不新增 QML 导出类型**（仍 **147 类型 / Controls 93 / LayoutShell 21**），
 > 冻结指纹 `b15a4be38c000c59` → `5328cd0e3c71e7ac`（公共面入面后重签，旧指纹为已发布史料）。
@@ -67,7 +97,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - **不做**：不接 Python 模型、不写磁盘、不发网络请求、不自动改窗口状态、
   不引入 QtWebEngine 或任何第三方依赖、不改写 `docs/controls/NovaTable.md` 史料、
   不回改 1.9.0 冻结面与已发布文档稿。
-- **发布**：1.10.0 本地完成，`commit / push / tag / PyPI / 站点上线` 一律归 CSA。
+- **发布**：**1.10.0 已由 CSA 发布**（HEAD `1fb87d9 chore(release): v1.10.0` · tag `v1.10.0` · 工作树干净）；发布动作 `commit / push / tag / PyPI / 站点上线` 一律归 CSA。
 
 ## [1.9.0] - 2026-11-27 — NovaTable 对标 Quasar QTable 打磨（additive minor · 已由 CSA 发布）
 

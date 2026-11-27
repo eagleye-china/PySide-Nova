@@ -1,6 +1,6 @@
 # NovaModal · 模态弹窗壳
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 浮层容器 · **pyside-nova 1.10.0** · API 冻结指纹 `5328cd0e3c71e7ac` · **21/21 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 浮层容器 · **pyside-nova 1.11.0** · API 冻结指纹 `9966483dda5a53c4` · **21/21 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览
@@ -11,7 +11,7 @@ NovaModal 模态弹窗壳：单色系顶条 + 抽象短条 + 浮起卡片 + 遮�
 - **依赖组件**：`NovaTheme`、`NovaHeader`、`NovaPage`、`NovaSeparator`（全部为库内已导出公共类型）
 - **天花板销号**：✅ 已销号 · 批次 5 · 三态「浅 / 深 / 关闭态」
 - **台账备注**：PyPI 发布确认；功能性遮罩例外
-- **源码**：`Nova/Composite/LayoutShell/NovaModal.qml`
+- **源码**：`Nova/Composite/LayoutShell/../NovaModal.qml`
 
 ## Props
 

@@ -1,18 +1,18 @@
 # tests/test_nova_table.py
-# NovaTable 1.10.0（完全对标 Quasar QTable）：静态契约 + additive 零漂移 + 完整度评估事实
+# NovaTable 1.11.0（完全对标 Quasar QTable）：静态契约 + additive 零漂移 + 完整度评估事实
 """NovaTable 验收。
 
 纯静态层（不建 QML 引擎，规避坑位 49 的 offscreen 全量串跑 SIGSEGV）：
 
 1. 冻结面：147 类型 / 指纹 5328cd0e3c71e7ac / 110 props · 18 signals · 26 methods；
-2. additive 零漂移：1.9.0 的 77/14/21 逐成员仍是 1.10.0 面的子集，旧签名一个不丢；
+2. additive 零漂移：1.9.0 的 77/14/21 逐成员仍是 1.11.0 面的子集，旧签名一个不丢；
    增量恰为 33 props / 4 signals / 5 methods；
 3. QTable 全表映射：21 slots / 15 methods / 9 events 全覆盖（官方 QTable.json 口径）；
 4. 源码纪律：qmldir 导出 / a11y interactive · Table / 零第三方依赖 /
    私有成员不泄漏 / `grid` 旧语义与 `viewMode` 解耦 / 受控模式只发意图 /
    官方 sort-method / filter-method 另立成员不劫持已发布语义；
 5. 史料不圆场：构想稿原样保留且被 exclude，1.9.0 冻结面为已发布史料；
-6. 账实一致：CHANGELOG 1.10.0 段 / 1.9.0 已发布校准 / 徽标刻字 v1.10.0 /
+6. 账实一致：CHANGELOG 1.11.0 段 / 1.9.0 已发布校准 / 徽标刻字 v1.11.0 /
    现行文档 §0 校准 + §14 完整度评估 + §15 框架边界。
 
 真机层（离屏全插槽激活 / TOTAL_MSGS=0）由交付验收的独立探针执行，不进 pytest。
@@ -37,7 +37,7 @@ QML_TR = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaTr.qm
 QMLDIR = QML.parent / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaTable.current.md"
 HISTORICAL_DOC = ROOT / "docs" / "controls" / "NovaTable.md"
-MANIFEST = ROOT / "api" / "nova-api-1.10.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.11.0.json"
 PREV_MANIFEST = ROOT / "api" / "nova-api-1.9.0.json"
 CHANGELOG = ROOT / "CHANGELOG.md"
 MKDOCS = ROOT / "mkdocs.yml"
@@ -46,7 +46,7 @@ BRAND = ROOT / "src" / "pyside_nova" / "resources" / "icons" / "pyside-nova-logo
 
 KEY = "Nova.Controls.NovaTable"
 TR_KEY = "Nova.Controls.NovaTr"
-FINGERPRINT = "5328cd0e3c71e7ac"      # 1.10.0 现行冻结面
+FINGERPRINT = "9966483dda5a53c4"      # 1.11.0 现行冻结面（T29-B 重签）
 PREV_FINGERPRINT = "b15a4be38c000c59"  # 1.9.0 已发布史料，不回改
 
 EXPECTED_PROPS = {
@@ -167,8 +167,8 @@ def previous() -> dict:
 
 # ── 1. 冻结面 ──────────────────────────────────────────────────────
 def test_manifest_version_and_fingerprint(manifest):
-    assert manifest["apiVersion"] == "1.10.0"
-    assert manifest["packageVersion"] == "1.10.0"
+    assert manifest["apiVersion"] == "1.11.0"
+    assert manifest["packageVersion"] == "1.11.0"
     assert manifest["fingerprint"] == FINGERPRINT
     assert manifest["counts"]["total"] == 147
     assert manifest["counts"]["modules"]["Nova.Controls"] == 93
@@ -225,7 +225,7 @@ def test_no_private_member_leaks_into_frozen_surface(manifest):
 # ── 2. QTable 全表映射 ─────────────────────────────────────────────
 def test_qtable_21_slots_all_mapped(manifest):
     props = set(manifest["types"][KEY]["props"])
-    # 21 slots 的 NovaTable 落点（含 1.9.0 既有 13 + 1.10.0 新增 8）
+    # 21 slots 的 NovaTable 落点（含 1.9.0 既有 13 + 1.11.0 新增 8）
     mapped = {
         "loadingDelegate", "gridDelegate", "bodyDelegate", "bodyCellDelegate",
         "cellDelegates", "headerDelegate", "headerCellDelegate", "headerCellDelegates",
@@ -341,7 +341,7 @@ def test_official_semantics_members_do_not_hijack_legacy():
     """官方 sort-method / filter-method 是整体函数；旧 filterMethod 单行谓词保留。"""
     text = QML.read_text(encoding="utf-8")
     assert "property var filterMethod: null" in text            # 1.9.0 前既有语义
-    assert "property var filterRowsMethod: null" in text         # 1.10.0 官方等价
+    assert "property var filterRowsMethod: null" in text         # 1.11.0 官方等价
     assert "property var sortMethod: null" in text
     assert "root.filterRowsMethod(src, root.filter, root.normColumns, root.getCellValue)" in text
     assert "root.sortMethod(src, root.sortBy, root.descending)" in text
@@ -370,9 +370,9 @@ def test_current_doc_has_1100_calibration_and_keeps_190_verbatim():
     assert "1.9.0 现行" in text                     # 史料标题逐字保留
     assert "77 props / 14 signals / 21 methods" in text
     assert PREV_FINGERPRINT in text
-    assert "§0 · 1.10.0 现行校准" in text
+    assert "§0 · 1.11.0 现行校准" in text
     assert FINGERPRINT in text
-    assert "api/nova-api-1.10.0.json" in text
+    assert "api/nova-api-1.11.0.json" in text
     assert "110 / 18 / 26" in text
     assert "不改写、不删除构想稿" in text
     assert "委托声明契约" in text and 'property: "slotData"' in text
@@ -385,14 +385,14 @@ def test_mkdocs_excludes_draft_and_nav_includes_current():
     cfg = MKDOCS.read_text(encoding="utf-8")
     assert "controls/NovaTable.md" in cfg.split("exclude_docs:")[1].split("extra_css:")[0]
     assert "controls/NovaTable.current.md" in cfg
-    assert "NovaTable 使用文档（1.10.0 现行）" in cfg
+    assert "NovaTable 使用文档（1.11.0 现行）" in cfg
 
 
 def test_changelog_1100_is_current_head():
     text = CHANGELOG.read_text(encoding="utf-8")
     first = next(line for line in text.splitlines() if line.startswith("## ["))
-    assert first.startswith("## [1.10.0]")
-    assert "完全对标 Quasar QTable" in first
+    assert first.startswith("## [1.11.0]")
+    assert "T29" in first and "分层迁移" in first
     assert "⭐ 当前状态" in first
     assert "## [1.9.0]" in text and "已由 CSA 发布" in text
     assert "92.7%" in text and "5328cd0e3c71e7ac" in text
@@ -400,5 +400,5 @@ def test_changelog_1100_is_current_head():
 
 def test_brand_seal_carries_current_version():
     text = BRAND.read_text(encoding="utf-8")
-    assert "v1.10.0" in text, "封版徽标刻字未同步（跑 scripts/sync_brand_version.py）"
+    assert "v1.11.0" in text, "封版徽标刻字未同步（跑 scripts/sync_brand_version.py）"
     assert "v1.9.0" not in text

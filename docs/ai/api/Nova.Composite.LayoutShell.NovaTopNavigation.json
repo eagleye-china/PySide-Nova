@@ -1,7 +1,7 @@
 {
  "name": "Nova.Composite.LayoutShell.NovaTopNavigation",
  "kind": "component",
- "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/NovaTopNavigation.qml",
+ "source": "src/pyside_nova/qml/Nova/Composite/LayoutShell/../NovaTopNavigation.qml",
  "description": "NovaTopNavigation 顶部导航工作台壳：胶囊导航台 + 悬浮下拉 + 主内容 + 状态栏（对标 Quasar QLayout header 导航） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5）； 单一分隔源、装饰收敛主色系抽象几何（CC-3）；槽位宿主独立铺满（CC-6）。 用法：向 headerSlot/menuSlot/contentSlot/footerSlot/overlaySlot 注入业务内容；注入顶层须 anchors.fill: parent",
  "properties": [
   {

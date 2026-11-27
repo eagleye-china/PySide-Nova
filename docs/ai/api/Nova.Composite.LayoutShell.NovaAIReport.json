@@ -277,28 +277,52 @@
    "line": 75
   },
   {
+   "name": "_appIcon",
+   "type": "url",
+   "readonly": true,
+   "default": ": \"qrc:/icons/app-aireport\"",
+   "doc": null,
+   "line": 77
+  },
+  {
+   "name": "_signatureOn",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": null,
+   "line": 81
+  },
+  {
    "name": "_themeHue",
    "type": "real",
    "readonly": true,
-   "default": ": (NovaTheme.primary.hsvHue + 0.0694 + 1) % 1",
+   "default": ": root._signatureOn",
    "doc": null,
-   "line": 78
+   "line": 82
+  },
+  {
+   "name": "_accent",
+   "type": "color",
+   "readonly": true,
+   "default": ": Qt.hsva(root._themeHue,",
+   "doc": null,
+   "line": 85
   },
   {
    "name": "_ink",
    "type": "color",
    "readonly": true,
-   "default": ": Qt.hsva(root._themeHue,",
+   "default": ": root._accent",
    "doc": null,
-   "line": 79
+   "line": 88
   },
   {
    "name": "_inkSoft",
    "type": "color",
    "readonly": true,
-   "default": ": Qt.lighter(root._ink, 1.35)",
+   "default": ": Qt.lighter(root._accent, 1.35)",
    "doc": null,
-   "line": 82
+   "line": 89
   },
   {
    "name": "_glow",
@@ -306,7 +330,7 @@
    "readonly": true,
    "default": ": Qt.hsva(root._themeHue,",
    "doc": null,
-   "line": 84
+   "line": 91
   }
  ],
  "signals": [

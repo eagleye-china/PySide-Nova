@@ -1,6 +1,6 @@
 # NovaSidebar · 侧边导航工作台
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 主导航 · **pyside-nova 1.10.0** · API 冻结指纹 `5328cd0e3c71e7ac` · **21/21 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 主导航 · **pyside-nova 1.11.0** · API 冻结指纹 `9966483dda5a53c4` · **21/21 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览
@@ -11,7 +11,7 @@ NovaSidebar 侧边导航工作台壳：单色系品牌渐变轨 + 浮起侧栏�
 - **依赖组件**：`NovaTheme`、`NovaHeader`、`NovaFooter`、`NovaPage`、`NovaMotion`（全部为库内已导出公共类型）
 - **天花板销号**：✅ 已销号 · 批次 3 · 三态「浅 / 深 / 侧栏折叠」
 - **台账备注**：产品控制台；宿主 margins 稳态钳制
-- **源码**：`Nova/Composite/LayoutShell/NovaSidebar.qml`
+- **源码**：`Nova/Composite/LayoutShell/../NovaSidebar.qml`
 
 ## Props
 

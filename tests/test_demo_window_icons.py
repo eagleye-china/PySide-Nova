@@ -1,6 +1,6 @@
 # tests/test_demo_window_icons.py
 # 创建时间：星期五 2026-11-27 10:15
-"""10 个专属主题 demo 的原生窗口图标接线回归（静态契约）。
+"""11 个专属主题 demo 的原生窗口图标接线回归（静态契约）。
 
 每个 demo 的 run.py 必须在 init_nova() 之后调用 setWindowIcon，
 否则 qrc 尚未注册，QIcon 为空——标题栏/任务栏仍是 Qt 默认图标。
@@ -26,6 +26,7 @@ MAPPING = {
     "mobile": "app-mobile",
     "orbit": "app-orbit",
     "setup_wizard": "app-wizard",
+    "ai_report": "app-aireport",
 }
 
 

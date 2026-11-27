@@ -90,7 +90,7 @@ ApplicationWindow {
                     }
                     Text {
                         Layout.fillWidth: true
-                        text: "零第三方依赖 · Qt 原生 MarkdownText · 内置大纲 / 锚点 / 危险协议拦截 · pyside-nova 1.10.0"
+                        text: "零第三方依赖 · Qt 原生 MarkdownText · 内置大纲 / 锚点 / 危险协议拦截 · pyside-nova 1.11.0"
                         font.family: NovaTheme.fontFamily
                         font.pixelSize: NovaTheme.fontXS
                         color: NovaTheme.textMuted

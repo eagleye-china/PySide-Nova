@@ -24,7 +24,13 @@ ApplicationWindow {
     color: NovaTheme.page
 
     property string themeMode: "signature"
-    onThemeModeChanged: NovaTheme.setDark(win.themeMode === "signature")
+    // Windows 原生标题栏不随 QML 主题变化；emit 信号由 run.py 同步 DWM 明暗。
+    // 无监听者时 emit 无害（离屏实跑亦 0 ERROR），故不依赖任何 context property。
+    signal darkChromeChanged(bool dark)
+    onThemeModeChanged: {
+        NovaTheme.setDark(win.themeMode === "signature")
+        darkChromeChanged(win.themeMode === "signature")
+    }
     function toggleTheme() { win.themeMode = (win.themeMode === "signature") ? "light" : "signature" }
 
     property bool variantMode: false      // CC-8 变体态：收起两轨 + 隐藏分区带
@@ -45,6 +51,7 @@ ApplicationWindow {
         if (typeof novaIconLocalRoot !== "undefined" && novaIconLocalRoot !== "")
             NovaTheme.iconLocalRoot = novaIconLocalRoot
         NovaTheme.setDark(win.themeMode === "signature")
+        darkChromeChanged(true)   // 初始按专属暗色态同步原生标题栏
     }
 
     // ── 状态徽标委托：severity 决定配色（库组件零手搓业务色）──
@@ -78,6 +85,7 @@ ApplicationWindow {
         id: shell
         anchors.fill: parent
         anchors.margins: 16
+        _signatureOn: win.themeMode === "signature"
         diagnosisSize: win.railSize
         querySize: win.railSize
         diagnosisCollapsed: win.collapsed

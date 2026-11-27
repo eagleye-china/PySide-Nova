@@ -1,9 +1,18 @@
-# 10 项 AI / 根壳组合根 · 专属主题设计指南
+# 11 项 AI / 根壳组合根 · 专属主题设计指南
 
-> **文档性质**：本库**现行**实用文档（设计层）· 10 个组合根专属主题的唯一查阅入口 · 色值 / 派生机制 / 架构铁律
-> **适用版本**：**1.2.0** · `api/nova-api-1.2.0.json` · **144 导出类型** · 冻结指纹 **`4f882374ad52262b`**
+> **文档性质**：本库**现行**实用文档（设计层）· 11 个组合根专属主题的唯一查阅入口 · 色值 / 派生机制 / 架构铁律
+>
+> **⚠️ 现行校准（2026-11-28 · 优先于下方史料）**：**pyside-nova 1.11.0** · `api/nova-api-1.11.0.json` · **147 导出类型** · 冻结指纹 **`9966483dda5a53c4`**。CSA 本轮指令「为 NovaAIReport 设计应用图标 + 专属暗色主题（同其他 10 个组合组件）」已完现：
+> - 第 **11** 套专属主题「**仪表钢蓝 258°**」登记于 §2 总表追加行；`NovaAIReport.qml` 补齐 `property bool _signatureOn` + `_themeHue` 三元 + `_accent/_ink/_inkSoft/_glow` 明暗系数，形态与其余 10 壳逐项同构。
+> - 第 **11** 枚应用图标 `app-aireport.svg`（hue 258°，与 `_themeHue` 偏移 `+0.0694` 账实相符）落入两工程 `resources/icons/`，由 `nova-forge/scripts/gen_app_icons.py` 从 `catalog` 单一事实源生成。
+> - `examples/layout_shell/ai_report/` 接上「专属 / 亮色」二态 + `darkChromeChanged(bool)` → 自包含 DWM helper，**应用暗色主题时原生标题栏同步变暗**。
+> - 全部为 `_` 私有令牌 / 资源 / demo 层改动，**147 公共类型与冻结指纹零漂移**。
+>
+> 下方 §0~§7 主体为 **1.2.0 定稿史料**，凡「10 项 / 144 类型 / `4f882374ad52262b`」表述均以上述现行校准为准，**史料不回改**；§2 / §1.5 仅追加第 11 行，§6 / §7 仅追加 1.11.0 校准段。
+>
+> **史料头（保留）**：适用版本 **1.2.0** · `api/nova-api-1.2.0.json` · **144 导出类型** · 冻结指纹 **`4f882374ad52262b`**
 > **法源链**：母法 [`CONSTITUTION.md`](../../CONSTITUTION.md)（卷首 CARF + 不将就 第 4 条）→ 组合宪法 [`COMPOSITION_CONSTITUTION.md`](../../COMPOSITION_CONSTITUTION.md) 1.0.0（CC-1~CC-8）→ [封版规范 v2.1.0](../../prescript/SPEC_FREEZE.md) → [`GUIDE_CLASSIFICATION.md`](../../prescript/GUIDE_CLASSIFICATION.md)（20 组合根九类）→ **本指南（专属主题设计层）**
-> **状态**：**现行 · 2026-11-26 · CSA 构想「为 10 个组件设计专属、专业、艺术级主题，每次显示只用组件的专属主题」**
+> **状态**：**现行 · 2026-11-26 · CSA 构想「为 10 个组件设计专属、专业、艺术级主题，每次显示只用组件的专属主题」**（11 项扩展见上方现行校准）
 
 ---
 
@@ -52,7 +61,7 @@ readonly property color _glow: Qt.hsva(root._themeHue,
 - **为什么不用固定 201° 青**：固定青会在每个组件内引入第二色相，违反 **CC-3 组件内单色相**；且 `setBrand()` 换肤时亮核不跟随、家族感断裂。改为「各组件自身色相的提亮版」后，单色相 ✓ 换肤联动 ✓ 撞色 0 ✓。
 - **中性白芯**：焦点最内层用 `NovaTheme.surface`（中性色，非色相），形成「亮核环 + 白芯」同心层次——对应灵感图「白中心 + 发光环」的结构，观感是「每轨身份焦点会呼吸」。
 
-### 10 组件的落点（均在天然身份焦点，几何外层一字未动）
+### 11 组件的落点（均在天然身份焦点，几何外层一字未动）
 
 | 组件 | 焦点位置 | Aurora Core 处理 |
 |---|---|---|
@@ -66,6 +75,7 @@ readonly property color _glow: Qt.hsva(root._themeHue,
 | NovaDesktop | 窗口控制首点 | 首点 → `_glow` 提亮 |
 | NovaFlexLayout | 面板首档顶条 | 首档 tone → `_glow` |
 | NovaOrbit | 感知信号首点 | 首点 → `_glow` 提亮 |
+| NovaAIReport **（2026-11-28 追加）** | 对标游标偏差点 / 置信区间中心点 | 两处 `_glow` 亮核（与其余 10 壳同派生式） |
 
 ### 技术验证记录（为何弃用 MultiEffect / Gradient.Radial）
 
@@ -87,7 +97,7 @@ readonly property color _glow: Qt.hsva(root._themeHue,
 
 ---
 
-## 2. 十套主题总表
+## 2. 主题总表（10 套 1.2.0 史料 + 第 11 套 1.11.0 现行）
 
 | 组件 | 主题名 | 目标色相 | 偏移 | sat 系数 | val 系数 | Light `_ink` | Dark `_ink` | 身份语义 |
 |---|---|---:|---:|---:|---:|---|---|---|
@@ -101,8 +111,16 @@ readonly property color _glow: Qt.hsva(root._themeHue,
 | `NovaMobile` | 天青 | 193° | −0.1110 | ×1.00 | ×0.95 | `#56cae9` | `#5fddff` | 移动根壳 · 天青轻盈 |
 | `NovaOrbit` | 靛青 | 243° | +0.0290 | ×0.94 | ×0.98 | `#6962f0` | `#7068ff` | 意图轨道 · 靛青深邃、感知 |
 | `NovaSetupWizard` | 湖绿 | 168° | −0.1790 | ×1.00 | ×0.76 | `#45baa3` | `#56e9cc` | 初始化向导 · 湖绿代表启程与通过 |
+| `NovaAIReport` **（2026-11-28 追加 · 1.11.0 现行）** | 仪表钢蓝 | 258° | +0.0694 | ×0.95 | ×1.00（暗 ×1.22） | `#8e63f5` | `#9367ff` | 智能报表 · 冷静精确；第 21 组合根，第 11 套专属主题 |
 
 > 表中色值为 **QML 引擎实测**（`QQmlComponent` 实例化读 `_ink` 属性），非纸面推算。基准 `NovaTheme.primary = #5B6EF5`（hue 0.6461 / sat 0.6286 / val 0.9608）。
+>
+> **第 11 行实测口径（1.11.0）**：`_themeHue = (primary.hsvHue + 0.0694 + 1) % 1` → 实测 **257.6°**；`_ink` 亮态 `#8e63f5` / 暗态 `#9367ff`，`_inkSoft` 亮态 `#c9b2ff` / 暗态 `#d2c0ff`，`_glow` 两态均 `#ad8cff`（val 系数被 `Math.min(1, …)` 截断，属预期）。色相单一事实源与 `app-aireport.svg` 头部注释 `hue 258°` 一致。
+>
+> ⚠️ **本表 Light/Dark 是 `isDark` 明暗口径、`_signatureOn` 恒 `true`（专属色相）**，
+> 与 §1.6 的「专属 / 亮色二态」不同：demo 切到 `"light"` 会把 `_signatureOn` 置
+> `false`，色相回归 233°，`_ink` 实测为 `#6375f5`（非 `#8e63f5`）。两口径勿混填，
+> 详见 `docs/controls/NovaAIReport.md §6.2`。
 
 ---
 
@@ -148,7 +166,7 @@ readonly property color _inkPale: Qt.lighter(root._accent, 1.7)   // 仅三档�
 
 ## 1.6 专属 / 亮色二态切换（13:39 方案 A · demo 层）
 
-10 个独立 demo（`examples/layout_shell/<name>/main.qml`）顶部的圆形明暗按钮升级为**二态切换**：
+**11 个**独立 demo（`examples/layout_shell/<name>/main.qml`，第 11 个 `ai_report` 于 2026-11-28 补齐）顶部的圆形明暗按钮升级为**二态切换**：
 
 | 元素 | 专属态（默认） | 亮色态 |
 |---|---|---|
@@ -165,6 +183,19 @@ readonly property color _inkPale: Qt.lighter(root._accent, 1.7)   // 仅三档�
 
 **边界**：仅 demo 层二态切换，非全局公共 API；`NovaTheme` 公共属性零变化，冻结面 144 类型 / 指纹 `4f882374ad52262b` 零漂移。
 
+### 1.6.1 第 11 套追加（2026-11-28 · ai_report · 含原生标题栏）
+
+`examples/layout_shell/ai_report/` 按同一契约补齐，并**额外**解决暗色态白标题栏：
+
+| 元素 | 落地 |
+|---|---|
+| `shell._signatureOn` | 绑定 `win.themeMode === "signature"`，专属 / 亮色二态与其余 10 壳一致 |
+| `signal darkChromeChanged(bool dark)` | `onThemeModeChanged` 中 emit；`Component.onCompleted` 内 emit `true`（不新增第二个 onCompleted） |
+| `run.py::_sync_title_bar` | **自包含** DWM helper（同 nova-forge 孵化产物契约），`window.darkChromeChanged.connect(...)` + 初始 `QTimer.singleShot(10, …)`；非 Windows no-op、无监听者无害 |
+| 应用图标 | `app.setWindowIcon(QIcon(":/icons/app-aireport"))`，严格置于 `init_nova()` 之后 |
+
+> 其余 10 个 demo 仍只有 `NovaTheme.setDark`（QML 内容态明暗），**原生标题栏未同步**——本轮按 CSA 指令只给 NovaAIReport 完现此链路，是否铺开待 CSA 拍板（不擅自越界）。
+
 ---
 
 ## 6. 验证记录（2026-11-26 · 全绿）
@@ -177,6 +208,19 @@ readonly property color _inkPale: Qt.lighter(root._accent, 1.7)   // 仅三档�
 | `gen_api_freeze.py --check` | 144 类型零漂移 · 指纹 `4f882374ad52262b` 不变 |
 | `test_layout_shells.py` | 20/20 解析实例化 PASS |
 
+### 6.1 现行校准追加（2026-11-28 · 1.11.0 · 第 11 套）
+
+| 门禁 | 结果 |
+|---|---|
+| 11 枚应用图标资产 / 色相台账 | `test_app_icons.py` 11/11 · `gen_app_icons.py --check` 幂等 PASS |
+| 11 壳 `_appIcon` + `NovaIcon` 接线 | `test_shell_app_icons.py` 11/11 · `test_demo_window_icons.py` 11/11 |
+| 两工程 qrc 新别名实读 | `QFile(":/icons/app-aireport")` / `(":/icons/app-aireport.svg")` 均 `True` |
+| `NovaAIReport` 亮暗双态实例化 | `QQmlComponent` 离屏实跑 · `_themeHue 257.6°` · `_ink` 亮 `#8e63f5` / 暗 `#9367ff` |
+| 冻结面 | `api/nova-api-1.11.0.json` 147 类型 · 指纹 `9966483dda5a53c4` **零漂移**（全部 `_` 私有） |
+| 原生标题栏 | demo `darkChromeChanged(bool)` → 自包含 DWM helper，暗态同步 / 亮态恢复 |
+
+> 本节为**追加**，不回改上方 1.2.0 史料段（144 类型 / `4f882374ad52262b` / 20 组双态）。
+
 ---
 
 ## 7. 封版声明（CARF）
@@ -187,3 +231,10 @@ readonly property color _inkPale: Qt.lighter(root._accent, 1.7)   // 仅三档�
 - **F 封版**：**零公共属性 / 零冻结面 / 零 qmldir / 零模块 URI / 零几何改动**，指纹 `4f882374ad52262b` 不变。
 
 > **发布边界**：本轮全部改动留工作树未提交，`commit / push / tag / PyPI / 站点上线` **全归 CSA**。
+
+### 7.1 第 11 套封版声明（2026-11-28 · 1.11.0）
+
+- **C 构想**：CSA「为 NovaAIReport 设计应用图标；为其设计专属暗色主题（同其他 10 个组合组件）；应用暗色主题时标题栏为暗色」。
+- **A 实现**：`app-aireport.svg`（hue 258°，生成器单一事实源）+ 11 壳同构 `_signatureOn/_themeHue/_accent/_ink/_glow` 私有令牌 + `NovaIcon` 身份徽记 + ai_report demo 二态与 DWM 标题栏同步。
+- **R 打磨**：色值经 `QQmlComponent` 离屏实测（非纸面推算）登记 §2；两工程 qrc 实读验证；11 项测试台账同步；两处现行文档追加校准段而不回改 1.2.0 史料。
+- **F 封版**：**零公共属性 / 零冻结面 / 零 qmldir / 零模块 URI / 零几何改动**，147 类型 · 指纹 `9966483dda5a53c4` 不变；改动留工作树，`commit / push / tag / PyPI / 站点上线` 仍全归 CSA。
