@@ -2,9 +2,17 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（**更新于 2026-11-28 04:50 · 发布态校准 + nova-forge 升 0.6.0 待 CSA 发布**：新增「发布态校准」段覆盖下方 T3 段的发布态口径；**pyside-nova 1.11.0 已由 CSA 发布**（HEAD `596f304` = tag `v1.11.0` = `origin/main`，工作树干净）· **nova-forge 0.5.0 已发布**且 T3 全套已随 `eb0bfef9d` 推送 `origin/main`；下方 T3 / T29 / T29-A 段及更早全部快照按「史料不圆场」逐字保留为史料）
+> **每次交付随宪法迭代记录表同步更新本文件。**（**更新于 2026-11-28 07:16 · nova-forge 0.6.0 已由 CSA 发布校准**：新增「0.6.0 已发布校准」段覆盖下方 04:50 发布态校准段及全部史料；**nova-forge 0.6.0 已由 CSA 发布**（tag `v0.6.0` → `aaba3764d` = HEAD = `origin/main`，PyPI LATEST RELEASE 上架 whl + sdist）· **pyside-nova 1.11.0 已由 CSA 发布**（tag `v1.11.0` → `596f304`；HEAD / `origin/main` 为发布后 docs-only 校准提交 `2f0c9a3`）；下方 04:50 / T3 / T29 / T29-A 段及更早全部快照按「史料不圆场」逐字保留为史料）
 
-## 🆕 发布态校准（2026-11-28 04:50 · 只读扫描 ruff 挂账 + 升版 0.6.0 待 CSA 发布 · 覆盖下方 T3 现行校准段的「发布态」口径；下方全部保留为史料）
+## 🆕 0.6.0 已发布校准（2026-11-28 07:16 · git push + PyPI 双成功 · 覆盖下方 04:50 发布态校准段及全部史料；下方全部保留为史料）
+
+- **CSA 确认**：「v0.6.0 / git、pypi成功」+ PyPI 页面截图（`nova-forge 0.6.0` · `pip install nova-forge==0.6.0` · **LATEST RELEASE** · Released: half a minute ago）。
+- **nova-forge 发布事实（磁盘 + PyPI API 为准）**：tag `v0.6.0` → `aaba3764d chore(release): v0.6.0` = HEAD = `origin/main`，工作树干净；`pyproject.toml` / `CHANGELOG.md [0.6.0]` / `PRESCRIPT_GALLERY.md` 均随发布提交冻结。PyPI JSON 实测 `name=nova-forge version=0.6.0`、上传 `2026-11-27T23:15Z`（≈ 北京时间 11-28 07:15）、产物 `nova_forge-0.6.0-py3-none-any.whl` + `nova_forge-0.6.0.tar.gz`。此前「升版待 CSA 发布 / 尚无新 tag」口径过期。
+- **pyside-nova 账实校准**：**1.11.0 已由 CSA 发布**（tag `v1.11.0` → `596f304`）；但 `origin/main` / HEAD 现为 `2f0c9a3 chore(release): v1.11.0` —— 发布后追加的 **docs-only 校准提交**（仅 `PROMPT.md` 16 行 + `SESSION_HANDOFF.md` 10 行，tag 未移动），`596f304` 仍是其祖先、工作树干净。此前「HEAD `596f304` = tag `v1.11.0` = `origin/main`」三等式过期，如实校准为「tag `596f304` / HEAD·`origin/main` `2f0c9a3`」。
+- **已发布物零回改**：`nova-forge/CHANGELOG.md [0.6.0]` 段标题「⭐ 当前版本（待 CSA 发布）」与如实登记末行「等待 CSA 发版」属**发布时点史料**、已随 tag `v0.6.0` 冻结，按「史料不圆场」（延续 `[0.5.0]` 段同款先例）**不回改**；现行状态一律以本段 + 六处账本校准为准。
+- **边界与状态**：本轮仅做发布态账实校准（只读核实 + 账本追加），**未执行任何新的** `commit / push / tag / PyPI / 站点上线`。现行冻结面 **API 1.11.0 / 147 类型 / 指纹 `9966483dda5a53c4` 零改动**、不升版、不重签；ruff 15 条存量挂账按 CSA 拍板保持不修。**待办池 0 项（无活跃主线）· 下一个 T30**。
+
+## 🆕 发布态校准（2026-11-28 04:50 · 只读扫描 ruff 挂账 + 升版 0.6.0 待 CSA 发布 · 史料段，已由上方 07:16 校准覆盖；下方全部保留为史料）
 
 - **CSA 指令与拍板**：「先扫一下 ruff 那 15 条挂账，再发布」→ ① ruff 15 条**保持存量直接发**（不修，仅如实登记）；② **CSA 自行发版**，小诺只交付发布就绪清单；③ nova-forge 新版本 **0.6.0 minor**。
 - **发布事实（磁盘为准 · 账实不符已校准）**：`pyside-nova` HEAD `596f304 chore(release): v1.11.0` = tag `v1.11.0` = `origin/main`，工作树干净 → **1.11.0 已由 CSA 发布**（此前「本地完成待 CSA 发布」口径过期）；`nova-forge` tag `v0.5.0` → `db76dd5e1`（**0.5.0 已发布**），HEAD `eb0bfef9d chore(release): v0.5.0` = `origin/main` 比 tag 多 1 个提交，正是 T3 全套（`migrate/` 9 文件 / `cmd_migrate.py` / `app-aireport.svg` / README·CHANGELOG），**已 commit + push、尚无新 tag**。两仓库工作树均 0 改动。
