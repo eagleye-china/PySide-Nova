@@ -243,6 +243,14 @@
    "default": ": Qt.hsva(root._themeHue,",
    "doc": null,
    "line": 65
+  },
+  {
+   "name": "_appIcon",
+   "type": "url",
+   "readonly": true,
+   "default": ": \"qrc:/icons/app-mobile\"",
+   "doc": null,
+   "line": 73
   }
  ],
  "signals": [

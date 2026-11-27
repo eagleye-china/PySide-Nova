@@ -43,16 +43,24 @@ Item {
     property bool validateCollapsed: false
     property int breakpoint: 1100
     property bool bordered: true
+    // 身份徽记（七区分格环 + 中心孵化点）可点开关：默认 false 保持 decorative 语义；
+    // 开启后宿主经 onEmblemClicked 接业务意图（如 nova-forge 的「界面预览」）。
+    property bool emblemClickable: false
+    // 徽记悬停提示（仅 emblemClickable=true 时生效）：空串不显示，语义仍归宿主。
+    property string emblemToolTip: ""
 
     // ── 受控契约：只 emit，不自写宿主状态 ──
     signal recipeToggled(bool collapsed)
     signal validateToggled(bool collapsed)
     signal freezeRequested()
+    signal emblemClicked()
     function toggleRecipe() { root.recipeToggled(!root.recipeCollapsed) }
     function toggleValidate() { root.validateToggled(!root.validateCollapsed) }
     function requestFreeze() { root.freezeRequested() }
 
     readonly property bool belowBreakpoint: width > 0 && width < root.breakpoint
+    // 应用身份图标（qrc:/icons/app-incubator.svg；私有 _ 前缀不进冻结面，decorative）
+    readonly property url _appIcon: "qrc:/icons/app-incubator"
 
     implicitWidth: 1440
     implicitHeight: 900
@@ -92,6 +100,17 @@ Item {
         Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.5 : 1.28)), 1)
 
     Rectangle { anchors.fill: parent; color: NovaTheme.page }
+    NovaIcon {
+        id: _appBadge
+        objectName: "_appBadge"
+        icon: "img:" + root._appIcon
+        size: root._unit * 4
+        monochrome: false
+        anchors { top: parent.top; left: parent.left; topMargin: root._unit; leftMargin: root._unit }
+        opacity: 0.9
+        z: NovaTheme.zMarginals
+        // 应用身份徽记：decorative 语义，a11yLabel 留空由注入内容承担语义
+    }
 
     // ── 1. 全局栏（身份 · 配方代号 · 封版状态；孵化工作台基座呈现位）──
     Item {
@@ -206,12 +225,15 @@ Item {
         }
 
         // 身份 B-1：七区分格环 + 中心孵化点（右上角标，中央完全留给业务注入）
-        // a11y: decorative
+        // a11y: decorative；emblemClickable=true 时由宿主承担点击语义（壳只 emit 意图）
         Item {
             id: _stageIdentity
             anchors { top: _stage.top; right: _stage.right; topMargin: root._gap; rightMargin: root._gap }
             width: 40; height: 40
             z: NovaTheme.zMarginals
+            // 悬停意图（_ 私有，壳内部状态，不进公共冻结面）：
+            // 由可见 MouseArea 的 containsMouse 驱动，延迟 500ms 后点亮。
+            property bool _tipHovered: false
             Repeater {
                 model: 7
                 Rectangle {
@@ -221,7 +243,7 @@ Item {
                     width: 6; height: 2; radius: 1
                     rotation: index * (360 / 7)
                     color: index === 0 ? root._ink : root._inkSoft
-                    opacity: 0.9
+                    opacity: root.emblemClickable && _identityArea.containsMouse ? 1.0 : 0.9
                 }
             }
             Rectangle {
@@ -231,6 +253,40 @@ Item {
                 opacity: 0.9
                 Rectangle { anchors.centerIn: parent; width: 4; height: 4; radius: 2; color: NovaTheme.surface }
             }
+            MouseArea {
+                id: _identityArea
+                anchors.fill: parent
+                enabled: root.emblemClickable
+                hoverEnabled: root.emblemClickable
+                cursorShape: root.emblemClickable ? Qt.PointingHandCursor : Qt.ArrowCursor
+                onClicked: root.emblemClicked()
+                onContainsMouseChanged: {
+                    if (containsMouse) _tipDelay.restart()
+                    else { _tipDelay.stop(); _stageIdentity._tipHovered = false }
+                }
+            }
+            Timer {
+                id: _tipDelay
+                interval: 500
+                repeat: false
+                onTriggered: _stageIdentity._tipHovered = _identityArea.containsMouse
+            }
+        }
+
+        // 徽记悬停提示（Nova.Controls.NovaTooltip，壳不 import QtQuick.Controls）。
+        // ⚠️ 禁用内建 hover 触发：NovaTooltip 根 Item 是 visible: modelValue（初始 false），
+        // Qt Quick 里不可见 Item 的 HoverHandler 不参与指针命中 → 内建悬停形成死锁
+        // （要显示先得 visible，visible 靠 modelValue，modelValue 又靠内建 hover）。
+        // 实测（2026-11-27 真实 QTest.mouseMove 探针）：内建链 visible 恒 False，
+        // 宿主可见 MouseArea 绑定链 hover 后 True / 移开 False。故显隐由宿主绑定驱动，
+        // target 仅用于 _place() 定位；updateModelValue 信号不接（接了会破坏绑定）。
+        NovaTooltip {
+            id: _emblemTip
+            objectName: "incubatorEmblemTooltip"
+            target: _identityArea
+            text: root.emblemToolTip
+            modelValue: root.emblemClickable && root.emblemToolTip !== ""
+                        && _stageIdentity._tipHovered
         }
 
         // 3b. CARF 四阶段条（Conceive → Achieve → Refine → Freeze；栏高归零 + 恒定锚链 CC-5）

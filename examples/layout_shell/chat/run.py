@@ -4,7 +4,7 @@
 import sys
 from pathlib import Path
 
-from PySide6.QtGui import QGuiApplication
+from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine
 
 from pyside_nova import init_nova
@@ -17,6 +17,7 @@ def main() -> int:
     app.setApplicationName("nova-demo-chat")
     engine = QQmlApplicationEngine()
     init_nova(engine)
+    app.setWindowIcon(QIcon(":/icons/app-chat"))
     icons = ROOT / "icons"
     if icons.is_dir():
         engine.rootContext().setContextProperty("novaIconLocalRoot", icons.as_uri())

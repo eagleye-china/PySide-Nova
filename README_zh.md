@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.2.4" width="200" />
+<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.4.0" width="200" />
 
 # pyside-nova
 
@@ -19,7 +19,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
-[![Status](https://img.shields.io/badge/status-v1.2.4%20shipped-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v1.4.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 [![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
@@ -30,10 +30,10 @@
 
 | 项目 | 内容 |
 |---|---|
-| **版本** | **1.2.4** —— 1.2.3 之上的 patch（Quasar 品牌 tagline 换回霸气版 + QML 进主标语，公共 API 零漂移）；**1.2.3**（品牌徽标双轨制落地 + PyPI README 绝对链接修正）与 **1.2.2**（修正 PyPI 元数据与双语 README 呈现）均已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签）；API 契约沿用 **1.2.0**；PyPI 上架由维护者执行 |
+| **版本** | **1.4.0** —— 1.3.0 之上的 additive minor（新增公共导出类型 **`NovaMarkdown`** 于 `Nova.Controls`：零依赖 Qt 原生 Markdown 渲染器，内置大纲 / 锚点跳转 / 危险协议拦截；API 契约重签 **1.4.0**，PyPI 上架由维护者执行）；**1.3.0**（NovaIncubator 身份徽记可点 `emblemClickable` + `emblemClicked`，本地重签待发布）；**1.2.4** 为 1.2.3 之上的 patch（公共 API 零漂移）；**1.2.3**（品牌徽标双轨制落地 + PyPI README 绝对链接修正）与 **1.2.2**（修正 PyPI 元数据与双语 README 呈现）均已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签） |
 | **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
-| **公共 QML 类型** | **144** —— Controls 91 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
-| **API 冻结** | 144 类型零漂移 · 指纹 `4f882374ad52262b`（1.2.0 整批单次重签） |
+| **公共 QML 类型** | **145** —— Controls 92 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
+| **API 冻结** | 145 类型零漂移 · 指纹 `37fbbe9ab5806a2a`（1.4.0 additive 重签：新增 `NovaMarkdown`，第 145 个公共类型） |
 | **运行环境** | Python ≥ 3.10 · PySide6 ≥ 6.8（**6.12.0** 实测）· Windows / macOS / Linux |
 | **质量门禁** | 静态 3/3 PASS · 68 项专项测试通过 · 20/20 天花板机检 · 15/15 基础控件机检 · qmllint 0 error |
 
@@ -106,10 +106,10 @@ Qt Quick Controls 只覆盖基础控件，而企业级应用需要 Quasar 的完
 - 🧩 **Quasar 风格 API**：`QBtn → NovaBtn`、`QCard → NovaCard`，属性名对齐，学习成本趋近于零
 - 🧱 **槽机制**：Quasar 槽 → QML 映射——默认槽 → `default property alias`、命名槽 → 组合子组件、作用域槽 → `Component delegate`
 - 🏗️ **20 项预判式布局壳**：固定槽位、安全边距、断点收起、主题联动，且**每项有独有结构性身份元素，打开不像同一张脸**
-- 🖥️ **断点体系**：`NovaScreen` 1:1 移植 Quasar Screen 插件（xs/sm/md/lg/xl = 600/1024/1440/1920，`is*` / `lt*` / `gt*`）
+- 🖥️ **断点体系**：`NovaScreen` 1:1 移植 Quasar Screen 插件（xs/sm/md/lg/xl = 600/1024/1450/1920，`is*` / `lt*` / `gt*`）
 - 🖼️ **图标双通道**：`NovaIcon { icon: "mdi:home" }`，本地图标包（离线）优先、云端 CDN 自动回落
 - 🎬 **动效全库统一**：所有布局壳动画取 `NovaMotion.duration()` 与 `NovaMotion.easingStandard`；`reducedMotion` 一键短路全部动效、`speedFactor` 全库统一调速
-- ♿ **a11y 契约化**：144/144 类型登记为 interactive / semantic / decorative；装饰容器故意不挂 `Accessible.*`，避免屏读器噪声
+- ♿ **a11y 契约化**：145/145 类型登记为 interactive / semantic / decorative；装饰容器故意不挂 `Accessible.*`，避免屏读器噪声
 - 📦 **pip 即用**：QML 模块随 wheel 分发，`init_nova(engine)` 一行接入
 - ✅ **实测而非承诺**：静态门禁（a11y → API 冻结 → qmllint）、478 项 pytest、31/31 无头实例化、qmllint 0 error
 
@@ -320,7 +320,7 @@ git push origin v1.0.0
 - [旗舰组件库白皮书](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/WHITEPAPER.md) —— 品牌宣言、架构体系与全端方案
 - [Prescient Layout Shell 封版规范](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/SPEC_FREEZE.md) —— 准入红线、槽位规范与四性验收
 - [布局壳模块 README](https://github.com/eagleye-china/pyside-nova/blob/main/src/pyside_nova/qml/Nova/Composite/LayoutShell/README.md) —— 20 项完整契约与依赖组件清单
-- [组件索引](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPONENT_LIST.md) —— 144 类型，生成器产物
+- [组件索引](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPONENT_LIST.md) —— 145 类型，生成器产物
 - [与 Quasar 的关系与致谢](https://github.com/eagleye-china/pyside-nova/blob/main/docs/QUASAR_ACKNOWLEDGEMENT.md) —— 受启发，非 fork
 - [架构宪法](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md) · [组合组件宪法](https://github.com/eagleye-china/pyside-nova/blob/main/docs/COMPOSITION_CONSTITUTION.md)
 - [生态对标白皮书](https://github.com/eagleye-china/pyside-nova/blob/main/docs/ECOSYSTEM_PARITY.md) · [变更记录](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)

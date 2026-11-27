@@ -3,7 +3,16 @@
  "kind": "component",
  "source": "src/pyside_nova/qml/Nova/Controls/NovaScrollArea.qml",
  "description": "NovaScrollArea 滚动区域（对标 QScrollArea）：内容超界出主题化滚动条 a11y: decorative —— 布局/装饰容器，故意不挂 Accessible.*（避免屏读器噪声）",
- "properties": [],
+ "properties": [
+  {
+   "name": "_flick",
+   "type": "alias",
+   "readonly": true,
+   "default": ": flick",
+   "doc": null,
+   "line": 15
+  }
+ ],
  "signals": [],
  "methods": []
 }

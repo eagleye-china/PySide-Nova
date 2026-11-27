@@ -51,7 +51,7 @@ def _qml_files() -> dict:
 
 
 QML_FILES = _qml_files()
-API = ROOT / "api" / "nova-api-1.2.0.json"
+API = ROOT / "api" / "nova-api-1.4.0.json"
 
 NAMES = [
     "NovaChat", "NovaDesktop", "NovaMobile", "NovaFlexLayout",

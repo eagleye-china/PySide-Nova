@@ -32,6 +32,7 @@ NovaItem 1.0 NovaItem.qml
 NovaItemLabel 1.0 NovaItemLabel.qml
 NovaItemSection 1.0 NovaItemSection.qml
 NovaList 1.0 NovaList.qml
+NovaMarkdown 1.0 NovaMarkdown.qml
 NovaMarkupTable 1.0 NovaMarkupTable.qml
 NovaPage 1.0 NovaPage.qml
 NovaPagination 1.0 NovaPagination.qml

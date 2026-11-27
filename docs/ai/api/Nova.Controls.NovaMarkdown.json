@@ -1,0 +1,156 @@
+{
+ "name": "Nova.Controls.NovaMarkdown",
+ "kind": "component",
+ "source": "src/pyside_nova/qml/Nova/Controls/NovaMarkdown.qml",
+ "description": "NovaMarkdown Markdown 文档渲染器（对标 Quasar QMarkdown）：Qt 原生 Text.MarkdownText + NovaTheme 令牌 + 分块大纲 a11y: semantic —— 只读文档内容；可读名由 a11yLabel 覆盖，默认「Markdown 文档」",
+ "properties": [
+  {
+   "name": "a11yLabel",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": null,
+   "line": 12
+  },
+  {
+   "name": "markdown",
+   "type": "string",
+   "readonly": false,
+   "default": ": \"\"",
+   "doc": "Markdown 源文本（唯一输入，零外部依赖）",
+   "line": 17
+  },
+  {
+   "name": "showToc",
+   "type": "bool",
+   "readonly": false,
+   "default": ": false",
+   "doc": "是否显示内置大纲侧栏",
+   "line": 18
+  },
+  {
+   "name": "tocStart",
+   "type": "int",
+   "readonly": false,
+   "default": ": 1",
+   "doc": "大纲起始标题层级（1~6）",
+   "line": 19
+  },
+  {
+   "name": "tocEnd",
+   "type": "int",
+   "readonly": false,
+   "default": ": 3",
+   "doc": "大纲结束标题层级（1~6）",
+   "line": 20
+  },
+  {
+   "name": "openLinksExternally",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "安全链接是否自动交给系统打开",
+   "line": 21
+  },
+  {
+   "name": "outlined",
+   "type": "bool",
+   "readonly": false,
+   "default": ": true",
+   "doc": "卡片边框与圆角",
+   "line": 22
+  },
+  {
+   "name": "baseFontSize",
+   "type": "int",
+   "readonly": false,
+   "default": ": NovaTheme.bodyFontSize",
+   "doc": null,
+   "line": 23
+  },
+  {
+   "name": "toc",
+   "type": "var",
+   "readonly": true,
+   "default": ": root._toc",
+   "doc": null,
+   "line": 26
+  },
+  {
+   "name": "empty",
+   "type": "bool",
+   "readonly": true,
+   "default": ": root._blocks.length === 0",
+   "doc": null,
+   "line": 27
+  },
+  {
+   "name": "_blocks",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 35
+  },
+  {
+   "name": "_toc",
+   "type": "var",
+   "readonly": false,
+   "default": ": []",
+   "doc": null,
+   "line": 36
+  }
+ ],
+ "signals": [
+  {
+   "name": "linkClicked",
+   "params": "string url"
+  },
+  {
+   "name": "linkBlocked",
+   "params": "string url"
+  },
+  {
+   "name": "tocReady",
+   "params": "var items"
+  }
+ ],
+ "methods": [
+  {
+   "name": "_lineKind",
+   "params": "line"
+  },
+  {
+   "name": "_slug",
+   "params": "title, idx"
+  },
+  {
+   "name": "_parse",
+   "params": "src"
+  },
+  {
+   "name": "_rebuild",
+   "params": ""
+  },
+  {
+   "name": "_safeUrl",
+   "params": "url"
+  },
+  {
+   "name": "_onLink",
+   "params": "url"
+  },
+  {
+   "name": "scrollToTop",
+   "params": ""
+  },
+  {
+   "name": "scrollToAnchor",
+   "params": "anchor"
+  },
+  {
+   "name": "reload",
+   "params": ""
+  }
+ ]
+}

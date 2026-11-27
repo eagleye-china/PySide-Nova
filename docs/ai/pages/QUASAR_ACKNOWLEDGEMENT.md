@@ -6,7 +6,7 @@
 > **口径（品牌 tagline 层）**：**2026-11-26 16:37 CSA 新拍板「换回霸气比喻 + 把 QML 加上」，现行首屏见 §8**；§1 推荐版为 12:30 历史口径，按史料不圆场逐字保留。
 > **法源链**：本文件只管「怎么说」；「怎么对齐」见 [`PARITY.md`](../../PARITY.md)（逐组件逐属性对账）与 [`GUIDE_QUASAR_ALIGNMENT.md`](../../prescript/GUIDE_QUASAR_ALIGNMENT.md)（工程化理念对齐）；「历史演进」见 [`ECOSYSTEM_PARITY.md`](../../ECOSYSTEM_PARITY.md)（历史档案，不代表当前）
 > **品牌立意**：**「青，取之于蓝，而青于蓝」**（《荀子·劝学》）—— 受蓝（Quasar）启发，在 PySide 生态里生成更青的 Nova；典故是 Inspired by 的中文母题表达，详见 §3
-> **状态**：**现行 · 2026-11-26 · 随 1.2.4 发布（CSA 17:17 拍板升版）**
+> **状态**：**现行 · 2026-11-26 · 已随 1.2.4 发布 PyPI（LATEST RELEASE）**
 
 ---
 
@@ -226,7 +226,7 @@ PySide-Nova is the Quasar of the QML world — an enterprise-grade Qt Quick comp
 
 - **零 QML / 零 API / 零冻结面改动**：本轮纯文案层，144 类型 · 指纹 `4f882374ad52262b` 不变，不触发重签。
 - **PyPI 已发布的 1.2.3 元数据不可原地改**：`description` 变更**随 1.2.4 重新发行**才会在 PyPI 页面生效
-  （CSA 2026-11-26 17:17 拍板升版）；`commit / tag / push / PyPI / 站点上线` 全归 CSA。
+  （CSA 17:17 拍板、**17:36 已完成 commit `0212136` / tag `v1.2.4` / PyPI 上架，LATEST RELEASE**）；`commit / tag / push / PyPI / 站点上线` 全归 CSA。
 - **§3 典故版仍有效**：「青出于蓝而胜于蓝」品牌母题与本节霸气 tagline 不冲突——前者用于发布会 / 海报 / 演讲，后者用于首屏。
 - **§4 其余 4 条禁用表述继续生效**；`The Quasar of Qt Quick` 一条仅在品牌 tagline 层解禁，
   技术文档 / 对账表 / 法源正文**不得**用等同式比喻陈述事实关系。
@@ -238,4 +238,4 @@ PySide-Nova is the Quasar of the QML world — an enterprise-grade Qt Quick comp
   AI 包离线拷贝随 `gen_apidocs.py` 重跑同步（生成物禁手改）。
 - **R 打磨**：法源以**追加覆盖章节**处理而非回改史料；§1 / §4 加效力指针，§5 / §6 / §7 原文保留；
   顺带校准 `playground.js` 面板提示的旧冻结面口径 `1.0.0 → 1.2.0`（账实不符必校准）。
-- **F 封版**：文案与代码事实分离，冻结面零漂移；**随 1.2.4 发布，发布归 CSA**。
+- **F 封版**：文案与代码事实分离，冻结面零漂移；**已随 1.2.4 发布 PyPI，发布归 CSA**。

@@ -10,6 +10,10 @@ Item {
 
     default property alias content: inner.data
 
+    // 反哺触发点（1.4.0 · NovaMarkdown）：大纲跳转需要读写 Flickable.contentY。
+    // `_` 前缀为私有实现，不进 API 冻结面（gen_api_freeze._is_public 过滤），指纹零影响。
+    readonly property alias _flick: flick
+
     clip: true
     implicitWidth: 400
     implicitHeight: 300

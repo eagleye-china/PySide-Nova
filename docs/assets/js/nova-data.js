@@ -1,19 +1,19 @@
 /* 生成物：scripts/gen_apidocs.py 产出，禁止手工编辑。
-   事实源：__about__.py + api/nova-api-1.2.0.json + QML + 60 张三态图 */
+   事实源：__about__.py + api/nova-api-1.4.0.json + QML + 60 张三态图 */
 window.NOVA_SITE = {
-  "version": "1.2.4",
-  "fingerprint": "4f882374ad52262b",
-  "typesTotal": 144,
+  "version": "1.4.0",
+  "fingerprint": "37fbbe9ab5806a2a",
+  "typesTotal": 145,
   "repo": "https://github.com/eagleye-china/pyside-nova",
   "pypi": "https://pypi.org/project/pyside-nova/",
   "versions": [
     {
-      "label": "1.2.4 · 当前站点（GA）",
+      "label": "1.4.0 · 当前站点（GA）",
       "url": ""
     },
     {
-      "label": "1.2.4 · PyPI 发布页",
-      "url": "https://pypi.org/project/pyside-nova/1.2.4/"
+      "label": "1.4.0 · PyPI 发布页",
+      "url": "https://pypi.org/project/pyside-nova/1.4.0/"
     },
     {
       "label": "main · 开发分支",
@@ -1580,6 +1580,20 @@ window.NOVA_SITE = {
           "kind": "number"
         },
         {
+          "name": "emblemClickable",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "emblemToolTip",
+          "type": "string",
+          "default": "\"\"",
+          "readonly": false,
+          "kind": "string"
+        },
+        {
           "name": "globalHeight",
           "type": "int",
           "default": "52",
@@ -1674,6 +1688,7 @@ window.NOVA_SITE = {
         "validateSlot"
       ],
       "signals": [
+        "emblemClicked",
         "freezeRequested",
         "recipeToggled",
         "validateToggled"

@@ -69,7 +69,21 @@ Item {
     implicitWidth: 390
     implicitHeight: 844
 
+    // 应用身份图标（私有 _ 前缀不进冻结面，decorative）
+    readonly property url _appIcon: "qrc:/icons/app-mobile"
+
     Rectangle { anchors.fill: parent; color: NovaTheme.page }
+    NovaIcon {
+        id: _appBadge
+        objectName: "_appBadge"
+        icon: "img:" + root._appIcon
+        size: root._unit * 4
+        monochrome: false
+        anchors { top: parent.top; left: parent.left; topMargin: root._unit; leftMargin: root._unit }
+        opacity: 0.9
+        z: NovaTheme.zMarginals
+        // 应用身份徽记：decorative 语义，a11yLabel 留空由注入内容承担语义
+    }
 
     // ── 1. 顶部安全区（刘海 / 状态栏）；高度恒定，不参与折叠 ──
     Item {

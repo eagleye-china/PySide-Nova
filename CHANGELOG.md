@@ -3,15 +3,108 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.2.4] - 2026-11-26 — Quasar 品牌 tagline 换回霸气版 · QML 进主标语 ⭐ 当前状态（待 CSA 发布 PyPI）
+## [1.4.0] - 2026-11-27 — NovaMarkdown 零依赖 Markdown 渲染器（additive minor）⭐ 当前状态（本地完成，待 CSA 发布）
+
+> **版本说明**：1.3.0 之上的 **additive minor**——CSA「人有人言，兽有兽语，你的语言是 md」指令：
+> 仔细阅读并修正优化完善 `docs/controls/NovaMarkdown.md` 为本库使用文档，并打造 `NovaMarkdown`。
+> 按宪法第 8 章整批单次重签：包 / API `1.3.0 → 1.4.0`，**144 → 145 类型**，
+> 指纹 `5d865b2d976af016` → **`37fbbe9ab5806a2a`**；15 项 GA 公共签名逐字不变。
+> 清单 `api/nova-api-1.4.0.json` + `docs/API_FREEZE.md` 均为生成物禁手改；`1.3.0` 清单保留为史料。
+
+### 新增（Added）
+- **`NovaMarkdown`**（`Nova.Controls` 第 92 个导出类型 / 全库第 145 个）：零第三方依赖的只读 Markdown 文档渲染器。
+  Qt 原生 `Text.MarkdownText` 渲染内核 + `NovaScrollArea` 主题化滚动区 + `NovaBtn` 大纲条目 + `NovaTheme` 令牌；
+  分块解析（heading / fence / table / quote / list / paragraph）、内置 TOC（`tocStart/tocEnd` 过滤）、
+  锚点跳转、危险协议白名单拦截（`javascript:` / `vbscript:` / `data:` / `file:`）、空态「暂无内容」绝不白屏。
+  公共面 10 props / 3 signals / 3 methods；实现细节一律 `_` 私有前缀，不进冻结面。
+- **反哺基础控件**：`NovaScrollArea` 增 `_flick` 私有只读别名，供大纲跳转读写 `Flickable.contentY`
+  （`_` 前缀按 `gen_api_freeze._is_public()` 过滤，指纹零影响）。
+- **画廊第 24 页** `pageMarkdown`：大纲 / 边框 / 明暗可切，链接信号实时反馈；0 新增 qmllint 告警。
+- **`tests/test_nova_markdown.py`** 12 项：静态契约 8（qmldir / a11y / 冻结签名 / 零依赖 / 库组件 / 文档事实）
+  + 离屏真机 4（解析渲染 / 主题联动 / 链接安全与公共方法 / 空态），含**坑位 69** 正确取证口径与反证。
+
+### 修正（Fixed）
+- **`docs/controls/NovaMarkdown.md` 整篇重写**：原稿是独立新工程构想稿（虚构 `nova/` Python 包、
+  `markdown-it-py` / `mdit-py-plugins` / `Pygments` / QtWebEngine 依赖、`pyside-nova 0.1.0` 发布声明、
+  `WebEngineView` + `QWebChannel` 渲染、`NovaMarkdownConfig` 等 Python 契约），与本库唯一依赖
+  `PySide6>=6.8` / 5 个 qmldir 模块 / 144 类型冻结面全面冲突。按「史料不圆场」保留差异裁决表，
+  不改写历史；新文档如实标注能力边界（Qt MarkdownText 支持范围 / 不支持项 / 适用边界）。
+- **坑位 69**：`QQuickRepeater` 的 delegate 是「视觉子项」，QObject parent 不挂在 Repeater 下；
+  用 `QObject.children()` 取证会误判正文未渲染。正确口径：从组件根走 `QQuickItem.childItems()`，
+  并提前 `import PySide6.QtQuick`（否则 `rootObjects()` 被包装成无 `contentItem()` 的 `QWindow`）。
+
+### 升版链（Changed）
+- `__about__.py` `1.3.0 → 1.4.0` → `gen_api_freeze.py` 重签 `api/nova-api-1.4.0.json` + `docs/API_FREEZE.md`。
+- `tests/test_api_freeze.py`：`145` / `Nova.Controls 92` / `semantic 29` / `apiVersion 1.4.0`。
+- 现行事实源（6 个生成器 / 审计脚本、双语 README、`docs/index.md`、`mkdocs.yml`、`docs/tools/playground.md`、
+  测试）由 `nova-api-1.3.0.json` / `144` 同步到 `1.4.0` / `145`；历史 CHANGELOG 行与 `docs/prescript/*`
+  法源里的历史时点数字按既有惯例保留，不批量扫荡。
+- `audit_domains.py`：`NovaMarkdown` 归入 `Data` 域；Controls `91 → 92`、基础类型 `104 → 105`；
+  重签 `api/component-domains-1.4.0.json`（145 类型零遗漏 / 零重复 / 零幽灵 PASS）。
+- `sync_brand_version.py`：3 枚源徽标 + 3 份站点副本同步 `v1.4.0`（版本铁律）。
+- 生成器链 `gen_component_list.py` → `gen_apidocs.py` → `audit_domains.py --emit` → `gen_prompt.py` 全量重跑。
+
+### 验收
+- `check_all.py --tier static` **3/3**：a11y **145/145**（interactive 32 · semantic 29 · decorative 84）、
+  qmllint **0 error / 594 warning 预算内**、API 冻结 **145 零漂移** · 指纹 `37fbbe9ab5806a2a`。
+- 离屏真机：10 个正文块全部渲染（表格块 `contentHeight=80`）、Markdown 源语法保留、
+  主题 `#1F2128 → #E9EAEF` 联动、危险链接拦截 1 / 安全链接 1、0 条坏 Qt 消息。
+- `tests/test_nova_markdown.py` **12/12**；`test_api_freeze.py` / `test_v2_compat.py` /
+  `test_gallery_loads` 等本次相关子集 PASS。
+- ⚠️ **既有环境问题（非本次引入，如实登记）**：Qt 6.12 offscreen 下 `pytest` 全量串跑会在
+  `test_a11y.py` 的 `app.processEvents()` 处 SIGSEGV（exit 139，坑位 49 同类；排除新测试文件 /
+  排除 a11y 模块 / 切换 `QT_QUICK_BACKEND=software` 均复现，单跑该用例 PASS）；
+  `test_i18n.py::test_rtl_breadcrumbs_mirrors` 单跑即 FAIL（`rtl_x=-25.0`，既有 RTL 反排缺陷）。
+  两者与 1.4.0 改动无因果关系，未在本批次擅自扫荡。
+
+### 发布边界
+- commit / push / tag / PyPI **归 CSA**；本批次仅本地完成与只读核查。
+
+## [1.3.0] - 2026-11-26 — NovaIncubator 徽记可点（additive minor）（历史条目，状态锚点已由 1.4.0 接替）
+
+> **版本说明**：1.2.4 之上的 **additive minor**——CSA 2026-11-26 22:22 拍板
+> 「可以，给 pyside-nova 提改造，先升 minor 重签」。API 契约 1.2.0 → **1.3.0** 重签：
+> **144 类型不变、15 项 GA 公共签名逐字不变**，仅 `NovaIncubator` 增三元组：
+> 属性 `emblemClickable:bool`（默认 false，保持 decorative 语义）+
+> 信号 `emblemClicked()` + 属性 `emblemToolTip:string`（2026-11-27 CSA 追加：
+> 徽记悬停提示，同批并入本次重签）。指纹 `4f882374ad52262b` → **`5d865b2d976af016`**；
+> 清单 `api/nova-api-1.3.0.json` + `docs/API_FREEZE.md` 均为生成物禁手改。
+
+### 新增（Added）
+- **`NovaIncubator.emblemClickable: bool`**（默认 `false`）：舞台右上角身份徽记
+  （七区分格环 + 中心孵化点）的可点开关——开启后 hover 手型光标 + 七芒提亮，
+  点击 emit `emblemClicked()`；壳只 emit 意图，业务语义由宿主承担
+  （nova-forge `prescript` GUI 用作「界面预览」入口）。
+- **`NovaInput` 写回滞后一拍 · 根因修复（2026-11-27 坑位 53，nova-forge prescript 真实事故反哺）**：
+  `_emitChange()` 在 `onTextChanged` 变更级联里读 `typedValue` **绑定**，此时绑定尚未
+  重算，读到的是上一次文本——`modelValue` 永远比显示文本滞后一拍。宿主做外部回显
+  （如 nova-forge 浏览选目录后回写 `pathInput.modelValue = bridge.path`）时，级联把
+  **旧文本**提交回宿主，宿主守卫 `v !== bridge.path` 误判后调 `setPath(旧值)` 把配置
+  **静默改回**——孵化落盘到错误目录而输入框显示新路径。修复：新增 `_typedOf(t)`
+  纯函数（trim/capitalize/number 修饰符逻辑不变），`_emitChange` 直接从文本源头
+  `input.text / area.text`（readonly 值属性，非绑定）计算提交值，写入与显示永远一致。
+  新代码用 `let/const`（qmllint other 类预算 10 不超）。API 面零漂移，指纹
+  `5d865b2d976af016` 不变，无需重签。
+- **`NovaIncubator.emblemToolTip: string`**（默认空串）：徽记悬停提示，仅
+  `emblemClickable=true` 且文案非空时由 `NovaTooltip` 接管 target 显示；
+  壳不 import QtQuick.Controls，tooltip 走 Nova.Controls 自有组件。
+
+### 变更（Changed）
+- `sync_brand_version.py` 徽标版本字样同步 `v1.3.0`（3 枚源 SVG + 3 份站点副本）；
+  域台账重签 `api/component-domains-1.3.0.json`（PASS）；
+  `gen_api_freeze → gen_component_list → gen_apidocs → gen_prompt` 生成器链重跑。
+
+## [1.2.4] - 2026-11-26 — Quasar 品牌 tagline 换回霸气版 · QML 进主标语（已由 CSA 发布 PyPI）
 
 > **版本说明**：1.2.3 之上的 **patch**——仅对外文案与品牌呈现修正，**公共 API 零漂移**
 > （144 类型 · 指纹 `4f882374ad52262b` 不变）。按 1.0.1 / 1.2.1 / 1.2.2 / 1.2.3 先例，
 > `apiVersion=1.2.0`、清单 `api/nova-api-1.2.0.json` 文件名与 `test_api_freeze` 硬断言均不改。
 > CSA 2026-11-26 16:37 拍板「Inspired by 首屏不够霸气 → 换回『PySide-Nova 是 Qt Quick 世界的 Quasar』，
 > 并把 QML 加上」；小诺三案建议、CSA 选定 **A 案：QML 进主标语本体，Qt Quick 退到技术定位行，
-> `Inspired by` 降为致谢行**。**17:17 CSA 拍板升 1.2.4 并发布**（`release.yml` tag `v*` 触发
-> 自动 build + PyPI 可信发布）。
+> `Inspired by` 降为致谢行**。**17:17 CSA 拍板升 1.2.4 并发布；**17:36 已完成
+> commit `0212136` / push / tag `v1.2.4` / PyPI 上架**（`release.yml` tag `v*` 自动 build +
+> PyPI 可信发布；wheel **436,903 B** @ `09:35:40Z` / sdist **11,482,366 B** @ `09:36:21Z`，
+> 与本地构建逐字一致；`origin/main` 与 tag 均指向 `02121363c669`，工作树干净）。
 
 ### 变更（Changed）
 - `pyproject.toml` 的 `description` → `PySide-Nova is the Quasar of the QML world — an enterprise-grade Qt Quick component library for PySide6.`
@@ -42,7 +135,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
   `sync_brand_version.py --check` ✓ · 6 个 SVG XML 解析通过 · 6 个 JS `node --check` 全过 ·
   wheel / sdist 构建通过（体积复验）· **冻结面零漂移**。
 
-> **发布边界**：`commit / push / tag / PyPI / 站点上线` **全归 CSA**；
+> **发布边界**：`commit / push / tag / PyPI / 站点上线` **全归 CSA**（本版已由 CSA 于 17:36 执行完毕）；
 > PyPI 上架由 `release.yml`（tag `v*`）自动完成。
 
 ---

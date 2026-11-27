@@ -115,6 +115,7 @@ CONTROLS: dict[str, tuple[str, str, str]] = {
     "NovaTimelineEntry":  (SEMANTIC, "ListItem", "title"),
     "NovaChatMessage":    (SEMANTIC, "StaticText", "text"),
     "NovaText":           (SEMANTIC, "StaticText", "text"),
+    "NovaMarkdown":       (SEMANTIC, "StaticText", "a11yLabel →「Markdown 文档」"),
     "NovaIcon":           (SEMANTIC, "Graphic", "a11yLabel（装饰图标可空）"),
     "NovaAvatar":         (SEMANTIC, "Graphic", "a11yLabel → text"),
     "NovaBadge":          (SEMANTIC, "StaticText", "a11yLabel → label"),

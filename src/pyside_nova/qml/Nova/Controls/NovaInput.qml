@@ -69,9 +69,26 @@ NovaField {
         if (_isArea) area.text = s
         else input.text = s
     }
+    // 从文本源直接计算提交值（2026-11-27 坑位 53）：禁止在变更级联里读 typedValue
+    // 绑定——onTextChanged 触发时 typedValue / _text 绑定尚未重算，读到的是
+    // 上一次文本，导致 modelValue「写回滞后一拍」：宿主做外部回显时会把旧值
+    // 提交回去、宿主守卫 v !== bridge.path 误判后把配置改回旧值（nova-forge
+    // prescript 浏览选目录后被静默回退的真实事故）。直接读 input.text / area.text
+    // 源头（readonly 值属性，非绑定），保证提交值与显示文本永远一致。
+    function _typedOf(t) {
+        let s = t
+        if (_mods.indexOf("trim") > -1) s = s.trim()
+        if (_mods.indexOf("capitalize") > -1 && s.length > 0)
+            s = s.charAt(0).toUpperCase() + s.slice(1)
+        if (_mods.indexOf("number") > -1) {
+            const n = parseFloat(s)
+            return isNaN(n) ? null : n
+        }
+        return s
+    }
     function _emitChange() {
         root._emitting = true
-        root.modelValue = root.typedValue
+        root.modelValue = root._typedOf(root._isArea ? area.text : input.text)
         root._emitting = false
     }
 

@@ -1,6 +1,6 @@
 # NovaIncubator · 应用孵化器工作台
 
-> **模块** `Nova.Composite.LayoutShell` · **分类** 应用孵化器工作台 · **pyside-nova 1.2.4** · API 冻结指纹 `4f882374ad52262b` · **20/20 天花板销号** · a11y `decorative`
+> **模块** `Nova.Composite.LayoutShell` · **分类** 应用孵化器工作台 · **pyside-nova 1.4.0** · API 冻结指纹 `37fbbe9ab5806a2a` · **20/20 天花板销号** · a11y `decorative`
 > 本页由 `scripts/gen_apidocs.py` 从冻结事实源自动生成，**禁止手工编辑**；重跑生成器即可同步。
 
 ## 概览
@@ -20,6 +20,8 @@ NovaIncubator 应用孵化器工作台壳：全局栏 + 配方库 + 孵化舞台
 | `bordered` | `bool` | `true` |
 | `breakpoint` | `int` | `1100` |
 | `certificateHeight` | `int` | `160` |
+| `emblemClickable` | `bool` | `false` |
+| `emblemToolTip` | `string` | `""` |
 | `globalHeight` | `int` | `52` |
 | `pipelineHeight` | `int` | `64` |
 | `recipeCollapsed` | `bool` | `false` |
@@ -49,6 +51,7 @@ NovaIncubator 应用孵化器工作台壳：全局栏 + 配方库 + 孵化舞台
 
 | 信号 | 参数 | 语义 |
 |---|---|---|
+| `emblemClicked` | — | 组件只 emit，不自写宿主状态 |
 | `freezeRequested` | — | 组件只 emit，不自写宿主状态 |
 | `recipeToggled` | `bool collapsed` | 组件只 emit，不自写宿主状态 |
 | `validateToggled` | `bool collapsed` | 组件只 emit，不自写宿主状态 |
@@ -90,5 +93,5 @@ NovaIncubator {
 - [20 项组合根容器总览](index.md)
 - [60 张三态装配图索引](showcase.md)
 - [CARF-R 20/20 销号台账](../prescript/AUDIT_CEILING.md)
-- [组件清单（144 项）](../COMPONENT_LIST.md)
+- [组件清单（145 项）](../COMPONENT_LIST.md)
 - [API 冻结清单](../API_FREEZE.md)

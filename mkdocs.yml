@@ -17,6 +17,7 @@ exclude_docs: |
   templates/
   ai/
   MASTER_PLAN.md.bak
+  controls/NovaTable.md
 
 # T9/P1+P2 文档站产品化层
 # extra_css / extra_javascript：手写交互资产 + 生成物 nova-data.js（版本/组件唯一事实源）
@@ -143,7 +144,8 @@ nav:
   - 体系:
       - 企业级旗舰封版徽标规范（现行）: prescript/GUIDE_BRAND_MARK.md
       - 架构说明: ARCHITECTURE.md
-      - 组件清单（144 项）: COMPONENT_LIST.md
+      - 组件清单（145 项）: COMPONENT_LIST.md
+      - NovaMarkdown 使用文档: controls/NovaMarkdown.md
       - 组件详解（历史稿）: COMPONENTS.md
       - 设计令牌: DESIGN_TOKENS.md
       - 国际化指南: I18N.md

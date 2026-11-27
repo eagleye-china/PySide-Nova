@@ -7,12 +7,12 @@ CSA 2026-11-26 10:44 指令「Controls 下新建的 Foundation 去掉」后，M1
 本脚本把该判断固化为机检，防止任何批次在冻结面之外偷建独立 qmldir / 子模块。
 
 守护五条契约（全部可机检）：
-  C1 旧 5 个冻结面 URI 的 qmldir 导出集合与 api/nova-api-1.2.0.json 逐项一致
+  C1 旧 5 个冻结面 URI 的 qmldir 导出集合与 api/nova-api-1.4.0.json 逐项一致
   C2 产品树 @nova-compat-view 物理视图数 == 0（M1 就绪态硬约束）
   C3 全库 qmldir 恰 5 个冻结面模块，不得出现第 6 个模块
   C4 全库 QML 相对导入 0 处
   C5 生成器干净：gen_apidocs.py 无 @nova-compat-view 跳过死代码；
-     docs/ai/index.json 5 模块 / 144 类型 / 无视图产物
+     docs/ai/index.json 5 模块 / 145 类型 / 无视图产物
 
 > 面向 M2 的条件契约：若未来经 CSA 拍板 + additive major 重签后显式落地兼容
 > 视图，本脚本 C2/C3 由「0 视图」切换为「视图导出 ⊆ 冻结面 + 单一事实源
@@ -29,7 +29,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 QML = ROOT / "src" / "pyside_nova" / "qml" / "Nova"
-LEDGER = ROOT / "api" / "nova-api-1.2.0.json"
+LEDGER = ROOT / "api" / "nova-api-1.4.0.json"
 AI_INDEX = ROOT / "docs" / "ai" / "index.json"
 AI_API = ROOT / "docs" / "ai" / "api"
 GEN = ROOT / "scripts" / "gen_apidocs.py"
@@ -130,7 +130,7 @@ def main() -> int:
         errs.append(f"C5 AI 包模块数 {len(ai_mods)} ≠ {len(LAYERS)}")
     if ai_total != len(frozen):
         errs.append(f"C5 AI 包 types_total {ai_total} ≠ {len(frozen)}")
-    # 精确泄漏检查：AI 包 api 文件名集合必须 == 冻结清单 144 类型的 {key}.json
+    # 精确泄漏检查：AI 包 api 文件名集合必须 == 冻结清单 145 类型的 {key}.json
     expect_names = {f"{k}.json" for k in frozen}
     got_names = {p.name for p in AI_API.glob("*.json")} if AI_API.exists() else set()
     leaked = sorted(got_names - expect_names)

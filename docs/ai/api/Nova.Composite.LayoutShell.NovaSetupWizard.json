@@ -269,12 +269,20 @@
    "line": 70
   },
   {
+   "name": "_appIcon",
+   "type": "url",
+   "readonly": true,
+   "default": ": \"qrc:/icons/app-wizard\"",
+   "doc": null,
+   "line": 76
+  },
+  {
    "name": "_done",
    "type": "bool",
    "readonly": false,
    "default": ": _dot.index < root._curStep",
    "doc": null,
-   "line": 125
+   "line": 139
   },
   {
    "name": "_active",
@@ -282,7 +290,7 @@
    "readonly": false,
    "default": ": _dot.index === root._curStep",
    "doc": null,
-   "line": 126
+   "line": 140
   }
  ],
  "signals": [

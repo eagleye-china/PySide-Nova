@@ -1,6 +1,6 @@
 # 组合根容器（20 项）
 
-> **Nova.Composite.LayoutShell** · pyside-nova **1.2.4** · **144 个导出类型** · API 冻结指纹 `4f882374ad52262b` · **20/20 六维天花板全部销号**（CARF-R）
+> **Nova.Composite.LayoutShell** · pyside-nova **1.4.0** · **145 个导出类型** · API 冻结指纹 `37fbbe9ab5806a2a` · **20/20 六维天花板全部销号**（CARF-R）
 > 本页由 `scripts/gen_apidocs.py` 自动生成，**禁止手工编辑**。
 
 20 个组合根容器按语义分为 9 类；每个容器都由 ≥2 个已导出公共类型组合、一律 `property alias` 槽位、只 emit 不自写宿主状态。
@@ -68,18 +68,18 @@
 
 | 组件 | 说明 | Props | Slots | Signals | 文档 |
 |---|---|---|---|---|---|
-| [NovaIncubator](NovaIncubator.md) | 应用孵化器工作台 | 15 | 7 | 3 | [API 页](NovaIncubator.md) |
+| [NovaIncubator](NovaIncubator.md) | 应用孵化器工作台 | 17 | 7 | 4 | [API 页](NovaIncubator.md) |
 
 ## 契约基线
 
 - **CC-1~CC-8** 组合态一致性契约（组合宪法 1.0.0 第 9 章）
 - **NovaTheme** 唯一令牌源 · **NovaMotion** 唯一动效门面（CC-3）
 - `property alias` 槽位 + 注入顶层 `anchors.fill: parent`（CC-6）
-- `_` 私有成员不进冻结面；公共 API 逐字不变（144 类型）
+- `_` 私有成员不进冻结面；公共 API 逐字不变（145 类型）
 
 ## 相关
 
 - [60 张三态装配图索引](showcase.md)
 - [CARF-R 20/20 销号台账](../prescript/AUDIT_CEILING.md)
-- [组件清单（144 项）](../COMPONENT_LIST.md)
+- [组件清单（145 项）](../COMPONENT_LIST.md)
 - [API 冻结清单](../API_FREEZE.md)

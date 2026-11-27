@@ -245,12 +245,20 @@
    "line": 67
   },
   {
+   "name": "_appIcon",
+   "type": "url",
+   "readonly": true,
+   "default": ": \"qrc:/icons/app-flex\"",
+   "doc": null,
+   "line": 75
+  },
+  {
    "name": "_tone",
    "type": "color",
    "readonly": true,
    "default": ": index === 0 ? root._glow",
    "doc": null,
-   "line": 136
+   "line": 150
   }
  ],
  "signals": [

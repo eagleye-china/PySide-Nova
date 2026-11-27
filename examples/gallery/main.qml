@@ -119,6 +119,7 @@ ApplicationWindow {
                     ListElement { label: "长尾组件";            icon: "mdi:alpha-t-circle-outline" }
                     ListElement { label: "无障碍 a11y";          icon: "mdi:human-wheelchair" }
                     ListElement { label: "国际化 i18n";          icon: "mdi:translate" }
+                    ListElement { label: "NovaMarkdown 文档";    icon: "mdi:file-document-outline" }
                 }
 
                 delegate: Rectangle {
@@ -168,7 +169,7 @@ ApplicationWindow {
         sourceComponent: [pageOverview, pageLayout, pageBtn, pageCard, pageChip,
                           pageAvatar, pageBadge, pageIcon, pageNotify, pageDialog,
                           pageServices, pageBehaviors, pageTheme,
-                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail, pageA11y, pageI18n][nav.currentIndex]
+                          pageDesign, pageUtils, pageForms, pageForm2, pageData, pageMedia, pageNav, pagePopup, pageLongtail, pageA11y, pageI18n, pageMarkdown][nav.currentIndex]
     }
 
     Rectangle { id: nav; objectName: "nav"; property int currentIndex: 0; visible: false }
@@ -3892,6 +3893,79 @@ ApplicationWindow {
                 radius: 3
                 color: NovaTheme.surfaceAlt
                 border.color: NovaTheme.outline
+            }
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // 页面：NovaMarkdown 文档渲染器（1.4.0 · 零依赖 Qt 原生 MarkdownText）
+    // ════════════════════════════════════════════════════════════
+    Component {
+        id: pageMarkdown
+        Item {
+            id: mdPage
+            objectName: "pageMarkdown"
+            property string feedback: "点击文档中的链接试试"
+
+            readonly property string demoText:
+                "# NovaMarkdown\n\n" +
+                "**加粗** · *斜体* · ~~删除线~~ · `行内代码` · [安全链接](https://example.com)\n\n" +
+                "## 表格\n\n" +
+                "| 能力 | 状态 |\n| :--- | :---: |\n| 零依赖 | 支持 |\n| 内置大纲 | 支持 |\n\n" +
+                "## 列表\n\n" +
+                "- [x] 分块渲染\n- [x] 锚点跳转\n- [ ] 虚拟滚动（扩展点）\n\n" +
+                "```python\ndef hello():\n    return 42\n```\n\n" +
+                "### 安全\n\n" +
+                "[危险链接](javascript:alert(1))\n\n" +
+                "## 主题\n\n" +
+                "切换明暗按钮，正文颜色随 NovaTheme 令牌联动。\n"
+
+            GalleryPage {
+                title: "NovaMarkdown 文档渲染"
+                desc: "1.4.0 新增公共类型：零第三方依赖，Qt 原生 Text.MarkdownText + NovaTheme 令牌 + NovaScrollArea；内置大纲侧栏、锚点跳转、危险协议拦截。"
+
+                GalleryRow { label: "实时文档 · 大纲 / 边框 / 明暗可切" }
+
+                Row {
+                    width: parent.width
+                    spacing: NovaTheme.spacingM
+
+                    NovaBtn {
+                        text: mdDoc.showToc ? "隐藏大纲" : "显示大纲"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: mdDoc.showToc = !mdDoc.showToc
+                    }
+                    NovaBtn {
+                        text: mdDoc.outlined ? "去掉边框" : "显示边框"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: mdDoc.outlined = !mdDoc.outlined
+                    }
+                    NovaBtn {
+                        text: "切换明暗"
+                        variant: "flat"
+                        size: "sm"
+                        onClicked: NovaTheme.toggleDark()
+                    }
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: mdPage.feedback
+                        color: NovaTheme.textMuted
+                        font.pixelSize: NovaTheme.fontXS
+                    }
+                }
+
+                NovaMarkdown {
+                    id: mdDoc
+                    width: parent.width
+                    height: 460
+                    showToc: true
+                    markdown: mdPage.demoText
+                    onLinkClicked: function(u) { mdPage.feedback = "安全链接：" + u }
+                    onLinkBlocked: function(u) { mdPage.feedback = "已拦截：" + u }
+                    onTocReady: function(items) { mdPage.feedback = "大纲条目 " + items.length + " 项" }
+                }
             }
         }
     }

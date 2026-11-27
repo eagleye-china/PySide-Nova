@@ -1,14 +1,14 @@
 # pyside-nova 组件清单
 
-> 版本 **1.2.4** · 基线 **Quasar 2.35.5** · API 指纹 `4f882374ad52262b` · 共 **144** 个公共 QML 类型
+> 版本 **1.4.0** · 基线 **Quasar 2.35.5** · API 指纹 `37fbbe9ab5806a2a` · 共 **145** 个公共 QML 类型
 >
-> 数据源：`api/nova-api-1.2.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
+> 数据源：`api/nova-api-1.4.0.json`（权威）+ `docs/ai/api/*.json`（描述）。本文件由 `scripts/gen_component_list.py` 生成，请勿手工编辑。
 >
-> 分类口径：Nova.Controls 91 / Nova.Behaviors 13 / Nova.Services 16 / Nova.Design 4 / Nova.Composite.LayoutShell 20；每个类型在 `examples/gallery/` 中有实机展示页面。
+> 分类口径：Nova.Controls 92 / Nova.Behaviors 13 / Nova.Services 16 / Nova.Design 4 / Nova.Composite.LayoutShell 20；每个类型在 `examples/gallery/` 中有实机展示页面。
 
 ## 目录
 
-- 一、Controls · 控件（91 项）
+- 一、Controls · 控件（92 项）
 - 二、Behaviors · 行为（13 项）
 - 三、Services · 服务单例（16 项）
 - 四、Design · 设计层（4 项）
@@ -16,7 +16,7 @@
 
 ---
 
-## 一、Controls · 控件（91 项）
+## 一、Controls · 控件（92 项）
 
 | 序号 | 组件 | 说明 | 对标 Quasar | a11y | 属性/信号/方法 | QML 文件 |
 |---:|---|---|---|---|---:|---|
@@ -64,126 +64,127 @@
 | 42 | **NovaItemSection** | 条目分区：avatar/thumbnail/trailing/topAligned | QItemSection | decorative（装饰） | 4/0/0 | `Nova/Controls/NovaItemSection.qml` |
 | 43 | **NovaLayout** | 布局骨架：四象限容器（header/footer/drawer/page），按子项类型自动归位 + push/overlay 双模式 + 断点自动收起 | QLayout | decorative（装饰） | 8/0/3 | `Nova/Controls/NovaLayout.qml` |
 | 44 | **NovaList** | 列表容器：separator/dense/padding、accordion 手风琴协调 | QList | semantic（语义） | 5/0/2 | `Nova/Controls/NovaList.qml` |
-| 45 | **NovaMarkupTable** | 标记表格：columns/rows 数组直渲 + 标题 | QMarkupTable | semantic（语义） | 6/0/0 | `Nova/Controls/NovaMarkupTable.qml` |
-| 46 | **NovaMenu** | 声明式菜单：target 触发（父项/右键/hover | QMenu | interactive（交互） | 22/6/7 | `Nova/Controls/NovaMenu.qml` |
-| 47 | **NovaNoSsr** | 延迟渲染壳：placeholder 文案/槽先显示，内容在 delay（默认下一帧）后切换 Nova 口径：QML 无 SSR 环境，语义落位为"客户端就绪延迟渲染"（骨架占位→内容），PARITY §0.14 留痕 | QNoSsr | decorative（装饰） | 4/0/0 | `Nova/Controls/NovaNoSsr.qml` |
-| 48 | **NovaOptionGroup** | 选项组：checkbox/radio/toggle 三型统一、options 归一化、inline/纵向布局 对标 Quasar QOptionGroup（24 props 含继承 use-checkbox 18；N… | Quasar QOptionGroup | semantic（语义） | 21/1/2 | `Nova/Controls/NovaOptionGroup.qml` |
-| 49 | **NovaPage** | 页面容器：NovaLayout 之页面象限内容包装，统一 padding，类型扫描后自动铺满页面区 | QPage | decorative（装饰） | 1/0/0 | `Nova/Controls/NovaPage.qml` |
-| 50 | **NovaPagination** | 页码器 受控模式（坑位 22）：不自写 page —— pageRequested(next) 上报，宿主写回 | QPagination | interactive（交互） | 13/1/5 | `Nova/Controls/NovaPagination.qml` |
-| 51 | **NovaParallax** | 视差滚动容器：媒体层随宿主滚动慢速位移（speed 因子）， scroll-target 缺省向上遍历找最近 Flickable（坑位 14：默认属性转交内部容器 parent 失真） | QParallax | decorative（装饰） | 6/1/1 | `Nova/Controls/NovaParallax.qml` |
-| 52 | **NovaPopupEdit** | 就地编辑弹层：点击目标弹编辑器、autoSave、设置/取消按钮、校验 对标 Quasar QPopupEdit（13 props；Nova 收口核心 11 项，cover 覆盖定位留痕见 PARITY） | Quasar QPopupEdit | interactive（交互） | 12/6/4 | `Nova/Controls/NovaPopupEdit.qml` |
-| 53 | **NovaPopupProxy** | 弹层路由：窗口宽/高较小者 < breakpoint → Dialog 形态（全屏卡片），否则 Menu 形态 内容槽共享：default 槽内容按当前形态 reparent 到对应形态容器；关闭后归还 受控契约：m… | QPopupProxy | decorative（装饰） | 17/6/7 | `Nova/Controls/NovaPopupProxy.qml` |
-| 54 | **NovaPullToRefresh** | 下拉刷新：side 四边拉动（top/bottom/left/right，对标 2.30）、refresh 事件、trigger() 方法 拉动数学：从 side 边缘向内容方向拖拽 dist；pullProgres… | 事件驱动语义 | semantic（语义） | 10/1/1 | `Nova/Controls/NovaPullToRefresh.qml` |
-| 55 | **NovaRadio** | 单选：val 匹配 modelValue、leftLabel、keepColor、键盘选择 对标 Quasar QRadio（12 props） | Quasar QRadio | interactive（交互） | 18/2/1 | `Nova/Controls/NovaRadio.qml` |
-| 56 | **NovaRange** | 双值范围滑杆：左右滑块、step 量化、min/maxRange 约束、markers、气泡 对标 Quasar QRange（20 props；Nova 收口核心 17 项，aria/img 类留痕见 PARITY） | Quasar QRange | interactive（交互） | 42/2/4 | `Nova/Controls/NovaRange.qml` |
-| 57 | **NovaResizeObserver** | 尺寸观察：target（默认声明父项）尺寸变化 → debounce → resize(w,h) | QResizeObserver | decorative（装饰） | 2/1/3 | `Nova/Controls/NovaResizeObserver.qml` |
-| 58 | **NovaResponsive** | 等比例容器：ratio > 0 时强制 height = width / ratio， 内容铺满容器（use-ratio 组合函数 1:1；ratio 缺省时高度交给宿主/内容自定） | QResponsive | decorative（装饰） | 1/0/0 | `Nova/Controls/NovaResponsive.qml` |
-| 59 | **NovaRow** | 栅格行：12 栅格水平排布 + wrap 换行 + justify/align 对齐，与 NovaCol 配合使用 | Quasar Flex row | decorative（装饰） | 4/0/1 | `Nova/Controls/NovaRow.qml` |
-| 60 | **NovaScrollArea** | 滚动区域：内容超界出主题化滚动条 | QScrollArea | decorative（装饰） | 0/0/0 | `Nova/Controls/NovaScrollArea.qml` |
-| 61 | **NovaSelect** | 下拉选择：options 归一化 / single+multiple / emitValue / useInput 过滤 / 下拉弹层 对标 Quasar QSelect（47 props；Nova 收口核心 24 … | Quasar QSelect | interactive（交互） | 18/3/3 | `Nova/Controls/NovaSelect.qml` |
-| 62 | **NovaSeparator** | 分隔线：vertical 属性切换方向，颜色取 outline 令牌 | QSeparator | semantic（语义） | 5/0/0 | `Nova/Controls/NovaSeparator.qml` |
-| 63 | **NovaSkeleton** | 骨架屏：type（rect/text/circle/square/badge/tag）× animation（wave/bounce/fade/none，对标 QSkeleton） wave = 渐变横扫；bounc… | QSkeleton | decorative（装饰） | 4/0/0 | `Nova/Controls/NovaSkeleton.qml` |
-| 64 | **NovaSlideItem** | 滑动操作项： 正面内容（default 槽）左右滑动露出动作面板（leftSlot/rightSlot Component 槽（QSlideItem 的 left/right 撞 Item FINAL 成员改名，坑位… | QSlideItem · 基线 2.35.5 语义 | interactive（交互） | 8/4/3 | `Nova/Controls/NovaSlideItem.qml` |
-| 65 | **NovaSlider** | 滑杆：拖拽/键盘取值、step 量化、snap 刻点、markers、label 气泡、垂直模式 对标 Quasar QSlider（use-slider 33 props；Nova 收口 26 项，img 类留痕见… | Quasar QSlider | interactive（交互） | 35/2/3 | `Nova/Controls/NovaSlider.qml` |
-| 66 | **NovaSpace** | 占位空白 | QSpace | decorative（装饰） | 0/0/0 | `Nova/Controls/NovaSpace.qml` |
-| 67 | **NovaSpinner** | 加载指示器：variant 八变体（ring/ball/dots/hourglass/gears/grid/radio/comment，对标 QSpinner 系列） Canvas 逐帧绘制口径：统一 Timer 驱… | QSpinner | semantic（语义） | 6/0/0 | `Nova/Controls/NovaSpinner.qml` |
-| 68 | **NovaStep** | 步骤面板：name/title/caption/icon/prefix/done/error/disable + 状态图标覆盖（done/active/error 的 icon+color，'none' 退让 pre… | QStep | semantic（语义） | 18/0/0 | `Nova/Controls/NovaStep.qml` |
-| 69 | **NovaStepper** | 步骤条：受控 modelValue / 头部导航（headerNav 逐项开关）/ 状态图标解析 1:1 对标 2.35.6 StepHeader.js（active > error > done；step 级优先 | QStepper | semantic（语义） | 30/3/5 | `Nova/Controls/NovaStepper.qml` |
-| 70 | **NovaStepperNavigation** | 步骤导航槽容器：default 槽放 上一步/下一步等按钮；由宿主 NovaStepper 的 navigation 命名槽挂载渲染 | QStepperNavigation | semantic（语义） | 1/0/0 | `Nova/Controls/NovaStepperNavigation.qml` |
-| 71 | **NovaTab** | 标签页单项：name/label/icon/alert + default 槽自定义内容 | QTab | interactive（交互） | 11/1/2 | `Nova/Controls/NovaTab.qml` |
-| 72 | **NovaTabPanel** | 标签页面板：name 寻址 / disable | QTabPanel | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTabPanel.qml` |
-| 73 | **NovaTabPanels** | 面板容器：受控 modelValue / animated / infinite / swipeable（DragHandler 被动抓取）/ vertical / transitionDuration | QTabPanels | decorative（装饰） | 8/3/3 | `Nova/Controls/NovaTabPanels.qml` |
-| 74 | **NovaTable** | 数据表格 v0.11.0 基础：列定义/排序/过滤/分页/多选/展开行/grid 模式 v0.12.0 增强：虚拟滚动（virtualScroll + ListView 真虚拟化）/ 服务端模式 （serverSid… | QTable | interactive（交互） | 45/7/13 | `Nova/Controls/NovaTable.qml` |
-| 75 | **NovaTabs** | 标签页容器：受控 modelValue、横向滚动 + 溢出箭头 （outside-arrows/mobile-arrows）、align（left/center/right/justify）、breakpoint 自… | QTabs | interactive（交互） | 24/1/3 | `Nova/Controls/NovaTabs.qml` |
-| 76 | **NovaTd** | 单元格：文本/对齐/自定义内容 | QTd | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTd.qml` |
-| 77 | **NovaText** | 排版组件 | Quasar text-h1…caption + text-weight-* + text-muted/italic/strike/no-wrap 工具类 | semantic（语义） | 6/0/0 | `Nova/Controls/NovaText.qml` |
-| 78 | **NovaTh** | 表头单元格：文本/对齐/排序指示（受控模式：sortRequest 只上报） | QTh | interactive（交互） | 6/1/0 | `Nova/Controls/NovaTh.qml` |
-| 79 | **NovaTime** | 时钟面盘：时/分/秒三面切换、24h/12h(AM/PM)、options 过滤、nowBtn 对标 Quasar QTime（14 props；Nova 收口核心 12 项，validator/defaultDat… | Quasar QTime | interactive（交互） | 18/1/11 | `Nova/Controls/NovaTime.qml` |
-| 80 | **NovaTimeline** | 时间轴：tint 轴色 / side 左右停靠 / dense·comfortable·loose 三布局；default 槽为 NovaTimelineEntry 序列，条目经 _timelineRef 反向取宿主… | QTimeline | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTimeline.qml` |
-| 81 | **NovaTimelineEntry** | 时间轴条目：heading 标题态 / icon·avatar 轴点 / title·subtitle·body 三段内容 + titleSlot/subtitleSlot 命名槽；布局参数取自宿主 NovaTime… | QTimelineEntry | semantic（语义） | 11/0/0 | `Nova/Controls/NovaTimelineEntry.qml` |
-| 82 | **NovaToggle** | 开关：轨道+滑块换装 NovaCheckbox（复用三态/toggleOrder/val 全部值语义） 对标 Quasar QToggle（use-checkbox 18 + icon/iconColor） | Quasar QToggle | interactive（交互） | 3/0/0 | `Nova/Controls/NovaToggle.qml` |
-| 83 | **NovaToolbar** | 工具栏：水平排布行、min-height 50、inset 内容缩进 | QToolbar | semantic（语义） | 2/0/0 | `Nova/Controls/NovaToolbar.qml` |
-| 84 | **NovaToolbarTitle** | 工具栏标题：默认占满剩余宽度（shrink 反转收缩为内容宽） | QToolbarTitle | semantic（语义） | 3/0/0 | `Nova/Controls/NovaToolbarTitle.qml` |
-| 85 | **NovaTooltip** | 工具提示：target 悬停（delay/hideDelay）、anchor/self/offset 定位、text 便捷或 default 槽 就地渲染口径：z 提升于声明处（PARITY §0.14 留痕：非 p… | QTooltip | semantic（语义） | 13/5/5 | `Nova/Controls/NovaTooltip.qml` |
-| 86 | **NovaTr** | 表格行：选中高亮/点击上报（受控：selection 由宿主写回） | QTr | decorative（装饰） | 2/2/0 | `Nova/Controls/NovaTr.qml` |
-| 87 | **NovaTransition** | 过渡包装组件 | Quasar q-transition--fade/scale/rotate/slide-*/jump-*/flip-* 共 16 种 | decorative（装饰） | 7/2/0 | `Nova/Controls/NovaTransition.qml` |
-| 88 | **NovaTree** | 树控件 受控模式（坑位 22）：expanded/ticked/selected 均不自写，只 emit 由宿主写回 勾选策略：none（仅自身）/ strict（上下级联动+半选）/ lazy（仅向下联动已加载层）… | QTree | interactive（交互） | 29/5/11 | `Nova/Controls/NovaTree.qml` |
-| 89 | **NovaVideo** | 视频嵌入包装：QtMultimedia Video 的皮肤化容器， ratio 默认 16/9 等比缩放，controls 常驻（QML Video 自带回放控件） | QVideo | semantic（语义） | 3/0/0 | `Nova/Controls/NovaVideo.qml` |
-| 90 | **NovaVirtualScroll** | 虚拟滚动容器 items 数组 + delegate 组件 → 内部 ListView 真虚拟化（仅渲染可视窗口 + reuseItems） | QVirtualScroll | decorative（装饰） | 3/0/1 | `Nova/Controls/NovaVirtualScroll.qml` |
-| 91 | **NovaVisible** | 断点显隐：above/below/only 三种语义按 NovaScreen 断点控制 visible | Quasar gt-*/lt-* 可见性工具类 | decorative（装饰） | 3/0/2 | `Nova/Controls/NovaVisible.qml` |
+| 45 | **NovaMarkdown** | — | Nova 增强 / 无对应 | semantic（语义） | 10/3/3 | `Nova/Controls/NovaMarkdown.qml` |
+| 46 | **NovaMarkupTable** | 标记表格：columns/rows 数组直渲 + 标题 | QMarkupTable | semantic（语义） | 6/0/0 | `Nova/Controls/NovaMarkupTable.qml` |
+| 47 | **NovaMenu** | 声明式菜单：target 触发（父项/右键/hover | QMenu | interactive（交互） | 22/6/7 | `Nova/Controls/NovaMenu.qml` |
+| 48 | **NovaNoSsr** | 延迟渲染壳：placeholder 文案/槽先显示，内容在 delay（默认下一帧）后切换 Nova 口径：QML 无 SSR 环境，语义落位为"客户端就绪延迟渲染"（骨架占位→内容），PARITY §0.14 留痕 | QNoSsr | decorative（装饰） | 4/0/0 | `Nova/Controls/NovaNoSsr.qml` |
+| 49 | **NovaOptionGroup** | 选项组：checkbox/radio/toggle 三型统一、options 归一化、inline/纵向布局 对标 Quasar QOptionGroup（24 props 含继承 use-checkbox 18；N… | Quasar QOptionGroup | semantic（语义） | 21/1/2 | `Nova/Controls/NovaOptionGroup.qml` |
+| 50 | **NovaPage** | 页面容器：NovaLayout 之页面象限内容包装，统一 padding，类型扫描后自动铺满页面区 | QPage | decorative（装饰） | 1/0/0 | `Nova/Controls/NovaPage.qml` |
+| 51 | **NovaPagination** | 页码器 受控模式（坑位 22）：不自写 page —— pageRequested(next) 上报，宿主写回 | QPagination | interactive（交互） | 13/1/5 | `Nova/Controls/NovaPagination.qml` |
+| 52 | **NovaParallax** | 视差滚动容器：媒体层随宿主滚动慢速位移（speed 因子）， scroll-target 缺省向上遍历找最近 Flickable（坑位 14：默认属性转交内部容器 parent 失真） | QParallax | decorative（装饰） | 6/1/1 | `Nova/Controls/NovaParallax.qml` |
+| 53 | **NovaPopupEdit** | 就地编辑弹层：点击目标弹编辑器、autoSave、设置/取消按钮、校验 对标 Quasar QPopupEdit（13 props；Nova 收口核心 11 项，cover 覆盖定位留痕见 PARITY） | Quasar QPopupEdit | interactive（交互） | 12/6/4 | `Nova/Controls/NovaPopupEdit.qml` |
+| 54 | **NovaPopupProxy** | 弹层路由：窗口宽/高较小者 < breakpoint → Dialog 形态（全屏卡片），否则 Menu 形态 内容槽共享：default 槽内容按当前形态 reparent 到对应形态容器；关闭后归还 受控契约：m… | QPopupProxy | decorative（装饰） | 17/6/7 | `Nova/Controls/NovaPopupProxy.qml` |
+| 55 | **NovaPullToRefresh** | 下拉刷新：side 四边拉动（top/bottom/left/right，对标 2.30）、refresh 事件、trigger() 方法 拉动数学：从 side 边缘向内容方向拖拽 dist；pullProgres… | 事件驱动语义 | semantic（语义） | 10/1/1 | `Nova/Controls/NovaPullToRefresh.qml` |
+| 56 | **NovaRadio** | 单选：val 匹配 modelValue、leftLabel、keepColor、键盘选择 对标 Quasar QRadio（12 props） | Quasar QRadio | interactive（交互） | 18/2/1 | `Nova/Controls/NovaRadio.qml` |
+| 57 | **NovaRange** | 双值范围滑杆：左右滑块、step 量化、min/maxRange 约束、markers、气泡 对标 Quasar QRange（20 props；Nova 收口核心 17 项，aria/img 类留痕见 PARITY） | Quasar QRange | interactive（交互） | 42/2/4 | `Nova/Controls/NovaRange.qml` |
+| 58 | **NovaResizeObserver** | 尺寸观察：target（默认声明父项）尺寸变化 → debounce → resize(w,h) | QResizeObserver | decorative（装饰） | 2/1/3 | `Nova/Controls/NovaResizeObserver.qml` |
+| 59 | **NovaResponsive** | 等比例容器：ratio > 0 时强制 height = width / ratio， 内容铺满容器（use-ratio 组合函数 1:1；ratio 缺省时高度交给宿主/内容自定） | QResponsive | decorative（装饰） | 1/0/0 | `Nova/Controls/NovaResponsive.qml` |
+| 60 | **NovaRow** | 栅格行：12 栅格水平排布 + wrap 换行 + justify/align 对齐，与 NovaCol 配合使用 | Quasar Flex row | decorative（装饰） | 4/0/1 | `Nova/Controls/NovaRow.qml` |
+| 61 | **NovaScrollArea** | 滚动区域：内容超界出主题化滚动条 | QScrollArea | decorative（装饰） | 0/0/0 | `Nova/Controls/NovaScrollArea.qml` |
+| 62 | **NovaSelect** | 下拉选择：options 归一化 / single+multiple / emitValue / useInput 过滤 / 下拉弹层 对标 Quasar QSelect（47 props；Nova 收口核心 24 … | Quasar QSelect | interactive（交互） | 18/3/3 | `Nova/Controls/NovaSelect.qml` |
+| 63 | **NovaSeparator** | 分隔线：vertical 属性切换方向，颜色取 outline 令牌 | QSeparator | semantic（语义） | 5/0/0 | `Nova/Controls/NovaSeparator.qml` |
+| 64 | **NovaSkeleton** | 骨架屏：type（rect/text/circle/square/badge/tag）× animation（wave/bounce/fade/none，对标 QSkeleton） wave = 渐变横扫；bounc… | QSkeleton | decorative（装饰） | 4/0/0 | `Nova/Controls/NovaSkeleton.qml` |
+| 65 | **NovaSlideItem** | 滑动操作项： 正面内容（default 槽）左右滑动露出动作面板（leftSlot/rightSlot Component 槽（QSlideItem 的 left/right 撞 Item FINAL 成员改名，坑位… | QSlideItem · 基线 2.35.5 语义 | interactive（交互） | 8/4/3 | `Nova/Controls/NovaSlideItem.qml` |
+| 66 | **NovaSlider** | 滑杆：拖拽/键盘取值、step 量化、snap 刻点、markers、label 气泡、垂直模式 对标 Quasar QSlider（use-slider 33 props；Nova 收口 26 项，img 类留痕见… | Quasar QSlider | interactive（交互） | 35/2/3 | `Nova/Controls/NovaSlider.qml` |
+| 67 | **NovaSpace** | 占位空白 | QSpace | decorative（装饰） | 0/0/0 | `Nova/Controls/NovaSpace.qml` |
+| 68 | **NovaSpinner** | 加载指示器：variant 八变体（ring/ball/dots/hourglass/gears/grid/radio/comment，对标 QSpinner 系列） Canvas 逐帧绘制口径：统一 Timer 驱… | QSpinner | semantic（语义） | 6/0/0 | `Nova/Controls/NovaSpinner.qml` |
+| 69 | **NovaStep** | 步骤面板：name/title/caption/icon/prefix/done/error/disable + 状态图标覆盖（done/active/error 的 icon+color，'none' 退让 pre… | QStep | semantic（语义） | 18/0/0 | `Nova/Controls/NovaStep.qml` |
+| 70 | **NovaStepper** | 步骤条：受控 modelValue / 头部导航（headerNav 逐项开关）/ 状态图标解析 1:1 对标 2.35.6 StepHeader.js（active > error > done；step 级优先 | QStepper | semantic（语义） | 30/3/5 | `Nova/Controls/NovaStepper.qml` |
+| 71 | **NovaStepperNavigation** | 步骤导航槽容器：default 槽放 上一步/下一步等按钮；由宿主 NovaStepper 的 navigation 命名槽挂载渲染 | QStepperNavigation | semantic（语义） | 1/0/0 | `Nova/Controls/NovaStepperNavigation.qml` |
+| 72 | **NovaTab** | 标签页单项：name/label/icon/alert + default 槽自定义内容 | QTab | interactive（交互） | 11/1/2 | `Nova/Controls/NovaTab.qml` |
+| 73 | **NovaTabPanel** | 标签页面板：name 寻址 / disable | QTabPanel | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTabPanel.qml` |
+| 74 | **NovaTabPanels** | 面板容器：受控 modelValue / animated / infinite / swipeable（DragHandler 被动抓取）/ vertical / transitionDuration | QTabPanels | decorative（装饰） | 8/3/3 | `Nova/Controls/NovaTabPanels.qml` |
+| 75 | **NovaTable** | 数据表格 v0.11.0 基础：列定义/排序/过滤/分页/多选/展开行/grid 模式 v0.12.0 增强：虚拟滚动（virtualScroll + ListView 真虚拟化）/ 服务端模式 （serverSid… | QTable | interactive（交互） | 45/7/13 | `Nova/Controls/NovaTable.qml` |
+| 76 | **NovaTabs** | 标签页容器：受控 modelValue、横向滚动 + 溢出箭头 （outside-arrows/mobile-arrows）、align（left/center/right/justify）、breakpoint 自… | QTabs | interactive（交互） | 24/1/3 | `Nova/Controls/NovaTabs.qml` |
+| 77 | **NovaTd** | 单元格：文本/对齐/自定义内容 | QTd | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTd.qml` |
+| 78 | **NovaText** | 排版组件 | Quasar text-h1…caption + text-weight-* + text-muted/italic/strike/no-wrap 工具类 | semantic（语义） | 6/0/0 | `Nova/Controls/NovaText.qml` |
+| 79 | **NovaTh** | 表头单元格：文本/对齐/排序指示（受控模式：sortRequest 只上报） | QTh | interactive（交互） | 6/1/0 | `Nova/Controls/NovaTh.qml` |
+| 80 | **NovaTime** | 时钟面盘：时/分/秒三面切换、24h/12h(AM/PM)、options 过滤、nowBtn 对标 Quasar QTime（14 props；Nova 收口核心 12 项，validator/defaultDat… | Quasar QTime | interactive（交互） | 18/1/11 | `Nova/Controls/NovaTime.qml` |
+| 81 | **NovaTimeline** | 时间轴：tint 轴色 / side 左右停靠 / dense·comfortable·loose 三布局；default 槽为 NovaTimelineEntry 序列，条目经 _timelineRef 反向取宿主… | QTimeline | decorative（装饰） | 3/0/0 | `Nova/Controls/NovaTimeline.qml` |
+| 82 | **NovaTimelineEntry** | 时间轴条目：heading 标题态 / icon·avatar 轴点 / title·subtitle·body 三段内容 + titleSlot/subtitleSlot 命名槽；布局参数取自宿主 NovaTime… | QTimelineEntry | semantic（语义） | 11/0/0 | `Nova/Controls/NovaTimelineEntry.qml` |
+| 83 | **NovaToggle** | 开关：轨道+滑块换装 NovaCheckbox（复用三态/toggleOrder/val 全部值语义） 对标 Quasar QToggle（use-checkbox 18 + icon/iconColor） | Quasar QToggle | interactive（交互） | 3/0/0 | `Nova/Controls/NovaToggle.qml` |
+| 84 | **NovaToolbar** | 工具栏：水平排布行、min-height 50、inset 内容缩进 | QToolbar | semantic（语义） | 2/0/0 | `Nova/Controls/NovaToolbar.qml` |
+| 85 | **NovaToolbarTitle** | 工具栏标题：默认占满剩余宽度（shrink 反转收缩为内容宽） | QToolbarTitle | semantic（语义） | 3/0/0 | `Nova/Controls/NovaToolbarTitle.qml` |
+| 86 | **NovaTooltip** | 工具提示：target 悬停（delay/hideDelay）、anchor/self/offset 定位、text 便捷或 default 槽 就地渲染口径：z 提升于声明处（PARITY §0.14 留痕：非 p… | QTooltip | semantic（语义） | 13/5/5 | `Nova/Controls/NovaTooltip.qml` |
+| 87 | **NovaTr** | 表格行：选中高亮/点击上报（受控：selection 由宿主写回） | QTr | decorative（装饰） | 2/2/0 | `Nova/Controls/NovaTr.qml` |
+| 88 | **NovaTransition** | 过渡包装组件 | Quasar q-transition--fade/scale/rotate/slide-*/jump-*/flip-* 共 16 种 | decorative（装饰） | 7/2/0 | `Nova/Controls/NovaTransition.qml` |
+| 89 | **NovaTree** | 树控件 受控模式（坑位 22）：expanded/ticked/selected 均不自写，只 emit 由宿主写回 勾选策略：none（仅自身）/ strict（上下级联动+半选）/ lazy（仅向下联动已加载层）… | QTree | interactive（交互） | 29/5/11 | `Nova/Controls/NovaTree.qml` |
+| 90 | **NovaVideo** | 视频嵌入包装：QtMultimedia Video 的皮肤化容器， ratio 默认 16/9 等比缩放，controls 常驻（QML Video 自带回放控件） | QVideo | semantic（语义） | 3/0/0 | `Nova/Controls/NovaVideo.qml` |
+| 91 | **NovaVirtualScroll** | 虚拟滚动容器 items 数组 + delegate 组件 → 内部 ListView 真虚拟化（仅渲染可视窗口 + reuseItems） | QVirtualScroll | decorative（装饰） | 3/0/1 | `Nova/Controls/NovaVirtualScroll.qml` |
+| 92 | **NovaVisible** | 断点显隐：above/below/only 三种语义按 NovaScreen 断点控制 visible | Quasar gt-*/lt-* 可见性工具类 | decorative（装饰） | 3/0/2 | `Nova/Controls/NovaVisible.qml` |
 
 ## 二、Behaviors · 行为（13 项）
 
 | 序号 | 组件 | 说明 | 对标 Quasar | a11y | 属性/信号/方法 | QML 文件 |
 |---:|---|---|---|---|---:|---|
-| 92 | **NovaClosePopup** | 关闭弹层行为：点击宿主即关闭当前弹层栈的 N 层 | Quasar v-close-popup | decorative（装饰） | 7/1/2 | `Nova/Behaviors/NovaClosePopup.qml` |
-| 93 | **NovaFocusRing** | 焦点环行为：键盘模态下为可聚焦控件绘制焦点环（WCAG 2.4.7 焦点可见 / 1.4.11 非文本对比）——Quasar 无对应，Nova 增强 | Nova 增强 / 无对应 | decorative（装饰） | 6/0/0 | `Nova/Behaviors/NovaFocusRing.qml` |
-| 94 | **NovaIntersection** | 视口观察行为：进入/离开视口回调、阈值、once、rootMargin、once 再武装 | Quasar v-intersection | decorative（装饰） | 11/3/5 | `Nova/Behaviors/NovaIntersection.qml` |
-| 95 | **NovaLiveRegion** | 状态播报区：把 NovaA11y.notice() 的状态消息真正说给屏读器（WCAG 4.1.3 Status Messages）——Quasar 无对应，Nova 增强 | Nova 增强 / 无对应 | decorative（装饰） | 2/0/2 | `Nova/Behaviors/NovaLiveRegion.qml` |
-| 96 | **NovaMorph** | 元素形变行为： 同 group 的元素间形变过渡——morph() 时旧活动元素退出、ghost 影子从旧几何 形变至新元素几何、新元素显示（卡片展开为详情） | Quasar v-morph 指令 · 基线 2.35.5 语义 | decorative（装饰） | 7/2/2 | `Nova/Behaviors/NovaMorph.qml` |
-| 97 | **NovaMorphPool** | 形变分组注册表（单例）：group -> 当前活动目标 Item NovaMorph 依赖它协调同名 group 的元素切换（旧隐/新显 + 几何形变） ── | Nova 增强 / 无对应 | decorative（装饰） | 0/0/4 | `Nova/Behaviors/NovaMorphPool.qml` |
-| 98 | **NovaRipple** | 水波纹行为：作为子项挂载到任意 Item，color/duration 可定制 | Quasar v-ripple 指令 | decorative（装饰） | 2/0/3 | `Nova/Behaviors/NovaRipple.qml` |
-| 99 | **NovaScrollFire** | 首次进入视口触发一次的行为：阈值可调、可再武装 | Quasar v-scroll-fire | decorative（装饰） | 5/1/1 | `Nova/Behaviors/NovaScrollFire.qml` |
-| 100 | **NovaScrollObserver** | 滚动位置观察行为：滚动回调、方向、边界 | Quasar v-scroll | decorative（装饰） | 6/1/2 | `Nova/Behaviors/NovaScrollObserver.qml` |
-| 101 | **NovaTouchHold** | 长按行为：按住时长阈值、触摸/鼠标各自灵敏度、位移即取消 | Quasar v-touch-hold | decorative（装饰） | 8/2/0 | `Nova/Behaviors/NovaTouchHold.qml` |
-| 102 | **NovaTouchPan** | 拖动手势行为：方向/轴向过滤、首末标记、位移与增量、抓手光标 | Quasar v-touch-pan | decorative（装饰） | 10/1/0 | `Nova/Behaviors/NovaTouchPan.qml` |
-| 103 | **NovaTouchRepeat** | 按住连发行为：按序列延迟重复触发、可接键盘按键 | Quasar v-touch-repeat | decorative（装饰） | 7/1/0 | `Nova/Behaviors/NovaTouchRepeat.qml` |
-| 104 | **NovaTouchSwipe** | 快速滑动行为：速度阈值、触摸/鼠标各自最小距离、方向过滤 | Quasar v-touch-swipe | decorative（装饰） | 7/1/0 | `Nova/Behaviors/NovaTouchSwipe.qml` |
+| 93 | **NovaClosePopup** | 关闭弹层行为：点击宿主即关闭当前弹层栈的 N 层 | Quasar v-close-popup | decorative（装饰） | 7/1/2 | `Nova/Behaviors/NovaClosePopup.qml` |
+| 94 | **NovaFocusRing** | 焦点环行为：键盘模态下为可聚焦控件绘制焦点环（WCAG 2.4.7 焦点可见 / 1.4.11 非文本对比）——Quasar 无对应，Nova 增强 | Nova 增强 / 无对应 | decorative（装饰） | 6/0/0 | `Nova/Behaviors/NovaFocusRing.qml` |
+| 95 | **NovaIntersection** | 视口观察行为：进入/离开视口回调、阈值、once、rootMargin、once 再武装 | Quasar v-intersection | decorative（装饰） | 11/3/5 | `Nova/Behaviors/NovaIntersection.qml` |
+| 96 | **NovaLiveRegion** | 状态播报区：把 NovaA11y.notice() 的状态消息真正说给屏读器（WCAG 4.1.3 Status Messages）——Quasar 无对应，Nova 增强 | Nova 增强 / 无对应 | decorative（装饰） | 2/0/2 | `Nova/Behaviors/NovaLiveRegion.qml` |
+| 97 | **NovaMorph** | 元素形变行为： 同 group 的元素间形变过渡——morph() 时旧活动元素退出、ghost 影子从旧几何 形变至新元素几何、新元素显示（卡片展开为详情） | Quasar v-morph 指令 · 基线 2.35.5 语义 | decorative（装饰） | 7/2/2 | `Nova/Behaviors/NovaMorph.qml` |
+| 98 | **NovaMorphPool** | 形变分组注册表（单例）：group -> 当前活动目标 Item NovaMorph 依赖它协调同名 group 的元素切换（旧隐/新显 + 几何形变） ── | Nova 增强 / 无对应 | decorative（装饰） | 0/0/4 | `Nova/Behaviors/NovaMorphPool.qml` |
+| 99 | **NovaRipple** | 水波纹行为：作为子项挂载到任意 Item，color/duration 可定制 | Quasar v-ripple 指令 | decorative（装饰） | 2/0/3 | `Nova/Behaviors/NovaRipple.qml` |
+| 100 | **NovaScrollFire** | 首次进入视口触发一次的行为：阈值可调、可再武装 | Quasar v-scroll-fire | decorative（装饰） | 5/1/1 | `Nova/Behaviors/NovaScrollFire.qml` |
+| 101 | **NovaScrollObserver** | 滚动位置观察行为：滚动回调、方向、边界 | Quasar v-scroll | decorative（装饰） | 6/1/2 | `Nova/Behaviors/NovaScrollObserver.qml` |
+| 102 | **NovaTouchHold** | 长按行为：按住时长阈值、触摸/鼠标各自灵敏度、位移即取消 | Quasar v-touch-hold | decorative（装饰） | 8/2/0 | `Nova/Behaviors/NovaTouchHold.qml` |
+| 103 | **NovaTouchPan** | 拖动手势行为：方向/轴向过滤、首末标记、位移与增量、抓手光标 | Quasar v-touch-pan | decorative（装饰） | 10/1/0 | `Nova/Behaviors/NovaTouchPan.qml` |
+| 104 | **NovaTouchRepeat** | 按住连发行为：按序列延迟重复触发、可接键盘按键 | Quasar v-touch-repeat | decorative（装饰） | 7/1/0 | `Nova/Behaviors/NovaTouchRepeat.qml` |
+| 105 | **NovaTouchSwipe** | 快速滑动行为：速度阈值、触摸/鼠标各自最小距离、方向过滤 | Quasar v-touch-swipe | decorative（装饰） | 7/1/0 | `Nova/Behaviors/NovaTouchSwipe.qml` |
 
 ## 三、Services · 服务单例（16 项）
 
 | 序号 | 组件 | 说明 | 对标 Quasar | a11y | 属性/信号/方法 | QML 文件 |
 |---:|---|---|---|---|---:|---|
-| 105 | **NovaApp** | 窗口服务单例：全屏/最大化/最小化、窗口标题、可见与激活状态 | AppFullscreen + AppVisibility + Meta | decorative（装饰） | 9/0/8 | `Nova/Services/NovaApp.qml` |
-| 106 | **NovaDialog** | 全局对话框服务单例：27 项配置对账、五向定位、双按钮契约、关闭原因上报、句柄更新 | Dialog 插件 | decorative（装饰） | 5/0/6 | `Nova/Services/NovaDialog.qml` |
-| 107 | **NovaDialogHandle** | 对话框句柄：show() 返回值，hide()/update()/ok()/cancel()/valid + 三信号 | createDialog 的链式句柄 | decorative（装饰） | 2/3/4 | `Nova/Services/NovaDialogHandle.qml` |
-| 108 | **NovaI18n** | 国际化服务单例 基线事实（npm quasar@2.35.5 Lang 源码核实）： $q.lang.isoName / $q.lang.rtl / $q.lang.set(locale) / $q.lang.pro… | Quasar Lang 插件 $q.lang + vue-i18n 语义 | decorative（装饰） | 7/0/10 | `Nova/Services/NovaI18n.qml` |
-| 109 | **NovaIntersectionPool** | 视口观察池单例：一个定时器驱动全部订阅者批量求值 | Quasar 2.30 共享 IntersectionObserver 池 | decorative（装饰） | 3/0/10 | `Nova/Services/NovaIntersectionPool.qml` |
-| 110 | **NovaLoading** | 全局加载服务单例：引用计数并发、delay 防闪烁、局部/全屏、超时保护、三种 spinner | Loading 插件 | decorative（装饰） | 10/0/10 | `Nova/Services/NovaLoading.qml` |
-| 111 | **NovaLoadingBar** | 命令式顶部进度服务单例：start/increment/stop 懒创建内部 NovaAjaxBar 挂 NovaOverlayHost（zTop 层）；无窗口时降级 no-op | LoadingBar 插件 | decorative（装饰） | 0/0/3 | `Nova/Services/NovaLoadingBar.qml` |
-| 112 | **NovaLoadingHandle** | 加载句柄：show() 返回值，hide()/update() + valid/count（引用计数语义，Nova 增强） | Nova 增强 / 无对应 | decorative（装饰） | 5/0/2 | `Nova/Services/NovaLoadingHandle.qml` |
-| 113 | **NovaNotify** | 全局通知服务单例：29 项配置对账、9 位位置栈、分组徽标、句柄更新、关闭原因上报 | Notify 插件 | decorative（装饰） | 9/0/12 | `Nova/Services/NovaNotify.qml` |
-| 114 | **NovaNotifyAction** | 通知动作项：label/icon/tint/noDismiss + triggered() 信号或 handler 回调 | Notify actions 数组项 | decorative（装饰） | 7/1/0 | `Nova/Services/NovaNotifyAction.qml` |
-| 115 | **NovaNotifyHandle** | 通知句柄：show() 返回值，dismiss()/update(props)/valid 三面 | Notify.create 返回的句柄函数 | decorative（装饰） | 2/0/2 | `Nova/Services/NovaNotifyHandle.qml` |
-| 116 | **NovaOverlayHost** | 全局弹层宿主单例：把动态 Item 挂到窗口顶层 overlay 并按层叠令牌分配 z | Quasar createGlobalNode | decorative（装饰） | 2/0/7 | `Nova/Services/NovaOverlayHost.qml` |
-| 117 | **NovaPlatform** | 平台信息服务单例：操作系统判定、触摸能力、移动/桌面/WebAssembly 分流 | Platform 插件 | decorative（装饰） | 14/0/2 | `Nova/Services/NovaPlatform.qml` |
-| 118 | **NovaScreen** | 屏幕断点单例：xs/sm/md/lg/xl（600/1024/1440/1920），is/lt/gt 语义 1:1 对标 Quasar Screen 插件 | Quasar Screen 插件 | decorative（装饰） | 18/0/1 | `Nova/Services/NovaScreen.qml` |
-| 119 | **NovaStorage** | 持久化服务单例：命名空间隔离、JSON 值序列化、Web Storage 别名、落盘到 ini | LocalStorage / SessionStorage | decorative（装饰） | 4/0/16 | `Nova/Services/NovaStorage.qml` |
-| 120 | **NovaTheme** | 设计令牌单例：三级令牌体系、明暗双主题一键切换、运行时品牌换肤、0~5 级阴影 | Quasar brand + Dark 插件 | decorative（装饰） | 65/0/7 | `Nova/Services/NovaTheme.qml` |
+| 106 | **NovaApp** | 窗口服务单例：全屏/最大化/最小化、窗口标题、可见与激活状态 | AppFullscreen + AppVisibility + Meta | decorative（装饰） | 9/0/8 | `Nova/Services/NovaApp.qml` |
+| 107 | **NovaDialog** | 全局对话框服务单例：27 项配置对账、五向定位、双按钮契约、关闭原因上报、句柄更新 | Dialog 插件 | decorative（装饰） | 5/0/6 | `Nova/Services/NovaDialog.qml` |
+| 108 | **NovaDialogHandle** | 对话框句柄：show() 返回值，hide()/update()/ok()/cancel()/valid + 三信号 | createDialog 的链式句柄 | decorative（装饰） | 2/3/4 | `Nova/Services/NovaDialogHandle.qml` |
+| 109 | **NovaI18n** | 国际化服务单例 基线事实（npm quasar@2.35.5 Lang 源码核实）： $q.lang.isoName / $q.lang.rtl / $q.lang.set(locale) / $q.lang.pro… | Quasar Lang 插件 $q.lang + vue-i18n 语义 | decorative（装饰） | 7/0/10 | `Nova/Services/NovaI18n.qml` |
+| 110 | **NovaIntersectionPool** | 视口观察池单例：一个定时器驱动全部订阅者批量求值 | Quasar 2.30 共享 IntersectionObserver 池 | decorative（装饰） | 3/0/10 | `Nova/Services/NovaIntersectionPool.qml` |
+| 111 | **NovaLoading** | 全局加载服务单例：引用计数并发、delay 防闪烁、局部/全屏、超时保护、三种 spinner | Loading 插件 | decorative（装饰） | 10/0/10 | `Nova/Services/NovaLoading.qml` |
+| 112 | **NovaLoadingBar** | 命令式顶部进度服务单例：start/increment/stop 懒创建内部 NovaAjaxBar 挂 NovaOverlayHost（zTop 层）；无窗口时降级 no-op | LoadingBar 插件 | decorative（装饰） | 0/0/3 | `Nova/Services/NovaLoadingBar.qml` |
+| 113 | **NovaLoadingHandle** | 加载句柄：show() 返回值，hide()/update() + valid/count（引用计数语义，Nova 增强） | Nova 增强 / 无对应 | decorative（装饰） | 5/0/2 | `Nova/Services/NovaLoadingHandle.qml` |
+| 114 | **NovaNotify** | 全局通知服务单例：29 项配置对账、9 位位置栈、分组徽标、句柄更新、关闭原因上报 | Notify 插件 | decorative（装饰） | 9/0/12 | `Nova/Services/NovaNotify.qml` |
+| 115 | **NovaNotifyAction** | 通知动作项：label/icon/tint/noDismiss + triggered() 信号或 handler 回调 | Notify actions 数组项 | decorative（装饰） | 7/1/0 | `Nova/Services/NovaNotifyAction.qml` |
+| 116 | **NovaNotifyHandle** | 通知句柄：show() 返回值，dismiss()/update(props)/valid 三面 | Notify.create 返回的句柄函数 | decorative（装饰） | 2/0/2 | `Nova/Services/NovaNotifyHandle.qml` |
+| 117 | **NovaOverlayHost** | 全局弹层宿主单例：把动态 Item 挂到窗口顶层 overlay 并按层叠令牌分配 z | Quasar createGlobalNode | decorative（装饰） | 2/0/7 | `Nova/Services/NovaOverlayHost.qml` |
+| 118 | **NovaPlatform** | 平台信息服务单例：操作系统判定、触摸能力、移动/桌面/WebAssembly 分流 | Platform 插件 | decorative（装饰） | 14/0/2 | `Nova/Services/NovaPlatform.qml` |
+| 119 | **NovaScreen** | 屏幕断点单例：xs/sm/md/lg/xl（600/1024/1440/1920），is/lt/gt 语义 1:1 对标 Quasar Screen 插件 | Quasar Screen 插件 | decorative（装饰） | 18/0/1 | `Nova/Services/NovaScreen.qml` |
+| 120 | **NovaStorage** | 持久化服务单例：命名空间隔离、JSON 值序列化、Web Storage 别名、落盘到 ini | LocalStorage / SessionStorage | decorative（装饰） | 4/0/16 | `Nova/Services/NovaStorage.qml` |
+| 121 | **NovaTheme** | 设计令牌单例：三级令牌体系、明暗双主题一键切换、运行时品牌换肤、0~5 级阴影 | Quasar brand + Dark 插件 | decorative（装饰） | 65/0/7 | `Nova/Services/NovaTheme.qml` |
 
 ## 四、Design · 设计层（4 项）
 
 | 序号 | 组件 | 说明 | 对标 Quasar | a11y | 属性/信号/方法 | QML 文件 |
 |---:|---|---|---|---|---:|---|
-| 121 | **NovaA11y** | 可访问性单例：WCAG 2.1 AA 对比度数学、AA 兜底派生令牌、键盘焦点可见性语义、状态播报与语义词汇表 | Quasar 无——Nova 增强 | decorative（装饰） | 10/0/14 | `Nova/Design/NovaA11y.qml` |
-| 122 | **NovaIconSet** | 图标集单例：14 套内置图标集全键 1:1、provider 注册表、图标名归一化解析器 | Quasar $q.iconSet + IconSet 插件 | decorative（装饰） | 23/0/11 | `Nova/Design/NovaIconSet.qml` |
-| 123 | **NovaMotion** | 动效令牌单例 | Quasar --q-transition-duration/.3s + q-transition--* 12 种过渡 + q-animate--* 2 种动画 | decorative（装饰） | 20/0/3 | `Nova/Design/NovaMotion.qml` |
-| 124 | **NovaUtils** | 工具层单例：colors 12 / date 21（formatDate 44 token）/ format 6 / is 5 / debounce / throttle / frameDebounce / uid … | Quasar utils | decorative（装饰） | 6/0/14 | `Nova/Design/NovaUtils.qml` |
+| 122 | **NovaA11y** | 可访问性单例：WCAG 2.1 AA 对比度数学、AA 兜底派生令牌、键盘焦点可见性语义、状态播报与语义词汇表 | Quasar 无——Nova 增强 | decorative（装饰） | 10/0/14 | `Nova/Design/NovaA11y.qml` |
+| 123 | **NovaIconSet** | 图标集单例：14 套内置图标集全键 1:1、provider 注册表、图标名归一化解析器 | Quasar $q.iconSet + IconSet 插件 | decorative（装饰） | 23/0/11 | `Nova/Design/NovaIconSet.qml` |
+| 124 | **NovaMotion** | 动效令牌单例 | Quasar --q-transition-duration/.3s + q-transition--* 12 种过渡 + q-animate--* 2 种动画 | decorative（装饰） | 20/0/3 | `Nova/Design/NovaMotion.qml` |
+| 125 | **NovaUtils** | 工具层单例：colors 12 / date 21（formatDate 44 token）/ format 6 / is 5 / debounce / throttle / frameDebounce / uid … | Quasar utils | decorative（装饰） | 6/0/14 | `Nova/Design/NovaUtils.qml` |
 
 ## 五、Composite/LayoutShell · 组合组件（15 项根容器）（20 项）
 
 | 序号 | 组件 | 说明 | 对标 Quasar | a11y | 属性/信号/方法 | QML 文件 |
 |---:|---|---|---|---|---:|---|
-| 125 | **NovaAgent** | 智能体任务执行工作台壳：任务列 + 编排画布 + 验证轨 + 审批闸 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | NovaAgent 八项准入控制 | decorative（装饰） | 19/3/3 | `Nova/Composite/LayoutShell/NovaAgent.qml` |
-| 126 | **NovaBlankPage** | 纯净单页壳：居中阅读栏 + Header + Content + Footer，最克制的可定制基底（无侧栏 / 无标签导航） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零… | Nova 增强 / 无对应 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaBlankPage.qml` |
-| 127 | **NovaCardGrid** | 卡片网格壳：筛选工具条 + 网格骨架 + 分页状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 组件画廊 / 模板市场 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaCardGrid.qml` |
-| 128 | **NovaChat** | AI 对话主窗口壳：六槽多轨工作台，组合态一致性契约（CC）落地标杆 组合态（宪法 0.9.0）：根内以 _ 私有 readonly 声明唯一组合上下文（密度/层级/动效/品牌色），六轨共享 | WorkBuddy 桌面端主窗口 | decorative（装饰） | 23/3/3 | `Nova/Composite/LayoutShell/NovaChat.qml` |
-| 129 | **NovaCompare** | 双栏对比壳：中缝分隔 + 等宽双面板 + 控制栏 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 代码 / 配置 diff 工具 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaCompare.qml` |
-| 130 | **NovaCopilot** | 增强型协作面板壳：建议列 + 工作画布 + 动作闸门轨  组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | NovaCopilot 建议—确认—执行契约与 Draft/Confirm/Read-Only 三模 | decorative（装饰） | 16/3/3 | `Nova/Composite/LayoutShell/NovaCopilot.qml` |
-| 131 | **NovaDE** | 数字员工岗位工作台壳：岗位条 + 任务队列 + 工作画布 + SLA 轨 + 人工交接条  组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全部轨共享 | NovaDE 四要件：岗位形态 / 任务队列 / 能力调用 / 队伍级治理 | decorative（装饰） | 19/3/3 | `Nova/Composite/LayoutShell/NovaDE.qml` |
-| 132 | **NovaDesktop** | 桌面应用根壳：窗口控制点 + 菜单栏 + 工具栏 + 页面 + 状态栏，组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一三栏密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 v… | QMainWindow | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaDesktop.qml` |
-| 133 | **NovaDrawerPanel** | 侧边滑出面板壳：单色系侧缘轨 + 抽象短条 + 非模态临时面板（区别于常驻 Sidebar） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Nova 增强 / 无对应 | decorative（装饰） | 12/1/1 | `Nova/Composite/LayoutShell/NovaDrawerPanel.qml` |
-| 134 | **NovaDualSide** | 双侧边工作台壳：左导航 + 中央画布 + 右属性，两侧独立折叠 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；两侧宽度归零 + 恒定锚链（CC-5） | Qt Designer / VSCode 三栏布局 | decorative（装饰） | 12/2/2 | `Nova/Composite/LayoutShell/NovaDualSide.qml` |
-| 135 | **NovaFlexLayout** | 企业大屏弹性布局壳：columns 驱动的浮起面板网格 + 自适应分栏（HMI / 工控大屏），组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一网格密度/层级/动效；header/fo… | Nova 增强 / 无对应 | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaFlexLayout.qml` |
-| 136 | **NovaIncubator** | 应用孵化器工作台壳：全局栏 + 配方库 + 孵化舞台 + CARF 四阶段条 + 三重校验 + 封版证书 + 浮层 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，… | Nova 增强 / 无对应 | decorative（装饰） | 22/3/3 | `Nova/Composite/LayoutShell/NovaIncubator.qml` |
-| 137 | **NovaMobile** | 移动应用根壳：安全区 + 灵动岛 + 内容 + 底部导航 + home indicator，组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一安全区/头/底栏密度与动效；栏高归零 + 恒… | Quasar QLayout mobile | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaMobile.qml` |
-| 138 | **NovaModal** | 模态弹窗壳：单色系顶条 + 抽象短条 + 浮起卡片 + 遮罩，ESC / 点遮罩关闭 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QDialog | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaModal.qml` |
-| 139 | **NovaOrbit** | 意图轨道工作台壳：全局栏 + 轨道态势栏 + 意图场 + 活产物画布（NovaChat 天花板形态） 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | Nova 增强 / 无对应 | decorative（装饰） | 22/3/3 | `Nova/Composite/LayoutShell/NovaOrbit.qml` |
-| 140 | **NovaSetupWizard** | 安装配置向导壳：三态步骤时间轴 + 当前步内容 + 上一步/下一步控制区 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QStepper | decorative（装饰） | 14/3/0 | `Nova/Composite/LayoutShell/NovaSetupWizard.qml` |
-| 141 | **NovaSidebar** | 侧边导航工作台壳：单色系品牌渐变轨 + 浮起侧栏卡 + 五槽骨架 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 visible 三元跳变） | Quasar QLayout + QDrawer | decorative（装饰） | 14/1/1 | `Nova/Composite/LayoutShell/NovaSidebar.qml` |
-| 142 | **NovaTabShell** | 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QTabs | decorative（装饰） | 8/3/0 | `Nova/Composite/LayoutShell/NovaTabShell.qml` |
-| 143 | **NovaThreeColumn** | 三栏工作台壳：目录树 / 中列表 / 详情，三级深度色阶 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 资源管理器布局 | decorative（装饰） | 13/1/0 | `Nova/Composite/LayoutShell/NovaThreeColumn.qml` |
-| 144 | **NovaTopNavigation** | 顶部导航工作台壳：胶囊导航台 + 悬浮下拉 + 主内容 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QLayout header 导航 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaTopNavigation.qml` |
+| 126 | **NovaAgent** | 智能体任务执行工作台壳：任务列 + 编排画布 + 验证轨 + 审批闸 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | NovaAgent 八项准入控制 | decorative（装饰） | 19/3/3 | `Nova/Composite/LayoutShell/NovaAgent.qml` |
+| 127 | **NovaBlankPage** | 纯净单页壳：居中阅读栏 + Header + Content + Footer，最克制的可定制基底（无侧栏 / 无标签导航） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零… | Nova 增强 / 无对应 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaBlankPage.qml` |
+| 128 | **NovaCardGrid** | 卡片网格壳：筛选工具条 + 网格骨架 + 分页状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 组件画廊 / 模板市场 | decorative（装饰） | 9/0/0 | `Nova/Composite/LayoutShell/NovaCardGrid.qml` |
+| 129 | **NovaChat** | AI 对话主窗口壳：六槽多轨工作台，组合态一致性契约（CC）落地标杆 组合态（宪法 0.9.0）：根内以 _ 私有 readonly 声明唯一组合上下文（密度/层级/动效/品牌色），六轨共享 | WorkBuddy 桌面端主窗口 | decorative（装饰） | 23/3/3 | `Nova/Composite/LayoutShell/NovaChat.qml` |
+| 130 | **NovaCompare** | 双栏对比壳：中缝分隔 + 等宽双面板 + 控制栏 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 代码 / 配置 diff 工具 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaCompare.qml` |
+| 131 | **NovaCopilot** | 增强型协作面板壳：建议列 + 工作画布 + 动作闸门轨  组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | NovaCopilot 建议—确认—执行契约与 Draft/Confirm/Read-Only 三模 | decorative（装饰） | 16/3/3 | `Nova/Composite/LayoutShell/NovaCopilot.qml` |
+| 132 | **NovaDE** | 数字员工岗位工作台壳：岗位条 + 任务队列 + 工作画布 + SLA 轨 + 人工交接条  组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全部轨共享 | NovaDE 四要件：岗位形态 / 任务队列 / 能力调用 / 队伍级治理 | decorative（装饰） | 19/3/3 | `Nova/Composite/LayoutShell/NovaDE.qml` |
+| 133 | **NovaDesktop** | 桌面应用根壳：窗口控制点 + 菜单栏 + 工具栏 + 页面 + 状态栏，组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一三栏密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 v… | QMainWindow | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaDesktop.qml` |
+| 134 | **NovaDrawerPanel** | 侧边滑出面板壳：单色系侧缘轨 + 抽象短条 + 非模态临时面板（区别于常驻 Sidebar） 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Nova 增强 / 无对应 | decorative（装饰） | 12/1/1 | `Nova/Composite/LayoutShell/NovaDrawerPanel.qml` |
+| 135 | **NovaDualSide** | 双侧边工作台壳：左导航 + 中央画布 + 右属性，两侧独立折叠 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；两侧宽度归零 + 恒定锚链（CC-5） | Qt Designer / VSCode 三栏布局 | decorative（装饰） | 12/2/2 | `Nova/Composite/LayoutShell/NovaDualSide.qml` |
+| 136 | **NovaFlexLayout** | 企业大屏弹性布局壳：columns 驱动的浮起面板网格 + 自适应分栏（HMI / 工控大屏），组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一网格密度/层级/动效；header/fo… | Nova 增强 / 无对应 | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaFlexLayout.qml` |
+| 137 | **NovaIncubator** | 应用孵化器工作台壳：全局栏 + 配方库 + 孵化舞台 + CARF 四阶段条 + 三重校验 + 封版证书 + 浮层 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，… | Nova 增强 / 无对应 | decorative（装饰） | 24/4/3 | `Nova/Composite/LayoutShell/NovaIncubator.qml` |
+| 138 | **NovaMobile** | 移动应用根壳：安全区 + 灵动岛 + 内容 + 底部导航 + home indicator，组合态一致性契约（CC）落地 组合态（宪法 0.9.0）：_ 私有组合上下文统一安全区/头/底栏密度与动效；栏高归零 + 恒… | Quasar QLayout mobile | decorative（装饰） | 11/1/0 | `Nova/Composite/LayoutShell/NovaMobile.qml` |
+| 139 | **NovaModal** | 模态弹窗壳：单色系顶条 + 抽象短条 + 浮起卡片 + 遮罩，ESC / 点遮罩关闭 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QDialog | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaModal.qml` |
+| 140 | **NovaOrbit** | 意图轨道工作台壳：全局栏 + 轨道态势栏 + 意图场 + 活产物画布（NovaChat 天花板形态） 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全轨共享 | Nova 增强 / 无对应 | decorative（装饰） | 22/3/3 | `Nova/Composite/LayoutShell/NovaOrbit.qml` |
+| 141 | **NovaSetupWizard** | 安装配置向导壳：三态步骤时间轴 + 当前步内容 + 上一步/下一步控制区 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QStepper | decorative（装饰） | 14/3/0 | `Nova/Composite/LayoutShell/NovaSetupWizard.qml` |
+| 142 | **NovaSidebar** | 侧边导航工作台壳：单色系品牌渐变轨 + 浮起侧栏卡 + 五槽骨架 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5，消除 visible 三元跳变） | Quasar QLayout + QDrawer | decorative（装饰） | 14/1/1 | `Nova/Composite/LayoutShell/NovaSidebar.qml` |
+| 143 | **NovaTabShell** | 标签页工作台壳：下划线激活指示条 + 标签栏 + 内容容器 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QTabs | decorative（装饰） | 8/3/0 | `Nova/Composite/LayoutShell/NovaTabShell.qml` |
+| 144 | **NovaThreeColumn** | 三栏工作台壳：目录树 / 中列表 / 详情，三级深度色阶 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | 资源管理器布局 | decorative（装饰） | 13/1/0 | `Nova/Composite/LayoutShell/NovaThreeColumn.qml` |
+| 145 | **NovaTopNavigation** | 顶部导航工作台壳：胶囊导航台 + 悬浮下拉 + 主内容 + 状态栏 组合态（宪法 1.0.0 CARF-R）：_ 私有组合上下文统一密度/层级/动效；栏高归零 + 恒定锚链（CC-5） | Quasar QLayout header 导航 | decorative（装饰） | 11/1/1 | `Nova/Composite/LayoutShell/NovaTopNavigation.qml` |
 
 ---
 
@@ -191,11 +192,11 @@
 
 | 模块 | 数量 | 占比 |
 |---|---:|---:|
-| Controls · 控件 | 91 | 63.2% |
+| Controls · 控件 | 92 | 63.4% |
 | Behaviors · 行为 | 13 | 9.0% |
-| Services · 服务单例 | 16 | 11.1% |
+| Services · 服务单例 | 16 | 11.0% |
 | Design · 设计层 | 4 | 2.8% |
-| Composite/LayoutShell · 组合组件（15 项根容器） | 20 | 13.9% |
-| **合计** | **144** | **100%** |
+| Composite/LayoutShell · 组合组件（15 项根容器） | 20 | 13.8% |
+| **合计** | **145** | **100%** |
 
-a11y 契约分布：decorative 84 / interactive 32 / semantic 28。完整契约见 [A11Y_MATRIX.md](A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成）。
+a11y 契约分布：decorative 84 / interactive 32 / semantic 29。完整契约见 [A11Y_MATRIX.md](A11Y_MATRIX.md)（`scripts/check_a11y.py` 生成）。

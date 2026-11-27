@@ -63,6 +63,10 @@ def init_nova(engine) -> None:
     Args:
         engine: ``QQmlEngine`` 或 ``QQmlApplicationEngine`` 实例。
     """
+    # 资源注册（导入即注册 qrc:/icons/*，供 10 个组合根的应用图标 Image 使用）。
+    # 模块顶层只导入一次，Qt 资源系统按进程幂等；失败不阻断 QML 模块注册。
+    from .resources import resources_rc  # noqa: F401
+
     engine.addImportPath(QML_ROOT)
     _ensure_runtime()
     # 0.16.0：输入模态（focus-visible）需要应用级事件过滤器，随 init_nova 一并装好

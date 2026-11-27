@@ -52,6 +52,8 @@ Item {
     function requestOrbit() { root.orbitRequested() }
 
     readonly property bool belowBreakpoint: width > 0 && width < root.breakpoint
+    // 应用身份图标（qrc:/icons/app-orbit.svg；私有 _ 前缀不进冻结面，decorative）
+    readonly property url _appIcon: "qrc:/icons/app-orbit"
 
     implicitWidth: 1440
     implicitHeight: 900
@@ -91,6 +93,17 @@ Item {
         Math.min(1, NovaTheme.primary.hsvValue * (NovaTheme.isDark ? 1.5 : 1.28)), 1)
 
     Rectangle { anchors.fill: parent; color: NovaTheme.page }
+    NovaIcon {
+        id: _appBadge
+        objectName: "_appBadge"
+        icon: "img:" + root._appIcon
+        size: root._unit * 4
+        monochrome: false
+        anchors { top: parent.top; left: parent.left; topMargin: root._unit; leftMargin: root._unit }
+        opacity: 0.9
+        z: NovaTheme.zMarginals
+        // 应用身份徽记：decorative 语义，a11yLabel 留空由注入内容承担语义
+    }
 
     // ── 1. 全局栏（身份 · 租户 · 全局搜索 · 通知；NovaChat 基座呈现位）──
     Item {

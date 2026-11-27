@@ -141,6 +141,10 @@
    "params": "s"
   },
   {
+   "name": "_typedOf",
+   "params": "t"
+  },
+  {
    "name": "_emitChange",
    "params": ""
   },

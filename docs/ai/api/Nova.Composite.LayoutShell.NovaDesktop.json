@@ -235,6 +235,14 @@
    "default": ": Qt.lighter(root._accent, 1.7)",
    "doc": null,
    "line": 66
+  },
+  {
+   "name": "_appIcon",
+   "type": "url",
+   "readonly": true,
+   "default": ": \"qrc:/icons/app-desktop\"",
+   "doc": null,
+   "line": 72
   }
  ],
  "signals": [

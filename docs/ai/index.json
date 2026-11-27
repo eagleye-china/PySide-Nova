@@ -1,16 +1,16 @@
 {
   "package": "pyside-nova",
-  "version": "1.2.4",
+  "version": "1.4.0",
   "baseline": "Quasar 2.35.5",
-  "generated": "2026-11-26",
+  "generated": "2026-11-27",
   "modules": {
     "Nova.Behaviors": 13,
     "Nova.Composite.LayoutShell": 20,
-    "Nova.Controls": 91,
+    "Nova.Controls": 92,
     "Nova.Design": 4,
     "Nova.Services": 16
   },
-  "types_total": 144,
+  "types_total": 145,
   "pages": [
     "README_zh.md",
     "CHANGELOG.md",
@@ -28,6 +28,6 @@
     "ROADMAP.md",
     "API_FREEZE.md"
   ],
-  "fingerprint": "6cec710491d8f2db",
+  "fingerprint": "fc54c0bf2c5e8141",
   "usage": "AI agents: use scripts/nova_mcp.py tools (search_docs/list_pages/get_page/list_api/get_api/check_updates) — offline, version-exact."
 }
