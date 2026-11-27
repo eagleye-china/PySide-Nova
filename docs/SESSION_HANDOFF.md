@@ -2,7 +2,15 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（**更新于 1.11.0 · 2026-11-28 T3 完现销号校准 · 1.10.0 已由 CSA 发布**：HEAD `1fb87d9 chore(release): v1.10.0` · tag `v1.10.0` 同提交；上方新增「T3 现行校准」段覆盖下方全部快照 —— **T3 migrate2nova 完现销号（100% 迁移）** + 第 11 枚应用图标 / 第 11 套专属暗色主题完现；下方 T29 / T29-A 段及更早全部快照按「史料不圆场」逐字保留为史料）
+> **每次交付随宪法迭代记录表同步更新本文件。**（**更新于 2026-11-28 04:50 · 发布态校准 + nova-forge 升 0.6.0 待 CSA 发布**：新增「发布态校准」段覆盖下方 T3 段的发布态口径；**pyside-nova 1.11.0 已由 CSA 发布**（HEAD `596f304` = tag `v1.11.0` = `origin/main`，工作树干净）· **nova-forge 0.5.0 已发布**且 T3 全套已随 `eb0bfef9d` 推送 `origin/main`；下方 T3 / T29 / T29-A 段及更早全部快照按「史料不圆场」逐字保留为史料）
+
+## 🆕 发布态校准（2026-11-28 04:50 · 只读扫描 ruff 挂账 + 升版 0.6.0 待 CSA 发布 · 覆盖下方 T3 现行校准段的「发布态」口径；下方全部保留为史料）
+
+- **CSA 指令与拍板**：「先扫一下 ruff 那 15 条挂账，再发布」→ ① ruff 15 条**保持存量直接发**（不修，仅如实登记）；② **CSA 自行发版**，小诺只交付发布就绪清单；③ nova-forge 新版本 **0.6.0 minor**。
+- **发布事实（磁盘为准 · 账实不符已校准）**：`pyside-nova` HEAD `596f304 chore(release): v1.11.0` = tag `v1.11.0` = `origin/main`，工作树干净 → **1.11.0 已由 CSA 发布**（此前「本地完成待 CSA 发布」口径过期）；`nova-forge` tag `v0.5.0` → `db76dd5e1`（**0.5.0 已发布**），HEAD `eb0bfef9d chore(release): v0.5.0` = `origin/main` 比 tag 多 1 个提交，正是 T3 全套（`migrate/` 9 文件 / `cmd_migrate.py` / `app-aireport.svg` / README·CHANGELOG），**已 commit + push、尚无新 tag**。两仓库工作树均 0 改动。
+- **发布前置阻塞（本轮解除）**：`pyproject.toml` 原 `0.5.0`、CHANGELOG 顶部原 `[Unreleased]`；`.github/workflows/publish.yml` 门禁 1 强制 **tag 版本 == pyproject 版本**、门禁 2 **PyPI 查重**，且 `v0.5.0` tag 已占用 → 直接发必被拒。本轮升 `0.6.0`、归档 `[0.6.0]`、`docs/PRESCRIPT_GALLERY.md` 版本同步；测试夹具中的 `"0.5.0"` 是入参常量、非版本声明，按最小改动不回改。
+- **ruff 15 条挂账（只读扫描 · 保持不修）**：`UP012` 7 / `F401` 3 / `N802` 2 / `RUF005` 1 / `SIM105` 1 / `RUF015` 1，落 `tests/test_comment.py`、`cmd_saver.py`、`cmd_publish.py`、`core/comment_logic.py`、`resources/resources_rc.py`；9 条 `--fix` 可修、6 条需手工或豁免。全部为 `v0.5.0` 及更早存量，T3 新增文件 ruff 全净 → **不阻塞发布**。`N802` 是 `pyside6-rcc` 生成物固有、`cmd_saver.py` 的 `import resources_rc` 是「导入即注册 qrc」误报倾向，故不一把 `--fix --unsafe-fixes` 梭哈。上一轮「均在 T23 未改动文件」口径不准确，此处如实校准。
+- **本轮边界**：只做升版 / 归档 / 六处账本校准 / 发布就绪清单；**不执行 commit / tag / push / PyPI / 站点上线**。`pyside-nova 1.11.0` 冻结面（147 类型 / 指纹 `9966483dda5a53c4`）零改动、不升版、不重签。待办池 0 项、下一个 T30。
 
 ## 🆕 T3 现行校准（2026-11-28 · migrate2nova 完现销号「100% 迁移」+ 第 11 枚应用图标 / 专属暗色主题 · 覆盖下方 1.11.0 / T29-A 及更早快照；下方全部保留为史料）
 
