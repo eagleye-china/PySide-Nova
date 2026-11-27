@@ -110,6 +110,7 @@ nav:
       - NovaCopilot: components/NovaCopilot.md
       - NovaOrbit: components/NovaOrbit.md
       - NovaIncubator: components/NovaIncubator.md
+      - NovaAIReport: components/NovaAIReport.md
   - 组件分类与架构分层:
       - 组件分类实用指南（现行）: prescript/GUIDE_CLASSIFICATION.md
       - 基础组件域分类与依赖纪律（现行）: prescript/GUIDE_COMPONENT_DOMAINS.md
@@ -144,9 +145,10 @@ nav:
   - 体系:
       - 企业级旗舰封版徽标规范（现行）: prescript/GUIDE_BRAND_MARK.md
       - 架构说明: ARCHITECTURE.md
-      - 组件清单（146 项）: COMPONENT_LIST.md
+      - 组件清单（147 项）: COMPONENT_LIST.md
       - NovaMarkdown 使用文档: controls/NovaMarkdown.md
       - NovaDataGrid 使用文档: controls/NovaDataGrid.md
+      - NovaAIReport 使用文档: controls/NovaAIReport.md
       - 组件详解（历史稿）: COMPONENTS.md
       - 设计令牌: DESIGN_TOKENS.md
       - 国际化指南: I18N.md

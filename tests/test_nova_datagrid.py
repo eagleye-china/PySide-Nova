@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 QML = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaDataGrid.qml"
 QMLDIR = SRC / "pyside_nova" / "qml" / "Nova" / "Controls" / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaDataGrid.md"
-MANIFEST = ROOT / "api" / "nova-api-1.5.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.6.0.json"
 KEY = "Nova.Controls.NovaDataGrid"
 
 EXPECTED_SIGNALS = {
@@ -69,8 +69,8 @@ def test_qmldir_exports_type():
 
 
 def test_frozen_surface(manifest):
-    assert manifest["apiVersion"] == "1.5.0"
-    assert manifest["counts"]["total"] == 146
+    assert manifest["apiVersion"] == "1.6.0"
+    assert manifest["counts"]["total"] == 147
     assert manifest["counts"]["modules"]["Nova.Controls"] == 93
     assert manifest["counts"]["a11y"]["interactive"] == 33
     info = manifest["types"][KEY]
@@ -90,7 +90,9 @@ def test_old_145_types_unchanged(manifest):
     old = json.loads((ROOT / "api" / "nova-api-1.4.0.json").read_text(encoding="utf-8"))
     diff = [k for k, v in old["types"].items() if manifest["types"].get(k) != v]
     assert not diff, f"旧类型被改动：{diff[:5]}"
-    assert set(manifest["types"]) - set(old["types"]) == {KEY}
+    # 1.5.0 最终冻结面相对 1.4.0 新增两类型：NovaDataGrid（本测试主角）+ NovaAIReport（第 21 组合根）
+    assert set(manifest["types"]) - set(old["types"]) == {
+        KEY, "Nova.Composite.LayoutShell.NovaAIReport"}
 
 
 def test_zero_third_party_dependency():

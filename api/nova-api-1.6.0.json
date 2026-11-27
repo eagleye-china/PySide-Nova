@@ -1,0 +1,4086 @@
+{
+ "schema": "nova-api-freeze/1",
+ "package": "pyside-nova",
+ "apiVersion": "1.6.0",
+ "packageVersion": "1.6.0",
+ "baseline": "Quasar 2.35.5",
+ "counts": {
+  "total": 147,
+  "modules": {
+   "Nova.Controls": 93,
+   "Nova.Behaviors": 13,
+   "Nova.Services": 16,
+   "Nova.Design": 4,
+   "Nova.Composite.LayoutShell": 21
+  },
+  "a11y": {
+   "decorative": 85,
+   "interactive": 33,
+   "semantic": 29
+  }
+ },
+ "modules": {
+  "Nova.Controls": {
+   "module": "Nova.Controls",
+   "version": "1.0",
+   "types": [
+    "NovaAjaxBar",
+    "NovaAvatar",
+    "NovaBadge",
+    "NovaBanner",
+    "NovaBar",
+    "NovaBottomSheet",
+    "NovaBreadcrumbs",
+    "NovaBreadcrumbsEl",
+    "NovaBtn",
+    "NovaBtnDropdown",
+    "NovaBtnGroup",
+    "NovaBtnToggle",
+    "NovaCard",
+    "NovaCardActions",
+    "NovaCardSection",
+    "NovaCarousel",
+    "NovaCarouselControl",
+    "NovaCarouselSlide",
+    "NovaChatMessage",
+    "NovaCheckbox",
+    "NovaChip",
+    "NovaCol",
+    "NovaColorPicker",
+    "NovaDataGrid",
+    "NovaDate",
+    "NovaDialogShell",
+    "NovaDrawer",
+    "NovaEditor",
+    "NovaExpansionItem",
+    "NovaFab",
+    "NovaFabAction",
+    "NovaField",
+    "NovaFooter",
+    "NovaForm",
+    "NovaHeader",
+    "NovaIcon",
+    "NovaImg",
+    "NovaInfiniteScroll",
+    "NovaInnerLoading",
+    "NovaInput",
+    "NovaItem",
+    "NovaItemLabel",
+    "NovaItemSection",
+    "NovaLayout",
+    "NovaList",
+    "NovaMarkdown",
+    "NovaMarkupTable",
+    "NovaMenu",
+    "NovaNoSsr",
+    "NovaOptionGroup",
+    "NovaPage",
+    "NovaPagination",
+    "NovaParallax",
+    "NovaPopupEdit",
+    "NovaPopupProxy",
+    "NovaPullToRefresh",
+    "NovaRadio",
+    "NovaRange",
+    "NovaResizeObserver",
+    "NovaResponsive",
+    "NovaRow",
+    "NovaScrollArea",
+    "NovaSelect",
+    "NovaSeparator",
+    "NovaSkeleton",
+    "NovaSlideItem",
+    "NovaSlider",
+    "NovaSpace",
+    "NovaSpinner",
+    "NovaStep",
+    "NovaStepper",
+    "NovaStepperNavigation",
+    "NovaTab",
+    "NovaTabPanel",
+    "NovaTabPanels",
+    "NovaTable",
+    "NovaTabs",
+    "NovaTd",
+    "NovaText",
+    "NovaTh",
+    "NovaTime",
+    "NovaTimeline",
+    "NovaTimelineEntry",
+    "NovaToggle",
+    "NovaToolbar",
+    "NovaToolbarTitle",
+    "NovaTooltip",
+    "NovaTr",
+    "NovaTransition",
+    "NovaTree",
+    "NovaVideo",
+    "NovaVirtualScroll",
+    "NovaVisible"
+   ],
+   "singletons": []
+  },
+  "Nova.Behaviors": {
+   "module": "Nova.Behaviors",
+   "version": "1.0",
+   "types": [
+    "NovaClosePopup",
+    "NovaFocusRing",
+    "NovaIntersection",
+    "NovaLiveRegion",
+    "NovaMorph",
+    "NovaRipple",
+    "NovaScrollFire",
+    "NovaScrollObserver",
+    "NovaTouchHold",
+    "NovaTouchPan",
+    "NovaTouchRepeat",
+    "NovaTouchSwipe"
+   ],
+   "singletons": [
+    "NovaMorphPool"
+   ]
+  },
+  "Nova.Services": {
+   "module": "Nova.Services",
+   "version": "1.0",
+   "types": [
+    "NovaDialogHandle",
+    "NovaLoadingHandle",
+    "NovaNotifyAction",
+    "NovaNotifyHandle"
+   ],
+   "singletons": [
+    "NovaApp",
+    "NovaDialog",
+    "NovaI18n",
+    "NovaIntersectionPool",
+    "NovaLoading",
+    "NovaLoadingBar",
+    "NovaNotify",
+    "NovaOverlayHost",
+    "NovaPlatform",
+    "NovaScreen",
+    "NovaStorage",
+    "NovaTheme"
+   ]
+  },
+  "Nova.Design": {
+   "module": "Nova.Design",
+   "version": "1.0",
+   "types": [],
+   "singletons": [
+    "NovaA11y",
+    "NovaIconSet",
+    "NovaMotion",
+    "NovaUtils"
+   ]
+  },
+  "Nova.Composite.LayoutShell": {
+   "module": "Nova.Composite.LayoutShell",
+   "version": "1.0",
+   "types": [
+    "NovaAIReport",
+    "NovaAgent",
+    "NovaBlankPage",
+    "NovaCardGrid",
+    "NovaChat",
+    "NovaCompare",
+    "NovaCopilot",
+    "NovaDE",
+    "NovaDesktop",
+    "NovaDrawerPanel",
+    "NovaDualSide",
+    "NovaFlexLayout",
+    "NovaIncubator",
+    "NovaMobile",
+    "NovaModal",
+    "NovaOrbit",
+    "NovaSetupWizard",
+    "NovaSidebar",
+    "NovaTabShell",
+    "NovaThreeColumn",
+    "NovaTopNavigation"
+   ],
+   "singletons": []
+  }
+ },
+ "types": {
+  "Nova.Behaviors.NovaClosePopup": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaClosePopup.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "depth:int",
+    "host:Item",
+    "keyboard:bool",
+    "reason:string",
+    "ro popupCount:int",
+    "target:Item",
+    "usePointer:bool"
+   ],
+   "signals": [
+    "closed(int count)"
+   ],
+   "methods": [
+    "onClicked()",
+    "trigger()"
+   ]
+  },
+  "Nova.Behaviors.NovaFocusRing": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaFocusRing.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "cornerRadius:real",
+    "offset:int",
+    "ringWidth:int",
+    "ro active:bool",
+    "target:Item",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Behaviors.NovaIntersection": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaIntersection.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "once:bool",
+    "ro intersectionRatio:real",
+    "ro isIntersecting:bool",
+    "ro observing:bool",
+    "root:Item",
+    "rootMarginBottom:real",
+    "rootMarginLeft:real",
+    "rootMarginRight:real",
+    "rootMarginTop:real",
+    "target:Item",
+    "threshold:var"
+   ],
+   "signals": [
+    "entered(var entry)",
+    "exited(var entry)",
+    "intersect(var entry)"
+   ],
+   "methods": [
+    "evaluate()",
+    "kick()",
+    "measure()",
+    "rearm()",
+    "stop()"
+   ]
+  },
+  "Nova.Behaviors.NovaLiveRegion": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaLiveRegion.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "politeness:string",
+    "ro lastSpoken:string"
+   ],
+   "signals": [],
+   "methods": [
+    "onAnnouncementCountChanged()",
+    "speak(text)"
+   ]
+  },
+  "Nova.Behaviors.NovaMorph": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaMorph.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "duration:int",
+    "ghostComp:Component",
+    "group:string",
+    "radius:real",
+    "ro active:bool",
+    "target:Item",
+    "tint:color"
+   ],
+   "signals": [
+    "morphFinished()",
+    "morphStarted()"
+   ],
+   "methods": [
+    "isActive()",
+    "morph()"
+   ]
+  },
+  "Nova.Behaviors.NovaMorphPool": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaMorphPool.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [],
+   "signals": [],
+   "methods": [
+    "current(group)",
+    "register(group, item)",
+    "setCurrent(group, item)",
+    "unregister(group, item)"
+   ]
+  },
+  "Nova.Behaviors.NovaRipple": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaRipple.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "color:color",
+    "duration:int"
+   ],
+   "signals": [],
+   "methods": [
+    "open(x, y)",
+    "removeAt(i)",
+    "settle()"
+   ]
+  },
+  "Nova.Behaviors.NovaScrollFire": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaScrollFire.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "armed:bool",
+    "ro fired:bool",
+    "root:Item",
+    "target:Item",
+    "threshold:real"
+   ],
+   "signals": [
+    "fire(var item)"
+   ],
+   "methods": [
+    "rearm()"
+   ]
+  },
+  "Nova.Behaviors.NovaScrollObserver": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaScrollObserver.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "ro horizontalPosition:real",
+    "ro scrollRoot:Item",
+    "ro verticalPosition:real",
+    "root:Item",
+    "target:Item",
+    "trackHorizontal:bool"
+   ],
+   "signals": [
+    "scroll(var details)"
+   ],
+   "methods": [
+    "evaluate()",
+    "kick()"
+   ]
+  },
+  "Nova.Behaviors.NovaTouchHold": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaTouchHold.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "duration:int",
+    "mouseSensitivity:real",
+    "preventStealing:bool",
+    "ro held:bool",
+    "ro holding:bool",
+    "ro pressed:bool",
+    "target:Item",
+    "touchSensitivity:real"
+   ],
+   "signals": [
+    "cancel()",
+    "hold(var details)"
+   ],
+   "methods": []
+  },
+  "Nova.Behaviors.NovaTouchPan": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaTouchPan.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "allDirections:bool",
+    "directions:var",
+    "horizontal:bool",
+    "preserveCursor:bool",
+    "preventStealing:bool",
+    "ro panning:bool",
+    "stopPropagation:bool",
+    "target:Item",
+    "threshold:real",
+    "vertical:bool"
+   ],
+   "signals": [
+    "pan(var details)"
+   ],
+   "methods": []
+  },
+  "Nova.Behaviors.NovaTouchRepeat": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaTouchRepeat.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "delays:string",
+    "keyRepeat:bool",
+    "keys:var",
+    "ro pressed:bool",
+    "ro repeatCount:int",
+    "ro repeating:bool",
+    "target:Item"
+   ],
+   "signals": [
+    "repeat(var details)"
+   ],
+   "methods": []
+  },
+  "Nova.Behaviors.NovaTouchSwipe": {
+   "module": "Nova.Behaviors",
+   "file": "Nova/Behaviors/NovaTouchSwipe.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "directions:var",
+    "horizontal:bool",
+    "minVelocity:real",
+    "mouseMinDistance:real",
+    "target:Item",
+    "touchMinDistance:real",
+    "vertical:bool"
+   ],
+   "signals": [
+    "swipe(var details)"
+   ],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaAIReport": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaAIReport.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "approvalHeight:int",
+    "approvalSlot:alias",
+    "benchmarkHeight:int",
+    "benchmarkSlot:alias",
+    "bordered:bool",
+    "breakpoint:int",
+    "diagnosisCollapsed:bool",
+    "diagnosisSize:real",
+    "diagnosisSlot:alias",
+    "forecastHeight:int",
+    "forecastSlot:alias",
+    "overlaySlot:alias",
+    "queryCollapsed:bool",
+    "querySize:real",
+    "querySlot:alias",
+    "reportSlot:alias",
+    "ro belowBreakpoint:bool",
+    "showApproval:bool",
+    "showBenchmark:bool",
+    "showDiagnosis:bool",
+    "showForecast:bool",
+    "showQuery:bool"
+   ],
+   "signals": [
+    "approvalRequested()",
+    "diagnosisToggled(bool collapsed)",
+    "queryToggled(bool collapsed)"
+   ],
+   "methods": [
+    "requestApproval()",
+    "toggleDiagnosis()",
+    "toggleQuery()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaAgent": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaAgent.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "approvalHeight:int",
+    "approvalSlot:alias",
+    "bordered:bool",
+    "breakpoint:int",
+    "contentSlot:alias",
+    "headerHeight:int",
+    "overlaySlot:alias",
+    "planSlot:alias",
+    "ro belowBreakpoint:bool",
+    "showApproval:bool",
+    "showPlan:bool",
+    "showTask:bool",
+    "showVerify:bool",
+    "taskCollapsed:bool",
+    "taskSize:real",
+    "taskSlot:alias",
+    "verifyCollapsed:bool",
+    "verifySize:real",
+    "verifySlot:alias"
+   ],
+   "signals": [
+    "approvalRequested()",
+    "taskToggled(bool collapsed)",
+    "verifyToggled(bool collapsed)"
+   ],
+   "methods": [
+    "requestApproval()",
+    "toggleTask()",
+    "toggleVerify()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaBlankPage": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaBlankPage.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "contentSlot:alias",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "headerHeight:int",
+    "headerSlot:alias",
+    "overlaySlot:alias",
+    "padding:int",
+    "showFooter:bool",
+    "showHeader:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaCardGrid": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaCardGrid.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "filterHeight:int",
+    "filterSlot:alias",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "gridSlot:alias",
+    "overlaySlot:alias",
+    "padding:int",
+    "showFilter:bool",
+    "showFooter:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaChat": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaChat.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "breakpoint:int",
+    "composerHeight:int",
+    "composerSlot:alias",
+    "contentSlot:alias",
+    "conversationCollapsed:bool",
+    "conversationSize:real",
+    "conversationSlot:alias",
+    "detailCollapsed:bool",
+    "detailSize:real",
+    "detailSlot:alias",
+    "headerHeight:int",
+    "headerSlot:alias",
+    "navCollapsed:bool",
+    "navSize:real",
+    "navSlot:alias",
+    "overlaySlot:alias",
+    "ro belowBreakpoint:bool",
+    "showComposer:bool",
+    "showConversation:bool",
+    "showDetail:bool",
+    "showHeader:bool",
+    "showNav:bool"
+   ],
+   "signals": [
+    "conversationToggled(bool collapsed)",
+    "detailToggled(bool collapsed)",
+    "navToggled(bool collapsed)"
+   ],
+   "methods": [
+    "toggleConversation()",
+    "toggleDetail()",
+    "toggleNav()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaCompare": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaCompare.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "controlHeight:int",
+    "controlSlot:alias",
+    "divider:bool",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "leftSlot:alias",
+    "overlaySlot:alias",
+    "rightSlot:alias",
+    "showControl:bool",
+    "showFooter:bool",
+    "syncScroll:bool"
+   ],
+   "signals": [
+    "syncScrollToggled(bool enabled)"
+   ],
+   "methods": [
+    "toggleSyncScroll()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaCopilot": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaCopilot.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "breakpoint:int",
+    "contentSlot:alias",
+    "gateCollapsed:bool",
+    "gateSize:real",
+    "gateSlot:alias",
+    "inlineHeight:int",
+    "inlineSlot:alias",
+    "overlaySlot:alias",
+    "ro belowBreakpoint:bool",
+    "showGate:bool",
+    "showInline:bool",
+    "showSuggest:bool",
+    "suggestCollapsed:bool",
+    "suggestSize:real",
+    "suggestSlot:alias"
+   ],
+   "signals": [
+    "actionProposed()",
+    "gateToggled(bool collapsed)",
+    "suggestToggled(bool collapsed)"
+   ],
+   "methods": [
+    "proposeAction()",
+    "toggleGate()",
+    "toggleSuggest()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaDE": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaDE.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "breakpoint:int",
+    "contentSlot:alias",
+    "handoffHeight:int",
+    "handoffSlot:alias",
+    "overlaySlot:alias",
+    "queueCollapsed:bool",
+    "queueSize:real",
+    "queueSlot:alias",
+    "ro belowBreakpoint:bool",
+    "roleHeight:int",
+    "roleSlot:alias",
+    "showHandoff:bool",
+    "showQueue:bool",
+    "showRole:bool",
+    "showSla:bool",
+    "slaCollapsed:bool",
+    "slaSize:real",
+    "slaSlot:alias"
+   ],
+   "signals": [
+    "handoffRequested()",
+    "queueToggled(bool collapsed)",
+    "slaToggled(bool collapsed)"
+   ],
+   "methods": [
+    "requestHandoff()",
+    "toggleQueue()",
+    "toggleSla()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaDesktop": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaDesktop.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "menuHeight:int",
+    "menuSlot:alias",
+    "overlaySlot:alias",
+    "pageSlot:alias",
+    "showMenu:bool",
+    "showStatus:bool",
+    "showToolbar:bool",
+    "statusHeight:int",
+    "statusSlot:alias",
+    "toolbarHeight:int",
+    "toolbarSlot:alias"
+   ],
+   "signals": [
+    "windowCloseRequested()"
+   ],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaDrawerPanel": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaDrawerPanel.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "actionsHeight:int",
+    "actionsSlot:alias",
+    "contentSlot:alias",
+    "open:bool",
+    "ro bySide:string",
+    "scrim:bool",
+    "showActions:bool",
+    "showTitle:bool",
+    "side:string",
+    "size:real",
+    "titleHeight:int",
+    "titleSlot:alias"
+   ],
+   "signals": [
+    "closeRequested()"
+   ],
+   "methods": [
+    "requestClose()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaDualSide": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaDualSide.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "contentSlot:alias",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "leftCollapsed:bool",
+    "leftSize:real",
+    "leftSlot:alias",
+    "overlaySlot:alias",
+    "rightCollapsed:bool",
+    "rightSize:real",
+    "rightSlot:alias",
+    "showFooter:bool"
+   ],
+   "signals": [
+    "leftToggled(bool collapsed)",
+    "rightToggled(bool collapsed)"
+   ],
+   "methods": [
+    "toggleLeft()",
+    "toggleRight()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaFlexLayout": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaFlexLayout.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "columns:int",
+    "contentSlot:alias",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "gap:int",
+    "headerHeight:int",
+    "headerSlot:alias",
+    "overlaySlot:alias",
+    "scalable:bool",
+    "showFooter:bool",
+    "showHeader:bool"
+   ],
+   "signals": [
+    "layoutChanged(int columns)"
+   ],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaIncubator": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaIncubator.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "breakpoint:int",
+    "certificateHeight:int",
+    "certificateSlot:alias",
+    "emblemClickable:bool",
+    "emblemToolTip:string",
+    "globalHeight:int",
+    "globalSlot:alias",
+    "overlaySlot:alias",
+    "pipelineHeight:int",
+    "pipelineSlot:alias",
+    "recipeCollapsed:bool",
+    "recipeSize:real",
+    "recipeSlot:alias",
+    "ro belowBreakpoint:bool",
+    "showCertificate:bool",
+    "showGlobal:bool",
+    "showPipeline:bool",
+    "showRecipe:bool",
+    "showValidate:bool",
+    "stageSlot:alias",
+    "validateCollapsed:bool",
+    "validateSize:real",
+    "validateSlot:alias"
+   ],
+   "signals": [
+    "emblemClicked()",
+    "freezeRequested()",
+    "recipeToggled(bool collapsed)",
+    "validateToggled(bool collapsed)"
+   ],
+   "methods": [
+    "requestFreeze()",
+    "toggleRecipe()",
+    "toggleValidate()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaMobile": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaMobile.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bottomNavHeight:int",
+    "bottomNavSlot:alias",
+    "contentSlot:alias",
+    "headerHeight:int",
+    "headerSlot:alias",
+    "isTouch:bool",
+    "overlaySlot:alias",
+    "safeBottom:int",
+    "safeTop:int",
+    "showBottomNav:bool",
+    "showHeader:bool"
+   ],
+   "signals": [
+    "backRequested()"
+   ],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaModal": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaModal.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "actionsHeight:int",
+    "actionsSlot:alias",
+    "contentSlot:alias",
+    "dismissOnMask:bool",
+    "maxHeight:real",
+    "maxWidth:real",
+    "open:bool",
+    "showActions:bool",
+    "showTitle:bool",
+    "titleHeight:int",
+    "titleSlot:alias"
+   ],
+   "signals": [
+    "closeRequested(string reason)"
+   ],
+   "methods": [
+    "requestClose(reason)"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaOrbit": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaOrbit.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "breakpoint:int",
+    "canvasCollapsed:bool",
+    "canvasSize:real",
+    "canvasSlot:alias",
+    "composerHeight:int",
+    "composerSlot:alias",
+    "globalHeight:int",
+    "globalSlot:alias",
+    "intentSlot:alias",
+    "mapHeight:int",
+    "mapSlot:alias",
+    "overlaySlot:alias",
+    "railCollapsed:bool",
+    "railSize:real",
+    "railSlot:alias",
+    "ro belowBreakpoint:bool",
+    "showCanvas:bool",
+    "showComposer:bool",
+    "showGlobal:bool",
+    "showMap:bool",
+    "showRail:bool"
+   ],
+   "signals": [
+    "canvasToggled(bool collapsed)",
+    "orbitRequested()",
+    "railToggled(bool collapsed)"
+   ],
+   "methods": [
+    "requestOrbit()",
+    "toggleCanvas()",
+    "toggleRail()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaSetupWizard": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaSetupWizard.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "contentSlot:alias",
+    "controlsHeight:int",
+    "controlsSlot:alias",
+    "currentStep:int",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "overlaySlot:alias",
+    "ro canGoNext:bool",
+    "ro canGoPrevious:bool",
+    "showFooter:bool",
+    "showSteps:bool",
+    "stepCount:int",
+    "stepsHeight:int",
+    "stepsSlot:alias"
+   ],
+   "signals": [
+    "nextRequested()",
+    "previousRequested()",
+    "stepSelected(int index)"
+   ],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaSidebar": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaSidebar.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "breakpoint:int",
+    "contentSlot:alias",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "headerHeight:int",
+    "headerSlot:alias",
+    "overlaySlot:alias",
+    "ro belowBreakpoint:bool",
+    "showFooter:bool",
+    "showHeader:bool",
+    "sidebarCollapsed:bool",
+    "sidebarSize:real",
+    "sidebarSlot:alias"
+   ],
+   "signals": [
+    "sidebarToggled(bool collapsed)"
+   ],
+   "methods": [
+    "toggleSidebar()"
+   ]
+  },
+  "Nova.Composite.LayoutShell.NovaTabShell": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaTabShell.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "contentSlot:alias",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "overlaySlot:alias",
+    "showFooter:bool",
+    "showTabBar:bool",
+    "tabBarHeight:int",
+    "tabBarSlot:alias"
+   ],
+   "signals": [
+    "tabActivated(int index)",
+    "tabAddRequested()",
+    "tabCloseRequested(int index)"
+   ],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaThreeColumn": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaThreeColumn.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "detailSize:real",
+    "detailSlot:alias",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "headerHeight:int",
+    "headerSlot:alias",
+    "listSlot:alias",
+    "overlaySlot:alias",
+    "showFooter:bool",
+    "showHeader:bool",
+    "treeSize:real",
+    "treeSlot:alias"
+   ],
+   "signals": [
+    "columnResized(string column, real size)"
+   ],
+   "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaTopNavigation": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaTopNavigation.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "contentSlot:alias",
+    "footerHeight:int",
+    "footerSlot:alias",
+    "headerHeight:int",
+    "headerSlot:alias",
+    "menuHeight:int",
+    "menuOpen:bool",
+    "menuSlot:alias",
+    "overlaySlot:alias",
+    "showFooter:bool",
+    "showHeader:bool"
+   ],
+   "signals": [
+    "menuToggled(bool open)"
+   ],
+   "methods": [
+    "toggleMenu()"
+   ]
+  },
+  "Nova.Controls.NovaAjaxBar": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaAjaxBar.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "position:string",
+    "progress:real",
+    "reverse:bool",
+    "ro active:bool",
+    "ro progressCap:real",
+    "size:real",
+    "tint:color"
+   ],
+   "signals": [
+    "started()",
+    "stopped()"
+   ],
+   "methods": [
+    "increment(size)",
+    "start()",
+    "stop()"
+   ]
+  },
+  "Nova.Controls.NovaAvatar": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaAvatar.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "ro autoColor:color",
+    "size:real",
+    "source:url",
+    "square:bool",
+    "text:string",
+    "textColor:color",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaBadge": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBadge.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "floating:bool",
+    "offsetX:real",
+    "offsetY:real",
+    "ro dot:bool",
+    "text:string",
+    "textColor:color",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaBanner": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBanner.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "action:alias",
+    "avatar:alias",
+    "dense:bool",
+    "inlineActions:bool",
+    "rounded:bool",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaBar": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBar.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "dense:bool",
+    "ro fg:color",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaBottomSheet": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBottomSheet.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "actions:var",
+    "grid:bool",
+    "modelValue:bool",
+    "ro act:var",
+    "ro act:var",
+    "tint:color"
+   ],
+   "signals": [
+    "actionPicked(int index)",
+    "beforeHide()",
+    "beforeShow()",
+    "dismissed(string reason)",
+    "escapeKey()",
+    "hidden()",
+    "shown()",
+    "updateModelValue(bool v)"
+   ],
+   "methods": [
+    "hide()",
+    "requestDismiss(reason)",
+    "show()",
+    "toggle()"
+   ]
+  },
+  "Nova.Controls.NovaBreadcrumbs": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBreadcrumbs.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "activeTint:color",
+    "align:string",
+    "gutter:string",
+    "isCrumbsSeparator:bool",
+    "separator:string",
+    "separatorColor:color",
+    "separatorDelegate:Component"
+   ],
+   "signals": [],
+   "methods": [
+    "isActiveEl(el)",
+    "sepTextW()"
+   ]
+  },
+  "Nova.Controls.NovaBreadcrumbsEl": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBreadcrumbsEl.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "crumbsRef:var",
+    "disable:bool",
+    "icon:string",
+    "label:string",
+    "ro isActiveColor:bool"
+   ],
+   "signals": [
+    "clicked()"
+   ],
+   "methods": [
+    "requestClick()"
+   ]
+  },
+  "Nova.Controls.NovaBtn": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBtn.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "dense:bool",
+    "disable:bool",
+    "icon:string",
+    "iconRight:string",
+    "loading:bool",
+    "ro isHovered:bool",
+    "ro isPressed:bool",
+    "round:bool",
+    "size:string",
+    "text:string",
+    "tint:color",
+    "variant:string"
+   ],
+   "signals": [
+    "clicked()",
+    "pressed()",
+    "released()"
+   ],
+   "methods": [
+    "onTintChanged()",
+    "onVariantChanged()"
+   ]
+  },
+  "Nova.Controls.NovaBtnDropdown": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBtnDropdown.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "autoClose:bool",
+    "cover:bool",
+    "disable:bool",
+    "disableDropdown:bool",
+    "disableMainBtn:bool",
+    "dropdownIcon:string",
+    "fit:bool",
+    "icon:string",
+    "iconRight:string",
+    "label:string",
+    "modelValue:bool",
+    "noIconAnimation:bool",
+    "persistent:bool",
+    "size:string",
+    "split:bool",
+    "tint:color",
+    "variant:string"
+   ],
+   "signals": [
+    "beforeHide()",
+    "beforeShow()",
+    "click()",
+    "hidden()",
+    "shown()",
+    "updateModelValue(bool v)"
+   ],
+   "methods": [
+    "hide()",
+    "onHidden()",
+    "onShown()",
+    "show()",
+    "toggle()"
+   ]
+  },
+  "Nova.Controls.NovaBtnGroup": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBtnGroup.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "flat:bool",
+    "outline:bool",
+    "push:bool",
+    "spread:bool",
+    "vertical:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaBtnToggle": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaBtnToggle.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "clearable:bool",
+    "dense:bool",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "flat:bool",
+    "hint:string",
+    "modelValue:var",
+    "multiple:bool",
+    "noCaps:bool",
+    "opt:var",
+    "optIndex:int",
+    "options:var",
+    "outline:bool",
+    "push:bool",
+    "readonly:bool",
+    "ro hasError:bool",
+    "ro on:bool",
+    "rounded:bool",
+    "size:string",
+    "spread:bool",
+    "textColor:color",
+    "tint:color",
+    "toggleColor:color",
+    "toggleTextColor:color",
+    "unelevated:bool",
+    "vertical:bool"
+   ],
+   "signals": [
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "clear()",
+    "select(value)"
+   ]
+  },
+  "Nova.Controls.NovaCard": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaCard.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "bordered:bool",
+    "elevated:bool",
+    "elevation:int",
+    "flat:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaCardActions": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaCardActions.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "align:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaCardSection": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaCardSection.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "padding:int"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaCarousel": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaCarousel.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "animated:bool",
+    "arrows:bool",
+    "autoplay:var",
+    "controlTextColor:color",
+    "controlTint:color",
+    "infinite:bool",
+    "modelValue:var",
+    "navigation:bool",
+    "navigationIcon:string",
+    "navigationPosition:string",
+    "nextIcon:string",
+    "padding:bool",
+    "prevIcon:string",
+    "ro autoRunning:bool",
+    "ro controlLayerItem:alias",
+    "ro count:int",
+    "ro currentIndex:int",
+    "ro currentName:string",
+    "ro isCurrent:bool",
+    "ro isNovaCarousel:bool",
+    "ro isThumb:bool",
+    "ro slideItem:var",
+    "swipeable:bool",
+    "thumbnails:bool",
+    "transitionDuration:int",
+    "vertical:bool"
+   ],
+   "signals": [
+    "beforeTransition(var info)",
+    "transition(var info)",
+    "updateModelValue(var name)"
+   ],
+   "methods": [
+    "goTo(target, animate)",
+    "next()",
+    "previous()"
+   ]
+  },
+  "Nova.Controls.NovaCarouselControl": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaCarouselControl.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "offset:real",
+    "position:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaCarouselSlide": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaCarouselSlide.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "disable:bool",
+    "imgSrc:url",
+    "name:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaChatMessage": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaChatMessage.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "avatar:url",
+    "avatarSlot:Component",
+    "label:string",
+    "labelSlot:Component",
+    "name:string",
+    "nameSlot:Component",
+    "ro isLast:bool",
+    "sent:bool",
+    "size:int",
+    "stamp:string",
+    "stampSlot:Component",
+    "text:var",
+    "textColor:color",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaCheckbox": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaCheckbox.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "activeTab:bool",
+    "checkedIcon:string",
+    "dense:bool",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "falseValue:var",
+    "hint:string",
+    "indeterminateIcon:string",
+    "indeterminateValue:var",
+    "keepColor:bool",
+    "label:string",
+    "leftLabel:bool",
+    "modelValue:var",
+    "readonly:bool",
+    "ro checked:bool",
+    "ro chk:bool",
+    "ro hasError:bool",
+    "ro ind:bool",
+    "ro indeterminate:bool",
+    "tint:color",
+    "toggleIndeterminate:bool",
+    "toggleOrder:int",
+    "trueValue:var",
+    "uncheckedIcon:string",
+    "val:var",
+    "visual:Component",
+    "visualWidth:real"
+   ],
+   "signals": [
+    "toggled(bool checked)",
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "onModelValueChanged()",
+    "toggle()"
+   ]
+  },
+  "Nova.Controls.NovaChip": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaChip.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "clickable:bool",
+    "dense:bool",
+    "disable:bool",
+    "filled:bool",
+    "icon:string",
+    "outlined:bool",
+    "removable:bool",
+    "selected:bool",
+    "text:string",
+    "tint:color"
+   ],
+   "signals": [
+    "clicked()",
+    "removed()"
+   ],
+   "methods": []
+  },
+  "Nova.Controls.NovaCol": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaCol.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "cols:int",
+    "gutter:int",
+    "offset:int"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaColorPicker": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaColorPicker.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "bordered:bool",
+    "defaultValue:string",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "flat:bool",
+    "formatModel:string",
+    "hint:string",
+    "modelValue:var",
+    "noFooter:bool",
+    "noHeader:bool",
+    "paletteColors:var",
+    "readonly:bool",
+    "ro hasError:bool"
+   ],
+   "signals": [
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "apply(m)",
+    "apply(m)",
+    "currentHex()",
+    "h2(v)",
+    "on_HueChanged()",
+    "setHex(str)",
+    "setHsv(h, s, v)"
+   ]
+  },
+  "Nova.Controls.NovaDataGrid": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaDataGrid.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "bordered:bool",
+    "cellDelegates:var",
+    "filterProxy:var",
+    "headerHeight:int",
+    "loading:bool",
+    "loadingText:string",
+    "noDataText:string",
+    "pagedProxy:var",
+    "pagination:var",
+    "reuseItems:bool",
+    "ro a11yFocused:bool",
+    "ro allColumnDefs:var",
+    "ro colDef:var",
+    "ro colKey:string",
+    "ro columnDefs:var",
+    "ro editing:bool",
+    "ro hColDef:var",
+    "ro selected:bool",
+    "ro sortable:bool",
+    "ro sorted:bool",
+    "rowHeight:int",
+    "searchPlaceholder:string",
+    "selectionMode:string",
+    "serverSide:bool",
+    "showColumnSelector:bool",
+    "showFilter:bool",
+    "showPagination:bool",
+    "showToolbar:bool",
+    "tableModel:var",
+    "title:string",
+    "zebraStripes:bool"
+   ],
+   "signals": [
+    "cellClicked(int row, int column)",
+    "cellEdited(int row, int column, var value)",
+    "refreshRequested()",
+    "request(var params)",
+    "rowClicked(int row)",
+    "rowContextMenuRequested(int row, real x, real y)",
+    "rowDoubleClicked(int row)",
+    "sortRequested(int column, bool ascending)"
+   ],
+   "methods": [
+    "clearSelection()",
+    "getRowData(rowIndex)",
+    "onCountChanged()",
+    "onPageSizeChanged()",
+    "onRowsChanged()",
+    "onSelectionChanged()",
+    "scrollToRow(row)",
+    "sortByKey(colKey, ascending)"
+   ]
+  },
+  "Nova.Controls.NovaDate": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaDate.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "cellW:int",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "eventColor:color",
+    "events:var",
+    "firstDayOfWeek:int",
+    "hint:string",
+    "mask:string",
+    "minimal:var",
+    "modelValue:var",
+    "multiple:bool",
+    "navigationMaxYearMonth:string",
+    "navigationMinYearMonth:string",
+    "noUnset:bool",
+    "range:bool",
+    "readonly:bool",
+    "required:bool",
+    "ro day:int",
+    "ro en:bool",
+    "ro hasError:bool",
+    "ro inRng:bool",
+    "ro isToday:bool",
+    "ro md:var",
+    "ro sel:bool",
+    "ro w:string",
+    "subtitle:string",
+    "tint:color",
+    "title:string",
+    "todayBtn:bool",
+    "viewMonth:int",
+    "viewYear:int"
+   ],
+   "signals": [
+    "navigationChanged()",
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "clearValue()",
+    "isDayEvent(y, m, d)",
+    "isDayInRange(y, m, d)",
+    "isDaySelected(y, m, d)",
+    "navigateMonth(dir)",
+    "selectDate(y, m, d)",
+    "selectDay(d)",
+    "stepDay(n)",
+    "stepMonth(n)"
+   ]
+  },
+  "Nova.Controls.NovaDialogShell": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaDialogShell.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "fullHeight:bool",
+    "fullWidth:bool",
+    "maxWidth:real",
+    "maximized:bool",
+    "modelValue:bool",
+    "noBackdropDismiss:bool",
+    "noEscDismiss:bool",
+    "noShake:bool",
+    "persistent:bool",
+    "position:string",
+    "ro contentBox:alias",
+    "ro implicitHeight:real",
+    "ro margin:real",
+    "seamless:bool",
+    "square:bool",
+    "tint:color"
+   ],
+   "signals": [
+    "accepted()",
+    "beforeHide()",
+    "beforeShow()",
+    "cancelled()",
+    "dismissed(string reason)",
+    "escapeKey()",
+    "hidden()",
+    "shake()",
+    "shown()",
+    "updateModelValue(bool v)"
+   ],
+   "methods": [
+    "accept()",
+    "cancel()",
+    "doShake()",
+    "hide()",
+    "requestDismiss(reason)",
+    "show()",
+    "toggle()",
+    "trapHitTest()",
+    "trapNext(back)"
+   ]
+  },
+  "Nova.Controls.NovaDrawer": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaDrawer.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "autoCollapse:bool",
+    "bordered:bool",
+    "breakpoint:int",
+    "hovered:bool",
+    "mini:bool",
+    "miniWidth:real",
+    "open:bool",
+    "overlay:bool",
+    "ro belowBreakpoint:bool",
+    "ro effectiveOverlay:bool",
+    "ro effectiveSide:string",
+    "ro expanded:bool",
+    "ro layoutWidth:real",
+    "side:string",
+    "size:real",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaEditor": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaEditor.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "disable:bool",
+    "flat:bool",
+    "minHeight:int",
+    "modelValue:var",
+    "placeholder:string",
+    "readonly:bool",
+    "ro buttonCount:int",
+    "ro isSep:bool",
+    "toolbar:var"
+   ],
+   "signals": [
+    "keyPressed(var event)",
+    "saved(string value)",
+    "updateModelValue(string value)"
+   ],
+   "methods": [
+    "caretPosition()",
+    "clear()",
+    "execCmd(cmd, arg)",
+    "focusEditor()",
+    "selectRange(s, e)",
+    "toHtml()"
+   ]
+  },
+  "Nova.Controls.NovaExpansionItem": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaExpansionItem.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "caption:string",
+    "captionLines:int",
+    "contentInsetLevel:real",
+    "defaultOpened:bool",
+    "dense:bool",
+    "denseToggle:bool",
+    "disable:bool",
+    "duration:int",
+    "expandIcon:string",
+    "expandIconToggle:bool",
+    "expandSeparator:bool",
+    "expanded:bool",
+    "expandedIcon:string",
+    "group:string",
+    "header:alias",
+    "headerInsetLevel:real",
+    "hideExpandIcon:bool",
+    "icon:string",
+    "label:string",
+    "labelLines:int",
+    "popup:bool",
+    "ro iconW:real",
+    "ro insetX:real",
+    "switchToggleSide:bool",
+    "tint:color"
+   ],
+   "signals": [
+    "afterHide()",
+    "afterShow()",
+    "beforeHide()",
+    "beforeShow()",
+    "hidden()",
+    "shown()",
+    "updateModelValue(bool expanded)"
+   ],
+   "methods": [
+    "hide()",
+    "requestToggle()",
+    "show()",
+    "toggle()"
+   ]
+  },
+  "Nova.Controls.NovaFab": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaFab.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "activeIcon:string",
+    "direction:string",
+    "disable:bool",
+    "externalLabel:bool",
+    "hideIcon:bool",
+    "hideLabel:bool",
+    "hover:bool",
+    "hoverDelay:int",
+    "hoverHideDelay:int",
+    "icon:string",
+    "label:string",
+    "labelPosition:string",
+    "modelValue:bool",
+    "pendingReveal:bool",
+    "ro open:bool",
+    "square:bool",
+    "stagger:int",
+    "target:var",
+    "textColor:color",
+    "tint:color",
+    "verticalActionsAlign:string"
+   ],
+   "signals": [
+    "beforeHide()",
+    "beforeShow()",
+    "hidden()",
+    "shown()",
+    "updateModelValue(bool open)"
+   ],
+   "methods": [
+    "hide()",
+    "requestToggle()",
+    "show()",
+    "toggle()"
+   ]
+  },
+  "Nova.Controls.NovaFabAction": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaFabAction.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "anchor:string",
+    "delay:int",
+    "disable:bool",
+    "hideLabel:bool",
+    "icon:string",
+    "label:string",
+    "revealed:bool",
+    "square:bool",
+    "textColor:color",
+    "tint:color"
+   ],
+   "signals": [
+    "clicked()"
+   ],
+   "methods": [
+    "click()"
+   ]
+  },
+  "Nova.Controls.NovaField": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaField.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "autofocus:bool",
+    "bgColor:color",
+    "borderless:bool",
+    "bottomSlots:bool",
+    "clearIcon:string",
+    "clearable:bool",
+    "controlFocused:bool",
+    "counter:bool",
+    "counterText:string",
+    "customControlH:real",
+    "dense:bool",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "filled:bool",
+    "hideBottomSpace:bool",
+    "hideHint:bool",
+    "hint:string",
+    "label:string",
+    "labelColor:color",
+    "labelSlot:bool",
+    "lazyRules:bool",
+    "loading:bool",
+    "name:string",
+    "noErrorIcon:bool",
+    "outlined:bool",
+    "prefix:string",
+    "reactiveRules:bool",
+    "readonly:bool",
+    "ro effectiveError:string",
+    "ro focused:bool",
+    "ro hasError:bool",
+    "rounded:bool",
+    "rules:var",
+    "square:bool",
+    "stackLabel:bool",
+    "standout:bool",
+    "suffix:string",
+    "tint:color",
+    "value:var"
+   ],
+   "signals": [
+    "cleared()",
+    "validated(bool ok)"
+   ],
+   "methods": [
+    "clear()",
+    "onTintChanged()",
+    "resetValidation()",
+    "validate()"
+   ]
+  },
+  "Nova.Controls.NovaFooter": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaFooter.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "ro contentColor:color",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaForm": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaForm.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "autofocus:bool",
+    "greedy:bool",
+    "noErrorFocus:bool",
+    "noResetFocus:bool"
+   ],
+   "signals": [
+    "submitted()",
+    "validationFailed(var errors)",
+    "validationSuccess(bool res)"
+   ],
+   "methods": [
+    "resetValidation()",
+    "submit()",
+    "validate()"
+   ]
+  },
+  "Nova.Controls.NovaHeader": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaHeader.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "ro contentColor:color",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaIcon": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaIcon.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "cloudFallback:bool",
+    "color:color",
+    "icon:string",
+    "monochrome:bool",
+    "ro iconName:string",
+    "ro kind:string",
+    "ro parsed:var",
+    "ro provider:var",
+    "ro providerId:string",
+    "size:real",
+    "source:url"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaImg": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaImg.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "alt:string",
+    "elapsed:bool",
+    "errorSlot:Component",
+    "errorSrc:url",
+    "fit:string",
+    "initialRatio:real",
+    "loadingShowDelay:int",
+    "loadingSlot:Component",
+    "noSpinner:bool",
+    "noTransition:bool",
+    "placeholderSrc:url",
+    "position:string",
+    "ratio:real",
+    "ro busy:bool",
+    "ro status:string",
+    "spinnerSize:real",
+    "spinnerTint:color",
+    "src:url"
+   ],
+   "signals": [
+    "errored()",
+    "loaded()"
+   ],
+   "methods": [
+    "onSpinnerTintChanged()"
+   ]
+  },
+  "Nova.Controls.NovaInfiniteScroll": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaInfiniteScroll.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "disable:bool",
+    "offset:real"
+   ],
+   "signals": [
+    "load(int index, var done)"
+   ],
+   "methods": [
+    "resume()"
+   ]
+  },
+  "Nova.Controls.NovaInnerLoading": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaInnerLoading.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "dark:bool",
+    "label:string",
+    "showing:bool",
+    "size:real",
+    "spinnerVariant:string",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaInput": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaInput.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "autogrow:bool",
+    "debounce:int",
+    "maxLength:int",
+    "modelModifiers:var",
+    "modelValue:var",
+    "placeholder:string",
+    "ro typedValue:var",
+    "shadowText:string",
+    "type:string"
+   ],
+   "signals": [
+    "editingFinished()",
+    "keyPressed(var event)"
+   ],
+   "methods": [
+    "setFocus()"
+   ]
+  },
+  "Nova.Controls.NovaItem": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaItem.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "active:bool",
+    "caption:string",
+    "clickable:bool",
+    "disable:bool",
+    "expandContent:alias",
+    "expandable:bool",
+    "expanded:bool",
+    "icon:string",
+    "label:string",
+    "leading:alias",
+    "listRef:var",
+    "manualExpand:bool",
+    "trailing:alias"
+   ],
+   "signals": [
+    "clicked()",
+    "expandRequested(bool expanded)"
+   ],
+   "methods": [
+    "requestClick()",
+    "requestExpand()"
+   ]
+  },
+  "Nova.Controls.NovaItemLabel": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaItemLabel.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "caption:bool",
+    "header:bool",
+    "lines:int",
+    "overline:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaItemSection": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaItemSection.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "avatar:bool",
+    "thumbnail:bool",
+    "topAligned:bool",
+    "trailing:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaLayout": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaLayout.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "pageColor:color",
+    "ro drawerItem:Item",
+    "ro drawerOpen:bool",
+    "ro footerItem:Item",
+    "ro headerItem:Item",
+    "ro pageArea:Item",
+    "ro pushLeft:real",
+    "ro pushRight:real"
+   ],
+   "signals": [],
+   "methods": [
+    "closeDrawer()",
+    "openDrawer()",
+    "toggleDrawer()"
+   ]
+  },
+  "Nova.Controls.NovaList": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaList.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "accordion:bool",
+    "dense:bool",
+    "padding:bool",
+    "separator:bool"
+   ],
+   "signals": [],
+   "methods": [
+    "collapseSiblings(item)",
+    "isLastItem(item)"
+   ]
+  },
+  "Nova.Controls.NovaMarkdown": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaMarkdown.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "baseFontSize:int",
+    "markdown:string",
+    "openLinksExternally:bool",
+    "outlined:bool",
+    "ro empty:bool",
+    "ro toc:var",
+    "showToc:bool",
+    "tocEnd:int",
+    "tocStart:int"
+   ],
+   "signals": [
+    "linkBlocked(string url)",
+    "linkClicked(string url)",
+    "tocReady(var items)"
+   ],
+   "methods": [
+    "reload()",
+    "scrollToAnchor(anchor)",
+    "scrollToTop()"
+   ]
+  },
+  "Nova.Controls.NovaMarkupTable": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaMarkupTable.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "columns:var",
+    "dense:bool",
+    "flat:bool",
+    "rows:var",
+    "title:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaMenu": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaMenu.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "anchor:string",
+    "autoClose:bool",
+    "contextMenu:bool",
+    "cover:bool",
+    "fit:bool",
+    "hover:bool",
+    "hoverDelay:int",
+    "hoverHideDelay:int",
+    "maxHeight:real",
+    "maxWidth:real",
+    "modelValue:bool",
+    "noEscDismiss:bool",
+    "offset:var",
+    "pendingShow:bool",
+    "persistent:bool",
+    "ro contentBox:alias",
+    "ro pad:real",
+    "self:string",
+    "square:bool",
+    "target:var",
+    "tint:color"
+   ],
+   "signals": [
+    "beforeHide()",
+    "beforeShow()",
+    "escapeKey()",
+    "hidden()",
+    "shown()",
+    "updateModelValue(bool v)"
+   ],
+   "methods": [
+    "hide()",
+    "requestHide()",
+    "requestShow()",
+    "show()",
+    "toggle()",
+    "updateHover(inside)",
+    "updatePosition()"
+   ]
+  },
+  "Nova.Controls.NovaNoSsr": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaNoSsr.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "delay:int",
+    "placeholder:alias",
+    "placeholderText:string",
+    "ro ready:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaOptionGroup": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaOptionGroup.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "activeTab:bool",
+    "dense:bool",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "hint:string",
+    "inline:bool",
+    "keepColor:bool",
+    "leftLabel:bool",
+    "modelValue:var",
+    "opt:var",
+    "optionDisable:string",
+    "optionLabel:string",
+    "optionValue:string",
+    "options:var",
+    "readonly:bool",
+    "ro hasError:bool",
+    "ro on:bool",
+    "tint:color",
+    "type:string"
+   ],
+   "signals": [
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "resetValue()",
+    "selectOption(value)"
+   ]
+  },
+  "Nova.Controls.NovaPage": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaPage.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "padding:int"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaPagination": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaPagination.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "activeColor:color",
+    "arrows:bool",
+    "boundaryLinks:bool",
+    "disable:bool",
+    "ellipses:bool",
+    "inputStyle:string",
+    "label:string",
+    "maxPages:int",
+    "nav:bool",
+    "page:int",
+    "pages:int",
+    "tag:var"
+   ],
+   "signals": [
+    "pageRequested(int page)"
+   ],
+   "methods": [
+    "nbPage(t)",
+    "nextPage()",
+    "prevPage()",
+    "requestPage(p)",
+    "visiblePages()"
+   ]
+  },
+  "Nova.Controls.NovaParallax": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaParallax.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "extra:real",
+    "mediaSlot:Component",
+    "ro progress:real",
+    "scrollTarget:var",
+    "speed:real",
+    "src:url"
+   ],
+   "signals": [
+    "scrolled(var info)"
+   ],
+   "methods": [
+    "refresh()"
+   ]
+  },
+  "Nova.Controls.NovaPopupEdit": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaPopupEdit.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "autoSave:bool",
+    "buttons:bool",
+    "cover:bool",
+    "disable:bool",
+    "editorData:alias",
+    "labelCancel:string",
+    "labelSet:string",
+    "modelValue:var",
+    "readonly:bool",
+    "tint:color",
+    "title:string"
+   ],
+   "signals": [
+    "beforeHide()",
+    "beforeShow()",
+    "canceled()",
+    "hidden()",
+    "shown()",
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "cancel()",
+    "hide()",
+    "set(v)",
+    "show()"
+   ]
+  },
+  "Nova.Controls.NovaPopupProxy": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaPopupProxy.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "anchor:string",
+    "autoClose:bool",
+    "breakpoint:int",
+    "contextMenu:bool",
+    "cover:bool",
+    "fit:bool",
+    "menuModeActive:bool",
+    "modelValue:bool",
+    "noBackdropDismiss:bool",
+    "noEscDismiss:bool",
+    "offset:var",
+    "persistent:bool",
+    "position:string",
+    "ro dialogMode:bool",
+    "self:string",
+    "target:var",
+    "tint:color"
+   ],
+   "signals": [
+    "beforeHide()",
+    "beforeShow()",
+    "escapeKey()",
+    "hidden()",
+    "shown()",
+    "updateModelValue(bool v)"
+   ],
+   "methods": [
+    "hide()",
+    "onHidden()",
+    "onHidden()",
+    "onShown()",
+    "onShown()",
+    "show()",
+    "toggle()"
+   ]
+  },
+  "Nova.Controls.NovaPullToRefresh": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaPullToRefresh.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "bgColor:color",
+    "disable:bool",
+    "icon:string",
+    "pullDist:real",
+    "refreshing:bool",
+    "ro pullProgress:real",
+    "side:string",
+    "threshold:real",
+    "tint:color"
+   ],
+   "signals": [
+    "refresh()"
+   ],
+   "methods": [
+    "trigger()"
+   ]
+  },
+  "Nova.Controls.NovaRadio": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaRadio.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "activeTab:bool",
+    "checkedIcon:string",
+    "dense:bool",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "hint:string",
+    "keepColor:bool",
+    "label:string",
+    "leftLabel:bool",
+    "modelValue:var",
+    "readonly:bool",
+    "ro checked:bool",
+    "ro hasError:bool",
+    "tint:color",
+    "uncheckedIcon:string",
+    "val:var"
+   ],
+   "signals": [
+    "selected()",
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "select()"
+   ]
+  },
+  "Nova.Controls.NovaRange": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaRange.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "activeTab:bool",
+    "dark:bool",
+    "dense:bool",
+    "disable:bool",
+    "dragRange:bool",
+    "dragging:bool",
+    "error:bool",
+    "errorMessage:string",
+    "hint:string",
+    "isLeft:bool",
+    "label:bool",
+    "labelAlways:bool",
+    "leftLabelValue:string",
+    "leftThumbColor:color",
+    "markerLabels:var",
+    "markers:var",
+    "max:real",
+    "maxRange:real",
+    "min:real",
+    "minRange:real",
+    "modelValue:var",
+    "readonly:bool",
+    "reverse:bool",
+    "rightLabelValue:string",
+    "rightThumbColor:color",
+    "ro hasError:bool",
+    "ro p:real",
+    "ro p:real",
+    "ro pos:real",
+    "ro t:real",
+    "ro t:real",
+    "ro txt:string",
+    "selectionColor:color",
+    "snap:bool",
+    "step:real",
+    "thumbSize:real",
+    "tint:color",
+    "trackColor:color",
+    "trackSize:real",
+    "updatingFromDrag:bool",
+    "vertical:bool"
+   ],
+   "signals": [
+    "changed()",
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "posToValue(pos)",
+    "setRange(left, right)",
+    "setValueLeft(v)",
+    "setValueRight(v)"
+   ]
+  },
+  "Nova.Controls.NovaResizeObserver": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaResizeObserver.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "debounce:int",
+    "target:var"
+   ],
+   "signals": [
+    "resize(real width, real height)"
+   ],
+   "methods": [
+    "onHeightChanged()",
+    "onWidthChanged()",
+    "trigger()"
+   ]
+  },
+  "Nova.Controls.NovaResponsive": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaResponsive.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "ratio:real"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaRow": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaRow.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "align:string",
+    "justify:string",
+    "spacing:real",
+    "wrap:bool"
+   ],
+   "signals": [],
+   "methods": [
+    "relayout()"
+   ]
+  },
+  "Nova.Controls.NovaScrollArea": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaScrollArea.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaSelect": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaSelect.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "displayValue:string",
+    "dropdownIcon:string",
+    "emitValue:bool",
+    "hideDropdownIcon:bool",
+    "inputPlaceholder:string",
+    "maxValues:int",
+    "modelValue:var",
+    "multiple:bool",
+    "noOptionLabel:string",
+    "optionDisable:string",
+    "optionLabel:string",
+    "optionValue:string",
+    "options:var",
+    "optionsCover:bool",
+    "optionsDense:bool",
+    "ro filterText:string",
+    "useInput:bool"
+   ],
+   "signals": [
+    "newValue(var input)",
+    "popupHide()",
+    "popupShow()"
+   ],
+   "methods": [
+    "hidePopup()",
+    "selectOption(value)",
+    "showPopup()"
+   ]
+  },
+  "Nova.Controls.NovaSeparator": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaSeparator.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "color:color",
+    "size:real",
+    "spaced:bool",
+    "vertical:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaSkeleton": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaSkeleton.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "animation:string",
+    "animationSpeed:int",
+    "bordered:bool",
+    "type:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaSlideItem": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaSlideItem.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "dense:bool",
+    "duration:int",
+    "leftSlot:Component",
+    "openThreshold:real",
+    "revealWidth:int",
+    "rightSlot:Component",
+    "ro opened:bool"
+   ],
+   "signals": [
+    "leftAction()",
+    "rightAction()",
+    "slideClosed()",
+    "slideOpened(string side)"
+   ],
+   "methods": [
+    "reset()",
+    "slideLeft()",
+    "slideRight()"
+   ]
+  },
+  "Nova.Controls.NovaSlider": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaSlider.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "activeTab:bool",
+    "dark:bool",
+    "dense:bool",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "hint:string",
+    "innerMax:real",
+    "innerMin:real",
+    "keyboardFocus:bool",
+    "label:bool",
+    "labelAlways:bool",
+    "labelValue:string",
+    "markerLabels:var",
+    "markers:var",
+    "max:real",
+    "min:real",
+    "modelValue:var",
+    "readonly:bool",
+    "reverse:bool",
+    "ro hasError:bool",
+    "ro t:real",
+    "ro t:real",
+    "ro txt:string",
+    "selectionColor:color",
+    "snap:bool",
+    "step:real",
+    "thumbColor:color",
+    "thumbSize:real",
+    "tint:color",
+    "trackColor:color",
+    "trackSize:real",
+    "updatingFromDrag:bool",
+    "vertical:bool"
+   ],
+   "signals": [
+    "changed()",
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "posToValue(pos)",
+    "setValue(v)",
+    "stepBy(n)"
+   ]
+  },
+  "Nova.Controls.NovaSpace": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaSpace.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaSpinner": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaSpinner.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "phase:real",
+    "size:real",
+    "thickness:real",
+    "tint:color",
+    "variant:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaStep": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaStep.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "activeColor:string",
+    "activeIcon:string",
+    "caption:string",
+    "color:string",
+    "disable:bool",
+    "done:bool",
+    "doneColor:string",
+    "doneIcon:string",
+    "error:bool",
+    "errorColor:string",
+    "errorIcon:string",
+    "headerNav:bool",
+    "icon:string",
+    "name:var",
+    "prefix:string",
+    "ro isNovaStep:bool",
+    "title:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaStepper": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaStepper.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "activeColor:color",
+    "activeIcon:string",
+    "alternativeLabels:bool",
+    "animated:bool",
+    "bordered:bool",
+    "contracted:bool",
+    "doneColor:color",
+    "doneIcon:string",
+    "errorColor:color",
+    "errorIcon:string",
+    "flat:bool",
+    "headerNav:bool",
+    "inactiveColor:color",
+    "inactiveIcon:string",
+    "infinite:bool",
+    "message:Component",
+    "modelValue:var",
+    "navigation:alias",
+    "ro active:bool",
+    "ro count:int",
+    "ro currentIndex:int",
+    "ro dotC:color",
+    "ro headerH:real",
+    "ro icon:string",
+    "ro navOk:bool",
+    "ro st:var",
+    "ro usePrefix:bool",
+    "transitionDuration:int",
+    "vertical:bool"
+   ],
+   "signals": [
+    "beforeTransition(var info)",
+    "transition(var info)",
+    "updateModelValue(var name)"
+   ],
+   "methods": [
+    "goTo(target)",
+    "headRowX(i, w)",
+    "headStackY(i)",
+    "next()",
+    "previous()"
+   ]
+  },
+  "Nova.Controls.NovaStepperNavigation": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaStepperNavigation.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaTab": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTab.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "alert:var",
+    "alertIcon:string",
+    "disable:bool",
+    "icon:string",
+    "label:string",
+    "name:string",
+    "noCaps:bool",
+    "ro isActive:bool",
+    "ro isNovaTab:bool",
+    "tabsRef:var"
+   ],
+   "signals": [
+    "clicked()"
+   ],
+   "methods": [
+    "contentChildrenPlaceholder()",
+    "requestClick()"
+   ]
+  },
+  "Nova.Controls.NovaTabPanel": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTabPanel.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "disable:bool",
+    "name:var",
+    "ro isNovaTabPanel:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaTabPanels": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTabPanels.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "animated:bool",
+    "infinite:bool",
+    "modelValue:var",
+    "ro count:int",
+    "ro currentIndex:int",
+    "swipeable:bool",
+    "transitionDuration:int",
+    "vertical:bool"
+   ],
+   "signals": [
+    "beforeTransition(var info)",
+    "transition(var info)",
+    "updateModelValue(var name)"
+   ],
+   "methods": [
+    "goTo(target, animate)",
+    "next()",
+    "previous()"
+   ]
+  },
+  "Nova.Controls.NovaTable": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTable.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "binaryStateSort:bool",
+    "bordered:bool",
+    "columns:var",
+    "descending:bool",
+    "expandSlot:Component",
+    "expanded:var",
+    "filter:string",
+    "filterMethod:var",
+    "flat:bool",
+    "grid:bool",
+    "hideBottom:bool",
+    "hideHeader:bool",
+    "loading:bool",
+    "loadingLabel:string",
+    "noDataLabel:string",
+    "page:int",
+    "ro allVisibleSelected:bool",
+    "ro filteredRows:var",
+    "ro normColumns:var",
+    "ro pageCount:int",
+    "ro rowCount:int",
+    "ro someSelected:bool",
+    "ro sortedRows:var",
+    "ro virtualContentHeight:real",
+    "ro virtualContentY:real",
+    "ro virtualRowCount:int",
+    "ro visibleRows:var",
+    "rowData:var",
+    "rowExpanded:bool",
+    "rowIdx:int",
+    "rowK:string",
+    "rowKey:string",
+    "rowSelected:bool",
+    "rows:var",
+    "rowsNumber:int",
+    "rowsPerPage:int",
+    "rowsPerPageOptions:var",
+    "selected:var",
+    "serverSide:bool",
+    "singleSelection:bool",
+    "sortBy:string",
+    "title:string",
+    "virtualScroll:bool",
+    "virtualScrollItemSize:int"
+   ],
+   "signals": [
+    "pageRequested(int page)",
+    "request(var params)",
+    "rowClicked(var row, int index)",
+    "rowDoubleClicked(var row)",
+    "sortChanged(string field, bool desc)",
+    "updateExpanded(var keys)",
+    "updateSelected(var rows)"
+   ],
+   "methods": [
+    "firstPage()",
+    "isRowExpanded(row, i)",
+    "isRowSelected(row)",
+    "nextPage()",
+    "prevPage()",
+    "requestPage(p)",
+    "requestServerInteraction()",
+    "requestSort(name)",
+    "scrollTo(i)",
+    "setPagination(pg)",
+    "toggleAllSelection()",
+    "toggleRowExpand(row, i)",
+    "toggleRowSelection(row)"
+   ]
+  },
+  "Nova.Controls.NovaTabs": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTabs.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "activeBgColor:color",
+    "activeColor:color",
+    "align:string",
+    "breakpoint:int",
+    "dense:bool",
+    "indicatorColor:color",
+    "inlineLabel:bool",
+    "leftIcon:string",
+    "mobileArrows:bool",
+    "modelValue:var",
+    "narrowIndicator:bool",
+    "noCaps:bool",
+    "outsideArrows:bool",
+    "rightIcon:string",
+    "ro act:var",
+    "ro count:int",
+    "ro currentIndex:int",
+    "ro currentName:string",
+    "ro narrowW:real",
+    "shrink:bool",
+    "stretch:bool",
+    "switchIndicator:bool",
+    "vertical:bool"
+   ],
+   "signals": [
+    "updateModelValue(var name)"
+   ],
+   "methods": [
+    "contentMeasure()",
+    "contentMeasureH()",
+    "contentRowW(t)"
+   ]
+  },
+  "Nova.Controls.NovaTd": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTd.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "align:string",
+    "autoWidth:bool",
+    "text:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaText": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaText.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "italic:bool",
+    "muted:bool",
+    "strike:bool",
+    "typography:string",
+    "upper:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaTh": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTh.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "align:string",
+    "descending:bool",
+    "sortable:bool",
+    "sorted:bool",
+    "text:string"
+   ],
+   "signals": [
+    "sortRequest()"
+   ],
+   "methods": []
+  },
+  "Nova.Controls.NovaTime": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTime.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "disable:bool",
+    "error:bool",
+    "errorMessage:string",
+    "format24h:bool",
+    "hint:string",
+    "hourOptions:var",
+    "minuteOptions:var",
+    "modelValue:var",
+    "nowBtn:bool",
+    "readonly:bool",
+    "ro cx:real",
+    "ro cy:real",
+    "ro hasError:bool",
+    "ro rOuter:real",
+    "secondOptions:var",
+    "tint:color",
+    "withSeconds:bool"
+   ],
+   "signals": [
+    "valueChanged(var value)"
+   ],
+   "methods": [
+    "cycleFace()",
+    "on_FaceChanged()",
+    "on_HChanged()",
+    "on_MChanged()",
+    "on_SChanged()",
+    "setHour(h)",
+    "setMinute(m)",
+    "setNow()",
+    "setSecond(s)",
+    "toggleAmPm()",
+    "valueText()"
+   ]
+  },
+  "Nova.Controls.NovaTimeline": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTimeline.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "layout:string",
+    "side:string",
+    "tint:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaTimelineEntry": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTimelineEntry.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "avatar:url",
+    "body:string",
+    "heading:bool",
+    "icon:string",
+    "side:string",
+    "subtitle:string",
+    "subtitleSlot:Component",
+    "tint:color",
+    "title:string",
+    "titleSlot:Component"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaToggle": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaToggle.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "icon:string",
+    "iconColor:color"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaToolbar": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaToolbar.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "inset:bool"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaToolbarTitle": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaToolbarTitle.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "shrink:bool",
+    "text:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaTooltip": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTooltip.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "a11yLabel:string",
+    "anchor:string",
+    "delay:int",
+    "hideDelay:int",
+    "isDark:bool",
+    "maxWidth:real",
+    "modelValue:bool",
+    "offset:var",
+    "pendingShow:bool",
+    "self:string",
+    "target:var",
+    "text:string",
+    "tint:color"
+   ],
+   "signals": [
+    "beforeHide()",
+    "beforeShow()",
+    "hidden()",
+    "shown()",
+    "updateModelValue(bool v)"
+   ],
+   "methods": [
+    "hide()",
+    "show()",
+    "toggle()",
+    "updateHover(inside)",
+    "updatePosition()"
+   ]
+  },
+  "Nova.Controls.NovaTr": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTr.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "clickable:bool",
+    "selected:bool"
+   ],
+   "signals": [
+    "rowClicked()",
+    "rowDoubleClicked()"
+   ],
+   "methods": []
+  },
+  "Nova.Controls.NovaTransition": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTransition.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "clipContent:bool",
+    "duration:int",
+    "easing:int",
+    "name:string",
+    "ro axis:string",
+    "ro preset:var",
+    "show:bool"
+   ],
+   "signals": [
+    "entered()",
+    "exited()"
+   ],
+   "methods": []
+  },
+  "Nova.Controls.NovaTree": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaTree.qml",
+   "kind": "component",
+   "a11y": "interactive",
+   "props": [
+    "a11yLabel:string",
+    "defaultExpandAll:bool",
+    "dense:bool",
+    "depth:int",
+    "depth:int",
+    "expandable:bool",
+    "expanded:var",
+    "filter:string",
+    "filterMethod:var",
+    "half:bool",
+    "key:string",
+    "kids:var",
+    "ld:var",
+    "nd:var",
+    "nodeKey:string",
+    "nodes:var",
+    "open:bool",
+    "parentKey:string",
+    "parentKey:string",
+    "parentNode:var",
+    "parentNode:var",
+    "sel:bool",
+    "selected:var",
+    "shown:bool",
+    "strat:string",
+    "tickOn:bool",
+    "tickStrategy:string",
+    "tickable:bool",
+    "ticked:var"
+   ],
+   "signals": [
+    "lazyLoad(var node, var done)",
+    "nodeClicked(var node, string key)",
+    "updateExpanded(var keys)",
+    "updateSelected(var key)",
+    "updateTicked(var keys)"
+   ],
+   "methods": [
+    "collapseAll()",
+    "expandAll()",
+    "getNodeByKey(key)",
+    "isExpanded(key)",
+    "isTicked(key)",
+    "selectNode(key)",
+    "setExpanded(key, on)",
+    "setTicked(key, on)",
+    "tickHalf(key)",
+    "toggleTicked(key)",
+    "tryExpand(key, open)"
+   ]
+  },
+  "Nova.Controls.NovaVideo": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaVideo.qml",
+   "kind": "component",
+   "a11y": "semantic",
+   "props": [
+    "ratio:real",
+    "src:url",
+    "title:string"
+   ],
+   "signals": [],
+   "methods": []
+  },
+  "Nova.Controls.NovaVirtualScroll": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaVirtualScroll.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "delegate:Component",
+    "itemSize:real",
+    "items:var"
+   ],
+   "signals": [],
+   "methods": [
+    "scrollToIndex(i)"
+   ]
+  },
+  "Nova.Controls.NovaVisible": {
+   "module": "Nova.Controls",
+   "file": "Nova/Controls/NovaVisible.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "above:string",
+    "below:string",
+    "only:string"
+   ],
+   "signals": [],
+   "methods": [
+    "known(bp)",
+    "threshold(bp)"
+   ]
+  },
+  "Nova.Design.NovaA11y": {
+   "module": "Nova.Design",
+   "file": "Nova/Design/NovaA11y.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "announcementCount:int",
+    "lastAnnouncement:string",
+    "ro aaLargeTextRatio:real",
+    "ro aaTextRatio:real",
+    "ro aaaTextRatio:real",
+    "ro keyboardMode:bool",
+    "ro requiredInteractive:var",
+    "ro semanticColors:var",
+    "ro uiComponentRatio:real",
+    "visibleFocus:bool"
+   ],
+   "signals": [],
+   "methods": [
+    "aaFill(fill, textOn, target)",
+    "aaText(color, bg, target)",
+    "channels(color)",
+    "clearAnnouncement()",
+    "contrast(a, b)",
+    "contrastColor(bg, light, dark)",
+    "isLargeText(pixelSize, bold)",
+    "luminance(color)",
+    "mix(a, b, k)",
+    "notice(text)",
+    "passesAA(fg, bg, large)",
+    "passesAAA(fg, bg, large)",
+    "passesUI(fg, bg)",
+    "ringVisible(target)"
+   ]
+  },
+  "Nova.Design.NovaIconSet": {
+   "module": "Nova.Design",
+   "file": "Nova/Design/NovaIconSet.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "ro arrow:var",
+    "ro available:var",
+    "ro carousel:var",
+    "ro chevron:var",
+    "ro chip:var",
+    "ro colorPicker:var",
+    "ro datetime:var",
+    "ro editor:var",
+    "ro expansionItem:var",
+    "ro fab:var",
+    "ro field:var",
+    "ro keyPaths:var",
+    "ro name:string",
+    "ro pagination:var",
+    "ro providers:var",
+    "ro pullToRefresh:var",
+    "ro rating:var",
+    "ro stepper:var",
+    "ro table:var",
+    "ro tabs:var",
+    "ro tree:var",
+    "ro type:var",
+    "ro uploader:var"
+   ],
+   "signals": [],
+   "methods": [
+    "defaultProvider()",
+    "get(path, fallback)",
+    "provider(id)",
+    "providerUrl(id, iconName)",
+    "register(setName, definition)",
+    "registerProvider(id, spec)",
+    "resolve(icon)",
+    "set(iconSetObject)",
+    "unregister(setName)",
+    "unregisterProvider(id)",
+    "use(setName)"
+   ]
+  },
+  "Nova.Design.NovaMotion": {
+   "module": "Nova.Design",
+   "file": "Nova/Design/NovaMotion.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "animateOnStart:bool",
+    "reducedMotion:bool",
+    "ro animateDelay:int",
+    "ro animateDuration:int",
+    "ro animateRepeat:int",
+    "ro easingAccelerate:int",
+    "ro easingDecelerate:int",
+    "ro easingEmphasized:int",
+    "ro easingFade:int",
+    "ro easingLinear:int",
+    "ro easingOvershoot:int",
+    "ro easingScale:int",
+    "ro easingStandard:int",
+    "ro fadeDuration:int",
+    "ro presetNames:var",
+    "ro presets:var",
+    "ro rippleDuration:int",
+    "ro scaleDuration:int",
+    "ro transitionDuration:int",
+    "speedFactor:real"
+   ],
+   "signals": [],
+   "methods": [
+    "duration(base)",
+    "hasPreset(name)",
+    "preset(name)"
+   ]
+  },
+  "Nova.Design.NovaUtils": {
+   "module": "Nova.Design",
+   "file": "Nova/Design/NovaUtils.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "ro colors:var",
+    "ro date:var",
+    "ro dateLocale:var",
+    "ro format:var",
+    "ro is:var",
+    "ro sanitize:var"
+   ],
+   "signals": [],
+   "methods": [
+    "clampLength(s, max)",
+    "clone(v)",
+    "debounce(fn, wait, options)",
+    "deprecate(typeName, apiName, replacement, removedIn)",
+    "escapeHtml(s)",
+    "extend()",
+    "frameDebounce(fn)",
+    "invoke()",
+    "logOnce(key, message)",
+    "run()",
+    "sanitizeUrl(url)",
+    "stripControlChars(s)",
+    "throttle(fn, limit, trailing)",
+    "uid()"
+   ]
+  },
+  "Nova.Services.NovaApp": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaApp.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "ro available:bool",
+    "ro isActive:bool",
+    "ro isCapable:bool",
+    "ro isFullscreen:bool",
+    "ro isMaximized:bool",
+    "ro isMinimized:bool",
+    "ro isVisible:bool",
+    "ro targetWindow:var",
+    "ro title:string"
+   ],
+   "signals": [],
+   "methods": [
+    "exit()",
+    "hide()",
+    "request()",
+    "setTitle(text)",
+    "setVisibility(name)",
+    "show()",
+    "snapshot()",
+    "toggle()"
+   ]
+  },
+  "Nova.Services.NovaDialog": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaDialog.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "dialogComp:Component",
+    "handleComp:Component",
+    "ro dismissReasons:var",
+    "ro positionList:var",
+    "ro zLayer:int"
+   ],
+   "signals": [],
+   "methods": [
+    "activeDialogs()",
+    "count()",
+    "hideAll(reason)",
+    "normalizeButton(input, defLabel)",
+    "setDefaults(opts)",
+    "show(opts)"
+   ]
+  },
+  "Nova.Services.NovaDialogHandle": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaDialogHandle.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "item:var",
+    "ro valid:bool"
+   ],
+   "signals": [
+    "accepted()",
+    "dismissed(string reason)",
+    "rejected()"
+   ],
+   "methods": [
+    "cancel()",
+    "hide()",
+    "ok()",
+    "update(props)"
+   ]
+  },
+  "Nova.Services.NovaI18n": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaI18n.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "bundles:var",
+    "locale:string",
+    "pluralBundles:var",
+    "ro baseLang:string",
+    "ro direction:string",
+    "ro isRtl:bool",
+    "ro isoName:string"
+   ],
+   "signals": [],
+   "methods": [
+    "addBundle(localeName, dict)",
+    "addPluralBundle(localeName, dict)",
+    "formatCurrency(n, decimals)",
+    "formatDate(date, style)",
+    "formatNumber(n, decimals)",
+    "formatRelative(date, now)",
+    "pluralCategory(n)",
+    "setLocale(name)",
+    "t(key, params)",
+    "tp(key, n, params)"
+   ]
+  },
+  "Nova.Services.NovaIntersectionPool": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaIntersectionPool.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "pollInterval:int",
+    "ro count:int",
+    "ticker:Timer"
+   ],
+   "signals": [],
+   "methods": [
+    "add(sub)",
+    "clear()",
+    "intersect(a, b)",
+    "kick()",
+    "nearestScrollable(item)",
+    "remove(sub)",
+    "scrollPosition(root)",
+    "tick()",
+    "toRect(x, y, width, height)",
+    "viewport()"
+   ]
+  },
+  "Nova.Services.NovaLoading": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaLoading.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "count:int",
+    "dead:bool",
+    "entryComp:Component",
+    "group:string",
+    "handleComp:Component",
+    "item:var",
+    "overlayComp:Component",
+    "ro defaultGroup:string",
+    "ro spinnerModels:var",
+    "ro zLayer:int"
+   ],
+   "signals": [],
+   "methods": [
+    "activeCount()",
+    "activeGroups()",
+    "count(group)",
+    "decrement(group)",
+    "hide(group)",
+    "hideAll()",
+    "increment(opts)",
+    "isActive(group)",
+    "setDefaults(opts)",
+    "show(opts)"
+   ]
+  },
+  "Nova.Services.NovaLoadingBar": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaLoadingBar.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [],
+   "signals": [],
+   "methods": [
+    "increment(size)",
+    "start(opts)",
+    "stop()"
+   ]
+  },
+  "Nova.Services.NovaLoadingHandle": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaLoadingHandle.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "entry:var",
+    "ro count:int",
+    "ro group:string",
+    "ro item:var",
+    "ro valid:bool"
+   ],
+   "signals": [],
+   "methods": [
+    "hide()",
+    "update(props)"
+   ]
+  },
+  "Nova.Services.NovaNotify": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaNotify.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "actionComp:Component",
+    "connComp:Component",
+    "handleComp:Component",
+    "itemComp:Component",
+    "maxVisible:int",
+    "ro defaultTimeout:int",
+    "ro dismissReasons:var",
+    "ro enterMs:int",
+    "ro positionList:var"
+   ],
+   "signals": [],
+   "methods": [
+    "countAt(position)",
+    "dismiss(item, reason, animate)",
+    "dismissAll(position)",
+    "onHeightChanged()",
+    "onWidthChanged()",
+    "registerType(typeName, typeOpts)",
+    "relayout(position)",
+    "relayoutAll()",
+    "setDefaults(opts)",
+    "show(config)",
+    "totalCount()",
+    "update(item, props)"
+   ]
+  },
+  "Nova.Services.NovaNotifyAction": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaNotifyAction.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "closeReason:string",
+    "handler:var",
+    "icon:string",
+    "label:string",
+    "noDismiss:bool",
+    "textTint:color",
+    "tint:color"
+   ],
+   "signals": [
+    "triggered()"
+   ],
+   "methods": []
+  },
+  "Nova.Services.NovaNotifyHandle": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaNotifyHandle.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "item:var",
+    "ro valid:bool"
+   ],
+   "signals": [],
+   "methods": [
+    "dismiss()",
+    "update(props)"
+   ]
+  },
+  "Nova.Services.NovaOverlayHost": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaOverlayHost.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "ro contentItem:var",
+    "ro zNotify:int"
+   ],
+   "signals": [],
+   "methods": [
+    "attach(item, layer)",
+    "closePopups(depth, reason)",
+    "popupCount()",
+    "popups()",
+    "registerPopup(item, closeFn)",
+    "topPopup()",
+    "unregisterPopup(item)"
+   ]
+  },
+  "Nova.Services.NovaPlatform": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaPlatform.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "reducedMotion:bool",
+    "ro cpuArch:string",
+    "ro hasTouch:bool",
+    "ro isAndroid:bool",
+    "ro isDesktop:bool",
+    "ro isIOS:bool",
+    "ro isLinux:bool",
+    "ro isMac:bool",
+    "ro isMobile:bool",
+    "ro isWasm:bool",
+    "ro isWindows:bool",
+    "ro novaRuntimeReady:bool",
+    "ro os:string",
+    "ro osVersion:string"
+   ],
+   "signals": [],
+   "methods": [
+    "describe()",
+    "snapshot()"
+   ]
+  },
+  "Nova.Services.NovaScreen": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaScreen.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "ro gtLg:bool",
+    "ro gtMd:bool",
+    "ro gtSm:bool",
+    "ro gtXs:bool",
+    "ro height:int",
+    "ro isLg:bool",
+    "ro isMd:bool",
+    "ro isMobile:bool",
+    "ro isSm:bool",
+    "ro isXl:bool",
+    "ro isXs:bool",
+    "ro ltLg:bool",
+    "ro ltMd:bool",
+    "ro ltSm:bool",
+    "ro name:string",
+    "ro width:int",
+    "source:var",
+    "thresholds:var"
+   ],
+   "signals": [],
+   "methods": [
+    "setThresholds(xs, sm, md, lg)"
+   ]
+  },
+  "Nova.Services.NovaStorage": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaStorage.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "namespace:string",
+    "ro backend:string",
+    "ro persistent:bool",
+    "ro storagePath:string"
+   ],
+   "signals": [],
+   "methods": [
+    "clear()",
+    "flush()",
+    "get(key, defaultValue)",
+    "getAll()",
+    "getAllKeys()",
+    "getItem(key)",
+    "getLength()",
+    "has(key)",
+    "isEmpty()",
+    "reload()",
+    "remove(key)",
+    "removeItem(key)",
+    "set(key, value)",
+    "setAll(obj)",
+    "setItem(key, value)",
+    "useNamespace(name)"
+   ]
+  },
+  "Nova.Services.NovaTheme": {
+   "module": "Nova.Services",
+   "file": "Nova/Services/NovaTheme.qml",
+   "kind": "singleton",
+   "a11y": "decorative",
+   "props": [
+    "accent:color",
+    "dark:color",
+    "fontFamily:string",
+    "iconLocalRoot:url",
+    "isDark:bool",
+    "primary:color",
+    "ro a11yBase:color",
+    "ro accentText:color",
+    "ro bodyFontSize:int",
+    "ro bodyLineHeight:real",
+    "ro direction:string",
+    "ro elevation:var",
+    "ro focusRing:color",
+    "ro focusRingOffset:int",
+    "ro focusRingWidth:int",
+    "ro fontL:int",
+    "ro fontM:int",
+    "ro fontS:int",
+    "ro fontXL:int",
+    "ro fontXS:int",
+    "ro info:color",
+    "ro infoText:color",
+    "ro isRtl:bool",
+    "ro negative:color",
+    "ro negativeText:color",
+    "ro outline:color",
+    "ro outlineStrong:color",
+    "ro page:color",
+    "ro positive:color",
+    "ro positiveText:color",
+    "ro primaryText:color",
+    "ro radiusL:int",
+    "ro radiusM:int",
+    "ro radiusS:int",
+    "ro ripple:color",
+    "ro secondaryText:color",
+    "ro spacingL:int",
+    "ro spacingM:int",
+    "ro spacingS:int",
+    "ro surface:color",
+    "ro surfaceAlt:color",
+    "ro textColor:color",
+    "ro textMuted:color",
+    "ro textOnPrimary:color",
+    "ro typeNames:var",
+    "ro typeScale:var",
+    "ro warning:color",
+    "ro warningText:color",
+    "ro weightBold:int",
+    "ro weightBolder:int",
+    "ro weightLight:int",
+    "ro weightMedium:int",
+    "ro weightRegular:int",
+    "ro weightThin:int",
+    "ro zFab:int",
+    "ro zFixedDrawer:int",
+    "ro zFullscreen:int",
+    "ro zMarginals:int",
+    "ro zMax:int",
+    "ro zMenu:int",
+    "ro zNotify:int",
+    "ro zSide:int",
+    "ro zTooltip:int",
+    "ro zTop:int",
+    "secondary:color"
+   ],
+   "signals": [],
+   "methods": [
+    "elevationLayers(level)",
+    "fillTint(color)",
+    "setBrand(primaryColor)",
+    "setDark(value)",
+    "shadowColor(level)",
+    "textStyle(name)",
+    "toggleDark()"
+   ]
+  }
+ },
+ "fingerprint": "7c542c416709cd96"
+}

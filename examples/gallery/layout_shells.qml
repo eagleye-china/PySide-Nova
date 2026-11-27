@@ -1,5 +1,5 @@
 // examples/gallery/layout_shells.qml
-// 组合根容器独立画廊：20 项逐项真实预览 + 实时调参面板 + 明暗切换（含 NovaChat / NovaAgent / NovaDE / NovaCopilot / NovaOrbit / NovaIncubator）
+// 组合根容器独立画廊：21 项逐项真实预览 + 实时调参面板 + 明暗切换（含 NovaChat / NovaAgent / NovaDE / NovaCopilot / NovaOrbit / NovaIncubator / NovaAIReport）
 // 满足组合宪法 0.2.0 第 8 章 Gallery 门禁：每个 Shell 独立预览、可独立加载、脱离业务、调参面板
 // 运行：python examples/gallery/layout_shells.py（不侵入主画廊 main.qml）
 import QtQuick
@@ -13,7 +13,7 @@ ApplicationWindow {
     width: 1180
     height: 780
     visible: true
-    title: "pyside-nova · 组合根容器（20 项 · 含四个 AI 智能组合根 / 意图轨道工作台 / 应用孵化器工作台）"
+    title: "pyside-nova · 组合根容器（21 项 · 含四个 AI 智能组合根 / 意图轨道工作台 / 应用孵化器工作台 / 智能报表工作台）"
     color: NovaTheme.page
 
     Component.onCompleted: NovaScreen.source = win
@@ -23,12 +23,12 @@ ApplicationWindow {
         "NovaThreeColumn", "NovaCompare", "NovaCardGrid", "NovaModal",
         "NovaDrawerPanel", "NovaSetupWizard",         "NovaBlankPage", "NovaDesktop",
         "NovaMobile", "NovaFlexLayout", "NovaChat",
-        "NovaAgent", "NovaDE", "NovaCopilot", "NovaOrbit", "NovaIncubator"
+        "NovaAgent", "NovaDE", "NovaCopilot", "NovaOrbit", "NovaIncubator", "NovaAIReport"
     ]
     readonly property var shellPages: [
         pgSidebar, pgTopNavigation, pgDual, pgTab, pgThreeCol, pgCompare, pgCardGrid, pgModal,
         pgDrawerPanel, pgSetupWizard, pgBlankPage, pgDesktop, pgMobile, pgFlex, pgChat,
-        pgAgent, pgDE, pgCopilot, pgOrbit, pgIncubator
+        pgAgent, pgDE, pgCopilot, pgOrbit, pgIncubator, pgAIReport
     ]
 
     property bool collapsed: false
@@ -267,5 +267,18 @@ ApplicationWindow {
         pipelineSlot: Rectangle { anchors.fill: parent; color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "CARF 四阶段条 · 构想/实现/打磨/封版"; color: NovaTheme.textMuted } }
         validateSlot: Rectangle { anchors.fill: parent; color: NovaTheme.page; Text { anchors.centerIn: parent; text: "三重校验 · 配方/契约/门禁"; color: NovaTheme.textColor } }
         certificateSlot: Rectangle { anchors.fill: parent; color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "封版证书 · 五件套预览"; color: NovaTheme.textMuted } }
+        overlaySlot: Item {} } }
+
+    // ── 1.6.0 第 21 个组合根 · NovaAIReport 智能报表工作台（七槽占位预览）──
+    Component { id: pgAIReport; NovaAIReport { anchors.fill: parent; diagnosisSize: win.panelSize; querySize: win.panelSize
+        diagnosisCollapsed: win.collapsed; queryCollapsed: win.collapsed
+        showBenchmark: win.showBars; showDiagnosis: win.showBars; showForecast: win.showBars
+        showQuery: win.showBars; showApproval: win.showBars
+        benchmarkSlot: Rectangle { anchors.fill: parent; color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "对标带 · 本厂值 / 行业基线 / 先进基线 / 差距"; color: NovaTheme.textColor } }
+        diagnosisSlot: Rectangle { anchors.fill: parent; color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "诊断轨 · 归因七元组 / 根因排序"; color: NovaTheme.textMuted } }
+        reportSlot: Rectangle { anchors.fill: parent; color: NovaTheme.page; Text { anchors.centerIn: parent; text: "主报表区 · 注入 NovaDataGrid"; color: NovaTheme.textColor } }
+        forecastSlot: Rectangle { anchors.fill: parent; color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "预测区间带 · 2–8h 区间 + 模型新鲜度"; color: NovaTheme.textMuted } }
+        querySlot: Rectangle { anchors.fill: parent; color: NovaTheme.surfaceAlt; Text { anchors.centerIn: parent; text: "问数轨 · NL2SQL / 每日早报"; color: NovaTheme.textMuted } }
+        approvalSlot: Rectangle { anchors.fill: parent; color: NovaTheme.surface; Text { anchors.centerIn: parent; text: "审批闸门 · 建议→确认→回写"; color: NovaTheme.textMuted } }
         overlaySlot: Item {} } }
 }

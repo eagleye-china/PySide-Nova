@@ -2,9 +2,65 @@
 
 > 用途：本文件是项目状态的**唯一事实源**；`scripts/gen_prompt.py` 会把它全文内联进
 > `PROMPT.md`，新会话粘贴 PROMPT.md 即可 100% 恢复上下文。
-> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.5.0 · 2026-11-27 16:45 · T21 完现销号 / 1.5.0 本地待 CSA 发布；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
+> **每次交付随宪法迭代记录表同步更新本文件。**（更新于 1.6.0 · 2026-11-27 21:30 · T24 完现销号 + CSA 授权升版 1.6.0 / 第 21 组合根 `NovaAIReport` + `examples/layout_shell/ai_report/` 真实 NovaDataGrid demo / **147 类型 · 指纹 `7c542c416709cd96`** / 坑位 77 / 1.5.0 本地待 CSA 发布；下方 20:12 段保留为史料：T23 完现销号 / README 英雄卡改用 NovaMarkdown 渲染 md / 坑位 76 / 冻结面 `9742de8638251876` 零漂移 / 1.5.0 本地待 CSA 发布；下方 18:34 段保留为史料：T22 完现销号 / NovaMarkdown 择优反哺；下方 16:45 段保留为史料：T21 完现销号 / 第 146 类型 NovaDataGrid / 铝电解 demo / 坑位 71~74；下方 14:17 段保留为史料：T4 依 CSA 指令销号 + 1.4.0 上架 PyPI LATEST RELEASE**：CSA 14:05 commit `a80799f` / tag `v1.4.0` / push，14:17 `pyside-nova 1.4.0` 上架；`docs/controls/NovaMarkdown.md` 重写为本库使用文档 + `NovaMarkdown` 零依赖渲染器随 1.4.0 发布，additive minor 重签 145 类型 / 指纹 `37fbbe9ab5806a2a`；静态 3/3 + 相关子集 68 passed + 专项 12/12 + 干净构建 1.4.0 wheel；**待办池 1 项 = T3**；nova-forge 0.5.0 本地待 CSA 发布。11-27 13:59 T20 完现为史料，不回改）
 
-## 🆕 1.5.0 现行校准（2026-11-27 16:45 · T21 完现 · 覆盖下方 1.4.0 及更早历史快照；下方全部保留为史料）
+## 🆕 T24 现行校准（2026-11-27 21:20 · 第 21 组合根 NovaAIReport + 真实 NovaDataGrid demo · 覆盖下方 20:12 及更早历史快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA 出示外部方案 `E:/360Download/Nova-AlReport-开源封版方案-v1.0.0.md` 并下达「仔细认真阅读这份 md 文档，然后跟据咱们 pyside-nova 库的实际情况，优化完善为本库 md 文档，放在 docs/controls/ 下，利用 NovaDataGrid 打造一款 NovaAIReport 组合组件放在 composite/layoutshell/ 下，朝着中国第一努力」→ 立 T24、CARF 一轮完现；追加「请创建 demo，并放在 examples/layout_shell/ai_report/ 子目录下」→ 同轮补齐成品级 showcase。
+> **设计裁决（史料不圆场）**：行业方案 L1~L5 不整包搬入 —— L1 多级表头 / 列选择 / 搜索 / 分页 / 真虚拟化交给 `NovaDataGrid`；L2~L5 抽象为七槽（对标带 · 诊断轨 · 主报表区 · 预测区间带 · 问数轨 · 审批闸门 · 浮层），业务层槽位注入；参数语义层 / 归因引擎 / 预测模型 / NL2SQL / Agent 编排 / 开源治理 / 模型权重**不入库**。Shell 只 emit `diagnosisToggled` / `queryToggled` / `approvalRequested` 三意图，宿主桥记录，绝不反向写 Shell 状态。
+
+| 项 | T24 现行事实 |
+|---|---|
+| 冻结面 | 1.6.0 additive 升版重签（CSA 21:28「升级版本号，我发版」授权；1.5.0 为未发布中间批次史料）：**147 类型 / Controls 93 / LayoutShell 21 / a11y interactive 33 · semantic 29 · decorative 85 / 指纹 `7c542c416709cd96`**。旧 146 类型 / `9742de8638251876` 与 1.5.0 中间批次清单逐字保留为史料；`NovaAIReport` 公共面 22 props / 3 signals / 3 methods，登记 `decorative`（布局容器故意不挂 `Accessible.*`，语义由注入内容承担）。 |
+| 库组件 | `Nova/Composite/LayoutShell/NovaAIReport.qml` 第 21 组合根（七槽 + 三信号 + 三函数 + 主题专属仪表钢蓝色相 +0.0694；CC-1~CC-8 全过）：`qmldir` 导出 · `check_a11y` 登记 · `audit_domains` 归 `Intelligence` · `gen_component_list` → `gen_api_freeze` → `gen_apidocs` 全链重跑 · `docs/components/NovaAIReport.md` 生成物 21/21 三态图齐全 · `mkdocs.yml` 导航 + `AUDIT_CEILING.md` 第 21 行销号 · Gallery 第 21 页 · 模块 README 依赖矩阵与契约节 · 四份测试断言（API 冻结 / DataGrid / Markdown / LayoutShell）同步。 |
+| 手写文档 | `docs/controls/NovaAIReport.md`（用户指定落点）：§0 定位与裁决表（入库 / 不入库逐条列明）· §1 快速开始 · §2 与 `NovaDataGrid` 装配的 Python 管道 · §3 公共 API · §4 主题 / a11y / 坑位 / CC-1~CC-8 · §5 相关资源。 |
+| demo | `examples/layout_shell/ai_report/`：`main.qml`（七槽真实注入，`reportSlot` **真实装配 `NovaDataGrid`**，240 行确定性铝电解数据 · 列宽合计 728px 保证七槽展开时八列首屏完整）· `data.py`（纯 Python 事实表 + 统计，零 Qt 依赖）· `pipeline.py`（`inject()` 唯一注入口，model → filter → paged → pagination + `ReportBridge`）· `run.py`（`--rows/--seed/--page-size`）· `README.md`。`run.py` / `audit_showcase.py` / `audit_ceiling.py` 共用 `pipeline.inject()`，保证「演示态 = 出图态 = 机检态」账实同源。 |
+| 坑位 77 | **`setContextProperty` 注入的 Python 对象必须保留强引用至渲染结束**：`inject()` 返回句柄被丢弃时 QML 侧绑定读到悬空对象，`visible: reportBridge.gateOpen` 退化成默认 `true` → 人工确认闸门浮层常显（三态图全被遮罩）。run.py 用 `_handles`、出图 / 机检脚本用 `_injected` 持有，三态图复验后浮层正确隐藏。 |
+| 机检口径 | `audit_ceiling.py` 登记第 21 项（21/21 静态 · 63/63 组非法入参 · RTL 21/21 · 22/22 showcase+Gallery）；历史坑位 76 的 `../screenshots/*.png` glob 示意按「史料不圆场」不改原文，链接机检层跳过通配符（577 条真实链接 · 断链 0）。`audit_foundations.py` 校准几何判定：跳过 `visible=false` 的未布局容器（`NovaDataGrid` 在 `pagination=null` 时内部 `RowLayout` 得 -24x0，既不渲染也不参与命中测试），15/15 全绿。 |
+| 验收 | 静态 **3/3**（a11y 147/147 · API 147 零漂移 · qmllint 0 error / 594 warning 预算内）· `audit_ceiling.py` **21/21 PASS** · `audit_foundations.py` **15/15 PASS** · `audit_domains.py` PASS（147 类型 / 21 组合根）· 专项 **95 passed**（API 27 + LayoutShell 27 + DataGrid 11 + Markdown 15；`test_a11y.py` 单跑仍 SIGSEGV，坑位 49 同类，静态门禁已覆盖）· mkdocs build exit 0（0 内容 INFO / ERROR）· `gen_prompt.py` / `sync_brand_version.py` / `check_api_freeze.py` 三 `--check` ✓ · 生成器幂等 · 新 demo 文件 ruff 全净 · 三态图 1440×900 目视通过（表格八列完整 / 状态徽标清晰 / 无遮罩残留 / 变体态稳定）。 |
+| 如实登记 | 全库一次性 `pytest` 与 `test_a11y.py` 单跑仍 SIGSEGV（坑位 49 同类既有环境缺陷，非 T24 引入）；`scripts/` 既有 ruff 挂账未越界扫荡；本轮只做本地实现与验收，commit / push / tag / PyPI / 站点上线全归 CSA。 |
+| 升版 | CSA 21:28「升级版本号，我发版」→ 包 / API **1.5.0 → 1.6.0**（additive minor 重签）；`api/nova-api-1.6.0.json` + `api/component-domains-1.6.0.json` + `docs/API_FREEZE.md` 生成器重出，徽标 3 枚 + 站点副本同步；指纹不含版本号仍 `7c542c416709cd96`。**发版仍归 CSA，本助手不执行 commit / push / tag / PyPI / 站点上线**。 |
+| 待办池 | **T24 完现销号（真实交付）**；现 **1 项 = T3**（migrate_to_nova，方案完成未开工）；无活跃主线、下一个 **T25**；发布边界全归 CSA。 |
+
+## 🆕 T23 现行校准（2026-11-27 20:12 · README 英雄卡 NovaMarkdown 化 · 覆盖下方 18:34 及更早历史快照；下方全部保留为史料）
+
+> **本节优先于下方全部历史正文**。CSA 出示两张截图并下达「小诺，请实现点击 README 按钮使用咱们的 NovaMarkdown 组件显示 md 文档」→ 立 T23、CARF 一轮完现。
+> **pyside-nova 冻结面零漂移**：`api/nova-api-1.5.0.json` / `docs/API_FREEZE.md` 一个字节未改，**146 类型 · 指纹 `9742de8638251876`** 逐字不变；改动全部落在 **nova-forge 0.5.0** 工作树，发布仍归 CSA。
+
+| 项 | T23 现行事实 |
+|---|---|
+| 授权 | CSA「请实现点击 README 按钮使用咱们的 NovaMarkdown 组件显示 md 文档」（截图显示英雄卡展开区仍是 md 源码裸文本）→ 立 T23、当轮 CARF 完现 |
+| 实现 | `prescript_main.qml` 英雄卡 README 展开区整块替换：「`NovaScrollArea` + 裸 `Text(Text.PlainText)` + Consolas 10px 源码」→ **`Nova.Controls.NovaMarkdown`**（1.4.0 第 145 类型）。组件自带 `NovaScrollArea` 滚动 + TOC 侧栏 + 空态 → **不双层嵌套 Flickable**；`showToc:true` / `tocStart:1` / `tocEnd:3` / `outlined:false` / `baseFontSize: NovaTheme.fontXS` / `openLinksExternally:false`，展开高度 `330→400`。`linkClicked` / `linkBlocked` 复用窗口级 `showToast(kind, message)` → `NovaNotify.show({...})` 唯一实际调用点（`bridge.toast` 是信号不可从 QML 直接调，故抽成 window 级函数供 bridge 信号与文档信号两条链路共用） |
+| 单一事实源 | 内容仍走 `bridge.readmeDoc`（九配方 `Kind.shell` ↔ `docs/components/<shell>.md` 生成器产物；缺失回退将落盘的 `README.md`）；新增显示适配字段 **`renderText`**，逐字原文仍在 `readmeDoc.text` |
+| 坑位 76 | 20 份组件文档各含 3 个 `![alt](../screenshots/*.png)`（1280×800 史料截图）；`Text.MarkdownText` 按 **QML 组件文件所在目录**（`.../Nova/Controls/`）解析相对路径 → 真机刷 **708 条 `Cannot open`**；且大图塞进 400px 英雄卡三列表格会撑爆布局。视图模型层 `gui_model._display_text()` 把图片降级为 `alt（展示图 · 见仓库）` 文本占位；不改生成物 / 不动冻结面 / 不改库组件。`verify_prescript_gui.py` 把 `Cannot open` / `Binding loop` / `failed` 一并纳入坏消息判定 |
+| 依赖校准 | `[project.optional-dependencies].gui` `pyside-nova>=1.3.0 → >=1.4.0`（`NovaMarkdown` 自 1.4.0 起导出，账实相符）；双语 README 补注「产物 ≥1.2.0 / GUI 工作台 ≥1.4.0」分层口径 |
+| 门禁 | nova-forge 全量 **180 passed + 32 subtests**（较 T19 +4）· T23 改动文件 ruff 全净 · qmllint **0 error**（128 warning 均 `bridge.` / `win.` 既有 unqualified）· wheel 构建通过（`Requires-Dist: pyside-nova>=1.4.0; extra == "gui"`）· 离屏真机真实点击 README：`NovaMarkdown` 装载 / `toc=9` / `empty=False` / `markdown` 与 `renderText` 逐字同源 / 原文 `text` 2975 字符保留 / **Qt 消息 0 条 · 坏消息 0 条 · exit 0** · 三张截图（默认态 / 展开态 / 三态装配图表格区）目视确认渲染后 Markdown、连续等高表格、无破图无裁字。pyside-nova 侧静态 3/3 + 三 `--check` ✓ + 146 零漂移 |
+| 如实登记 | `ruff check src tests scripts` 全量 **15 条**均在 T23 未改动文件（`cmd_publish.py` / `cmd_saver.py` / `comment_logic.py` / `resources_rc.py`（生成物）/ `test_comment.py`），未越界批量扫荡；全库 537 项一次性 `pytest tests/` 仍 SIGSEGV（既有 offscreen 缺陷，坑位 49 同类，非 T23 引入） |
+| 待办池 | **T23 完现销号（真实交付）**；现 **1 项 = T3**（migrate_to_nova，方案完成未开工）；无活跃主线、下一个 **T24**；发布边界全归 CSA |
+| 待 CSA 拍板 | 九类子目录升格独立模块 URI（additive major）· 站点部署 / GitHub Pages / 正式域名 · WASM 在线运行时 · 英文全量翻译 · `NovaLoadingBar` qrc 缺陷反哺 · 全库 offscreen SIGSEGV 根治 · nova-forge 既有 15 条 ruff 与 128 条 qmllint warning 是否另立议题 |
+
+## T22 现行校准（2026-11-27 18:34 · 择优反哺 · 史料段，上方 T23 段优先）
+
+> **本节优先于下方全部历史正文**。CSA 18:34 拍板「T22 · A（推荐）择优反哺、不动冻结面」，
+> 对 `nova-forge/docs/controls/NovaMarkdown.qml` v0.17.0 增强稿做私有反哺。
+> **不升版 / 不重签 / 不改 `apiVersion` / 不动徽标**：`api/nova-api-1.5.0.json` 与
+> `docs/API_FREEZE.md` 一个字节未改，`NovaMarkdown` 公共面恒定
+> **10 props / 3 signals / 3 methods**、指纹 `9742de8638251876` 逐字不变。
+
+| 项 | T22 现行事实 |
+|---|---|
+| 授权 | CSA「小诺，谢谢你！那就 T22，A（推荐）择优反哺、不动冻结面？这么干？」→ 立 T22、CARF 一轮完现 |
+| 反哺 4 项 | ① GFM 表格逐格 `ColumnLayout + RowLayout` 自绘（候选稿只渲染对角线格子的缺陷已修正）② `_slug(title, counter)` 锚点去重 + `_anchorIndex` O(1) 跳转 ③ TOC 侧栏外包 `NovaScrollArea` 可滚动（`Column.width` 绑 `tocScroller.width` 破绑定环）④ hr / tasklist / 独占图片独立分块 + `scrollToTop()` null 保护；TOC 继续用 `NovaBtn`、不手搓 |
+| 零漂移判据 | `gen_api_freeze._is_public()` 仅按 `_` 前缀过滤；`gen_apidocs.PROP_RE` 不匹配 `required property`、收 `readonly property` → 新增内部状态一律 `_` 私有；`fingerprint()` 不含 QML 文件体 → 146 类型零漂移、指纹 `9742de8638251876` 不变 |
+| 账实校准 | 上一轮评估所列「qmllint +6 unqualified 超预算」是候选文件放在 `nova-forge/docs/controls/` 导致 `NovaScrollArea` 类型解析失败的连带产物；放回 `Nova/Controls/` 同目录后单文件 **0 warning**，非代码缺陷，A 反哺语境下自动消解 |
+| 文档 / 演示 | `docs/controls/NovaMarkdown.md` 补 §4.1 / §9.1 / §10.1（1.4.0 史料段不回改）· `examples/controls/markdown_demo/` 版本号 `1.4.0→1.5.0`、冻结面文件名与指纹校准、新增第 3 张 `markdown_demo_table.png` 表格取证 + README |
+| 门禁 | 静态 **3/3** · qmllint 单文件 **0 warning / 0 error** · 全库 **594 = 预算 594** 未打红 · 三 `--check` ✓ · ruff 全净 · `test_nova_markdown.py` **15 passed**（+3 项 T22 回归）· 核心 3 文件 **53 passed** · mkdocs exit 0 · 真机探针 6 项 PASS / **0 坏 Qt 消息** · demo 三图 PASS · 生成器幂等（AI 包指纹 `710415cae870bc8f` → `a09d2545950a9e13`） |
+| 新增坑位 | **75** `Grid` 定位器按行内最高 cell 定行高 → 短文本格留白像分离卡片；`Text.MarkdownText` 下 `elide` / `maximumLineCount` 不可靠、固定行高会裁字 → 正解 `RowLayout + Layout.fillHeight/preferredHeight` 自适应等高；候选稿 `[header].concat(rows)` 元素数 = 行数，只渲染对角线格子 |
+| 如实登记 | 全库 537 项一次性 `pytest tests/` 仍 SIGSEGV（exit 139），元凶 `test_a11y.py` / `test_visual.py` / `test_smoke.py` 在 offscreen 干净态的既有缺陷（坑位 49 同类）；`--collect-only` 成功、逐文件单跑除这 3 个外全绿，**非 T22 引入** |
+| 待办池 | **T22 完现销号（真实交付）**；现 **1 项 = T3**（migrate_to_nova，方案完成未开工）；无活跃主线、下一个 **T23**；发布边界全归 CSA |
+| 待 CSA 拍板 | 九类子目录升格独立模块 URI（additive major）· 站点部署 / GitHub Pages / 正式域名 · WASM 在线运行时 · 英文全量翻译 · `NovaLoadingBar` qrc 缺陷反哺（宿主已规避挂账）· 全库 offscreen SIGSEGV 是否另立议题根治 |
+
+## 🆕 1.5.0 现行校准（2026-11-27 16:45 · T21 完现 · 史料段，上方 T22 段优先）
 
 > **本节优先于下方全部历史正文**。1.4.0 已由 CSA 于 14:05 commit + tag + push、14:17 上架 PyPI
 > LATEST RELEASE，属史料不回改；1.5.0 是新一轮 additive minor，**本地完成待 CSA 发布**。

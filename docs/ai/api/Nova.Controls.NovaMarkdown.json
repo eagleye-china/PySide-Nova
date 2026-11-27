@@ -10,7 +10,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": null,
-   "line": 12
+   "line": 17
   },
   {
    "name": "markdown",
@@ -18,7 +18,7 @@
    "readonly": false,
    "default": ": \"\"",
    "doc": "Markdown 源文本（唯一输入，零外部依赖）",
-   "line": 17
+   "line": 22
   },
   {
    "name": "showToc",
@@ -26,7 +26,7 @@
    "readonly": false,
    "default": ": false",
    "doc": "是否显示内置大纲侧栏",
-   "line": 18
+   "line": 23
   },
   {
    "name": "tocStart",
@@ -34,7 +34,7 @@
    "readonly": false,
    "default": ": 1",
    "doc": "大纲起始标题层级（1~6）",
-   "line": 19
+   "line": 24
   },
   {
    "name": "tocEnd",
@@ -42,7 +42,7 @@
    "readonly": false,
    "default": ": 3",
    "doc": "大纲结束标题层级（1~6）",
-   "line": 20
+   "line": 25
   },
   {
    "name": "openLinksExternally",
@@ -50,7 +50,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "安全链接是否自动交给系统打开",
-   "line": 21
+   "line": 26
   },
   {
    "name": "outlined",
@@ -58,7 +58,7 @@
    "readonly": false,
    "default": ": true",
    "doc": "卡片边框与圆角",
-   "line": 22
+   "line": 27
   },
   {
    "name": "baseFontSize",
@@ -66,7 +66,7 @@
    "readonly": false,
    "default": ": NovaTheme.bodyFontSize",
    "doc": null,
-   "line": 23
+   "line": 28
   },
   {
    "name": "toc",
@@ -74,7 +74,7 @@
    "readonly": true,
    "default": ": root._toc",
    "doc": null,
-   "line": 26
+   "line": 31
   },
   {
    "name": "empty",
@@ -82,7 +82,7 @@
    "readonly": true,
    "default": ": root._blocks.length === 0",
    "doc": null,
-   "line": 27
+   "line": 32
   },
   {
    "name": "_blocks",
@@ -90,7 +90,7 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 35
+   "line": 40
   },
   {
    "name": "_toc",
@@ -98,7 +98,71 @@
    "readonly": false,
    "default": ": []",
    "doc": null,
-   "line": 36
+   "line": 41
+  },
+  {
+   "name": "_anchorIndex",
+   "type": "var",
+   "readonly": false,
+   "default": ": ({})",
+   "doc": "anchor → blockIndex，跳转 O(1)",
+   "line": 42
+  },
+  {
+   "name": "_isFence",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelData.kind === \"fence\"",
+   "doc": null,
+   "line": 376
+  },
+  {
+   "name": "_isTable",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelData.kind === \"table\"",
+   "doc": null,
+   "line": 377
+  },
+  {
+   "name": "_isHr",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelData.kind === \"hr\"",
+   "doc": null,
+   "line": 378
+  },
+  {
+   "name": "_isImage",
+   "type": "bool",
+   "readonly": true,
+   "default": ": modelData.kind === \"image\"",
+   "doc": null,
+   "line": 379
+  },
+  {
+   "name": "_isBody",
+   "type": "bool",
+   "readonly": true,
+   "default": ": !blockItem._isFence",
+   "doc": null,
+   "line": 380
+  },
+  {
+   "name": "_isHead",
+   "type": "bool",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 441
+  },
+  {
+   "name": "_align",
+   "type": "string",
+   "readonly": true,
+   "default": ":",
+   "doc": null,
+   "line": 443
   }
  ],
  "signals": [
@@ -117,12 +181,36 @@
  ],
  "methods": [
   {
+   "name": "_isHr",
+   "params": "line"
+  },
+  {
+   "name": "_isSeparatorLine",
+   "params": "line"
+  },
+  {
    "name": "_lineKind",
    "params": "line"
   },
   {
+   "name": "_isImageOnly",
+   "params": "line"
+  },
+  {
+   "name": "_extractImage",
+   "params": "line"
+  },
+  {
+   "name": "_splitRow",
+   "params": "line"
+  },
+  {
+   "name": "_extractTable",
+   "params": "headerLine, sepLine, dataLines"
+  },
+  {
    "name": "_slug",
-   "params": "title, idx"
+   "params": "title, counter"
   },
   {
    "name": "_parse",

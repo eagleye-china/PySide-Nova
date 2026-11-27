@@ -5,16 +5,16 @@
  "packageVersion": "1.5.0",
  "baseline": "Quasar 2.35.5",
  "counts": {
-  "total": 146,
+  "total": 147,
   "modules": {
    "Nova.Controls": 93,
    "Nova.Behaviors": 13,
    "Nova.Services": 16,
    "Nova.Design": 4,
-   "Nova.Composite.LayoutShell": 20
+   "Nova.Composite.LayoutShell": 21
   },
   "a11y": {
-   "decorative": 84,
+   "decorative": 85,
    "interactive": 33,
    "semantic": 29
   }
@@ -180,6 +180,7 @@
    "module": "Nova.Composite.LayoutShell",
    "version": "1.0",
    "types": [
+    "NovaAIReport",
     "NovaAgent",
     "NovaBlankPage",
     "NovaCardGrid",
@@ -462,6 +463,46 @@
     "swipe(var details)"
    ],
    "methods": []
+  },
+  "Nova.Composite.LayoutShell.NovaAIReport": {
+   "module": "Nova.Composite.LayoutShell",
+   "file": "Nova/Composite/LayoutShell/NovaAIReport.qml",
+   "kind": "component",
+   "a11y": "decorative",
+   "props": [
+    "approvalHeight:int",
+    "approvalSlot:alias",
+    "benchmarkHeight:int",
+    "benchmarkSlot:alias",
+    "bordered:bool",
+    "breakpoint:int",
+    "diagnosisCollapsed:bool",
+    "diagnosisSize:real",
+    "diagnosisSlot:alias",
+    "forecastHeight:int",
+    "forecastSlot:alias",
+    "overlaySlot:alias",
+    "queryCollapsed:bool",
+    "querySize:real",
+    "querySlot:alias",
+    "reportSlot:alias",
+    "ro belowBreakpoint:bool",
+    "showApproval:bool",
+    "showBenchmark:bool",
+    "showDiagnosis:bool",
+    "showForecast:bool",
+    "showQuery:bool"
+   ],
+   "signals": [
+    "approvalRequested()",
+    "diagnosisToggled(bool collapsed)",
+    "queryToggled(bool collapsed)"
+   ],
+   "methods": [
+    "requestApproval()",
+    "toggleDiagnosis()",
+    "toggleQuery()"
+   ]
   },
   "Nova.Composite.LayoutShell.NovaAgent": {
    "module": "Nova.Composite.LayoutShell",
@@ -4041,5 +4082,5 @@
    ]
   }
  },
- "fingerprint": "9742de8638251876"
+ "fingerprint": "7c542c416709cd96"
 }

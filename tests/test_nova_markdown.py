@@ -27,11 +27,12 @@ sys.path.insert(0, str(SCRIPTS))
 SRC = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Controls" / "NovaMarkdown.qml"
 QMLDIR = ROOT / "src" / "pyside_nova" / "qml" / "Nova" / "Controls" / "qmldir"
 DOC = ROOT / "docs" / "controls" / "NovaMarkdown.md"
-MANIFEST = ROOT / "api" / "nova-api-1.5.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.6.0.json"
 PYPROJECT = ROOT / "pyproject.toml"
 
-FINGERPRINT = "9742de8638251876"        # 1.5.0 现行冻结面
+FINGERPRINT = "7c542c416709cd96"        # 1.5.0 现行冻结面（并入 NovaAIReport 后重签）
 HISTORICAL_FP = "37fbbe9ab5806a2a"      # 1.4.0 史料（使用文档对比表保留，史料不圆场）
+PREVIOUS_1_5_FP = "9742de8638251876"    # 1.5.0 前一签署态史料（NovaDataGrid 后、NovaAIReport 前）
 
 MD = (
     "# 一级标题\n\n"
@@ -71,9 +72,9 @@ def test_a11y_registered_as_semantic():
 
 def test_frozen_api_surface_matches_exactly():
     man = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    assert man["apiVersion"] == "1.5.0"
+    assert man["apiVersion"] == "1.6.0"
     assert man["fingerprint"] == FINGERPRINT
-    assert man["counts"]["total"] == 146
+    assert man["counts"]["total"] == 147
     info = man["types"]["Nova.Controls.NovaMarkdown"]
     assert info["a11y"] == "semantic"
     assert set(info["props"]) == EXPECTED_PROPS
@@ -292,3 +293,106 @@ def test_empty_state_never_blank(md_view):
     assert empty_texts and empty_texts[0].property("visible") is True
     # 恢复源文本，保证 fixture 状态不被用例改写
     QQmlExpression(ctx, md, "md.markdown = " + json.dumps(MD, ensure_ascii=False)).evaluate()
+
+
+# ── 3. T22 择优反哺（不动冻结面）：4 项增益回归 ──────────────
+# 每个表达式后推进事件循环（坑位 73），避免模型变更积压在一条求值链里。
+_FLICK_COUNT_EXPR = """
+(function(){
+  var n = 0;
+  function walk(o){
+    if (o && o._flick) n++;
+    if (o && o.children) { for (var i = 0; i < o.children.length; i++) walk(o.children[i]); }
+  }
+  walk(md);
+  return n;
+})()
+"""
+
+
+def _eval(md, expr):
+    """求值并推进一次事件循环（坑位 73：模型变更后须让绑定/delegate 消化）。"""
+    from PySide6.QtCore import QEventLoop, QTimer
+    from PySide6.QtGui import QGuiApplication
+    from PySide6.QtQml import QQmlExpression, qmlContext
+
+    ex = QQmlExpression(qmlContext(md), md, expr)
+    value, undef = ex.evaluate()
+    assert not ex.hasError(), f"{expr} -> {ex.error().toString()}"
+    QGuiApplication.instance().processEvents()
+    loop = QEventLoop()
+    QTimer.singleShot(20, loop.quit)
+    loop.exec()
+    return None if undef else (value.toVariant() if hasattr(value, "toVariant") else value)
+
+
+def test_t22_public_surface_unchanged_and_private_patch_present():
+    """反哺只允许落在 `_` 私有实现，公共面与冻结清单逐字不变。"""
+    src = SRC.read_text(encoding="utf-8")
+    man = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    info = man["types"]["Nova.Controls.NovaMarkdown"]
+    assert man["fingerprint"] == FINGERPRINT
+    assert set(info["props"]) == EXPECTED_PROPS
+    assert set(info["signals"]) == EXPECTED_SIGNALS
+    assert set(info["methods"]) == EXPECTED_METHODS
+    # 新增能力全部是 `_` 私有 / delegate 内消化
+    for token in ("_anchorIndex", "ColumnLayout", "Layout.fillHeight",
+                  "table.allRows", "if (scroller._flick)",
+                  "_isSeparatorLine", "tocScroller"):
+        assert token in src, f"T22 反哺缺失：{token}"
+    assert "NovaBtn" in src, "TOC 必须继续用库组件，不得手搓"
+    assert "=>" not in src
+
+
+def test_t22_gfm_grid_anchor_index_and_scrollable_toc(md_view):
+    """GFM 表格逐格 Grid 自绘 / 锚点去重索引 / TOC 侧栏可滚动。"""
+    _win, md = md_view
+    # 表格块：2 列 × 2 行，逐行模型交给 RowLayout（候选稿 v0.17.0 只渲染对角线格）
+    table = _eval(md, "md._blocks[4].table")
+    assert table["colCount"] == 2
+    assert len(table["allRows"]) == 2
+    assert list(table["allRows"][0]) == ["特性", "状态"]
+    assert list(table["allRows"][1]) == ["表格", "支持"]
+    assert table["aligns"][1] == "center"       # | :---: |
+    # 视觉树：单元格是独立 Text，整段表格原文不再塞进一个 Text
+    texts = [str(t.property("text") or "") for t in _visual_texts(md)]
+    assert "表格" in texts and "支持" in texts
+    assert not any("| 特性 | 状态" in s for s in texts), "表格仍是整段 MarkdownText"
+    # 锚点去重式（不带 blocks.length 大数字后缀）+ O(1) 索引
+    toc = _eval(md, "md.toc.map(function(t){return t.anchor})")
+    assert list(toc) == ["一级标题", "安装", "三级细节", "安全"], list(toc)
+    idx = _eval(md, "md._anchorIndex['安装']")
+    assert isinstance(idx, int) and idx == 1, idx
+    # TOC 与文档各自接入 NovaScrollArea（TOC 侧栏可滚动的结构证据）
+    assert _eval(md, _FLICK_COUNT_EXPR) >= 2
+
+
+def test_t22_duplicate_headings_hr_tasklist_and_restore(md_view):
+    """重复标题锚点稳定 / hr 与 tasklist 独立分块 / 用例结束恢复源文本。"""
+    from PySide6.QtQml import QQmlExpression, qmlContext
+
+    _win, md = md_view
+    probe = (
+        "# 标题\n\n"
+        "## 重复\n\n"
+        "正文\n\n"
+        "## 重复\n\n"
+        "### 小\n\n"
+        "---\n\n"
+        "- [x] 完成\n- [ ] 待办\n"
+    )
+    ctx = qmlContext(md)
+    setmd = QQmlExpression(ctx, md, "md.markdown = " + json.dumps(probe, ensure_ascii=False))
+    setmd.evaluate()
+    assert not setmd.hasError(), setmd.error()
+
+    anchors = _eval(md, "md.toc.map(function(t){return t.anchor})")
+    assert list(anchors) == ["标题", "重复", "重复-1", "小"], list(anchors)
+    kinds = _eval(md, "md._blocks.map(function(b){return b.kind})")
+    assert "hr" in kinds and "tasklist" in kinds, list(kinds)
+    assert _eval(md, "md._anchorIndex['重复-1']") == 3
+
+    restore = QQmlExpression(ctx, md, "md.markdown = " + json.dumps(MD, ensure_ascii=False))
+    restore.evaluate()
+    assert not restore.hasError(), restore.error()
+    assert not md.property("empty")

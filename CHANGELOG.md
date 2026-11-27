@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.6.0] - 2026-11-27 — NovaDataGrid + 第 21 组合根 NovaAIReport（additive minor · 本地完成，待 CSA 发布）⭐ 当前状态
+
+> **版本说明**：1.4.0 之上的 **additive minor**（1.5.0 为未发布中间批次，按「史料不圆场」保留为过程口径，不另立发布段）；
+> 下方 1.4.0 段的状态锚点由本段接替（1.4.0 已由 CSA commit `a80799f` / tag `v1.4.0` 发布至 PyPI LATEST，属史料事实，正文不回改）。
+> 三次增量整批并入 1.6.0：T21 `NovaDataGrid` + Python 数据层、T22 `NovaMarkdown` 私有反哺（公共面零漂移）、
+> T24 `NovaAIReport` 第 21 组合根 + 成品级 demo。冻结面 **145 → 147 类型 / Controls 92 → 93 /
+> LayoutShell 20 → 21 / decorative 83 → 85 / 指纹 `37fbbe9ab5806a2a` → `9742de8638251876` → `7c542c416709cd96`**
+> （指纹不含版本号，升版后仍为 `7c542c416709cd96`；T22 零漂移，旧指纹均为史料）；
+> `api/nova-api-1.6.0.json` / `api/component-domains-1.6.0.json` / `docs/API_FREEZE.md` 为生成物禁手改，旧版本清单保留为史料。
+
+### 新增（Added）
+- **`NovaDataGrid`**（`Nova.Controls` 第 93 个导出类型 / 全库第 146 个）：多级表头 / 列选择 / 搜索 /
+  分页 / `TableView` 真虚拟化；Python 侧 `pyside_nova.datagrid` 提供 `NovaDataGridModel` → `FilterProxy`
+  → `PagedProxy` + `Pagination` 管道，支持 `batchUpdate` 高频增量与列级 `cellDelegates`。
+- **`NovaAIReport`**（`Nova.Composite.LayoutShell` 第 21 个组合根 / 全库第 147 个）：智能报表**无业务语义骨架**。
+  七槽（对标带 / 诊断轨 / 主报表区 / 预测区间带 / 问数轨 / 审批闸门 / 浮层）+ 三信号
+  （`diagnosisToggled` / `queryToggled` / `approvalRequested`）+ 三函数；主报表区推荐注入 `NovaDataGrid`。
+  行业方案的参数语义层 / 归因引擎 / 预测模型 / NL2SQL / Agent 编排明确不入库，由业务层槽位注入。
+  a11y `decorative`，22 props / 3 signals / 3 methods。
+- **`docs/controls/NovaAIReport.md`**：按本库实际转写的手写使用文档（裁决表 / 快速开始 /
+  NovaDataGrid 装配 / 公共 API / 主题与 CC-1~CC-8）。
+- **`examples/layout_shell/ai_report/`** 成品级 demo：`main.qml` 七槽真实注入（`reportSlot` 真装配 NovaDataGrid，
+  240 行确定性铝电解数据）· `data.py`（纯 Python 事实表）· `pipeline.py`（`inject()` 唯一注入口 +
+  `ReportBridge`）· `run.py` · `README.md`。`run.py` / 三态出图 / 天花板机检共用注入口，账实同源。
+
+### 修正（Fixed）
+- `NovaMarkdown` 私有反哺 4 项增益（GFM 表格逐格自绘 / TOC 锚点去重 / 侧栏可滚动 / hr·tasklist·图分块），
+  公共面 10 props / 3 signals / 3 methods 与指纹逐字不变（T22）。
+- `audit_ceiling.py` 补登第 21 组合根与真实 showcase 注入；链接机检跳过史料 glob 示意（坑位 76）。
+- `audit_foundations.py` 几何判定跳过 `visible=false` 的未布局容器（`NovaDataGrid` 无 pagination 时
+  内部 `RowLayout` 的 -24x0 未布局值不参与渲染，非缺陷）。
+- **坑位 77**：`setContextProperty` 注入的 Python 对象必须保留强引用至渲染结束；否则 QML 绑定读到
+  悬空对象，`visible: reportBridge.gateOpen` 退化为默认 true，人工确认闸门浮层常显。
+
+### 验收（Verified）
+静态 3/3（a11y 147/147 · API 147 零漂移 · qmllint 0 error / 594 warning 预算内）·
+`audit_ceiling.py` 21/21 PASS（63/63 组非法入参 · RTL 21/21 · 22/22 showcase+Gallery）·
+`audit_foundations.py` 15/15 PASS · `audit_domains.py` PASS · 专项 95 passed ·
+mkdocs build 0 内容 INFO / ERROR · 三 `--check` ✓ · 生成器幂等 · 新 demo ruff 全净 ·
+三态图 1440×900 目视通过。全库一次性 pytest 与 `test_a11y.py` 单跑仍 SIGSEGV（坑位 49 同类既有环境缺陷）。
+
 ## [1.4.0] - 2026-11-27 — NovaMarkdown 零依赖 Markdown 渲染器（additive minor）⭐ 当前状态（本地完成，待 CSA 发布）
 
 > **版本说明**：1.3.0 之上的 **additive minor**——CSA「人有人言，兽有兽语，你的语言是 md」指令：

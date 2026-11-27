@@ -1,16 +1,16 @@
 # scripts/audit_ceiling.py
-# 组合根容器天花板机检（CARF-R / CC-7）：20 项静态契约扫描 + 字面量实例化 + 极端非法入参稳态几何
-"""20/20 天花板逐项销号的机检入口。
+# 组合根容器天花板机检（CARF-R / CC-7）：21 项静态契约扫描 + 字面量实例化 + 极端非法入参稳态几何
+"""21/21 天花板逐项销号的机检入口。
 
 法源：母法卷首 CARF 宣言 · 组合宪法 1.0.0 第 9 章 CC-1~CC-8
       · docs/prescript/AUDIT_CEILING.md（逐项销号台账）
 
 覆盖：
   1. 静态机检表：组合上下文 / 单一分隔源 / 主色系 / 动效令牌 / RTL / 恒定锚链 / 槽位宿主
-  2. 无头实例化：20 组合组件字面量 + 20 独立 showcase + Gallery = 41/41
+  2. 无头实例化：21 组合组件字面量 + 21 独立 showcase + Gallery = 43/43
   3. 极端非法入参：每项注入全部数值属性的 -999 / 999999 / undefined 三组，
      等待 Behavior 收敛后遍历对象树，确认稳态几何非负且有限
-  4. RTL 20/20 实例化（NovaI18n.setLocale("ar")）
+  4. RTL 21/21 实例化（NovaI18n.setLocale("ar")）
   5. reducedMotion：NovaMotion.duration(300) 300 → 0
   6. 文档相对链接断链扫描
 
@@ -51,7 +51,7 @@ def _qml_files() -> dict:
 
 
 QML_FILES = _qml_files()
-API = ROOT / "api" / "nova-api-1.5.0.json"
+API = ROOT / "api" / "nova-api-1.6.0.json"
 
 NAMES = [
     "NovaChat", "NovaDesktop", "NovaMobile", "NovaFlexLayout",
@@ -59,12 +59,14 @@ NAMES = [
     "NovaTabShell", "NovaThreeColumn", "NovaCompare", "NovaCardGrid",
     "NovaModal", "NovaDrawerPanel", "NovaSetupWizard", "NovaBlankPage",
     "NovaAgent", "NovaDE", "NovaCopilot", "NovaOrbit", "NovaIncubator",
+    "NovaAIReport",  # 1.5.0 additive 第 21 组合根（智能报表工作台）
 ]
 EXAMPLE_DIRS = [
     "chat", "desktop", "mobile", "flex_layout", "sidebar", "top_navigation",
     "dual_side", "tab_shell", "three_column", "compare", "card_grid",
     "modal", "drawer_panel", "setup_wizard", "blank_page",
     "agent", "de", "copilot", "orbit", "incubator",
+    "ai_report",
 ]
 
 _PROBE = b"""
@@ -182,8 +184,9 @@ def numeric_props() -> dict[str, list[str]]:
 def dynamic_audit(engine) -> dict:
     result = {"instantiated": 0, "showcases": 0, "illegal": {}, "rtl": 0, "reduced": ""}
     failures = []
+    _injected = None  # 坑位 77：setContextProperty 注入需保留 Python 强引用至机检结束
 
-    # ① 20 组件字面量实例化
+    # ① 21 组件字面量实例化
     for name in NAMES:
         try:
             _create(engine, f"import QtQuick\nimport Nova.Composite.LayoutShell 1.0\n{name} {{ width: 1024; height: 720 }}")
@@ -191,9 +194,15 @@ def dynamic_audit(engine) -> dict:
         except Exception as exc:  # noqa: BLE001
             failures.append(f"instantiate {name}: {exc}")
 
-    # ② 20 独立 showcase + Gallery
+    # ② 21 独立 showcase + Gallery
     for d in EXAMPLE_DIRS:
         try:
+            if d == "ai_report":
+                # 与 run.py / audit_showcase.py 共用注入口，保持真实装配态
+                sys.path.insert(0, str(EXAMPLES / d))
+                from pipeline import inject as inject_report
+
+                _injected = inject_report(engine)
             _load(engine, EXAMPLES / d / "main.qml")
             result["showcases"] += 1
         except Exception as exc:  # noqa: BLE001
@@ -223,7 +232,7 @@ def dynamic_audit(engine) -> dict:
                 failures.append(f"illegal {name} {bad}: {exc}")
         result["illegal"][name] = cases
 
-    # ④ RTL 20/20
+    # ④ RTL 21/21
     probe_comp = QQmlComponent(engine)
     probe_comp.setData(_PROBE, QUrl("qrc:/ceiling-probe.qml"))
     probe = probe_comp.create()
@@ -264,6 +273,11 @@ def link_audit() -> tuple[int, list[str]]:
             rel = target.split("#")[0].split("?")[0]
             if not rel:
                 continue
+            # 史料时点里的 glob 示意（如 SESSION_HANDOFF 坑位 76 的
+            # `../screenshots/*.png`）不是可解析的真实链接；按「史料不圆场」
+            # 不回改原文，仅在机检层跳过，真实相对链接仍全量检查。
+            if any(ch in rel for ch in "*?["):
+                continue
             checked += 1
             p = (md.parent / rel).resolve()
             if not p.exists():
@@ -277,11 +291,11 @@ def main() -> int:
     init_nova(engine)
 
     print("=" * 78)
-    print("pyside-nova · 20/20 天花板机检（CARF-R / CC-7）")
+    print("pyside-nova · 21/21 天花板机检（CARF-R / CC-7）")
     print("=" * 78)
 
     rows = static_audit()
-    print("\n[1] 静态机检表（20 项 CC 契约信号）")
+    print("\n[1] 静态机检表（21 项 CC 契约信号）")
     print(f"{'组件':<20}{'CC-1':<6}{'动效':<6}{'RTL':<5}{'锚链三元':<9}{'撞色':<6}{'硬编码':<7}{'低实心':<8}{'Behavior':<10}{'槽位':<5}")
     static_fail = []
     for r in rows:
@@ -315,7 +329,7 @@ def main() -> int:
     if failures:
         print(f"结论：FAIL · {len(failures)} 项待销号")
         return 1
-    print("结论：PASS · 20/20 六维天花板机检全绿（CARF-R 销号条件达成）")
+    print("结论：PASS · 21/21 六维天花板机检全绿（CARF-R 销号条件达成）")
     return 0
 
 

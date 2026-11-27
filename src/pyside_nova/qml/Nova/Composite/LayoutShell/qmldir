@@ -44,3 +44,6 @@ NovaOrbit 1.0 NovaOrbit.qml
 
 # 应用孵化器工作台（1） · 文档层分类 Incubator/
 NovaIncubator 1.0 NovaIncubator.qml
+
+# 智能报表工作台（1） · 文档层分类 Intelligence/（AI 报表数据呈现，1.5.0 additive 第 21 组合根）
+NovaAIReport 1.0 NovaAIReport.qml

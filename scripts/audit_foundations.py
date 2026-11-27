@@ -41,7 +41,7 @@ from PySide6.QtQuick import QQuickItem, QQuickWindow  # noqa: E402
 from pyside_nova import init_nova  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-API = ROOT / "api" / "nova-api-1.5.0.json"
+API = ROOT / "api" / "nova-api-1.6.0.json"
 
 # 本轮 CARF-R 销号的 15 项 Robustness 缺陷（数据驱动，非批量套规则）
 FOUNDATIONS = [
@@ -86,6 +86,12 @@ def _create(engine, qml: str):
 def _geometry_ok(obj) -> tuple[bool, str]:
     for it in [obj] + list(obj.findChildren(QQuickItem)):
         try:
+            # 未参与渲染的隐藏布局容器不进几何判定：NovaDataGrid 在
+            # pagination=null 时分栏高 0、visible=false，其内部 RowLayout
+            # 以 anchors.fill + 左右 margin 计算会得到 -24x0 的未布局值，
+            # 既不显示也不参与命中测试，不构成负几何缺陷。
+            if not it.isVisible():
+                continue
             w, h = it.width(), it.height()
         except RuntimeError:
             continue

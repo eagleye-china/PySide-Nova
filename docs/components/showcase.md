@@ -1,6 +1,6 @@
-# 三态装配图索引（60 张）
+# 三态装配图索引（63 张）
 
-> **20 项组合根容器 × 浅色 / 深色 / 变体** · 真实 Qt Quick 引擎渲染 · pyside-nova **1.5.0**
+> **21 项组合根容器 × 浅色 / 深色 / 变体** · 真实 Qt Quick 引擎渲染 · pyside-nova **1.6.0**
 > 本页由 `scripts/gen_apidocs.py` 自动生成，**禁止手工编辑**。
 
 每张三态图都是 `audit_ceiling.py` 机检的验收产物：浅 / 深双主题实心注入 + 变体态极端非法入参稳态几何。
@@ -27,8 +27,9 @@
 | [NovaDE](NovaDE.md) | AI 智能组合根 | [浅色](../screenshots/de_showcase_light.png) | [深色](../screenshots/de_showcase_dark.png) | [变体](../screenshots/de_showcase_variant.png) |
 | [NovaOrbit](NovaOrbit.md) | 意图轨道呈现层 | [浅色](../screenshots/orbit_showcase_light.png) | [深色](../screenshots/orbit_showcase_dark.png) | [变体](../screenshots/orbit_showcase_variant.png) |
 | [NovaIncubator](NovaIncubator.md) | 应用孵化器工作台 | [浅色](../screenshots/incubator_showcase_light.png) | [深色](../screenshots/incubator_showcase_dark.png) | [变体](../screenshots/incubator_showcase_variant.png) |
+| [NovaAIReport](NovaAIReport.md) | 智能报表工作台 | [浅色](../screenshots/ai_report_showcase_light.png) | [深色](../screenshots/ai_report_showcase_dark.png) | [变体](../screenshots/ai_report_showcase_variant.png) |
 
 ## 相关
 
-- [20 项组合根容器总览](index.md)
-- [CARF-R 20/20 销号台账](../prescript/AUDIT_CEILING.md)
+- [21 项组合根容器总览](index.md)
+- [CARF-R 21/21 销号台账](../prescript/AUDIT_CEILING.md)

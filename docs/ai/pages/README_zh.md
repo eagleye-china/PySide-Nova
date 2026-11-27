@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.5.0" width="200" />
+<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova 企业级旗舰封版徽标 · CARF · v1.6.0" width="200" />
 
 # pyside-nova
 
@@ -19,7 +19,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
-[![Status](https://img.shields.io/badge/status-v1.5.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v1.6.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 [![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
@@ -30,12 +30,12 @@
 
 | 项目 | 内容 |
 |---|---|
-| **版本** | **1.5.0** —— 1.4.0 之上的 additive minor（新增公共导出类型 **`NovaDataGrid`** 于 `Nova.Controls`：TableView 真虚拟化企业级数据网格，配套纯 Python `QAbstractTableModel` 数据管道、服务端模式、列级委托、内联编辑、severity 染色与键盘导航；API 契约重签 **1.5.0**，PyPI 上架由维护者执行）；**1.4.0**（新增 `NovaMarkdown`：零依赖 Qt 原生 Markdown 渲染器）已由 CSA 发布至 PyPI；**1.3.0**（NovaIncubator 身份徽记可点 `emblemClickable` + `emblemClicked`，本地重签待发布）；**1.2.4** 为 1.2.3 之上的 patch（公共 API 零漂移）；**1.2.3**（品牌徽标双轨制落地 + PyPI README 绝对链接修正）与 **1.2.2**（修正 PyPI 元数据与双语 README 呈现）均已由 CSA 发布至 PyPI；功能主体为 1.0.0 GA 之上的 additive minor 升级（共新增 **5 项组合根** NovaAgent / NovaDE / NovaCopilot / NovaOrbit / **NovaIncubator**，其中 **NovaIncubator 为第 20 个、本库最后一个组合组件**，**15 项 GA 签名不变**，整批单次重签） |
+| **版本** | **1.6.0** —— 1.5.0 之上的 additive minor（新增公共导出类型 **`NovaAIReport`** 于 `Nova.Composite.LayoutShell`：七槽无业务语义智能报表工作台，七槽注入 + 三意图信号；API 契约重签 **1.6.0**，PyPI 上架由维护者执行）；**1.5.0**（新增 `NovaDataGrid`：TableView 真虚拟化企业级数据网格 + 纯 Python `QAbstractTableModel` 管道）与 **1.4.0**（新增 `NovaMarkdown`：零依赖 Qt 原生 Markdown 渲染器）为此前 additive minor，其中 1.4.0 已由 CSA 发布至 PyPI；1.3.0 / 1.2.4 / 1.2.3 / 1.2.2 为历史状态 |
 | **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
-| **公共 QML 类型** | **145** —— Controls 92 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
-| **API 冻结** | 146 类型零漂移 · 指纹 `9742de8638251876`（1.5.0 additive 重签：新增 `NovaDataGrid`，第 146 个公共类型；旧 145 类型逐字不变） |
+| **公共 QML 类型** | **147** —— Controls 93 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **21** |
+| **API 冻结** | 147 类型零漂移 · 指纹 `7c542c416709cd96`（1.6.0 additive 重签：新增 `NovaAIReport`，第 147 个公共类型；旧 146 类型逐字不变） |
 | **运行环境** | Python ≥ 3.10 · PySide6 ≥ 6.8（**6.12.0** 实测）· Windows / macOS / Linux |
-| **质量门禁** | 静态 3/3 PASS · 68 项专项测试通过 · 20/20 天花板机检 · 15/15 基础控件机检 · qmllint 0 error |
+| **质量门禁** | 静态 3/3 PASS · 80 项专项测试通过 · 21/21 天花板机检 · 15/15 基础控件机检 · qmllint 0 error |
 
 - **旗舰四性**：鲁棒性 Robustness · 健壮性 Solidity · 艺术性 Aesthetics · 前置预判性 Prescience
 - **方法论**：**CARF** —— 构想 · 实现 · 打磨 · 封版，终抵巅峰（天花板）（[母法卷首](https://github.com/eagleye-china/pyside-nova/blob/main/docs/CONSTITUTION.md)）· 20/20 组合根容器天花板全量销号（[逐项台账](https://github.com/eagleye-china/pyside-nova/blob/main/docs/prescript/AUDIT_CEILING.md)）

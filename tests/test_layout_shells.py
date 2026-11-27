@@ -27,6 +27,7 @@ SHELLS = [
     "NovaDrawerPanel", "NovaSetupWizard", "NovaBlankPage", "NovaDesktop",
     "NovaMobile", "NovaFlexLayout", "NovaChat",
     "NovaAgent", "NovaDE", "NovaCopilot", "NovaOrbit", "NovaIncubator",
+    "NovaAIReport",
 ]
 
 

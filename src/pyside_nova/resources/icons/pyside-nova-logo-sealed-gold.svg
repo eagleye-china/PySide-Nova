@@ -74,7 +74,7 @@
   </g>
   <g font-family="Arial, 'PingFang SC', sans-serif" font-size="13" font-weight="bold" fill="#d9b45a" letter-spacing="2">
     <text text-anchor="middle"><textPath href="#arcBottomG" startOffset="16%">PYSIDE-NOVA</textPath></text>
-    <text text-anchor="middle"><textPath href="#arcBottomG" startOffset="84%">SEALED · v1.5.0</textPath></text>
+    <text text-anchor="middle"><textPath href="#arcBottomG" startOffset="84%">SEALED · v1.6.0</textPath></text>
   </g>
 
   <g filter="url(#soft)">

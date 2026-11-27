@@ -36,7 +36,8 @@
   "Intelligence": [
    "NovaAgent",
    "NovaDE",
-   "NovaCopilot"
+   "NovaCopilot",
+   "NovaAIReport"
   ],
   "Navigation": [
    "NovaSidebar",
@@ -173,16 +174,16 @@
  "counts": {
   "behaviorDomains": 3,
   "behaviors": 13,
-  "composite": 20,
+  "composite": 21,
   "compositeGroups": 9,
   "controlDomains": 7,
   "controls": 93,
   "design": 4,
   "modules": 5,
   "services": 16,
-  "total": 146
+  "total": 147
  },
- "fingerprint": "9742de8638251876",
+ "fingerprint": "7c542c416709cd96",
  "generator": "scripts/audit_domains.py",
  "guard": {
   "relativeImports": 0,
@@ -192,7 +193,7 @@
   {
    "file": "Behaviors/NovaTouchCore.qml",
    "name": "NovaTouchCore",
-   "reason": "手势域内部实现 helper，未在 Behaviors/qmldir 导出，不计入 146 类型"
+   "reason": "手势域内部实现 helper，未在 Behaviors/qmldir 导出，不计入冻结类型总数"
   }
  ],
  "note": "概念域分类（文档层），不改变 qmldir 模块 URI / 冻结面 / QML 物理目录",
@@ -277,6 +278,12 @@
    "domain": "Gestures",
    "group": "—",
    "module": "Nova.Behaviors"
+  },
+  "Nova.Composite.LayoutShell.NovaAIReport": {
+   "archDomain": "composite",
+   "domain": "—",
+   "group": "Intelligence",
+   "module": "Nova.Composite.LayoutShell"
   },
   "Nova.Composite.LayoutShell.NovaAgent": {
    "archDomain": "composite",

@@ -45,7 +45,7 @@ NAMES = [
     "blank_page", "card_grid", "chat", "compare", "desktop", "drawer_panel",
     "dual_side", "flex_layout", "mobile", "modal", "setup_wizard", "sidebar",
     "tab_shell", "three_column", "top_navigation",
-    "agent", "de", "copilot", "orbit", "incubator",
+    "agent", "de", "copilot", "orbit", "incubator", "ai_report",
 ]
 
 _PROBE = b"""
@@ -108,6 +108,15 @@ def render(name: str, width: int = 0, height: int = 0) -> int:
     _font()
     engine = QQmlEngine()
     init_nova(engine)
+
+    # ai_report 三态图必须是真实装配态：与 run.py 共用 pipeline.inject()，
+    # 避免"出图用假数据、演示用真管道"的账实不符。
+    _injected = None  # 坑位 77：setContextProperty 必须保留 Python 强引用至渲染结束
+    if name == "ai_report":
+        sys.path.insert(0, str(EXAMPLES / name))
+        from pipeline import inject as inject_report
+
+        _injected = inject_report(engine)
 
     probe_comp = QQmlComponent(engine)
     probe_comp.setData(_PROBE, QUrl("qrc:/audit-probe.qml"))

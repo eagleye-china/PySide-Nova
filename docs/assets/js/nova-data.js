@@ -1,19 +1,19 @@
 /* 生成物：scripts/gen_apidocs.py 产出，禁止手工编辑。
-   事实源：__about__.py + api/nova-api-1.5.0.json + QML + 60 张三态图 */
+   事实源：__about__.py + api/nova-api-1.6.0.json + QML + 60 张三态图 */
 window.NOVA_SITE = {
-  "version": "1.5.0",
-  "fingerprint": "9742de8638251876",
-  "typesTotal": 146,
+  "version": "1.6.0",
+  "fingerprint": "7c542c416709cd96",
+  "typesTotal": 147,
   "repo": "https://github.com/eagleye-china/pyside-nova",
   "pypi": "https://pypi.org/project/pyside-nova/",
   "versions": [
     {
-      "label": "1.5.0 · 当前站点（GA）",
+      "label": "1.6.0 · 当前站点（GA）",
       "url": ""
     },
     {
-      "label": "1.5.0 · PyPI 发布页",
-      "url": "https://pypi.org/project/pyside-nova/1.5.0/"
+      "label": "1.6.0 · PyPI 发布页",
+      "url": "https://pypi.org/project/pyside-nova/1.6.0/"
     },
     {
       "label": "main · 开发分支",
@@ -1694,6 +1694,135 @@ window.NOVA_SITE = {
         "validateToggled"
       ],
       "file": "Nova/Composite/LayoutShell/NovaIncubator.qml"
+    },
+    {
+      "name": "NovaAIReport",
+      "category": "智能报表工作台",
+      "title": "智能报表工作台",
+      "description": "NovaAIReport 智能报表工作台壳：对标带 + 诊断轨 + 主报表区 + 预测区间带 + 问数轨 + 审批闸门 + 浮层 组合态（宪法第 9 章 CC-1~CC-8）：根内 _ 私有 readonly 声明唯一组合上下文，全槽共享； 相邻边界只有一条 NovaSeparator；身份装饰一律抽象几何（对标游标尺 / 因果鱼骨 / 行列刻度尺 / 置信区间带 / 问数双点 / 闸门横闩 / 单色系发丝），不仿交互控件、不撞色；",
+      "prefix": "ai_report",
+      "props": [
+        {
+          "name": "approvalHeight",
+          "type": "int",
+          "default": "180",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "benchmarkHeight",
+          "type": "int",
+          "default": "64",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "bordered",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "breakpoint",
+          "type": "int",
+          "default": "1180",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "diagnosisCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "diagnosisSize",
+          "type": "real",
+          "default": "300",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "forecastHeight",
+          "type": "int",
+          "default": "96",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "queryCollapsed",
+          "type": "bool",
+          "default": "false",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "querySize",
+          "type": "real",
+          "default": "340",
+          "readonly": false,
+          "kind": "number"
+        },
+        {
+          "name": "belowBreakpoint",
+          "type": "bool",
+          "default": "width > 0 && width < root.breakpoint",
+          "readonly": true,
+          "kind": "bool"
+        },
+        {
+          "name": "showApproval",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showBenchmark",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showDiagnosis",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showForecast",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        },
+        {
+          "name": "showQuery",
+          "type": "bool",
+          "default": "true",
+          "readonly": false,
+          "kind": "bool"
+        }
+      ],
+      "slots": [
+        "approvalSlot",
+        "benchmarkSlot",
+        "diagnosisSlot",
+        "forecastSlot",
+        "overlaySlot",
+        "querySlot",
+        "reportSlot"
+      ],
+      "signals": [
+        "approvalRequested",
+        "diagnosisToggled",
+        "queryToggled"
+      ],
+      "file": "Nova/Composite/LayoutShell/NovaAIReport.qml"
     }
   ],
   "gallery": [

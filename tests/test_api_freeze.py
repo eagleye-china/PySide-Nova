@@ -3,7 +3,7 @@
 """API 冻结（1.0）门禁测试。
 
 三道闸的自动化验收：
-1. **清单自洽**：`api/nova-api-1.5.0.json` 的指纹必须能由内容重算得出（防手改绕过）；
+1. **清单自洽**：`api/nova-api-1.6.0.json` 的指纹必须能由内容重算得出（防手改绕过）；
 2. **面零漂移**：现网 146 类型逐成员（props/signals/methods）与清单一致；
    并验证门禁**能真的变红**（删类型/加成员/改签名三类反例，防「永远绿」的假门禁）；
 3. **命名与纪律**：`on*` 前缀、基类成员撞名、qmldir `//` 注释、版本 1.0、头注释、
@@ -33,17 +33,19 @@ import check_api_freeze as caf  # noqa: E402
 import check_qmllint as cql  # noqa: E402
 import gen_api_freeze as gaf  # noqa: E402
 
-MANIFEST = ROOT / "api" / "nova-api-1.5.0.json"
+MANIFEST = ROOT / "api" / "nova-api-1.6.0.json"
 DOC = ROOT / "docs" / "API_FREEZE.md"
 
 # 1.2.0：组合模块 19→20（新增 NovaIncubator 第 20 组合根，宪法第 8 章 additive · 整批单次重签）；总数 143→144
 # 1.3.0：NovaIncubator additive（emblemClickable:bool + emblemClicked() + emblemToolTip:string 徽记可点带悬停提示）；总数不变
 # 1.4.0：新增公共导出类型 NovaMarkdown（Nova.Controls 第 92 个），宪法第 8 章 additive minor 整批单次重签；总数 144→145
 # 1.5.0：新增公共导出类型 NovaDataGrid（Nova.Controls 第 93 个），整批单次重签；总数 145→146，旧 145 类型逐字不变
+# 1.5.0（additive 并入未发布版本）：新增第 21 组合根 NovaAIReport（Composite.LayoutShell），
+#   整批单次重签；总数 146→147，LayoutShell 20→21，decorative 84→85，旧 146 类型逐字不变
 EXPECTED_MODULES = {"Nova.Controls": 93, "Nova.Behaviors": 13,
                     "Nova.Services": 16, "Nova.Design": 4,
-                    "Nova.Composite.LayoutShell": 20}
-EXPECTED_TOTAL = 146
+                    "Nova.Composite.LayoutShell": 21}
+EXPECTED_TOTAL = 147
 
 
 @pytest.fixture(scope="module")
@@ -61,7 +63,7 @@ def current() -> dict:
 def test_manifest_schema(manifest):
     assert manifest["schema"] == "nova-api-freeze/1"
     assert manifest["package"] == "pyside-nova"
-    assert manifest["apiVersion"] == "1.5.0"
+    assert manifest["apiVersion"] == "1.6.0"
     assert manifest["baseline"] == "Quasar 2.35.5"
 
 
@@ -70,7 +72,7 @@ def test_manifest_counts(manifest):
     assert manifest["counts"]["modules"] == EXPECTED_MODULES
     a11y = manifest["counts"]["a11y"]
     assert sum(a11y.values()) == EXPECTED_TOTAL
-    assert a11y == {"decorative": 84, "interactive": 33, "semantic": 29}
+    assert a11y == {"decorative": 85, "interactive": 33, "semantic": 29}
 
 
 def test_manifest_fingerprint_self_consistent(manifest):

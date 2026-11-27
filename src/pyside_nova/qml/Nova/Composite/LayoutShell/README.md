@@ -1,8 +1,8 @@
 # Nova.Composite.LayoutShell · 模块交付文档
 
-> **第五 QML 模块｜20 项组合根容器（Prescient Layout Shell）｜15 项 1.0.0 GA 封版 + 5 项 1.2.0 增量（NovaAgent / NovaDE / NovaCopilot / NovaOrbit / NovaIncubator）**
+> **第五 QML 模块｜21 项组合根容器（Prescient Layout Shell）｜15 项 1.0.0 GA 封版 + 5 项 1.2.0 增量（NovaAgent / NovaDE / NovaCopilot / NovaOrbit / NovaIncubator）+ 1 项 1.5.0 增量（NovaAIReport 智能报表工作台）**
 >
-> 模块 URI：`Nova.Composite.LayoutShell` · 注册文件：`qmldir` · 20 项全部为冻结公共类型
+> 模块 URI：`Nova.Composite.LayoutShell` · 注册文件：`qmldir` · 21 项全部为冻结公共类型
 > API 冻结指纹：`4f882374ad52262b`（144 类型；1.2.0 整批单次重签，新增第 20 组合根 NovaIncubator；物理拍平后重签，公共成员零漂移。反向归一化 `file` 可精确还原旧值 `68b34a408489b6a8`）
 >
 > **物理平铺（1.2.0 · 12:05 拍平后）**：20 个 QML 全部平铺于本目录、`qmldir` 逐项以 `名字.qml` 导出，**模块 URI 与 `import` 用法不变**，物理路径回到 1.0.x 已发布形态。九类语义（Navigation / Workbench / Overlay / Page / Carrier / Chat / Intelligence / Orbit / Incubator）保留为**文档层分类台账**，不再落物理子目录——遵循「概念域 ≠ 物理目录 ≠ 模块 URI」铁律。详见 `docs/prescript/GUIDE_CLASSIFICATION.md §1.1 / §4`。
@@ -12,7 +12,7 @@
 | **法源** | `docs/CONSTITUTION.md`（母法）· `docs/COMPOSITION_CONSTITUTION.md`（组合组件宪法 0.9.1）· `docs/prescript/SPEC_FREEZE.md`（技术红线 v2.1.0） |
 | **权威事实源** | `docs/COMPONENT_LIST.md` + `api/nova-api-1.2.0.json`（均为生成器产物，禁止手改） |
 | **性质** | 无业务语义的复合根容器骨架；填业务即交付 |
-| **状态** | ✅ 20/20 已登记（15 GA 封版 + 5 增量）· Gallery 20 页独立预览 · 20 个独立演示 · 静态门禁 3/3 |
+| **状态** | ✅ 21/21 已登记（15 GA 封版 + 5 增量 + 1 智能报表）· Gallery 21 页独立预览 · 静态门禁 3/3 |
 
 ---
 
@@ -56,7 +56,7 @@
 | `NovaPlatform` | `Nova.Services` | `isMobile` 触控平台判定（仅 `NovaMobile`） |
 | `NovaScreen` | `Nova.Services` | `gtLg` 断点判定（仅 `NovaFlexLayout`） |
 
-### 2.2 20 项依赖矩阵
+### 2.2 21 项依赖矩阵
 
 | 组件 | Theme | Header | Footer | Page | Separator | Motion | Platform | Screen |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -80,6 +80,7 @@
 | `NovaCopilot` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
 | `NovaOrbit` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
 | `NovaIncubator` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
+| `NovaAIReport` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | | |
 
 ### 2.3 推荐业务注入类型（非 Shell 内实例化）
 
@@ -89,13 +90,13 @@
 | `NovaChatMessage` | `Nova.Controls` | 由业务注入 `NovaChat.contentSlot` 的对话气泡 |
 | `NovaBtn` / `NovaText` / `NovaMenu` 等 | `Nova.Controls` | 由业务注入任意槽位的交互与展示内容 |
 
-> **D-013 合规边界**：20 项的独有身份元素是 `_` 私有**纯几何装饰**（`Rectangle` / `Gradient` /
+> **D-013 合规边界**：21 项的独有身份元素是 `_` 私有**纯几何装饰**（`Rectangle` / `Gradient` /
 > `Row` / `Repeater`），不构成可交互控件、不复制原子样式、不绕过令牌、不含字体依赖——
 > **不违反**"禁止私造原子"基线。
 
 ---
 
-## 三、20 项完整契约
+## 三、21 项完整契约
 
 > 下表属性均为**公开配置 / 只读派生属性**；`_` 前缀私有成员不进冻结面，不在此列。
 > 机器可读完整签名见 `api/nova-api-1.2.0.json` 与 `docs/COMPONENT_LIST.md`。
@@ -318,6 +319,27 @@
 - **治理边界**：封版须经宿主一次显式确认（I5 闸门不可绕过）；壳零定时器、零自动封版逻辑；孵化内核不可用时退化为可用工作台骨架（I8）
 - **依赖**：Theme · Header · Footer · Page · Separator · Motion
 
+### 智能报表工作台（1）
+
+> 1.5.0 收官件（第 **21** 个组合根）：`NovaAIReport` 是铝电解 AI 报表的**工作台壳**，
+> 把行业方案「对标 → 诊断 → 预测 → 问数 → 审批」的报表决策闭环呈现为无业务语义骨架。
+> 行业方案原文（L1~L5 能力分层 / 语义层 / 归因 / 预测 / NL2SQL / Agent 编排 / 信任爬坡）
+> 是 Python 智能层与业务层职责，按「无业务语义」铁律**不进 Shell**；本组件是其在组件层的
+> 呈现载体，与 `NovaOrbit` / `NovaIncubator` 处理同构。完整转译与使用见
+> `docs/controls/NovaAIReport.md`。**参数语义层 / 归因引擎 / 预测模型 / 问数映射 / Agent 编排
+> 全由业务槽位注入，Shell 只托管七槽布局与折叠意图，绝不自动执行、绝不硬编码第二份参数口径**。
+
+#### `NovaAIReport` — 智能报表工作台
+- **身份**：对标带四级基准游标尺（主轴 + 三档刻 + 偏差游标）；左栏因果鱼骨（竖干 + 三对斜枝）；中栏行列刻度尺（横纵轴 + 行列刻点）；预测带置信区间带（主轴 + 上下界 + 中心点）；右栏问数双点（双实心方点 + 连接线）；审批栏闸门横闩（双立柱 + 横闩 + 缺口）；顶层单色系递进发丝——与既有 20 项身份互不重复
+- **配置**：`diagnosisSize` · `querySize` · `benchmarkHeight` · `forecastHeight` · `approvalHeight` · `showBenchmark` · `showDiagnosis` · `showForecast` · `showQuery` · `showApproval` · `diagnosisCollapsed` · `queryCollapsed` · `breakpoint` · `bordered` · `belowBreakpoint`(ro)
+- **信号**：`diagnosisToggled(bool collapsed)` · `queryToggled(bool collapsed)` · `approvalRequested()`
+  ｜ **函数**：`toggleDiagnosis()` · `toggleQuery()` · `requestApproval()`
+- **槽位**：`benchmarkSlot` · `diagnosisSlot` · `reportSlot` · `forecastSlot` · `querySlot` · `approvalSlot` · `overlaySlot`（7 槽，`overlaySlot` 取 `NovaTheme.zFixedDrawer` 且业务注入须为透明顶层；`reportSlot` 推荐注入 `NovaDataGrid`）
+- **键盘**：`Esc` 对 diagnosis / query 两条可折叠轨分别 emit 收起意图
+- **RTL**：根节点 `LayoutMirroring.enabled: NovaTheme.isRtl`
+- **治理边界**：审批闸门是业务层的「建议→人工确认→回写」呈现位；壳零定时器、零自动执行逻辑；默认人工确认，自动执行（L5-C）属业务层在审计合规下的可选扩展
+- **依赖**：Theme · Header · Footer · Page · Separator · Motion（推荐注入 `NovaDataGrid` 承载主报表区）
+
 ---
 
 ## 四、最小使用示例
@@ -348,8 +370,8 @@ ApplicationWindow {
 ```
 
 > 真实可执行示例（无 `title` 属性、无 `NovaLabel`、无 `Theme.*`）。
-> 更多骨架见 `examples/layout_shell/<snake_case>/main.qml`（20 个独立演示），
-> 逐项调参见 `examples/gallery/layout_shells.qml`（Gallery 20 页）。
+> 更多骨架见 `examples/layout_shell/<snake_case>/main.qml`（21 个独立演示），
+> 逐项调参见 `examples/gallery/layout_shells.qml`（Gallery 21 页）。
 
 ---
 

@@ -1,8 +1,13 @@
 # NovaMarkdown · Markdown 文档渲染器
 
-> **模块** `Nova.Controls` · **a11y** `semantic`（`Accessible.StaticText`）· **pyside-nova 1.4.0** ·
-> **API 冻结指纹** `37fbbe9ab5806a2a` · **零第三方依赖**（全库唯一依赖仍是 `PySide6>=6.8`）·
-> 公共签名以 `api/nova-api-1.4.0.json` 冻结面为准
+> **模块** `Nova.Controls` · **a11y** `semantic`（`Accessible.StaticText`）· **pyside-nova 1.6.0** ·
+> **API 冻结指纹** `9742de8638251876` · **零第三方依赖**（全库唯一依赖仍是 `PySide6>=6.8`）·
+> 公共签名以 `api/nova-api-1.6.0.json` 冻结面为准
+>
+> **史料（1.4.0 初版，不回改）**：指纹 `37fbbe9ab5806a2a` / `api/nova-api-1.4.0.json`；
+> 下方 §1.1 / §9 / §10 的 1.4.0 时点表述按「史料不圆场」原样保留。
+> **T22（1.5.0 实现体 · 2026-11-27）**：择优反哺 4 项渲染增益，公共面
+> **10 props / 3 signals / 3 methods 逐字不变、冻结指纹零漂移**，见 §4.1 / §9.1 / §10.1。
 >
 > 本页是**手写使用文档**（`docs/controls/` 不属生成物目录）。组件源码：
 > `src/pyside_nova/qml/Nova/Controls/NovaMarkdown.qml`。
@@ -135,20 +140,45 @@ NovaMarkdown {
 也无法给代码块单独加底框。因此组件按「块」切分：
 
 ```
-_parse(src)  →  [{kind, text, level, anchor}, ...]
-                 kind ∈ heading / fence / table / quote / list / paragraph
+_parse(src)  →  [{kind, text, level, anchor, table?, image?}, ...]
+                 kind ∈ heading / fence / table / hr / tasklist / quote / list
+                       / image / paragraph
 ```
 
 - **围栏优先**：遇到 ``` / ~~~ 先整段收拢到闭合行，保证围栏内内容不被按行拆散；
-- **标题独立成块**：记录 `level` 与 `anchor`（`_slug(title, index)`），供 TOC 与跳转；
-- **同语法聚组**：连续的表格行 / 引用行 / 列表行合并为一块，避免 Markdown 表格被拆成
-  多行独立 `Text` 而失去表头语义；
-- **每块一个 `Text`**：`textFormat: Text.MarkdownText`、`wrapMode: Text.WordWrap`，
-  颜色 / 字号 / 行高全部绑定 `NovaTheme`；
+- **标题独立成块**：记录 `level` 与 `anchor`（T22 起 `_slug(title, counter)` 计数器去重，
+  不再拼 `blocks.length`，锚点不随前文增删漂移）；
+- **表格 / hr / tasklist / 独占图片独立成块**（T22）：`_lineKind()` 严格化，
+  表格按「表头 + 分隔行 + 连续数据行」一次收拢；`:::` 容器等仍按普通段落字面显示；
+- **同语法聚组**：连续的引用行 / 列表行合并为一块；
+- **普通块一个 `Text`**：`textFormat: Text.MarkdownText`、`wrapMode: Text.WordWrap`，
+  颜色 / 字号 / 行高全部绑定 `NovaTheme`；**表格块例外**，见 §4.1；
 - **`NovaScrollArea` 承载**：`Column` 首尾各留 12px `Item`（坑位 65 口径），
-  保证 `childrenRect.height` 含内边距；
-- **锚点跳转**：`scrollToAnchor()` 遍历 `blockRepeater` 的 `objectName` 命中块，
-  再写 `scroller._flick.contentY`（`NovaScrollArea` 为此反哺了 `_flick` 私有只读别名）。
+  保证 `childrenRect.height` 含内边距；大纲侧栏同样外包 `NovaScrollArea`（T22，见 §5）；
+- **锚点跳转 O(1)**（T22）：`_parse()` 同时产出 `anchorMap` 存入 `_anchorIndex`，
+  `scrollToAnchor()` 直接 `itemAt(index)` 命中块、不再遍历 `objectName`；
+  `scrollToTop()` 加 `_flick` null 保护。两者仍写 `scroller._flick.contentY`
+  （`NovaScrollArea` 为此反哺了 `_flick` 私有只读别名）。
+
+### 4.1 GFM 表格逐格自绘（T22）
+
+Qt `Text.MarkdownText` 对表格支持不稳定，旧实现把整段表格原文塞进一个 `Text`。
+T22 改为**逐格渲染**：
+
+```
+_extractTable() → {header[], aligns[], allRows[][], colCount}
+ColumnLayout ← Repeater(allRows) → RowLayout ← Repeater(该行各列) → Rectangle + Text
+```
+
+- 每个单元格独立 `Text`（仍用 `Text.MarkdownText`，单元格内链接可走 `_onLink()`）；
+- `aligns` 由分隔行 `:---` / `---:` / `:---:` 解析出 left / right / center；
+- 表头行 `surfaceAlt` 底色 + 粗体，数据行 `surface` 底色，1px `outline` 边框；
+- **`Layout.fillHeight` + `preferredHeight` 让同行等高、行高随该行最高文字自适应**，
+  网格连续且不裁字（坑位 75）。
+
+> 候选稿 v0.17.0 用 `[header].concat(rows)` 直接交给 `Grid`，元素数 = 行数，
+> 真机只渲染出对角线格子；T22 反哺时已改为逐行 `RowLayout`，并清除该稿的
+> 公共面污染与 TOC 手搓控件（§10.1）。
 
 ### 坑位 69 · Repeater 是「视觉子项」
 
@@ -167,6 +197,12 @@ _parse(src)  →  [{kind, text, level, anchor}, ...]
 `showToc: true` 时左侧出现 190px 侧栏，`tocStart / tocEnd` 过滤层级，
 条目用库组件 `NovaBtn`（`variant: "flat"` / `size: "sm"` / `dense: true`）渲染，
 按 `(level - tocStart) * 10` 缩进，点击调用 `scrollToAnchor(anchor)`。
+
+**T22 起侧栏可滚动**：内容外包 `NovaScrollArea`，`Column.width` 绑
+`tocScroller.width` 而非 `parent.width` —— 后者会与 `NovaScrollArea.inner.width`
+的 `childrenRect` 互锁产生 `Binding loop`（候选稿真机实测 1 条）。
+超过约 15 条大纲时不再被 `clip` 吞掉；首尾各留 6px `Item`（坑位 65 口径）。
+条目始终用 `NovaBtn`，不手搓 `Text + MouseArea + Rectangle`。
 
 `toc` 只读属性与 `tocReady(items)` 信号同源，宿主可自行渲染外部目录：
 
@@ -219,8 +255,8 @@ a11y 分类 `semantic`、`Accessible.role: Accessible.StaticText`、
 
 ## 8. 能力边界（如实标注）
 
-渲染能力完全由 Qt 的 `Text.MarkdownText`（CommonMark + 部分 GFM）决定，
-组件**不自行实现语法扩展**：
+除 GFM 表格由组件逐格自绘（§4.1）外，其余渲染能力完全由 Qt 的
+`Text.MarkdownText`（CommonMark + 部分 GFM）决定，组件**不自行实现其他语法扩展**：
 
 | 支持（实测） | 不支持 / 不作承诺 |
 |---|---|
@@ -236,8 +272,9 @@ a11y 分类 `semantic`、`Accessible.role: Accessible.StaticText`、
 > 需要这些能力时应另立议题评估，不得把构想稿当作已交付契约。
 
 **适用边界**：适合 README / 变更日志 / 帮助文档 / 组件说明等**中等长度只读文档**。
-分块渲染会为每块创建一个 `Text`，超长文档（数千块）建议宿主侧分页；
-组件不做缓存与虚拟滚动。
+普通块每块一个 `Text`、表格每格一个 `Text`，超长文档（数千块 / 大表格）建议宿主侧分页；
+组件不做缓存与虚拟滚动。T22 起表格行高随该行最高单元格自适应，极长单元格会撑高整行、
+不裁字（坑位 75）。
 
 ---
 
@@ -256,6 +293,36 @@ scrollToAnchor 无错误 · linkBlocked = 1 · linkClicked = 1
 门禁侧：`qmllint` 单文件 **0 warning**，全库告警计数回到预算线；
 `check_a11y.py` 新增 `semantic` 登记；`qmldir` 新增
 `NovaMarkdown 1.0 NovaMarkdown.qml` 导出。
+
+### 9.1 T22 反哺验收（1.5.0 实现体 · 2026-11-27 · 不覆盖上方 1.4.0 史料段）
+
+真实离屏 Qt Quick 引擎 A/B 探针（重复标题 / 3×3 GFM 表格 / hr / tasklist / 40 条大纲）：
+
+```
+table / hr / tasklist 独立成块 ✓
+表格 3×3 = 9 格全部独立渲染（候选稿只出对角线 3 格，已修正）
+锚点 [铝电解工作站, 工艺参数, 工艺参数-1, 细分项-01] · 不随 blocks.length 漂移
+_anchorIndex['工艺参数-1'] = 6 · scrollToAnchor 真实位移 0 → 311
+TOC contentHeight 1218 > 视口 625 · 文档 1709 > 658 → 两侧真可滚动
+0 条坏 Qt 消息 → PASS
+```
+
+门禁与回归：
+
+```
+冻结面 9742de8638251876 · 146 类型零漂移 · NovaMarkdown 10/3/3 逐字不变
+qmllint 单文件 0 warning / 0 error · 全库 594 = 预算 594（未打红）
+check_all.py --tier static 3/3 · 三个 --check ✓ · ruff 全净
+test_nova_markdown.py 15 passed（新增 3 项 T22 回归）
+核心 3 文件 53 passed（T21 时 50 → 现 53）· mkdocs build exit 0
+markdown_demo 离屏真机 PASS · 3 张截图 · 0 坏 Qt 消息
+AI 包指纹 710415cae870bc8f → a09d2545950a9e13（docs/ai 全量属性表同步）
+```
+
+> **如实标注**：全库 537 项一次性 `pytest tests/` 仍会 SIGSEGV（exit 139），
+> 元凶是 `test_a11y.py` / `test_visual.py` / `test_smoke.py` 在 offscreen 干净态的
+> 既有缺陷（坑位 49 同类，史料已挂账）；`--collect-only` 成功、逐文件单跑除这 3 个外全绿，
+> **非 T22 引入**。项目门禁口径本就是 `check_all.py --tier static` 与相关子集。
 
 ---
 
@@ -276,6 +343,28 @@ scrollToAnchor 无错误 · linkBlocked = 1 · linkClicked = 1
 `1.3.0` 清单 `api/nova-api-1.3.0.json` 与指纹 `5d865b2d976af016` **保留为史料**，
 不回改、不删除。
 
+### 10.1 T22 择优反哺为何不需要重签（1.5.0 实现体）
+
+A 方案的硬约束是**不动冻结面**，因此本轮**不升版、不改 `apiVersion`、不重签
+`api/nova-api-1.5.0.json`、不改 `docs/API_FREEZE.md`、不动徽标版本号**。技术依据：
+
+| 判据 | 机制 |
+|---|---|
+| `gen_api_freeze._is_public()` | 仅 `not name.startswith("_")`；所有新增内部状态一律 `_` 前缀 |
+| `gen_apidocs.PROP_RE` | 匹配 `property` / `readonly property`，**不匹配 `required property`**；delegate 内的 `required property` 天然不进面 |
+| `fingerprint()` | 含 `types[].file` 等元数据、**不含 QML 文件体**；改实现体不动指纹 |
+| `docs/ai/` | 由 `parse_qml` 生成、**含全量 properties（含 `_` 私有）** → 改源码必须重跑生成器链同步 |
+
+候选稿 `nova-forge/docs/controls/NovaMarkdown.qml` v0.17.0 若原样覆盖，会
+`10 → 22 props`（delegate 内 `readonly property` 被整文件正则收进公共面）、
+专项 `NovaBtn` 断言落空、真机 1 条 `Binding loop`；故只择 4 项增益反哺，
+其余（手搓 TOC / 新增公共属性 / 独立加载时 import 缺失）一律不采纳。
+
+> **账实校准**：上一轮评估所列「qmllint +6 unqualified 超预算」是**候选文件放在
+> `nova-forge/docs/controls/` 导致 `NovaScrollArea` 类型解析失败**的连带产物；
+> 放回 `Nova/Controls/` 同目录后单文件 **0 warning**，非代码缺陷。
+> 该条阻塞在 A 反哺语境下自动消解，其余 3 条按上表逐一化解。
+
 ---
 
 ## 11. 相关文件与法源
@@ -286,7 +375,9 @@ scrollToAnchor 无错误 · linkBlocked = 1 · linkClicked = 1
 | `src/pyside_nova/qml/Nova/Controls/qmldir` | 公共导出登记 |
 | `src/pyside_nova/qml/Nova/Controls/NovaScrollArea.qml` | 反哺 `_flick` 私有别名 |
 | `scripts/check_a11y.py` | a11y 契约表 |
-| `api/nova-api-1.4.0.json` / `docs/API_FREEZE.md` | 冻结面（生成器产物，禁手改） |
+| `api/nova-api-1.6.0.json` / `docs/API_FREEZE.md` | 现行冻结面（生成器产物，禁手改） |
+| `examples/controls/markdown_demo/` | 独立演示 + 三张真机截图 + 离屏自检 |
+| `tests/test_nova_markdown.py` | 专项 15 项（含 T22 三项增益回归） |
 | `docs/CONSTITUTION.md` 第 8 章 / `SPEC_FREEZE.md` v2.1.0 | additive 升版法源 |
 | `docs/QUASAR_ACKNOWLEDGEMENT.md` | 关系口径唯一事实源（**Inspired by**） |
 

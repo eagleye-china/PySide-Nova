@@ -39,10 +39,11 @@ engine.load("main.qml")
 
 | 能力 | 实现方式 | 状态 |
 | :--- | :--- | :---: |
-| 标题 / 强调 / 列表 / 表格 | `Text.MarkdownText`（CommonMark + 部分 GFM） | ✅ |
+| 标题 / 强调 / 列表 | `Text.MarkdownText`（CommonMark + 部分 GFM） | ✅ |
+| GFM 表格 | T22 反哺：**逐格 `Grid` 自绘**（单元格独立 `Text` + `:---:` 对齐） | ✅ |
 | 围栏代码块 | 分块独立 `Text` + 主题化底框 | ✅ |
-| 内置大纲侧栏 | `NovaBtn` + 层级过滤 `tocStart / tocEnd` | ✅ |
-| 页内锚点跳转 | `scrollToAnchor()` 写 `NovaScrollArea` 的 `contentY` | ✅ |
+| 内置大纲侧栏 | `NovaBtn` + 层级过滤 `tocStart / tocEnd` + `NovaScrollArea` 可滚动 | ✅ |
+| 页内锚点跳转 | `scrollToAnchor()` 走 `_anchorIndex` O(1) 索引写 `contentY` | ✅ |
 | 危险协议拦截 | `_safeUrl()` 白名单排除 + `linkBlocked` 信号 | ✅ |
 | 明暗主题联动 | 全部颜色 / 字号绑定 `NovaTheme` 令牌 | ✅ |
 | 空态 | 无有效块时显示「暂无内容」，绝不白屏 | ✅ |

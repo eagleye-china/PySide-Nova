@@ -3,7 +3,7 @@
 > **1.5.0 additive · 第 146 个公共类型** · `Nova.Controls.NovaDataGrid`
 > 冻结指纹 `9742de8638251876` · 146 类型 / Controls 93 / a11y `interactive`
 > 公共面：**32 props · 8 signals · 8 methods**（其中 4 个为 Connections 标准 handler，
-> 与库内 `NovaClosePopup.onClicked()` 惯例一致；逐成员见 `api/nova-api-1.5.0.json`）
+> 与库内 `NovaClosePopup.onClicked()` 惯例一致；逐成员见 `api/nova-api-1.6.0.json`）
 
 ## 0. 定位与裁决
 
@@ -252,7 +252,7 @@ Component {
 ## 7. 相关资源
 
 - Gallery 第 25 页：`examples/gallery/main.qml`（`pageDataGrid`）
-- 冻结清单：`api/nova-api-1.5.0.json` / 签署件 `docs/API_FREEZE.md`
+- 冻结清单：`api/nova-api-1.6.0.json` / 签署件 `docs/API_FREEZE.md`
 - 组件自动生成文档：`docs/components/NovaDataGrid.md`（生成器产物）
 - 独立演示：`examples/controls/markdown_demo/` 展示的是 `NovaMarkdown`；
   `NovaDataGrid` 的可运行装配见 Gallery 与 `tests/test_nova_datagrid.py`

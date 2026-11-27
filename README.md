@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova flagship seal · CARF · v1.5.0" width="200" />
+<img src="https://raw.githubusercontent.com/eagleye-china/pyside-nova/main/src/pyside_nova/resources/icons/pyside-nova-logo-sealed.svg" alt="pyside-nova flagship seal · CARF · v1.6.0" width="200" />
 
 # PySide-Nova
 
@@ -21,7 +21,7 @@ stable, industrial-grade interfaces.
 [![Python](https://img.shields.io/pypi/pyversions/pyside-nova)](https://pypi.org/project/pyside-nova/)
 [![Qt](https://img.shields.io/badge/Qt-Qt%20Quick%206.8+-41cd52)](https://www.qt.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/eagleye-china/pyside-nova/blob/main/LICENSE)
-[![Status](https://img.shields.io/badge/status-v1.5.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v1.6.0%20dev-blue)](https://github.com/eagleye-china/pyside-nova/blob/main/CHANGELOG.md)
 [![GitHub Stars](https://img.shields.io/github/stars/eagleye-china/pyside-nova?style=social)](https://github.com/eagleye-china/pyside-nova)
 
 </div>
@@ -32,12 +32,12 @@ stable, industrial-grade interfaces.
 
 | Item | Value |
 |---|---|
-| **Version** | **1.5.0** — additive minor over 1.4.0 (new public type **`NovaDataGrid`** in `Nova.Controls`: TableView-backed enterprise data grid with a pure-Python `QAbstractTableModel` pipeline, server-side mode, column-level delegates, inline editing, severity tinting and keyboard navigation; API contract re-signed **1.5.0**, release owned by CSA); **1.4.0** (new `NovaMarkdown`: zero-dependency Qt-native Markdown renderer) is already published on PyPI; **1.3.0** (NovaIncubator clickable identity emblem: `emblemClickable` + `emblemClicked`, re-signed locally) and **1.2.4** (patch, zero public API drift) are local / published states respectively; **1.2.3** (brand seal dual-track rollout + PyPI README absolute-link fix) and **1.2.2** (PyPI metadata / bilingual README presentation fix) are already published on PyPI; feature base is an additive minor over 1.0.0 GA (5 new composite roots: NovaAgent · NovaDE · NovaCopilot · NovaOrbit · **NovaIncubator** — the 20th and final composite root; **15 GA signatures unchanged**) |
+| **Version** | **1.6.0** — additive minor over 1.5.0 (new public type **`NovaAIReport`** in `Nova.Composite.LayoutShell`: seven-slot, business-semantic-free AI report workbench; seven injection slots + three intent-only signals; API contract re-signed **1.6.0**, release owned by CSA); **1.5.0** (new `NovaDataGrid`: TableView-backed enterprise data grid with a pure-Python `QAbstractTableModel` pipeline) and **1.4.0** (new `NovaMarkdown`: zero-dependency Qt-native Markdown renderer) are prior additive minors, with 1.4.0 already published on PyPI; 1.3.0 / 1.2.4 / 1.2.3 / 1.2.2 are historical states |
 | **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
-| **Public QML types** | **145** — Controls 92 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **20** |
-| **API freeze** | 146 types, zero drift · fingerprint `9742de8638251876` (1.5.0 additive re-sign: new `NovaDataGrid`, the 146th public type; old 145 types unchanged) |
+| **Public QML types** | **147** — Controls 93 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **21** |
+| **API freeze** | 147 types, zero drift · fingerprint `7c542c416709cd96` (1.6.0 additive re-sign: new `NovaAIReport`, the 147th public type; old 146 types unchanged) |
 | **Runtime** | Python ≥ 3.10 · PySide6 ≥ 6.8 (verified on **6.12.0**) · Windows / macOS / Linux |
-| **Quality gates** | static 3/3 PASS · 68 targeted tests passed · 20/20 ceiling audit · 15/15 foundations audit · qmllint 0 error |
+| **Quality gates** | static 3/3 PASS · 80 targeted tests passed · 21/21 ceiling audit · 15/15 foundations audit · qmllint 0 error |
 
 - **Flagship Standard**: Robustness · Solidity · Aesthetics · Prescience
 - **Methodology**: **CARF** — Conceive, Achieve, Refine, Freeze — Culminate to the peak

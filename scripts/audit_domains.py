@@ -1,9 +1,9 @@
 # scripts/audit_domains.py
-# pyside-nova 1.5.0 · 基础组件域分类机检与台账生成器
+# pyside-nova 1.6.0 · 基础组件域分类机检与台账生成器
 """COMPONENT_DOMAINS.md 的可验证底座（文档层概念域，非物理层）。
 
-事实源：api/nova-api-1.5.0.json（冻结清单）+ src/.../Nova/**/qmldir（模块归属）
-本脚本是 api/component-domains-1.5.0.json 的**唯一生成器**；该 JSON 为生成物，禁手改。
+事实源：api/nova-api-1.6.0.json（冻结清单）+ src/.../Nova/**/qmldir（模块归属）
+本脚本是 api/component-domains-1.6.0.json 的**唯一生成器**；该 JSON 为生成物，禁手改。
 
 铁律：域分类只落在文档 / 台账层，**不改变 qmldir 模块 URI、不改冻结面指纹、
 不移动任何 QML 物理文件**。原稿 NOVA_CLASSIFY.md 主张的「每子目录独立 qmldir +
@@ -19,8 +19,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-API = ROOT / "api" / "nova-api-1.5.0.json"
-EMIT = ROOT / "api" / "component-domains-1.5.0.json"
+API = ROOT / "api" / "nova-api-1.6.0.json"
+EMIT = ROOT / "api" / "component-domains-1.6.0.json"
 QML = ROOT / "src" / "pyside_nova" / "qml" / "Nova"
 
 # ── Controls 93 → 七大控件域 ────────────────────────────────────────────────
@@ -68,7 +68,7 @@ CONTROL_DOMAINS: dict[str, list[str]] = {
 }
 
 # ── Behaviors 13 → 三大行为域 ───────────────────────────────────────────────
-# NovaTouchCore.qml 是目录内**存在但未导出**的内部 helper，不纳入 146 类型。
+# NovaTouchCore.qml 是目录内**存在但未导出**的内部 helper，不计入冻结类型总数。
 BEHAVIOR_DOMAINS: dict[str, list[str]] = {
     "Gestures": ["NovaTouchHold", "NovaTouchPan", "NovaTouchRepeat", "NovaTouchSwipe"],
     "Observers": ["NovaIntersection", "NovaScrollFire", "NovaScrollObserver"],
@@ -78,7 +78,7 @@ BEHAVIOR_DOMAINS: dict[str, list[str]] = {
     ],
 }
 
-# ── 20 组合根 → 九类（沿用 COMPONENT_CLASSIFICATION.md §4 / 模块 README） ──
+# ── 21 组合根 → 九类（沿用 COMPONENT_CLASSIFICATION.md §4 / 模块 README） ──
 COMPOSITE_GROUPS: dict[str, list[str]] = {
     "Navigation": ["NovaSidebar", "NovaTopNavigation", "NovaDualSide", "NovaTabShell"],
     "Workbench": ["NovaThreeColumn", "NovaCompare", "NovaCardGrid"],
@@ -86,7 +86,7 @@ COMPOSITE_GROUPS: dict[str, list[str]] = {
     "Page": ["NovaSetupWizard", "NovaBlankPage"],
     "Carrier": ["NovaDesktop", "NovaMobile", "NovaFlexLayout"],
     "Chat": ["NovaChat"],
-    "Intelligence": ["NovaAgent", "NovaDE", "NovaCopilot"],
+    "Intelligence": ["NovaAgent", "NovaDE", "NovaCopilot", "NovaAIReport"],
     "Orbit": ["NovaOrbit"],
     "Incubator": ["NovaIncubator"],
 }
@@ -95,7 +95,7 @@ INTERNAL_HELPERS = [
     {
         "name": "NovaTouchCore",
         "file": "Behaviors/NovaTouchCore.qml",
-        "reason": "手势域内部实现 helper，未在 Behaviors/qmldir 导出，不计入 146 类型",
+        "reason": "手势域内部实现 helper，未在 Behaviors/qmldir 导出，不计入冻结类型总数",
     },
 ]
 
@@ -130,8 +130,8 @@ def build() -> tuple[dict, list[str]]:
         errs.append(f"Controls 域分类应为 93，实得 {len(ctrl)}")
     if len(beh) != 13:
         errs.append(f"Behaviors 域分类应为 13，实得 {len(beh)}")
-    if len(comp) != 20:
-        errs.append(f"组合根九类应为 20，实得 {len(comp)}")
+    if len(comp) != 21:
+        errs.append(f"组合根九类应为 21，实得 {len(comp)}")
 
     # [2] 零遗漏 / 零幽灵 / 模块归属一致
     for short, info in by_short.items():
@@ -152,9 +152,9 @@ def build() -> tuple[dict, list[str]]:
         if short not in by_short:
             errs.append(f"域分类存在冻结清单之外的幽灵类型：{short}")
 
-    # [3] 冻结面 146 / 5 模块守护
-    if len(types) != 146:
-        errs.append(f"冻结清单应为 146 类型，实得 {len(types)}")
+    # [3] 冻结面 147 / 5 模块守护
+    if len(types) != 147:
+        errs.append(f"冻结清单应为 147 类型，实得 {len(types)}")
     mods = sorted({v["module"] for v in types.values()})
     if len(mods) != 5:
         errs.append(f"qmldir 模块应为 5 个，实得 {len(mods)}：{mods}")
@@ -196,7 +196,7 @@ def build() -> tuple[dict, list[str]]:
         "package": "pyside-nova",
         "apiVersion": api["apiVersion"],
         "fingerprint": api["fingerprint"],
-        "source": "api/nova-api-1.5.0.json",
+        "source": "api/nova-api-1.6.0.json",
         "generator": "scripts/audit_domains.py",
         "note": "概念域分类（文档层），不改变 qmldir 模块 URI / 冻结面 / QML 物理目录",
         "counts": {
@@ -226,7 +226,7 @@ def build() -> tuple[dict, list[str]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="基础组件域分类机检 / 台账生成")
-    ap.add_argument("--emit", action="store_true", help="生成 api/component-domains-1.5.0.json（生成物禁手改）")
+    ap.add_argument("--emit", action="store_true", help="生成 api/component-domains-1.6.0.json（生成物禁手改）")
     args = ap.parse_args()
 
     try:
@@ -237,7 +237,7 @@ def main() -> int:
 
     c = ledger["counts"]
     print("=" * 78)
-    print("pyside-nova 1.5.0 · 基础组件域分类机检（文档层概念域）")
+    print("pyside-nova 1.6.0 · 基础组件域分类机检（文档层概念域）")
     print("=" * 78)
     print(f"[1] 冻结面            {c['total']} 类型 / {c['modules']} 个 qmldir 模块 · 指纹 {ledger['fingerprint']}")
     print(f"[2] Controls           {c['controls']} → {c['controlDomains']} 域")
@@ -246,7 +246,7 @@ def main() -> int:
     print(f"[5] 服务 / 设计        {c['services']} / {c['design']}（不归域，按架构域标注）")
     print(f"[6] 零遗漏 / 零重复 / 零幽灵   {'PASS' if not errs else 'FAIL'}")
     print(f"[7] 单向依赖守护       上层 import {ledger['guard']['upwardImports']} 处 · 相对导入 {ledger['guard']['relativeImports']} 处")
-    print(f"[8] 内部 helper        {', '.join(h['name'] for h in INTERNAL_HELPERS)}（未导出，不计入 146）")
+    print(f"[8] 内部 helper        {', '.join(h['name'] for h in INTERNAL_HELPERS)}（未导出，不计入冻结面）")
 
     if errs:
         print("-" * 78)
@@ -261,7 +261,8 @@ def main() -> int:
         print(f"[emit] 已生成 {EMIT.relative_to(ROOT)}（生成物，禁手改）")
 
     print("=" * 78)
-    print(f"结论：PASS · 146 类型零遗漏 · 105 基础类型全归域 · 单向依赖 0 破口 · 零物理改动")
+    basic = c["total"] - c["composite"] - c["services"] - c["design"] - len(INTERNAL_HELPERS)
+    print(f"结论：PASS · {c['total']} 类型零遗漏 · {basic} 基础类型全归域 · 单向依赖 0 破口 · 零物理改动")
     return 0
 
 

@@ -160,6 +160,7 @@ LAYOUTSHELL: dict[str, tuple[str, str, str]] = {
     "NovaCopilot":      (DECORATIVE, "-", "增强型协作面板骨架，建议/闸门/撤销语义由注入槽位承担"),
     "NovaOrbit":       (DECORATIVE, "-", "意图轨道工作台骨架，轨道态势/活产物/孵化确认语义由注入槽位承担"),
     "NovaIncubator":   (DECORATIVE, "-", "应用孵化器工作台骨架，配方/七区契约/三重校验/封版证书语义由注入槽位承担"),
+    "NovaAIReport":    (DECORATIVE, "-", "智能报表工作台骨架，对标/诊断/预测/问数/审批语义由注入槽位承担"),
 }
 
 BEHAVIORS: dict[str, tuple[str, str, str]] = {

@@ -18,7 +18,7 @@ python examples/controls/markdown_demo/main.py --doc ~/notes/CHANGELOG.md
 # 只列出将加载的文档，不启动窗口
 python examples/controls/markdown_demo/main.py --list
 
-# 离屏真机自检（加载 / 视觉树取证 / 三信号事件链 / 两张截图 / 0 坏 Qt 消息）
+# 离屏真机自检（加载 / 视觉树取证 / 三信号事件链 / 三张截图 / 0 坏 Qt 消息）
 QT_QPA_PLATFORM=offscreen QT_QPA_FONTDIR=C:/Windows/Fonts \
     python examples/controls/markdown_demo/verify_offscreen.py
 ```
@@ -35,9 +35,12 @@ QT_QPA_PLATFORM=offscreen QT_QPA_FONTDIR=C:/Windows/Fonts \
 | :---: | :---: |
 | ![默认态](markdown_demo.png) | ![暗色交互态](markdown_demo_dark.png) |
 
-> 两张图均由 `verify_offscreen.py` 在真实 `QQmlApplicationEngine` 下离屏渲染截取
+**T22 反哺增益**：![GFM 表格逐格 Grid 自绘](markdown_demo_table.png)
+
+> 三张图均由 `verify_offscreen.py` 在真实 `QQmlApplicationEngine` 下离屏渲染截取
 > （非静态拼图）。暗色态里 `linkBlocked` 拦截记录、文档切换器选中态、大纲层级
-> 三者与文档内容账实同源。
+> 三者与文档内容账实同源；第三张滚到「能力矩阵」，取证 GFM 表格已由整段
+> `Text.MarkdownText` 改为逐格 `Grid` 自绘（单元格独立边框 + 对齐）。
 
 ## 文件
 
@@ -49,7 +52,7 @@ QT_QPA_PLATFORM=offscreen QT_QPA_FONTDIR=C:/Windows/Fonts \
 | `docs/02-api.md` | 公共 API 速查（Props / Signals / Methods 三张表） |
 | `docs/03-security.md` | 链接安全演练（4 个危险协议 + 安全外链 + 页内锚点 + 空态） |
 | `verify_offscreen.py` | 离屏真机自检脚本（含交互事件链与截图） |
-| `markdown_demo.png` / `markdown_demo_dark.png` | 真机离屏截图（默认态 / 暗色交互态） |
+| `markdown_demo.png` / `markdown_demo_dark.png` / `markdown_demo_table.png` | 真机离屏截图（默认态 / 暗色交互态 / T22 GFM 表格） |
 | *（运行时注入）* `docs/controls/NovaMarkdown.md` | **dogfooding**：用组件渲染它自己的使用文档 |
 
 示例文档是**真实文件**而非 QML 内硬编码字符串 —— 改 `.md`，demo 立刻跟着变。

@@ -18,26 +18,27 @@ from pathlib import Path
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ.setdefault("QT_QPA_FONTDIR", "C:/Windows/Fonts")
 
-from PySide6.QtCore import QEventLoop, QObject, QTimer  # noqa: E402
-from PySide6.QtGui import QGuiApplication  # noqa: E402
-from PySide6.QtQml import QQmlApplicationEngine, QQmlExpression, qmlContext  # noqa: E402
-from PySide6.QtQuick import QQuickItem, QQuickWindow  # noqa: E402
-from shiboken6 import getCppPointer, wrapInstance  # noqa: E402
+from PySide6.QtCore import QEventLoop, QObject, QTimer
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtQml import QQmlApplicationEngine, QQmlExpression, qmlContext
+from PySide6.QtQuick import QQuickItem, QQuickWindow
+from shiboken6 import getCppPointer, wrapInstance
 
-from pyside_nova import init_nova  # noqa: E402
+from pyside_nova import init_nova
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import main as demo_main  # noqa: E402
+import main as demo_main
 
 DEMO_DIR = Path(__file__).resolve().parent
 ROOT = demo_main.find_repo_root()   # 与 main.py 同源：向上探测，不写死层数
 SHOT = Path(os.environ.get("NOVA_DEMO_SHOT", str(DEMO_DIR / "markdown_demo.png")))
 SHOT_DARK = DEMO_DIR / "markdown_demo_dark.png"
+SHOT_TABLE = DEMO_DIR / "markdown_demo_table.png"   # T22：GFM 表格 Grid 自绘取证
 
 MESSAGES: list[str] = []
 
 
-def _handler(msg_type, context, message):  # noqa: ANN001
+def _handler(msg_type, context, message):
     text = str(message)
     MESSAGES.append(text)
     # 只把 error / 严重告警当坏消息；offscreen 下字体/平台的说明性 info 忽略
@@ -132,6 +133,17 @@ def main() -> int:
     print("== 截图（默认态 · 亮色 / 第 1 篇） ==")
     print("  路径:", SHOT, "| 尺寸:", img.width(), "x", img.height(), "| 保存:", ok_img)
 
+    # ── T22 增益取证：滚到「能力矩阵」，拍 GFM 表格逐格 Grid 自绘 ──
+    qeval(root, "doc.scrollToAnchor(doc.toc[2].anchor)")
+    QTimer.singleShot(250, loop.quit)
+    loop.exec()
+    img_table = qwin.grabWindow()
+    ok_table = img_table.save(str(SHOT_TABLE))
+    print("== 截图（T22 · GFM 表格 Grid 自绘 / 第 1 篇「能力矩阵」） ==")
+    print("  路径:", SHOT_TABLE, "| 尺寸:", img_table.width(), "x", img_table.height(),
+          "| 保存:", ok_table)
+    qeval(root, "doc.scrollToTop()")
+
     # ── 交互事件链 ────────────────────────────────────────────
     print("== 交互事件链 ==")
     qeval(root, "doc._onLink('https://example.com/safe')")
@@ -177,7 +189,7 @@ def main() -> int:
 
     picker_opts = qeval(root, "docPicker._normalized.length")
     picker_h = qeval(root, "docPicker.height")
-    passed = (len(roots) == 1 and len(BAD) == 0 and ok_img and ok_dark
+    passed = (len(roots) == 1 and len(BAD) == 0 and ok_img and ok_dark and ok_table
               and qeval(root, "doc.toc.length") > 0
               and picker_opts == len(titles) and picker_h > 0)
     print("== 结论 ==", "PASS" if passed else "FAIL")
