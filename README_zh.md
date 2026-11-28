@@ -31,7 +31,8 @@
 | 项目 | 内容 |
 |---|---|
 | **版本** | **1.11.0** —— 1.8.0 之上的 additive minor：`NovaTable` 对标 Quasar QTable 打磨（完整插槽体系 / 列定义元字段 / 列选择器 / 真 grid 卡片视图 / 全屏·CSV·触底意图 / dense·separator·响应式 / 空态区分 / 页大小 UI），API 契约重签 **1.11.0**；**1.8.0**（NovaDataGrid P1/P2）与 **1.7.0**（P0）为已发布基线，1.6.0 新增公共类型 **`NovaAIReport`**，1.5.0 / 1.4.0 及更早为历史状态 |
-| **对标基线** | Quasar **2.35.5**（已核实官方 releases） |
+| **对标基线（pinned）** | Quasar **2.35.5**（已核实官方 releases；pinned 保持至 P0 欠账清零 · D4） |
+| **上游已观察（observed）** | Quasar **2.36.0**（GitHub Releases + npm registry 双源登记；pinned 保持 2.35.5 至 P0 欠账清零 · D4） |
 | **公共 QML 类型** | **147** —— Controls 93 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **21** |
 | **API 冻结** | 147 类型零漂移 · 指纹 `9966483dda5a53c4`（1.11.0 additive 重签：NovaTable 对标 Quasar 契约；1.8.0 `89d5d3cdd7f94cf0` / 1.7.0 `157ab2b1d77ea9f9` 为史料） |
 | **运行环境** | Python ≥ 3.10 · PySide6 ≥ 6.8（**6.12.0** 实测）· Windows / macOS / Linux |

@@ -1,0 +1,25 @@
+{
+  "schema": "nova-upstream-pin/1",
+  "pinned_version": "2.35.5",
+  "observed_version": "2.36.0",
+  "pinned_at": "2026-11-28",
+  "observed_at": "2026-11-28",
+  "sources": [
+    "github:quasarframework/quasar/releases",
+    "npm:quasar"
+  ],
+  "scope": [
+    "dist/api/*.json",
+    "ui/src/utils/*",
+    "ui/src/plugins/*",
+    "ui/src/directives/*",
+    "ui/lang/*",
+    "ui/icon-set/*",
+    "ui/src/css/core/*"
+  ],
+  "changes_file": "changes/2.35.5-2.36.0.json",
+  "report": "reports/2.35.5-2.36.0.md",
+  "pin_policy": "CSA D4 (2026-11-28): observed 先登记 2.36.0，pinned 保持 2.35.5 直到 P0 欠账清零；升 pin = 独立议题 + CSA 拍板，不搭车组件打磨。",
+  "projection_note": "P0 只守护一致性、不投影；gen_upstream_baseline.py 把 pinned_version 投影到 api/*.json / docs/ai/index.json / gen_apidocs.py / gen_api_freeze.py 属 P1。",
+  "license_note": "Inspired by Quasar (MIT). Public API metadata + release notes only. No source code reuse; no fork/port claim."
+}

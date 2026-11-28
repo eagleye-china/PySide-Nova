@@ -33,7 +33,8 @@ stable, industrial-grade interfaces.
 | Item | Value |
 |---|---|
 | **Version** | **1.11.0** — additive minor over 1.8.0: `NovaTable` Quasar QTable alignment (full scoped-slot system, column metadata, column picker, true grid card mode, fullscreen / CSV / load-more intents, dense/separator/responsive, no-results state, page-size UI) with a 1.11.0 API re-sign; **1.8.0** (`NovaDataGrid` P1/P2 polish) / **1.7.0** (P0 polish) are released baselines, **1.6.0** added public type **`NovaAIReport`**; 1.5.0 / 1.4.0 and earlier are historical states |
-| **Parity baseline** | Quasar **2.35.5** (verified against official releases) |
+| **Parity baseline (pinned)** | Quasar **2.35.5** (verified against official releases; pinned until P0 debt cleared · D4) |
+| **Observed upstream** | Quasar **2.36.0** (registered from official GitHub Releases + npm registry; pinned stays 2.35.5 until P0 debt cleared · D4) |
 | **Public QML types** | **147** — Controls 93 · Behaviors 13 · Services 16 · Design 4 · Composite.LayoutShell **21** |
 | **API freeze** | 147 types, zero drift · fingerprint `9966483dda5a53c4` (1.11.0 additive re-sign: NovaTable Quasar alignment; 1.8.0 `89d5d3cdd7f94cf0` / 1.7.0 `157ab2b1d77ea9f9` retained as history) |
 | **Runtime** | Python ≥ 3.10 · PySide6 ≥ 6.8 (verified on **6.12.0**) · Windows / macOS / Linux |

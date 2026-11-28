@@ -1,0 +1,105 @@
+{
+  "schema": "nova-upstream-changes/1",
+  "from": "2.35.5",
+  "to": "2.36.0",
+  "collected_at": "2026-11-28",
+  "collection_note": "GitHub Releases + npm registry 双源交叉核实；仅登记 2.35.6 与 2.36.0 的 5 条真实变更（2.35.3/2.35.4 安全修复另见历史登记）。本文件是 P0 端到端验证的人工核实登记，P1 起由 manifest diff 自动生成，禁手写上游全量面清单。",
+  "source_refs": [
+    "https://github.com/quasarframework/quasar/releases/tag/quasar-v2.35.6",
+    "https://github.com/quasarframework/quasar/releases/tag/quasar-v2.36.0",
+    "https://raw.githubusercontent.com/quasarframework/quasar/quasar-v2.36.0/ui/src/utils/format/format.js",
+    "https://raw.githubusercontent.com/quasarframework/quasar/quasar-v2.36.0/ui/src/utils/format/format.test.js"
+  ],
+  "changes": [
+    {
+      "id": "2.35.6-format-hss-boundary",
+      "version": "2.35.6",
+      "type": "fix",
+      "scope": "utils",
+      "target": "format.humanStorageSize",
+      "change": "behavior",
+      "security": false,
+      "summary": "边界取整：单位由显示值（toFixed 后）判定而非 raw value；1048575 由 1024.0KB 改为 1.0MB，1023.5 且 decimals=0 由 1024B 改为 1KB。",
+      "ref": "#18604",
+      "category": "C1",
+      "response": "P0 阻断：修 NovaUtils.qml 实现 + 补机检用例",
+      "status": "resolved",
+      "test_ids": [
+        "test_human_storage_size_boundary",
+        "test_human_storage_size_official_table_sample",
+        "test_human_storage_size_existing_smoke_regression"
+      ],
+      "resolved_by": "T30 / P0"
+    },
+    {
+      "id": "2.35.6-format-hss-negative",
+      "version": "2.35.6",
+      "type": "fix",
+      "scope": "utils",
+      "target": "format.humanStorageSize",
+      "change": "behavior",
+      "security": false,
+      "summary": "负值：单位改由量级（Math.abs）选取；-2048 由 -2048.0B 改为 -2.0KB。",
+      "ref": "#18604",
+      "category": "C1",
+      "response": "P0 阻断：修 NovaUtils.qml 实现 + 补机检用例",
+      "status": "resolved",
+      "test_ids": [
+        "test_human_storage_size_negative",
+        "test_human_storage_size_official_table_sample"
+      ],
+      "resolved_by": "T30 / P0"
+    },
+    {
+      "id": "2.35.6-format-hss-input",
+      "version": "2.35.6",
+      "type": "fix",
+      "scope": "utils",
+      "target": "format.humanStorageSize",
+      "change": "behavior",
+      "security": false,
+      "summary": "入参处理：数字字符串一律接受（'500' 旧实现抛错而 '2048' 可用），类型放宽 number|string；其他值与 NaN 抛 TypeError（NaN 旧实现返回 'NaNB'）。",
+      "ref": "#18604",
+      "category": "C1",
+      "response": "P0 阻断：修 NovaUtils.qml 实现 + 补机检用例",
+      "status": "resolved",
+      "test_ids": [
+        "test_human_storage_size_numeric_string",
+        "test_human_storage_size_throws_type_error"
+      ],
+      "resolved_by": "T30 / P0"
+    },
+    {
+      "id": "2.36.0-lang-tg",
+      "version": "2.36.0",
+      "type": "feat",
+      "scope": "lang",
+      "target": "lang/tg",
+      "change": "new",
+      "security": false,
+      "summary": "新增 Tajik（tg）语言包。",
+      "ref": "#18607",
+      "category": "C3",
+      "response": "P2 登记：i18n 可选增益，不阻断、不重签冻结面",
+      "status": "registered",
+      "test_ids": [],
+      "resolved_by": ""
+    },
+    {
+      "id": "2.36.0-directives-ts-types",
+      "version": "2.36.0",
+      "type": "fix",
+      "scope": "types",
+      "target": "ClosePopup.d.ts / Ripple.d.ts",
+      "change": "typing",
+      "security": false,
+      "summary": "ClosePopup 与 Ripple 两个指令的 TS 类型补 | undefined。",
+      "ref": "#18605",
+      "category": "C4",
+      "response": "P3 登记：QML 无 TS 类型层，仅登记；组件 API 面零影响",
+      "status": "registered",
+      "test_ids": [],
+      "resolved_by": ""
+    }
+  ]
+}

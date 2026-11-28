@@ -1,0 +1,1815 @@
+{
+  "schema": "nova-upstream-manifest/1",
+  "pinned_version": "2.35.5",
+  "source": "npm:quasar@2.35.5 package/dist/api/*.json (official tarball)",
+  "license_note": "Inspired by Quasar (MIT). Public API metadata only. No source code reuse; no fork/port claim.",
+  "cache_dir": "upstream/cache/api-2.35.5",
+  "totals": {
+    "files": 156,
+    "bytes": 667221,
+    "by_type": {
+      "component": 123,
+      "directive": 13,
+      "plugin": 20
+    },
+    "member_items": 2408,
+    "by_facet": {
+      "computedProps": 24,
+      "events": 200,
+      "injection": 18,
+      "methods": 242,
+      "props": 1629,
+      "quasarConfOptions": 27,
+      "slots": 206,
+      "value": 62
+    }
+  },
+  "entries": [
+    {
+      "name": "AddressbarColor.json",
+      "upstream_type": "plugin",
+      "bytes": 332,
+      "sha256": "99f869c88cb876addb3ae788c54f984c50320af5ebd303d72d6bc28f2eac59e2",
+      "member_counts": {
+        "methods": 1,
+        "injection": 1
+      },
+      "member_total": 2
+    },
+    {
+      "name": "AppFullscreen.json",
+      "upstream_type": "plugin",
+      "bytes": 1944,
+      "sha256": "4f3bb1eb3a81e53139fdf40806fe6f24ac8b466330533bd3569a3a99d24b14f1",
+      "member_counts": {
+        "props": 3,
+        "methods": 3,
+        "injection": 1
+      },
+      "member_total": 7
+    },
+    {
+      "name": "AppNetwork.json",
+      "upstream_type": "plugin",
+      "bytes": 1487,
+      "sha256": "7a96ceaf30e9aa86725d1dd011137404348f0ace7f45b89deaf9cf0f56b67980",
+      "member_counts": {
+        "props": 6,
+        "injection": 1
+      },
+      "member_total": 7
+    },
+    {
+      "name": "AppVisibility.json",
+      "upstream_type": "plugin",
+      "bytes": 312,
+      "sha256": "ba26f604bddde907ac0461c6e8333d9119bf7dd23d06765257f6e6fb8fff8b5d",
+      "member_counts": {
+        "props": 1,
+        "injection": 1
+      },
+      "member_total": 2
+    },
+    {
+      "name": "AppWakeLock.json",
+      "upstream_type": "plugin",
+      "bytes": 1822,
+      "sha256": "66a36f0971f36f8f821d64d393f2c1387c88589b985056c42d2c8af107f1578b",
+      "member_counts": {
+        "props": 2,
+        "methods": 3,
+        "injection": 1
+      },
+      "member_total": 6
+    },
+    {
+      "name": "BottomSheet.json",
+      "upstream_type": "plugin",
+      "bytes": 5643,
+      "sha256": "0aeb428dd0dd164bc59c74ae88ebd2ee1344b078c7d8b06f7979ba29b6553a1d",
+      "member_counts": {
+        "methods": 1,
+        "injection": 1
+      },
+      "member_total": 2
+    },
+    {
+      "name": "Brand.json",
+      "upstream_type": "plugin",
+      "bytes": 742,
+      "sha256": "958e8f79fc1972ea5db346b113269f49efd3f7b0dde6469eb2f95f60ce500d69",
+      "member_counts": {
+        "quasarConfOptions": 3
+      },
+      "member_total": 3
+    },
+    {
+      "name": "ClosePopup.json",
+      "upstream_type": "directive",
+      "bytes": 639,
+      "sha256": "7d4735daaef851a24d4f2337c781bd5f82c6f07b9eec0392b00117434a2f5e78",
+      "member_counts": {
+        "value": 3
+      },
+      "member_total": 3
+    },
+    {
+      "name": "Cookies.json",
+      "upstream_type": "plugin",
+      "bytes": 6605,
+      "sha256": "2ccc403a3fad3f291150ff5e3d9ee4ca094bf4def1fa8be59814e436fdf817c0",
+      "member_counts": {
+        "methods": 7,
+        "injection": 1
+      },
+      "member_total": 8
+    },
+    {
+      "name": "Dark.json",
+      "upstream_type": "plugin",
+      "bytes": 902,
+      "sha256": "9ad1577ee48dcbd1617827d444ccf8f6a0c8efa4e763f7157d59b6be0696defa",
+      "member_counts": {
+        "props": 2,
+        "methods": 2,
+        "injection": 1,
+        "quasarConfOptions": 4
+      },
+      "member_total": 9
+    },
+    {
+      "name": "Dialog.json",
+      "upstream_type": "plugin",
+      "bytes": 9782,
+      "sha256": "6609504eaeab8f3ba30a239f05c7dfe5e1590040c74fea0d7eb6264de34c6b20",
+      "member_counts": {
+        "methods": 1,
+        "injection": 1
+      },
+      "member_total": 2
+    },
+    {
+      "name": "DropZone.json",
+      "upstream_type": "directive",
+      "bytes": 3370,
+      "sha256": "082cb6283796e722a0218a7046912cca3db97db723ca051558f7715922db1ce6",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    },
+    {
+      "name": "IconSet.json",
+      "upstream_type": "plugin",
+      "bytes": 28249,
+      "sha256": "93ad3c2454bf584e8f280e473f06d4f04cce51b10fc3d483b1b330b6f8186060",
+      "member_counts": {
+        "props": 2,
+        "methods": 1,
+        "injection": 1
+      },
+      "member_total": 4
+    },
+    {
+      "name": "Intersection.json",
+      "upstream_type": "directive",
+      "bytes": 4567,
+      "sha256": "eb4f46bbc8d8e94786e2ce9cacc048740f1351d8b4bd7e173c4cafbde8f97cdd",
+      "member_counts": {
+        "value": 6
+      },
+      "member_total": 6
+    },
+    {
+      "name": "Lang.json",
+      "upstream_type": "plugin",
+      "bytes": 28827,
+      "sha256": "4ab97ca75d2b20b91b562986fc7d91903b61b9f2859b8fc1c1025d582324e48e",
+      "member_counts": {
+        "props": 1,
+        "methods": 3,
+        "injection": 1,
+        "quasarConfOptions": 3
+      },
+      "member_total": 8
+    },
+    {
+      "name": "Loading.json",
+      "upstream_type": "plugin",
+      "bytes": 5924,
+      "sha256": "39e271a53308c0e38ac0d98718b9552330ab242aab23ff934485b54be0c73edb",
+      "member_counts": {
+        "props": 1,
+        "methods": 3,
+        "injection": 1,
+        "quasarConfOptions": 3
+      },
+      "member_total": 8
+    },
+    {
+      "name": "LoadingBar.json",
+      "upstream_type": "plugin",
+      "bytes": 1253,
+      "sha256": "0bb47b989d56a8624c8c40dfa654f46439d96d2acc5b977dd1ded01101861f81",
+      "member_counts": {
+        "props": 1,
+        "methods": 4,
+        "injection": 1,
+        "quasarConfOptions": 5
+      },
+      "member_total": 11
+    },
+    {
+      "name": "LocalStorage.json",
+      "upstream_type": "plugin",
+      "bytes": 5148,
+      "sha256": "8c8ed90bd8a0aa32c65124950e1fb6fa413d2de4e659627150978c6d2883e4d6",
+      "member_counts": {
+        "methods": 12,
+        "injection": 1
+      },
+      "member_total": 13
+    },
+    {
+      "name": "Meta.json",
+      "upstream_type": "plugin",
+      "bytes": 80,
+      "sha256": "df6c66ea3795687bf8d02a361b0330d02d480d4159c3821bea5d9c8c0c581e39",
+      "member_counts": {},
+      "member_total": 0
+    },
+    {
+      "name": "Morph.json",
+      "upstream_type": "directive",
+      "bytes": 4452,
+      "sha256": "5af98fd62c3e33ee16e85c5c44e209b749426ed73d715140308f2519181f8685",
+      "member_counts": {
+        "value": 4
+      },
+      "member_total": 4
+    },
+    {
+      "name": "Mutation.json",
+      "upstream_type": "directive",
+      "bytes": 3053,
+      "sha256": "857a8092b95a0a79186bddcd64cb14e3000e7607f2e23678fe4761e0b5f6c9f9",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    },
+    {
+      "name": "Notify.json",
+      "upstream_type": "plugin",
+      "bytes": 15073,
+      "sha256": "b1ca1ea09623e73c029b29d6ae7258eb3631be252d75324ec304bc0475835e16",
+      "member_counts": {
+        "methods": 3,
+        "injection": 1,
+        "quasarConfOptions": 3
+      },
+      "member_total": 7
+    },
+    {
+      "name": "Platform.json",
+      "upstream_type": "plugin",
+      "bytes": 3538,
+      "sha256": "0a2f3bfad2eceab45dc3772552bd2f1b0b4eaa1db06ede528bbcffc2901299c8",
+      "member_counts": {
+        "props": 4,
+        "methods": 1,
+        "injection": 1
+      },
+      "member_total": 6
+    },
+    {
+      "name": "QAjaxBar.json",
+      "upstream_type": "component",
+      "bytes": 2018,
+      "sha256": "13365322e61d543b5f1bc532d2271f53fa844d9f1b00349f00923bf4c49927e8",
+      "member_counts": {
+        "props": 6,
+        "events": 2,
+        "methods": 3
+      },
+      "member_total": 11
+    },
+    {
+      "name": "QAvatar.json",
+      "upstream_type": "component",
+      "bytes": 1535,
+      "sha256": "f232809e93dae00c84de1066307c7bc2415c35737eb9dea539fc55c4c3650e6d",
+      "member_counts": {
+        "props": 7,
+        "slots": 1
+      },
+      "member_total": 8
+    },
+    {
+      "name": "QBadge.json",
+      "upstream_type": "component",
+      "bytes": 1433,
+      "sha256": "00b68722ee6e14978bc9d9676fb0e6b003402aecad371834e7d7d497d22e3c7d",
+      "member_counts": {
+        "props": 9,
+        "slots": 1
+      },
+      "member_total": 10
+    },
+    {
+      "name": "QBanner.json",
+      "upstream_type": "component",
+      "bytes": 782,
+      "sha256": "8af827090355ea8b80bb0e86640b3acce6c29695bce32e9a76c3f902703265d1",
+      "member_counts": {
+        "props": 4,
+        "slots": 3
+      },
+      "member_total": 7
+    },
+    {
+      "name": "QBar.json",
+      "upstream_type": "component",
+      "bytes": 546,
+      "sha256": "c340291cc66655089167cc8e195acbac4f569a9ff00e51c5f99cd5aea6afa94e",
+      "member_counts": {
+        "props": 2,
+        "slots": 1
+      },
+      "member_total": 3
+    },
+    {
+      "name": "QBreadcrumbs.json",
+      "upstream_type": "component",
+      "bytes": 1375,
+      "sha256": "b5749387c4fa53ae4532e4eef0518f202fe552aefe9cf0bd4ceab92b0bac1f71",
+      "member_counts": {
+        "props": 5,
+        "slots": 2
+      },
+      "member_total": 7
+    },
+    {
+      "name": "QBreadcrumbsEl.json",
+      "upstream_type": "component",
+      "bytes": 3999,
+      "sha256": "21f7b96b4668e5138dd61dc3b604b00d252d6ec4ffe34352cf7b444e0efcd037",
+      "member_counts": {
+        "props": 11,
+        "slots": 1,
+        "events": 1
+      },
+      "member_total": 13
+    },
+    {
+      "name": "QBtn.json",
+      "upstream_type": "component",
+      "bytes": 7633,
+      "sha256": "ab29cd0a99576f41bbef9adcb98a418cfbd6f33c2583cdf6e64eac62ed79c920",
+      "member_counts": {
+        "props": 34,
+        "slots": 2,
+        "events": 1,
+        "methods": 1
+      },
+      "member_total": 38
+    },
+    {
+      "name": "QBtnDropdown.json",
+      "upstream_type": "component",
+      "bytes": 13536,
+      "sha256": "16d01ce48bee6ac5cfeecea8fea9e505b777b48cea56e5e0505e77c9ebf0b922",
+      "member_counts": {
+        "props": 57,
+        "slots": 4,
+        "events": 6,
+        "methods": 3
+      },
+      "member_total": 70
+    },
+    {
+      "name": "QBtnGroup.json",
+      "upstream_type": "component",
+      "bytes": 1204,
+      "sha256": "3cdcfc5dd74e6f00b23a6006f1c00bf6ff5c782058b77f8282eab403742bf8cd",
+      "member_counts": {
+        "props": 10,
+        "slots": 1
+      },
+      "member_total": 11
+    },
+    {
+      "name": "QBtnToggle.json",
+      "upstream_type": "component",
+      "bytes": 5544,
+      "sha256": "493e0e2cfa7213d74d25622857a0d51c07db77471d874b1d2a29d32d3368f2ca",
+      "member_counts": {
+        "props": 27,
+        "slots": 2,
+        "events": 2
+      },
+      "member_total": 31
+    },
+    {
+      "name": "QCard.json",
+      "upstream_type": "component",
+      "bytes": 775,
+      "sha256": "58c1bc2fe4e1924fe425222269c02fddb9968c6c18d88d8c0a1d8a05affaeba8",
+      "member_counts": {
+        "props": 5,
+        "slots": 1
+      },
+      "member_total": 6
+    },
+    {
+      "name": "QCardActions.json",
+      "upstream_type": "component",
+      "bytes": 557,
+      "sha256": "fe12c6f27d20a707d5377a2e00657dd9893b5035f424be50afd387d9b0b85de5",
+      "member_counts": {
+        "props": 2,
+        "slots": 1
+      },
+      "member_total": 3
+    },
+    {
+      "name": "QCardSection.json",
+      "upstream_type": "component",
+      "bytes": 471,
+      "sha256": "2b04cc1581880b8e126364468c9339bc33d1084b2f7ebe0b971769adf9618034",
+      "member_counts": {
+        "props": 2,
+        "slots": 1
+      },
+      "member_total": 3
+    },
+    {
+      "name": "QCarousel.json",
+      "upstream_type": "component",
+      "bytes": 8833,
+      "sha256": "4a62d81bb039ef018e7531d58f8662cd34ae829612865c86643eac88bb4894c7",
+      "member_counts": {
+        "props": 29,
+        "slots": 3,
+        "events": 5,
+        "methods": 6
+      },
+      "member_total": 43
+    },
+    {
+      "name": "QCarouselControl.json",
+      "upstream_type": "component",
+      "bytes": 643,
+      "sha256": "4e067e6a25180ab745700aa0944f5dd6d4265288395e0427dfc549b334beb8de",
+      "member_counts": {
+        "props": 2,
+        "slots": 1
+      },
+      "member_total": 3
+    },
+    {
+      "name": "QCarouselSlide.json",
+      "upstream_type": "component",
+      "bytes": 756,
+      "sha256": "0b9c01c145f93c996f96cbf75daaaefed8d14f8bd284435459a56daad21a86ee",
+      "member_counts": {
+        "props": 3,
+        "slots": 1
+      },
+      "member_total": 4
+    },
+    {
+      "name": "QChatMessage.json",
+      "upstream_type": "component",
+      "bytes": 2601,
+      "sha256": "9d908c1ffedee589faff15c1397ca6ae2e8c7d385db87a3af49702abb26a315a",
+      "member_counts": {
+        "props": 13,
+        "slots": 5
+      },
+      "member_total": 18
+    },
+    {
+      "name": "QCheckbox.json",
+      "upstream_type": "component",
+      "bytes": 4112,
+      "sha256": "af796ead4ba2068f4d4bd2d0f279927ab5efa11ed2f42890a988d9c620542d93",
+      "member_counts": {
+        "props": 20,
+        "slots": 1,
+        "events": 1,
+        "methods": 1
+      },
+      "member_total": 23
+    },
+    {
+      "name": "QChip.json",
+      "upstream_type": "component",
+      "bytes": 5172,
+      "sha256": "8579ef8d12404277d20950c90f35a7f819c6298fc9022f4da6c0b2cd29a02b8f",
+      "member_counts": {
+        "props": 20,
+        "slots": 1,
+        "events": 4
+      },
+      "member_total": 25
+    },
+    {
+      "name": "QCircularProgress.json",
+      "upstream_type": "component",
+      "bytes": 2819,
+      "sha256": "87116fe1e94a285a0b1dde36ac8560973407c66c2ac737ab841fa6f27521eceb",
+      "member_counts": {
+        "props": 16,
+        "slots": 1
+      },
+      "member_total": 17
+    },
+    {
+      "name": "QColor.json",
+      "upstream_type": "component",
+      "bytes": 3477,
+      "sha256": "d589603e64f87927c8bcb0743114460b89a898702f65469c810eea099a3095c1",
+      "member_counts": {
+        "props": 15,
+        "slots": 1,
+        "events": 2
+      },
+      "member_total": 18
+    },
+    {
+      "name": "QDate.json",
+      "upstream_type": "component",
+      "bytes": 12281,
+      "sha256": "7d7304f630faf66414c58edd33adf57b710db9b2621293d73c081f5ad85562e5",
+      "member_counts": {
+        "props": 31,
+        "slots": 1,
+        "events": 4,
+        "methods": 5
+      },
+      "member_total": 41
+    },
+    {
+      "name": "QDialog.json",
+      "upstream_type": "component",
+      "bytes": 5742,
+      "sha256": "954ef8a65634edba1954644a44c6132a2e6381547aee2d4a1b850d90acc23c7e",
+      "member_counts": {
+        "props": 20,
+        "slots": 1,
+        "events": 7,
+        "methods": 5,
+        "computedProps": 1
+      },
+      "member_total": 34
+    },
+    {
+      "name": "QDrawer.json",
+      "upstream_type": "component",
+      "bytes": 6265,
+      "sha256": "3f4b8d7d435a4b6a5249ee22111b93f57943be207edc497fb62a79f6d7fe4416",
+      "member_counts": {
+        "props": 18,
+        "slots": 2,
+        "events": 12,
+        "methods": 3
+      },
+      "member_total": 35
+    },
+    {
+      "name": "QEditor.json",
+      "upstream_type": "component",
+      "bytes": 10133,
+      "sha256": "39ed6e97140f1500a2554f8897fe9eaf2da21269cc3fa5c4fcacf1ec2314192f",
+      "member_counts": {
+        "props": 29,
+        "slots": 1,
+        "events": 9,
+        "methods": 7,
+        "computedProps": 1
+      },
+      "member_total": 47
+    },
+    {
+      "name": "QExpansionItem.json",
+      "upstream_type": "component",
+      "bytes": 9019,
+      "sha256": "38c391e7e78d677931df125561a636983dd02dfe2c64722c3e7143bd718cd5bd",
+      "member_counts": {
+        "props": 33,
+        "slots": 2,
+        "events": 7,
+        "methods": 3
+      },
+      "member_total": 45
+    },
+    {
+      "name": "QFab.json",
+      "upstream_type": "component",
+      "bytes": 7710,
+      "sha256": "070ba0d9e0732dd0874598f28963f451f86ce2ca9dba4438fb613cd7c05d07f5",
+      "member_counts": {
+        "props": 29,
+        "slots": 5,
+        "events": 5,
+        "methods": 3
+      },
+      "member_total": 42
+    },
+    {
+      "name": "QFabAction.json",
+      "upstream_type": "component",
+      "bytes": 4196,
+      "sha256": "550e473a4bc3e8a554b2b231558423463703a81a4033591177e4f374f305ae70",
+      "member_counts": {
+        "props": 22,
+        "slots": 3,
+        "events": 1,
+        "methods": 1
+      },
+      "member_total": 27
+    },
+    {
+      "name": "QField.json",
+      "upstream_type": "component",
+      "bytes": 10426,
+      "sha256": "6de0652295fa824f184783ac670e2915d0ec1089885504ba279d5877f982e7f4",
+      "member_counts": {
+        "props": 38,
+        "slots": 11,
+        "events": 4,
+        "methods": 4,
+        "computedProps": 1
+      },
+      "member_total": 58
+    },
+    {
+      "name": "QFile.json",
+      "upstream_type": "component",
+      "bytes": 14515,
+      "sha256": "81444ff71673cd4fe81ac0d3ff051fd7ad2470e6c5956d37542a495e471ec060",
+      "member_counts": {
+        "props": 51,
+        "slots": 12,
+        "events": 5,
+        "methods": 9,
+        "computedProps": 2
+      },
+      "member_total": 79
+    },
+    {
+      "name": "QFooter.json",
+      "upstream_type": "component",
+      "bytes": 1207,
+      "sha256": "c146da4a5c46c84706eca0293c38b1ee7e527567406f5f8b511ef2af8779a805",
+      "member_counts": {
+        "props": 5,
+        "slots": 1,
+        "events": 1
+      },
+      "member_total": 7
+    },
+    {
+      "name": "QForm.json",
+      "upstream_type": "component",
+      "bytes": 2822,
+      "sha256": "2a312a941cc77db0489574a080e59be22d415909f02b0d7bfc88a1a7dd5bd6f2",
+      "member_counts": {
+        "props": 4,
+        "slots": 1,
+        "events": 4,
+        "methods": 6
+      },
+      "member_total": 15
+    },
+    {
+      "name": "QFormChildMixin.json",
+      "upstream_type": "component",
+      "bytes": 531,
+      "sha256": "ebf25c37fc31f84a08b6386e3ec17857ba4dda6a5cd152b7b9d77527b7d139b1",
+      "member_counts": {
+        "methods": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QHeader.json",
+      "upstream_type": "component",
+      "bytes": 1378,
+      "sha256": "8a267e54175751ee5ed6b85b456c90b50b3865df6c6200ed225ffb2fd4b5117b",
+      "member_counts": {
+        "props": 6,
+        "slots": 1,
+        "events": 1
+      },
+      "member_total": 8
+    },
+    {
+      "name": "QIcon.json",
+      "upstream_type": "component",
+      "bytes": 1406,
+      "sha256": "9caa36cfca19470444e701f8a67de25183af28797d37d741a2cbcbf6b387ca6e",
+      "member_counts": {
+        "props": 6,
+        "slots": 1
+      },
+      "member_total": 7
+    },
+    {
+      "name": "QImg.json",
+      "upstream_type": "component",
+      "bytes": 7170,
+      "sha256": "8229c1c761b216ffdca56fb0ae9dfdd0245364d8eca1cd31b4b0273ffed373f5",
+      "member_counts": {
+        "props": 27,
+        "slots": 3,
+        "events": 2
+      },
+      "member_total": 32
+    },
+    {
+      "name": "QInfiniteScroll.json",
+      "upstream_type": "component",
+      "bytes": 3364,
+      "sha256": "5c6d5196c4d82748399cd28b6a450de68d31c8760d483c6b8cc4f7b8c4b82c76",
+      "member_counts": {
+        "props": 7,
+        "slots": 2,
+        "events": 1,
+        "methods": 7
+      },
+      "member_total": 17
+    },
+    {
+      "name": "QInnerLoading.json",
+      "upstream_type": "component",
+      "bytes": 2015,
+      "sha256": "03e9ed56b33df606fd0a18c1a0ab47d404dc8742a0acc75aac324cc3de52fdc6",
+      "member_counts": {
+        "props": 10,
+        "slots": 1
+      },
+      "member_total": 11
+    },
+    {
+      "name": "QInput.json",
+      "upstream_type": "component",
+      "bytes": 12631,
+      "sha256": "ea58ec228eaa9a3464710312db55cf8cd179277e638327b7e5dfed86dd2749ba",
+      "member_counts": {
+        "props": 49,
+        "slots": 10,
+        "events": 4,
+        "methods": 6,
+        "computedProps": 2
+      },
+      "member_total": 71
+    },
+    {
+      "name": "QIntersection.json",
+      "upstream_type": "component",
+      "bytes": 2333,
+      "sha256": "383aa6dd2a805a9fa1c0a60ea6bc4e16597b549c5259cffbecb125d5a2ae0843",
+      "member_counts": {
+        "props": 9,
+        "slots": 2,
+        "events": 1
+      },
+      "member_total": 12
+    },
+    {
+      "name": "QItem.json",
+      "upstream_type": "component",
+      "bytes": 5404,
+      "sha256": "f90c4e2f17d3c12e28be07c0e26dfb1fe10c0cf86421a9ae7ec48402cfaff5fc",
+      "member_counts": {
+        "props": 18,
+        "slots": 1,
+        "events": 1
+      },
+      "member_total": 20
+    },
+    {
+      "name": "QItemLabel.json",
+      "upstream_type": "component",
+      "bytes": 597,
+      "sha256": "a4d1606200171ce33ef7adbc5ec8e9d0530ee5200d60ee16ffcab91ac918e15e",
+      "member_counts": {
+        "props": 4,
+        "slots": 1
+      },
+      "member_total": 5
+    },
+    {
+      "name": "QItemSection.json",
+      "upstream_type": "component",
+      "bytes": 718,
+      "sha256": "c32f13daa16589958d0795894ed0764bd1d198269c27a43cf620cda8e92b23a0",
+      "member_counts": {
+        "props": 5,
+        "slots": 1
+      },
+      "member_total": 6
+    },
+    {
+      "name": "QKnob.json",
+      "upstream_type": "component",
+      "bytes": 4193,
+      "sha256": "2e561294f007022f7e949d8e3872b180a3e4b88ac2b66298cb9b03f9a1855c7d",
+      "member_counts": {
+        "props": 21,
+        "slots": 1,
+        "events": 3
+      },
+      "member_total": 25
+    },
+    {
+      "name": "QLayout.json",
+      "upstream_type": "component",
+      "bytes": 1699,
+      "sha256": "fd337bc25da10f15d1abd17a4f4db775279ef1348105df204035f835fdcc8fd2",
+      "member_counts": {
+        "props": 2,
+        "slots": 1,
+        "events": 3
+      },
+      "member_total": 6
+    },
+    {
+      "name": "QLinearProgress.json",
+      "upstream_type": "component",
+      "bytes": 1929,
+      "sha256": "df79386e64505c488ca1314c371f77b7e8c00b9687f81d7f92061eddee0ff5bc",
+      "member_counts": {
+        "props": 13,
+        "slots": 1
+      },
+      "member_total": 14
+    },
+    {
+      "name": "QList.json",
+      "upstream_type": "component",
+      "bytes": 1271,
+      "sha256": "fc52737cc39d240ea94e612ca29cde2558bc4a08a29b289cbdf38fa7c2e8fb6e",
+      "member_counts": {
+        "props": 7,
+        "slots": 1
+      },
+      "member_total": 8
+    },
+    {
+      "name": "QMarkupTable.json",
+      "upstream_type": "component",
+      "bytes": 1065,
+      "sha256": "b77cc09344ecfea97cbadd1f5a82f4acbdd471f572c82e50b7ae75c13e0d2e62",
+      "member_counts": {
+        "props": 7,
+        "slots": 1
+      },
+      "member_total": 8
+    },
+    {
+      "name": "QMenu.json",
+      "upstream_type": "component",
+      "bytes": 8519,
+      "sha256": "3a911259f803d428e49219e510e8efbfee61f68f58f81202a1e328cddd44330a",
+      "member_counts": {
+        "props": 27,
+        "slots": 1,
+        "events": 6,
+        "methods": 5,
+        "computedProps": 1
+      },
+      "member_total": 40
+    },
+    {
+      "name": "QNoSsr.json",
+      "upstream_type": "component",
+      "bytes": 664,
+      "sha256": "6b44a604c8fce0f2e05519e74abcb2786b66d0a0244ee93d38f1ccf3770c2e45",
+      "member_counts": {
+        "props": 2,
+        "slots": 2
+      },
+      "member_total": 4
+    },
+    {
+      "name": "QOptionGroup.json",
+      "upstream_type": "component",
+      "bytes": 6301,
+      "sha256": "ffa5050fa8e626ebcbfc561611459f79dcd825378e0b688c9e3797565dd8528d",
+      "member_counts": {
+        "props": 15,
+        "slots": 2,
+        "events": 1
+      },
+      "member_total": 18
+    },
+    {
+      "name": "QPage.json",
+      "upstream_type": "component",
+      "bytes": 900,
+      "sha256": "29c86cee0b5f145c4944abb1b15b9f247e9cc1d16bf19eab9f88ed9b774da858",
+      "member_counts": {
+        "props": 2,
+        "slots": 1
+      },
+      "member_total": 3
+    },
+    {
+      "name": "QPageContainer.json",
+      "upstream_type": "component",
+      "bytes": 170,
+      "sha256": "cd861c8f65889a2a3df04845287dcb7cdb934050570ccacde3e4322333ddd053",
+      "member_counts": {
+        "slots": 1
+      },
+      "member_total": 1
+    },
+    {
+      "name": "QPageScroller.json",
+      "upstream_type": "component",
+      "bytes": 1434,
+      "sha256": "9a9ef8a78dc645fa9e29470c7827bd50f442ae934ce33f30e459b253db098bd7",
+      "member_counts": {
+        "props": 6,
+        "slots": 1
+      },
+      "member_total": 7
+    },
+    {
+      "name": "QPageSticky.json",
+      "upstream_type": "component",
+      "bytes": 821,
+      "sha256": "c39604ac6a150c326839ac87903a473ee7176521f9cd9f7572c60ea3f5268249",
+      "member_counts": {
+        "props": 3,
+        "slots": 1
+      },
+      "member_total": 4
+    },
+    {
+      "name": "QPagination.json",
+      "upstream_type": "component",
+      "bytes": 8612,
+      "sha256": "e82f54e43642cd05c79bffe68ca07c03dfdbb49e804426d56a68affd70584273",
+      "member_counts": {
+        "props": 34,
+        "slots": 1,
+        "events": 1,
+        "methods": 2
+      },
+      "member_total": 38
+    },
+    {
+      "name": "QParallax.json",
+      "upstream_type": "component",
+      "bytes": 2125,
+      "sha256": "8e8401c9bc9c73d0dcdddecaf5f9d76ca69b33e18cc6a8a08a243193c038a34f",
+      "member_counts": {
+        "props": 4,
+        "slots": 3,
+        "events": 1,
+        "methods": 1
+      },
+      "member_total": 9
+    },
+    {
+      "name": "QPopupEdit.json",
+      "upstream_type": "component",
+      "bytes": 11337,
+      "sha256": "604be0c2fc14b9c62cb761dffb96d9d876340527a1c80435178fc77ed52f96e0",
+      "member_counts": {
+        "props": 35,
+        "slots": 1,
+        "events": 8,
+        "methods": 5
+      },
+      "member_total": 49
+    },
+    {
+      "name": "QPopupProxy.json",
+      "upstream_type": "component",
+      "bytes": 12005,
+      "sha256": "cf30699c2f78ae505e3c488fd2f3c957f0df4b44afcb540d058b255b66a80e70",
+      "member_counts": {
+        "props": 36,
+        "slots": 1,
+        "events": 7,
+        "methods": 3,
+        "computedProps": 1
+      },
+      "member_total": 48
+    },
+    {
+      "name": "QPullToRefresh.json",
+      "upstream_type": "component",
+      "bytes": 2264,
+      "sha256": "32ed152729fc54d1c838e9c8291d295f63deff3d9a07a4d959b0374eaac28c48",
+      "member_counts": {
+        "props": 7,
+        "slots": 1,
+        "events": 1,
+        "methods": 2
+      },
+      "member_total": 11
+    },
+    {
+      "name": "QRadio.json",
+      "upstream_type": "component",
+      "bytes": 2732,
+      "sha256": "d096e2b294e9e7ceb35aaf77122fb5167c3d1c7b384775583733941dfeafc073",
+      "member_counts": {
+        "props": 14,
+        "slots": 1,
+        "events": 1,
+        "methods": 1
+      },
+      "member_total": 17
+    },
+    {
+      "name": "QRange.json",
+      "upstream_type": "component",
+      "bytes": 15742,
+      "sha256": "182587ad5a4067635cd1b95e61940d55d65da2e638ef07983787e9d08d67e888",
+      "member_counts": {
+        "props": 49,
+        "slots": 2,
+        "events": 3
+      },
+      "member_total": 54
+    },
+    {
+      "name": "QRating.json",
+      "upstream_type": "component",
+      "bytes": 4053,
+      "sha256": "8a88979bd0f9e4b9f12548bac5b7f58cd613ac4977465127847cb9fd9d570926",
+      "member_counts": {
+        "props": 15,
+        "slots": 1,
+        "events": 1
+      },
+      "member_total": 17
+    },
+    {
+      "name": "QResizeObserver.json",
+      "upstream_type": "component",
+      "bytes": 738,
+      "sha256": "6930315f51a9e5ce75e3c0743f5394cbb13aa88f9abf6264a03da05d22d77140",
+      "member_counts": {
+        "props": 1,
+        "events": 1,
+        "methods": 1
+      },
+      "member_total": 3
+    },
+    {
+      "name": "QResponsive.json",
+      "upstream_type": "component",
+      "bytes": 509,
+      "sha256": "5cc9ad1a9e8a1142065fadd79a0476f84c49620b1734812a5b6aabe427f9dadd",
+      "member_counts": {
+        "props": 1,
+        "slots": 1
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QRouteTab.json",
+      "upstream_type": "component",
+      "bytes": 4980,
+      "sha256": "118fc639c5b6d255fe795c62742fc5ce61f21ea661b15e69c22ea3cff6bdefdc",
+      "member_counts": {
+        "props": 17,
+        "slots": 1,
+        "events": 1
+      },
+      "member_total": 19
+    },
+    {
+      "name": "QScrollArea.json",
+      "upstream_type": "component",
+      "bytes": 8384,
+      "sha256": "eeb2e35ac5c7f8551f68fce145c49314c3fda5428b53a2e714bd11815653aff0",
+      "member_counts": {
+        "props": 14,
+        "slots": 1,
+        "events": 1,
+        "methods": 6
+      },
+      "member_total": 22
+    },
+    {
+      "name": "QScrollObserver.json",
+      "upstream_type": "component",
+      "bytes": 2402,
+      "sha256": "62a29404df8ac3661df193c7e37f6f82aa3cb53c8f0ae41f22b74bf16d9225eb",
+      "member_counts": {
+        "props": 3,
+        "events": 1,
+        "methods": 2
+      },
+      "member_total": 6
+    },
+    {
+      "name": "QSelect.json",
+      "upstream_type": "component",
+      "bytes": 34447,
+      "sha256": "56ed87890f78e4d9ab2b5964b9461eda3d3c845543f44f04df05ad89bbc70512",
+      "member_counts": {
+        "props": 92,
+        "slots": 16,
+        "events": 13,
+        "methods": 23,
+        "computedProps": 1
+      },
+      "member_total": 145
+    },
+    {
+      "name": "QSeparator.json",
+      "upstream_type": "component",
+      "bytes": 1297,
+      "sha256": "97480d8681cc68e92157de1989a0356d02194ccc3e9e5c0707abf83ab932f8e9",
+      "member_counts": {
+        "props": 6
+      },
+      "member_total": 6
+    },
+    {
+      "name": "QSkeleton.json",
+      "upstream_type": "component",
+      "bytes": 2008,
+      "sha256": "8110b82c6e5e9781d33f2a97f678c4cd714e402fa46b387bcbc2dce82fa023a1",
+      "member_counts": {
+        "props": 10,
+        "slots": 1
+      },
+      "member_total": 11
+    },
+    {
+      "name": "QSlideItem.json",
+      "upstream_type": "component",
+      "bytes": 3540,
+      "sha256": "9cd26df573ee5903845163417c96e888d4f8b9626c8d994b81d39f5c81199b3d",
+      "member_counts": {
+        "props": 5,
+        "slots": 5,
+        "events": 6,
+        "methods": 1
+      },
+      "member_total": 17
+    },
+    {
+      "name": "QSlider.json",
+      "upstream_type": "component",
+      "bytes": 12724,
+      "sha256": "80e56972753710b425980f1b358ae5ad4153bf13040f5537e67796063e48e950",
+      "member_counts": {
+        "props": 36,
+        "slots": 2,
+        "events": 3
+      },
+      "member_total": 41
+    },
+    {
+      "name": "QSlideTransition.json",
+      "upstream_type": "component",
+      "bytes": 636,
+      "sha256": "2b9a1a7af26645758df6ea11fe294dffd30c842b5fffd27fb0d3eb1031c5a58d",
+      "member_counts": {
+        "props": 2,
+        "slots": 1,
+        "events": 2
+      },
+      "member_total": 5
+    },
+    {
+      "name": "QSpace.json",
+      "upstream_type": "component",
+      "bytes": 84,
+      "sha256": "665bb1b92a4c38e0541f9f92f7d3904934bbfa0f3333faf63c6ed78bd29dad7a",
+      "member_counts": {},
+      "member_total": 0
+    },
+    {
+      "name": "QSpinner.json",
+      "upstream_type": "component",
+      "bytes": 624,
+      "sha256": "b80e69a8392c218f5c2f0e40f819edec60db226936162af85d2cb206a925bbb7",
+      "member_counts": {
+        "props": 3
+      },
+      "member_total": 3
+    },
+    {
+      "name": "QSpinnerAudio.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerBall.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerBars.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerBox.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerClock.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerComment.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerCube.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerDots.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerFacebook.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerGears.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerGrid.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerHearts.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerHourglass.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerInfinity.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerIos.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerOrbit.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerOval.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerPie.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerPuff.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerRadio.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerRings.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSpinnerTail.json",
+      "upstream_type": "component",
+      "bytes": 496,
+      "sha256": "abbeab4d0a9344af8b60dee3d068a80c825a77a59b415a75c9099fcbaa6709cb",
+      "member_counts": {
+        "props": 2
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QSplitter.json",
+      "upstream_type": "component",
+      "bytes": 3568,
+      "sha256": "9a74f00068ed9d4877cceeb3069c6e9ed7c2d6b6602632e086f12c0b6f35c382",
+      "member_counts": {
+        "props": 13,
+        "slots": 4,
+        "events": 1
+      },
+      "member_total": 18
+    },
+    {
+      "name": "QStep.json",
+      "upstream_type": "component",
+      "bytes": 3629,
+      "sha256": "89f390a204ff19ba6d36fc1e6c98670ed0e3de92c60366eb387275fd06cc4fc2",
+      "member_counts": {
+        "props": 16,
+        "slots": 1
+      },
+      "member_total": 17
+    },
+    {
+      "name": "QStepper.json",
+      "upstream_type": "component",
+      "bytes": 7319,
+      "sha256": "c5b70ae6675975eb90a4e394b3a417e0311ac214b166688469567ea89553ad26",
+      "member_counts": {
+        "props": 27,
+        "slots": 3,
+        "events": 3,
+        "methods": 3
+      },
+      "member_total": 36
+    },
+    {
+      "name": "QStepperNavigation.json",
+      "upstream_type": "component",
+      "bytes": 227,
+      "sha256": "6d6080b86724dde9e1ec9f9f30b02e56fdbdc11ee9462d026588b125d817f171",
+      "member_counts": {
+        "slots": 1
+      },
+      "member_total": 1
+    },
+    {
+      "name": "QTab.json",
+      "upstream_type": "component",
+      "bytes": 2075,
+      "sha256": "befca88ded494852a35379aefe9fe0ec536ab12587cef13974be3a37a96e7a55",
+      "member_counts": {
+        "props": 10,
+        "slots": 1
+      },
+      "member_total": 11
+    },
+    {
+      "name": "QTable.json",
+      "upstream_type": "component",
+      "bytes": 58410,
+      "sha256": "29d437903e72dc58584fcd4f6a01e5c83d7a4723f44abbd6e0d49f4e2e5af931",
+      "member_counts": {
+        "props": 65,
+        "slots": 21,
+        "events": 11,
+        "methods": 17,
+        "computedProps": 3
+      },
+      "member_total": 117
+    },
+    {
+      "name": "QTabPanel.json",
+      "upstream_type": "component",
+      "bytes": 405,
+      "sha256": "583a2eb6bc2ec809be52d4c102c8ea39bf8fb34a655d8638665002e1430249c8",
+      "member_counts": {
+        "props": 2,
+        "slots": 1
+      },
+      "member_total": 3
+    },
+    {
+      "name": "QTabPanels.json",
+      "upstream_type": "component",
+      "bytes": 4050,
+      "sha256": "00fadbc98f7f4c667f0e5fb3a84aa9ee0dd37abc54b4a8a8877e6d2c95a41abb",
+      "member_counts": {
+        "props": 13,
+        "slots": 1,
+        "events": 3,
+        "methods": 3
+      },
+      "member_total": 20
+    },
+    {
+      "name": "QTabs.json",
+      "upstream_type": "component",
+      "bytes": 3979,
+      "sha256": "5014715a9b20dbe2122ac0ea8deb1d84c6be49f198cb992d1628fdd9f7264ffd",
+      "member_counts": {
+        "props": 20,
+        "slots": 1,
+        "events": 1
+      },
+      "member_total": 22
+    },
+    {
+      "name": "QTd.json",
+      "upstream_type": "component",
+      "bytes": 834,
+      "sha256": "ef487f0f97b789452c8876487c461ff216e3da825fb29f2ef87311671e4ff38c",
+      "member_counts": {
+        "props": 4,
+        "slots": 1
+      },
+      "member_total": 5
+    },
+    {
+      "name": "QTh.json",
+      "upstream_type": "component",
+      "bytes": 778,
+      "sha256": "469fbdf746f91ffd19658638b258d951b64b15a9e2c6749db53f2a0427f51b95",
+      "member_counts": {
+        "props": 3,
+        "slots": 1
+      },
+      "member_total": 4
+    },
+    {
+      "name": "QTime.json",
+      "upstream_type": "component",
+      "bytes": 5629,
+      "sha256": "fc1f587431a26ed9399b7ba50461c15bcba2147ba22388b7d1cdccf1264d7d13",
+      "member_counts": {
+        "props": 22,
+        "slots": 1,
+        "events": 1,
+        "methods": 1
+      },
+      "member_total": 25
+    },
+    {
+      "name": "QTimeline.json",
+      "upstream_type": "component",
+      "bytes": 1098,
+      "sha256": "6df55ecd2f246867867624f9b2fa627e1ac13b8ebe29f990597ce4c450273076",
+      "member_counts": {
+        "props": 4,
+        "slots": 1
+      },
+      "member_total": 5
+    },
+    {
+      "name": "QTimelineEntry.json",
+      "upstream_type": "component",
+      "bytes": 2218,
+      "sha256": "d891cd05b0caaa3eb2b08a959cdcaeb9ead395668aeb04babaf51712c0c1c967",
+      "member_counts": {
+        "props": 9,
+        "slots": 3
+      },
+      "member_total": 12
+    },
+    {
+      "name": "QToggle.json",
+      "upstream_type": "component",
+      "bytes": 4648,
+      "sha256": "1bd9b416d9407f601cba0a10ea2ab51a6941ef7fa74bcb31e0ebaf29a6530f78",
+      "member_counts": {
+        "props": 22,
+        "slots": 1,
+        "events": 1,
+        "methods": 1
+      },
+      "member_total": 25
+    },
+    {
+      "name": "QToolbar.json",
+      "upstream_type": "component",
+      "bytes": 306,
+      "sha256": "c6339fd97601c74df0faacaa8860f4f96c918e12c1002767bfd3644bb1927c38",
+      "member_counts": {
+        "props": 1,
+        "slots": 1
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QToolbarTitle.json",
+      "upstream_type": "component",
+      "bytes": 359,
+      "sha256": "5d8535b5614343428ffc3cb430f0bcf2522bde42110c613b2e06280e66298737",
+      "member_counts": {
+        "props": 1,
+        "slots": 1
+      },
+      "member_total": 2
+    },
+    {
+      "name": "QTooltip.json",
+      "upstream_type": "component",
+      "bytes": 5875,
+      "sha256": "eaf345db8a27d32e3a5b29de298e2976c35710903ba497a6ea89857fa21c3a3d",
+      "member_counts": {
+        "props": 15,
+        "slots": 1,
+        "events": 5,
+        "methods": 4,
+        "computedProps": 1
+      },
+      "member_total": 26
+    },
+    {
+      "name": "QTr.json",
+      "upstream_type": "component",
+      "bytes": 765,
+      "sha256": "0b44ffeb82d2c47ab9a72466f55b29bf36601a5b17868fc1b7c29e7e0edca3f5",
+      "member_counts": {
+        "props": 3,
+        "slots": 1
+      },
+      "member_total": 4
+    },
+    {
+      "name": "QTree.json",
+      "upstream_type": "component",
+      "bytes": 17422,
+      "sha256": "f8c8011a60c85f42c7ba48ca9b90a49e550c42fb783e249aa2e4c40849f8d9fb",
+      "member_counts": {
+        "props": 33,
+        "slots": 4,
+        "events": 7,
+        "methods": 14
+      },
+      "member_total": 58
+    },
+    {
+      "name": "QUploader.json",
+      "upstream_type": "component",
+      "bytes": 14386,
+      "sha256": "0df439f5b13f73b512c55c0229af920d1015eb930b6b96e962e35e9646b14672",
+      "member_counts": {
+        "props": 29,
+        "slots": 2,
+        "events": 9,
+        "methods": 10,
+        "computedProps": 10
+      },
+      "member_total": 60
+    },
+    {
+      "name": "QUploaderAddTrigger.json",
+      "upstream_type": "component",
+      "bytes": 87,
+      "sha256": "7bd14ff13f9c21bd210732d929e669be105b3efcb1e0f986d70ff5cbda5e175c",
+      "member_counts": {},
+      "member_total": 0
+    },
+    {
+      "name": "QVideo.json",
+      "upstream_type": "component",
+      "bytes": 1551,
+      "sha256": "2466ee7df56c172e9701fa44fd246ca2430dad20e487d4315300f970107af70a",
+      "member_counts": {
+        "props": 6
+      },
+      "member_total": 6
+    },
+    {
+      "name": "QVirtualScroll.json",
+      "upstream_type": "component",
+      "bytes": 7921,
+      "sha256": "8fee395249359328bc37ba3eb1b7db46675dfc645c8d09cbe6d688606b7c9097",
+      "member_counts": {
+        "props": 23,
+        "slots": 3,
+        "events": 1,
+        "methods": 3
+      },
+      "member_total": 30
+    },
+    {
+      "name": "Resize.json",
+      "upstream_type": "directive",
+      "bytes": 1211,
+      "sha256": "225923a0346dfc6328c0c7bc543c04e09b60b97d06161d11e8aa70393e455191",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    },
+    {
+      "name": "Ripple.json",
+      "upstream_type": "directive",
+      "bytes": 2186,
+      "sha256": "41d182208fa70f7bfb21e4b681b23a12756c7430e293020f1b4d43d5b7fd4930",
+      "member_counts": {
+        "quasarConfOptions": 3,
+        "value": 4
+      },
+      "member_total": 7
+    },
+    {
+      "name": "Screen.json",
+      "upstream_type": "plugin",
+      "bytes": 4359,
+      "sha256": "f12c30cb456e4dd57ff8bc3c0221b7721a3c340895cf90bb9c7e06db24e4b53f",
+      "member_counts": {
+        "props": 12,
+        "methods": 2,
+        "injection": 1,
+        "quasarConfOptions": 3
+      },
+      "member_total": 18
+    },
+    {
+      "name": "Scroll.json",
+      "upstream_type": "directive",
+      "bytes": 464,
+      "sha256": "52f07bd3755e4574055a1587f225e904fb8b7212faaa9ccf83bb9c7d1b6326bb",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    },
+    {
+      "name": "ScrollFire.json",
+      "upstream_type": "directive",
+      "bytes": 854,
+      "sha256": "5fd4fa3756f9e1ffb0a4b6df23d4b6812baba6b856387a1da5b1a0788cd691a1",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    },
+    {
+      "name": "SessionStorage.json",
+      "upstream_type": "plugin",
+      "bytes": 5152,
+      "sha256": "0bf4df65ee85f6424022c4f10508710d49d00c882bd19a21d9d0fe808b66a443",
+      "member_counts": {
+        "methods": 12,
+        "injection": 1
+      },
+      "member_total": 13
+    },
+    {
+      "name": "TouchHold.json",
+      "upstream_type": "directive",
+      "bytes": 1487,
+      "sha256": "f539d81a26cc189f9b2ea2d3af5bffa3ace09f1abeab01f71b864998255cf6b2",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    },
+    {
+      "name": "TouchPan.json",
+      "upstream_type": "directive",
+      "bytes": 2958,
+      "sha256": "3c5b63b718e26e5ea5661815185752a9bef6b5f8375fe1c1fab14a3d97946e1e",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    },
+    {
+      "name": "TouchRepeat.json",
+      "upstream_type": "directive",
+      "bytes": 2488,
+      "sha256": "baf47a935a483fc50884e488870c41e5ab87f743783ff1a9df43d5ba5861d1d8",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    },
+    {
+      "name": "TouchSwipe.json",
+      "upstream_type": "directive",
+      "bytes": 1974,
+      "sha256": "bc04553152d866308b8e9cbfd86ff3295b5a6fe56978afcb318128375d366037",
+      "member_counts": {
+        "value": 5
+      },
+      "member_total": 5
+    }
+  ],
+  "signature": "694ec4f514deac837d25f86cbb07db2791669e1714d5180bc6c26665136c3cc9",
+  "generated_at": "2026-11-28T08:54:13+08:00"
+}

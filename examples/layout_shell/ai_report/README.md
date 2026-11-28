@@ -20,12 +20,25 @@ python examples/layout_shell/ai_report/run.py --rows 1200 --page-size 20 --seed 
 
 ## 图标 / 专属主题 / 标题栏（1.11.0）
 
-- `run.py` 在 `init_nova()` 注册 qrc **之后** `setWindowIcon(QIcon(":/icons/app-aireport"))`。
+- `run.py` 在 `init_nova()` 注册 qrc **之后** `setWindowIcon(QIcon(":/icons/app-aireport"))`，
+  并在窗口创建前设唯一 `AppUserModelID`、`engine.load()` 后对根窗口再 `setIcon(app_icon)`（任务栏图标隔离，坑位 84）。
+- **任务栏图标隔离（坑位 84）**：Windows 按「可执行文件路径 + AppUserModelID」分组并缓存任务栏图标；
+  11 个 demo 共用同一 `python.exe`，未隔离时会出现「标题栏图标正确、任务栏仍是默认图标」且表现随运行
+  顺序漂移。唯一 AppID 让本 demo 拥有独立分组与缓存项，重启 demo 即生效（旧缓存顽固时重启 explorer）。
 - `main.qml` 的 `shell._signatureOn` 绑定 `win.themeMode === "signature"`，与其余 10 壳同构；
   第 11 套专属主题「仪表钢蓝 258°」见 `docs/prescript/GUIDE_COMPONENT_THEMES.md §2`。
 - `signal darkChromeChanged(bool)` 在 `onThemeModeChanged` 与 `Component.onCompleted` 中 emit，
   由 `run.py::_sync_title_bar`（自包含 DWM helper，不依赖 nova-forge）同步原生标题栏；
   非 Windows no-op、无监听者无害。
+- **dogfooding 边界（坑位 85 · 为什么窗口图标用 `QIcon` 而不是 `NovaIcon`）**：两者不在同一层
+  —— `NovaIcon` 是 QML `Item`（场景内图标控件），`QIcon` 是 QtGui/Python 侧转 OS HICON 的
+  平台对象；`setWindowIcon()` 只接受 `QIcon`（传 `str` 或 `NovaIcon` 实例均 `TypeError`），
+  且本 Qt 6.12 `ApplicationWindow` 无 `icon` 属性（`Cannot assign to non-existent property "icon"`），
+  窗口 / 任务栏图标只能走 Python 侧 `setWindowIcon`。库内 QML 场景图标一律用 `NovaIcon`
+  （库内 31 个 QML 引用、11 个组合根 `_appBadge` 全部），且 `:/icons/app-xxx` 取自库自有
+  qrc 资产 —— dogfooding 在「场景层 + 资源层」成立；OS 平台层属 Qt 契约、非库组件可替代。
+  如实登记的缺口（CSA 拍板保持现状）：11 个 demo 的 qrc alias 硬编码、库 Python 公共面暂无
+  `app_icon()` helper（单一事实源仅在 nova-forge `catalog.py::icon_for()`）。不改代码、不动公共面。
 
 ## 架构（账实同源）
 

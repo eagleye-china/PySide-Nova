@@ -158,6 +158,9 @@ nav:
       - 无障碍: A11Y.md
       - 无障碍矩阵: A11Y_MATRIX.md
   - 对账:
+      - Parity 机读矩阵（现行 · 生成物）: PARITY_MATRIX.md
+      - Parity 全生态广度台账（P2 · 生成物）: PARITY_BREADTH.md
+      - 上游跟进节奏（D3 已核定 · 生成物）: PARITY_CADENCE.md
       - Quasar 逐项对账: PARITY.md
       - 生态七层对账（历史档案）: ECOSYSTEM_PARITY.md
       - Quasar 关系与致谢（文案事实源）: QUASAR_ACKNOWLEDGEMENT.md

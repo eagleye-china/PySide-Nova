@@ -1,0 +1,346 @@
+{
+  "schema": "nova-parity-scope/1",
+  "pinned_version": "2.35.5",
+  "authored_at": "2026-11-28",
+  "authored_by": "CSA 2026-11-28 09:13 授权「P0 集 12 条口径按磁盘事实定、直接改 scope.json」；小诺逐条核验磁盘事实后核定并固化（标准级口径已确认，不再待拍板）。08:45 由 CSA 立项 P1、小诺拟定初稿。",
+  "relationship": "Inspired by Quasar (MIT). Public API metadata only. No source code reuse; no fork/port claim. 见 docs/QUASAR_ACKNOWLEDGEMENT.md",
+  "legal_sources": {
+    "upstream": "upstream/manifest-2.35.5.json（由 scripts/gen_upstream_manifest.py 从官方 npm tarball 缓存脚本计数生成）",
+    "nova": "api/nova-api-1.11.0.json::types（147 类型，含 props/signals/methods 机读明细）",
+    "tests": "tests/*.py 中真实存在的 def test_* 函数（生成器扫描，法源链不留悬空）",
+    "historical": "docs/PARITY.md 逐项审计节 + docs/controls/NovaTable.current.md §14 T28 全映射表（人类判定的机读化输入）"
+  },
+
+  "facet_keys": {
+    "component": ["props", "slots", "events", "methods"],
+    "plugin": ["props", "methods", "injection", "quasarConfOptions"],
+    "directive": ["value"]
+  },
+  "facet_notes": {
+    "computedProps": "Vue computed 属性（如 filteredSortedRows）不是公共 API 入参；由 gen_upstream_manifest.py 单列计数，不进逐项矩阵（理由码 VUE_ONLY）。",
+    "value": "directive 的 value 字段是「指令绑定值」的描述对象（type/desc/examples/params/definition/returns 是元数据键，不是 API 成员）。按 1 项计入并标 UPSTREAM_META_ONLY；指令与 Nova Behaviors 类型的对应判定在组件级完成，逐项矩阵不重复计。",
+    "injection / quasarConfOptions": "plugin 的配置/注入元数据，非组件公共成员；逐项标 UPSTREAM_META_ONLY。"
+  },
+
+  "coverage_definitions": {
+    "zero_orphan_rate": "五态归属完整的成员项 / 全量成员项。GAP 也必须有 priority + milestone，否则视为悬空。硬门禁 = 100%。",
+    "literal_coverage": "ALIGNED / 适用项。适用项 = 全量成员项 − N/A 项 − UPSTREAM_META_ONLY 项。",
+    "explainable_coverage": "(ALIGNED + MAPPED + N/A) / 全量成员项。GAP 不计入可解释（不圆场、不虚高）。",
+    "test_frozen_coverage": "ALIGNED（带真实且 PASS 的 test_id）/ 适用项。提案 §3 L-B 指定的封版门禁档。",
+    "note": "三档分开计算，避免 1.10.0 前「52.8% 字面 / 100% 可解释」的口径混淆。N/A 是合法结论，既不算缺口也不算 ✅。"
+  },
+
+  "gate_policy": {
+    "phase": "P1-diagnostic",
+    "blocking": [
+      "zero_orphan_rate == 100%（含 GAP 带 priority + milestone）",
+      "matrix.json 签名 / docs/PARITY_MATRIX.md 签名 / 冻结面三方一致",
+      "所有 test_id 真实存在于 tests/*.py（法源链不留悬空）",
+      "每条 ALIGNED 必须带至少一个 test_id",
+      "P0 集条数 = scope.json::p0_pair_count，且每条配对须通过磁盘事实核验（上游 dist/api JSON / 冻结面全限定类型 / 逐项审计法源，见各条 disk_evidence）",
+      "上游缓存 156 文件 sha256 与 manifest 一致"
+    ],
+    "reported_not_blocking": ["三档覆盖率", "P0 集可解释率", "机检固化率", "逐项 GAP 欠账清单"],
+    "rationale": "P1 是诊断期：目标是把「完整度不够」变成可机读的真实数字与逐项欠账清单，而不是把 GAP 算成可解释来凑 100%。把覆盖率阈值提到 100% 属 P2/P3 封版门禁，届时 GAP 清零才达标。",
+    "next": "P2 引入 parity/baseline.json 棘轮基线（覆盖率只升不降）；P3 把 test_frozen_coverage 阈值提到封版目标。",
+    "static_tier_note": "check_parity.py 不挂进 check_all.py --tier static（静态恒 3/3）；新增 --tier parity 可选，交付前单独跑。"
+  },
+
+  "na_reason_codes": {
+    "QML_NO_DOM_CSS": "QML 无 DOM/CSS 通道；*-class / *-style / *-html / tabindex 等由 QML 属性或委托承担。",
+    "WEB_PLATFORM": "浏览器 / 路由 / SSR 专属能力（to / href / target / no-route-*），QML 无对应运行时。",
+    "VUE_ONLY": "Vue 特有语义（model-modifiers、computedProps、scoped slot 语法），QML 以属性/信号承接或无需。",
+    "QT_NATIVE": "Qt Quick 原生对等物承担，无需 1:1 复刻。特指 Vue `default` slot ↔ QML `default property` / 子项挂载：Vue 需要一个具名默认插槽来表达「任意内容」，QML 由语言级默认属性天然承接，故不逐项复刻。",
+    "NO_NOVA_COUNTERPART": "上游条目在冻结面 147 类型中无对应类型 → 组件级真实缺口（P2 广度台账）。",
+    "NO_MEMBER": "有对应 Nova 类型但无承接成员 → 成员级真实缺口。",
+    "UPSTREAM_META_ONLY": "上游元数据字段（injection / quasarConfOptions 配置项），非公共 API 项。",
+    "NOVA_ENHANCEMENT": "Nova 独有增强成员，登记为 ENHANCEMENT，绝不混入 ALIGNED 防虚高。"
+  },
+
+  "na_patterns": [
+    {"name_regex": "(-class|-style|-html|-class-fn|-style-fn)$", "facets": ["props", "slots"], "reason_code": "QML_NO_DOM_CSS"},
+    {"name_regex": "^(tabindex|for|input-class|input-style|table-style|table-class|options-html|display-value-html)$", "facets": ["props"], "reason_code": "QML_NO_DOM_CSS"},
+    {"name_regex": "^(to|href|target|replace|no-route-[a-z-]+|no-ssr)$", "facets": ["props"], "reason_code": "WEB_PLATFORM"},
+    {"name_regex": "^model-modifiers$", "facets": ["props"], "reason_code": "VUE_ONLY"},
+    {"name_regex": "^default$", "facets": ["slots"], "reason_code": "QT_NATIVE"},
+    {"name_regex": "^value$", "facets": ["value"], "reason_code": "UPSTREAM_META_ONLY"},
+    {"name_regex": ".+", "facets": ["injection", "quasarConfOptions"], "reason_code": "UPSTREAM_META_ONLY"}
+  ],
+
+  "mapping_overrides": {
+    "QDialog.json": "Nova.Controls.NovaDialogShell"
+  },
+  "mapping_overrides_note": "自动同名映射会把组件 QDialog.json 错配到插件 Nova.Services.NovaDialog。按 docs/PARITY.md:726/733 的命名红线（组件壳 = NovaDialogShell；Services 单例 = NovaDialog），此处显式覆盖。这是「手写唯一法源」校正自动映射的正当用途：上游条目 → Nova 全限定类型的绑定以本表为最高优先级。",
+
+  "p0_pair_count": 12,
+  "p0_selection_criteria": [
+    "① 上游 `upstream/cache/api-2.35.5/<upstream>` 真实存在，且在 `upstream/manifest-2.35.5.json` 的 156 条清单内（脚本计数、禁手写清单）。",
+    "② `<nova>` 是 `api/nova-api-1.11.0.json::types` 147 类型中的真实全限定名，且按 `(nova, upstream)` 精确配对（防 QDialog.json 错配）。",
+    "③ 库内存在逐项官方 API 审计法源：`docs/PARITY.md` 的 `### NovaXxx ↔ QXxx` 审计节，或 T28 的 `docs/controls/NovaTable.current.md §14` 全映射表。",
+    "④ 覆盖 7 个功能域且纳入唯一有成员级全表机检的旗舰：基础控件 / 表单四件 / 表格 / 弹层 / 插件 / 导航 / 媒体。",
+    "⑤ 12/12 条逐条核验通过（上游 json + 冻结面类型 + 审计法源 3/3），证据见各条 `disk_evidence`；`tests/test_parity_matrix.py` 会反查现盘复验，法源链不留悬空。"
+  ],
+  "p0_evidence_note": "`selection_basis` / `audit_section` 里的数字是 `docs/PARITY.md` 各 Sprint 的**历史审计口径**（GitHub dev 源 json 组件自身定义 / 当时逐项核实），**不是** pinned npm `dist/api` 发布面计数；`disk_evidence` 里的 `upstream_member_counts` / `expanded_member_items` / `by_state` / `freeze_members` 全部由 manifest、matrix.json、冻结面**实测**得出。两法源并列保留、不圆场、不回改史料。典型差异：QInput 8→49 props、QSelect 47→92 props、QMenu 34→27 props、QTabs 15→20 props、QStepper 26/2→27/3、QCarousel 31/7→29/6、QTable 63/21/9/15→65/21/11/17。插件 JSON 结构不同（Dialog.json 只有 `methods`/`injection` 字符串，Loading.json 有 `props`/`methods`/`injection`/`quasarConfOptions`），故 pinned 面逐项数远小于历史审计节的 27 / 11 项。",
+
+  "p0_pairs": [
+    {
+      "nova": "Nova.Controls.NovaBtn", "upstream": "QBtn.json",
+      "selection_basis": "PARITY.md §0.3 首个逐项审计节；基础控件、全库高频引用",
+      "audit_ref": "docs/PARITY.md · NovaBtn ← QBtn（审计 0.3.0）",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 34, "slots": 2, "events": 1, "methods": 1},
+        "expanded_member_items": 38, "by_state": {"GAP": 23, "MAPPED": 9, "N/A": 6},
+        "freeze_members": {"props": 13, "signals": 3, "methods": 2},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaBtn ← QBtn（审计 0.3.0）", "audit_anchor": "NovaBtn ← QBtn（审计 0.3.0）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaField", "upstream": "QField.json",
+      "selection_basis": "§0.9 表单核心七件；use-field 29 + use-validate 7 props 逐项审计",
+      "audit_ref": "docs/PARITY.md §0.9 · NovaField ↔ QField",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 38, "slots": 11, "events": 4, "methods": 4, "computedProps": 1},
+        "expanded_member_items": 57, "by_state": {"GAP": 14, "MAPPED": 41, "N/A": 2},
+        "freeze_members": {"props": 41, "signals": 2, "methods": 4},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaField ↔ QField（use-field 29 + use-validate 7 props）", "audit_anchor": "NovaField ↔ QField（use-field 29 + use-validate 7 props）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaInput", "upstream": "QInput.json",
+      "selection_basis": "§0.9 表单核心七件；8 props 逐项审计",
+      "audit_ref": "docs/PARITY.md §0.9 · NovaInput ↔ QInput",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 49, "slots": 10, "events": 4, "methods": 6, "computedProps": 2},
+        "expanded_member_items": 69, "by_state": {"GAP": 55, "MAPPED": 10, "N/A": 4},
+        "freeze_members": {"props": 10, "signals": 2, "methods": 1},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaInput ↔ QInput（8 props）", "audit_anchor": "NovaInput ↔ QInput（8 props）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaSelect", "upstream": "QSelect.json",
+      "selection_basis": "§0.9 表单核心七件；47 props 收口 24，深度对标代表",
+      "audit_ref": "docs/PARITY.md §0.9 · NovaSelect ↔ QSelect",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 92, "slots": 16, "events": 13, "methods": 23, "computedProps": 1},
+        "expanded_member_items": 144, "by_state": {"GAP": 110, "MAPPED": 24, "N/A": 10},
+        "freeze_members": {"props": 18, "signals": 3, "methods": 3},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaSelect ↔ QSelect（47 props，收口 24）", "audit_anchor": "NovaSelect ↔ QSelect（47 props，收口 24）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaSlider", "upstream": "QSlider.json",
+      "selection_basis": "§0.9 表单核心七件；use-slider 33 + label-value 逐项审计",
+      "audit_ref": "docs/PARITY.md §0.9 · NovaSlider ↔ QSlider",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 36, "slots": 2, "events": 3},
+        "expanded_member_items": 41, "by_state": {"GAP": 14, "MAPPED": 25, "N/A": 2},
+        "freeze_members": {"props": 35, "signals": 2, "methods": 3},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaSlider ↔ QSlider（use-slider 33 + label-value/model-value）", "audit_anchor": "NovaSlider ↔ QSlider（use-slider 33 + label-value/model-value）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaTable", "upstream": "QTable.json",
+      "selection_basis": "T28 旗舰：唯一有 21 slots / 15 methods / 9 events 逐项全映射表 + tests/test_nova_table.py 23 项专项机检 + docs/controls/NovaTable.current.md 现行文档",
+      "audit_ref": "docs/controls/NovaTable.current.md §14；tests/test_nova_table.py",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 65, "slots": 21, "events": 11, "methods": 17, "computedProps": 3},
+        "expanded_member_items": 114, "by_state": {"ALIGNED": 45, "GAP": 14, "MAPPED": 41, "N/A": 14},
+        "freeze_members": {"props": 110, "signals": 18, "methods": 26},
+        "audit_source": "docs/controls/NovaTable.current.md", "audit_section": "§14 T28 全映射表（21 slots / 15 methods / 9 events）", "audit_anchor": "14.3",
+        "test_binding": "tests/test_nova_table.py 23 项（21 slots / 15 methods / 9 events 专项）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaMenu", "upstream": "QMenu.json",
+      "selection_basis": "§0.14 弹层与反馈 17 件；34 props + 6 events + 5 methods 逐项审计",
+      "audit_ref": "docs/PARITY.md §0.14 · NovaMenu ↔ QMenu",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 27, "slots": 1, "events": 6, "methods": 5, "computedProps": 1},
+        "expanded_member_items": 39, "by_state": {"GAP": 11, "MAPPED": 25, "N/A": 3},
+        "freeze_members": {"props": 22, "signals": 6, "methods": 7},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaMenu ↔ QMenu（34 props + 6 events + 5 methods + 1 slot）", "audit_anchor": "NovaMenu ↔ QMenu（34 props + 6 events + 5 methods + 1 slot）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Services.NovaDialog", "upstream": "Dialog.json",
+      "selection_basis": "§0.6.1 明确标注「npm 2.35.5 dist/api/Dialog.json 逐项核实 · 27 项」；插件层代表",
+      "audit_ref": "docs/PARITY.md §NovaDialog ← Dialog 插件（审计 0.6.1）",
+      "disk_evidence": {
+        "upstream_type": "plugin",
+        "upstream_member_counts": {"methods": 1, "injection": 1},
+        "expanded_member_items": 2, "by_state": {"GAP": 1, "N/A": 1},
+        "freeze_members": {"props": 5, "signals": 0, "methods": 6},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaDialog ← Dialog 插件（审计 0.6.1，npm 2.35.5 dist/api/Dialog.json 逐项核实 · 27 项）", "audit_anchor": "NovaDialog ← Dialog 插件（审计 0.6.1",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Services.NovaLoading", "upstream": "Loading.json",
+      "selection_basis": "§0.6.2 明确标注「npm 2.35.5 dist/api/Loading.json 逐项核实 · 11 项」；插件层代表",
+      "audit_ref": "docs/PARITY.md §NovaLoading ← Loading 插件（审计 0.6.2）",
+      "disk_evidence": {
+        "upstream_type": "plugin",
+        "upstream_member_counts": {"props": 1, "methods": 3, "injection": 1, "quasarConfOptions": 3},
+        "expanded_member_items": 8, "by_state": {"GAP": 1, "MAPPED": 3, "N/A": 4},
+        "freeze_members": {"props": 10, "signals": 0, "methods": 10},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaLoading ← Loading 插件（审计 0.6.2，npm 2.35.5 dist/api/Loading.json 逐项核实 · 11 项）", "audit_anchor": "NovaLoading ← Loading 插件（审计 0.6.2",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaTabs", "upstream": "QTabs.json",
+      "selection_basis": "§0.13 导航体系 14 类型；15 props + 1 event + 1 slot 逐项审计",
+      "audit_ref": "docs/PARITY.md §0.13 · NovaTabs ↔ QTabs",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 20, "slots": 1, "events": 1},
+        "expanded_member_items": 22, "by_state": {"MAPPED": 19, "N/A": 3},
+        "freeze_members": {"props": 24, "signals": 1, "methods": 3},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaTabs ↔ QTabs（15 props + 1 event + 1 slot）", "audit_anchor": "NovaTabs ↔ QTabs（15 props + 1 event + 1 slot）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaStepper", "upstream": "QStepper.json",
+      "selection_basis": "§0.13 导航体系；26 props + 2 events + 3 methods + 3 slots 逐项审计",
+      "audit_ref": "docs/PARITY.md §0.13 · NovaStepper ↔ QStepper",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 27, "slots": 3, "events": 3, "methods": 3},
+        "expanded_member_items": 36, "by_state": {"GAP": 7, "MAPPED": 27, "N/A": 2},
+        "freeze_members": {"props": 30, "signals": 3, "methods": 5},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaStepper ↔ QStepper（26 props + 2 events + 3 methods + 3 slots）", "audit_anchor": "NovaStepper ↔ QStepper（26 props + 2 events + 3 methods + 3 slots）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    },
+    {
+      "nova": "Nova.Controls.NovaCarousel", "upstream": "QCarousel.json",
+      "selection_basis": "§0.12 媒体体系；31 props + 5 events + 7 methods + 3 slots 逐项审计",
+      "audit_ref": "docs/PARITY.md §0.12 · NovaCarousel ↔ QCarousel",
+      "disk_evidence": {
+        "upstream_type": "component",
+        "upstream_member_counts": {"props": 29, "slots": 3, "events": 5, "methods": 6},
+        "expanded_member_items": 43, "by_state": {"GAP": 17, "MAPPED": 24, "N/A": 2},
+        "freeze_members": {"props": 27, "signals": 3, "methods": 3},
+        "audit_source": "docs/PARITY.md", "audit_section": "NovaCarousel ↔ QCarousel（31 props + 5 events + 7 methods + 3 slots）", "audit_anchor": "NovaCarousel ↔ QCarousel（31 props + 5 events + 7 methods + 3 slots）",
+        "test_binding": "tests/test_smoke.py 冒烟（无成员级全表机检）"
+      }
+    }
+  ],
+  "p0_scope_note": "P0 集 = 库内已有逐项官方 API 审计法源、上游 `dist/api` 有同名 JSON、冻结面有对应全限定类型的 12 个旗舰配对（103 个自动映射候选的子集，覆盖 7 个功能域）。**CSA 2026-11-28 09:13 授权「按磁盘事实定、直接改 scope.json」→ 小诺逐条核验（12/12 上游 json / 冻结面类型 / 审计法源 3/3 全通过，证据见各条 `disk_evidence`）并核定固化此 12 条，标准级口径已确认、不再待拍板，本轮不增不删。** 配对按 `(nova, upstream)` 精确配对；`QDialog.json` 由 `mapping_overrides` 校正到 `Nova.Controls.NovaDialogShell`，不纳入 P0。调整白名单只需改 `p0_pairs` 并同步 `p0_pair_count`，生成器 / `check_parity.py` / 专项测试均从本文件动态读取、自动重算。其余审计节配对与候选属 P2 广度台账，P1 只做组件级归属判定。",
+
+  "alias_map": {
+    "*": {
+      "props": {
+        "color": "tint",
+        "dark": "isDark",
+        "tabindex": "activeTab",
+        "model-value": "value",
+        "label-color": "labelTint",
+        "bg-color": "backgroundTint",
+        "icon": "iconName",
+        "for": "name"
+      },
+      "slots": {},
+      "events": {},
+      "methods": {}
+    },
+    "QTable.json": {
+      "props": {},
+      "slots": {
+        "loading": "loadingDelegate",
+        "item": "gridDelegate",
+        "body": "bodyDelegate",
+        "body-cell": "bodyCellDelegate",
+        "body-cell-[name]": "cellDelegates[列名]",
+        "header": "headerDelegate",
+        "header-cell": "headerCellDelegate",
+        "header-cell-[name]": "headerCellDelegates[列名]",
+        "body-selection": "bodySelectionDelegate",
+        "body-expand": "expandSlot",
+        "header-selection": "headerSelectionDelegate",
+        "top-row": "topRowDelegate",
+        "bottom-row": "bottomRowDelegate",
+        "footer": "footerDelegate",
+        "top": "topDelegate",
+        "bottom": "bottomDelegate",
+        "pagination": "paginationDelegate",
+        "top-left": "topLeftDelegate",
+        "top-right": "topRightDelegate",
+        "top-selection": "topSelectionDelegate",
+        "no-data": "noDataDelegate"
+      },
+      "events": {
+        "row-click": "rowClicked",
+        "row-dblclick": "rowDoubleClicked",
+        "row-contextmenu": "rowContextMenu",
+        "request": "request",
+        "selection": "selectionChanged",
+        "update:pagination": "paginationChanged",
+        "update:selected": "updateSelected",
+        "update:expanded": "updateExpanded",
+        "virtual-scroll": "virtualScrollInfo"
+      },
+      "methods": {
+        "toggleFullscreen": "toggleFullScreen"
+      }
+    }
+  },
+  "alias_note": "QTable.json 的 slots/events/methods 别名逐字取自 docs/controls/NovaTable.current.md §14.3/§14.4/§14.5（T28 人工判定的机读化）；通用别名取自 docs/PARITY.md §0.9（color→tint / dark→NovaTheme.isDark / tabindex→activeTab / for→name）。",
+
+  "test_bindings": {
+    "Nova.Controls.NovaTable": {
+      "slots": {"*": ["test_qtable_21_slots_all_mapped"]},
+      "methods": {
+        "requestServerInteraction": ["test_qtable_15_methods_all_mapped"],
+        "setPagination": ["test_qtable_15_methods_all_mapped"],
+        "firstPage": ["test_qtable_15_methods_all_mapped"],
+        "prevPage": ["test_qtable_15_methods_all_mapped"],
+        "nextPage": ["test_qtable_15_methods_all_mapped"],
+        "lastPage": ["test_qtable_15_methods_all_mapped"],
+        "isRowSelected": ["test_qtable_15_methods_all_mapped"],
+        "clearSelection": ["test_qtable_15_methods_all_mapped"],
+        "isRowExpanded": ["test_qtable_15_methods_all_mapped"],
+        "setExpanded": ["test_qtable_15_methods_all_mapped"],
+        "sort": ["test_qtable_15_methods_all_mapped"],
+        "toggleFullscreen": ["test_qtable_15_methods_all_mapped"],
+        "resetVirtualScroll": ["test_qtable_15_methods_all_mapped"],
+        "scrollTo": ["test_qtable_15_methods_all_mapped"],
+        "getCellValue": ["test_qtable_15_methods_all_mapped"]
+      },
+      "events": {
+        "row-click": ["test_qtable_9_events_all_mapped"],
+        "row-dblclick": ["test_qtable_9_events_all_mapped"],
+        "row-contextmenu": ["test_qtable_9_events_all_mapped"],
+        "request": ["test_qtable_9_events_all_mapped"],
+        "selection": ["test_qtable_9_events_all_mapped"],
+        "update:pagination": ["test_qtable_9_events_all_mapped"],
+        "update:selected": ["test_qtable_9_events_all_mapped"],
+        "update:expanded": ["test_qtable_9_events_all_mapped"],
+        "virtual-scroll": ["test_qtable_9_events_all_mapped"]
+      }
+    }
+  },
+  "test_binding_note": "只绑定 T28 专项测试真实断言过的成员：slots 21（与 dist/api 2.35.5 一致）、methods 15、events 9。dist/api 多出的 setFullscreen / exitFullscreen 两方法、fullscreen / update:fullscreen 两事件**不虚绑**，如实落为 MAPPED 或 GAP（见报告口径差异登记）。所有 test_id 生成器会扫描 tests/*.py 反查，悬空即报错。",
+
+  "priority_rules": {
+    "component_gap_priority": "P2",
+    "member_gap_priority": {"props": "P2", "slots": "P2", "events": "P2", "methods": "P2"},
+    "p0_member_gap_priority": "P1",
+    "default_milestone": "P2 · 全生态广度台账",
+    "p0_milestone": "P2 · P0 集欠账清零（封版门禁前置）"
+  }
+}

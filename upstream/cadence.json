@@ -1,0 +1,115 @@
+{
+  "schema": "nova-upstream-cadence/1",
+  "decided_at": "2026-11-28 09:37",
+  "decided_by": "CSA 2026-11-28 09:37 授权「D3 跟进节奏你先定」；小诺依磁盘实证核定并落为唯一法源。本文件只定节奏口径，不创建任何定时自动化任务。",
+  "status": "ratified",
+  "scope_ref": "upstream/quasar-pin.json（pinned / observed 的唯一事实源；本文件刻意不复制版本号，避免口径散落）",
+  "legal_sources": {
+    "proposal": "proposals/SPEC_UPSTREAM_PARITY_OPS.md §7-D3（提案建议：交付前离线门 + 每周在线周巡；准实时自动化待 P3 再定）",
+    "classifier": "scripts/check_upstream_drift.py::CATEGORIES / BLOCKING（C0~C6 七类；阻断类 = C0 / C1 / C5）",
+    "delivery_gate": "scripts/check_upstream_drift.py --offline（T30 已实现的交付前离线硬门）",
+    "parity_gate": "scripts/check_parity.py（T31 的 19 项结构门，交付前单独跑）",
+    "pin_policy": "CSA D4：observed 先登记、pinned 保持到欠账清零；升 pin = 独立议题 + CSA 拍板，不搭车",
+    "matrix": "parity/matrix.json（1932 逐项 / 862 GAP / 零悬空 100%，作为周巡登记后的影响面基线）"
+  },
+  "empirical_basis": {
+    "release_timeline": [
+      "2.35.3 · 2026-11-09 · 安全硬化（C5）",
+      "2.35.4 · 2026-11-12 · 安全硬化（C5）",
+      "2.35.5 · 2026-11-17 · 建库对账基线",
+      "2.35.6 · 2026-11-21 · 3 条 humanStorageSize 修复（全部 C1）",
+      "2.36.0 · 2026-11-28 · Tajik 语言包（C3）+ 两指令 TS 类型（C4）"
+    ],
+    "observed_facts": [
+      "11-09 ~ 11-28 共 5 版，间隔 3~7 天；**组件 API 面变化为 0**",
+      "真实影响仅 1 个 L5 工具函数（C1×3）+ lang / TS 类型（C3 / C4）",
+      "T30 已证：不做分类分级，每次上游 patch 都会误导成「全库 147 类型重跑」",
+      "第三方 EOL 站点滞后（仍报 2.35.6 为最新）→ 监测必须 GitHub Releases + npm registry 双源交叉"
+    ],
+    "inference": "上游发版频度高但 API 面变更稀疏。准实时（每次 Release 全量对账）会把 C3/C4/C6 噪音放大为重跑，直接违反提案 §6「误报率 = 0」；交付前离线硬门已能兜住全部阻断类。因此节奏的价值在「不漏登记 + 分级响应」，而非「触发得更快」。"
+  },
+  "decision": "三档节奏：**T1 交付前离线硬门（必跑、阻断）+ T2 每周一次在线周巡（制度化、双源交叉、只登记）+ T3 阻断类事件即时响应（不等周巡）**。准实时自动化不做，保留为 P3 独立议题。",
+  "triggers": [
+    {
+      "id": "T1",
+      "name": "交付前离线硬门",
+      "cadence": "每次立项验收 / 封版 / 发布前，无条件必跑",
+      "mode": "offline",
+      "source": "本地 quasar-pin.json + upstream/changes/*.json + upstream/cache/",
+      "commands": [
+        "python scripts/check_upstream_drift.py --offline",
+        "python scripts/check_parity.py"
+      ],
+      "sla": "交付动作前同步完成，无时延",
+      "owner": "小诺（执行 / 自检）→ CSA（验收）",
+      "status": "implemented",
+      "blocking": true,
+      "outputs": ["控制台结论（PASS / FAIL）", "可选 --report 结构化 JSON"],
+      "detail": "离线零联网、零第三方依赖；rc 1 = 存在未销号 C0/C1/C5、分类漂移或 6 处 baseline 口径漂移 → 阻断交付。不挂进 check_all.py --tier static（静态恒 3/3），按项目惯例交付前单独跑。"
+    },
+    {
+      "id": "T2",
+      "name": "每周在线周巡",
+      "cadence": "每周一次（建议周一）；上游 Release 后 ≤1 个工作日内补跑一次",
+      "mode": "online",
+      "source": "GitHub Releases（changelog）+ npm registry（dist/api 实体）双源交叉，不依赖单一聚合站",
+      "commands": [
+        "python scripts/check_upstream_drift.py --online  # P3 实现，当前 rc 2（前置缺失，非产品红）"
+      ],
+      "sla": "上游 Release → upstream/reports/<from>-<to>.md 落盘 ≤1 工作日",
+      "owner": "CSA 触发（或 P3 授权后自动化）→ 小诺执行 / 登记 / 账本",
+      "status": "institutionalized",
+      "blocking": false,
+      "outputs": [
+        "upstream/changes/<from>-<to>.json（逐条变更 + C0~C6 分类 + test_ids 绑定）",
+        "upstream/reports/<from>-<to>.md（实证报告 + 欠账清单）",
+        "quasar-pin.json::observed_version 更新（pinned 不动，D4）"
+      ],
+      "detail": "只登记、不改代码 / 不升 pin / 不重签 / 不发布。C2 命中进 P2 广度台账；C3/C4/C6 仅登记，严禁触发全库重跑（误报率 0 红线）。"
+    },
+    {
+      "id": "T3",
+      "name": "阻断类事件即时响应",
+      "cadence": "事件驱动：命中 C0 / C1 / C5，或上游 major 版本 / 新品类",
+      "mode": "event",
+      "source": "周巡登记结果 / 安全通告 / CSA 直报",
+      "commands": [
+        "独立议题立项（T 编号）→ CSA 拍板 → 小诺实现 + 机检固化 + 销号"
+      ],
+      "sla": "发现 → 变更登记 ≤1 工作日；修复排在下一个交付窗口前",
+      "owner": "CSA（立项 / 拍板）→ 小诺（实现 / 自检 / 文档 / 账本）",
+      "status": "ratified",
+      "blocking": false,
+      "outputs": ["独立议题", "机检用例", "销号后的 changes 条目（status=resolved + test_ids）"],
+      "detail": "不等周巡。阻断类未销号时 T1 离线门自动 rc 1，形成闭环：事件发现 → 登记 → 立项 → 修复 → 机检 → 销号 → 门放行。"
+    }
+  ],
+  "classification_sla": {
+    "C0": {"blocking": true, "sla": "≤1 工作日登记", "action": "命中组件 PARITY 重跑；additive 公共类型评估 minor 重签", "gate": "T1"},
+    "C1": {"blocking": true, "sla": "≤1 工作日登记", "action": "按 T30 范式修函数体 + 补边界机检用例，公共签名零变化", "gate": "T1"},
+    "C5": {"blocking": true, "sla": "≤1 工作日登记", "action": "check_cve.py + NovaUtils.sanitize 复核", "gate": "T1"},
+    "C2": {"blocking": false, "sla": "当周周巡内", "action": "登记 GAP + 里程碑，纳入 P2 广度台账", "gate": "T2"},
+    "C3": {"blocking": false, "sla": "当周周巡内", "action": "仅登记（i18n 可选增益），不触发重跑", "gate": "T2"},
+    "C4": {"blocking": false, "sla": "当周周巡内", "action": "仅登记（QML 无 TS 类型层），不触发重跑", "gate": "T2"},
+    "C6": {"blocking": false, "sla": "当周周巡内", "action": "仅登记（文档 / 构建 / CI / 内部重构），不触发重跑", "gate": "T2"}
+  },
+  "gate_contract": {
+    "hard_gate": "T1 是唯一硬门；rc 1 阻断交付",
+    "resolution_requirement": "C0/C1/C5 变更必须 status=resolved 且带真实 test_ids，否则离线门按 resolved-but-no-test_id 阻断",
+    "no_rerun_redline": "C3 / C4 / C6 不得触发全库 147 类型重跑（提案 §6 误报率 = 0）",
+    "pin_independence": "周巡只更新 observed_version；pinned_version 升版走独立议题（D4）"
+  },
+  "non_goals": [
+    "准实时自动化：每次 Release 自动触发全库对账 —— 否。理由：5 版实证 API 面变化为 0，C3/C4/C6 占多数，自动化只会放大噪音并可能违反 D4 造成「基线跳了、实现没跟」。",
+    "自动升 pin / 自动改 QML / 自动重签 / 自动发布 —— 否。发布归 CSA，冻结面铁律不变。",
+    "挂进 check_all.py --tier static —— 否。静态门禁恒 3/3，交付前单独跑两道门。",
+    "本轮创建定时自动化任务 —— 否。D3 只核定节奏口径；周期自动化属 P3，须 CSA 单独授权后建。"
+  ],
+  "deferred_to_p3": [
+    "check_upstream_drift.py --online 双源拉取实现（当前 rc 2 明确为前置缺失）",
+    "nova_mcp.py::check_updates 升级为报 drift 分类 + 欠账清单 + 报告路径",
+    "每周定时自动化任务（须 CSA 单独授权）",
+    "LTS 承诺 + 迁移指南模板"
+  ],
+  "relationship": "Inspired by Quasar (MIT). Public API metadata + release notes only. No source code reuse; no fork/port claim. 见 docs/QUASAR_ACKNOWLEDGEMENT.md"
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "nova-parity-breadth-taxonomy/1",
+  "authored_at": "2026-11-28 09:37",
+  "authored_by": "CSA 2026-11-28 09:37 指令「P2 广度台账先列出来」；小诺依 docs/ECOSYSTEM_PARITY.md §1 七层模型 + 上游 156 条 dist/api 事实拟定规则表（唯一手写法源，逐条清单由生成器脚本计数）。",
+  "status": "listed-not-completed",
+  "relationship": "Inspired by Quasar (MIT). Public API metadata only. No source code reuse; no fork/port claim. 见 docs/QUASAR_ACKNOWLEDGEMENT.md",
+  "legal_sources": {
+    "layers": "docs/ECOSYSTEM_PARITY.md §1 七层生态模型（L0~L6）+ CONSTITUTION.md 第 10 章「新增交付物须标注所属层」",
+    "upstream": "upstream/manifest-2.35.5.json（156 条 dist/api 条目，脚本计数）",
+    "nova": "api/nova-api-1.11.0.json::types（147 类型）",
+    "matrix": "parity/matrix.json（1932 逐项五态 / 862 GAP / 53 条 NO_NOVA_COUNTERPART）"
+  },
+  "layer_definitions": {
+    "L0": {"name": "设计语言", "in_dist_api": false, "scope": "令牌 / 主题 / 图标集 / 动效 / 排版 / 阴影"},
+    "L1": {"name": "布局系统", "in_dist_api": true, "scope": "Layout / Header / Footer / Drawer / Page / 容器 / 栅格"},
+    "L2": {"name": "组件", "in_dist_api": true, "scope": "可视化控件（Btn / Card / Table / Select / Spinner…）"},
+    "L3": {"name": "指令", "in_dist_api": true, "scope": "无渲染行为（Ripple / ClosePopup / Touch* / Scroll*…）"},
+    "L4": {"name": "插件（服务）", "in_dist_api": true, "scope": "全局服务（Notify / Dialog / Loading / Storage / Platform…）"},
+    "L5": {"name": "工具层", "in_dist_api": false, "scope": "CSS 工具类 + composables + 工具函数（NovaUtils / format / date / colors）"},
+    "L6": {"name": "工程化", "in_dist_api": false, "scope": "CLI / 打包 / 文档站 / 测试 / 发布 / 治理"}
+  },
+  "layer_rules": [
+    {"layer": "L3", "family": "行为指令", "when": {"upstream_type": "directive"}},
+    {"layer": "L4", "family": "平台插件", "when": {"upstream_type": "plugin"}},
+    {"layer": "L1", "family": "布局骨架", "name_regex": "^Q(Layout|Header|Footer|Drawer|Page|PageContainer|PageScroller|PageSticky|Splitter|Space)$"},
+    {"layer": "L1", "family": "布局容器", "name_regex": "^Q(Bar|Toolbar|ToolbarTitle)$"},
+    {"layer": "L2", "family": "加载指示器族", "name_regex": "^QSpinner.*$"},
+    {"layer": "L2", "family": "表单输入", "name_regex": "^Q(Input|Select|Field|Form|FormChildMixin|Checkbox|Radio|Toggle|Slider|Range|Date|Time|Color|Editor|File|Uploader|UploaderAddTrigger|Knob|Rating|OptionGroup|Chip)$"},
+    {"layer": "L2", "family": "数据展示", "name_regex": "^Q(Table|Tree|VirtualScroll|InfiniteScroll|Pagination|MarkupTable|Td|Th|Tr)$"},
+    {"layer": "L2", "family": "弹层浮层", "name_regex": "^Q(Dialog|Menu|Tooltip|PopupEdit|PopupProxy)$"},
+    {"layer": "L2", "family": "导航", "name_regex": "^Q(Tabs|Tab|TabPanels|TabPanel|Breadcrumbs|BreadcrumbsEl|Stepper|Step|StepperNavigation|Timeline|TimelineEntry|RouteTab)$"},
+    {"layer": "L2", "family": "反馈进度", "name_regex": "^Q(CircularProgress|LinearProgress|Skeleton|InnerLoading|AjaxBar|Banner|Badge|Avatar)$"},
+    {"layer": "L2", "family": "媒体轮播", "name_regex": "^Q(Carousel|CarouselControl|CarouselSlide|Img|Video|Parallax)$"},
+    {"layer": "L2", "family": "按钮操作", "name_regex": "^Q(Btn|BtnDropdown|BtnGroup|BtnToggle|Fab|FabAction)$"},
+    {"layer": "L2", "family": "容器列表", "name_regex": "^Q(Card|CardActions|CardSection|Item|ItemLabel|ItemSection|List|ExpansionItem|ScrollArea|SlideItem|PullToRefresh|ChatMessage|Separator|Responsive|ResizeObserver|ScrollObserver|Intersection|SlideTransition|NoSsr|Icon)$"}
+  ],
+  "default_rule": {"layer": "L2", "family": "通用控件", "note": "兜底规则保证零悬空；生成器会统计兜底命中数并如实登记，不把兜底当作精确分类。"},
+  "batch_rules": [
+    {"id": "B1", "name": "封版前置 · P0 集欠账清零", "when": {"p0": true}, "priority": "P1", "note": "D1 目标函数指向：适用域内 P0 100% 机检固化，是封版门禁前置。"},
+    {"id": "B3", "name": "组件级归属判定", "when": {"reason_code": "NO_NOVA_COUNTERPART"}, "priority": "P2", "note": "53 条上游条目在冻结面 147 类型中无对应类型；先逐条判定「新增组件 / N/A 理由码」，再决定是否立项。"},
+    {"id": "B2", "name": "语义补登记与成员级欠账", "when": {"has_gap": true}, "priority": "P2", "note": "含语义等价但未登记映射的项（variant 承接 square/rounded、主题令牌承接 *-color 等）。P2 只补登记、不放宽口径；GAP 是保守下界。"},
+    {"id": "B0", "name": "已解释 · 维持", "when": {"has_gap": false}, "priority": "—", "note": "无 GAP 的条目，维持现有归属判定即可。"}
+  ],
+  "out_of_scope_facets": [
+    {"layer": "L0", "facet": "设计令牌 / 十色相主题 / 图标集 / NovaMotion 动效 / 字阶 / 高程", "in_nova": "NovaTheme（Services）/ Design 4 类型 / 11 套主题 / 14 套图标", "why_outside": "npm dist/api/*.json 只发布组件 / 插件 / 指令的 API 元数据，不含设计语言层；不能把 156 条当作全生态。", "p2_action": "建 L0 现行基线（令牌清单 + 主题数 + 图标集清单），与上游 ui/src/css/core/*、ui/icon-set/* 逐项对账。"},
+    {"layer": "L5", "facet": "NovaUtils（colors / date / format / is / debounce…）+ composables + CSS 工具类", "in_nova": "NovaUtils.qml（L5 工具层）", "why_outside": "T30 已实证：0.13.0 判「2.35.6 零漂移」只比对 dist/api/*.json，漏掉 L5 工具层，导致 humanStorageSize 三条边界欠账。这正是「全生态 ≠ 156 条」的可复现证据。", "p2_action": "建 L5 基线：把 ui/src/utils/* 与 ui/src/composables/* 纳入周巡 scope（cadence.json::T2 双源交叉覆盖），逐函数登记机检绑定。"},
+    {"layer": "L6", "facet": "CLI / 打包 / 文档站 / 测试 / 发布 / 治理 / SBOM·CVE 周巡", "in_nova": "nova-forge CLI / mkdocs / 静态 3/3 / gen_* 生成器链 / check_cve.py", "why_outside": "工程化层不是上游 dist/api 条目，按层单列才符合宪法第 10 章「组件堆满、生态空心」的反向纪律。", "p2_action": "建 L6 基线，登记工具链与门禁现状；不把工程能力混入组件覆盖率分子。"},
+    {"layer": "L0", "facet": "ui/lang/* 语言包（2.36.0 新增 Tajik tg）· ui/icon-set/*", "in_nova": "I18N.md / 图标注册表", "why_outside": "2.36.0 的 C3 变更正落在此面，不在 156 条内；若不单列，周巡会误判「本版零影响却无处登记」。", "p2_action": "纳入 cadence.json::T2 周巡登记范围，C3 只登记不阻断。"}
+  ],
+  "coverage_discipline": {
+    "honest_boundary": "156 条 dist/api 只覆盖 L1~L4 的 API 面。L0 / L5 / L6 为面外未纳入层，P2 台账显式列出，绝不把它们算进「全量面」分子，也不假装已覆盖（不虚高）。",
+    "gap_is_lower_bound": "862 项 GAP 是保守下界：语义等价但未登记映射的项暂落 GAP；P2 补登记后可解释率只会上升，不靠放宽口径上升。",
+    "listed_not_completed": "本轮是「先列出来」：只产出逐条台账 + 批次建议，不做 parity/baseline.json 棘轮基线、不做站点 dashboard、不提升门禁阈值、不改 QML / 冻结面。批次是建议，不是立项，须 CSA 拍板。",
+    "signature_note": "breadth.json 的签名由稳定字段重算（排除 signature / generated_at），视图由生成器全文重渲染双向核对，禁手改。"
+  }
+}

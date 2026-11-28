@@ -262,15 +262,29 @@ QtObject {
     // format —— 6 个函数 1:1
     // ══════════════════════════════════════════════════════════
     readonly property var format: ({
+        // T30 / P0 止血（2026-11-28）：跟进 Quasar 2.35.6 #18604 的 humanStorageSize 三条修复。
+        // 法源 = quasar@2.36.0 ui/src/utils/format/format.js（tag 与 dev 双份逐字一致）+ format.test.js 期望表。
+        // 对账基线仍 pinned 2.35.5（CSA D4），本函数按「追加覆盖」跟进，头部基线留痕不回改。
+        // 详见 upstream/reports/2.35.5-2.36.0.md；机检固化 tests/test_upstream_drift.py。
         humanStorageSize: function (bytes, decimals) {
             var units = ["B", "KB", "MB", "GB", "TB", "PB"]
-            var u = 0
             var dec = decimals === undefined ? 1 : decimals
-            while (parseInt(bytes, 10) >= 1024 && u < units.length - 1) {
-                bytes /= 1024
+            var v = bytes
+            // 2.35.6：数字字符串（去空格后非空）转 number；空串 / 非数字 / NaN 抛 TypeError
+            if (typeof v === "string" && v.trim() !== "")
+                v = Number(v)
+            if (typeof v !== "number" || isNaN(v))
+                throw new TypeError("humanStorageSize: expected a number or a numeric string")
+            var u = 0
+            var fixed = v.toFixed(dec)
+            // 2.35.6：按「显示值」判边界而非 raw value —— 1048575 → 1.0MB（旧实现给 1024.0KB）；
+            // 同时以 Math.abs 取量级，负值 -2048 → -2.0KB（旧实现滞留 -2048.0B）
+            while (Math.abs(Number(fixed)) >= 1024 && u < units.length - 1) {
+                v /= 1024
                 ++u
+                fixed = v.toFixed(dec)
             }
-            return bytes.toFixed(dec) + units[u]
+            return fixed + units[u]
         },
 
         capitalize: function (str) {
